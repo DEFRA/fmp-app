@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Flood map for planning web application",
   "main": "index.js",
+  "engines": {
+    "node": "4.x"
+  },
   "scripts": {
     "start": "pm2 start config/pm2.json",
     "clean": "bin/clean-public",
