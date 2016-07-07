@@ -4,7 +4,7 @@ const manifest = {
   server: {},
   connections: [
     {
-      port: config.server.port,
+      port: process.env.PORT || config.server.port,
       host: config.server.home,
       labels: config.server.labels
     }
