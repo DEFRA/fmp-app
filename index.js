@@ -77,23 +77,27 @@ Glue.compose(manifest, function (err, server) {
   /*
    * Start the server
    */
-  server.start(function (err) {
-    var details = {
-      name: appName,
-      version: appVersion,
-      info: server.info
-    }
+  if (!module.parent) {
+    server.start(function (err) {
+      var details = {
+        name: appName,
+        version: appVersion,
+        info: server.info
+      }
 
-    if (err) {
-      details.error = err
-      details.message = 'Failed to start ' + details.name
-      server.log('[error, info]', details)
-      throw err
-    } else {
-      details.config = config
-      details.message = 'Started ' + details.name
-      server.log('info', details)
-      console.info('Server running at:', server.info)
-    }
-  })
+      if (err) {
+        details.error = err
+        details.message = 'Failed to start ' + details.name
+        server.log('[error, info]', details)
+        throw err
+      } else {
+        details.config = config
+        details.message = 'Started ' + details.name
+        server.log('info', details)
+        console.info('Server running at:', server.info)
+      }
+    })
+  }
+
+  module.exports = server
 })
