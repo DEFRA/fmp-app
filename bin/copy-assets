@@ -1,0 +1,5 @@
+
+#!/bin/bash
+
+cp node_modules/jquery/dist/jquery.min.js server/public/assets/javascripts/jquery.min.js
+cp node_modules/jquery/dist/jquery.min.map server/public/assets/javascripts/jquery.min.map

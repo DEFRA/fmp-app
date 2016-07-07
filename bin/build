@@ -1,0 +1,3 @@
+#!/bin/bash
+
+npm run clean && npm run copy && npm run build:css && npm run build:js

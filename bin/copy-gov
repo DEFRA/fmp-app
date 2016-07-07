@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cp -R node_modules/govuk_template_mustache/assets/* server/public/assets
+cp -R node_modules/govuk_template_mustache/views/layouts/govuk_template.html server/views &&
+mv server/views/govuk_template.html server/views/layout.html

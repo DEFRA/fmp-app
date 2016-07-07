@@ -1,0 +1,10 @@
+#!/bin/bash
+
+rm -rf server/public/assets
+rm -rf server/public/build
+mkdir server/public/assets
+mkdir server/public/build
+mkdir server/public/build/stylesheets
+mkdir server/public/build/javascripts
+mkdir server/public/assets/stylesheets
+mkdir server/public/assets/javascripts
