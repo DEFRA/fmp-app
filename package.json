@@ -17,15 +17,14 @@
     "build": "bin/build",
     "watch": "bin/watch",
     "lint": "standard",
-    "test": "npm run lint && lab -c",
+    "test": "npm run lint && lab -c -r console -o stdout -r lcov -o lcov.info",
     "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "boom": "3.1.3",
-    "code": "^3.0.1",
-    "glue": "^3.3.0",
+    "glue": "3.3.0",
     "good": "7.0.0",
     "good-console": "6.1.1",
     "good-file": "6.0.1",
@@ -35,14 +34,16 @@
     "inert": "4.0.0",
     "joi": "8.1.0",
     "jquery": "1.11.3",
-    "lab": "^10.8.2",
     "vision": "4.1.0"
   },
   "devDependencies": {
     "browserify": "13.0.1",
+    "code": "3.0.1",
+    "codeclimate-test-reporter": "0.3.3",
     "exorcist": "0.4.0",
     "govuk-elements-sass": "1.1.2",
     "govuk_template_mustache": "0.16.4",
+    "lab": "10.8.2",
     "node-sass": "3.7.0",
     "standard": "7.0.1",
     "wisk": "1.0.0"

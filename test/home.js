@@ -15,4 +15,16 @@ lab.experiment('home', function () {
       server.stop(done)
     })
   })
+
+  lab.test('unknown url returns 404', function (done) {
+    var options = {
+      method: 'GET',
+      url: '/jksfds'
+    }
+
+    server.inject(options, function (response) {
+      Code.expect(response.statusCode).to.equal(404)
+      server.stop(done)
+    })
+  })
 })
