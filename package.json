@@ -13,6 +13,7 @@
     "copy:gov": "bin/copy-gov && bin/fix-layout.js",
     "copy:assets": "bin/copy-assets",
     "build:js": "bin/build-js",
+    "build:js-map": "./bin/build-js-map",
     "build:css": "bin/build-css",
     "build": "bin/build",
     "watch": "bin/watch",
@@ -34,7 +35,12 @@
     "inert": "4.0.0",
     "joi": "8.1.0",
     "jquery": "1.11.3",
-    "vision": "4.1.0"
+    "openlayers": "3.14.0",
+    "proj4": "2.3.12",
+    "raf": "3.2.0",
+    "sprintf-js": "1.0.3",
+    "vision": "4.1.0",
+    "wreck": "7.0.0"
   },
   "devDependencies": {
     "browserify": "13.0.1",
@@ -43,6 +49,7 @@
     "exorcist": "0.4.0",
     "govuk-elements-sass": "1.1.2",
     "govuk_template_mustache": "0.16.4",
+    "hbsfy": "2.7.0",
     "lab": "10.8.2",
     "node-sass": "3.7.0",
     "standard": "7.0.1",
