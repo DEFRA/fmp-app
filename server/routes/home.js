@@ -3,7 +3,7 @@ module.exports = {
   path: '/',
   config: {
     handler: function (request, reply) {
-      return reply.view('index')
+      return reply.view('home')
     }
   }
 }

@@ -1,0 +1,21 @@
+<main id="home-page">
+  <p>
+    Enter an English postcode or place.
+  </p>
+  <div class="grid-row">
+    <div class="column-half">
+      <form method="get" action="{{{mountPath}}}search">
+        <div class="form-group">
+          <label class="form-label" for="postcode">Postcode</label>
+          <input class="form-control" name="place" id="place" type="text" placeholder="Enter a place" title="A valid place in England is required" autocomplete="off">
+          {{#if hasErrorMessage}}
+            <div class="error-message">{{errorMessage}}</div>
+          {{/if}}
+        </div>
+        <div class="form-group">
+          <button class="button" type="submit" title="Find place">Find place</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
