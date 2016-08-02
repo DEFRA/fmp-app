@@ -29,5 +29,11 @@
   },
   "views": {
     "isCached": false
+  },
+  "httpTimeoutMs": 10000,
+  "ordnanceSurvey": {
+    "key": "",
+    "urlNamesApi": "https://api.os.uk/opennames/v1/find?query=%s&key=%s&maxresults=1",
+    "urlGetCapabilities": ""
   }
 }

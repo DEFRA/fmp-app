@@ -1,5 +1,6 @@
 module.exports = [
   require('./home'),
-  require('./public')
+  require('./os-get-capabilities'),
+  require('./public'),
+  require('./search')
 ]
-
