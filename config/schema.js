@@ -6,10 +6,18 @@ var serverSchema = Joi.object().required().keys({
   labels: Joi.string()
 })
 
+var environmentVariableSchema = Joi.object().required().keys({
+  os_names_key: Joi.string().required(),
+  os_names_url: Joi.string().required(),
+  os_maps_url: Joi.string().required()
+})
+
 module.exports = {
   server: serverSchema,
   logging: Joi.object(),
   views: Joi.object().required().keys({
     isCached: Joi.boolean().required()
-  })
+  }),
+  httpTimeoutMs: Joi.number().required().min(0).max(30000),
+  environmentVariables: environmentVariableSchema
 }

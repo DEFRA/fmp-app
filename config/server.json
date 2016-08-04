@@ -29,5 +29,11 @@
   },
   "views": {
     "isCached": false
+  },
+  "httpTimeoutMs": 10000,
+  "environmentVariables": {
+    "os_names_key": "",
+    "os_names_url": "",
+    "os_maps_url": ""
   }
 }
