@@ -12,9 +12,7 @@ Glue.compose(manifest, function (err, server) {
 
   const defaultMetaData = {
     title: 'Flood map for planning',
-    description: 'Flood map for planning',
-    keywords: 'foo,bar,baz',
-    author: 'Site author'
+    description: 'Flood map for planning'
   }
 
   const onPostHandler = function (request, reply) {
@@ -88,7 +86,7 @@ Glue.compose(manifest, function (err, server) {
       if (err) {
         details.error = err
         details.message = 'Failed to start ' + details.name
-        server.log('[error, info]', details)
+        server.log(['error', 'info'], details)
         throw err
       } else {
         details.config = config

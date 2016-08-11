@@ -1,3 +1,4 @@
 #!/bin/bash
 
 browserify client/js/index.js -d | exorcist server/public/build/javascripts/bundle.js.map > server/public/build/javascripts/bundle.js
+browserify assets/javascripts/confirm-location/index.js -t hbsfy -d -s FMP.ConfirmLocationPage | exorcist server/public/build/javascripts/confirm-location.js.map > server/public/build/javascripts/confirm-location.js

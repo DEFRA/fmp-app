@@ -1,0 +1,37 @@
+@import "colours";
+@import "typography";
+@import "css3";
+
+#confirm-location-page {
+
+  .column-half {
+    @include media(tablet) {
+      height: 700px;
+    }
+
+    &.confirm-column {
+      background-color: #f2f2f2;
+      @include media(mobile) {
+        overflow: hidden;
+        margin: 0 15px 0 15px;
+      }
+    }
+    &.map-column {
+      @include media(tablet) {
+        padding-left: 0px;
+      }
+    }
+  }
+
+  .map-container {
+    .map {
+        @include media(tablet) {
+          height: 700px;
+        }
+        @include media(mobile) {
+          height: 350px;
+        }
+    }
+
+  }
+}
