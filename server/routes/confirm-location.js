@@ -1,11 +1,12 @@
 var Boom = require('boom')
+var Joi = require('joi')
 var errors = require('../models/errors.json')
 var addressService = require('../services/address')
 var MapsViewModel = require('../models/maps-view')
 
 module.exports = {
   method: 'GET',
-  path: '/search',
+  path: '/confirm-location',
   config: {
     description: 'Get place search results',
     handler: function (request, reply) {
@@ -23,8 +24,13 @@ module.exports = {
         var easting = gazetteerEntries[0].geometry_x
         var northing = gazetteerEntries[0].geometry_y
 
-        reply.view('map', new MapsViewModel(easting, northing))
+        reply.view('confirm-location', new MapsViewModel(easting, northing))
       })
+    },
+    validate: {
+      query: {
+        place: Joi.string().required() // TODO: Need to add some validation here to ensure no injection
+      }
     }
   }
 }

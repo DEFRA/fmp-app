@@ -13,7 +13,6 @@
     "copy:gov": "bin/copy-gov && bin/fix-layout.js",
     "copy:assets": "bin/copy-assets",
     "build:js": "bin/build-js",
-    "build:js-map": "./bin/build-js-map",
     "build:css": "bin/build-css",
     "build": "bin/build",
     "watch": "bin/watch",

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-browserify assets/javascripts/map/index.js -t hbsfy -d -s FMP.MapPage | exorcist server/public/build/javascripts/map.js.map > server/public/build/javascripts/map.js

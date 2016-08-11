@@ -1,0 +1,37 @@
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/confirm-location/index.css">
+<main id="confirm-location-page">
+  <h1 class="heading-xlarge">Confirm the development location<h1>
+  <div class="grid-row">
+    <div class="column-half confirm-column">
+      <p>
+        You&#39;ll get the best assessment of flood risk when you identify your development&#39;s location accurately.
+      </p>
+      <p>
+        Move the pin point to the location of your development, the select &#39;Continue&#39;.
+      </p>
+      <p>
+        If it&#39;s already in the right place, select &#39;Continue&#39;.
+      <p>
+      <form>
+        <div class="form-group">
+          <button class="button button-get-started" type="submit" title="Continue">Continue</button>
+        </div>
+      </form>
+    </div>
+    <div class="column-half map-column">
+      <div class="map-container">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
+<script>
+  $(function () {
+    (new FMP.ConfirmLocationPage({
+      easting: '{{easting}}',
+      northing: '{{northing}}'
+    }))
+  })
+</script>
