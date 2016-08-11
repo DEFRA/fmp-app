@@ -29,7 +29,7 @@ module.exports = {
     },
     validate: {
       query: {
-        place: Joi.string().required() // TODO: Need to add some validation here to ensure no injection
+        place: Joi.string().allow('') // TODO: Need to add some validation here to ensure no injection
       }
     }
   }

@@ -1,9 +1,9 @@
-var map = require('../map')
+var map = require('../map.js')
 
-function ConfirmLocationPage (options) {
+function Summary (options) {
   var easting = window.encodeURIComponent(options.easting)
   var northing = window.encodeURIComponent(options.northing)
   map.loadMap(easting && [easting, northing])
 }
 
-module.exports = ConfirmLocationPage
+module.exports = Summary

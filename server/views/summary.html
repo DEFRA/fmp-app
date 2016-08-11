@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
+<main id="summary-page">
+  <h1 class="heading-xlarge">Flood risk summary<h1>
+    <p>
+      Based on the information you provided, this is the flood risk summary for your proposed development&#39;s location.
+    </p>
+  <div class="grid-row">
+    <div class="column-half summary-column">
+
+        <div class="zone">
+          The location of your proposed development is within
+          <h2 class="heading-large">Flood zone 2</h2>
+          <a href="#">What does this mean?</a>
+        </div>
+        <div class="next">
+          <h3>What happens next</h3>
+          <ol class="list list-number">
+            <li>
+              <div class="panel panel-border-wide">
+                You may need to complete a flood risk assessment as part of your planning application.
+                This can be in any format but must include all relevant plans, surveys and assessments.
+                Check if your local planning authority has any specific software requirements, for example
+                when producing detailed hydraulic modesls.
+              </div>
+            </li>
+            <li>
+              <div class="panel panel-border-wide">
+                If your development is either a minor extension or classed as vulnerable, you may need to
+                <a href="#">read the standing advice</a> instead.
+              </div>
+            </li>
+            <li>
+              <div class="panel panel-border-wide">
+                If you&#39;re not sure if this guidance applies to you <a href="#">read more about flood risk assessments for planning applications</a>.
+              </div>
+            </li>
+          </ol>
+        </div>
+    </div>
+    <div class="column-half map-column">
+      <div class="map-container">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="{{{assetPath}}}javascripts/summary.js"></script>
+<script>
+  $(function () {
+    (new FMP.SummaryPage({
+      easting: '{{easting}}',
+      northing: '{{northing}}'
+    }))
+  })
+</script>
