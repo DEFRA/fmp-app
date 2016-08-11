@@ -16,14 +16,14 @@ lab.experiment('confirm-location', function () {
     })
   })
 
-  lab.test('confirm-location with invalid query', function (done) {
+  lab.test('confirm-location with invalid query expect redirect', function (done) {
     var options = {
       method: 'GET',
       url: '/confirm-location'
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.statusCode).to.equal(400)
+      Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
   })
