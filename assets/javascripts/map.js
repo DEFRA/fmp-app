@@ -7,7 +7,7 @@ var parser = new ol.format.WMTSCapabilities()
 var config = require('./map-config.json')
 var map, callback
 
-function loadMap (point) {
+function loadMap (point, fmpLayer) {
   // add the projection to Window.proj4
   window.proj4.defs(config.projection.ref, config.projection.proj4)
 
@@ -53,6 +53,20 @@ function loadMap (point) {
     var layers = []
     // add the base map layer
     layers.push(layer)
+
+    if (fmpLayer) {
+      layers.push(new ol.layer.Image({
+        ref: 'fmp',
+        source: new ol.source.ImageWMS({
+          url: '/wms-proxy',
+          serverType: 'geoserver',
+          params: {
+            'LAYERS': 'fmp'
+          }
+        })
+      }))
+    }
+
     map = new ol.Map({
       controls: ol.control.defaults().extend([
         new ol.control.ScaleLine({

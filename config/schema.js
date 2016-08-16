@@ -9,7 +9,10 @@ var serverSchema = Joi.object().required().keys({
 var environmentVariableSchema = Joi.object().required().keys({
   os_names_key: Joi.string().required(),
   os_names_url: Joi.string().required(),
-  os_maps_url: Joi.string().required()
+  os_maps_url: Joi.string().required(),
+  gs_proxy_protocol: Joi.string().required(),
+  gs_proxy_host: Joi.string().required(),
+  gs_proxy_port: Joi.string().required()
 })
 
 module.exports = {
