@@ -3,5 +3,6 @@ module.exports = [
   require('./home'),
   require('./os-get-capabilities'),
   require('./public'),
-  require('./summary')
+  require('./summary'),
+  require('./wms-proxy')
 ]

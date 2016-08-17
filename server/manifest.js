@@ -25,6 +25,11 @@ const manifest = {
         register: 'good',
         options: config.logging
       }
+    },
+    {
+      plugin: {
+        register: 'h2o2'
+      }
     }
   ]
 }
