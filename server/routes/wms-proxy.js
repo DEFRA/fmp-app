@@ -1,4 +1,4 @@
-var config = require('../../config').environmentVariables
+var config = require('../../config').envVars
 var uri = config.gs_proxy_protocol + '://' + config.gs_proxy_host + ':' + config.gs_proxy_port + '/geoserver/fmp/wms'
 
 module.exports = {

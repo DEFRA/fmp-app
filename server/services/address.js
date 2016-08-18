@@ -1,6 +1,6 @@
 var sprintf = require('sprintf-js')
 var util = require('../util')
-var config = require('../../config').environmentVariables
+var config = require('../../config').envVars
 var urlNamesApi = config.os_names_url
 
 function findByPlace (place, callback) {

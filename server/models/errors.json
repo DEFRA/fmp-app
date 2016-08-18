@@ -1,5 +1,8 @@
 {
   "placeSearch": {
     "message" : "An error occurred finding the location specified"
+  },
+  "riskSearch": {
+    "message" : "An error occurred obtaining the risk for a location"
   }
 }

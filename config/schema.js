@@ -6,13 +6,14 @@ var serverSchema = Joi.object().required().keys({
   labels: Joi.string()
 })
 
-var environmentVariableSchema = Joi.object().required().keys({
+var envVarsSchema = Joi.object().required().keys({
   os_names_key: Joi.string().required(),
   os_names_url: Joi.string().required(),
   os_maps_url: Joi.string().required(),
   gs_proxy_protocol: Joi.string().required(),
   gs_proxy_host: Joi.string().required(),
-  gs_proxy_port: Joi.string().required()
+  gs_proxy_port: Joi.string().required(),
+  fmp_service: Joi.string().required()
 })
 
 module.exports = {
@@ -22,5 +23,5 @@ module.exports = {
     isCached: Joi.boolean().required()
   }),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
-  environmentVariables: environmentVariableSchema
+  envVars: envVarsSchema
 }

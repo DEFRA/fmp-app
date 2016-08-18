@@ -2,7 +2,7 @@ var Boom = require('boom')
 var Joi = require('joi')
 var errors = require('../models/errors.json')
 var addressService = require('../services/address')
-var MapsViewModel = require('../models/maps-view')
+var ConfirmLocationViewModel = require('../models/confirm-location-view')
 
 module.exports = {
   method: 'GET',
@@ -24,7 +24,7 @@ module.exports = {
         var easting = gazetteerEntries[0].geometry_x
         var northing = gazetteerEntries[0].geometry_y
 
-        reply.view('confirm-location', new MapsViewModel(easting, northing))
+        reply.view('confirm-location', new ConfirmLocationViewModel(easting, northing))
       })
     },
     validate: {

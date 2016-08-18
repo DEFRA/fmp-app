@@ -33,12 +33,13 @@
     "isCached": false
   },
   "httpTimeoutMs": 10000,
-  "environmentVariables": {
+  "envVars": {
     "os_names_key": "",
     "os_names_url": "",
     "os_maps_url": "",
     "gs_proxy_protocol": "",
     "gs_proxy_host": "",
-    "gs_proxy_port": ""
+    "gs_proxy_port": "",
+    "fmp_service": ""
   }
 }
