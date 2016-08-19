@@ -13,7 +13,9 @@ var envVarsSchema = Joi.object().required().keys({
   gs_proxy_protocol: Joi.string().required(),
   gs_proxy_host: Joi.string().required(),
   gs_proxy_port: Joi.string().required(),
-  fmp_service: Joi.string().required()
+  fmp_service: Joi.string().required(),
+  fmp_app_errbit_host: Joi.string().required(),
+  fmp_app_errbit_key: Joi.string().required()
 })
 
 module.exports = {
