@@ -35,6 +35,7 @@
     "inert": "4.0.0",
     "joi": "8.1.0",
     "jquery": "1.11.3",
+    "node-hapi-airbrake": "0.0.2",
     "openlayers": "3.14.0",
     "proj4": "2.3.12",
     "raf": "3.2.0",

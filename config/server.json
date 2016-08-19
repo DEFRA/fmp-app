@@ -40,6 +40,8 @@
     "gs_proxy_protocol": "",
     "gs_proxy_host": "",
     "gs_proxy_port": "",
-    "fmp_service": ""
+    "fmp_service": "",
+    "fmp_app_errbit_host": "",
+    "fmp_app_errbit_key": ""
   }
 }

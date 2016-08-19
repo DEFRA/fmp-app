@@ -30,6 +30,16 @@ const manifest = {
       plugin: {
         register: 'h2o2'
       }
+    },
+    {
+      plugin: {
+        register: 'node-hapi-airbrake',
+        options: {
+          key: config.envVars.fmp_app_errbit_key,
+          env: 'production',
+          host: config.envVars.fmp_app_errbit_host
+        }
+      }
     }
   ]
 }
