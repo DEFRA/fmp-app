@@ -1,6 +1,7 @@
 module.exports = [
   require('./confirm-location'),
   require('./home'),
+  require('./gwc-proxy'),
   require('./os-get-capabilities'),
   require('./public'),
   require('./summary'),

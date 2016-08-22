@@ -7,5 +7,9 @@
   "OSGetCapabilities": "/os-get-capabilities",
   "OSAttribution": "&#169; Crown copyright and database rights 2015 <a href='http://www.ordnancesurvey.co.uk'>Ordnance Survey</a>",
   "OSLayer": "osgb",
-  "OSMatrixSet": "ZoomMap"
+  "OSMatrixSet": "ZoomMap",
+  "tileProxy": "/gwc-proxy",
+  "tileExtent": [1393.0196, 13494.9764, 673393.0196, 909494.9764],
+  "tileResolutions": [896, 448, 224, 112, 56, 28, 14, 7, 3.5, 1.75, 0.875],
+  "tileSize": [250, 250]
 }
