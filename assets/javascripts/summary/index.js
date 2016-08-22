@@ -1,5 +1,6 @@
 var ol = require('openlayers')
 var Map = require('../map.js')
+var mapConfig = require('../map-config.json')
 
 function Summary (options) {
   var easting = window.encodeURIComponent(options.easting)
@@ -8,14 +9,21 @@ function Summary (options) {
   var mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [
-      new ol.layer.Image({
+      new ol.layer.Tile({
         ref: 'fmp',
-        source: new ol.source.ImageWMS({
-          url: '/wms-proxy',
+        source: new ol.source.TileWMS({
+          url: mapConfig.tileProxy,
           serverType: 'geoserver',
           params: {
-            'LAYERS': 'fmp'
-          }
+            LAYERS: 'fmp:fmp',
+            TILED: true,
+            VERSION: '1.1.1'
+          },
+          tileGrid: new ol.tilegrid.TileGrid({
+            extent: mapConfig.tileExtent,
+            resolutions: mapConfig.tileResolutions,
+            tileSize: mapConfig.tileSize
+          })
         })
       })
     ]
