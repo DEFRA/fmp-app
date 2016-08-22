@@ -1,0 +1,72 @@
+var ol = require('openlayers')
+
+function VectorDrag () {
+  ol.interaction.Pointer.call(this, {
+    handleDownEvent: VectorDrag.prototype.handleDownEvent,
+    handleDragEvent: VectorDrag.prototype.handleDragEvent,
+    handleMoveEvent: VectorDrag.prototype.handleMoveEvent,
+    handleUpEvent: VectorDrag.prototype.handleUpEvent
+  })
+
+  this.coordinate = null
+  this.cursor = 'pointer'
+  this.feature = null
+  this.previouscursor = null
+}
+
+ol.inherits(VectorDrag, ol.interaction.Pointer)
+
+VectorDrag.prototype.handleDownEvent = function (evt) {
+  var map = evt.map
+
+  var feature = map.forEachFeatureAtPixel(evt.pixel,
+     function (feature) {
+       return feature
+     })
+
+  if (feature) {
+    this.coordinate = evt.coordinate
+    this.feature = feature
+  }
+
+  return !!feature
+}
+
+VectorDrag.prototype.handleDragEvent = function (evt) {
+  var deltaX = evt.coordinate[0] - this.coordinate[0]
+  var deltaY = evt.coordinate[1] - this.coordinate[1]
+
+  var geometry = this.feature.getGeometry()
+  geometry.translate(deltaX, deltaY)
+
+  this.coordinate[0] = evt.coordinate[0]
+  this.coordinate[1] = evt.coordinate[1]
+}
+
+VectorDrag.prototype.handleMoveEvent = function (evt) {
+  if (this.cursor) {
+    var map = evt.map
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+     function (feature) {
+       return feature
+     })
+    var element = evt.map.getTargetElement()
+    if (feature) {
+      if (element.style.cursor !== this.cursor) {
+        this.previouscursor = element.style.cursor
+        element.style.cursor = this.cursor
+      }
+    } else if (this.previouscursor !== null) {
+      element.style.cursor = this.previouscursor
+      this.previouscursor = null
+    }
+  }
+}
+
+VectorDrag.prototype.handleUpEvent = function () {
+  this.coordinate = null
+  this.feature = null
+  return false
+}
+
+module.exports = VectorDrag
