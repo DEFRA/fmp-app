@@ -7,7 +7,7 @@ var parser = new ol.format.WMTSCapabilities()
 var config = require('./map-config.json')
 var map, callback
 
-function loadMap (point, fmpLayer) {
+function Map (mapOptions) {
   // add the projection to Window.proj4
   window.proj4.defs(config.projection.ref, config.projection.proj4)
 
@@ -27,18 +27,18 @@ function loadMap (point, fmpLayer) {
     // need to set tiles to https
     // follow up with OS
     result.OperationsMetadata.GetTile.DCP.HTTP.Get[0].href = result.OperationsMetadata.GetTile.DCP.HTTP.Get[0].href.replace('http://', 'https://')
-    var options = ol.source.WMTS.optionsFromCapabilities(result, {
+    var wmtsOptions = ol.source.WMTS.optionsFromCapabilities(result, {
       layer: config.OSLayer,
       matrixSet: config.OSMatrixSet
     })
 
-    options.attributions = [
+    wmtsOptions.attributions = [
       new ol.Attribution({
         html: config.OSAttribution
       })
     ]
 
-    var source = new ol.source.WMTS(options)
+    var source = new ol.source.WMTS(wmtsOptions)
 
     // array of ol.tileRange can't find any reference to this object in ol3 documentation, but is set to NaN and stops the map from functioning
     // openlayers doesn't expose fulltileranges as a property, so when using minified ol have to set tilegrid.a to null, which is what fulltileranges
@@ -50,27 +50,13 @@ function loadMap (point, fmpLayer) {
       ref: config.OSLayer,
       source: source
     })
-    var layers = []
-    // add the base map layer
-    layers.push(layer)
-
-    if (fmpLayer) {
-      layers.push(new ol.layer.Image({
-        ref: 'fmp',
-        source: new ol.source.ImageWMS({
-          url: '/wms-proxy',
-          serverType: 'geoserver',
-          params: {
-            'LAYERS': 'fmp'
-          }
-        })
-      }))
-    }
+    var layers = Array.prototype.concat([layer], mapOptions.layers)
 
     map = new ol.Map({
+      interactions: mapOptions.interactions || ol.interaction.defaults(),
       controls: ol.control.defaults().extend([
         new ol.control.ScaleLine({
-          units: 'imperial',
+          units: 'metric',
           minWidth: 128
         })
       ]),
@@ -79,23 +65,21 @@ function loadMap (point, fmpLayer) {
       view: new ol.View({
         resolutions: source.tileGrid.getResolutions(),
         projection: projection,
-        center: point || [440000, 310000],
-        zoom: point ? 9 : 0,
+        center: mapOptions.point || [440000, 310000],
+        zoom: mapOptions.point ? 9 : 0,
         extent: config.projection.extent
       })
     })
-    map.on('singleclick', function (e) {
-    })
+
     // Callback to notify map is ready
     if (callback) {
-      callback()
+      callback(map)
     }
   })
-}
 
-module.exports = {
-  loadMap: loadMap,
-  onReady: function (fn) {
+  this.onReady = function (fn) {
     callback = fn
   }
 }
+
+module.exports = Map
