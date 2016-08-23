@@ -2,5 +2,5 @@
 
 cp -R node_modules/govuk_template_mustache/assets/* server/public/assets
 cp -R node_modules/govuk_template_mustache/views/layouts/govuk_template.html server/views
-cp -R node_modules/govuk-elements-sass/node_modules/govuk_frontend_toolkit/images/* server/public/assets/images/icons &&
+cp -R node_modules/govuk-elements-sass/node_modules/govuk_frontend_toolkit/images/* server/public/assets/images/ &&
 mv server/views/govuk_template.html server/views/layout.html
