@@ -6,4 +6,4 @@ node-sass \
    --include-path=node_modules/govuk-elements-sass/node_modules/govuk_frontend_toolkit/stylesheets \
    --include-path=node_modules/govuk-elements-sass/public/sass \
    --output=server/public/build/stylesheets \
-   assets/sass
+   client/sass

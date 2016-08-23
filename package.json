@@ -34,7 +34,7 @@
     "hapi": "14.2.0",
     "inert": "4.0.1",
     "joi": "9.0.4",
-    "jquery": "^1.12.4",
+    "jquery": "1.12.4",
     "node-hapi-airbrake": "0.0.2",
     "openlayers": "3.17.1",
     "proj4": "2.3.15",
