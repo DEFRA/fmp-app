@@ -22,6 +22,7 @@ function Map (mapOptions) {
     // bug: parser is not getting the matrixwidth and matrixheight values when parsing,
     // therefore sizes is set to undefined array, which sets fullTileRanges_
     // to an array of undefineds thus breaking the map      return
+
     var result = parser.read(OS)
     // TODO
     // need to set tiles to https
@@ -44,7 +45,7 @@ function Map (mapOptions) {
     // openlayers doesn't expose fulltileranges as a property, so when using minified ol have to set tilegrid.a to null, which is what fulltileranges
     // is mapped as, hopefully OS will fix their service, otherwise something more robust needs sorting out
     source.tileGrid.fullTileRanges_ = null
-    source.tileGrid.b = null
+    source.tileGrid.a = null
 
     var layer = new ol.layer.Tile({
       ref: config.OSLayer,
