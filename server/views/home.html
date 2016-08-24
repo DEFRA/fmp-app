@@ -22,7 +22,7 @@
       <form method="get" action="{{{mountPath}}}confirm-location">
         <div class="form-group">
           <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode or NGR" title="A valid place in England is required" autocomplete="off">
-          {{#if hasErrorMessage}}
+          {{#if hasError}}
             <div class="error-message">{{errorMessage}}</div>
           {{/if}}
         </div>
