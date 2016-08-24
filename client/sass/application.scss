@@ -1,1 +1,8 @@
 @import 'govuk-elements';
+
+.error-message {
+  color: $red;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: solid 3px $red;
+}
