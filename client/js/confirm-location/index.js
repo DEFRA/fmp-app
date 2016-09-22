@@ -28,7 +28,10 @@ function ConfirmLocationPage (options) {
       })
     ],
     // Add vector drag to map interactions
-    interactions: ol.interaction.defaults().extend([new VectorDrag()])
+    interactions: ol.interaction.defaults({
+      altShiftDragRotate: false,
+      pinchRotate: false
+    }).extend([new VectorDrag()])
   }
 
   this.map = new Map(mapOptions)

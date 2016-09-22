@@ -54,7 +54,10 @@ function Map (mapOptions) {
     var layers = Array.prototype.concat([layer], mapOptions.layers)
 
     map = new ol.Map({
-      interactions: mapOptions.interactions || ol.interaction.defaults(),
+      interactions: mapOptions.interactions || ol.interaction.defaults({
+        altShiftDragRotate: false,
+        pinchRotate: false
+      }),
       controls: ol.control.defaults().extend([
         new ol.control.ScaleLine({
           units: 'metric',
@@ -62,6 +65,7 @@ function Map (mapOptions) {
         })
       ]),
       layers: layers,
+      pixelRatio: 1,
       target: 'map',
       view: new ol.View({
         resolutions: source.tileGrid.getResolutions(),

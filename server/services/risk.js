@@ -1,15 +1,14 @@
 var util = require('../util')
 var fmpService = require('../../config').envVars.fmp_service
-var url = fmpService + '/test-db'
+var url = fmpService + '/zones/'
 
-// TODO this needs to use the risk service, but only /test-db usable at the moment
 module.exports = {
-  get: function (location, callback) {
-    if (!location) {
+  get: function (easting, northing, callback) {
+    if (!easting || !northing) {
       return process.nextTick(() => {
-        callback(new Error('No location'))
+        callback(new Error('No point provided'))
       })
     }
-    util.getJson(url, callback)
+    util.getJson(url + easting + '/' + northing + '/50', callback)
   }
 }
