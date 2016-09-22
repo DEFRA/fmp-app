@@ -18,7 +18,8 @@ const defaultContext = {
   pageRefreshTime: pageRefreshTime,
   analyticsAccount: analyticsAccount,
   appName: appName,
-  appVersion: appVersion
+  appVersion: appVersion,
+  phase: 'beta'
 }
 
 module.exports = {
