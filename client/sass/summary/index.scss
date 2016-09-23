@@ -1,10 +1,9 @@
-@import "colours";
-@import "typography";
-@import "css3";
+@import 'colours';
+@import 'typography';
+@import 'css3';
+@import '../branding';
 
 #summary-page {
-
-
   .column-half {
     @include media(tablet) {
       min-height: 700px;
@@ -16,6 +15,84 @@
       border-color: white;
       padding: 0;
       background-color: #f2f2f2;
+      
+      .zone {
+        .heading-large {
+          margin: 10px 0 10px 0;
+          text-transform: uppercase;
+          text-align: center;
+        }
+      }
+
+      .zone3Ben {
+        .zone {
+          background-color: $zone3Ben;
+          color: $zone3BenText;
+          .heading-large {
+            margin-bottom: 0;
+          }
+          .heading-medium {
+            text-align: center;
+            margin-top: 0;
+          }
+          a {
+            color: $zone3BenText;
+          }
+          a:visited {
+            color: #f2f2f2;
+          }
+          a:hover {
+            color: #f2f2f2;
+          }
+          a::after {
+            color: $zone3BenText;
+          }
+        }
+        .panel-border-wide {
+          border-color: $zone3Ben;
+        }
+      }
+
+      .zone3 {
+        .zone {
+          background-color: $zone3;
+          color: $zone3Text;
+          a {
+            color: $zone3BenText;
+          }
+          a:visited {
+            color: #f2f2f2;
+          }
+          a:hover {
+            color: #f2f2f2;
+          }
+          a::after {
+            color: $zone3BenText;
+          }
+        }
+        .panel-border-wide {
+          border-color: $zone3;
+        }
+      }
+      .zone2 {
+        .zone {
+          background-color: $zone2;
+          color: $zone2Text;
+        }
+        .panel-border-wide {
+          border-color: $zone2;
+        }
+      }
+      .zone1 {
+        .zone {
+          background-color: $zone1;
+          color: $zone1Text;
+          border: 1px solid #a9a9a9;
+        }
+        .panel-border-wide {
+          border-color: #a9a9a9;
+        }
+      }
 
       .zone, .next {
         padding: 10px;
@@ -27,13 +104,6 @@
         margin: 0 15px 0 15px;
       }
 
-      .zone {
-        background-color: #acd5ff;
-        h2 {
-          margin: 10px 0 10px 0;
-        }
-      }
-
       ol {
         list-style-type: none;
         counter-reset: section;
@@ -42,9 +112,7 @@
         @include media(mobile) {
           padding-left: 50px;
         }
-        .panel-border-wide {
-          border-color: #acd5ff;
-        }
+        
         >li {
           position: relative;
           &::before {
@@ -55,6 +123,13 @@
             left: -40px;
             font-weight: bold;
             top: -6px;
+          }
+        }
+        ul {
+          li {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 5px;
           }
         }
       }
@@ -80,5 +155,8 @@
     }
   }
 
+  .more {
+    margin-top: 30px;
+  }
 
 }

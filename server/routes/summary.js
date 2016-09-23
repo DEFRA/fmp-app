@@ -12,7 +12,7 @@ module.exports = {
     handler: function (request, reply) {
       var easting = request.params.easting
       var northing = request.params.northing
-      riskService.get([], (err, result) => {
+      riskService.get(easting, northing, (err, result) => {
         if (err) {
           return reply(Boom.badImplementation(errors.riskSearch.message, err))
         }
@@ -21,8 +21,8 @@ module.exports = {
     },
     validate: {
       params: {
-        easting: Joi.number().required(),
-        northing: Joi.number().required()
+        easting: Joi.number().max(700000).positive().required(),
+        northing: Joi.number().max(1300000).positive().required()
       }
     }
   }

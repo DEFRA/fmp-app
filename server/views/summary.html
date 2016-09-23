@@ -2,41 +2,22 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
 <main id="summary-page" data-test-info="{{riskJSON}}">
   <h1 class="heading-xlarge">Flood risk summary</h1>
-    <p>
-      Based on the information you provided, this is the flood risk summary for your proposed development&#39;s location.
-    </p>
+  {{#unless isZone1}}<p>Your proposed development is in or near an area at risk of flooding</p>{{/unless}}
   <div class="grid-row">
     <div class="column-half summary-column">
-
-        <div class="zone">
-          The location of your proposed development is within
-          <h2 class="heading-large">Flood zone 2</h2>
-          <a href="#">What does this mean?</a>
-        </div>
-        <div class="next">
-          <h3>What happens next</h3>
-          <ol class="list list-number">
-            <li>
-              <div class="panel panel-border-wide">
-                You may need to complete a flood risk assessment as part of your planning application.
-                This can be in any format but must include all relevant plans, surveys and assessments.
-                Check if your local planning authority has any specific software requirements, for example
-                when producing detailed hydraulic modesls.
-              </div>
-            </li>
-            <li>
-              <div class="panel panel-border-wide">
-                If your development is either a minor extension or classed as vulnerable, you may need to
-                <a href="#">read the standing advice</a> instead.
-              </div>
-            </li>
-            <li>
-              <div class="panel panel-border-wide">
-                If you&#39;re not sure if this guidance applies to you <a href="#">read more about flood risk assessments for planning applications</a>.
-              </div>
-            </li>
-          </ol>
-        </div>
+      {{#if isAreaBenefiting}}
+        {{> summary/area-benefiting}}
+      {{else}}
+        {{#if isZone3}}
+          {{> summary/zone3}}
+        {{else}}
+          {{#if isZone2}}
+            {{> summary/zone2}}
+          {{else}}
+            {{> summary/zone1}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
     </div>
     <div class="column-half map-column">
       <div class="map-container">
@@ -44,13 +25,26 @@
       </div>
     </div>
   </div>
+<div class="grid-row more">
+  <div class="column-full">
+    <a href="/">Find out about the flood risk for another location</a>
+  </div>
+</div>
+<div class="visible-mobile"></div>
 </main>
 <script src="{{{assetPath}}}javascripts/summary.js"></script>
 <script>
   $(function () {
-    (new FMP.SummaryPage({
+    var isMobile = false
+    if ($('.visible-mobile:visible').length > 0) {
+      isMobile = true
+    }
+    var height = !isMobile ? $('.summary-column').height() : 450
+
+    var page = new FMP.SummaryPage({
       easting: '{{easting}}',
-      northing: '{{northing}}'
-    }))
+      northing: '{{northing}}',
+      mapHeight: height
+    })
   })
 </script>
