@@ -25,5 +25,6 @@ module.exports = {
     isCached: Joi.boolean().required()
   }),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
+  postErrors: Joi.boolean().required(),
   envVars: envVarsSchema
 }

@@ -33,6 +33,7 @@
     "isCached": false
   },
   "httpTimeoutMs": 10000,
+  "postErrors": false,
   "envVars": {
     "os_names_key": "",
     "os_names_url": "",

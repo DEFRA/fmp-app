@@ -36,7 +36,7 @@ const manifest = {
         register: 'node-hapi-airbrake',
         options: {
           key: config.envVars.fmp_app_errbit_key,
-          env: 'development',
+          env: config.postErrors ? 'production' : 'development',
           host: config.envVars.fmp_app_errbit_host
         }
       }

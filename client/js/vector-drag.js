@@ -12,12 +12,17 @@ function VectorDrag () {
   this.cursor = 'pointer'
   this.feature = null
   this.previouscursor = null
+
+  // Fix for multiple features movement
+  this.features = []
 }
 
 ol.inherits(VectorDrag, ol.interaction.Pointer)
 
 VectorDrag.prototype.handleDownEvent = function (evt) {
   var map = evt.map
+
+  var features = []
 
   var feature = map.forEachFeatureAtPixel(evt.pixel,
      function (feature) {
@@ -27,6 +32,17 @@ VectorDrag.prototype.handleDownEvent = function (evt) {
   if (feature) {
     this.coordinate = evt.coordinate
     this.feature = feature
+    map.getLayers().forEach(function (layer) {
+      if (layer.getProperties().ref === 'centre') {
+        layer.getSource().getFeatures().forEach(function (feature) {
+          features.push(feature)
+        })
+      }
+    })
+  }
+
+  if (features.length > 0) {
+    this.features = features
   }
 
   return !!feature
@@ -36,8 +52,9 @@ VectorDrag.prototype.handleDragEvent = function (evt) {
   var deltaX = evt.coordinate[0] - this.coordinate[0]
   var deltaY = evt.coordinate[1] - this.coordinate[1]
 
-  var geometry = this.feature.getGeometry()
-  geometry.translate(deltaX, deltaY)
+  this.features.forEach(function (feature) {
+    feature.getGeometry().translate(deltaX, deltaY)
+  })
 
   this.coordinate[0] = evt.coordinate[0]
   this.coordinate[1] = evt.coordinate[1]
@@ -66,6 +83,7 @@ VectorDrag.prototype.handleMoveEvent = function (evt) {
 VectorDrag.prototype.handleUpEvent = function () {
   this.coordinate = null
   this.feature = null
+  this.features = []
   return false
 }
 

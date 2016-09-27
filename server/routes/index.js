@@ -4,6 +4,5 @@ module.exports = [
   require('./gwc-proxy'),
   require('./os-get-capabilities'),
   require('./public'),
-  require('./summary'),
-  require('./wms-proxy')
+  require('./summary')
 ]
