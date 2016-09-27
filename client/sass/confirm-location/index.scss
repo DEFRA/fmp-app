@@ -22,16 +22,4 @@
       }
     }
   }
-
-  .map-container {
-    .map {
-        @include media(tablet) {
-          height: 700px;
-        }
-        @include media(mobile) {
-          height: 350px;
-        }
-    }
-
-  }
 }

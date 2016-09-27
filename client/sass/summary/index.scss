@@ -4,6 +4,7 @@
 @import '../branding';
 
 #summary-page {
+
   .column-half {
     @include media(tablet) {
       min-height: 700px;
@@ -136,21 +137,11 @@
 
 
     }
-    &.map-column {
+
+    &.map-column {      
       @include media(tablet) {
         padding-left: 0px;
       }
-      .map-container {
-        .map {
-            @include media(tablet) {
-              height: 700px;
-            }
-            @include media(mobile) {
-              height: 350px;
-            }
-        }
-      }
-
 
     }
   }
@@ -158,5 +149,14 @@
   .more {
     margin-top: 30px;
   }
+  
+  .map-container {
+    position: relative;
+  }
 
+  .controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 }

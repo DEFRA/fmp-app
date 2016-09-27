@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/map/index.css">
 <main id="summary-page" data-test-info="{{riskJSON}}">
   <h1 class="heading-xlarge">Flood risk summary</h1>
   {{#unless isZone1}}<p>Your proposed development is in or near an area at risk of flooding</p>{{/unless}}
@@ -22,6 +23,12 @@
     <div class="column-half map-column">
       <div class="map-container">
         <div id="map" class="map"></div>
+        {{> map/north-arrow }}
+        <div class="rhs">
+          <aside class="controls">
+          {{> map/summary-legend}}
+          </aside>
+        </div>
       </div>
     </div>
   </div>

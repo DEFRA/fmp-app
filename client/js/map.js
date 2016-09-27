@@ -61,7 +61,7 @@ function Map (mapOptions) {
       controls: ol.control.defaults().extend([
         new ol.control.ScaleLine({
           units: 'metric',
-          minWidth: 128
+          minWidth: 50
         })
       ]),
       layers: layers,
