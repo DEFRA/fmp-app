@@ -31,6 +31,39 @@ function Summary (options) {
             tileSize: mapConfig.tileSize
           })
         })
+      }),
+      new ol.layer.Vector({
+        ref: 'centre',
+        visible: true,
+        source: new ol.source.Vector({
+          features: [
+            new ol.Feature({
+              geometry: new ol.geom.Circle([parseInt(easting, 10), parseInt(northing, 10)], 50)
+            })]
+        }),
+        style: function (feature, resolution) {
+          switch (feature.getGeometry().getType()) {
+            case 'Circle':
+              return new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                  color: '#000000',
+                  width: 2,
+                  lineDash: [8, 8]
+                })
+              })
+            case 'Point':
+              return new ol.style.Style({
+                image: new ol.style.Icon({
+                  anchor: [0.5, 1],
+                  anchorXUnits: 'fraction',
+                  anchorYUnits: 'fraction',
+                  src: 'public/images/pin.png'
+                })
+              })
+            default:
+              return
+          }
+        }
       })
     ],
     mapInteractions: ol.interaction.defaults({

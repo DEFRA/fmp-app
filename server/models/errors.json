@@ -1,8 +1,8 @@
 {
-  "placeSearch": {
-    "message" : "An error occurred finding the location specified"
+  "noPlace": {
+    "message": "Please enter a valid postcode, place or National Grid Reference, then select 'Continue'"
   },
-  "riskSearch": {
-    "message" : "An error occurred obtaining the risk for a location"
+  "invalidPlace": {
+    "message": "The postcode, place or National Grid Reference you entered is not recognised.<br>Please try again, then select 'Continue'"
   }
 }

@@ -1,5 +1,7 @@
 var ngrToBng = require('ngr-to-bng')
 
-module.exports = function (ngr) {
-  return ngrToBng(ngr)
+module.exports = {
+  convert: function (ngr) {
+    return ngrToBng(ngr)
+  }
 }

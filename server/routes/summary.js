@@ -1,7 +1,6 @@
 var Boom = require('boom')
 var Joi = require('joi')
 var riskService = require('../services/risk')
-var errors = require('../models/errors.json')
 var SummaryViewModel = require('../models/summary-view')
 
 module.exports = {
@@ -10,13 +9,17 @@ module.exports = {
   config: {
     description: 'Get flood risk summary',
     handler: function (request, reply) {
-      var easting = request.params.easting
-      var northing = request.params.northing
+      var easting = encodeURIComponent(request.params.easting)
+      var northing = encodeURIComponent(request.params.northing)
       riskService.get(easting, northing, (err, result) => {
         if (err) {
-          return reply(Boom.badImplementation(errors.riskSearch.message, err))
+          return reply(Boom.badImplementation(err.message, err))
         }
-        reply.view('summary', new SummaryViewModel(easting, northing, result))
+        if (!result.point_in_england) {
+          reply.view('not-england')
+        } else {
+          reply.view('summary', new SummaryViewModel(easting, northing, result))
+        }
       })
     },
     validate: {

@@ -5,13 +5,13 @@
     This service is for learning about a site location&#39;s flood risk as part of development planning.
   </p>
   <p>
-    For general flood information, including local flood warnings, use the <a href="/">flood information service</a>
+    For general flood information, including local flood warnings, use the <a href="https://flood-warning-information.service.gov.uk/" rel="external">flood information service</a>
   </p>
   <h2 class="heading-medium">Before you start</h2>
   <p>
     This service has 3 steps:
     <ol class="list list-number">
-      <li>Provide a postcode of National Grid Reference (NGR) where your development will take place</li>
+      <li>Provide a postcode or National Grid Reference (NGR) where your development will take place</li>
       <li>Confirm the location using a map</li>
       <li>View a map showing the likelihood of flooding in the area</li>
     </ol>
@@ -23,7 +23,7 @@
         <div class="form-group">
           <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode or NGR" title="A valid place in England is required" autocomplete="off">
           {{#if hasError}}
-            <div class="error-message">{{errorMessage}}</div>
+            <div class="error-message">{{{errorMessage}}}</div>
           {{/if}}
         </div>
         <div class="form-group">

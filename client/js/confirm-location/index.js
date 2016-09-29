@@ -13,18 +13,37 @@ function ConfirmLocationPage (options) {
         ref: 'centre',
         visible: true,
         source: new ol.source.Vector({
-          features: [new ol.Feature({
-            geometry: new ol.geom.Point([parseInt(easting), parseInt(northing)])
-          })]
+          features: [
+            new ol.Feature({
+              geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
+            }),
+            new ol.Feature({
+              geometry: new ol.geom.Circle([parseInt(easting, 10), parseInt(northing, 10)], 50)
+            })]
         }),
-        style: new ol.style.Style({
-          image: new ol.style.Icon({
-            anchor: [0.5, 1],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'fraction',
-            src: 'public/images/pin.png'
-          })
-        })
+        style: function (feature, resolution) {
+          switch (feature.getGeometry().getType()) {
+            case 'Circle':
+              return new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                  color: '#000000',
+                  width: 2,
+                  lineDash: [8, 8]
+                })
+              })
+            case 'Point':
+              return new ol.style.Style({
+                image: new ol.style.Icon({
+                  anchor: [0.5, 1],
+                  anchorXUnits: 'fraction',
+                  anchorYUnits: 'fraction',
+                  src: 'public/images/pin.png'
+                })
+              })
+            default:
+              return
+          }
+        }
       })
     ],
     // Add vector drag to map interactions
@@ -41,8 +60,16 @@ function ConfirmLocationPage (options) {
     map.on('singleclick', function (e) {
       map.getLayers().forEach(function (layer) {
         if (layer.getProperties().ref === 'centre') {
-          var centreGeom = layer.getSource().getFeatures()[0].getGeometry()
-          centreGeom.setCoordinates([e.coordinate[0], e.coordinate[1]])
+          layer.getSource().getFeatures().forEach(function (feature) {
+            switch (feature.getGeometry().getType()) {
+              case 'Circle':
+                return feature.getGeometry().setCenter([e.coordinate[0], e.coordinate[1]])
+              case 'Point':
+                return feature.getGeometry().setCoordinates([e.coordinate[0], e.coordinate[1]])
+              default:
+                return
+            }
+          })
         }
       })
     })
