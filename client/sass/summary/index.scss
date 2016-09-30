@@ -158,13 +158,51 @@
     margin-top: 30px;
   }
   
-  .map-container {
-    position: relative;
+  .enter-fullscreen {
+    z-index: 100;
+    display: block;
   }
 
-  .controls {
-    position: absolute;
-    top: 5px;
-    right: 5px;
+  .exit-fullscreen {
+    z-index: 100;
+    display: none;
+  }
+
+  &.fullscreen {
+    >:not(.grid-row) {
+      display: none;
+    }
+    
+    >.grid-row{
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10;
+      margin: 0;
+      background-color: white;
+    }
+
+    .summary-column {
+      display: none;
+    }
+
+    .more {
+      display: none;
+    }
+
+    .enter-fullscreen {
+      display: none;
+    }
+    .exit-fullscreen {
+      display: block;
+    }
+  }        
+
+  @include media(tablet) {
+    .ol-full-screen, .ol-attribution {
+      right: 135px;
+    }
   }
 }

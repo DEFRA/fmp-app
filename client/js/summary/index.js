@@ -10,6 +10,9 @@ function Summary (options) {
 
   var $summaryColumn = $('.summary-column')
   var $map = $('#map')
+  var $page = $('main#summary-page')
+  var $container = $('.map-container')
+  var $mapColumn = $('.map-column')
 
   var mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
@@ -83,6 +86,28 @@ function Summary (options) {
       $map.height($summaryColumn.height())
     }
   }
+
+  this.map.onReady(function (map) {
+    $container.on('click', '.enter-fullscreen', function (e) {
+      e.preventDefault()
+      $page.addClass('fullscreen')
+      $map.css('height', $(window).height() + 'px')
+      $mapColumn.removeClass('column-half')
+      map.updateSize()
+    })
+
+    $container.on('click', '.exit-fullscreen', function (e) {
+      e.preventDefault()
+      $page.removeClass('fullscreen')
+      $mapColumn.addClass('column-half')
+      map.updateSize()
+      if ($('.visible-mobile:visible').length > 0) {
+        $map.height(450)
+      } else {
+        $map.height($summaryColumn.height())
+      }      
+    })
+  })
 }
 
 module.exports = Summary

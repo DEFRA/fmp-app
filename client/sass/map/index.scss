@@ -15,15 +15,6 @@
     }
   }
 
-  .north-arrow {
-    position: absolute;
-    top: 5px;
-    @include media(mobile) {
-      right: 5px;
-    }
-    right: 135px;
-  }
-
   .rhs {
 
     @include media(tablet) {
@@ -140,6 +131,12 @@
             background-image: url('../../images/flood-holding-area.png');
           }
 
+          li.north-arrow::before {
+            height: 80px;
+            width: 80px;  
+            background-image: url('../../images/compass.png');
+          }          
+
           li.white::before {
             background-color: #FFF;
             border: solid 2px #b9b9b9;
@@ -187,12 +184,6 @@
           position: absolute;
         }
       }
-    }
-  }
-
-  @include media(tablet) {
-    .ol-full-screen, .ol-attribution {
-      right: 135px;
     }
   }
 }
