@@ -2,6 +2,7 @@
 #!/bin/bash
 
 cp client/images/* server/public/assets/images -r
+cp client/fonts/* server/public/assets/fonts -r
 cp node_modules/jquery/dist/jquery.min.js server/public/assets/javascripts/jquery.min.js
 cp node_modules/jquery/dist/jquery.min.map server/public/assets/javascripts/jquery.min.map
 cp node_modules/openlayers/css/ol.css server/public/assets/stylesheets/ol.css
