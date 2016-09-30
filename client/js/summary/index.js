@@ -100,12 +100,13 @@ function Summary (options) {
       e.preventDefault()
       $page.removeClass('fullscreen')
       $mapColumn.addClass('column-half')
-      map.updateSize()
+
       if ($('.visible-mobile:visible').length > 0) {
-        $map.height(450)
+        $map.css('height', '450px')
       } else {
-        $map.height($summaryColumn.height())
+        $map.css('height', $summaryColumn.height() + 'px')
       }
+      map.updateSize()
     })
   })
 }
