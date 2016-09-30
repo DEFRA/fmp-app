@@ -23,7 +23,12 @@
     <div class="column-half map-column">
       <div class="map-container">
         <div id="map" class="map"></div>
-        {{> map/north-arrow }}
+        <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
+          <button class="ol-full-screen-false" type="button" title="Full screen"><i class="fa fa-enlarge2"></i></button>
+        </div>
+        <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
+          <button class="ol-full-screen-true" type="button" title="Exit full screen">×</button>
+        </div>         
         <div class="rhs">
           <aside class="controls">
           {{> map/summary-legend}}
