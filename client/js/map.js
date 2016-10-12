@@ -51,7 +51,18 @@ function Map (mapOptions) {
       ref: config.OSLayer,
       source: source
     })
-    var layers = Array.prototype.concat([layer], mapOptions.layers)
+
+    var setBlendMode = function (evt) {
+      evt.context.globalCompositeOperation = 'multiply'
+    }
+
+    var mapLayers = mapOptions.layers
+
+    for (var lyr in mapLayers) {
+      mapLayers[lyr].on('precompose', setBlendMode)
+    }
+
+    var layers = Array.prototype.concat([layer], mapLayers)
 
     map = new ol.Map({
       interactions: mapOptions.interactions || ol.interaction.defaults({
