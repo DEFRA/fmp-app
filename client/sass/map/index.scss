@@ -4,6 +4,12 @@
 
 .map-container {
   position: relative;
+
+  @include media(mobile) {
+      padding-left: 10%;
+      padding-right: 10%;
+  }
+
   .map {
 
     @include media(tablet) {
@@ -12,6 +18,12 @@
 
     @include media(mobile) {
       height: 350px;
+    }
+  }
+
+  .enter-fullscreen {
+    @include media(mobile) {
+      visibility: hidden;
     }
   }
 
