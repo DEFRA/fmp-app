@@ -138,12 +138,6 @@
             background-image: url('../../images/flood-holding-area.png');
           }
 
-          li.north-arrow::before {
-            height: 80px;
-            width: 80px;  
-            background-image: url('../../images/compass.png');
-          }          
-
           li.white::before {
             background-color: #FFF;
             border: solid 2px #b9b9b9;
