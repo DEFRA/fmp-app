@@ -102,11 +102,6 @@
             background-repeat: no-repeat;
           }
 
-          li.pin::before {
-            background-position: center bottom;
-            background-image: url('../../images/pin.png');
-          }
-
           li.development-zone::before {
             width: 60px;
             height: 60px;
