@@ -10,6 +10,14 @@
       padding-right: 10%;
   }
 
+  .mobile-heading {
+
+    padding-bottom: 10px;
+    @include media(tablet) {
+      display: none;
+    }   
+  }
+
   .map {
 
     @include media(tablet) {

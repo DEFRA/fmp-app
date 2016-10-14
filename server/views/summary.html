@@ -22,6 +22,10 @@
     </div>
     <div class="column-half map-column">
       <div class="map-container">
+        <div class="mobile-heading">
+          <h2 class="heading-medium">Map</h2>
+          <a href="#legend">View map key</a>
+        </div>
         <div id="map" class="map"></div>
         <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
           <button class="ol-full-screen-false" type="button" title="Full screen"><i class="fa fa-enlarge2"></i></button>
@@ -30,7 +34,7 @@
           <button class="ol-full-screen-true" type="button" title="Exit full screen">×</button>
         </div>         
         <div class="rhs">
-          <aside class="controls">
+          <aside class="controls" id="legend">
           {{> map/summary-legend}}
           </aside>
         </div>
