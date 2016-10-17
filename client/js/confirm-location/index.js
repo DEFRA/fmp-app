@@ -6,6 +6,13 @@ var VectorDrag = require('../vector-drag')
 function ConfirmLocationPage (options) {
   var easting = window.encodeURIComponent(options.easting)
   var northing = window.encodeURIComponent(options.northing)
+
+  var $page = $('main#confirm-location-page')
+  var $map = $('#map', $page)
+  var $confirmColumn = $('.confirm-column', $page)
+  var $container = $('.map-container', $page)
+  var $mapColumn = $('.map-column', $page)
+
   var mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [
@@ -39,6 +46,22 @@ function ConfirmLocationPage (options) {
   this.map = new Map(mapOptions)
 
   this.map.onReady(function (map) {
+    $container.on('click', '.enter-fullscreen', function (e) {
+      e.preventDefault()
+      $page.addClass('fullscreen')
+      $map.css('height', $(window).height() + 'px')
+      $mapColumn.removeClass('column-half')
+      map.updateSize()
+    })
+
+    $container.on('click', '.exit-fullscreen', function (e) {
+      e.preventDefault()
+      $page.removeClass('fullscreen')
+      $mapColumn.addClass('column-half')
+      $map.css('height', $confirmColumn.height() + 'px')
+      map.updateSize()
+    })
+
     // Click handler for pointer
     map.on('singleclick', function (e) {
       map.getLayers().forEach(function (layer) {

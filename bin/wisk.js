@@ -1,5 +1,5 @@
 module.exports = [{
-  paths: ['assets/**/*.js'],
+  paths: ['client/**/*.js'],
   on: {
     all: ['npm run build:js']
   }

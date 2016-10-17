@@ -7,3 +7,58 @@
   padding-left: 10px;
   border-left: solid 3px $red;
 }
+
+.enter-fullscreen {
+  z-index: 100;
+  display: block;
+}
+
+.exit-fullscreen {
+  z-index: 100;
+  display: none;
+}
+
+.fullscreen {
+  >:not(.grid-row) {
+    display: none;
+  }
+  
+  >.grid-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    background-color: white;
+  }
+
+  .column-half:first-child {
+    display: none;
+  }
+
+  .enter-fullscreen {
+    display: none;
+  }
+
+  .exit-fullscreen {
+    display: block;
+  }
+}
+
+ .ol-full-screen.ol-control.toggle-fullscreen {
+  button {
+    width: auto;
+    background-color: #e3e4e5;
+    color: $link-colour;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 14px;
+    cursor: pointer;
+    height: 25px;
+    span {
+      text-decoration: underline;
+    }
+  }
+}
