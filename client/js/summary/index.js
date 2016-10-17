@@ -20,6 +20,7 @@ function Summary (options) {
       new ol.layer.Tile({
         ref: 'fmp',
         opacity: 0.7,
+        zIndex: 0,
         source: new ol.source.TileWMS({
           url: mapConfig.tileProxy,
           serverType: 'geoserver',
@@ -38,6 +39,7 @@ function Summary (options) {
       new ol.layer.Vector({
         ref: 'centre',
         visible: true,
+        zIndex: 1,
         source: new ol.source.Vector({
           features: [
             new ol.Feature({
