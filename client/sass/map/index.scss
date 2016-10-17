@@ -104,11 +104,11 @@
             background-repeat: no-repeat;
           }
 
-          li.development-zone::before {
+          li.pin::before {
             width: 60px;
             height: 60px;
             background-position: center bottom;
-            background-image: url('../../images/development-zone.png');
+            background-image: url('../../images/pin.png');
           }
 
           li.dark-blue::before {
