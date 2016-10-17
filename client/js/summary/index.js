@@ -41,32 +41,17 @@ function Summary (options) {
         source: new ol.source.Vector({
           features: [
             new ol.Feature({
-              geometry: new ol.geom.Circle([parseInt(easting, 10), parseInt(northing, 10)], 50)
+              geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
             })]
         }),
-        style: function (feature, resolution) {
-          switch (feature.getGeometry().getType()) {
-            case 'Circle':
-              return new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                  color: '#000000',
-                  width: 2,
-                  lineDash: [8, 8]
-                })
-              })
-            case 'Point':
-              return new ol.style.Style({
-                image: new ol.style.Icon({
-                  anchor: [0.5, 1],
-                  anchorXUnits: 'fraction',
-                  anchorYUnits: 'fraction',
-                  src: 'public/images/pin.png'
-                })
-              })
-            default:
-              return
-          }
-        }
+        style: new ol.style.Style({
+          image: new ol.style.Icon({
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            src: '../../public/images/pin.png'
+          })
+        })
       })
     ],
     mapInteractions: ol.interaction.defaults({
@@ -74,6 +59,17 @@ function Summary (options) {
       pinchRotate: false
     })
   }
+  var setBlendMode = function (evt) {
+    evt.context.globalCompositeOperation = 'multiply'
+  }
+
+  var resetBlendModeFromSelect = function (evt) {
+    evt.context.globalCompositeOperation = 'source-over'
+  }
+
+  mapOptions.layers[0].on('precompose', setBlendMode)
+  mapOptions.layers[0].on('postcompose', resetBlendModeFromSelect)
+
   this.map = new Map(mapOptions)
 
   // set start height
