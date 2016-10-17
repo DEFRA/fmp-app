@@ -52,17 +52,7 @@ function Map (mapOptions) {
       source: source
     })
 
-    var setBlendMode = function (evt) {
-      evt.context.globalCompositeOperation = 'multiply'
-    }
-
-    var mapLayers = mapOptions.layers
-
-    for (var lyr in mapLayers) {
-      mapLayers[lyr].on('precompose', setBlendMode)
-    }
-
-    var layers = Array.prototype.concat([layer], mapLayers)
+    var layers = Array.prototype.concat([layer], mapOptions.layers)
 
     map = new ol.Map({
       interactions: mapOptions.interactions || ol.interaction.defaults({
