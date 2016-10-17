@@ -29,12 +29,6 @@
     }
   }
 
-  .enter-fullscreen {
-    @include media(mobile) {
-      visibility: hidden;
-    }
-  }
-
   .rhs {
 
     @include media(tablet) {
