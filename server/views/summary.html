@@ -28,11 +28,11 @@
         </div>
         <div id="map" class="map"></div>
         <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-false" type="button" title="Full screen"><i class="fa fa-enlarge2"></i></button>
+          <button class="ol-full-screen-false" type="button" title="Full screen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
         </div>
         <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-true" type="button" title="Exit full screen">×</button>
-        </div>         
+          <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+        </div>        
         <div class="rhs">
           <aside class="controls" id="legend">
           {{> map/summary-legend}}
@@ -41,26 +41,18 @@
       </div>
     </div>
   </div>
-<div class="grid-row more">
-  <div class="column-full">
+  <br>
+  <p>
     <a href="/">Find out about the flood risk for another location</a>
-  </div>
-</div>
-<div class="visible-mobile"></div>
+  </p>
+  <div class="visible-mobile"></div>
 </main>
 <script src="{{{assetPath}}}javascripts/summary.js"></script>
 <script>
   $(function () {
-    var isMobile = false
-    if ($('.visible-mobile:visible').length > 0) {
-      isMobile = true
-    }
-    var height = !isMobile ? $('.summary-column').height() : 450
-
     var page = new FMP.SummaryPage({
       easting: '{{easting}}',
-      northing: '{{northing}}',
-      mapHeight: height
+      northing: '{{northing}}'
     })
   })
 </script>

@@ -6,7 +6,6 @@ var mapConfig = require('../map-config.json')
 function Summary (options) {
   var easting = window.encodeURIComponent(options.easting)
   var northing = window.encodeURIComponent(options.northing)
-  var mapHeight = window.encodeURIComponent(options.mapHeight)
 
   var $summaryColumn = $('.summary-column')
   var $map = $('#map')
@@ -74,16 +73,19 @@ function Summary (options) {
 
   this.map = new Map(mapOptions)
 
-  // set start height
-  $map.height(mapHeight)
-
-  window.onresize = function () {
-    if ($('.visible-mobile:visible').length > 0) {
-      $map.height(450)
-    } else {
-      $map.height($summaryColumn.height())
-    }
+  function isMobile () {
+    return $('.visible-mobile:visible').length > 0
   }
+
+  function sizeColumn () {
+    var height = !isMobile() ? $summaryColumn.height() : 450
+    $map.height(height)
+  }
+
+  // set start height
+  setTimeout(sizeColumn, 100)
+
+  $(window).on('resize', sizeColumn)
 
   this.map.onReady(function (map) {
     $container.on('click', '.enter-fullscreen', function (e) {
@@ -98,12 +100,7 @@ function Summary (options) {
       e.preventDefault()
       $page.removeClass('fullscreen')
       $mapColumn.addClass('column-half')
-
-      if ($('.visible-mobile:visible').length > 0) {
-        $map.css('height', '450px')
-      } else {
-        $map.css('height', $summaryColumn.height() + 'px')
-      }
+      $map.css('height', $summaryColumn.height() + 'px')
       map.updateSize()
     })
   })
