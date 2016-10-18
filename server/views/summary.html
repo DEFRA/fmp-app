@@ -1,10 +1,15 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
-<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/map/index.css">
 <main id="summary-page" data-test-info="{{riskJSON}}">
-  <h1 class="heading-xlarge">Flood risk summary</h1>
-  {{#unless isZone1}}<p>Your proposed development is in or near an area at risk of flooding</p>{{/unless}}
-  <div class="grid-row">
+  <h1 class="heading-xlarge">Flood probability</h1>
+  {{#if isZone1}}
+    <p>Your proposed development is in an area with a low probability of flooding</p>
+  {{else if isZone2}}
+    <p>Your proposed development is in an area with a medium probability of flooding</p>
+  {{else}}
+    <p>Your proposed development is in an area with a high probability of flooding</p>
+  {{/if}}
+  <div class="grid-row main-container">
     <div class="column-half summary-column">
       {{#if isAreaBenefiting}}
         {{> summary/area-benefiting}}
@@ -42,9 +47,9 @@
     </div>
   </div>
   <br>
+  <h3 class="heading-small">Enter your development's location to view the probability of it flooding</h3>
   <div class="grid-row search-box">
     <div class="column-half">
-      <h3 class="heading-small">Find out about the flood risk for another location</h3>
       <form method="get" action="/confirm-location">
         <div class="form-group">
           <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
@@ -56,6 +61,15 @@
           <button class="button button-get-started" type="submit" title="Check a location">Check a location</button>
         </div>
       </form>
+      <details>
+        <summary aria-controls="terms-of-use" aria-expanded="false" role="button">
+          <span class="summary">Terms of use</span>
+        </summary>
+        <div class="panel panel-border-narrow" id="terms-of-use" aria-hidden="true">
+          Flood zone maps are modelled using local and national river and sea data. 
+          This information provides an indication of the likelihood of flooding and is intended for planning use only.
+        </div>
+      </details>
     </div>
   </div>
   <div class="visible-mobile"></div>
