@@ -33,11 +33,11 @@
 }
 
 .fullscreen {
-  >:not(.grid-row) {
+  >:not(.main-container) {
     display: none;
   }
   
-  >.grid-row {
+  >.main-container {
     position: absolute;
     top: 0;
     left: 0;
