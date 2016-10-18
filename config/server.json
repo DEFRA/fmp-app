@@ -32,6 +32,7 @@
   "views": {
     "isCached": false
   },
+  "analyticsAccount": "",
   "httpTimeoutMs": 10000,
   "postErrors": false,
   "envVars": {
