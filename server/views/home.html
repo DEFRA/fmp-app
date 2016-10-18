@@ -17,11 +17,11 @@
     </ol>
   </p>
   <h3 class="heading-medium">Enter your development&#39;s location to get an assessment of its flood risk</h3>
-  <div class="grid-row">
+  <div class="grid-row search-box">
     <div class="column-half">
-      <form method="get" action="{{{mountPath}}}confirm-location">
+      <form method="get" action="/confirm-location">
         <div class="form-group">
-          <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode or NGR" title="A valid place in England is required" autocomplete="off">
+          <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
           {{#if hasError}}
             <div class="error-message">{{{errorMessage}}}</div>
           {{/if}}
