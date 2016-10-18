@@ -24,6 +24,7 @@ module.exports = {
   views: Joi.object().required().keys({
     isCached: Joi.boolean().required()
   }),
+  analyticsAccount: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
   postErrors: Joi.boolean().required(),
   envVars: envVarsSchema
