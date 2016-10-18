@@ -53,9 +53,6 @@
       <form method="get" action="/confirm-location">
         <div class="form-group">
           <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
-          {{#if hasError}}
-            <div class="error-message">{{{errorMessage}}}</div>
-          {{/if}}
         </div>
         <div class="form-group">
           <button class="button button-get-started" type="submit" title="Check a location">Check a location</button>
