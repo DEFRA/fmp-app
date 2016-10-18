@@ -15,6 +15,11 @@
         overflow: hidden;
         margin: 0 15px 0 15px;
       }
+
+      .marker-indicator {
+        height: 30px;
+        vertical-align: middle;
+      }
     }
     &.map-column {
       @include media(tablet) {
