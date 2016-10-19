@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 logs
+server.json
 server/public/assets
 server/public/build
 npm-debug.log

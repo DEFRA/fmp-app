@@ -1,10 +1,10 @@
 var sprintf = require('sprintf-js')
 var util = require('../util')
-var config = require('../../config').envVars
-var urlNamesApi = config.os_names_url
+var config = require('../../config')
+var urlNamesApi = config.ordnanceSurvey.namesUrl
 
 function findByPlace (place, callback) {
-  var uri = sprintf.vsprintf(urlNamesApi, [place, config.os_names_key])
+  var uri = sprintf.vsprintf(urlNamesApi, [place])
   util.getJson(uri, function (err, payload) {
     if (err) {
       return callback(err)

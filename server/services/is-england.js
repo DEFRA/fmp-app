@@ -1,6 +1,6 @@
 var util = require('../util')
-var fmpService = require('../../config').envVars.fmp_service
-var url = fmpService + '/is-england/'
+var config = require('../../config')
+var url = config.service + '/is-england/'
 
 module.exports = {
   get: function (easting, northing, callback) {

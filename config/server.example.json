@@ -1,9 +1,11 @@
 {
   "server": {
-    "host": "0.0.0.0",
+    "host": "127.0.0.1",
     "port": 3000,
     "labels": "web"
   },
+  "service": "http://127.0.0.1:8050",
+  "geoserver": "",
   "logging": {
     "ops": {
       "interval": 1000
@@ -34,16 +36,13 @@
   },
   "analyticsAccount": "",
   "httpTimeoutMs": 10000,
-  "postErrors": false,
-  "envVars": {
-    "os_names_key": "",
-    "os_names_url": "",
-    "os_maps_url": "",
-    "gs_proxy_protocol": "",
-    "gs_proxy_host": "",
-    "gs_proxy_port": "",
-    "fmp_service": "",
-    "fmp_app_errbit_host": "",
-    "fmp_app_errbit_key": ""
+  "ordnanceSurvey": {
+    "namesUrl": "",
+    "mapsUrl": ""
+  },
+  "errbit": {
+    "env": "development",
+    "key": "",
+    "host": ""
   }
 }
