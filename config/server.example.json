@@ -5,7 +5,7 @@
     "labels": "web"
   },
   "service": "http://127.0.0.1:8050",
-  "geoserver": "",
+  "geoserver": "http://dummyuri",
   "logging": {
     "ops": {
       "interval": 1000
@@ -34,15 +34,15 @@
   "views": {
     "isCached": false
   },
-  "analyticsAccount": "",
+  "analyticsAccount": "replace_this",
   "httpTimeoutMs": 10000,
   "ordnanceSurvey": {
-    "namesUrl": "",
-    "mapsUrl": ""
+    "namesUrl": "http://dummyuri",
+    "mapsUrl": "http://dummyuri"
   },
   "errbit": {
     "env": "development",
-    "key": "",
-    "host": ""
+    "key": "replace_this",
+    "host": "http://dummyuri"
   }
 }
