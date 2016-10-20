@@ -1,6 +1,10 @@
 @import 'govuk-elements';
 @import 'util';
 
+h1.heading-xlarge {
+  margin-bottom: 20px;
+}
+
 .search-box {
   .form-group:first-child {
     margin-bottom: 12px;

@@ -79,8 +79,8 @@ lab.experiment('confirm-location', function () {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.statusCode).to.equal(500)
-      Code.expect(response.payload).to.contain(headers[500])
+      Code.expect(response.headers.location).to.equal('/?err=invalidPlace')
+      Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
   })
