@@ -120,6 +120,7 @@
           }
 
           li.black-border::before {
+            box-sizing: border-box;
             border: solid 2px #000000;
           }
 
