@@ -28,11 +28,13 @@ module.exports = {
       if (!point || !point.easting || !point.northing) {
         addressService.findByPlace(term, function (err, address) {
           if (err) {
-            return reply(Boom.badImplementation(err.message, err))
+            request.log(['error', 'address-service', 'find-by-place'], err)
           }
-          if (!address.length || !address[0].geometry_x || !address[0].geometry_y) {
+
+          if (err || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
             return reply.redirect('/?err=invalidPlace')
           }
+
           point.easting = address[0].geometry_x
           point.northing = address[0].geometry_y
           usePoint()

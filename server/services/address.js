@@ -9,9 +9,11 @@ function findByPlace (place, callback) {
     if (err) {
       return callback(err)
     }
+
     if (!payload || !payload.results || !payload.results.length) {
       return callback(null, [])
     }
+
     var results = payload.results
     var gazetteerEntries = results.map(function (item) {
       return {
@@ -19,6 +21,7 @@ function findByPlace (place, callback) {
         geometry_y: item.GAZETTEER_ENTRY.GEOMETRY_Y
       }
     })
+
     callback(null, gazetteerEntries)
   })
 }
