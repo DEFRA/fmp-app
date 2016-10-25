@@ -83,7 +83,7 @@ function Summary (options) {
   }
 
   // set start height
-  setTimeout(sizeColumn, 100)
+  sizeColumn()
 
   $(window).on('resize', sizeColumn)
 
