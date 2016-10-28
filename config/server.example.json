@@ -43,6 +43,7 @@
   "errbit": {
     "env": "development",
     "key": "replace_this",
-    "host": "http://dummyuri"
+    "host": "http://dummyuri",
+    "proxy": ""
   }
 }

@@ -23,6 +23,7 @@ module.exports = {
   errbit: Joi.object().required().keys({
     env: Joi.string().required(),
     key: Joi.string().required(),
-    host: Joi.string().required()
+    host: Joi.string().required(),
+    proxy: Joi.string().allow('')
   })
 }
