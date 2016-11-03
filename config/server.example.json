@@ -41,6 +41,7 @@
     "mapsUrl": "http://dummyuri"
   },
   "errbit": {
+    "postErrors": false,
     "env": "development",
     "key": "replace_this",
     "host": "http://dummyuri",

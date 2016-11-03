@@ -57,9 +57,11 @@ Glue.compose(manifest, function (err, server) {
       })
 
       // TODO: This might be overkill as errors are handled with the 500 page
-      server.methods.notify(response, function (err, url) {
-        if (err) throw err
-      })
+      if (server.methods.hasOwnProperty('notify')) {
+        server.methods.notify(response, function (err, url) {
+          if (err) throw err
+        })
+      }
 
       // The return the `500` view
       return reply.view('500').code(statusCode)

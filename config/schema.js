@@ -21,6 +21,7 @@ module.exports = {
     mapsUrl: Joi.string().uri().required()
   }),
   errbit: Joi.object().required().keys({
+    postErrors: Joi.boolean().required(),
     env: Joi.string().required(),
     key: Joi.string().required(),
     host: Joi.string().required(),
