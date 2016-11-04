@@ -36,6 +36,7 @@
   },
   "analyticsAccount": "replace_this",
   "httpTimeoutMs": 10000,
+  "mockAddressService": true,
   "ordnanceSurvey": {
     "namesUrl": "http://dummyuri",
     "mapsUrl": "http://dummyuri"
