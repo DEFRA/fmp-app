@@ -8,9 +8,7 @@ module.exports = {
           'server/public/static',
           'server/public/build',
           'server/public/assets'
-        ],
-        listing: true,
-        index: true
+        ]
       }
     },
     cache: {
