@@ -1,7 +1,13 @@
 const config = require('../config')
 
 const manifest = {
-  server: {},
+  server: {
+    connections: {
+      routes: {
+        security: true
+      }
+    }
+  },
   connections: [
     {
       port: process.env.PORT || config.server.port,
