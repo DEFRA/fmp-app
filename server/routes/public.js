@@ -10,10 +10,6 @@ module.exports = {
           'server/public/assets'
         ]
       }
-    },
-    cache: {
-      privacy: 'private',
-      expiresIn: 60 * 1000 * 2880
     }
   }
 }
