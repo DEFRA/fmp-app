@@ -80,3 +80,15 @@ h1.heading-xlarge {
     }
   }
 }
+
+// Browser requirements
+
+.panel.panel-device-requirements {
+  @extend .panel-border-wide;
+  background-color: $panel-colour;
+  margin-top:em(5);
+  margin-bottom: em(20, 16);
+  p {
+      font-weight:bold;
+  }
+}

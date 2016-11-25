@@ -1,35 +1,108 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/home/index.css">
 <main id="home-page">
-  <h1 class="heading-xlarge">Flood map for planning</h1>
-  <p>
-    This service is for learning about a site location&#39;s flood probability as part of development planning.
-  </p>
-  <h2 class="heading-medium">Before you start</h2>
-  <p>
-    This service has 3 steps:
-    <ol class="list list-number">
-      <li>Provide a postcode, place or National Grid Reference (NGR) where your development will take place</li>
-      <li>Confirm the location using a map</li>
-      <li>View a map showing the probability of flooding in the area</li>
-    </ol>
-  </p>
-  <h3 class="heading-medium">Enter your development&#39;s location to view the probability of it flooding</h3>
-  <div class="grid-row search-box">
-    <div class="column-half">
-      <form method="get" action="/confirm-location">
-        <div class="form-group">
-          <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
-          {{#if hasError}}
-            <div class="error-message">{{{errorMessage}}}</div>
-          {{/if}}
-        </div>
-        <div class="form-group">
-          <button class="button button-get-started" type="submit" title="Continue">Continue</button>
-        </div>
-      </form>
+  <div class="grid-row">
+    <div class="column-full">
+      <h1 class="heading-xlarge">Flood map for planning</h1>
+      <p>
+        This service is for learning about a site location&#39;s flood probability as part of development planning.
+      </p>
     </div>
   </div>
-  <p>
-    For general flood information, including local flood warnings, use the <a href="https://flood-warning-information.service.gov.uk/">flood information service</a>.
-  </p>
+  <div class="nojs-hide ie-hide">
+    <div class="grid-row">
+      <div class="column-full">
+        <h2 class="heading-medium">Before you start</h2>
+          <p>This service has 3 steps:</p>
+          <ol class="list list-number">
+            <li>Provide a postcode, place or National Grid Reference (NGR) where your development will take place</li>
+            <li>Confirm the location using a map</li>
+            <li>View a map showing the probability of flooding in the area</li>
+          </ol>
+        <h3 class="heading-medium">Enter your development&#39;s location to view the probability of it flooding</h3>
+      </div>
+    </div>
+    <div class="grid-row search-box">
+      <div class="column-half">
+        <form method="get" action="/confirm-location">
+          <div class="form-group">
+            <input class="form-control" name="place" id="place" type="text" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
+            {{#if hasError}}
+              <div class="error-message">{{{errorMessage}}}</div>
+            {{/if}}
+          </div>
+          <div class="form-group">
+            <button class="button button-get-started" type="submit" title="Continue">Continue</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="ie-hide nojs-show">
+    <div class="grid-row">
+      <div class="column-full">
+        <div class="panel panel-device-requirements">
+          <p>
+            It looks like your computer or device isn’t giving you the best version of this service
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <p>This could be because you’re using an older version of your browser (for example Chrome, Explorer, Firefox or Safari).</p>
+        <p>You can try <a href="https://www.gov.uk/help/browsers">updating your browser</a>.</p>
+        <details>
+          <summary>
+            <span class="summary">Alternatively you can contact the Environment Agency</span>
+          </summary>
+          <div class="panel panel-border-narrow">
+            <p>You can get general advice and information about flood probability in your area.</p>
+            <p>Email: <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+            <p>Telephone: 0370 8506 506<br/>
+            Telephone (from outside the UK): +44 1709 389 201<br/>
+            Monday to Friday, 8am to 6pm</p>
+            <p><a href="https://www.gov.uk/call-charges">Find out more about call charges</a></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+  <div class="ie-show">
+    <div class="grid-row">
+      <div class="column-full">
+        <div class="panel panel-device-requirements">
+          <p>
+            It looks like your computer or device isn’t giving you the best version of this service
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <p>This could be because you’re using an older version of your browser (for example Chrome, Explorer, Firefox or Safari).</p>
+        <p>You can try <a href="https://www.gov.uk/help/browsers">updating your browser</a>.</p>
+        <details>
+          <summary>
+            <span class="summary">Alternatively you can contact the Environment Agency</span>
+          </summary>
+          <div class="panel panel-border-narrow">
+            <p>You can get general advice and information about flood probability in your area.</p>
+            <p>Email: <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+            <p>Telephone: 0370 8506 506<br/>
+            Telephone (from outside the UK): +44 1709 389 201<br/>
+            Monday to Friday, 8am to 6pm</p>
+            <p><a href="https://www.gov.uk/call-charges">Find out more about call charges</a></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="column-full">
+      <p>
+        For general flood information, including local flood warnings, use the <a href="https://flood-warning-information.service.gov.uk/">flood information service</a>.
+      </p>
+    </div>
+  </div>
+
 </main>
