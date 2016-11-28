@@ -24,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "boom": "3.2.2",
+    "classlist-polyfill": "1.0.3",
     "details-summary": "0.0.1",
     "glue": "3.4.0",
     "good": "7.0.1",
