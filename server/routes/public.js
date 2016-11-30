@@ -5,7 +5,6 @@ module.exports = {
     handler: {
       directory: {
         path: [
-          'server/public/static',
           'server/public/build',
           'server/public/assets'
         ]

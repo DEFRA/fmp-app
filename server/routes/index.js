@@ -5,5 +5,6 @@ module.exports = [
   require('./os-get-capabilities'),
   require('./public'),
   require('./summary'),
-  require('./feedback')
+  require('./feedback'),
+  require('./robots')
 ]
