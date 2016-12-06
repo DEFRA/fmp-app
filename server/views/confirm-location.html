@@ -2,20 +2,20 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/confirm-location/index.css">
 <main id="confirm-location-page">
   <h1 class="heading-xlarge">Confirm the development location</h1>
-  <div class="grid-row main-container">
+  {{> nojs}}
+  {{> ie}}
+  <div class="grid-row main-container nojs-hide ie-hide">
     <div class="column-half confirm-column">
       <div class="inset">
-        <div class="nojs-hide ie-hide">
-          <p>
-            Pinpoint your development accurately on the map to view the probability of it flooding.
-          </p>
-          <p>
-            Move the marker <img class="marker-indicator" src="{{{assetPath}}}images/pin.png"> to the location of your development, then select &#39;Continue&#39;.
-          </p>
-          <p>
-            If it&#39;s already in the right place, select &#39;Continue&#39;.
-          <p>
-        </div>
+        <p>
+          Pinpoint your development accurately on the map to view the probability of it flooding.
+        </p>
+        <p>
+          Move the marker <img class="marker-indicator" src="{{{assetPath}}}images/pin.png"> to the location of your development, then select &#39;Continue&#39;.
+        </p>
+        <p>
+          If it&#39;s already in the right place, select &#39;Continue&#39;.
+        <p>
         <div class="form-group">
           <a data-id="continue" href="/summary/{{easting}}/{{northing}}">
             <button class="button button-get-started" title="Continue">Continue</button>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="column-half map-column nojs-hide ie-hide">
+    <div class="column-half map-column">
       <div class="map-container">
         <div id="map" class="map"></div>
         <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
