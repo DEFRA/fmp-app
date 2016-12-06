@@ -11,8 +11,9 @@ function Map (mapOptions) {
   // add the projection to Window.proj4
   window.proj4.defs(config.projection.ref, config.projection.proj4)
 
-  // ie9 requires polyfill for window.requestAnimationFrame
+  // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
+  require('classlist-polyfill')
 
   var projection = ol.proj.get(config.projection.ref)
 
