@@ -5,7 +5,7 @@
     "extent": [0, 0, 800000, 1400000]
   },
   "OSGetCapabilities": "/os-get-capabilities",
-  "OSAttribution": "&#169; Crown copyright and database rights {{year}} <a href='http://www.ordnancesurvey.co.uk'>Ordnance Survey</a>",
+  "OSAttribution": "&#169; Crown copyright and database rights {{year}} <a href='http://www.ordnancesurvey.co.uk'>OS</a> 0100024198",
   "OSLayer": "osgb",
   "OSMatrixSet": "ZoomMap",
   "tileProxy": "/gwc-proxy",
