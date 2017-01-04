@@ -5,7 +5,7 @@ server.json
 server/public/assets
 server/public/build
 npm-debug.log
-views/layout.html
+server/views/layout.html
 lcov.info
 .vscode
 jsconfig.json
