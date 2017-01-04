@@ -4,6 +4,7 @@ const analyticsAccount = config.analyticsAccount
 const pkg = require('../../package.json')
 const appVersion = pkg.version
 const appName = pkg.name
+const moment = require('moment')
 
 const defaultContext = {
   globalHeaderText: 'GOV.UK',
@@ -19,7 +20,8 @@ const defaultContext = {
   analyticsAccount: analyticsAccount,
   appName: appName,
   appVersion: appVersion,
-  phase: 'beta'
+  phase: 'beta',
+  year: moment(Date.now()).format('YYYY')
 }
 
 module.exports = {
