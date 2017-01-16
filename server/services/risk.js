@@ -9,6 +9,6 @@ module.exports = {
         callback(new Error('No point provided'))
       })
     }
-    util.getJson(url + easting + '/' + northing + '/50', callback)
+    util.getJson(url + easting + '/' + northing + '/1', callback)
   }
 }
