@@ -3,7 +3,7 @@ node_js:
   - "4.4"
 addons:
     code_climate:
-        repo_token: b16005c65c4a904a8b055753c3ea9b259282b51e47b8acb9b8b6b592367525a8
+        repo_token: 397e99499f35e97b95670b0495c4bfe8ebf60aa41ae6176e20ea6dc09cd7ca96 
 before_script:
   - cp ./config/server.example.json ./config/server.json
 after_script:
