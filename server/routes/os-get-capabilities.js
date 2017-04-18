@@ -1,6 +1,5 @@
 var Boom = require('boom')
 var config = require('../../config')
-var error = require('../models/errors.json').oSGetCapabilities
 var wreck = require('wreck').defaults({
   timeout: config.httpTimeoutMs
 })
@@ -11,7 +10,7 @@ module.exports = {
   handler: function (request, reply) {
     wreck.get(config.ordnanceSurvey.mapsUrl, function (err, response, payload) {
       if (err || response.statusCode !== 200) {
-        return reply(Boom.badRequest(error.message, err))
+        return reply(Boom.badRequest('Ordnance survey getcapabilities failed', err))
       }
       reply(payload).type('text/xml')
     })

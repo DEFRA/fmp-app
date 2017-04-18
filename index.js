@@ -56,11 +56,17 @@ Glue.compose(manifest, function (err, server) {
         message: response.message
       })
 
-      // TODO: This might be overkill as errors are handled with the 500 page
+      // Manually post the handled errors to errbit
       if (server.methods.hasOwnProperty('notify')) {
-        server.methods.notify(response, function (err, url) {
-          if (err) throw err
-        })
+        if (!(response.data && response.data.isJoi)) {
+          // Errbit doesn't separate deep nested objects, hence individual properties
+          response.request_headers = request.headers
+          response.request_info = request.info
+          response.request_path = request.path
+          response.request_params = request.params
+          response.request_query = request.query
+          server.methods.notify(response)
+        }
       }
 
       // The return the `500` view
