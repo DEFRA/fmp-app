@@ -15,6 +15,8 @@ module.exports = {
     isCached: Joi.boolean().required()
   }),
   analyticsAccount: Joi.string().required().allow(''),
+  googleVerification: Joi.string().required().allow(''),
+  fbAppId: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
   mockAddressService: Joi.boolean().required(),
   ordnanceSurvey: Joi.object().required().keys({
@@ -27,5 +29,6 @@ module.exports = {
     key: Joi.string().required(),
     host: Joi.string().required(),
     proxy: Joi.string().allow('')
-  })
+  }),
+  siteUrl: Joi.string().uri().required()
 }

@@ -4,36 +4,32 @@ const manifest = require('./server/manifest')
 const pkg = require('./package.json')
 const appName = pkg.name
 const appVersion = pkg.version
+const views = require('./server/views')
 
 Glue.compose(manifest, function (err, server) {
   if (err) {
     throw err
   }
 
-  const defaultMetaData = {
-    title: 'Flood map for planning',
-    description: 'Flood map for planning'
-  }
-
   const onPostHandler = function (request, reply) {
-    const response = request.response
-    if (response.variety === 'view') {
-      if (!response.source.context) {
-        response.source.context = {}
+    // Add full url to context of view for opengraph meta property
+    if (request.response.variety === 'view') {
+      var fullUrl = views.context.siteUrl + (request.path !== '/' ? request.path : '')
+      if (request.query) {
+        Object.keys(request.query).forEach(function (key, index) {
+          fullUrl += (index === 0 ? '?' : '&') + key + '=' + request.query[key]
+        })
       }
 
-      // Apply the default page meta data
-      // to the view context meta data
-      var context = response.source.context
-      context.meta = context.meta || {}
-
-      for (var key in defaultMetaData) {
-        if (!context.meta[key]) {
-          context.meta[key] = defaultMetaData[key]
+      if (request.response.source.context) {
+        request.response.source.context.fullUrl = encodeURI(fullUrl)
+      } else {
+        request.response.source.context = {
+          fullUrl: encodeURI(fullUrl)
         }
       }
     }
-    return reply.continue()
+    reply.continue()
   }
 
   const preResponse = function (request, reply) {
@@ -83,7 +79,7 @@ Glue.compose(manifest, function (err, server) {
   server.route(require('./server/routes'))
 
   // Configure views
-  server.views(require('./server/views'))
+  server.views(views)
 
   /*
    * Start the server

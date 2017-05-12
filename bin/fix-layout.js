@@ -22,6 +22,7 @@ var cmd = "sed -i'.bak' \
 -e 's${{{ footerSupportLinks }}}${{> footerSupportLinks }}$g' \
 -e 's${{{ licenceMessage }}}${{> licenceMessage }}$g' \
 -e 's${{{ bodyEnd }}}${{> bodyEnd }}$g' \
+-e 's$<meta property=\"og:image\" content=\"{{{ assetPath }}}$<meta property=\"og:image\" content=\"{{{ siteUrl }}}{{{ assetPath }}}$g' \
 server/views/layout.html && rm -f server/views/layout.html.bak"
 
 exec(cmd, function (err) {
