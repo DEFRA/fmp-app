@@ -35,6 +35,8 @@
     "isCached": false
   },
   "analyticsAccount": "replace_this",
+  "googleVerification": "replace_this",
+  "fbAppId": "replace_this",
   "httpTimeoutMs": 10000,
   "mockAddressService": true,
   "ordnanceSurvey": {
@@ -47,5 +49,6 @@
     "key": "replace_this",
     "host": "http://dummyuri",
     "proxy": ""
-  }
+  },
+  "siteUrl": "http://localhost:3000"
 }

@@ -1,5 +1,4 @@
 const config = require('../../config')
-const pageRefreshTime = config.pageRefreshTime
 const analyticsAccount = config.analyticsAccount
 const pkg = require('../../package.json')
 const appVersion = pkg.version
@@ -8,7 +7,8 @@ const moment = require('moment')
 
 const defaultContext = {
   globalHeaderText: 'GOV.UK',
-  pageTitle: 'Flood map for planning',
+  pageTitle: 'Flood map for planning - GOV.UK',
+  ogDescription: 'Learn about a site location\'s flood probability as part of development planning',
   skipLinkMessage: 'Skip to main content',
   homepageUrl: 'https://www.gov.uk/',
   logoLinkTitle: 'Go to the GOV.UK homepage',
@@ -16,12 +16,14 @@ const defaultContext = {
   assetPath: '/public/',
   htmlLang: 'en',
   headerClass: 'with-proposition',
-  pageRefreshTime: pageRefreshTime,
   analyticsAccount: analyticsAccount,
   appName: appName,
   appVersion: appVersion,
   phase: 'beta',
-  year: moment(Date.now()).format('YYYY')
+  year: moment(Date.now()).format('YYYY'),
+  siteUrl: config.siteUrl,
+  fbAppId: config.fbAppId,
+  googleVerification: config.googleVerification
 }
 
 module.exports = {
