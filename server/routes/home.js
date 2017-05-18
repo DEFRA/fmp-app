@@ -8,11 +8,13 @@ module.exports = {
   config: {
     handler: function (request, reply) {
       var err = request.query.err && encodeURIComponent(request.query.err)
-      return reply.view('home', new HomeViewModel(err))
+      var place = request.query.place
+      return reply.view('home', new HomeViewModel(err, place))
     },
     validate: {
       query: {
-        err: Joi.string().valid(Object.keys(errors))
+        err: Joi.string().valid(Object.keys(errors)),
+        place: Joi.string().allow('')
       }
     }
   }
