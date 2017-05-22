@@ -32,7 +32,7 @@ module.exports = {
           }
 
           if (err || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
-            return reply.redirect('/?err=invalidPlace')
+            return reply.redirect('/?err=invalidPlace&place=' + term)
           }
 
           point.easting = address[0].geometry_x

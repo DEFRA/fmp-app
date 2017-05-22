@@ -79,7 +79,7 @@ lab.experiment('confirm-location', function () {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlace')
+      Code.expect(response.headers.location).to.equal('/?err=invalidPlace&place=jksgfdjs')
       Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
@@ -96,7 +96,7 @@ lab.experiment('confirm-location', function () {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlace')
+      Code.expect(response.headers.location).to.equal('/?err=invalidPlace&place=jksgfdjs')
       Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
@@ -115,7 +115,7 @@ lab.experiment('confirm-location', function () {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlace')
+      Code.expect(response.headers.location).to.equal('/?err=invalidPlace&place=wa41ht')
       Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
@@ -134,7 +134,7 @@ lab.experiment('confirm-location', function () {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlace')
+      Code.expect(response.headers.location).to.equal('/?err=invalidPlace&place=jksgfdjs')
       Code.expect(response.statusCode).to.equal(302)
       server.stop(done)
     })
