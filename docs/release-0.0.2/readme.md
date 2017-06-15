@@ -14,4 +14,8 @@
 
 # Config
 
+There are new config items for tickets
+
 # Webops instructions
+
+The Job FMP_prod_103_COPY_TILE_CACHE will need to be run prior to release (15 minutes to run) to copy cache over as there are changes to map layer styling.
