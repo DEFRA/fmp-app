@@ -50,5 +50,6 @@
     "host": "http://dummyuri",
     "proxy": ""
   },
-  "siteUrl": "http://localhost:3000"
+  "siteUrl": "http://localhost:3000",
+  "printUrl": "http://localhost:8080/geoserver/pdf/print.pdf"
 }

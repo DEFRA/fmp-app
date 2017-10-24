@@ -6,6 +6,7 @@ module.exports = [
   require('./public'),
   require('./summary'),
   require('./feedback'),
+  require('./pdf'),
   require('./robots'),
   require('./os-terms')
 ]
