@@ -11,7 +11,7 @@ https://eaflood.atlassian.net/browse/FLO-2140
 
 # Config
 
-There is an additional config key "printUrl".
+No config changes
 
 # Webops instructions
 

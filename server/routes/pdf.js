@@ -16,7 +16,8 @@ module.exports = {
       var title = request.payload.title
       var scale = request.payload.scale
       var siteUrl = config.siteUrl
-      var printUrl = config.printUrl
+      var geoserverUrl = config.siteUrl
+      var printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
 
       // Prepare the PDF generate options
       var options = {
@@ -113,7 +114,7 @@ module.exports = {
               }]
             }, {
               type: 'WMTS',
-              baseURL: 'http://internal-DVFMP1ASLB01-611236341.eu-west-1.elb.amazonaws.com:8080/geoserver/gwc/service/wmts',
+              baseURL: geoserverUrl + '/geoserver/gwc/service/wmts',
               layer: 'fmp:fmp',
               version: '1.0.0',
               requestEncoding: 'KVP',
