@@ -11,14 +11,12 @@ https://eaflood.atlassian.net/browse/FLO-2140
 
 # Config
 
-There is an additional config key "printUrl"
+There is an additional config key "printUrl".
 
 # Webops instructions
 
-Extract the contents of the geoserver-2.11.2-printing-plugin.zip archive into the /WEB-INF/lib/ in the GeoServer webapp. 
-After extracting the extension, restart GeoServer in order for the changes to take effect.
+https://s3-eu-west-1.amazonaws.com/ansible-flood-map-service/geoserver/geoserver_v2.9.1-print-2.11.2.war
 
-On the first startup after installation, GeoServer should create a print module configuration file in GEOSERVER_DATA_DIR/printing/config.yaml.
-Replace this file with the one in this directory.
+The contents of the geoserver-2.11.2-printing-plugin.zip archive are stored in the /WEB-INF/lib/ folder of the above GeoServer .war file. 
 
-If the module is installed and configured properly, then you will also be able to retrieve a list of configured printing parameters from http://localhost:8080/geoserver/pdf/info.json.
+There is a counterpart .yaml file stored in GEOSERVER_DATA_DIR/printing/config.yaml in the https://gitlab-dev.aws-int.defra.cloud/flood/fmp repo. 
