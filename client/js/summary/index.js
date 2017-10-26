@@ -1,6 +1,8 @@
 /* global $ */
+
 var ol = require('openlayers')
-var Map = require('../map.js')
+var Map = require('../map')
+var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
 
 function Summary (options) {
@@ -88,6 +90,30 @@ function Summary (options) {
   $(window).on('resize', sizeColumn)
 
   this.map.onReady(function (map) {
+    var id, cookieTimer, cookiePattern
+    var cookieName = 'pdf-download'
+
+    function checkCookies () {
+      // If the local cookies have been updated, clear the timer
+      if (document.cookie.search(cookiePattern) >= 0) {
+        clearInterval(cookieTimer)
+        dialog.closeDialog()
+      }
+    }
+
+    $('#report form').submit(function () {
+      // Create the `id` variable. This is echoed back as
+      // the cookie value to nitify the download is complete
+      id = (new Date()).getTime()
+      $('input[name=id][type=hidden]', this).val(id)
+      cookiePattern = new RegExp(cookieName + '=' + id, 'i')
+
+      dialog.closeDialog()
+      dialog.openDialog('#report-downloading')
+
+      cookieTimer = window.setInterval(checkCookies, 500)
+    })
+
     $container.on('click', '.enter-fullscreen', function (e) {
       e.preventDefault()
       $page.addClass('fullscreen')

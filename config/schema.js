@@ -30,5 +30,6 @@ module.exports = {
     host: Joi.string().required(),
     proxy: Joi.string().allow('')
   }),
-  siteUrl: Joi.string().uri().required()
+  siteUrl: Joi.string().uri().required(),
+  printUrl: Joi.string().uri().required()
 }
