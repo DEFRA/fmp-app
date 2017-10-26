@@ -1,0 +1,207 @@
+#===========================================================================
+# allowed DPIs
+#===========================================================================
+dpis: [75, 150, 300]
+
+#===========================================================================
+# the allowed scales
+#===========================================================================
+scales:
+  - 3125
+  - 6250
+  - 12500
+  - 25000
+  - 50000
+  - 100000
+  - 200000
+  - 500000
+  - 1000000
+  - 2000000
+  - 4000000
+
+#===========================================================================
+# the list of allowed hosts
+#===========================================================================
+hosts:
+  - !localMatch
+    dummy: true
+  - !dnsMatch
+    host: tiles.ordnancesurvey.co.uk
+  - !dnsMatch
+    host: internal-DVFMP1ASLB01-611236341.eu-west-1.elb.amazonaws.com
+  - !dnsMatch
+    host: ondemandapi.ordnancesurvey.co.uk
+outputFilename: 'host-${yyMMdd-hhmmss}'
+layouts:
+  Map:
+    metaData:
+      title: '${title}'
+      author: 'Environment Agency, DEFRA'
+      subject: 'Flood map for NGR ${easting}/${northing}'
+    titlePage:
+      pageSize: A4
+      landscape: false
+      header: &commonHeader
+        height: 50
+        items:
+          - !columns
+            config:
+              cells:
+                - paddingBottom: 5   
+            items:
+              - !image
+                align: left
+                maxWidth: 100
+                maxHeight: 30
+                url: '${siteUrl}/public/images/govuk-logo.jpg'
+              - !text
+                align: right
+                text: '${title}'
+      items:
+        - !text
+          fontSize: 24
+          spacingAfter: 10
+          text: 'Flood probability at ${easting}/${northing}'
+        - !text
+          fontSize: 20
+          spacingAfter: 20
+          text: '${now dd MMM yyyy hh:mmaa}'
+        - !text
+          spacingAfter: 10
+          text: 'Your selected location is in flood zone 1, an area with a low probability of flooding.'
+          condition: isFZ1
+        - !text
+          fontSize: 20
+          text: 'Flood zone 1'
+          spacingAfter: 5
+          condition: isFZ1
+        - !text
+          text: 1. You don't need to do a flood risk assessment if your development is smaller than 1 hectare and isn’t affected by other sources of flooding like surface water drains.
+          spacingAfter: 10
+          condition: isFZ1
+        - !text
+          text: '2. You may need to do a flood risk assessment if any of the following applies.'
+          condition: isFZ1
+        - !text
+          text: Your development is:
+          condition: isFZ1
+        - !text
+          text: '  - larger than 1 hectare'
+          condition: isFZ1
+        - !text
+          text: '  - affected by other sources of flooding'
+          condition: isFZ1
+        - !text
+          text: '  - is in an area with critical drainage problems'
+          spacingAfter: 20
+          condition: isFZ1
+        - !text
+          text: 'Contact the Environment Agency to find out if your development is in an area with critical drainage problems.'
+          condition: isFZ1
+        - !text
+          text: 'Contact your local flood authority to find out if your development is affected by sources of flooding other than rivers and the sea.'
+          condition: isFZ1
+        - !text
+          spacingAfter: 10
+          text: 'Your selected location is in flood zone 2, an area with a medium probability of flooding.'
+          condition: isFZ2
+        - !text
+          fontSize: 20
+          text: 'Flood zone 2'
+          spacingAfter: 5
+          condition: isFZ2
+        - !text
+          text: '1. You must carry out a flood risk assessment for development in flood zone 2.'
+          condition: isFZ2
+        - !text
+          text: "2. For some types of development in flood zone 2 you must follow the Environment Agency's standing advice for carrying out a flood risk assessment."
+          spacingAfter: 30
+          condition: isFZ2
+        - !text
+          spacingAfter: 10
+          text: 'Your selected location is in flood zone 3, an area with a high probability of flooding.'
+          condition: isFZ3
+        - !text
+          fontSize: 20
+          text: 'Flood zone 3'
+          spacingAfter: 5
+          condition: isFZ3
+        - !text
+          text: '1. You must carry out a flood risk assessment for development in flood zone 3.'
+          condition: isFZ3
+        - !text
+          text: "2. For some types of development in flood zone 3 you must follow the Environment Agency's standing advice for carrying out a flood risk assessment."
+          spacingAfter: 30
+          condition: isFZ3
+        - !text
+          spacingAfter: 10
+          text: 'Your selected location is in flood zone 3, an area that would have a high probability of flooding without the local flood defences.'
+          condition: isFZ3a
+        - !text
+          fontSize: 20
+          text: 'Flood Zone 3 – Area that benefits from flood defences'
+          spacingAfter: 5
+          condition: isFZ3a
+        - !text
+          text: 'Local flood defences protect the area against a river flood with a 1% chance of happening each year, or a flood from the sea with a 0.5% chance of happening each year.'
+          spacingAfter: 10
+          condition: isFZ3a
+        - !text
+          text: '1. You may need to complete a flood risk assessment for development in this area.'
+          condition: isFZ3a
+        - !text
+          text: "2. Find out about the level of flood protection offered at your development's location. You can do this by contacting the Environment Agency (enquiries@environment-agency.gov.uk). You should also request a Flood Defence Breach Hazard Map (also known as a Product 8)."
+          condition: isFZ3a
+        - !text
+          text: "3. For some types of development in flood zone 3 you must follow the Environment Agency's standing advice for carrying out a flood risk assessment (www.gov.uk/guidance/flood-risk-assessment-standing-advice)."
+          condition: isFZ3a
+      footer: &commonFooter
+        height: 30
+        items:
+          - !columns
+            config:
+              cells:
+                - paddingBottom: 5   
+            items:
+              - !text
+                align: left
+                text: '${now dd MMM yyyy hh:mmaa}'
+              - !text
+                align: right
+                text: 'Page ${pageNum} of ${pageTot}'           
+    mainPage:
+      pageSize: A4
+      landscape: true
+      header: *commonHeader
+      items:
+        - !columns
+          spacingAfter: 20
+          widths: [15, 85]
+          items:
+            - !image
+              url: '${siteUrl}/public/images/legend.png'
+              width: 112
+              height: 419 
+            - !map
+              width: 646
+              height: 420 
+        - !scalebar
+          type: bar
+          maxSize: 200
+          barBgColor: white
+          fontSize: 12
+          align: right
+      footer: *commonFooter
+    lastPage:
+      pageSize: A4
+      landscape: false
+      header: *commonHeader
+      items:
+        - !text
+          fontSize: 20
+          text: 'Note'
+          spacingAfter: 15
+        - !text
+          text: 'The flood map for planning shows river and sea flooding data only. It doesn’t include other sources of flooding. It is intended for use in development planning and flood risk assessments. This information relates to the selected location ${easting}/${northing} and is not specific to any property within it. The map is updated regularly and is correct at the time of printing. The Open Government Licence sets out the terms and conditions for using government data. Further details about the information supplied can be found on the GOV.UK website.'
+          spacingAfter: 5
+      footer: *commonFooter

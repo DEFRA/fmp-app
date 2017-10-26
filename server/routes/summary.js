@@ -15,10 +15,12 @@ module.exports = {
         if (err) {
           return reply(Boom.badImplementation(err.message, err))
         }
+
         if (!result.point_in_england) {
           reply.view('not-england')
         } else {
           reply.view('summary', new SummaryViewModel(easting, northing, result))
+            .unstate('pdf-download')
         }
       })
     },
