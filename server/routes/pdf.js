@@ -16,7 +16,7 @@ module.exports = {
       var title = request.payload.title
       var scale = request.payload.scale
       var siteUrl = config.siteUrl
-      var geoserverUrl = config.siteUrl
+      var geoserverUrl = config.geoserver
       var printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
 
       // Prepare the PDF generate options
