@@ -15,8 +15,15 @@ No config changes
 
 # Webops instructions
 
+Geoserver update
+----------------
+
+The following .war file on S3 has been updated to include the [Geoserver Print Module extension](http://docs.geoserver.org/latest/en/user/extensions/printing/index.html)
+
+
 https://s3-eu-west-1.amazonaws.com/ansible-flood-map-service/geoserver/geoserver_v2.9.1-print-2.11.2.war
 
-The contents of the geoserver-2.11.2-printing-plugin.zip archive are stored in the /WEB-INF/lib/ folder of the above GeoServer .war file. 
+This will need referencing in the ansible script.
 
-There is a counterpart .yaml file stored in GEOSERVER_DATA_DIR/printing/config.yaml in the https://gitlab-dev.aws-int.defra.cloud/flood/fmp repo. 
+
+The configuration on the extension lives in GEOSERVER_DATA_DIR/printing/config.yaml. There is a new counterpart config.yaml file stored in the https://gitlab-dev.aws-int.defra.cloud/flood/fmp repo.
