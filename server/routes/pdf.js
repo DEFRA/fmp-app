@@ -13,8 +13,8 @@ module.exports = {
       var northing = request.params.northing
       var id = request.payload.id
       var zone = request.payload.zone
-      var title = request.payload.title
       var scale = request.payload.scale
+      var reference = request.payload.reference
       var siteUrl = config.siteUrl
       var geoserverUrl = config.geoserver
       var printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
@@ -27,10 +27,12 @@ module.exports = {
           units: 'meters',
           geodetic: true,
           outputFormat: 'pdf',
-          siteUrl: siteUrl,
-          title: title,
+          reference: reference,
           easting: easting,
+          scale: scale,
           northing: northing,
+          pdfSummaryTemplate: `summary-template-${zone}.pdf`,
+          pdfMapTemplate: 'map-template.pdf',
           layers: [
             {
               type: 'WMTS',
@@ -220,11 +222,6 @@ module.exports = {
         }
       }
 
-      // Set the zone onto the payload.
-      // This flag is used to conditionally
-      // show/hide parts of the PDF layout.
-      options.payload['is' + zone] = true
-
       Wreck.post(printUrl, options, function (err, response, payload) {
         if (err || response.statusCode !== 200) {
           return reply(Boom.badImplementation(err && err.message || 'An error occured during PDF generation', err))
@@ -247,8 +244,8 @@ module.exports = {
       payload: {
         id: Joi.number().required(),
         zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a'),
-        title: Joi.string().required().max(100),
-        scale: Joi.number().allow(3125, 6250, 12500, 25000, 50000, 100000, 200000, 500000, 1000000, 2000000, 4000000).required()
+        reference: Joi.string().allow('').max(13).trim(),
+        scale: Joi.number().allow(3125, 6250, 12500, 25000, 50000, 100000, 200000, 500000, 1000000, 2000000).required()
       }
     }
   }
