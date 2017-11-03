@@ -10,9 +10,8 @@
           <input name="id" type="hidden">
           <input name="zone" type="hidden" value="{{zone}}">
           <div class="form-group">
-            <label class="form-label" for="title">Title</label>
-            <textarea class="form-control form-control-textarea" id="title" name="title" style="resize: none;" cols="200" maxlength="100">Flood map for planning NGR {{easting}}/{{northing}}
-            </textarea>
+            <label class="form-label" for="reference">Your reference</label>
+            <input class="form-control" id="reference" name="reference" type="text" maxlength="13">
           </div>
           <div class="form-group">
             <label class="form-label" for="scale">Scale</label>
@@ -27,7 +26,6 @@
               <option value="500000">500000</option>
               <option value="1000000">1000000</option>
               <option value="2000000">2000000</option>
-              <option value="4000000">4000000</option>
             </select>
           </div>
           <div class="dialog-actions">

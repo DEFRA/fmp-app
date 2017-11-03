@@ -103,7 +103,7 @@ function Summary (options) {
 
     $('#report form').submit(function () {
       // Create the `id` variable. This is echoed back as
-      // the cookie value to nitify the download is complete
+      // the cookie value to notify the download is complete
       id = (new Date()).getTime()
       $('input[name=id][type=hidden]', this).val(id)
       cookiePattern = new RegExp(cookieName + '=' + id, 'i')
