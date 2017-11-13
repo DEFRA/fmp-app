@@ -71,6 +71,21 @@ Glue.compose(manifest, function (err, server) {
     return reply.continue()
   }
 
+  const isSecure = config.siteUrl.startsWith('https')
+
+  // Cookie used to notify the client
+  // browser that the download is complete
+  server.state('pdf-download', {
+    ttl: 10000,
+    isSecure: isSecure,
+    path: '/',
+    isSameSite: false,
+    isHttpOnly: false,
+    encoding: 'none',
+    clearInvalid: true,
+    strictHeader: true
+  })
+
   server.ext('onPostHandler', onPostHandler)
 
   server.ext('onPreResponse', preResponse)

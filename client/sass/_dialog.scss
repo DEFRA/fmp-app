@@ -1,0 +1,141 @@
+@import 'govuk-elements';
+
+// ==========================================================================
+// Dialog
+// ==========================================================================
+
+$module: 'dialog';
+
+.#{$module} {
+  @include box-sizing(border-box);
+  background-color: rgba(0,0,0,.5);
+  height: 100%;
+  padding: $gutter-half;
+  position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 0;
+
+  &[aria-hidden="true"] {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+    z-index: 111;
+  }
+
+
+  // Matches page container properties
+
+  @include media(tablet) {
+    padding: $gutter;
+  }
+
+  @include media($min-width: ($site-width + $gutter * 2), $ignore-for-ie: true) {
+    padding: 0;
+  }
+
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    margin-right: -.25em;
+    vertical-align: middle;
+  }
+
+
+  &-holder {
+    background-color: $white;
+    border: 10px solid $white;
+    display: inline-block;
+    margin: auto;
+    max-width: 530px;
+    position: relative;
+    vertical-align: middle;
+  }
+
+
+  &-heading {
+    @include bold-36();
+    margin-top: em(15, 24);
+    margin-bottom: em(10, 24);
+
+    @include media(tablet) {
+      margin-top: em(15, 36);
+      margin-bottom: em(20, 36);
+    }
+
+  }
+
+
+  &-content {
+    outline: none; // Removes dotted border on focus
+    padding: 1em;
+    text-align: left;
+  }
+
+
+  // Modify form controls inside a dialog
+
+  .form-group {
+    float: none;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+
+  // Button close modal
+
+  &-close {
+    display: block;
+    background-image: url(/public/images/icon-close.png);
+    text-indent: -119988px;
+    overflow: hidden;
+    text-align: left;    
+    background-color: transparent; // Removed background colour in Chrome (bug)
+    border: 0 none;
+    cursor: pointer;
+    height: 22px;
+    margin: auto;
+    padding: 0;
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 22px;
+    
+    span {
+      cursor: pointer; // Added to apply cursor style in Chrome (bug)
+    }
+    
+  }
+
+
+  // Cancel link to close dialog
+
+  &-cancel {
+    display: inline-block;
+    font-size: 1em;
+    line-height: 1.25;
+    margin-right: em(15);
+    padding: em(10) em(15) em(5);
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+
+  }
+
+  &-actions {
+
+    .button {
+      width: auto; // Prevent default style for buttons on mobile devices
+    }
+
+  }
+}
