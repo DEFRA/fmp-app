@@ -161,9 +161,9 @@ module.exports = {
                 topLeftCorner: [0, 1001000]
               }, {
                 identifier: '06',
-                matrixSize: [229, 352],
+                matrixSize: [286, 286],
                 resolution: 14,
-                tileSize: [286, 286],
+                tileSize: [250, 250],
                 topLeftCorner: [0, 1001000]
               }, {
                 identifier: '07',
