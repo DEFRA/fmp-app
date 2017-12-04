@@ -1,40 +1,102 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/home/index.css">
 <main id="home-page">
   <div class="grid-row">
-    <div class="column-full">
+    <div class="column-two-thirds">
+      {{#if errors}}
+        <div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
+          <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+          <ul class="error-summary-list">
+            {{#each errors}}
+              <li><a href="#{{@key}}">{{this}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
       <h1 class="heading-xlarge">Flood map for planning</h1>
-      <p>
-        This service is for learning about a site location&#39;s flood probability as part of development planning.
-      </p>
-    </div>
-  </div>
-  <div class="nojs-hide ie-hide">
-    <div class="grid-row">
-      <div class="column-full">
-        <h2 class="heading-medium">Before you start</h2>
-          <p>This service has 3 steps:</p>
-          <ol class="list list-number">
-            <li>Provide a postcode, place or National Grid Reference (NGR) where your development will take place</li>
-            <li>Confirm the location using a map</li>
-            <li>View a map showing the probability of flooding in the area</li>
-          </ol>
-        <h3 class="heading-medium">Enter your development&#39;s location to view the probability of it flooding</h3>
-      </div>
-    </div>
-    <div class="grid-row search-box">
-      <div class="column-half">
-        <form method="get" action="/confirm-location">
-          <div class="form-group">
-            <input class="form-control" name="place" id="place" type="text" value="{{place}}" placeholder="Enter a postcode, place or NGR" title="A valid place in England is required" autocomplete="off">
-            {{#if hasError}}
-              <div class="error-message">{{{errorMessage}}}</div>
-            {{/if}}
-          </div>
-          <div class="form-group">
-            <button class="button button-get-started" type="submit" title="Continue">Continue</button>
-          </div>
-        </form>
-      </div>
+      <p>Use this service to find which flood zone your location is in.</p>
+      <h2 class="heading-medium">Before you start</h2>
+      <p>This service has 3 steps:</p>
+      <ol class="list list-number">
+        <li>Give a postcode, place, National Grid Reference or easting and northing co-ordinates for your location</li>
+        <li>Confirm the location on a map</li>
+        <li>See the flood zones in and around your location</li>
+      </ol>
+      <form autocomplete="off" class="form" method="post">
+        <div class="form-group form-location-planning">
+          <fieldset>
+            <legend>
+              <h1 class="heading-large">Find the location</h1>
+            </legend>
+            <!-- Place or postcode -->
+            <div class="multiple-choice" data-target="place-postcode">
+              <input id="pp" type="radio" name="type" value="placeOrPostcode" {{#if isPlaceOrPostcode}}checked="checked"{{/if}}>
+              <label for="pp">By place or postcode</label>
+            </div>
+            <div id="place-postcode" class="panel panel-border-narrow {{#if errors.placeOrPostcode}}form-group-error{{/if}}">
+              <label class="form-label" for="place">
+                <span class="visuallyhidden">Place or postcode</span>
+                <span class="form-hint">For example, Bakewell or WA4 1AB</span>
+                {{#if errors.placeOrPostcode}}<span class="error-message">{{errors.placeOrPostcode}}</span>{{/if}}
+              </label>
+              <input class="form-control {{#if errors.placeOrPostcode}}form-control-error{{/if}}" id="placeOrPostcode" name="placeOrPostcode" type="text" value="{{placeOrPostcode}}">
+            </div>
+
+            <!-- National grid reference -->
+            <div class="multiple-choice" data-target="national-grid-reference">
+              <input id="ngr" type="radio" name="type" value="nationalGridReference" {{#if isNationalGridReference}}checked="checked"{{/if}}>
+              <label for="ngr">By National Grid Reference (NGR)</label>
+            </div>
+            <div id="national-grid-reference" class="panel panel-border-narrow {{#if errors.nationalGridReference}}form-group-error{{/if}}">
+              <label class="form-label" for="ngr">
+                <span class="visuallyhidden">National Grid Reference</span>
+                <span class="form-hint">For example, NY395557 (6, 8 or 12 digits)</span>
+                {{#if errors.nationalGridReference}}<span class="error-message">{{errors.nationalGridReference}}</span>{{/if}}
+              </label>
+              <input class="form-control {{#if errors.nationalGridReference}}form-control-error{{/if}}" id="nationalGridReference" name="nationalGridReference" type="text" value="{{nationalGridReference}}">
+            </div>
+
+            <!-- Easting Northing -->
+            <div class="multiple-choice" data-target="easting-northing">
+              <input id="en" type="radio" name="type" value="eastingNorthing" {{#if isEastingNorthing}}checked="checked"{{/if}}>
+              <label for="en">By easting and northing</label>
+            </div>
+            <div id="easting-northing" class="panel panel-border-narrow {{#if showEastingNorthingGroupInError}}form-group-error{{/if}}">
+              <div class="form-group-easting-northing">
+                <fieldset>
+                  <legend>
+                    <span class="visuallyhidden">Easting and northing</span>
+                    <span class="form-hint">For example, 123456 123456</span>
+                    {{#if errors.easting}}
+                      <span class="error-message">{{errors.easting}}</span>
+                    {{else if errors.northing}}
+                      <span class="error-message">{{errors.northing}}</span>
+                    {{/if}}
+                  </legend>
+                  <div class="form-group form-group-easting">
+                    <div class="form-group-container">
+                      <label class="form-label" for="easting">
+                        <span class="font-small">Easting</span>
+                      </label>
+                      <input class="form-control {{#if errors.easting}}form-control-error{{/if}}" id="easting" name="easting" type="number" value="{{easting}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-northing">
+                    <div class="form-group-container">
+                      <label class="form-label" for="northing">
+                        <span class="font-small">Northing</span>
+                      </label>
+                      <input class="form-control {{#if showNorthingControlInError}}form-control-error{{/if}}" id="northing" name="northing" type="number" value="{{northing}}">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="form-group">
+          <button class="button" type="submit">Continue</button>
+        </div>
+      </form>
     </div>
   </div>
   {{> nojs}}
@@ -46,5 +108,11 @@
       </p>
     </div>
   </div>
-
 </main>
+<script src="{{{assetPath}}}javascripts/show-hide-content.js"></script>
+<script>
+  $(function () {
+    var showHideContent = new GOVUK.ShowHideContent()
+    showHideContent.init()
+  })
+</script>

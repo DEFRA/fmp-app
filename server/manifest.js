@@ -4,7 +4,12 @@ const manifest = {
   server: {
     connections: {
       routes: {
-        security: true
+        security: true,
+        validate: {
+          options: {
+            abortEarly: false
+          }
+        }
       }
     }
   },
