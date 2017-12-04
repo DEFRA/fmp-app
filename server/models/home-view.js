@@ -1,9 +1,52 @@
-var errors = require('./errors.json')
+function HomeViewModel (data, errors) {
+  if (!data) {
+    data = {
+      type: 'placeOrPostcode'
+    }
+  }
 
-function HomeViewModel (err, place) {
-  this.hasError = !!err
-  this.errorMessage = err && errors[err].message
-  this.place = place || ''
+  this.placeOrPostcode = data.placeOrPostcode
+  this.nationalGridReference = data.nationalGridReference
+  this.easting = data.easting
+  this.northing = data.northing
+
+  this.isPlaceOrPostcode = data.type === 'placeOrPostcode'
+  this.isNationalGridReference = data.type === 'nationalGridReference'
+  this.isEastingNorthing = data.type === 'eastingNorthing'
+
+  if (errors) {
+    this.errors = {}
+
+    // Place or Postcode
+    var placeOrPostcodeErrors = errors.find(e => e.path === 'placeOrPostcode')
+    if (placeOrPostcodeErrors) {
+      this.errors.placeOrPostcode = 'You need to give a place or postcode'
+    }
+
+    // National Grid Reference
+    var ngrErrors = errors.find(e => e.path === 'nationalGridReference')
+    if (ngrErrors) {
+      this.errors.nationalGridReference = 'You need to give a National Grid Reference (NGR)'
+    }
+
+    // Easting
+    var eastingErrors = errors.find(e => e.path === 'easting')
+    if (eastingErrors) {
+      this.errors.easting = 'You need to give an easting'
+    }
+
+    // Northing
+    var northingErrors = errors.find(e => e.path === 'northing')
+    if (northingErrors) {
+      this.showNorthingControlInError = true
+      if (eastingErrors) {
+        this.errors.easting += ' and northing'
+      } else {
+        this.errors.northing = 'You need to give a northing'
+      }
+    }
+    this.showEastingNorthingGroupInError = !!(eastingErrors || northingErrors)
+  }
 }
 
 module.exports = HomeViewModel

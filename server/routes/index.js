@@ -1,4 +1,4 @@
-module.exports = [
+module.exports = [].concat(
   require('./confirm-location'),
   require('./home'),
   require('./gwc-proxy'),
@@ -9,4 +9,4 @@ module.exports = [
   require('./pdf'),
   require('./robots'),
   require('./os-terms')
-]
+)
