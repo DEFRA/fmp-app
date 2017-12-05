@@ -125,70 +125,70 @@ module.exports = {
               matrixSet: 'EPSG:27700',
               matrixIds: [{
                 identifier: '00',
-                matrixSize: [3, 6],
+                matrixSize: [5, 5],
                 resolution: 896,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1357495]
+                topLeftCorner: [0, 1120000]
               }, {
                 identifier: '01',
-                matrixSize: [6, 11],
+                matrixSize: [9, 9],
                 resolution: 448,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '02',
-                matrixSize: [12, 22],
+                matrixSize: [18, 18],
                 resolution: 224,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '03',
-                matrixSize: [24, 44],
+                matrixSize: [36, 36],
                 resolution: 112,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '04',
-                matrixSize: [50, 96],
+                matrixSize: [72, 72],
                 resolution: 56,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '05',
-                matrixSize: [96, 174],
+                matrixSize: [143, 143],
                 resolution: 28,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '06',
-                matrixSize: [192, 348],
+                matrixSize: [286, 286],
                 resolution: 14,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '07',
-                matrixSize: [383, 696],
+                matrixSize: [572, 572],
                 resolution: 7,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '08',
-                matrixSize: [766, 1391],
+                matrixSize: [1143, 1143],
                 resolution: 3.5,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230620]
+                topLeftCorner: [0, 1000125]
               }, {
                 identifier: '09',
-                matrixSize: [1531, 2782],
+                matrixSize: [2286, 2286],
                 resolution: 1.75,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230620]
+                topLeftCorner: [0, 1000125]
               }, {
                 identifier: '10',
-                matrixSize: [3062, 5563],
+                matrixSize: [4572, 4572],
                 resolution: 0.875,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230401]
+                topLeftCorner: [0, 1000125]
               }]
             }, {
               type: 'vector',
@@ -250,4 +250,3 @@ module.exports = {
     }
   }
 }
-
