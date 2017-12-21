@@ -78,7 +78,7 @@ module.exports = [{
         }),
         nationalGridReference: Joi.when('type', {
           is: 'nationalGridReference',
-          then: Joi.string().trim().required().regex(ngrRegEx),
+          then: Joi.string().replace(' ', '').required().regex(ngrRegEx),
           otherwise: Joi.strip()
         }),
         easting: Joi.when('type', {
