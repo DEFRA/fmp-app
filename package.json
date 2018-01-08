@@ -1,6 +1,6 @@
 {
   "name": "fmp-app",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Flood map for planning web application",
   "main": "index.js",
   "engines": {
