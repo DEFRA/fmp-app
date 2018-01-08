@@ -9,7 +9,7 @@
   "OSLayer": "osgb",
   "OSMatrixSet": "ZoomMap",
   "tileProxy": "/gwc-proxy",
-  "tileExtent": [1393.0196, 13494.9764, 673393.0196, 909494.9764],
+  "tileExtent": [0, 0, 1000000, 1120000],
   "tileResolutions": [896, 448, 224, 112, 56, 28, 14, 7, 3.5, 1.75, 0.875],
   "tileSize": [250, 250]
 }

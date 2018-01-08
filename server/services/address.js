@@ -1,31 +1,24 @@
-var sprintf = require('sprintf-js')
-var util = require('../util')
-var config = require('../../config')
-var urlNamesApi = config.ordnanceSurvey.namesUrl
+'use strict'
+const sprintf = require('sprintf-js')
+const util = require('../util')
+const config = require('../../config')
+const urlNamesApi = config.ordnanceSurvey.namesUrl
 
-function findByPlace (place, callback) {
-  var uri = sprintf.vsprintf(urlNamesApi, [place])
-  util.getJson(uri, function (err, payload) {
-    if (err) {
-      return callback(err)
-    }
+module.exports = {
+  findByPlace: async (place) => {
+    const uri = sprintf.vsprintf(urlNamesApi, [place])
+    const payload = await util.getJson(uri)
 
     if (!payload || !payload.results || !payload.results.length) {
-      return callback(null, [])
+      return []
     }
 
-    var results = payload.results
-    var gazetteerEntries = results.map(function (item) {
+    const gazetteerEntries = payload.results.map(function (item) {
       return {
         geometry_x: item.GAZETTEER_ENTRY.GEOMETRY_X,
         geometry_y: item.GAZETTEER_ENTRY.GEOMETRY_Y
       }
     })
-
-    callback(null, gazetteerEntries)
-  })
-}
-
-module.exports = {
-  findByPlace: findByPlace
+    return gazetteerEntries
+  }
 }

@@ -1,19 +1,21 @@
-var Lab = require('lab')
-var lab = exports.lab = Lab.script()
-var Code = require('code')
-var server = require('../../index.js')
+'use strict'
+const Lab = require('lab')
+const lab = exports.lab = Lab.script()
+const Code = require('code')
+let server
 
-lab.experiment('robots.txt', function () {
-  lab.test('robots.txt returns 200', function (done) {
-    var options = {
+lab.experiment('robots.txt', async () => {
+  lab.before(async () => {
+    server = await require('../../')()
+  })
+  lab.test('robots.txt returns 200', async () => {
+    const options = {
       method: 'GET',
       url: '/robots.txt'
     }
 
-    server.inject(options, function (response) {
-      Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include('User-agent: *\nDisallow: /\n')
-      server.stop(done)
-    })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include('User-agent: *\nDisallow: /\n')
   })
 })

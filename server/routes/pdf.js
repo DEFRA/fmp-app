@@ -1,3 +1,4 @@
+'use strict'
 const Joi = require('joi')
 const Boom = require('boom')
 const Wreck = require('wreck')
@@ -8,19 +9,19 @@ module.exports = {
   path: '/pdf/{easting}/{northing}',
   config: {
     description: 'Generate PDF',
-    handler: function (request, reply) {
-      var easting = request.params.easting
-      var northing = request.params.northing
-      var id = request.payload.id
-      var zone = request.payload.zone
-      var scale = request.payload.scale
-      var reference = request.payload.reference || '<Unspecified>'
-      var siteUrl = config.siteUrl
-      var geoserverUrl = config.geoserver
-      var printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
+    handler: async (request, h) => {
+      const easting = request.params.easting
+      const northing = request.params.northing
+      const id = request.payload.id
+      const zone = request.payload.zone
+      const scale = request.payload.scale
+      const reference = request.payload.reference || '<Unspecified>'
+      const siteUrl = config.siteUrl
+      const geoserverUrl = config.geoserver
+      const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
 
       // Prepare the PDF generate options
-      var options = {
+      const options = {
         payload: {
           layout: 'Map',
           srs: 'EPSG:27700',
@@ -125,70 +126,70 @@ module.exports = {
               matrixSet: 'EPSG:27700',
               matrixIds: [{
                 identifier: '00',
-                matrixSize: [3, 6],
+                matrixSize: [5, 5],
                 resolution: 896,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1357495]
+                topLeftCorner: [0, 1120000]
               }, {
                 identifier: '01',
-                matrixSize: [6, 11],
+                matrixSize: [9, 9],
                 resolution: 448,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '02',
-                matrixSize: [12, 22],
+                matrixSize: [18, 18],
                 resolution: 224,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '03',
-                matrixSize: [24, 44],
+                matrixSize: [36, 36],
                 resolution: 112,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1245495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '04',
-                matrixSize: [50, 96],
+                matrixSize: [72, 72],
                 resolution: 56,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1008000]
               }, {
                 identifier: '05',
-                matrixSize: [96, 174],
+                matrixSize: [143, 143],
                 resolution: 28,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '06',
-                matrixSize: [192, 348],
+                matrixSize: [286, 286],
                 resolution: 14,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '07',
-                matrixSize: [383, 696],
+                matrixSize: [572, 572],
                 resolution: 7,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1231495]
+                topLeftCorner: [0, 1001000]
               }, {
                 identifier: '08',
-                matrixSize: [766, 1391],
+                matrixSize: [1143, 1143],
                 resolution: 3.5,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230620]
+                topLeftCorner: [0, 1000125]
               }, {
                 identifier: '09',
-                matrixSize: [1531, 2782],
+                matrixSize: [2286, 2286],
                 resolution: 1.75,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230620]
+                topLeftCorner: [0, 1000125]
               }, {
                 identifier: '10',
-                matrixSize: [3062, 5563],
+                matrixSize: [4572, 4572],
                 resolution: 0.875,
                 tileSize: [250, 250],
-                topLeftCorner: [1393.0196, 1230401]
+                topLeftCorner: [0, 1000125]
               }]
             }, {
               type: 'vector',
@@ -222,19 +223,17 @@ module.exports = {
         }
       }
 
-      Wreck.post(printUrl, options, function (err, response, payload) {
-        if (err || response.statusCode !== 200) {
-          return reply(Boom.badImplementation(err && err.message || 'An error occured during PDF generation', err))
-        }
-
-        var date = new Date().toISOString()
-
-        reply(payload)
+      try {
+        const payload = await Wreck.post(printUrl, options)
+        const date = new Date().toISOString()
+        return h.response(payload)
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
           .state('pdf-download', id.toString())
-      })
+      } catch (err) {
+        return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
+      }
     },
     validate: {
       params: {
@@ -250,4 +249,3 @@ module.exports = {
     }
   }
 }
-

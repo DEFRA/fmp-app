@@ -2,51 +2,41 @@ const config = require('../config')
 
 const manifest = {
   server: {
-    connections: {
-      routes: {
-        security: true
+    port: process.env.PORT || config.server.port,
+    host: config.server.home,
+    routes: {
+      security: true,
+      validate: {
+        options: {
+          abortEarly: false
+        }
       }
     }
   },
-  connections: [
-    {
-      port: process.env.PORT || config.server.port,
-      host: config.server.home,
-      labels: config.server.labels
-    }
-  ],
-  registrations: [
-    {
-      plugin: {
-        register: 'inert'
-      }
-    },
-    {
-      plugin: {
-        register: 'vision'
-      }
-    },
-    {
-      plugin: {
-        register: 'good',
+  register: {
+    plugins: [
+      {
+        plugin: 'inert'
+      },
+      {
+        plugin: 'vision'
+      },
+      {
+        plugin: require('good'),
         options: config.logging
+      },
+      {
+        plugin: 'h2o2'
       }
-    },
-    {
-      plugin: {
-        register: 'h2o2'
-      }
-    }
-  ]
+    ]
+  }
 }
 
 if (config.errbit.postErrors) {
   delete config.errbit.postErrors
-  manifest.registrations.push({
-    plugin: {
-      register: 'node-hapi-airbrake',
-      options: config.errbit
-    }
+  manifest.register.plugins.push({
+    plugin: require('node-hapi-airbrake'),
+    options: config.errbit
   })
 }
 
