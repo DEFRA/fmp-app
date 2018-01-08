@@ -4,8 +4,11 @@ module.exports = {
   500: '<h1 class="heading-xlarge" tabindex="0">Sorry, this service is temporarily unavailable</h1>',
   home: {
     standard: '<h1 class="heading-xlarge">Flood map for planning</h1>',
-    noPlace: 'Please enter a valid postcode, place or National Grid Reference, then select \'Continue\'',
-    invalidPlace: '<div class="error-message">The postcode, place or National Grid Reference you entered is not recognised.<br>Please try again, then select \'Continue\'</div>'
+    invalidPlaceOrPostcode: '<span class="error-message">You need to give a place or postcode</span>',
+    invalidNationalGridReference: '<span class="error-message">You need to give a National Grid Reference (NGR)</span>',
+    invalidEasting: '<span class="error-message">You need to give an easting</span>',
+    invalidNorthing: '<span class="error-message">You need to give a northing</span>',
+    invalidEastingAndNorthing: '<span class="error-message">You need to give an easting and northing</span>'
   },
   'confirm-location': {
     standard: '<h1 class="heading-xlarge">Confirm the development location</h1>'

@@ -1,6 +1,6 @@
 {
   "name": "fmp-app",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Flood map for planning web application",
   "main": "index.js",
   "engines": {
@@ -52,8 +52,8 @@
     "code": "3.0.2",
     "codeclimate-test-reporter": "0.3.3",
     "exorcist": "0.4.0",
-    "govuk-elements-sass": "2.2.1",
-    "govuk_template_mustache": "0.19.1",
+    "govuk-elements-sass": "3.1.2",
+    "govuk_template_mustache": "0.23.0",
     "hbsfy": "2.7.0",
     "lab": "11.0.1",
     "node-sass": "3.8.0",

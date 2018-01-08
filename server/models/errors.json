@@ -1,8 +1,0 @@
-{
-  "noPlace": {
-    "message": "Please enter a valid postcode, place or National Grid Reference, then select 'Continue'"
-  },
-  "invalidPlace": {
-    "message": "The postcode, place or National Grid Reference you entered is not recognised.<br>Please try again, then select 'Continue'"
-  }
-}
