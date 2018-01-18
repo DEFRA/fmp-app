@@ -388,4 +388,38 @@ lab.experiment('home', async () => {
     Code.expect(response.statusCode).to.equal(500)
     Code.expect(response.payload).to.contain(headers[500])
   })
+
+  lab.test('home page with invalid easting or northing integer', async () => {
+    const options = {
+      method: 'POST',
+      url: '/',
+      payload: {
+        type: 'eastingNorthing',
+        easting: 1232545655,
+        northing: 465465412
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+  })
+
+  lab.test('home page with negative easting or northing integer', async () => {
+    const options = {
+      method: 'POST',
+      url: '/',
+      payload: {
+        type: 'eastingNorthing',
+        easting: -12545,
+        northing: -452165
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+  })
 })

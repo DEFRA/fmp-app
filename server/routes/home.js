@@ -87,12 +87,12 @@ module.exports = [{
         }),
         easting: Joi.when('type', {
           is: 'eastingNorthing',
-          then: Joi.number().required(),
+          then: Joi.number().max(700000).positive().required(),
           otherwise: Joi.strip()
         }),
         northing: Joi.when('type', {
           is: 'eastingNorthing',
-          then: Joi.number().required(),
+          then: Joi.number().max(1300000).positive().required(),
           otherwise: Joi.strip()
         })
       },
