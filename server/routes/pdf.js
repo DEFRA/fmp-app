@@ -224,9 +224,9 @@ module.exports = {
       }
 
       try {
-        const payload = await Wreck.post(printUrl, options)
+        const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()
-        return h.response(payload)
+        return h.response(result.payload)
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
