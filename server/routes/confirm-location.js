@@ -1,4 +1,3 @@
-'use strict'
 const Boom = require('boom')
 const Joi = require('joi')
 const isEnglandService = require('../services/is-england')

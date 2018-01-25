@@ -1,4 +1,3 @@
-'use strict'
 const Boom = require('boom')
 
 module.exports = {

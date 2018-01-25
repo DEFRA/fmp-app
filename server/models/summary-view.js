@@ -1,4 +1,3 @@
-'use strict'
 function SummaryView (easting, northing, risk) {
   this.easting = easting
   this.northing = northing

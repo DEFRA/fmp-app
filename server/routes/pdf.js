@@ -1,4 +1,3 @@
-'use strict'
 const Joi = require('joi')
 const Boom = require('boom')
 const Wreck = require('wreck')

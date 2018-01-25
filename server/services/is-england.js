@@ -1,4 +1,3 @@
-'use strict'
 const util = require('../util')
 const config = require('../../config')
 const url = config.service + '/is-england/'

@@ -1,4 +1,3 @@
-'use strict'
 module.exports = {
   method: 'GET',
   path: '/os-terms',
