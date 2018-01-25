@@ -1,12 +1,16 @@
 const Lab = require('lab')
-const lab = exports.lab = Lab.script()
 const Code = require('code')
-let server
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
+const { manifest, options } = require('../../server')
 
 lab.experiment('os-terms', async () => {
+  let server
+
   lab.before(async () => {
-    server = await require('../../')()
+    server = await glupe.compose(manifest, options)
   })
+
   lab.test('os-terms page returns 200', async () => {
     const options = {
       method: 'GET',

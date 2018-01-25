@@ -1,20 +1,24 @@
 const Lab = require('lab')
-const lab = exports.lab = Lab.script()
 const Code = require('code')
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
 const dbObjects = require('../models/get-fmp-zones')
 const headers = require('../models/page-headers')
-let server
-
 const riskService = require('../../server/services/risk')
+const { manifest, options } = require('../../server')
 
 lab.experiment('Summary', async () => {
+  let server
+
   lab.before(async () => {
-    server = await require('../../')()
+    server = await glupe.compose(manifest, options)
+
     // Mock the risk service get
     riskService.get = async (easting, northing) => {
       return dbObjects.zone1
     }
   })
+
   lab.test('Summary for zone 1', async () => {
     const options = {
       method: 'GET',

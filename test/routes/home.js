@@ -1,14 +1,18 @@
 const Lab = require('lab')
-const lab = exports.lab = Lab.script()
 const Code = require('code')
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const addressService = require('../../server/services/address')
 const ngrToBngService = require('../../server/services/ngr-to-bng')
-let server
+const { manifest, options } = require('../../server')
 
 lab.experiment('home', async () => {
+  let server
+
   lab.before(async () => {
-    server = await require('../../')()
+    server = await glupe.compose(manifest, options)
+
     addressService.findByPlace = async (place) => {
       return [{
         geometry_x: 300000,

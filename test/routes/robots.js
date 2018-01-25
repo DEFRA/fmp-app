@@ -1,11 +1,14 @@
 const Lab = require('lab')
-const lab = exports.lab = Lab.script()
 const Code = require('code')
-let server
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
+const { manifest, options } = require('../../server')
 
 lab.experiment('robots.txt', async () => {
+  let server
+
   lab.before(async () => {
-    server = await require('../../')()
+    server = await glupe.compose(manifest, options)
   })
   lab.test('robots.txt returns 200', async () => {
     const options = {
