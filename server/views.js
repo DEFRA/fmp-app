@@ -1,9 +1,10 @@
-const config = require('../../config')
+const moment = require('moment')
+const handlebars = require('handlebars')
+const config = require('../config')
+const pkg = require('../package.json')
 const analyticsAccount = config.analyticsAccount
-const pkg = require('../../package.json')
 const appVersion = pkg.version
 const appName = pkg.name
-const moment = require('moment')
 
 const defaultContext = {
   globalHeaderText: 'GOV.UK',
@@ -28,12 +29,13 @@ const defaultContext = {
 
 module.exports = {
   engines: {
-    html: require('handlebars')
+    html: handlebars
   },
   relativeTo: __dirname,
   layout: true,
   isCached: config.views.isCached,
-  partialsPath: 'partials',
-  helpersPath: 'helpers',
+  path: 'views',
+  partialsPath: 'views/partials',
+  helpersPath: 'views/helpers',
   context: defaultContext
 }
