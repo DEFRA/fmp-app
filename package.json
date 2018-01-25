@@ -1,10 +1,10 @@
 {
   "name": "fmp-app",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Flood map for planning web application",
   "main": "index.js",
   "engines": {
-    "node": "4.x"
+    "node": "8.x"
   },
   "scripts": {
     "start": "pm2 start config/pm2.json",
