@@ -8,7 +8,7 @@ exports.plugin = {
       method: (request, h) => {
         // Add full url to context of view for opengraph meta property
         if (request.response.variety === 'view') {
-          var fullUrl = config.siteUrl + (request.path !== '/' ? request.path : '')
+          let fullUrl = config.siteUrl + (request.path !== '/' ? request.path : '')
           if (request.query) {
             Object.keys(request.query).forEach(function (key, index) {
               fullUrl += (index === 0 ? '?' : '&') + key + '=' + request.query[key]
