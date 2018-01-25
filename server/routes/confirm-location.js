@@ -7,7 +7,7 @@ const ConfirmLocationViewModel = require('../models/confirm-location-view')
 module.exports = {
   method: 'GET',
   path: '/confirm-location',
-  config: {
+  options: {
     description: 'Get confirm location page search results',
     handler: async (request, h) => {
       try {

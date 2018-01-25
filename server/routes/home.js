@@ -9,7 +9,7 @@ const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRV
 module.exports = [{
   method: 'GET',
   path: '/',
-  config: {
+  options: {
     handler: (request, h) => {
       try {
         const query = request.query
@@ -45,7 +45,7 @@ module.exports = [{
 }, {
   method: 'POST',
   path: '/',
-  config: {
+  options: {
     handler: async (request, h) => {
       const payload = request.payload
       if (payload.type === 'placeOrPostcode') {
