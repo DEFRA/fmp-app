@@ -34,7 +34,6 @@ lab.experiment('confirm-location', () => {
       method: 'GET',
       url: '/confirm-location?easting=360799'
     }
-
     const response = await server.inject(options)
     Code.expect(response.headers).to.not.include('location')
     Code.expect(response.statusCode).to.equal(400)
@@ -46,7 +45,6 @@ lab.experiment('confirm-location', () => {
       method: 'GET',
       url: '/confirm-location?northing=388244'
     }
-
     const response = await server.inject(options)
     Code.expect(response.headers).to.not.include('location')
     Code.expect(response.statusCode).to.equal(400)
