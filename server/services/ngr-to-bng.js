@@ -1,4 +1,3 @@
-'use strict'
 const ngrToBng = require('ngr-to-bng')
 
 module.exports = {

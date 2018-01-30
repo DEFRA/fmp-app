@@ -1,7 +1,7 @@
 module.exports = {
   method: 'GET',
   path: '/robots.txt',
-  config: {
+  options: {
     handler: {
       file: 'server/public/static/robots.txt'
     }

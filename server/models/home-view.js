@@ -1,4 +1,3 @@
-'use strict'
 function HomeViewModel (data, errors) {
   if (!data) {
     data = {

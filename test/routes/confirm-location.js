@@ -1,14 +1,17 @@
-'use strict'
 const Lab = require('lab')
-const lab = exports.lab = Lab.script()
 const Code = require('code')
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
-let server
+const { manifest, options } = require('../../server')
 
 lab.experiment('confirm-location', () => {
+  let server
+
   lab.before(async () => {
-    server = await require('../../')()
+    server = await glupe.compose(manifest, options)
+
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }

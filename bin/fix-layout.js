@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /* eslint-disable no-multi-str */
-var exec = require('child_process').exec
-var content = '\
+const exec = require('child_process').exec
+const content = '\
 <div id="content" class="wrapper">\
 \r\t\t\t{{> beforeContent }}\
 \r\t\t\t\t{{{content}}}\
@@ -10,7 +10,7 @@ var content = '\
 \r\t\t</div>'
 
 /* eslint-disable */
-var cmd = "sed -i'.bak' \
+const cmd = "sed -i'.bak' \
 -e 's${{{ content }}}$" + content + "$g' \
 -e 's${{{ topOfPage }}}${{> topOfPage }}$g' \
 -e 's${{{ head }}}${{> head }}$g' \

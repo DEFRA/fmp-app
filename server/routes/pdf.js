@@ -1,4 +1,3 @@
-'use strict'
 const Joi = require('joi')
 const Boom = require('boom')
 const Wreck = require('wreck')
@@ -7,7 +6,7 @@ const config = require('../../config')
 module.exports = {
   method: 'POST',
   path: '/pdf/{easting}/{northing}',
-  config: {
+  options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
       const easting = request.params.easting

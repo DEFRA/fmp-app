@@ -1,4 +1,3 @@
-'use strict'
 const sprintf = require('sprintf-js')
 const util = require('../util')
 const config = require('../../config')

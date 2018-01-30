@@ -1,4 +1,3 @@
-'use strict'
 const Boom = require('boom')
 const Joi = require('joi')
 const riskService = require('../services/risk')
@@ -7,7 +6,7 @@ const SummaryViewModel = require('../models/summary-view')
 module.exports = {
   method: 'GET',
   path: '/summary/{easting}/{northing}',
-  config: {
+  options: {
     description: 'Get flood risk summary',
     handler: async (request, h) => {
       try {

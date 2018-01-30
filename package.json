@@ -1,10 +1,10 @@
 {
   "name": "fmp-app",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Flood map for planning web application",
   "main": "index.js",
   "engines": {
-    "node": "4.x"
+    "node": "8.x"
   },
   "scripts": {
     "start": "pm2 start config/pm2.json",
@@ -26,17 +26,16 @@
     "boom": "7.1.1",
     "classlist-polyfill": "1.2.0",
     "details-summary": "0.0.1",
-    "glue": "5.0.0",
+    "glupe": "1.0.3",
     "good": "8.0.0-rc1",
-    "good-console": "6.4.1",
+    "good-console": "7.0.0",
     "good-file": "6.0.1",
     "good-squeeze": "5.0.2",
-    "h2o2": "7.0.1",
+    "h2o2": "8.0.0",
     "handlebars": "4.0.11",
-    "hapi": "17.2.0",
-    "inert": "5.0.1",
-    "joi": "13.0.2",
-    "jquery": "1.12.4",
+    "inert": "5.1.0",
+    "joi": "13.1.1",
+    "jquery": "3.3.1",
     "moment": "2.20.1",
     "ngr-to-bng": "0.0.1",
     "node-hapi-airbrake": "0.1.1",
@@ -44,18 +43,18 @@
     "proj4": "2.4.4",
     "raf": "3.4.0",
     "sprintf-js": "1.1.1",
-    "vision": "5.2.0",
+    "vision": "5.3.1",
     "wreck": "14.0.2"
   },
   "devDependencies": {
-    "browserify": "14.5.0",
+    "browserify": "15.2.0",
     "code": "5.1.2",
     "codeclimate-test-reporter": "0.5.0",
     "exorcist": "1.0.0",
     "govuk-elements-sass": "3.1.2",
     "govuk_template_mustache": "0.23.0",
     "hbsfy": "2.8.1",
-    "lab": "15.1.2",
+    "lab": "15.2.0",
     "node-sass": "4.7.2",
     "standard": "10.0.3",
     "wisk": "1.0.1"

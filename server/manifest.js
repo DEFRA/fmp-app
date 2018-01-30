@@ -1,9 +1,10 @@
 const config = require('../config')
+const viewOptions = require('./views')
 
 const manifest = {
   server: {
-    port: process.env.PORT || config.server.port,
-    host: config.server.home,
+    port: config.server.port,
+    host: config.server.host,
     routes: {
       security: true,
       validate: {
@@ -19,15 +20,19 @@ const manifest = {
         plugin: 'inert'
       },
       {
-        plugin: 'vision'
+        plugin: 'vision',
+        options: viewOptions
       },
       {
-        plugin: require('good'),
+        plugin: 'good',
         options: config.logging
       },
       {
         plugin: 'h2o2'
-      }
+      },
+      './plugins/full-url',
+      './plugins/log-errors',
+      './plugins/router'
     ]
   }
 }
@@ -35,7 +40,7 @@ const manifest = {
 if (config.errbit.postErrors) {
   delete config.errbit.postErrors
   manifest.register.plugins.push({
-    plugin: require('node-hapi-airbrake'),
+    plugin: 'node-hapi-airbrake',
     options: config.errbit
   })
 }

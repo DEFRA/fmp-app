@@ -1,7 +1,7 @@
 module.exports = {
   method: 'GET',
   path: '/public/{path*}',
-  config: {
+  options: {
     handler: {
       directory: {
         path: [

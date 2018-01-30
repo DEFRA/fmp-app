@@ -1,11 +1,11 @@
-// var Lab = require('lab')
-// var lab = exports.lab = Lab.script()
-// var Code = require('code')
-// var server = require('../../index.js')
+// const   Lab = require('lab')
+// const   lab = exports.lab = Lab.script()
+// const   Code = require('code')
+// const   server = require('../../index.js')
 
 // lab.experiment('os-get-capabilities', function () {
 //   lab.test('gets capabilities', function (done) {
-//     var options = {
+//     const   options = {
 //       method: 'GET',
 //       url: '/os-get-capabilities'
 //     }

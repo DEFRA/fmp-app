@@ -1,4 +1,3 @@
-'use strict'
 const Joi = require('joi')
 const Boom = require('boom')
 const ngrToBng = require('../services/ngr-to-bng')
@@ -9,7 +8,7 @@ const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRV
 module.exports = [{
   method: 'GET',
   path: '/',
-  config: {
+  options: {
     handler: (request, h) => {
       try {
         const query = request.query
@@ -45,7 +44,7 @@ module.exports = [{
 }, {
   method: 'POST',
   path: '/',
-  config: {
+  options: {
     handler: async (request, h) => {
       const payload = request.payload
       if (payload.type === 'placeOrPostcode') {

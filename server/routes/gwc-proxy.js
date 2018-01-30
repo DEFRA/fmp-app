@@ -1,4 +1,3 @@
-'use strict'
 const config = require('../../config')
 const uri = config.geoserver + '/geoserver/gwc/service/wms'
 
