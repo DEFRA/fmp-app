@@ -1,14 +1,12 @@
-var util = require('../util')
-var config = require('../../config')
-var url = config.service + '/zones/'
+const util = require('../util')
+const config = require('../../config')
+const url = config.service + '/zones/'
 
 module.exports = {
-  get: function (easting, northing, callback) {
+  get: (easting, northing) => {
     if (!easting || !northing) {
-      return process.nextTick(() => {
-        callback(new Error('No point provided'))
-      })
+      throw new Error('No Point provided')
     }
-    util.getJson(url + easting + '/' + northing + '/1', callback)
+    return util.getJson(url + easting + '/' + northing + '/1')
   }
 }

@@ -1,29 +1,34 @@
-var Joi = require('joi')
-var ngrToBng = require('../services/ngr-to-bng')
-var addressService = require('../services/address')
-var HomeViewModel = require('../models/home-view')
-var ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW]))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
+const Joi = require('joi')
+const Boom = require('boom')
+const ngrToBng = require('../services/ngr-to-bng')
+const addressService = require('../services/address')
+const HomeViewModel = require('../models/home-view')
+const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW]))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
 
 module.exports = [{
   method: 'GET',
   path: '/',
-  config: {
-    handler: function (request, reply) {
-      var query = request.query
-      var data, errors
+  options: {
+    handler: (request, h) => {
+      try {
+        const query = request.query
+        let data, errors
 
-      if (query.err) {
-        data = {
-          type: 'placeOrPostcode',
-          placeOrPostcode: query.placeOrPostcode
+        if (query.err) {
+          data = {
+            type: 'placeOrPostcode',
+            placeOrPostcode: query.placeOrPostcode
+          }
+
+          errors = [{
+            path: ['placeOrPostcode']
+          }]
         }
 
-        errors = [{
-          path: 'placeOrPostcode'
-        }]
+        return h.view('home', new HomeViewModel(data, errors))
+      } catch (err) {
+        return Boom.badRequest('Failed to load home page')
       }
-
-      return reply.view('home', new HomeViewModel(data, errors))
     },
     validate: {
       query: {
@@ -39,33 +44,31 @@ module.exports = [{
 }, {
   method: 'POST',
   path: '/',
-  config: {
-    handler: function (request, reply) {
-      var payload = request.payload
+  options: {
+    handler: async (request, h) => {
+      const payload = request.payload
       if (payload.type === 'placeOrPostcode') {
-        // Use the address service to lookup submitted place or postcode
-        addressService.findByPlace(payload.placeOrPostcode, function (err, address) {
-          if (err) {
-            request.log(['error', 'address-service', 'find-by-place'], err)
+        try {
+          const address = await addressService.findByPlace(payload.placeOrPostcode)
+          if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
+            throw new Error('No address found')
           }
-
-          if (err || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
-            var placeOrPostcode = encodeURIComponent(payload.placeOrPostcode)
-            return reply.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
-          }
-
           // Using the returned address' x/y coordinates, redirect to the confirm location page
-          var addr = address[0]
-          return reply.redirect(`/confirm-location?easting=${addr.geometry_x}&northing=${addr.geometry_y}`)
-        })
+          const addr = address[0]
+          return h.redirect(`/confirm-location?easting=${addr.geometry_x}&northing=${addr.geometry_y}`)
+        } catch (err) {
+          request.log(['error', 'address-service', 'find-by-place'], err)
+          const placeOrPostcode = encodeURIComponent(payload.placeOrPostcode)
+          return h.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
+        }
       } else if (payload.type === 'nationalGridReference') {
         // Convert the supplied NGR to E/N and redirect to the confirm location page
-        var point = ngrToBng.convert(payload.nationalGridReference)
+        const point = ngrToBng.convert(payload.nationalGridReference)
 
-        return reply.redirect(`/confirm-location?easting=${point.easting}&northing=${point.northing}`)
+        return h.redirect(`/confirm-location?easting=${point.easting}&northing=${point.northing}`)
       } else if (payload.type === 'eastingNorthing') {
         // Using the supplied Easting and Northing, redirect to the confirm location page
-        return reply.redirect(`/confirm-location?easting=${payload.easting}&northing=${payload.northing}`)
+        return h.redirect(`/confirm-location?easting=${payload.easting}&northing=${payload.northing}`)
       }
     },
     validate: {
@@ -83,19 +86,22 @@ module.exports = [{
         }),
         easting: Joi.when('type', {
           is: 'eastingNorthing',
-          then: Joi.number().required(),
+          then: Joi.number().max(700000).positive().required(),
           otherwise: Joi.strip()
         }),
         northing: Joi.when('type', {
           is: 'eastingNorthing',
-          then: Joi.number().required(),
+          then: Joi.number().max(1300000).positive().required(),
           otherwise: Joi.strip()
         })
       },
-      failAction: function (request, reply, source, error) {
-        var errors = error.data.details
-        var payload = request.payload || {}
-        reply.view('home', new HomeViewModel(payload, errors))
+      failAction: (request, h, error) => {
+        const errors = error.details
+        const payload = request.payload || {}
+        const model = new HomeViewModel(payload, errors)
+        // https://hapijs.com/api#takeover-response
+        // https://github.com/hapijs/hapi/issues/3658 (Lifecycle methods)
+        return h.view('home', model).takeover()
       }
     }
   }

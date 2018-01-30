@@ -1,28 +1,27 @@
-var Boom = require('boom')
-var Joi = require('joi')
-var riskService = require('../services/risk')
-var SummaryViewModel = require('../models/summary-view')
+const Boom = require('boom')
+const Joi = require('joi')
+const riskService = require('../services/risk')
+const SummaryViewModel = require('../models/summary-view')
 
 module.exports = {
   method: 'GET',
   path: '/summary/{easting}/{northing}',
-  config: {
+  options: {
     description: 'Get flood risk summary',
-    handler: function (request, reply) {
-      var easting = encodeURIComponent(request.params.easting)
-      var northing = encodeURIComponent(request.params.northing)
-      riskService.get(easting, northing, (err, result) => {
-        if (err) {
-          return reply(Boom.badImplementation(err.message, err))
-        }
-
+    handler: async (request, h) => {
+      try {
+        const easting = encodeURIComponent(request.params.easting)
+        const northing = encodeURIComponent(request.params.northing)
+        const result = await riskService.get(easting, northing)
         if (!result.point_in_england) {
-          reply.view('not-england')
+          return h.view('not-england')
         } else {
-          reply.view('summary', new SummaryViewModel(easting, northing, result))
+          return h.view('summary', new SummaryViewModel(easting, northing, result))
             .unstate('pdf-download')
         }
-      })
+      } catch (err) {
+        return Boom.badImplementation(err.message, err)
+      }
     },
     validate: {
       params: {

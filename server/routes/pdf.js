@@ -6,21 +6,21 @@ const config = require('../../config')
 module.exports = {
   method: 'POST',
   path: '/pdf/{easting}/{northing}',
-  config: {
+  options: {
     description: 'Generate PDF',
-    handler: function (request, reply) {
-      var easting = request.params.easting
-      var northing = request.params.northing
-      var id = request.payload.id
-      var zone = request.payload.zone
-      var scale = request.payload.scale
-      var reference = request.payload.reference || '<Unspecified>'
-      var siteUrl = config.siteUrl
-      var geoserverUrl = config.geoserver
-      var printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
+    handler: async (request, h) => {
+      const easting = request.params.easting
+      const northing = request.params.northing
+      const id = request.payload.id
+      const zone = request.payload.zone
+      const scale = request.payload.scale
+      const reference = request.payload.reference || '<Unspecified>'
+      const siteUrl = config.siteUrl
+      const geoserverUrl = config.geoserver
+      const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
 
       // Prepare the PDF generate options
-      var options = {
+      const options = {
         payload: {
           layout: 'Map',
           srs: 'EPSG:27700',
@@ -222,19 +222,17 @@ module.exports = {
         }
       }
 
-      Wreck.post(printUrl, options, function (err, response, payload) {
-        if (err || response.statusCode !== 200) {
-          return reply(Boom.badImplementation(err && err.message || 'An error occured during PDF generation', err))
-        }
-
-        var date = new Date().toISOString()
-
-        reply(payload)
+      try {
+        const result = await Wreck.post(printUrl, options)
+        const date = new Date().toISOString()
+        return h.response(result.payload)
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
           .state('pdf-download', id.toString())
-      })
+      } catch (err) {
+        return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
+      }
     },
     validate: {
       params: {

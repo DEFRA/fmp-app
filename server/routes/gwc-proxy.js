@@ -1,14 +1,15 @@
-var config = require('../../config')
-var uri = config.geoserver + '/geoserver/gwc/service/wms'
+const config = require('../../config')
+const uri = config.geoserver + '/geoserver/gwc/service/wms'
 
 module.exports = {
   method: 'GET',
   path: '/gwc-proxy',
   handler: {
     proxy: {
-      mapUri: function (request, callback) {
-        var url = uri + request.url.search
-        callback(null, url)
+      mapUri: (request) => {
+        return {
+          uri: uri + request.url.search
+        }
       },
       passThrough: true
     }

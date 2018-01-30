@@ -1,27 +1,30 @@
-var Boom = require('boom')
-var Joi = require('joi')
-var isEnglandService = require('../services/is-england')
-var ConfirmLocationViewModel = require('../models/confirm-location-view')
+const Boom = require('boom')
+const Joi = require('joi')
+const isEnglandService = require('../services/is-england')
+const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
 module.exports = {
   method: 'GET',
   path: '/confirm-location',
-  config: {
+  options: {
     description: 'Get confirm location page search results',
-    handler: function (request, reply) {
-      var point = request.query
+    handler: async (request, h) => {
+      try {
+        const point = request.query
+        const result = await isEnglandService.get(point.easting, point.northing)
 
-      isEnglandService.get(point.easting, point.northing, function (err, result) {
-        if (err || !result) {
-          return reply(Boom.badImplementation(err.message, err))
+        if (!result) {
+          throw new Error('No Result from England service')
         }
 
         if (!result.is_england) {
-          return reply.view('not-england')
+          return h.view('not-england')
         }
 
-        reply.view('confirm-location', new ConfirmLocationViewModel(point.easting, point.northing))
-      })
+        return h.view('confirm-location', new ConfirmLocationViewModel(point.easting, point.northing))
+      } catch (err) {
+        return Boom.badImplementation(err.message, err)
+      }
     },
     validate: {
       query: {

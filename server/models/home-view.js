@@ -18,25 +18,25 @@ function HomeViewModel (data, errors) {
     this.errors = {}
 
     // Place or Postcode
-    var placeOrPostcodeErrors = errors.find(e => e.path === 'placeOrPostcode')
+    const placeOrPostcodeErrors = errors.find(e => e.path[0] === 'placeOrPostcode')
     if (placeOrPostcodeErrors) {
       this.errors.placeOrPostcode = 'You need to give a place or postcode'
     }
 
     // National Grid Reference
-    var ngrErrors = errors.find(e => e.path === 'nationalGridReference')
+    const ngrErrors = errors.find(e => e.path[0] === 'nationalGridReference')
     if (ngrErrors) {
       this.errors.nationalGridReference = 'You need to give a National Grid Reference (NGR)'
     }
 
     // Easting
-    var eastingErrors = errors.find(e => e.path === 'easting')
+    const eastingErrors = errors.find(e => e.path[0] === 'easting')
     if (eastingErrors) {
       this.errors.easting = 'You need to give an easting'
     }
 
     // Northing
-    var northingErrors = errors.find(e => e.path === 'northing')
+    const northingErrors = errors.find(e => e.path[0] === 'northing')
     if (northingErrors) {
       this.showNorthingControlInError = true
       if (eastingErrors) {

@@ -8,5 +8,6 @@ module.exports = [].concat(
   require('./feedback'),
   require('./pdf'),
   require('./robots'),
-  require('./os-terms')
+  require('./os-terms'),
+  require('./error')
 )

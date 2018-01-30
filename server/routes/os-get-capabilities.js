@@ -1,18 +1,18 @@
-var Boom = require('boom')
-var config = require('../../config')
-var wreck = require('wreck').defaults({
+const Boom = require('boom')
+const config = require('../../config')
+const wreck = require('wreck').defaults({
   timeout: config.httpTimeoutMs
 })
 
 module.exports = {
   method: 'GET',
   path: '/os-get-capabilities',
-  handler: function (request, reply) {
-    wreck.get(config.ordnanceSurvey.mapsUrl, function (err, response, payload) {
-      if (err || response.statusCode !== 200) {
-        return reply(Boom.badRequest('Ordnance survey getcapabilities failed', err))
-      }
-      reply(payload).type('text/xml')
-    })
+  handler: async (request, h) => {
+    try {
+      const payload = await wreck.get(config.ordnanceSurvey.mapsUrl)
+      return h.response(payload.payload.toString()).type('text/xml')
+    } catch (err) {
+      return Boom.badRequest('os-get-capabilities failed')
+    }
   }
 }

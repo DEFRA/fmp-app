@@ -1,19 +1,23 @@
-var Lab = require('lab')
-var lab = exports.lab = Lab.script()
-var Code = require('code')
-var server = require('../../index.js')
+const Lab = require('lab')
+const Code = require('code')
+const glupe = require('glupe')
+const lab = exports.lab = Lab.script()
+const { manifest, options } = require('../../server')
 
-lab.experiment('robots.txt', function () {
-  lab.test('robots.txt returns 200', function (done) {
-    var options = {
+lab.experiment('robots.txt', async () => {
+  let server
+
+  lab.before(async () => {
+    server = await glupe.compose(manifest, options)
+  })
+  lab.test('robots.txt returns 200', async () => {
+    const options = {
       method: 'GET',
       url: '/robots.txt'
     }
 
-    server.inject(options, function (response) {
-      Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include('User-agent: *\nDisallow: /\n')
-      server.stop(done)
-    })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include('User-agent: *\nDisallow: /\n')
   })
 })

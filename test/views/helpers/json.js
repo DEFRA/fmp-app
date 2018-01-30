@@ -1,10 +1,10 @@
-var Lab = require('lab')
-var lab = exports.lab = Lab.script()
-var Code = require('code')
+const Lab = require('lab')
+const lab = exports.lab = Lab.script()
+const Code = require('code')
 
-var jsonHelper = require('../../../server/views/helpers/json')
+const jsonHelper = require('../../../server/views/helpers/json')
 
-var testObject = {
+const testObject = {
   test: 'test1',
   tests: [{
     test: {
@@ -16,10 +16,9 @@ var testObject = {
   }]
 }
 
-lab.experiment('json helper', function () {
-  lab.test('gets capabilities', function (done) {
-    var ret = jsonHelper(testObject)
+lab.experiment('json helper', () => {
+  lab.test('gets capabilities', () => {
+    const ret = jsonHelper(testObject)
     Code.expect(ret).to.be.a.string()
-    done()
   })
 })

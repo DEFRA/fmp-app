@@ -1,57 +1,48 @@
 const config = require('../config')
+const viewOptions = require('./views')
 
 const manifest = {
   server: {
-    connections: {
-      routes: {
-        security: true,
-        validate: {
-          options: {
-            abortEarly: false
-          }
+    port: config.server.port,
+    host: config.server.host,
+    routes: {
+      security: true,
+      validate: {
+        options: {
+          abortEarly: false
         }
       }
     }
   },
-  connections: [
-    {
-      port: process.env.PORT || config.server.port,
-      host: config.server.home,
-      labels: config.server.labels
-    }
-  ],
-  registrations: [
-    {
-      plugin: {
-        register: 'inert'
-      }
-    },
-    {
-      plugin: {
-        register: 'vision'
-      }
-    },
-    {
-      plugin: {
-        register: 'good',
+  register: {
+    plugins: [
+      {
+        plugin: 'inert'
+      },
+      {
+        plugin: 'vision',
+        options: viewOptions
+      },
+      {
+        plugin: 'good',
         options: config.logging
-      }
-    },
-    {
-      plugin: {
-        register: 'h2o2'
-      }
-    }
-  ]
+      },
+      {
+        plugin: 'h2o2'
+      },
+      './plugins/register-cookie',
+      './plugins/full-url',
+      './plugins/log-errors',
+      './plugins/router'
+    ]
+  }
 }
 
 if (config.errbit.postErrors) {
   delete config.errbit.postErrors
-  manifest.registrations.push({
-    plugin: {
-      register: 'node-hapi-airbrake',
-      options: config.errbit
-    }
+  manifest.register.plugins.push({
+    plugin: 'node-hapi-airbrake',
+    options: config.errbit
   })
 }
 

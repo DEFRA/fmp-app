@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
-/*eslint-disable no-multi-str */
-var exec = require('child_process').exec
-var content = '\
+/* eslint-disable no-multi-str */
+const exec = require('child_process').exec
+const content = '\
 <div id="content" class="wrapper">\
 \r\t\t\t{{> beforeContent }}\
 \r\t\t\t\t{{{content}}}\
 \r\t\t\t{{> afterContent }}\
 \r\t\t</div>'
 
-var cmd = "sed -i'.bak' \
+/* eslint-disable */
+const cmd = "sed -i'.bak' \
 -e 's${{{ content }}}$" + content + "$g' \
 -e 's${{{ topOfPage }}}${{> topOfPage }}$g' \
 -e 's${{{ head }}}${{> head }}$g' \
@@ -24,6 +25,7 @@ var cmd = "sed -i'.bak' \
 -e 's${{{ bodyEnd }}}${{> bodyEnd }}$g' \
 -e 's$<meta property=\"og:image\" content=\"{{{ assetPath }}}$<meta property=\"og:image\" content=\"{{{ siteUrl }}}{{{ assetPath }}}$g' \
 server/views/layout.html && rm -f server/views/layout.html.bak"
+/* eslint-enable */
 
 exec(cmd, function (err) {
   if (err) {
