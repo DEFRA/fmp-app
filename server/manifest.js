@@ -30,6 +30,7 @@ const manifest = {
       {
         plugin: 'h2o2'
       },
+      './plugins/register-cookie',
       './plugins/full-url',
       './plugins/log-errors',
       './plugins/router'
