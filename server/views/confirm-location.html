@@ -7,15 +7,27 @@
   <div class="grid-row main-container nojs-hide ie-hide">
     <div class="column-half confirm-column">
       <div class="inset">
-        <p>
-          Pinpoint your development accurately on the map to view the probability of it flooding.
-        </p>
-        <p>
-          Move the marker <img class="marker-indicator" src="{{{assetPath}}}images/pin.png"> to the location of your development, then select &#39;Continue&#39;.
-        </p>
-        <p>
-          If it&#39;s already in the right place, select &#39;Continue&#39;.
-        <p>
+        <div class="info">
+          <div class="point-info">
+            <p>You can get a flood zone report for a marked point or for the area within a site boundary.</p>
+            <strong class="bold-small">Get a flood zone report for a marked point</strong>
+            <p>Move the map marker to your chosen development location and select ‘Continue’.</p>
+            <a href="#polygon" class="toggle">Get a flood zone report for a site boundary.</a>
+          </div>
+          <div class="polygon-info">
+            <strong class="bold-small">Get a flood zone report for a site boundary</strong>
+            <p>How to draw a site boundary:</p>
+            <ol class="list list-number">
+              <li>Select ‘Start drawing’ at the top of the map.</li>
+              <li>Work your way round your site, selecting each corner in turn.</li>
+              <li>When you return to your starting point, double click.</li>
+              <li>You can edit the shape by dragging the points or adding more.</li>
+              <li>When you’re done, select ‘Continue’.</li>
+            </ol>
+            <p>If your site covers more than one flood zone, the report will be for the highest zone in your site. </p>
+            <a href="#point" class="toggle">Get a flood zone report for a marked point.</a>
+          </div>
+        </div>
         <div class="form-group">
           <a id="continue" href="/summary/{{easting}}/{{northing}}" class="button button-get-started" title="Continue">Continue</a>
         </div>
