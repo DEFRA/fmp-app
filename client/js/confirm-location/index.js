@@ -253,17 +253,20 @@ function ConfirmLocationPage (options) {
     })
 
     function updateTargetUrl () {
-      var coordinates = point.getGeometry().getCoordinates()
-      var url = '/summary/' + parseInt(coordinates[0], 10) + '/' + parseInt(coordinates[1], 10)
+      var coordinates
+      var url = '/summary'
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
         url += '?polygon=' + JSON.stringify(coordinates)
+      } else {
+        coordinates = point.getGeometry().getCoordinates()
+        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
       }
 
       $continueBtn.attr('href', url)
     }
 
-    $continueBtn.on('click', function (e) {
+    $continueBtn.on('xclick', function (e) {
       var title = document.title
       var url = $continueBtn.attr('href')
       var data = {

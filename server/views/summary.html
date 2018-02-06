@@ -116,11 +116,21 @@
   <div class="visible-mobile"></div>
 </main>
 <script src="{{{assetPath}}}javascripts/summary.js"></script>
-<script>
-  $(function () {
-    var page = new FMP.SummaryPage({
-      easting: '{{easting}}',
-      northing: '{{northing}}'
+{{#if polygon}}
+  <script>
+    $(function () {
+      var page = new FMP.SummaryPage({
+        polygon: {{polygon}}
+      })
     })
-  })
-</script>
+  </script>
+{{else}}
+  <script>
+    $(function () {
+      var page = new FMP.SummaryPage({
+        easting: '{{easting}}',
+        northing: '{{northing}}'
+      })
+    })
+  </script>
+{{/if}}

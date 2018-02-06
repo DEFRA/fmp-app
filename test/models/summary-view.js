@@ -8,7 +8,7 @@ const testObjects = require('./get-fmp-zones')
 
 lab.experiment('summary-view view model tests', () => {
   lab.test('zone1', () => {
-    const summaryViewModel = new SummaryViewModel(300000, 400000, testObjects.zone1)
+    const summaryViewModel = new SummaryViewModel(testObjects.zone1, 300000, 400000)
 
     Code.expect(summaryViewModel.isZone2).to.be.false()
     Code.expect(summaryViewModel.isZone3).to.be.false()
@@ -19,7 +19,7 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('zone2', () => {
-    const summaryViewModel = new SummaryViewModel(300000, 400000, testObjects.zone2)
+    const summaryViewModel = new SummaryViewModel(testObjects.zone2, 300000, 400000)
 
     Code.expect(summaryViewModel.isZone2).to.be.true()
     Code.expect(summaryViewModel.isZone3).to.be.false()
@@ -30,7 +30,7 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('zone3', () => {
-    const summaryViewModel = new SummaryViewModel(300000, 400000, testObjects.zone3)
+    const summaryViewModel = new SummaryViewModel(testObjects.zone3, 300000, 400000)
 
     Code.expect(summaryViewModel.isZone2).to.be.false()
     Code.expect(summaryViewModel.isZone3).to.be.true()
@@ -41,7 +41,7 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('area benefiting', () => {
-    const summaryViewModel = new SummaryViewModel(300000, 400000, testObjects.areaBenefiting)
+    const summaryViewModel = new SummaryViewModel(testObjects.areaBenefiting, 300000, 400000)
 
     Code.expect(summaryViewModel.isZone2).to.be.false()
     Code.expect(summaryViewModel.isZone3).to.be.false()

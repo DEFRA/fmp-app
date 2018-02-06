@@ -5,29 +5,32 @@ const SummaryViewModel = require('../models/summary-view')
 
 module.exports = {
   method: 'GET',
-  path: '/summary/{easting}/{northing}',
+  path: '/summary',
   options: {
     description: 'Get flood risk summary for a point',
     handler: async (request, h) => {
       try {
-        const easting = encodeURIComponent(request.params.easting)
-        const northing = encodeURIComponent(request.params.northing)
-        // const polygon = request.query.polygon
-
         if (request.query.polygon) {
+          const polygon = request.query.polygon
+          const easting = encodeURIComponent(polygon[0][0])
+          const northing = encodeURIComponent(polygon[0][1])
           const result = await riskService.getByPoint(easting, northing)
+
           if (!result.point_in_england) {
             return h.view('not-england')
           } else {
-            return h.view('summary', new SummaryViewModel(easting, northing, result))
+            return h.view('summary', new SummaryViewModel(result, polygon))
               .unstate('pdf-download')
           }
         } else {
+          const easting = encodeURIComponent(request.query.easting)
+          const northing = encodeURIComponent(request.query.northing)
           const result = await riskService.getByPoint(easting, northing)
+
           if (!result.point_in_england) {
             return h.view('not-england')
           } else {
-            return h.view('summary', new SummaryViewModel(easting, northing, result))
+            return h.view('summary', new SummaryViewModel(result, easting, northing))
               .unstate('pdf-download')
           }
         }
@@ -36,40 +39,15 @@ module.exports = {
       }
     },
     validate: {
-      params: {
+      query: Joi.alternatives().required().try([{
         easting: Joi.number().max(700000).positive().required(),
         northing: Joi.number().max(1300000).positive().required()
-      },
-      query: {
-        polygon: Joi.array().items(Joi.array().items(
+      }, {
+        polygon: Joi.array().required().items(Joi.array().items(
           Joi.number().max(700000).positive().required(),
           Joi.number().max(1300000).positive().required()
         ))
-      }
+      }])
     }
   }
 }
-// , {
-//   method: 'POST',
-//   path: '/summary',
-//   options: {
-//     description: 'Get flood risk summary for a polygon',
-//     handler: async (request, h) => {
-//       try {
-//         const polygon = request.payload
-//         const result = await riskService.getByPolygon(polygon)
-
-//         if (!result.point_in_england) {
-//           return h.view('not-england')
-//         } else {
-//           return h.view('summary', new SummaryViewModel(polygon, result))
-//             .unstate('pdf-download')
-//         }
-//       } catch (err) {
-//         return Boom.badImplementation(err.message, err)
-//       }
-//     },
-//     validate: {
-//     }
-//   }
-// }]
