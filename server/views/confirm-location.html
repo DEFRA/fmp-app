@@ -49,9 +49,11 @@
 <script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
 <script>
   $(function () {
-    (new FMP.ConfirmLocationPage({
+    var data = {{#if polygon}}{{polygon}}{{else}}null{{/if}}
+    ;(new FMP.ConfirmLocationPage({
       easting: '{{easting}}',
-      northing: '{{northing}}'
+      northing: '{{northing}}',
+      polygon: data
     }))
   })
 </script>

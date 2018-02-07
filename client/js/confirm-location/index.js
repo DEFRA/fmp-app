@@ -90,14 +90,6 @@ function ConfirmLocationPage (options) {
     visible: true,
     source: vectorSource,
     style: vectorStyle
-  // style: new ol.style.Style({
-  //   image: new ol.style.Icon({
-  //     anchor: [0.5, 1],
-  //     anchorXUnits: 'fraction',
-  //     anchorYUnits: 'fraction',
-  //     src: 'public/images/pin.png'
-  //   })
-  // })
   })
 
   // Start polygon drawing style
@@ -143,15 +135,6 @@ function ConfirmLocationPage (options) {
     source: vectorSource,
     type: 'Polygon',
     style: drawStyle
-  // condition: function(e) {
-  //   // Hack to tackle finishDrawing with zero coordinates bug
-  //   if (e.type == 'pointerdown') {
-  //       drawingStarted = true
-  //   } else {
-  //       drawingStarted = false
-  //   }
-  //   return true
-  // }
   })
 
   var snap = new ol.interaction.Snap({
@@ -172,11 +155,22 @@ function ConfirmLocationPage (options) {
   this.map = new Map(mapOptions)
 
   this.map.onReady(function (map) {
-    // Deactivate draw interaction
-    // after first polygon is finished
     var polygon
+    var featureMode = 'point'
+
+    if (options.polygon) {
+      // Load polygon from saved state
+      polygon = new ol.Feature({
+        geometry: new ol.geom.Polygon([options.polygon])
+      })
+      updateMode()
+    }
+
     modify.on('modifyend', function (e) {
-      console.log('me')
+      // Update polygon and targetUrl
+      var features = e.features.getArray()
+      polygon = features[0]
+      updateTargetUrl()
     })
 
     draw.on('drawend', function (e) {
@@ -207,9 +201,7 @@ function ConfirmLocationPage (options) {
       map.updateSize()
     })
 
-    var featureMode = 'point'
-    $info.on('click', 'a.toggle', function (e) {
-      e.preventDefault()
+    function updateMode () {
       $info.toggleClass('polygon')
 
       if ($info.hasClass('polygon')) {
@@ -242,6 +234,11 @@ function ConfirmLocationPage (options) {
       }
 
       updateTargetUrl()
+    }
+
+    $info.on('click', 'a.toggle', function (e) {
+      e.preventDefault()
+      updateMode()
     })
 
     // Click handler for pointer
@@ -255,9 +252,12 @@ function ConfirmLocationPage (options) {
     function updateTargetUrl () {
       var coordinates
       var url = '/summary'
+
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
-        url += '?polygon=' + JSON.stringify(coordinates)
+        url += '?polygon=' + JSON.stringify(coordinates.map(function (item) {
+          return [parseInt(item[0], 10), parseInt(item[1], 10)]
+        }))
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
@@ -266,23 +266,32 @@ function ConfirmLocationPage (options) {
       $continueBtn.attr('href', url)
     }
 
-    $continueBtn.on('xclick', function (e) {
-      var title = document.title
-      var url = $continueBtn.attr('href')
-      var data = {
-        point: point.getGeometry().getCoordinates()
-      }
+    // if (window.history.pushState) {
+    //   $continueBtn.on('click', function (e) {
+    //     var title = document.title
+    //     var url = '/confirm-location'
+    //     var coordinates
 
-      if (polygon) {
-        data.polygon = polygon.getGeometry().getCoordinates()[0]
-      }
+    //     if (polygon) {
+    //       coordinates = polygon.getGeometry().getCoordinates()[0]
+    //       var firstPolygonPoint = coordinates[0]
 
-      window.history.pushState(data, title, url)
-    })
+    //       url += '?easting=' + parseInt(firstPolygonPoint[0], 10) + '&northing=' + parseInt(firstPolygonPoint[1], 10)
+    //       url += '&polygon=' + JSON.stringify(coordinates.map(function (item) {
+    //         return [parseInt(item[0], 10), parseInt(item[1], 10)]
+    //       }))
+    //     } else {
+    //       coordinates = point.getGeometry().getCoordinates()
+    //       url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
+    //     }
 
-    window.onpopstate = function (e) {
-      window.alert('location: ' + document.location + ', state: ' + JSON.stringify(e.state))
-    }
+    //     window.history.pushState(coordinates, title, url)
+    //   })
+
+    //   window.onpopstate = function (e) {
+    //     window.alert('location: ' + document.location + ', state: ' + JSON.stringify(e.state))
+    //   }
+    // }
   })
 }
 

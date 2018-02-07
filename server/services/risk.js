@@ -1,6 +1,6 @@
 const util = require('../util')
 const config = require('../../config')
-const url = config.service + '/zones/'
+const url = config.service + '/zones'
 
 module.exports = {
   getByPoint: (easting, northing) => {
@@ -8,7 +8,7 @@ module.exports = {
       throw new Error('No Point provided')
     }
 
-    return util.getJson(`${url}?easting=${easting}&northing={northing}&radius=1`)
+    return util.getJson(`${url}?easting=${easting}&northing=${northing}&radius=1`)
   },
   getByPolygon: (polygon) => {
     if (!polygon) {
