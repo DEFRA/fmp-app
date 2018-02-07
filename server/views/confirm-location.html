@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/confirm-location/index.css">
 <main id="confirm-location-page">
-  <h1 class="heading-xlarge">Confirm the development location</h1>
+  <h1 class="heading-xlarge">Confirm your development's location</h1>
   {{> nojs}}
   {{> ie}}
   <div class="grid-row main-container nojs-hide ie-hide">
@@ -9,27 +9,47 @@
       <div class="inset">
         <div class="info">
           <div class="point-info">
-            <p>You can get a flood zone report for a marked point or for the area within a site boundary.</p>
-            <strong class="bold-small">Get a flood zone report for a marked point</strong>
-            <p>Move the map marker to your chosen development location and select ‘Continue’.</p>
-            <a href="#polygon" class="toggle">Get a flood zone report for a site boundary.</a>
+            <p>
+              Show the location of your development on the map.
+              You can do this by moving the marker to, for example, the centre of your development.
+            </p>
+            <p>Select ‘Continue’ to get a flood risk report for this specific point.</p>
+            <div class="form-group">
+              <a href="/summary?easting={{easting}}&northing={{northing}}" class="button button-get-started continue" title="Continue">Continue</a>
+            </div>
+            Alternatively you can <a href="#polygon" class="toggle">get a flood risk report for a defined area</a>, for example the shape of your whole development.
           </div>
           <div class="polygon-info">
-            <strong class="bold-small">Get a flood zone report for a site boundary</strong>
-            <p>How to draw a site boundary:</p>
+            <p>You can get a flood risk report for your development by drawing its boundary on the map.</p>
+            <p>Draw a site boundary::</p>
             <ol class="list list-number">
-              <li>Select ‘Start drawing’ at the top of the map.</li>
-              <li>Work your way round your site, selecting each corner in turn.</li>
-              <li>When you return to your starting point, double click.</li>
-              <li>You can edit the shape by dragging the points or adding more.</li>
-              <li>When you’re done, select ‘Continue’.</li>
+              <li>Select ‘Start drawing’</li>
+              <li>Select any point on your site’s boundary</li>
+              <li>Select a second point on the boundary. You should see a line drawn between the first 2 points</li>
+              <li>Keep adding points until the boundary is defined</li>
+              <li>Double click or tap when you return to your first point</li>
             </ol>
-            <p>If your site covers more than one flood zone, the report will be for the highest zone in your site. </p>
-            <a href="#point" class="toggle">Get a flood zone report for a marked point.</a>
+            <details>
+              <summary aria-controls="polygon-tool" aria-expanded="false" role="button">
+                <span class="summary">More about the boundary drawing tool</span>
+              </summary>
+              <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
+                You can:
+                <ul class="list list-bullet">
+                  <li>edit the finished shape by dragging the points in any direction</li>
+                  <li>add more points to a finished shape</li>
+                  <li>go back a step or forward a step as you draw, using the arrows at the top of the map</li>
+                  <li>delete your drawing</li>
+                </ul>
+              </div>
+            </details>
+            <p>Select ‘Continue’ to get a flood risk report for this area.</p>
+            <p>If your site crosses more than one flood risk zone, the report will show the highest flood risk zone.</p>
+            <div class="form-group">
+              <a href="/summary?easting={{easting}}&northing={{northing}}" class="button button-get-started continue" title="Continue">Continue</a>
+            </div>
+            <p>Alternatively you can <a href="#point" class="toggle">get a flood risk report for a specific point</a>, for example the centre of your development.</p>
           </div>
-        </div>
-        <div class="form-group">
-          <a id="continue" href="/summary?easting={{easting}}&northing={{northing}}" class="button button-get-started" title="Continue">Continue</a>
         </div>
       </div>
     </div>

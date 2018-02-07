@@ -13,7 +13,7 @@ function ConfirmLocationPage (options) {
   var $info = $('.info', $confirmColumn)
   var $container = $('.map-container', $page)
   var $mapColumn = $('.map-column', $page)
-  var $continueBtn = $('a#continue')
+  var $continueBtn = $('a.continue')
 
   var point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
