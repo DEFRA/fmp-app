@@ -18,6 +18,53 @@ module.exports = {
       const siteUrl = config.siteUrl
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
+      const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
+      const center = request.payload.center
+      let vector
+
+       // Prepare point or polygon
+      if (polygon) {
+        vector = {
+          type: 'vector',
+          styles: {
+            '': {
+              strokeColor: '#b21122',
+              strokeWidth: 3,
+              fillColor: '#b21122',
+              fillOpacity: 0.1
+            }
+          },
+          geoJson: {
+            type: 'Feature',
+            geometry: {
+              type: 'Polygon',
+              coordinates: [polygon]
+            },
+            properties: {}
+          }
+        }
+      } else {
+        vector = {
+          type: 'vector',
+          styles: {
+            '': {
+              externalGraphic: siteUrl + '/public/images/pin.png',
+              graphicXOffset: -10.5,
+              graphicYOffset: -30.5,
+              graphicWidth: 21,
+              graphicHeight: 30.5
+            }
+          },
+          geoJson: {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [easting, northing]
+            },
+            properties: {}
+          }
+        }
+      }
 
       // Prepare the PDF generate options
       const options = {
@@ -190,29 +237,10 @@ module.exports = {
                 tileSize: [250, 250],
                 topLeftCorner: [0, 1000125]
               }]
-            }, {
-              type: 'vector',
-              styles: {
-                '': {
-                  externalGraphic: siteUrl + '/public/images/pin.png',
-                  graphicXOffset: -10.5,
-                  graphicYOffset: -30.5,
-                  graphicWidth: 21,
-                  graphicHeight: 30.5
-                }
-              },
-              geoJson: {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [easting, northing]
-                },
-                properties: {}
-              }
-            }],
+            }, vector],
           pages: [
             {
-              center: [easting, northing],
+              center: polygon ? center : [easting, northing],
               scale: scale,
               dpi: 300,
               geodetic: false,
@@ -243,7 +271,9 @@ module.exports = {
         id: Joi.number().required(),
         zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a'),
         reference: Joi.string().allow('').max(13).trim(),
-        scale: Joi.number().allow(3125, 6250, 12500, 25000, 50000, 100000, 200000, 500000, 1000000, 2000000).required()
+        scale: Joi.number().allow(3125, 6250, 12500, 25000, 50000, 100000, 200000, 500000, 1000000, 2000000).required(),
+        polygon: Joi.string().required().allow(''),
+        center: Joi.array().required().allow('')
       }
     }
   }

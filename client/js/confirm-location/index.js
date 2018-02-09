@@ -258,12 +258,19 @@ function ConfirmLocationPage (options) {
         url += '?polygon=' + JSON.stringify(coordinates.map(function (item) {
           return [parseInt(item[0], 10), parseInt(item[1], 10)]
         }))
+        url += '&center=' + JSON.stringify(getCenterOfExtent(polygon.getGeometry().getExtent()))
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
       }
 
       $continueBtn.attr('href', url)
+    }
+
+    function getCenterOfExtent (extent) {
+      var X = extent[0] + (extent[2] - extent[0]) / 2
+      var Y = extent[1] + (extent[3] - extent[1]) / 2
+      return [parseInt(X, 10), parseInt(Y, 10)]
     }
 
     // if (window.history.pushState) {
@@ -288,10 +295,10 @@ function ConfirmLocationPage (options) {
     //     window.history.pushState(coordinates, title, url)
     //   })
 
-    //   window.onpopstate = function (e) {
-    //     window.alert('location: ' + document.location + ', state: ' + JSON.stringify(e.state))
-    //   }
-    // }
+  //   window.onpopstate = function (e) {
+  //     window.alert('location: ' + document.location + ', state: ' + JSON.stringify(e.state))
+  //   }
+  // }
   })
 }
 

@@ -6,9 +6,11 @@
     <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="alertdialog">
       <div class="dialog-content" role="document" tabindex="0">
         <h1 class="dialog-heading">Download report</h1>
-        <form class="form" method="POST" action="/pdf/{{easting}}/{{northing}}">
+        <form class="form" method="POST" action="{{#if polygon}}/pdf/1/1{{else}}/pdf/{{easting}}/{{northing}}{{/if}}">
           <input name="id" type="hidden">
           <input name="zone" type="hidden" value="{{zone}}">
+          <input name="polygon" type="hidden" value="{{polygon}}">
+          <input name="center" type="hidden" value="{{center}}">
           <div class="form-group">
             <label class="form-label" for="reference">Your reference</label>
             <input class="form-control" id="reference" name="reference" type="text" maxlength="13">

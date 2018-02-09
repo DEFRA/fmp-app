@@ -1,9 +1,10 @@
-function SummaryView (risk, easting, northing) {
-  if (!northing) {
-    this.polygon = JSON.stringify(easting)
+function SummaryView (risk, center, polygon) {
+  if (polygon) {
+    this.polygon = JSON.stringify(polygon)
+    this.center = JSON.stringify(center)
   } else {
-    this.easting = easting
-    this.northing = northing
+    this.easting = center[0]
+    this.northing = center[1]
   }
 
   this.isAreaBenefiting = false
