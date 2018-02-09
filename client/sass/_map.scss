@@ -111,6 +111,17 @@
             background-image: url('../../images/pin.png');
           }
 
+          li.polygon {
+            display: none;
+          }
+
+          li.polygon::before {
+            width: 60px;
+            height: 60px;
+            background-position: center bottom;
+            background-image: url('../../images/polygon.png');
+          }
+
           li.dark-blue::before {
             background: #464d94;
           }
@@ -176,6 +187,15 @@
         @include media(mobile) {
           strong {
             margin-right: 10px;
+          }
+        }
+
+        &.polygon {
+          li.pin {
+            display: none;
+          }
+          li.polygon {
+            display: block;
           }
         }
       }

@@ -80,6 +80,10 @@ function Map (mapOptions) {
       })
     })
 
+    if (mapOptions.polygon) {
+      map.getView().fit(mapOptions.polygon)
+    }
+
     // Callback to notify map is ready
     if (callback) {
       callback(map)
