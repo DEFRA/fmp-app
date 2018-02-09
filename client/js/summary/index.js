@@ -36,6 +36,7 @@ function Summary (options) {
 
   if (options.polygon) {
     var polygon = new ol.geom.Polygon([options.polygon])
+    mapOptions.polygon = polygon
     mapOptions.point = [parseInt(options.polygon[0][0], 10), parseInt(options.polygon[0][1], 10)]
     mapOptions.layers.push(
       new ol.layer.Vector({
