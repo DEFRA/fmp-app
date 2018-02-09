@@ -23,6 +23,25 @@
 
       .inset {
         padding: 10px;
+
+        .info {
+          margin-bottom: 40px;
+          .point-info {
+            display: block;
+          }
+          .polygon-info {
+            display: none;
+          }
+
+          &.polygon {
+            .point-info {
+              display: none;
+            }
+            .polygon-info {
+              display: block;
+            }
+          }
+        }
       }
 
       .marker-indicator {

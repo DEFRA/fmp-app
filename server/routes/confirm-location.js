@@ -10,7 +10,7 @@ module.exports = {
     description: 'Get confirm location page search results',
     handler: async (request, h) => {
       try {
-        const point = request.query
+        let point = request.query
         const result = await isEnglandService.get(point.easting, point.northing)
 
         if (!result) {
@@ -21,15 +21,21 @@ module.exports = {
           return h.view('not-england')
         }
 
-        return h.view('confirm-location', new ConfirmLocationViewModel(point.easting, point.northing))
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon)
+
+        return h.view('confirm-location', model)
       } catch (err) {
         return Boom.badImplementation(err.message, err)
       }
     },
     validate: {
       query: {
-        easting: Joi.number().required(),
-        northing: Joi.number().required()
+        easting: Joi.number().max(700000).positive().required(),
+        northing: Joi.number().max(1300000).positive().required(),
+        polygon: Joi.array().items(Joi.array().items(
+          Joi.number().max(700000).positive().required(),
+          Joi.number().max(1300000).positive().required()
+        ))
       }
     }
   }
