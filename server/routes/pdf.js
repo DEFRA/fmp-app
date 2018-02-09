@@ -9,8 +9,8 @@ module.exports = {
   options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
-      const easting = request.params.easting
-      const northing = request.params.northing
+      let easting = request.params.easting
+      let northing = request.params.northing
       const id = request.payload.id
       const zone = request.payload.zone
       const scale = request.payload.scale
@@ -19,7 +19,7 @@ module.exports = {
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
       const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
-      const center = request.payload.center
+      const center = polygon ? request.payload.center : [easting, northing]
       let vector
 
        // Prepare point or polygon
@@ -59,7 +59,7 @@ module.exports = {
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: [easting, northing]
+              coordinates: center
             },
             properties: {}
           }
@@ -75,9 +75,9 @@ module.exports = {
           geodetic: true,
           outputFormat: 'pdf',
           reference: reference,
-          easting: easting,
+          easting: center[0],
           scale: scale,
-          northing: northing,
+          northing: center[1],
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
           pdfMapTemplate: 'map-template.pdf',
           layers: [
@@ -240,7 +240,7 @@ module.exports = {
             }, vector],
           pages: [
             {
-              center: polygon ? center : [easting, northing],
+              center: center,
               scale: scale,
               dpi: 300,
               geodetic: false,
