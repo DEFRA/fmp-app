@@ -12,11 +12,11 @@ module.exports = {
       try {
         if (request.query.polygon) {
           const polygon = request.query.polygon
-          const easting = encodeURIComponent(polygon[0][0])
-          const northing = encodeURIComponent(polygon[0][1])
-          const result = await riskService.getByPoint(easting, northing)
+          const geoJson = '{"type": "Polygon", "coordinates": [' + JSON.stringify(request.query.polygon) + ']}'
 
-          if (!result.point_in_england) {
+          const result = await riskService.getByPolygon(geoJson)
+
+          if (!result.in_england) {
             return h.view('not-england')
           } else {
             return h.view('summary', new SummaryViewModel(result, polygon))
