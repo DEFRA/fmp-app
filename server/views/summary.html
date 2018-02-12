@@ -100,8 +100,11 @@
   <br>
   <div class="nojs-hide ie-hide">
     <div class="grid-row search-box">
-      <div class="column-half">
-        <p><a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">Find out the flood probability at another location</a></p>
+      <div class="column-two-thirds">
+        <p>
+          <a href="/confirm-location?easting={{easting}}&northing={{northing}}{{#if polygon}}&polygon={{polygon}}{{/if}}" data-journey-click="FMFP:FloodZones:RefineSearch">Refine this search</a> or 
+          <a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">find out the flood probability at another location</a>
+        </p>
         <div class="clearfix"></div>
         <details>
           <summary aria-controls="terms-of-use" aria-expanded="false" role="button">
