@@ -5,13 +5,7 @@
 .map-container {
   position: relative;
 
-  @include media(mobile) {
-      padding-left: 10%;
-      padding-right: 10%;
-  }
-
   .mobile-heading {
-
     padding-bottom: 10px;
     @include media(tablet) {
       display: none;
@@ -19,7 +13,6 @@
   }
 
   .map {
-
     @include media(tablet) {
       height: 700px;
     }
@@ -30,7 +23,6 @@
   }
 
   .rhs {
-
     @include media(tablet) {
       margin-left: 215px;
     }
