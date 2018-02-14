@@ -52,4 +52,9 @@
       height: 100%;
     }
   }
+  @include media(tablet) {
+    .ol-full-screen, .ol-attribution {
+      right: 135px;
+    }
+  }
 }
