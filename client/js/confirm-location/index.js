@@ -1,6 +1,7 @@
 var $ = require('jquery')
 var ol = require('openlayers')
 var Map = require('../map')
+var mapConfig = require('../map-config.json')
 var VectorDrag = require('../vector-drag')
 var vectorDragInteraction = new VectorDrag()
 
@@ -12,6 +13,7 @@ function ConfirmLocationPage (options) {
   var $radios = $('.radio-button-group', $page)
   var $container = $('.map-container', $page)
   var $continueBtn = $('a.continue')
+  var $legend = $('.legend')
 
   var point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
@@ -140,7 +142,26 @@ function ConfirmLocationPage (options) {
 
   var mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
-    layers: [vectorLayer],
+    layers: [new ol.layer.Tile({
+      ref: 'fmp',
+      opacity: 0.7,
+      zIndex: 0,
+      source: new ol.source.TileWMS({
+        url: mapConfig.tileProxy,
+        serverType: 'geoserver',
+        params: {
+          LAYERS: 'fmp:fmp',
+          TILED: true,
+          VERSION: '1.1.1'
+        },
+        tileGrid: new ol.tilegrid.TileGrid({
+          extent: mapConfig.tileExtent,
+          resolutions: mapConfig.tileResolutions,
+          tileSize: mapConfig.tileSize
+        })
+      })
+    }),
+      vectorLayer],
     // Add vector drag to map interactions
     interactions: ol.interaction.defaults({
       altShiftDragRotate: false,
@@ -220,6 +241,9 @@ function ConfirmLocationPage (options) {
           map.addInteraction(draw)
         }
 
+        // add polygon class to legend to hide point and show polygon icon
+        $legend.addClass('polygon')
+
         featureMode = 'polygon'
       } else {
         // Remove the polygon draw interaction to the map
@@ -233,6 +257,10 @@ function ConfirmLocationPage (options) {
 
         // Add the point feature
         vectorSource.addFeature(point)
+
+        // add polygon class to legend to hide point and show polygon icon
+        $legend.removeClass('polygon')
+
         featureMode = 'point'
       }
 

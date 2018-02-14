@@ -39,10 +39,15 @@
       <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
         <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
       </div>
+      <div class="rhs">
+        <aside class="controls" id="legend">
+        {{> map/summary-legend}}
+        </aside>
+      </div>
     </div>
   </div>
   <br>
-  <a href="/summary?easting={{easting}}&northing={{northing}}" class="button continue" title="Continue">Continue</a>
+  <a href="/summary?easting={{easting}}&northing={{northing}}" class="button continue" title="Save report as PDF">Save report as PDF</a>
 </main>
 <script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
 <script>
