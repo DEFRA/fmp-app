@@ -79,7 +79,7 @@ module.exports = {
           scale: scale,
           northing: center[1],
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
-          pdfMapTemplate: 'map-template.pdf',
+          pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
           layers: [
             {
               type: 'WMTS',
