@@ -107,11 +107,9 @@
             display: none;
           }
 
-          li.polygon::before {
-            width: 60px;
-            height: 60px;
-            background-position: center bottom;
-            background-image: url('../../images/polygon.png');
+          li.red-border::before {
+            box-sizing: border-box;
+            border: solid 2px #B10E1E;
           }
 
           li.dark-blue::before {
