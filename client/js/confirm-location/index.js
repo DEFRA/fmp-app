@@ -216,7 +216,15 @@ function ConfirmLocationPage (options) {
     })
 
     $radios.on('click', 'label', function (e) {
-      updateMode()
+      if (e.target.getAttribute('for') === 'deletePolygon') {
+        if (polygon) {
+          vectorSource.removeFeature(polygon)
+          polygon = undefined
+          updateMode('polygon')
+        }
+      } else {
+        updateMode(e.target.getAttribute('for'))
+      }
     })
 
     $setLayerVisible.on('change', function (e) {
@@ -231,10 +239,12 @@ function ConfirmLocationPage (options) {
       }
     })
 
-    function updateMode () {
-      if (featureMode === 'point') {
+    function updateMode (mode) {
+      if (mode === 'polygon') {
         // Remove the point feature
-        vectorSource.removeFeature(point)
+        if (vectorSource.getFeatures().length > 0) {
+          vectorSource.removeFeature(point)
+        }
 
         // Add the polygon draw interaction to the map
         map.addInteraction(modify)
@@ -248,6 +258,7 @@ function ConfirmLocationPage (options) {
 
         // add polygon class to legend to hide point and show polygon icon
         $legend.addClass('polygon')
+        $radios.addClass('polygon')
 
         featureMode = 'polygon'
       } else {
@@ -265,6 +276,7 @@ function ConfirmLocationPage (options) {
 
         // add polygon class to legend to hide point and show polygon icon
         $legend.removeClass('polygon')
+        $radios.removeClass('polygon')
 
         featureMode = 'point'
       }

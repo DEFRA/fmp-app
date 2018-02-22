@@ -17,6 +17,27 @@
     z-index: 1;
     clear: both;
     line-height: 1.5;
+    input[value='point'] + label {
+      background-color: rgba(0, 60, 136, 0.7);
+    }
+    input[value='polygon'] + label {
+      background-color: rgba(0, 60, 136, 0.5);
+    }
+    input[value='deletePolygon'] + label {
+      background-color: rgba(0, 60, 136, 0.5);
+    }
+
+    &.polygon {
+      input[value='point'] + label {
+        background-color: rgba(0, 60, 136, 0.5);
+      }
+      input[value='polygon'] + label {
+        background-color: rgba(0, 60, 136, 0.7);
+      }
+      input[value='deletePolygon'] + label {
+        background-color: rgba(0, 60, 136, 0.7);
+      }
+    }
   }
   
   .radio-button {
@@ -30,26 +51,28 @@
       border: 1px solid rgba(255, 255, 255, 0.4);
       margin-right: -1px;
       color: #fff;
-      background-color: rgba(0, 60, 136, 0.5);
-      // background-color: #428bca;
       
       &:first-of-type {
         border-radius: .2em 0 0 .2em;
       }
-      
-      &:last-of-type {
+
+      &:nth-of-type(2) {
         border-radius: 0 .2em .2em 0;
       }
-    }
-    
-    &:checked + label {
-      background-color: rgba(0, 60, 136, 0.7);
+      
+      &:last-of-type {
+        margin-left: 5px;
+        border-radius: .2em .2em .2em .2em;
+      }
     }
   }
 
   &.fullscreen {
     .map, .map-container {
       height: 100%;
+    }
+    .form-section {
+      display: none!important;
     }
   }
   @include media(tablet) {

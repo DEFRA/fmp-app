@@ -28,10 +28,12 @@
   <div class="main-container nojs-hide ie-hide">
     <div class="map-container">
       <div class="radio-button-group">
-        <input type="radio" class="radio-button" name="type" value="marker" id="marker" {{#unless polygon}}checked{{/unless}}>
+        <input type="button" class="radio-button" name="type" value="point" id="marker">
         <label for="marker">Move marker</label>
-        <input type="radio" class="radio-button" name="type" value="polygon" id="polygon" {{#if polygon}}checked{{/if}}>
-        <label for="polygon">Draw shape</label>
+        <input type="button" class="radio-button" name="type" value="polygon" id="polygon">
+        <label for="polygon">Draw Shape</label>
+        <input type="button" class="radio-button" name="type" value="deletePolygon" id="deletePolygon">
+        <label for="deletePolygon">Delete</label>
       </div>
       <div id="map" class="map"></div>
       <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
@@ -41,10 +43,10 @@
         <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
       </div>
       <div class="form-section visible-mobile">
-          <div class="multiple-choice">
-            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
-            <label for="layer-toggle">Show flood zones</label>
-          </div>
+        <div class="multiple-choice">
+          <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+          <label for="layer-toggle">Show flood zones</label>
+        </div>
       </div>
       <div class="rhs">
         <aside class="controls" id="legend">
@@ -52,10 +54,10 @@
         </aside>
       </div>
       <div class="form-section hidden-mobile">
-          <div class="multiple-choice">
-            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
-            <label for="layer-toggle">Show flood zones</label>
-          </div>
+        <div class="multiple-choice">
+          <input id="layer-toggle2" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+          <label for="layer-toggle2">Show flood zones</label>
+        </div>
       </div>
     </div>
   </div>
