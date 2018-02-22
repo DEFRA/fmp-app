@@ -84,6 +84,14 @@ function Map (mapOptions) {
       map.getView().fit(mapOptions.polygon)
     }
 
+    map.setLayerVisible = function (ref, visible) {
+      map.getLayers().forEach(function (layer) {
+        if (layer.get('ref') === ref) {
+          layer.setVisible(visible)
+        }
+      })
+    }
+
     // Callback to notify map is ready
     if (callback) {
       callback(map)

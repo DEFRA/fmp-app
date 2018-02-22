@@ -40,10 +40,22 @@
       <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
         <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
       </div>
+      <div class="form-section visible-mobile">
+          <div class="multiple-choice">
+            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+            <label for="layer-toggle">Show flood zones</label>
+          </div>
+      </div>
       <div class="rhs">
         <aside class="controls" id="legend">
         {{> map/summary-legend}}
         </aside>
+      </div>
+      <div class="form-section hidden-mobile">
+          <div class="multiple-choice">
+            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+            <label for="layer-toggle">Show flood zones</label>
+          </div>
       </div>
     </div>
   </div>

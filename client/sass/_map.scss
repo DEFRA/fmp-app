@@ -28,10 +28,6 @@
     }
 
     @include media(tablet) {
-      padding-left: 0;
-    }
-
-    @include media(tablet) {
       .controls {
         position: absolute;
         top: 0px;
@@ -49,7 +45,7 @@
     }
 
     .controls {
-      padding: 14px;
+      padding: 14px 14px 14px 0px;
       overflow: hidden;
       background-color: $white;
 
@@ -199,5 +195,10 @@
         }
       }
     }
+  }
+
+  .form-section {
+    padding-top: 14px;
+    margin-bottom: 0;
   }
 }

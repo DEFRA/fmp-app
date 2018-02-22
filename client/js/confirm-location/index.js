@@ -14,6 +14,7 @@ function ConfirmLocationPage (options) {
   var $container = $('.map-container', $page)
   var $continueBtn = $('a.continue')
   var $legend = $('.legend')
+  var $setLayerVisible = $('.layer-toggle')
 
   var point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
@@ -216,6 +217,10 @@ function ConfirmLocationPage (options) {
 
     $radios.on('click', 'label', function (e) {
       updateMode()
+    })
+
+    $setLayerVisible.on('change', function (e) {
+      map.setLayerVisible('fmp', this.checked)
     })
 
     // Click handler for pointer
