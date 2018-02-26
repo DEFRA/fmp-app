@@ -4,65 +4,66 @@
   <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
   {{> nojs}}
   {{> ie}}
-  <p class="info">
-    Move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify the site centre.<br>
-    Select 'Get report' to view, save or print a summary of this area's flood probability.<br>
-    Alternatively draw a shape to identify the site boundary.
-  </p>
-  <details>
-    <summary aria-controls="polygon-tool" aria-expanded="false" role="button">
-      <span class="summary">How to draw a shape</span>
-    </summary>
-    <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
-      <ul class="list list-bullet">
-        <li>Select 'Draw shape'</li>
-        <li>Select any point on your site’s boundary</li>
-        <li>Select a second point on the boundary. You should see a line drawn between the first 2 points</li>
-        <li>Keep adding points until the boundary is defined</li>
-        <li>Double click or tap when you return to your first point</li>
-        <li>Edit the finished shape by dragging the points in any direction</li>
-        <li>Add more points to a finished shape</li>
-      </ul>
-    </div>
-  </details>
-  <div class="main-container nojs-hide ie-hide">
-    <div class="map-container">
-      <div class="radio-button-group">
-        <input type="button" class="radio-button" name="type" value="point" id="marker">
-        <label for="marker">Move marker</label>
-        <input type="button" class="radio-button" name="type" value="polygon" id="polygon">
-        <label for="polygon">Draw Shape</label>
-        <input type="button" class="radio-button" name="type" value="deletePolygon" id="deletePolygon">
-        <label for="deletePolygon">Delete</label>
+  <div class="nojs-hide ie-hide">
+    <p class="info">
+      You can move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify a specific location.<br>
+      Alternatively draw a shape to identify an approximate site boundary.
+    </p>
+    <details>
+      <summary aria-controls="polygon-tool" aria-expanded="false" role="button">
+        <span class="summary">How to draw a shape</span>
+      </summary>
+      <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
+        <ul class="list list-bullet">
+          <li>Select 'Draw shape'</li>
+          <li>Select any point on the site boundary</li>
+          <li>Select a second point on the boundary. You should see a line drawn between the first two points</li>
+          <li>Keep adding points until the boundary is defined</li>
+          <li>Double click or tap when you return to your first point</li>
+          <li>Edit the finished shape by dragging the points</li>
+          <li>Add more points to a shape by clicking or tapping on a line</li>
+        </ul>
       </div>
-      <div id="map" class="map"></div>
-      <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
-        <button class="ol-full-screen-false" type="button" title="Full screen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
-      </div>
-      <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
-        <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
-      </div>
-      <div class="form-section visible-mobile">
-        <div class="multiple-choice">
-          <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
-          <label for="layer-toggle">Show flood zones</label>
+    </details>
+    <div class="main-container nojs-hide ie-hide">
+      <div class="map-container">
+        <div class="radio-button-group">
+          <input type="button" class="radio-button" name="type" value="point" id="marker">
+          <label for="marker">Move marker</label>
+          <input type="button" class="radio-button" name="type" value="polygon" id="polygon">
+          <label for="polygon">Draw Shape</label>
+          <input type="button" class="radio-button" name="type" value="deletePolygon" id="deletePolygon">
+          <label for="deletePolygon">Delete</label>
+        </div>
+        <div id="map" class="map"></div>
+        <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
+          <button class="ol-full-screen-false" type="button" title="Full screen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+        </div>
+        <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
+          <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+        </div>
+        <div class="form-section visible-mobile">
+          <div class="multiple-choice">
+            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+            <label for="layer-toggle">Show flood zones</label>
+          </div>
+        </div>
+        <div class="rhs">
+          <aside class="controls" id="legend">
+          {{> map/summary-legend}}
+          </aside>
+        </div>
+        <div class="form-section hidden-mobile">
+          <div class="multiple-choice">
+            <input id="layer-toggle2" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
+            <label for="layer-toggle2">Show flood zones</label>
+          </div>
         </div>
       </div>
-      <div class="rhs">
-        <aside class="controls" id="legend">
-        {{> map/summary-legend}}
-        </aside>
-      </div>
-      <div class="form-section hidden-mobile">
-        <div class="multiple-choice">
-          <input id="layer-toggle2" class="layer-toggle" name="layer-toggle" type="checkbox" checked>
-          <label for="layer-toggle2">Show flood zones</label>
-        </div>
-      </div>
     </div>
+    <br>
+    <a href="/summary?easting={{easting}}&northing={{northing}}" class="button continue" title="Get report">Get report</a>
   </div>
-  <br>
-  <a href="/summary?easting={{easting}}&northing={{northing}}" class="button continue" title="Get report">Get report</a>
 </main>
 <script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
 <script>
