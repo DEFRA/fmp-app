@@ -3,6 +3,7 @@ var ol = require('openlayers')
 var Map = require('../map')
 var mapConfig = require('../map-config.json')
 var VectorDrag = require('../vector-drag')
+var dialog = require('../dialog')
 var vectorDragInteraction = new VectorDrag()
 
 function ConfirmLocationPage (options) {
@@ -12,9 +13,12 @@ function ConfirmLocationPage (options) {
   var $page = $('main#confirm-location-page')
   var $radios = $('.radio-button-group', $page)
   var $container = $('.map-container', $page)
-  var $continueBtn = $('a.continue')
-  var $legend = $('.legend')
-  var $setLayerVisible = $('.layer-toggle')
+  var $continueBtn = $('a.continue', $page)
+  var $legend = $('.legend', $page)
+  var $setLayerVisible = $('.layer-toggle', $page)
+  var $form = $('form.form', $page)
+  var $center = $('input[name="center"]', $form)
+  var $polygon = $('input[name="polygon"]', $form)
 
   var point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
@@ -176,6 +180,30 @@ function ConfirmLocationPage (options) {
     var polygon
     var featureMode = 'point'
 
+    var id, cookieTimer, cookiePattern
+    var cookieName = 'pdf-download'
+
+    function checkCookies () {
+      // If the local cookies have been updated, clear the timer
+      if (document.cookie.search(cookiePattern) >= 0) {
+        clearInterval(cookieTimer)
+        dialog.closeDialog()
+      }
+    }
+
+    $('#report form').submit(function () {
+      // Create the `id` variable. This is echoed back as
+      // the cookie value to notify the download is complete
+      id = (new Date()).getTime()
+      $('input[name=id][type=hidden]', this).val(id)
+      cookiePattern = new RegExp(cookieName + '=' + id, 'i')
+
+      dialog.closeDialog()
+      dialog.openDialog('#report-downloading')
+
+      cookieTimer = window.setInterval(checkCookies, 500)
+    })
+
     if (options.polygon) {
       // Load polygon from saved state
       polygon = new ol.Feature({
@@ -290,15 +318,22 @@ function ConfirmLocationPage (options) {
 
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
-        url += '?polygon=' + JSON.stringify(coordinates.map(function (item) {
+        var center = getCenterOfExtent(polygon.getGeometry().getExtent())
+        var coords = JSON.stringify(coordinates.map(function (item) {
           return [parseInt(item[0], 10), parseInt(item[1], 10)]
         }))
-        url += '&center=' + JSON.stringify(getCenterOfExtent(polygon.getGeometry().getExtent()))
+        url += '?polygon=' + coords
+        url += '&center=' + JSON.stringify(center)
+        // set form values
+        $center.attr('value', JSON.stringify(center))
+        $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
+        // set form values
+        $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')
+        $polygon.attr('value', '')
       }
-
       $continueBtn.attr('href', url)
     }
 

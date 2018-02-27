@@ -1,0 +1,40 @@
+<div class="dialog" id="report" aria-hidden="true">
+  <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="alertdialog">
+    <div class="dialog-content" role="document" tabindex="0">
+      <h1 class="dialog-heading">Download report</h1>
+      <form class="form" method="POST" action="pdf">
+        <input name="id" type="hidden">
+        <input name="zone" type="hidden" value="{{floodZone.zone}}">
+        <input name="polygon" type="hidden" value="{{polygon}}">
+        <input name="center" type="hidden" value="[{{easting}},{{northing}}]">
+        <div class="form-group">
+          <label class="form-label" for="reference">Your reference</label>
+          <input class="form-control" id="reference" name="reference" type="text" maxlength="13">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="scale">Scale</label>
+          <select class="form-control" id="scale" name="scale" style="max-width: 200px;">            
+            <option value="2500">1:2500</option>
+            <option value="10000">1:10000</option>
+            <option value="25000">1:25000</option>
+            <option value="50000">1:50000</option>
+          </select>
+        </div>
+        <div class="dialog-actions">
+          <button class="button" type="submit">Download</button>
+          <a class="dialog-cancel" href="#">Cancel</a>
+        </div>
+        <button class="dialog-close" aria-label="close" type="submit">
+          <span class="icon icon-close">x</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="dialog" id="report-downloading" aria-hidden="true">
+  <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="alertdialog">
+    <div class="dialog-content" role="document" tabindex="0">
+      <h1 class="dialog-heading">Downloading report</h1>
+    </div>
+  </div>
+</div>

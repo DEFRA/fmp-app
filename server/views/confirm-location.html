@@ -1,10 +1,10 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/confirm-location/index.css">
 <main id="confirm-location-page">
+  {{> printDialog}}
   <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
   {{> nojs}}
   {{> ie}}
-  <div class="nojs-hide ie-hide">
     <p class="info">
       You can move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify a specific location.<br>
       Alternatively draw a shape to identify an approximate site boundary.
@@ -62,8 +62,9 @@
       </div>
     </div>
     <br>
-    <a href="/summary?easting={{easting}}&northing={{northing}}" class="button continue" title="Get report">Get report</a>
-  </div>
+    <div class="form-group"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:confirm-location:DownloadReport">Download this information (PDF)</a></div>
+    <p><a href="/summary?easting={{easting}}&northing={{northing}}" class="continue" title="Get report">View flood zone summary map and more guidance</a></p>
+    <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external">flood risk assessment for a planning application</a></p>
 </main>
 <script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
 <script>

@@ -1,60 +1,14 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
 <main id="summary-page" data-test-info="{{riskJSON}}">
-  <a href="#" data-toggle="dialog" data-target="report" class="pull-right nojs-hide" data-journey-click="FMFP:Summary:DownloadReport">Download report</a>
-  <div class="dialog" id="report" aria-hidden="true">
-    <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="alertdialog">
-      <div class="dialog-content" role="document" tabindex="0">
-        <h1 class="dialog-heading">Download report</h1>
-        <form class="form" method="POST" action="{{#if polygon}}/pdf/1/1{{else}}/pdf/{{easting}}/{{northing}}{{/if}}">
-          <input name="id" type="hidden">
-          <input name="zone" type="hidden" value="{{zone}}">
-          <input name="polygon" type="hidden" value="{{polygon}}">
-          <input name="center" type="hidden" value="{{center}}">
-          <div class="form-group">
-            <label class="form-label" for="reference">Your reference</label>
-            <input class="form-control" id="reference" name="reference" type="text" maxlength="13">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="scale">Scale</label>
-            <select class="form-control" id="scale" name="scale" style="max-width: 200px;">            
-              <option value="3125">1:3125</option>
-              <option value="6250">1:6250</option>
-              <option value="12500">1:12500</option>
-              <option value="25000">1:25000</option>
-              <option value="50000">1:50000</option>
-              <option value="100000">1:100000</option>
-              <option value="200000">1:200000</option>
-              <option value="500000">1:500000</option>
-              <option value="1000000">1:1000000</option>
-              <option value="2000000">1:2000000</option>
-            </select>
-          </div>
-          <div class="dialog-actions">
-            <button class="button" type="submit">Download</button>
-            <a class="dialog-cancel" href="#">Cancel</a>
-          </div>
-          <button class="dialog-close" aria-label="close" type="submit">
-            <span class="icon icon-close">x</span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="dialog" id="report-downloading" aria-hidden="true">
-    <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="alertdialog">
-      <div class="dialog-content" role="document" tabindex="0">
-        <h1 class="dialog-heading">Downloading report</h1>
-      </div>
-    </div>
-  </div>
-  <h1 class="heading-xlarge">Flood probability</h1>
+  {{> printDialog}}
+  <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
   {{> nojs}}
   {{> ie}}
   <div class="nojs-hide ie-hide">
-    {{#if isZone1}}
+    {{#if floodZone.isZone1}}
       <p>This location is in an area with a low probability of flooding</p>
-    {{else if isZone2}}
+    {{else if floodZone.isZone2}}
       <p>This location is in an area with a medium probability of flooding</p>
     {{else}}
       <p>This location is in an area with a high probability of flooding</p>
@@ -62,13 +16,13 @@
   </div>
   <div class="grid-row main-container nojs-hide ie-hide">
     <div class="column-half summary-column">
-      {{#if isAreaBenefiting}}
+      {{#if floodZone.isAreaBenefiting}}
         {{> summary/area-benefiting}}
       {{else}}
-        {{#if isZone3}}
+        {{#if floodZone.isZone3}}
           {{> summary/zone3}}
         {{else}}
-          {{#if isZone2}}
+          {{#if floodZone.isZone2}}
             {{> summary/zone2}}
           {{else}}
             {{> summary/zone1}}
@@ -98,13 +52,13 @@
     </div>
   </div>
   <br>
+  <div class="form-group nojs-hide ie-hide"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information (PDF)</a></div>
   <div class="nojs-hide ie-hide">
     <div class="grid-row search-box">
       <div class="column-two-thirds">
-        <p>
-          <a href="/confirm-location?easting={{easting}}&northing={{northing}}{{#if polygon}}&polygon={{polygon}}{{/if}}" data-journey-click="FMFP:FloodZones:RefineSearch">Refine this search</a> or 
-          <a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">find out the flood probability at another location</a>
-        </p>
+        <p><a href="/confirm-location?easting={{easting}}&northing={{northing}}{{#if polygon}}&polygon={{polygon}}{{/if}}" data-journey-click="FMFP:FloodZones:RefineSearch">Refine this search</a></p>
+        <p>Find out the <a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">flood probability for another location</a></p>
+        <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external">flood risk assessment for a planning application</a></p>
         <div class="clearfix"></div>
         <details>
           <summary aria-controls="terms-of-use" aria-expanded="false" role="button">
@@ -118,7 +72,6 @@
       </div>
     </div>
   </div>
-  <div class="visible-mobile"></div>
 </main>
 <script src="{{{assetPath}}}javascripts/summary.js"></script>
 {{#if polygon}}

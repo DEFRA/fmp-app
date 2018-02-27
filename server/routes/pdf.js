@@ -2,27 +2,39 @@ const Joi = require('joi')
 const Boom = require('boom')
 const Wreck = require('wreck')
 const config = require('../../config')
+const riskService = require('../services/risk')
+const FloodZone = require('../models/flood-zone')
+const util = require('../util')
 
 module.exports = {
   method: 'POST',
-  path: '/pdf/{easting}/{northing}',
+  path: '/pdf',
   options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
-      let easting = request.params.easting
-      let northing = request.params.northing
       const id = request.payload.id
-      const zone = request.payload.zone
+      let zone = request.payload.zone
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
       const siteUrl = config.siteUrl
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
       const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
-      const center = polygon ? request.payload.center : [easting, northing]
+      const center = request.payload.center
       let vector
 
-       // Prepare point or polygon
+      // Get Flood zone if not provided
+      if (!zone) {
+        if (polygon) {
+          zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
+        } else {
+          zone = await riskService.getByPoint(center[0], center[1])
+        }
+        const floodZone = new FloodZone(zone, !!polygon)
+        zone = floodZone.zone
+      }
+
+      // Prepare point or polygon
       if (polygon) {
         vector = {
           type: 'vector',
@@ -263,15 +275,11 @@ module.exports = {
       }
     },
     validate: {
-      params: {
-        easting: Joi.number().max(700000).positive().required(),
-        northing: Joi.number().max(1300000).positive().required()
-      },
       payload: {
         id: Joi.number().required(),
-        zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a'),
+        zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a', ''),
         reference: Joi.string().allow('').max(13).trim(),
-        scale: Joi.number().allow(3125, 6250, 12500, 25000, 50000, 100000, 200000, 500000, 1000000, 2000000).required(),
+        scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
         center: Joi.array().required().allow('')
       }
