@@ -5,26 +5,28 @@
   <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
   {{> nojs}}
   {{> ie}}
-    <p class="info">
-      You can move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify a specific location.<br>
-      Alternatively draw a shape to identify an approximate site boundary.
-    </p>
-    <details>
-      <summary aria-controls="polygon-tool" aria-expanded="false" role="button">
-        <span class="summary">How to draw a shape</span>
-      </summary>
-      <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
-        <ul class="list list-bullet">
-          <li>Select 'Draw shape'</li>
-          <li>Select any point on the site boundary</li>
-          <li>Select a second point on the boundary. You should see a line drawn between the first two points</li>
-          <li>Keep adding points until the boundary is defined</li>
-          <li>Double click or tap when you return to your first point</li>
-          <li>Edit the finished shape by dragging the points</li>
-          <li>Add more points to a shape by clicking or tapping on a line</li>
-        </ul>
-      </div>
-    </details>
+    <div class="nojs-hide ie-hide">
+      <p class="info">
+        You can move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify a specific location.<br>
+        Alternatively draw a shape to identify an approximate site boundary.
+      </p>
+      <details>
+        <summary aria-controls="polygon-tool" aria-expanded="false" role="button">
+          <span class="summary">How to draw a shape</span>
+        </summary>
+        <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
+          <ul class="list list-bullet">
+            <li>Select 'Draw shape'</li>
+            <li>Select any point on the site boundary</li>
+            <li>Select a second point on the boundary. You should see a line drawn between the first two points</li>
+            <li>Keep adding points until the boundary is defined</li>
+            <li>Double click or tap when you return to your first point</li>
+            <li>Edit the finished shape by dragging the points</li>
+            <li>Add more points to a shape by clicking or tapping on a line</li>
+          </ul>
+        </div>
+      </details>
+    </div>
     <div class="main-container nojs-hide ie-hide">
       <div class="map-container">
         <div class="radio-button-group">
@@ -62,9 +64,11 @@
       </div>
     </div>
     <br>
-    <div class="form-group"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:confirm-location:DownloadReport">Download this information (PDF)</a></div>
-    <p><a href="/summary?easting={{easting}}&northing={{northing}}" class="continue" title="Get report">View flood zone summary map and more guidance</a></p>
-    <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external">flood risk assessment for a planning application</a></p>
+    <div class="nojs-hide ie-hide">
+      <div class="form-group"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:confirm-location:DownloadReport">Download this information (PDF)</a></div>
+      <p><a href="/summary?easting={{easting}}&northing={{northing}}" class="continue" title="Get report">View flood zone summary map and more guidance</a></p>
+      <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external">flood risk assessment for a planning application</a></p>
+    </div>
 </main>
 <script src="{{{assetPath}}}javascripts/confirm-location.js"></script>
 <script>
