@@ -17,7 +17,7 @@
     "build": "bin/build",
     "watch": "bin/watch",
     "lint": "standard",
-    "test": "npm run lint && lab -c -t 100 -r lcov -o lcov.info",
+    "test": "npm run lint && lab -c -r console -o stdout -r lcov -o lcov.info",
     "postinstall": "npm run build"
   },
   "author": "",
@@ -54,7 +54,7 @@
     "govuk-elements-sass": "3.1.2",
     "govuk_template_mustache": "0.23.0",
     "hbsfy": "2.8.1",
-    "lab": "15.2.0",
+    "lab": "15.3.0",
     "node-sass": "4.7.2",
     "standard": "10.0.3",
     "wisk": "1.0.1"
