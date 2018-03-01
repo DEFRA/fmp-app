@@ -11,10 +11,10 @@ module.exports = {
     invalidEastingAndNorthing: '<span class="error-message">You need to give an easting and northing</span>'
   },
   'confirm-location': {
-    standard: '<h1 class="heading-xlarge">Confirm the development location</h1>'
+    standard: '<h1 class="heading-xlarge">Likelihood of flooding in this area</h1>'
   },
   summary: {
-    standard: '<h1 class="heading-xlarge">Flood probability</h1>',
+    standard: '<h1 class="heading-xlarge">Likelihood of flooding in this area</h1>',
     zone1: '<h2 class="heading-large">Flood zone 1</h2>',
     zone2: '<h2 class="heading-large">Flood zone 2</h2>',
     zone3: '<h2 class="heading-large">Flood zone 3</h2>',
