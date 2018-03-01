@@ -209,7 +209,7 @@ function ConfirmLocationPage (options) {
       polygon = new ol.Feature({
         geometry: new ol.geom.Polygon([options.polygon])
       })
-      updateMode()
+      updateMode('polygon')
     }
 
     modify.on('modifyend', function (e) {
