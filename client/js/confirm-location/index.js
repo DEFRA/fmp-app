@@ -271,8 +271,6 @@ function ConfirmLocationPage (options) {
     map.getLayers().forEach(function (layer) {
       if (layer.getProperties().ref === 'centre') {
         layer.getSource().getFeatures()[0].on('change', function (e) {
-          // var coordinates = e.target.getGeometry().getCoordinates()
-          // $('a#continue').attr('href', '/summary/' + parseInt(coordinates[0], 10) + '/' + parseInt(coordinates[1], 10))
           updateTargetUrl()
         })
       }

@@ -38,10 +38,10 @@
         </div>
         <div id="map" class="map"></div>
         <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-false" type="button" title="Full screen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
         </div>
         <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-true" type="button" title="Exit full screen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
         </div>        
         <div class="rhs">
           <aside class="controls" id="legend">
@@ -58,10 +58,10 @@
       <div class="column-two-thirds">
         <p><a href="/confirm-location?easting={{easting}}&northing={{northing}}{{#if polygon}}&polygon={{polygon}}{{/if}}" data-journey-click="FMFP:FloodZones:RefineSearch">Refine this search</a></p>
         <p>Find out the <a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">flood probability for another location</a></p>
-        <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external">flood risk assessment for a planning application</a></p>
+        <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:FloodZones:FloodAssessmentForAPlanningApplication">flood risk assessment for a planning application</a></p>
         <div class="clearfix"></div>
         <details>
-          <summary aria-controls="terms-of-use" aria-expanded="false" role="button">
+          <summary aria-controls="terms-of-use" aria-expanded="false" role="button" data-journey-click="FMFP:FloodZones:TermsOfUse">
             <span class="summary">Terms of use</span>
           </summary>
           <div id="terms-of-use" class="panel panel-border-narrow" aria-hidden="true">
