@@ -5,7 +5,7 @@
   <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
   {{> nojs}}
   {{> ie}}
-    <div class="nojs-hide ie-hide">
+    <div class="nojs-hide ie-hide map-header">
       <p class="info">
         You can move the marker <img class="marker-indicator" src="/public/images/pin.png"> on the map to identify a specific location.<br>
         Alternatively draw a shape to identify an approximate site boundary.
@@ -26,6 +26,11 @@
           </ul>
         </div>
       </details>
+      <div class="map-download">
+          <div class="map-download-inner">
+            <a class="button button-map-download" href="#" data-toggle="dialog" data-target="report" data-journey-click="FMFP:confirm-location:DownloadReport">Download printable map (PDF)</a>
+          </div>
+      </div>
     </div>
     <div class="main-container nojs-hide ie-hide">
       <div class="map-container">
@@ -65,7 +70,6 @@
     </div>
     <br>
     <div class="nojs-hide ie-hide">
-      <div class="form-group"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:confirm-location:DownloadReport">Download this information (PDF)</a></div>
       <p><a href="/summary?easting={{easting}}&northing={{northing}}" class="continue" title="View flood zone summary map and more guidance" data-journey-click="FMFP:confirm-location:ViewFloodZoneSummaryMapAndMoreGuidance">View flood zone summary map and more guidance</a></p>
       <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:confirm-location:FloodRiskAssessmentForAPlanningApplication">flood risk assessment for a planning application</a></p>
     </div>

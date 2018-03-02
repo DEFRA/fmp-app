@@ -5,9 +5,58 @@
 @import '../dialog';
 
 #confirm-location-page {
-  .marker-indicator {
-    height: 30px;
-    vertical-align: middle;
+
+  .map-header{
+    margin-bottom: 1.25em;
+    
+    .marker-indicator {
+      height: 30px;
+      vertical-align: middle;
+    }
+
+    .map-download {
+      position: relative;
+      margin-top: 0.75em;
+      margin-bottom: 1.25em;
+      @media(min-width: 880px) {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  
+    .map-download-inner {
+      @media(min-width: 880px) {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  
+    .button-map-download {
+      // Presentation
+      @extend .button;
+      @include core-16;
+      background-color: $grey-2;
+      color: $black !important;
+      width: auto;
+      // Remove bottom shadow
+      -webkit-box-shadow-color: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      border-bottom: 2px solid $grey-2;
+    }
+  
+    .button-map-download:hover {
+      background-color: darken($grey-2, 10%);
+      border-color: darken($grey-2, 10%);
+      color: $black;
+    }
+  
+    .button-map-download:active {
+      background-color: darken($grey-2, 10%);
+      border-color: darken($grey-2, 10%);
+      color: $black;
+    }
   }
 
   .radio-button-group {
