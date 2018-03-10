@@ -15,7 +15,7 @@ module.exports = [{
         const query = request.query
         let data, errors
 
-        if (query.err && query.err === 'invalidPlaceOrPostcode') {
+        if (query.err) {
           data = {
             type: 'placeOrPostcode',
             placeOrPostcode: query.placeOrPostcode
@@ -23,16 +23,6 @@ module.exports = [{
 
           errors = [{
             path: ['placeOrPostcode']
-          }]
-        }
-        if (query.err && query.err === 'invalidNationalGridReference') {
-          data = {
-            type: 'nationalGridReference',
-            nationalGridReference: query.nationalGridReference
-          }
-
-          errors = [{
-            path: ['nationalGridReference']
           }]
         }
 
@@ -43,14 +33,9 @@ module.exports = [{
     },
     validate: {
       query: {
-        err: Joi.string().valid('invalidPlaceOrPostcode', 'invalidNationalGridReference'),
+        err: Joi.string().valid('invalidPlaceOrPostcode'),
         placeOrPostcode: Joi.string().when('err', {
           is: 'invalidPlaceOrPostcode',
-          then: Joi.required(),
-          otherwise: Joi.strip()
-        }),
-        nationalGridReference: Joi.string().when('err', {
-          is: 'invalidNationalGridReference',
           then: Joi.required(),
           otherwise: Joi.strip()
         })
@@ -81,13 +66,7 @@ module.exports = [{
           return h.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
         }
       } else if (payload.type === 'nationalGridReference') {
-        if (ngrRegEx.test(payload.nationalGridReference)) {
-          BNG = ngrToBng.convert(payload.nationalGridReference)
-        } else {
-          // doesn't look like a valid NGR, redirect with err parameter
-          const nationalGridReference = encodeURIComponent(payload.nationalGridReference)
-          return h.redirect('/?err=invalidNationalGridReference&nationalGridReference=' + nationalGridReference)
-        }
+        BNG = ngrToBng.convert(payload.nationalGridReference)
       } else if (payload.type === 'eastingNorthing') {
         BNG.easting = payload.easting
         BNG.northing = payload.northing
@@ -115,7 +94,7 @@ module.exports = [{
         }),
         nationalGridReference: Joi.when('type', {
           is: 'nationalGridReference',
-          then: Joi.string().replace(' ', '').required(),
+          then: Joi.string().replace(' ', '').required().regex(ngrRegEx),
           otherwise: Joi.strip()
         }),
         easting: Joi.when('type', {

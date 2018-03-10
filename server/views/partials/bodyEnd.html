@@ -12,6 +12,18 @@
       ga('create', analyticsAccount, 'auto');
       ga('send', 'pageview');
 
+      {{#if analyticsEvents}}
+        var analyticsToSend = {{{json analyticsEvents}}}
+        var len = analyticsToSend.length
+        var i, sendMe
+        for (i=0; i<len; ++i) {
+          if (i in analyticsToSend) {
+            sendMe = analyticsToSend[i]
+            ga('send', sendMe);
+          }
+        }
+      {{/if}}
+
       $(function() {
         // Setup custom callback until pull request
         // `https://github.com/alphagov/govuk_frontend_toolkit_npm/pull/35` is accepted,

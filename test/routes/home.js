@@ -46,29 +46,6 @@ lab.experiment('home', async () => {
     Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page with invalidNationalGridReference error param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidNationalGridReference&nationalGridReference=xxxx'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
-  })
-
-  lab.test('home page err invalidNationalGridReference without nationalGridReference param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidNationalGridReference'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers[400])
-  })
-
   lab.test('home page without placeOrPostcode params', async () => {
     const options = {
       method: 'GET',
@@ -260,8 +237,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidNationalGridReference&nationalGridReference=NY395557a')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
   })
 
   lab.test('home page without an easting', async () => {

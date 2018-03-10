@@ -27,6 +27,12 @@ function HomeViewModel (data, errors) {
     const ngrErrors = errors.find(e => e.path[0] === 'nationalGridReference')
     if (ngrErrors) {
       this.errors.nationalGridReference = 'You need to give a National Grid Reference (NGR)'
+      this.analyticsEvents = [{
+        hitType: 'event',
+        eventCategory: 'FMP',
+        eventAction: 'submit:invalid:nationalGridReference',
+        eventLabel: data.nationalGridReference
+      }]
     }
 
     // Easting
