@@ -2,6 +2,8 @@ const Lab = require('lab')
 const Code = require('code')
 const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
+const QueryString = require('querystring')
+const URL = require('url')
 const headers = require('../models/page-headers')
 const addressService = require('../../server/services/address')
 const ngrToBngService = require('../../server/services/ngr-to-bng')
@@ -111,9 +113,40 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers).to.include('location')
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/confirm-location?easting=527708&northing=108448')
+    Code.expect(responseURL.pathname).to.equal('/confirm-location')
+    Code.expect(responseQueryParams.easting).to.equal('527708')
+    Code.expect(responseQueryParams.northing).to.equal('108448')
+    Code.expect(responseQueryParams.nationalGridReference).to.equal('TQ2770808448')
+  })
+
+  lab.test('home page with placeOrPostcode', async () => {
+    const options = {
+      method: 'POST',
+      url: '/',
+      payload: {
+        type: 'placeOrPostcode',
+        placeOrPostcode: 'Warrington'
+      }
+    }
+
+    addressService.findByPlace = async (place) => {
+      return [{
+        geometry_x: 360799,
+        geometry_y: 388244
+      }]
+    }
+
+    const response = await server.inject(options)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(responseURL.pathname).to.equal('/confirm-location')
+    Code.expect(responseQueryParams.easting).to.equal('360799')
+    Code.expect(responseQueryParams.northing).to.equal('388244')
+    Code.expect(responseQueryParams.placeOrPostcode).to.equal('Warrington')
   })
 
   lab.test('home page with location search error', async () => {
@@ -385,8 +418,13 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/confirm-location?easting=null&northing=100000')
+    Code.expect(responseURL.pathname).to.equal('/confirm-location')
+    Code.expect(responseQueryParams.easting).to.equal('null')
+    Code.expect(responseQueryParams.northing).to.equal('100000')
+    Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
 
   lab.test('home page NGR fails to return northing but ok address', async () => {
@@ -407,8 +445,13 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/confirm-location?easting=100000&northing=null')
+    Code.expect(responseURL.pathname).to.equal('/confirm-location')
+    Code.expect(responseQueryParams.easting).to.equal('100000')
+    Code.expect(responseQueryParams.northing).to.equal('null')
+    Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
 
   lab.test('home page NGR fails', async () => {

@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const Boom = require('boom')
+const QueryString = require('querystring')
 const ngrToBng = require('../services/ngr-to-bng')
 const addressService = require('../services/address')
 const HomeViewModel = require('../models/home-view')
@@ -62,34 +63,47 @@ module.exports = [{
   options: {
     handler: async (request, h) => {
       const payload = request.payload
+      // attempt to get BNG coordinates for the place or postcode
+      let BNG = {}
       if (payload.type === 'placeOrPostcode') {
         try {
           const address = await addressService.findByPlace(payload.placeOrPostcode)
           if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
             throw new Error('No address found')
           }
-          // Using the returned address' x/y coordinates, redirect to the confirm location page
           const addr = address[0]
-          return h.redirect(`/confirm-location?easting=${addr.geometry_x}&northing=${addr.geometry_y}`)
+          BNG.easting = addr.geometry_x
+          BNG.northing = addr.geometry_y
         } catch (err) {
+          // return error view if E/N lookup by place or postcode fails
           request.log(['error', 'address-service', 'find-by-place'], err)
           const placeOrPostcode = encodeURIComponent(payload.placeOrPostcode)
           return h.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
         }
       } else if (payload.type === 'nationalGridReference') {
         if (ngrRegEx.test(payload.nationalGridReference)) {
-          // Convert the supplied NGR to E/N and redirect to the confirm location page
-          const point = ngrToBng.convert(payload.nationalGridReference)
-          return h.redirect(`/confirm-location?easting=${point.easting}&northing=${point.northing}`)
+          BNG = ngrToBng.convert(payload.nationalGridReference)
         } else {
-          // doesn't look like a valid NGR
+          // doesn't look like a valid NGR, redirect with err parameter
           const nationalGridReference = encodeURIComponent(payload.nationalGridReference)
           return h.redirect('/?err=invalidNationalGridReference&nationalGridReference=' + nationalGridReference)
         }
       } else if (payload.type === 'eastingNorthing') {
-        // Using the supplied Easting and Northing, redirect to the confirm location page
-        return h.redirect(`/confirm-location?easting=${payload.easting}&northing=${payload.northing}`)
+        BNG.easting = payload.easting
+        BNG.northing = payload.northing
       }
+      // redirect to the confirm location page with the BNG in the query
+      let queryParams = {}
+      queryParams.easting = BNG.easting || 'null'
+      queryParams.northing = BNG.northing || 'null'
+      // if the search wasn't by E/N include the original search in the query params
+      if (payload.type === 'nationalGridReference') {
+        queryParams.nationalGridReference = payload.nationalGridReference
+      } else if (payload.type === 'placeOrPostcode') {
+        queryParams.placeOrPostcode = payload.placeOrPostcode
+      }
+      const query = QueryString.stringify(queryParams)
+      return h.redirect(`/confirm-location?${query}`)
     },
     validate: {
       payload: {

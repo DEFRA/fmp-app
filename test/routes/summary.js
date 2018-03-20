@@ -2,6 +2,8 @@ const Lab = require('lab')
 const Code = require('code')
 const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
+const QueryString = require('querystring')
+const URL = require('url')
 const dbObjects = require('../models/get-fmp-zones')
 const headers = require('../models/page-headers')
 const riskService = require('../../server/services/risk')
@@ -100,8 +102,33 @@ lab.experiment('Summary', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers['not-england'].standard)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(responseURL.pathname).to.equal('not-england')
+    Code.expect(responseQueryParams.easting).to.equal('300000')
+    Code.expect(responseQueryParams.northing).to.equal('400000')
+  })
+
+  lab.test('Not in england polygon to render not-england page with centroid flag', async () => {
+    const options = {
+      method: 'GET',
+      url: '/summary?polygon=[[327586,365365],[328062,364497],[327390,364525],[327586,365365]]&center=[327726,364931]'
+    }
+
+    // Mock the risk service get
+    riskService.getByPolygon = async (polygon) => {
+      return dbObjects.notInEngland
+    }
+
+    const response = await server.inject(options)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(responseURL.pathname).to.equal('not-england')
+    Code.expect(responseQueryParams.easting).to.equal('327726')
+    Code.expect(responseQueryParams.northing).to.equal('364931')
+    Code.expect(responseQueryParams.centroid).to.be.equal('true')
   })
 
   lab.test('Risk service error handle', async () => {
