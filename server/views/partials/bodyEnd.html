@@ -16,7 +16,7 @@
         var analyticsToSend = {{{json analyticsEvents}}}
         var len = analyticsToSend.length
         var i, sendMe
-        for (i=0; i<len; ++i) {
+        for (i=0; i < len; ++i) {
           if (i in analyticsToSend) {
             sendMe = analyticsToSend[i]
             ga('send', sendMe);

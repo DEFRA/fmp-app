@@ -1,5 +1,4 @@
 const Joi = require('joi')
-const Boom = require('boom')
 const QueryString = require('querystring')
 const ngrToBng = require('../services/ngr-to-bng')
 const addressService = require('../services/address')
@@ -11,35 +10,7 @@ module.exports = [{
   path: '/',
   options: {
     handler: (request, h) => {
-      try {
-        const query = request.query
-        let data, errors
-
-        if (query.err) {
-          data = {
-            type: 'placeOrPostcode',
-            placeOrPostcode: query.placeOrPostcode
-          }
-
-          errors = [{
-            path: ['placeOrPostcode']
-          }]
-        }
-
-        return h.view('home', new HomeViewModel(data, errors))
-      } catch (err) {
-        return Boom.badRequest('Failed to load home page')
-      }
-    },
-    validate: {
-      query: {
-        err: Joi.string().valid('invalidPlaceOrPostcode'),
-        placeOrPostcode: Joi.string().when('err', {
-          is: 'invalidPlaceOrPostcode',
-          then: Joi.required(),
-          otherwise: Joi.strip()
-        })
-      }
+      return h.view('home', new HomeViewModel())
     }
   }
 }, {
@@ -62,8 +33,14 @@ module.exports = [{
         } catch (err) {
           // return error view if E/N lookup by place or postcode fails
           request.log(['error', 'address-service', 'find-by-place'], err)
-          const placeOrPostcode = encodeURIComponent(payload.placeOrPostcode)
-          return h.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
+          const data = {
+            type: 'placeOrPostcode',
+            placeOrPostcode: payload.placeOrPostcode
+          }
+          const errors = [{
+            path: ['placeOrPostcode']
+          }]
+          return h.view('home', new HomeViewModel(data, errors))
         }
       } else if (payload.type === 'nationalGridReference') {
         BNG = ngrToBng.convert(payload.nationalGridReference)
@@ -73,8 +50,8 @@ module.exports = [{
       }
       // redirect to the confirm location page with the BNG in the query
       let queryParams = {}
-      queryParams.easting = BNG.easting || 'null'
-      queryParams.northing = BNG.northing || 'null'
+      queryParams.easting = BNG.easting || ''
+      queryParams.northing = BNG.northing || ''
       // if the search wasn't by E/N include the original search in the query params
       if (payload.type === 'nationalGridReference') {
         queryParams.nationalGridReference = payload.nationalGridReference

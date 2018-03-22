@@ -5,6 +5,7 @@ function HomeViewModel (data, errors) {
     }
   }
 
+  this.analyticsEvents = []
   this.placeOrPostcode = data.placeOrPostcode
   this.nationalGridReference = data.nationalGridReference
   this.easting = data.easting
@@ -21,18 +22,24 @@ function HomeViewModel (data, errors) {
     const placeOrPostcodeErrors = errors.find(e => e.path[0] === 'placeOrPostcode')
     if (placeOrPostcodeErrors) {
       this.errors.placeOrPostcode = 'You need to give a place or postcode'
+      this.analyticsEvents.push({
+        hitType: 'event',
+        eventCategory: 'FMP',
+        eventAction: 'submit:invalid:placeOrPostcode',
+        eventLabel: this.placeOrPostcode
+      })
     }
 
     // National Grid Reference
     const ngrErrors = errors.find(e => e.path[0] === 'nationalGridReference')
     if (ngrErrors) {
       this.errors.nationalGridReference = 'You need to give a National Grid Reference (NGR)'
-      this.analyticsEvents = [{
+      this.analyticsEvents.push({
         hitType: 'event',
         eventCategory: 'FMP',
         eventAction: 'submit:invalid:nationalGridReference',
         eventLabel: data.nationalGridReference
-      }]
+      })
     }
 
     // Easting
