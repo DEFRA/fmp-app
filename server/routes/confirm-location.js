@@ -1,5 +1,6 @@
 const Boom = require('boom')
 const Joi = require('joi')
+const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
@@ -18,7 +19,9 @@ module.exports = {
         }
 
         if (!result.is_england) {
-          return h.view('not-england')
+          // redirect to the not England page with the search params in the query
+          const queryString = QueryString.stringify(request.query)
+          return h.redirect('/not-england?' + queryString)
         }
 
         const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon)
@@ -35,7 +38,9 @@ module.exports = {
         polygon: Joi.array().items(Joi.array().items(
           Joi.number().max(700000).positive().required(),
           Joi.number().max(1300000).positive().required()
-        ))
+        )),
+        placeOrPostcode: Joi.string(),
+        nationalGridReference: Joi.string()
       }
     }
   }
