@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const Boom = require('boom')
+const QueryString = require('querystring')
 const ngrToBng = require('../services/ngr-to-bng')
 const addressService = require('../services/address')
 const HomeViewModel = require('../models/home-view')
@@ -10,35 +10,7 @@ module.exports = [{
   path: '/',
   options: {
     handler: (request, h) => {
-      try {
-        const query = request.query
-        let data, errors
-
-        if (query.err) {
-          data = {
-            type: 'placeOrPostcode',
-            placeOrPostcode: query.placeOrPostcode
-          }
-
-          errors = [{
-            path: ['placeOrPostcode']
-          }]
-        }
-
-        return h.view('home', new HomeViewModel(data, errors))
-      } catch (err) {
-        return Boom.badRequest('Failed to load home page')
-      }
-    },
-    validate: {
-      query: {
-        err: Joi.string().valid('invalidPlaceOrPostcode'),
-        placeOrPostcode: Joi.string().when('err', {
-          is: 'invalidPlaceOrPostcode',
-          then: Joi.required(),
-          otherwise: Joi.strip()
-        })
-      }
+      return h.view('home', new HomeViewModel())
     }
   }
 }, {
@@ -47,29 +19,47 @@ module.exports = [{
   options: {
     handler: async (request, h) => {
       const payload = request.payload
+      // attempt to get BNG coordinates for the place or postcode
+      let BNG = {}
       if (payload.type === 'placeOrPostcode') {
         try {
           const address = await addressService.findByPlace(payload.placeOrPostcode)
           if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
             throw new Error('No address found')
           }
-          // Using the returned address' x/y coordinates, redirect to the confirm location page
           const addr = address[0]
-          return h.redirect(`/confirm-location?easting=${addr.geometry_x}&northing=${addr.geometry_y}`)
+          BNG.easting = addr.geometry_x
+          BNG.northing = addr.geometry_y
         } catch (err) {
+          // return error view if E/N lookup by place or postcode fails
           request.log(['error', 'address-service', 'find-by-place'], err)
-          const placeOrPostcode = encodeURIComponent(payload.placeOrPostcode)
-          return h.redirect('/?err=invalidPlaceOrPostcode&placeOrPostcode=' + placeOrPostcode)
+          const data = {
+            type: 'placeOrPostcode',
+            placeOrPostcode: payload.placeOrPostcode
+          }
+          const errors = [{
+            path: ['placeOrPostcode']
+          }]
+          return h.view('home', new HomeViewModel(data, errors))
         }
       } else if (payload.type === 'nationalGridReference') {
-        // Convert the supplied NGR to E/N and redirect to the confirm location page
-        const point = ngrToBng.convert(payload.nationalGridReference)
-
-        return h.redirect(`/confirm-location?easting=${point.easting}&northing=${point.northing}`)
+        BNG = ngrToBng.convert(payload.nationalGridReference)
       } else if (payload.type === 'eastingNorthing') {
-        // Using the supplied Easting and Northing, redirect to the confirm location page
-        return h.redirect(`/confirm-location?easting=${payload.easting}&northing=${payload.northing}`)
+        BNG.easting = payload.easting
+        BNG.northing = payload.northing
       }
+      // redirect to the confirm location page with the BNG in the query
+      let queryParams = {}
+      queryParams.easting = BNG.easting || ''
+      queryParams.northing = BNG.northing || ''
+      // if the search wasn't by E/N include the original search in the query params
+      if (payload.type === 'nationalGridReference') {
+        queryParams.nationalGridReference = payload.nationalGridReference
+      } else if (payload.type === 'placeOrPostcode') {
+        queryParams.placeOrPostcode = payload.placeOrPostcode
+      }
+      const query = QueryString.stringify(queryParams)
+      return h.redirect(`/confirm-location?${query}`)
     },
     validate: {
       payload: {
