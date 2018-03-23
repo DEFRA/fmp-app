@@ -34,63 +34,6 @@ lab.experiment('home', async () => {
     Code.expect(response.payload).to.include(headers.home.standard)
   })
 
-  lab.test('home page with invalidPlace error param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidPlaceOrPostcode&placeOrPostcode=xxxx'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
-  })
-
-  lab.test('home page with invalidNationalGridReference error param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidNationalGridReference&nationalGridReference=xxxx'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
-  })
-
-  lab.test('home page err invalidNationalGridReference without nationalGridReference param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidNationalGridReference'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers[400])
-  })
-
-  lab.test('home page without placeOrPostcode params', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=invalidPlaceOrPostcode'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers[400])
-  })
-
-  lab.test('home page with invalid error param', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?err=wefwef'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers[400])
-  })
-
   lab.test('unknown url returns 404', async () => {
     const options = {
       method: 'GET',
@@ -164,8 +107,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=Warrington')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
   })
 
   lab.test('home page with rubbish to redirect', async () => {
@@ -183,8 +127,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=Warrington')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
   })
 
   lab.test('home page without placeOrPostcode', async () => {
@@ -260,8 +205,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidNationalGridReference&nationalGridReference=NY395557a')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
   })
 
   lab.test('home page without an easting', async () => {
@@ -377,8 +323,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=wa41ht')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
   })
 
   lab.test('home page with bad northing from location', async () => {
@@ -396,8 +343,9 @@ lab.experiment('home', async () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=wa41ht')
-    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
   })
 
   lab.test('home page NGR fails to return easting but ok address', async () => {
@@ -422,7 +370,7 @@ lab.experiment('home', async () => {
     const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(responseURL.pathname).to.equal('/confirm-location')
-    Code.expect(responseQueryParams.easting).to.equal('null')
+    Code.expect(responseQueryParams.easting).to.equal('')
     Code.expect(responseQueryParams.northing).to.equal('100000')
     Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
@@ -450,7 +398,7 @@ lab.experiment('home', async () => {
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(responseURL.pathname).to.equal('/confirm-location')
     Code.expect(responseQueryParams.easting).to.equal('100000')
-    Code.expect(responseQueryParams.northing).to.equal('null')
+    Code.expect(responseQueryParams.northing).to.equal('')
     Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
 
@@ -540,8 +488,9 @@ lab.experiment('home', async () => {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=Warrington')
-      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.payload).to.include(headers.home.standard)
+      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
@@ -561,8 +510,9 @@ lab.experiment('home', async () => {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=Warrington')
-      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.payload).to.include(headers.home.standard)
+      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
@@ -764,8 +714,9 @@ lab.experiment('home', async () => {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=wa41ht')
-      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.payload).to.include(headers.home.standard)
+      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
@@ -787,8 +738,9 @@ lab.experiment('home', async () => {
     }
 
     server.inject(options, function (response) {
-      Code.expect(response.headers.location).to.equal('/?err=invalidPlaceOrPostcode&placeOrPostcode=wa41ht')
-      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.payload).to.include(headers.home.standard)
+      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
