@@ -1,0 +1,68 @@
+# FMP release 1.1.1 30/04/2018
+
+## Description
+
+This is a data release to update the current flood mapping to April 2018 data.
+
+There are no code changes, apart from the versioning of the application.
+
+## Webops Instructions
+
+Ensure Build script matches for Jenkins task: FMP_EA_102_UPSERT_DATA
+
+*****************************************************************
+mkdir ${FMP_GDB_ROOT}
+
+#Just use files from dev folder for now, no point duplicating data.
+## !IMPORTANT remember FMP_FILE_VERSION=v201711 environment variable
+
+s3cmd get s3://fmp-data-files/dev/shapefiles/latest/latest.zip ${FMP_GDB_ROOT}
+
+unzip ${FMP_GDB_ROOT}latest.zip -d ${FMP_GDB_ROOT}
+
+sudo chmod +x ./*/*.sh
+
+#Load shape files
+${WORKSPACE}/areas-benefiting/load-data.sh
+${WORKSPACE}/defences/load-data.sh
+${WORKSPACE}/flood-storage-areas/load-data.sh
+${WORKSPACE}/floodzone-2/load-data.sh
+${WORKSPACE}/floodzone-3/load-data.sh
+#${WORKSPACE}/main-rivers/load-data.sh
+#${WORKSPACE}/england-10k/load-data.sh
+
+#Clean database tables
+cd ${WORKSPACE}/areas-benefiting/
+./clean-data.sh
+cd ${WORKSPACE}/defences
+./clean-data.sh
+cd ${WORKSPACE}/flood-storage-areas
+./clean-data.sh
+cd ${WORKSPACE}/floodzone-2
+./clean-data.sh
+cd ${WORKSPACE}/floodzone-3
+./clean-data.sh
+#cd ${WORKSPACE}/main-rivers
+#./clean-data.sh
+#cd ${WORKSPACE}/england-10k
+#./clean-data.sh
+
+cd ${WORKSPACE}
+
+rm -rf ${FMP_GDB_ROOT}
+*****************************************************************
+
+
+Run Jenkins task: FMP_EA_102_UPSERT_DATA
+
+With parameter: v201804
+
+This will take roughly 3 hours.
+
+Ensure that there are no instances of the words "fail" or "error" within the console output of the job.
+
+Run Jenkins task: FMP_EA_103_COPY_TILE_CACHE
+
+This will take 1-2 hours to copy the tile cache from the dev to the production S3 bucket.
+
+
