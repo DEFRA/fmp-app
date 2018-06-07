@@ -1,0 +1,34 @@
+.govuk-related-items {
+  border-top: 2px solid #005ea5;
+  padding-top: 5px;
+  //margin-top:30px;
+
+  h2 {
+    //@include bold-24;
+    margin-top: 0.3em;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    // reset the default browser styles
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-bottom: 1.25em;
+
+    li {
+      // reset the default browser styles
+      padding: 0;
+      font-size: 19px;
+      margin-bottom: 10px;
+
+      &.related-items-more {
+        font-weight: bold;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+}

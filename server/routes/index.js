@@ -10,5 +10,8 @@ module.exports = [].concat(
   require('./pdf'),
   require('./robots'),
   require('./os-terms'),
-  require('./error')
+  require('./error'),
+  require('./cookies'),
+  require('./privacy-policy'),
+  require('./terms-conditions')
 )
