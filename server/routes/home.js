@@ -10,6 +10,16 @@ module.exports = [{
   path: '/',
   options: {
     handler: (request, h) => {
+      // if a legacy request containing a place parameter was included, accommodate it
+      const place = request.query.place
+      if (place) {
+        return h.view('home', new HomeViewModel(
+          {
+            type: 'placeOrPostcode',
+            placeOrPostcode: place
+          }
+          ))
+      }
       return h.view('home', new HomeViewModel())
     }
   }

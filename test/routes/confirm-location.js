@@ -145,4 +145,18 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(500)
     Code.expect(response.payload).to.contain(headers[500])
   })
+
+  lab.test('confirm-location with legacy place parameter redirects to homepage', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?place=co10+0nn'
+    }
+
+    const response = await server.inject(options)
+    const responseURL = URL.parse(response.headers.location)
+    const responseQueryParams = QueryString.parse(responseURL.query)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(responseURL.pathname).to.equal('/')
+    Code.expect(responseQueryParams.place).to.equal('co10 0nn')
+  })
 })

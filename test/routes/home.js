@@ -813,4 +813,15 @@ lab.experiment('home', async () => {
       server.stop(done)
     })
   })
+
+  lab.test('home page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
+    const options = {
+      method: 'GET',
+      url: '/?place=co10 onn'
+    }
+
+    const response = await await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers.home.standard)
+  })
 })
