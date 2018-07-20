@@ -49,5 +49,7 @@ cd ${WORKSPACE}
 rm -rf ${FMP_GDB_ROOT}
 ```
 
+# Data update
 Run: FMP_{stage}_102_UPSERT_DATA with environment variable "v201807"
 Run: FMP_{stage}_103_COPY_TILE_CACHE
+Then run a full code build, there are no code changes, but only the bump of the version number to 1.1.3
