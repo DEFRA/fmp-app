@@ -166,7 +166,7 @@ function ConfirmLocationPage (options) {
         })
       })
     }),
-      vectorLayer],
+    vectorLayer],
     // Add vector drag to map interactions
     interactions: ol.interaction.defaults({
       altShiftDragRotate: false,
