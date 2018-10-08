@@ -18,7 +18,7 @@ module.exports = [{
             type: 'placeOrPostcode',
             placeOrPostcode: place
           }
-          ))
+        ))
       }
       return h.view('home', new HomeViewModel())
     }

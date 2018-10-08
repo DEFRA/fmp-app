@@ -25,9 +25,9 @@ VectorDrag.prototype.handleDownEvent = function (evt) {
   var features = []
 
   var feature = map.forEachFeatureAtPixel(evt.pixel,
-     function (feature) {
-       return feature
-     })
+    function (feature) {
+      return feature
+    })
 
   if (feature) {
     this.coordinate = evt.coordinate
@@ -64,9 +64,9 @@ VectorDrag.prototype.handleMoveEvent = function (evt) {
   if (this.cursor) {
     var map = evt.map
     var feature = map.forEachFeatureAtPixel(evt.pixel,
-     function (feature) {
-       return feature
-     })
+      function (feature) {
+        return feature
+      })
     var element = evt.map.getTargetElement()
     if (feature) {
       if (element.style.cursor !== this.cursor) {
