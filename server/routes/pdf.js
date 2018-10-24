@@ -263,6 +263,8 @@ module.exports = {
       }
 
       try {
+        console.log(printUrl)
+        console.log(JSON.stringify(options.payload))
         const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()
         return h.response(result.payload)
