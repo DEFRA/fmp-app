@@ -13,5 +13,6 @@ module.exports = [].concat(
   require('./error'),
   require('./cookies'),
   require('./privacy-policy'),
+  require('./privacy-notice'),
   require('./terms-conditions')
 )
