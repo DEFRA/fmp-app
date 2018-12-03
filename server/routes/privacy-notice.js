@@ -11,8 +11,7 @@ module.exports = {
         context: {
           pageTitle: 'Privacy notice - Flood information service - GOV.UK',
           metaDescription: description,
-          ogDescription: description,
-          feedback: false
+          ogDescription: description
         }
       }
     }
