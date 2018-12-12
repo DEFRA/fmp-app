@@ -1,0 +1,11 @@
+# FMP release 1.1.6 13/12/2018
+
+# Tickets
+
+FLO-3208 - privacy notice
+
+# Instructions
+
+A full jenkins code build/deployment needs to be performed.
+
+There are no special instructions.
