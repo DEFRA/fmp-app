@@ -1,0 +1,70 @@
+# FMP release 1.1.7 18/12/2018
+
+# Tickets
+
+FLO-3249
+
+# Information
+
+This is a data load ticket for the main river data layer.
+
+# Special Instructions
+
+#1 Update job FMP_EA_102_UPSERT_DATA shell script to:
+
+#######################################
+mkdir ${FMP_GDB_ROOT}
+
+#Just use files from dev folder for now, no point duplicating data.
+## !IMPORTANT remember FMP_FILE_VERSION=v201711 environment variable
+
+s3cmd get s3://fmp-data-files/dev/shapefiles/latest/latest.zip ${FMP_GDB_ROOT}
+
+unzip ${FMP_GDB_ROOT}latest.zip -d ${FMP_GDB_ROOT}
+mv ${FMP_GDB_ROOT}FMfP_portal_${FMP_FILE_VERSION}/FMfP_portal_${FMP_FILE_VERSION}.gdb ${FMP_GDB_ROOT}FMfP_portal_${FMP_FILE_VERSION}.gdb
+
+sudo chmod +x ./*/*.sh
+
+#Load shape files
+#${WORKSPACE}/areas-benefiting/load-data.sh
+#${WORKSPACE}/defences/load-data.sh
+#${WORKSPACE}/flood-storage-areas/load-data.sh
+#${WORKSPACE}/floodzone-2/load-data.sh
+#${WORKSPACE}/floodzone-3/load-data.sh
+${WORKSPACE}/main-rivers/load-data.sh
+#${WORKSPACE}/england-10k/load-data.sh
+
+#Clean database tables
+#cd ${WORKSPACE}/areas-benefiting/
+#./clean-data.sh
+#cd ${WORKSPACE}/defences
+#./clean-data.sh
+#cd ${WORKSPACE}/flood-storage-areas
+#./clean-data.sh
+#cd ${WORKSPACE}/floodzone-2
+#./clean-data.sh
+#cd ${WORKSPACE}/floodzone-3
+#./clean-data.sh
+cd ${WORKSPACE}/main-rivers
+./clean-data.sh
+#cd ${WORKSPACE}/england-10k
+#./clean-data.sh
+
+cd ${WORKSPACE}
+
+rm -rf ${FMP_GDB_ROOT}
+#######################################
+
+Please note in the above (of the loads) it is only the main rivers load and clean parts to not be commented out.
+
+#2 Build job FMP_EA_102_UPSERT_DATA with parameter: v201810 (takes around 2 minutes)
+
+Please note that the above parameter is not used by the main river data set, but it is to stop the job erring on the older datasets contained in the latest.zip file.
+
+Also I will add some technical debt to look into paramerising the jenkins job with a list of tick boxes, so that you can dynamically select which layers to load on job run.
+
+#3 Build job: FMP_EA_103_COPY_TILE_CACHE (could take 1-2 hours).
+
+#4 Run full code build to update app to release 1.1.7
+
+#5 Run auto tests and share results.
