@@ -12,6 +12,11 @@ if (config.proxy) {
 }
 
 module.exports = {
+  get: async (url, ext = false) => {
+    const thisWreck = (ext && wreckExt) ? wreckExt : wreck
+    const { payload } = await thisWreck.get(url)
+    return payload
+  },
   getJson: async (url, ext = false) => {
     const thisWreck = (ext && wreckExt) ? wreckExt : wreck
     const { payload } = await thisWreck.get(url, { json: true })

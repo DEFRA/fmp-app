@@ -1,16 +1,14 @@
 const Boom = require('boom')
 const config = require('../../config')
-const wreck = require('wreck').defaults({
-  timeout: config.httpTimeoutMs
-})
+const util = require('../util')
 
 module.exports = {
   method: 'GET',
   path: '/os-get-capabilities',
   handler: async (request, h) => {
     try {
-      const payload = await wreck.get(config.ordnanceSurvey.mapsUrl)
-      return h.response(payload.payload.toString()).type('text/xml')
+      const payload = await util.get(config.ordnanceSurvey.mapsUrl, true)
+      return h.response(payload).type('text/xml')
     } catch (err) {
       return Boom.badRequest('os-get-capabilities failed')
     }
