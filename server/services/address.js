@@ -6,7 +6,7 @@ const urlNamesApi = config.ordnanceSurvey.namesUrl
 module.exports = {
   findByPlace: async (place) => {
     const uri = sprintf.vsprintf(urlNamesApi, [place])
-    const payload = await util.getJson(uri)
+    const payload = await util.getJson(uri, true)
 
     if (!payload || !payload.results || !payload.results.length) {
       return []
