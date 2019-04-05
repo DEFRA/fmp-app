@@ -4,10 +4,11 @@ const wreck = require('wreck').defaults({
   timeout: config.httpTimeoutMs
 })
 let wreckExt
-if (config.http_proxy) {
+
+if (config.proxy) {
   wreckExt = require('wreck').defaults({
     timeout: config.httpTimeoutMs,
-    agent: new HttpsProxyAgent(config.http_proxy)
+    agent: new HttpsProxyAgent(config.proxy)
   })
 }
 

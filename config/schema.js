@@ -10,6 +10,7 @@ module.exports = {
   server: serverSchema,
   service: Joi.string().uri().required(),
   geoserver: Joi.string().uri().required(),
+  proxy: Joi.string().uri().allow('').required(),
   logging: Joi.object(),
   views: Joi.object().required().keys({
     isCached: Joi.boolean().required()
