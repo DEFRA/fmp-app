@@ -1,6 +1,7 @@
 const Joi = require('joi')
 const Boom = require('boom')
 const Wreck = require('wreck')
+const moment = require('moment-timezone')
 const config = require('../../config')
 const riskService = require('../services/risk')
 const FloodZone = require('../models/flood-zone')
@@ -90,6 +91,7 @@ module.exports = {
           easting: parseInt(center[0]),
           scale: scale,
           northing: parseInt(center[1]),
+          timestamp: moment().tz('Europe/London').format('d MMM YYYY H:mm'),
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
           pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
           layers: [
