@@ -91,7 +91,7 @@ module.exports = {
           easting: parseInt(center[0]),
           scale: scale,
           northing: parseInt(center[1]),
-          timestamp: moment().tz('Europe/London').format('d MMM YYYY H:mm'),
+          timestamp: moment().tz('Europe/London').format('D MMM YYYY H:mm'),
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
           pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
           layers: [
