@@ -14,5 +14,6 @@ module.exports = [].concat(
   require('./cookies'),
   require('./privacy-policy'),
   require('./privacy-notice'),
-  require('./terms-conditions')
+  require('./terms-conditions'),
+  require('./poc/product-4-dataset')
 )
