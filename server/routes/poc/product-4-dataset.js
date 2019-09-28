@@ -44,7 +44,7 @@ module.exports = [{
                     if (err) throw err;
                 });
             });
-            return h.view('poc-pdf');
+            return 'pdf generated';
         }
     }
 }]
