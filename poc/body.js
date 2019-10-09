@@ -1,4 +1,5 @@
 const Wreck = require('@hapi/wreck');
+const fs = require('fs');
 async function body() {
     try {
         const data = JSON.stringify({ id: 12, isinland: false });
@@ -46,8 +47,10 @@ async function body() {
             }
         },
 
-        `\n\n  ${contentsAsJSON.FloodMapConfirmation.text} \n\n `
-
+        `\n\n  ${contentsAsJSON.FloodMapConfirmation.text} \n\n `,
+        {
+            image: `${contentsAsJSON.Maps}`, height: 400, width: 400
+        }
         ];
         return content;
     } catch (error) {
