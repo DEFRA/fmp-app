@@ -7,6 +7,7 @@ const header = require('./header');
 const footer = require('./footer');
 const body = require('./body');
 const Boom = require('boom');
+const sgMail = require('./email')
 
 
 var completedPDFData = async () => {
@@ -19,10 +20,21 @@ var completedPDFData = async () => {
             footer: footerData,
             header: headerData
         };
-        pdfMake.createPdf(fullContentForPDF).getBuffer(function (result) {
-            fs.writeFile(`generatedpdfs/${new Date().toISOString()}.pdf`, result, function (err) {
-                if (err) throw err;
-            });
+        pdfMake.createPdf(fullContentForPDF).getBase64(function (encodedString) {
+            const msg = {
+                to: 'defra.test.warrington@gmail.com',
+                from: 'defra.test.warrington@gmail.com',
+                subject: 'Message from the Flood Map Team',
+                text: 'Product4 Flood Map',
+                attachments: [
+                    {
+                        content: encodedString, 
+                        filename:'test.pdf',
+                        type: "application/pdf"
+                    },
+                ]
+            };
+            sgMail.send(msg);
         });
     }
     catch (err) {

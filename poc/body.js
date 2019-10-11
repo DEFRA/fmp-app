@@ -49,7 +49,14 @@ async function body() {
 
         `\n\n  ${contentsAsJSON.FloodMapConfirmation.text} \n\n `,
         {
-            image: `${contentsAsJSON.Maps}`, height: 400, width: 400
+            image: `${contentsAsJSON.Maps}`, height: 1000, width: 562
+        },
+        {
+            image: `${contentsAsJSON.Maps}`, height: 650, width: 1266
+        },
+
+        {
+            image: `${contentsAsJSON.Maps}`, height: 1200, width: 1920
         }
         ];
         return content;
