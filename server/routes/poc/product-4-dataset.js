@@ -34,13 +34,26 @@ module.exports = [{
                     then: Joi.string().replace(' ', '').required(),
                     otherwise: Joi.strip()
                   }),
+                  lastname: Joi.when('type', {
+                    is: 'lastname',
+                    then: Joi.string().replace(' ', '').required(),
+                    otherwise: Joi.strip()
+                  }),
+                  email: Joi.when('type', {
+                    is: 'email',
+                    then: Joi.string().replace(' ', '').required(),
+                    otherwise: Joi.strip()
+                  }),
+                  confirmemail: Joi.when('type', {
+                    is: 'confirmemail',
+                    then: Joi.string().replace(' ', '').required(),
+                    otherwise: Joi.strip()
+                  }),
             },
             failAction: (request, h, error) => {
                 const errors = error.details
                 const payload = request.payload || {}
                 const model = new CustomerDetailRequestViewModel(payload, errors)
-                // https://hapijs.com/api#takeover-response
-                // https://github.com/hapijs/hapi/issues/3658 (Lifecycle methods)
                 return h.view('poc-pdf', model).takeover()
               }
         }

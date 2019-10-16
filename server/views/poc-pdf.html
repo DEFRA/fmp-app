@@ -21,21 +21,15 @@
                     rel="external" data-journey-click="FMFP:StartPage:FloodRiskAssessment">flood risk assessment</a></p>
             <div class="nojs-hide ie-hide">
                 <h2 class="heading-medium">Before you start</h2>
-                <p>You will need the postcode, place, national grid reference (NGR) or easting and northing co-ordinates
-                    for the location you want to know about.</p>
-                <p>You can then:</p>
-                <ul class="list list-bullet">
-                    <li>confirm the location with a marker or site shape to see the likelihood of it flooding</li>
-                </ul>
+                <p>You will need the postcode, Firstname, Lastname, and Email</p>
                 <form autocomplete="off" class="form" method="post" action="/poc/dataset">
                     <fieldset>
                         <!-- Place or postcode -->
                         <div id="place-postcode"
                             class="panel panel-border-narrow {{#if errors.placeOrPostcode}}form-group-error{{/if}}">
-                            <label class="form-label" for="place">
+                            <label class="form-label" for="placeorPostcode">
                                 <span class="visuallyhidden">Place or postcode</span>
-                                <span class="form-hint"> Please enter place or postcode For example, Bakewell or WA4
-                                    1AB</span>
+                                <span class="form-hint"> Please enter place or postcode For example, Manchester</span>
                                 {{#if errors.placeOrPostcode}}<span
                                     class="error-message">{{errors.placeOrPostcode}}</span>{{/if}}
                             </label>
@@ -43,17 +37,51 @@
                                 id="placeOrPostcode" name="placeOrPostcode" type="text" value="{{placeOrPostcode}}">
                         </div>
                         <!--Firstname-->
-                         <div id="first-name"
-                         class="panel panel-border-narrow {{#if errors.firstname}}form-group-error{{/if}}">
-                         <label class="form-label" for="place">
-                             <span class="visuallyhidden">firstname</span>
-                             <span class="form-hint"> Please enter firstname For example, Hari</span>
-                             {{#if errors.firstname}}<span
-                                 class="error-message">{{errors.firstname}}</span>{{/if}}
-                         </label>
-                         <input class="form-control {{#if errors.firstname}}form-control-error{{/if}}"
-                             id="firstname" name="firstname" type="text" value="{{firstname}}">
-                     </div>
+                        <div id="first-name"
+                            class="panel panel-border-narrow {{#if errors.firstname}}form-group-error{{/if}}">
+                            <label class="form-label" for="firstname">
+                                <span class="visuallyhidden">firstname</span>
+                                <span class="form-hint"> Please enter firstname For example, Hari</span>
+                                {{#if errors.firstname}}<span class="error-message">{{errors.firstname}}</span>{{/if}}
+                            </label>
+                            <input class="form-control {{#if errors.firstname}}form-control-error{{/if}}" id="firstname"
+                                name="firstname" type="text" value="{{firstname}}">
+                        </div>
+                        <!--lastname-->
+                        <div id="last-name"
+                            class="panel panel-border-narrow {{#if errors.lastname}}form-group-error{{/if}}">
+                            <label class="form-label" for="lastname">
+                                <span class="visuallyhidden">lastname</span>
+                                <span class="form-hint"> Please enter lastname For example, Gillala</span>
+                                {{#if errors.lastname}}<span class="error-message">{{errors.lastname}}</span>{{/if}}
+                            </label>
+                            <input class="form-control {{#if errors.lastname}}form-control-error{{/if}}" id="lastname"
+                                name="lastname" type="text" value="{{lastname}}">
+                        </div>
+                        <!--email-->
+                        <div id="e-mail" class="panel panel-border-narrow {{#if errors.email}}form-group-error{{/if}}">
+                            <label class="form-label" for="email">
+                                <span class="visuallyhidden">email</span>
+                                <span class="form-hint"> Please enter email For example, Gillala@gmail.com</span>
+                                {{#if errors.email}}<span class="error-message">{{errors.email}}</span>{{/if}}
+                            </label>
+                            <input class="form-control {{#if errors.email}}form-control-error{{/if}}" id="email"
+                                name="email" type="text" value="{{email}}">
+                        </div>
+                        <!--confirm email-->
+                        <div id="confirm-email"
+                            class="panel panel-border-narrow {{#if errors.confirmemail}}form-group-error{{/if}}">
+                            <label class="form-label" for="confirmemail">
+                                <span class="visuallyhidden">confirmemail</span>
+                                <span class="form-hint"> Please enter email For example, Gillala@gmail.com</span>
+                                {{#if errors.confirmemail}}<span
+                                    class="error-message">{{errors.confirmemail}}</span>{{/if}}
+                            </label>
+                            <input class="form-control {{#if errors.confirmemail}}form-control-error{{/if}}"
+                                id="confirmemail" name="confirmemail" type="text" value="{{confirmemail}}">
+                        </div>
+
+
                         <div class="form-group">
                             <button class="button" type="submit">Generate PDF for Product 4</button>
                         </div>
