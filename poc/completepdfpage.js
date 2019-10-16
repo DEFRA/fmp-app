@@ -20,6 +20,10 @@ var completedPDFData = async () => {
             footer: footerData,
             header: headerData
         };
+        pdfMake.createPdf(fullContentForPDF).getBuffer(function (result) {
+            fs.writeFile(`generatedpdfs/${new Date().toISOString()}.pdf`, result, function (err) {
+                if (err) throw err;
+            });});
         pdfMake.createPdf(fullContentForPDF).getBase64(function (encodedString) {
             const msg = {
                 to: 'defra.test.warrington@gmail.com',
