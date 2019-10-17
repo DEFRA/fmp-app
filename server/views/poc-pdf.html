@@ -68,20 +68,6 @@
                             <input class="form-control {{#if errors.email}}form-control-error{{/if}}" id="email"
                                 name="email" type="text" value="{{email}}">
                         </div>
-                        <!--confirm email-->
-                        <div id="confirm-email"
-                            class="panel panel-border-narrow {{#if errors.confirmemail}}form-group-error{{/if}}">
-                            <label class="form-label" for="confirmemail">
-                                <span class="visuallyhidden">confirmemail</span>
-                                <span class="form-hint"> Please enter email For example, Gillala@gmail.com</span>
-                                {{#if errors.confirmemail}}<span
-                                    class="error-message">{{errors.confirmemail}}</span>{{/if}}
-                            </label>
-                            <input class="form-control {{#if errors.confirmemail}}form-control-error{{/if}}"
-                                id="confirmemail" name="confirmemail" type="text" value="{{confirmemail}}">
-                        </div>
-
-
                         <div class="form-group">
                             <button class="button" type="submit">Generate PDF for Product 4</button>
                         </div>
