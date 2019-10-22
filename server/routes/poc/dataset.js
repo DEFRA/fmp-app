@@ -1,4 +1,5 @@
 const completedPDFData = require('../../../poc/completepdfpage');
+const { SaveCustomerRequest, GetCustomerRequestDetails } = require('../../../poc/customer');
 const CustomerDetailRequestViewModel = require('../../models/poc/customer-detail-request-view');
 const Joi = require('joi')
 
@@ -16,14 +17,21 @@ module.exports = [{
   path: '/poc/dataset',
   options: {
     handler: async (request, h) => {
-      const { Firstname, Lastname, Email, placeOrPostcode } = request.payload
-      await completedPDFData();
-      return h.view('pdf-generation-confirmation');
+      try {
+        var savedRecord = await SaveCustomerRequest(request);
+        var customerRequestdata = await GetCustomerRequestDetails(savedRecord.id);
+
+
+        await completedPDFData(customerRequestdata);
+        return h.view('pdf-generation-confirmation');
+      }
+      catch(error){
+        throw error
+      }
     },
 
     validate: {
       payload: {
-        // type: Joi.string().required().valid('placeOrPostcode', 'firstname', 'lastname', 'email'),
         placeOrPostcode: Joi.string().required(),
         firstname: Joi.string().required().max(50),
         lastname: Joi.string().required().max(50),
