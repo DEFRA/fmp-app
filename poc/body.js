@@ -60,6 +60,25 @@ async function body(customerRequestData) {
             },
             {
                 image: `${contentsAsJSON.nodalPointsMap}`, height: 700, width: 500
+            },
+            {
+                text: '\n\n\n\n Nodal Points Data table',
+                fontSize: 12,
+                bold: true
+
+            },
+            {
+                image: `${contentsAsJSON.modelledDataPointsMap}`, height: 700, width: 500
+            },
+
+            {
+                text: '\n\n\n\n Historic Flood Map',
+                fontSize: 12,
+                bold: true
+
+            },
+            {
+                image: `${contentsAsJSON.historicFloodMap}`, height: 700, width: 500
             }
         ];
         return content;
