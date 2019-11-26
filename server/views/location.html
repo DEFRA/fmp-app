@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/home/index.css">
+<div class="main-container">
 <main id="home-page">
-
+<a href="javascript:window.history.go(-1)" class="link-back">Back</a>
 <form autocomplete="off" class="form" method="post" action="/location">
     <div class="form-group form-location-planning">
       <fieldset>
@@ -9,8 +10,7 @@
         </legend>
         <!-- Place or postcode -->
         <div class="multiple-choice" data-target="place-postcode">
-          <input id="pp" type="radio" name="type" value="placeOrPostcode" {{#if isPlaceOrPostcode}}checked="checked"
-            {{/if}}>
+          <input id="pp" type="radio" name="type" value="placeOrPostcode" {{#if isPlaceOrPostcode}}checked="checked"{{/if}}>
           <label for="pp">By place or postcode</label>
         </div>
         <div id="place-postcode"
@@ -27,7 +27,7 @@
         <!-- National grid reference -->
         <div class="multiple-choice" data-target="national-grid-reference">
           <input id="ngr" type="radio" name="type" value="nationalGridReference"
-            {{#if isNationalGridReference}}checked="checked" {{/if}}>
+            {{#if isNationalGridReference}}checked="checked"{{/if}}>
           <label for="ngr">By National Grid Reference (NGR)</label>
         </div>
         <div id="national-grid-reference"
@@ -87,6 +87,7 @@
     </div>
   </form>
   </main>
+</div>
 <script src="{{{assetPath}}}javascripts/show-hide-content.js"></script>
 <script>
   $(function () {
