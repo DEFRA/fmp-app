@@ -1,0 +1,97 @@
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/home/index.css">
+<main id="home-page">
+
+<form autocomplete="off" class="form" method="post" action="/location">
+    <div class="form-group form-location-planning">
+      <fieldset>
+        <legend>
+          <h1 class="heading-large">Find the location</h1>
+        </legend>
+        <!-- Place or postcode -->
+        <div class="multiple-choice" data-target="place-postcode">
+          <input id="pp" type="radio" name="type" value="placeOrPostcode" {{#if isPlaceOrPostcode}}checked="checked"
+            {{/if}}>
+          <label for="pp">By place or postcode</label>
+        </div>
+        <div id="place-postcode"
+          class="panel panel-border-narrow {{#if errors.placeOrPostcode}}form-group-error{{/if}}">
+          <label class="form-label" for="place">
+            <span class="visuallyhidden">Place or postcode</span>
+            <span class="form-hint">For example, Bakewell or WA4 1AB</span>
+            {{#if errors.placeOrPostcode}}<span class="error-message">{{errors.placeOrPostcode}}</span>{{/if}}
+          </label>
+          <input class="form-control {{#if errors.placeOrPostcode}}form-control-error{{/if}}" id="placeOrPostcode"
+            name="placeOrPostcode" type="text" value="{{placeOrPostcode}}">
+        </div>
+
+        <!-- National grid reference -->
+        <div class="multiple-choice" data-target="national-grid-reference">
+          <input id="ngr" type="radio" name="type" value="nationalGridReference"
+            {{#if isNationalGridReference}}checked="checked" {{/if}}>
+          <label for="ngr">By National Grid Reference (NGR)</label>
+        </div>
+        <div id="national-grid-reference"
+          class="panel panel-border-narrow {{#if errors.nationalGridReference}}form-group-error{{/if}}">
+          <label class="form-label" for="ngr">
+            <span class="visuallyhidden">National Grid Reference</span>
+            <span class="form-hint">For example, NY395557 (6, 8 or 12 digits)</span>
+            {{#if errors.nationalGridReference}}<span
+              class="error-message">{{errors.nationalGridReference}}</span>{{/if}}
+          </label>
+          <input class="form-control {{#if errors.nationalGridReference}}form-control-error{{/if}}"
+            id="nationalGridReference" name="nationalGridReference" type="text" value="{{nationalGridReference}}">
+        </div>
+
+        <!-- Easting Northing -->
+        <div class="multiple-choice" data-target="easting-northing">
+          <input id="en" type="radio" name="type" value="eastingNorthing" {{#if isEastingNorthing}}checked="checked"
+            {{/if}}>
+          <label for="en">By easting and northing</label>
+        </div>
+        <div id="easting-northing"
+          class="panel panel-border-narrow {{#if showEastingNorthingGroupInError}}form-group-error{{/if}}">
+          <div class="form-group-easting-northing">
+            <fieldset>
+              <legend>
+                <span class="visuallyhidden">Easting and northing</span>
+                <span class="form-hint">For example, 123456 123456</span>
+                {{#if errors.easting}}
+                <span class="error-message">{{errors.easting}}</span>
+                {{else if errors.northing}}
+                <span class="error-message">{{errors.northing}}</span>
+                {{/if}}
+              </legend>
+              <div class="form-group form-group-easting">
+                <div class="form-group-container">
+                  <label class="form-label" for="easting">
+                    <span class="font-small">Easting</span>
+                  </label>
+                  <input class="form-control {{#if errors.easting}}form-control-error{{/if}}" id="easting"
+                    name="easting" type="number" value="{{easting}}">
+                </div>
+              </div>
+              <div class="form-group form-group-northing">
+                <div class="form-group-container">
+                  <label class="form-label" for="northing">
+                    <span class="font-small">Northing</span>
+                  </label>
+                  <input class="form-control {{#if showNorthingControlInError}}form-control-error{{/if}}"
+                    id="northing" name="northing" type="number" value="{{northing}}">
+                </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <button class="button" type="submit">Continue</button>
+    </div>
+  </form>
+  </main>
+<script src="{{{assetPath}}}javascripts/show-hide-content.js"></script>
+<script>
+  $(function () {
+    var showHideContent = new GOVUK.ShowHideContent()
+    showHideContent.init()
+  })
+</script>
+  

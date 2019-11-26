@@ -15,6 +15,7 @@ module.exports = [].concat(
   require('./privacy-policy'),
   require('./privacy-notice'),
   require('./terms-conditions'),
+  require('./location'),
   require('./contact'),
   require('./confirmation')
 )

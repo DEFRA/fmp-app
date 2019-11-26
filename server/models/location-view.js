@@ -1,4 +1,4 @@
-function HomeViewModel (data, errors) {
+function LocationViewModel (data, errors) {
   if (!data) {
     data = {
       type: 'placeOrPostcode'
@@ -62,4 +62,4 @@ function HomeViewModel (data, errors) {
   }
 }
 
-module.exports = HomeViewModel
+module.exports = LocationViewModel
