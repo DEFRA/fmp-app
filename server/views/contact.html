@@ -1,44 +1,39 @@
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{{assetPath}}}stylesheets/contact/index.css">
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/contact/index.css">
 <div class="main-container">
   <a href="javascript:window.history.go(-1)" class="link-back">Back</a>
+  <main id="contact-page" role='main'>
+    <form autocomplete="off" class="form" method="post" action="/contact">
+      <div class="grid-row">
+        <div class="column-two-thirds">
+          <legend>
+            <h1 class="heading-xlarge">
+              Contact details
+            </h1>
+          </legend>
 
-  <main id="contact-page" role="main">
-    <div class="grid-row">
-      <div class="column-two-thirds">
-        <legend>
-          <h1 class="heading-xlarge">
-            Contact details
-          </h1>
-        </legend>
-        
-        <div class="form-group nojs-hide ie-hide">
+          <div class="form-group nojs-hide ie-hide">
+            <div class="form-group">
+              <label class="form-label" for="fullName">
+                Full name
+              </label>
+              <input class="form-control" id="fullName" name="fullName" type="text" autocomplete="false"
+                spellcheck="false">
+            </div>
 
-        <form action="/form-handler" method="post" novalidate>
-
-          <div class="form-group">
-           <label class="form-label" for="fullName">
-              Full name
-            </label>
-            <input class="form-control" id="fullName" name="fullName" type="text" autocomplete="false" spellcheck="false">
+            <div class="form-group">
+              <label class="form-label" for="email">
+                Email address
+              </label>
+              <span id="email-hint" class="form-hint">We will email the link to the PDF of the maps</span>
+              <input class="form-control" id="email" name="email" type="email" aria-describedby="email-hint"
+                autocomplete="false" spellcheck="false">
+            </div>
+            <div class="form-group">
+              <button class="button" type="submit">Continue</button>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="email">
-              Email address
-            </label>
-            <span id="email-hint" class="form-hint">We will email the link to the PDF of the maps</span>
-            <input class="form-control" id="email" name="email" type="email" aria-describedby="email-hint" autocomplete="false" spellcheck="false">
-          </div>
-
-        </form>
         </div>
-
-         <a href="/confirmation" role="button" draggable="false" class="button">
-        Continue
-        </a>
-      
       </div>
-
   </main>
+  </form>
 </div>
-
