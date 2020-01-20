@@ -1,4 +1,5 @@
 const Boom = require('boom')
+const EmailConfirmationViewModel = require('./../models/email-confirmation-view')
 const notifyEmailClient = require('./../email/notify')
 module.exports = {
   method: 'GET',
@@ -9,10 +10,11 @@ module.exports = {
       try {
         if (request.query && request.query.email) {
           notifyEmailClient(request.query.email)
+          var model = new EmailConfirmationViewModel(request.query.email)
+          return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')
         }
-        return h.view('confirmation')
       } catch (err) {
         return Boom.badImplementation(err.message, err)
       }
