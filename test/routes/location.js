@@ -91,7 +91,7 @@ lab.experiment('home', async () => {
     Code.expect(responseQueryParams.placeOrPostcode).to.equal('Warrington')
   })
 
-  lab.test.skip('location page with location search error', async () => {
+  lab.test('location page with location search error', async () => {
     const options = {
       method: 'POST',
       url: '/location',
@@ -111,7 +111,7 @@ lab.experiment('home', async () => {
     Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test.skip('location page with rubbish to redirect', async () => {
+  lab.test('location page with rubbish to redirect', async () => {
     const options = {
       method: 'POST',
       url: '/location',
@@ -472,7 +472,7 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test.skip('location page with location search error', function (done) {
+  lab.test('location page with location search error', function (done) {
     var options = {
       method: 'POST',
       url: '/location',
@@ -494,7 +494,7 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test.skip('location page with rubbish to redirect', function (done) {
+  lab.test('location page with rubbish to redirect', function (done) {
     var options = {
       method: 'POST',
       url: '/location',
