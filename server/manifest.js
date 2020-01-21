@@ -38,8 +38,9 @@ const manifest = {
     ]
   }
 }
-
+// $lab:coverage:off$
 if (config.errbit.postErrors) {
+// $lab:coverage:on$
   delete config.errbit.postErrors
   manifest.register.plugins.push({
     plugin: 'node-hapi-airbrake',
