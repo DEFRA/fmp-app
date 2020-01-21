@@ -23,7 +23,7 @@ lab.experiment('home', async () => {
     }
   })
 
-  lab.test('home page returns 200', async () => {
+  lab.test('location page returns 200', async () => {
     const options = {
       method: 'GET',
       url: '/'
@@ -31,7 +31,6 @@ lab.experiment('home', async () => {
 
     const response = await await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
   })
 
   lab.test('unknown url returns 404', async () => {
@@ -45,10 +44,10 @@ lab.experiment('home', async () => {
     Code.expect(response.payload).to.include(headers[404])
   })
 
-  lab.test('home page with ngr', async () => {
+  lab.test('location page with ngr', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'TQ2770808448'
@@ -65,10 +64,10 @@ lab.experiment('home', async () => {
     Code.expect(responseQueryParams.nationalGridReference).to.equal('TQ2770808448')
   })
 
-  lab.test('home page with placeOrPostcode', async () => {
+  lab.test('location page with placeOrPostcode', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'Warrington'
@@ -92,10 +91,10 @@ lab.experiment('home', async () => {
     Code.expect(responseQueryParams.placeOrPostcode).to.equal('Warrington')
   })
 
-  lab.test('home page with location search error', async () => {
+  lab.test('location page with location search error', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'Warrington'
@@ -108,14 +107,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page with rubbish to redirect', async () => {
+  lab.test('location page with rubbish to redirect', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'Warrington'
@@ -128,14 +127,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page without placeOrPostcode', async () => {
+  lab.test('location page without placeOrPostcode', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: ''
@@ -144,14 +143,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page without placeOrPostcode', async () => {
+  lab.test('location page without placeOrPostcode', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode'
       }
@@ -159,14 +158,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page without nationalGridReference', async () => {
+  lab.test('location page without nationalGridReference', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: ''
@@ -175,14 +174,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidNationalGridReference)
   })
 
-  lab.test('home page without nationalGridReference', async () => {
+  lab.test('location page without nationalGridReference', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference'
       }
@@ -190,14 +189,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidNationalGridReference)
   })
 
-  lab.test('home page with bad national grid reference', async () => {
+  lab.test('location page with bad national grid reference', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'NY395557a'
@@ -206,14 +205,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidNationalGridReference)
   })
 
-  lab.test('home page without an easting', async () => {
+  lab.test('location page without an easting', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         northing: 123456
@@ -222,14 +221,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEasting)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEasting)
   })
 
-  lab.test('home page without an easting', async () => {
+  lab.test('location page without an easting', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: NaN,
@@ -239,14 +238,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEasting)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEasting)
   })
 
-  lab.test('home page without a northing', async () => {
+  lab.test('location page without a northing', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: 123456
@@ -255,14 +254,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidNorthing)
   })
 
-  lab.test('home page without a northing', async () => {
+  lab.test('location page without a northing', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: 123456,
@@ -272,14 +271,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidNorthing)
   })
 
-  lab.test('home page without an easting or northing', async () => {
+  lab.test('location page without an easting or northing', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing'
       }
@@ -287,14 +286,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
   })
 
-  lab.test('home page without an easting or northing', async () => {
+  lab.test('location page without an easting or northing', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: NaN,
@@ -304,14 +303,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
   })
 
-  lab.test('home page with bad easting from location', async () => {
+  lab.test('location page with bad easting from location', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'wa41ht'
@@ -324,14 +323,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page with bad northing from location', async () => {
+  lab.test('location page with bad northing from location', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'wa41ht'
@@ -344,14 +343,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
   })
 
-  lab.test('home page NGR fails to return easting but ok address', async () => {
+  lab.test('location page NGR fails to return easting but ok address', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'NN729575'
@@ -375,10 +374,10 @@ lab.experiment('home', async () => {
     Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
 
-  lab.test('home page NGR fails to return northing but ok address', async () => {
+  lab.test('location page NGR fails to return northing but ok address', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'NN729575'
@@ -402,10 +401,10 @@ lab.experiment('home', async () => {
     Code.expect(responseQueryParams.nationalGridReference).to.equal('NN729575')
   })
 
-  lab.test('home page NGR fails', async () => {
+  lab.test('location page NGR fails', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'NN729575'
@@ -421,10 +420,10 @@ lab.experiment('home', async () => {
     Code.expect(response.payload).to.contain(headers[500])
   })
 
-  lab.test('home page with invalid easting or northing integer', async () => {
+  lab.test('location page with invalid easting or northing integer', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: 1232545655,
@@ -434,14 +433,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
   })
 
-  lab.test('home page with negative easting or northing integer', async () => {
+  lab.test('location page with negative easting or northing integer', async () => {
     const options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'eastingNorthing',
         easting: -12545,
@@ -451,14 +450,14 @@ lab.experiment('home', async () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-    Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+    Code.expect(response.payload).to.include(headers.location.standard)
+    Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
   })
 
-  lab.test('home page with ngr', function (done) {
+  lab.test('location page with ngr', function (done) {
     var options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'nationalGridReference',
         nationalGridReference: 'TQ2770808448'
@@ -473,10 +472,10 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test('home page with location search error', function (done) {
+  lab.test('location page with location search error', function (done) {
     var options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'Warrington'
@@ -489,16 +488,16 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page with rubbish to redirect', function (done) {
+  lab.test('location page with rubbish to redirect', function (done) {
     var options = {
       method: 'POST',
-      url: '/',
+      url: '/location',
       payload: {
         type: 'placeOrPostcode',
         placeOrPostcode: 'Warrington'
@@ -511,13 +510,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page without placeOrPostcode', function (done) {
+  lab.test('location page without placeOrPostcode', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -529,13 +528,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page without placeOrPostcode', function (done) {
+  lab.test('location page without placeOrPostcode', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -546,13 +545,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page without nationalGridReference', function (done) {
+  lab.test('location page without nationalGridReference', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -564,13 +563,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidNationalGridReference)
       server.stop(done)
     })
   })
 
-  lab.test('home page without nationalGridReference', function (done) {
+  lab.test('location page without nationalGridReference', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -581,13 +580,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidNationalGridReference)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidNationalGridReference)
       server.stop(done)
     })
   })
 
-  lab.test('home page without an easting', function (done) {
+  lab.test('location page without an easting', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -599,13 +598,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidEasting)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidEasting)
       server.stop(done)
     })
   })
 
-  lab.test('home page without an easting', function (done) {
+  lab.test('location page without an easting', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -618,13 +617,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidEasting)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidEasting)
       server.stop(done)
     })
   })
 
-  lab.test('home page without a northing', function (done) {
+  lab.test('location page without a northing', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -636,13 +635,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidNorthing)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidNorthing)
       server.stop(done)
     })
   })
 
-  lab.test('home page without a northing', function (done) {
+  lab.test('location page without a northing', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -655,13 +654,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidNorthing)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidNorthing)
       server.stop(done)
     })
   })
 
-  lab.test('home page without an easting or northing', function (done) {
+  lab.test('location page without an easting or northing', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -672,13 +671,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
       server.stop(done)
     })
   })
 
-  lab.test('home page without an easting or northing', function (done) {
+  lab.test('location page without an easting or northing', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -691,13 +690,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidEastingAndNorthing)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidEastingAndNorthing)
       server.stop(done)
     })
   })
 
-  lab.test('home page with bad easting from location', function (done) {
+  lab.test('location page with bad easting from location', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -715,13 +714,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page with bad northing from location', function (done) {
+  lab.test('location page with bad northing from location', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -739,13 +738,13 @@ lab.experiment('home', async () => {
 
     server.inject(options, function (response) {
       Code.expect(response.statusCode).to.equal(200)
-      Code.expect(response.payload).to.include(headers.home.standard)
-      Code.expect(response.payload).to.include(headers.home.invalidPlaceOrPostcode)
+      Code.expect(response.payload).to.include(headers.location.standard)
+      Code.expect(response.payload).to.include(headers.location.invalidPlaceOrPostcode)
       server.stop(done)
     })
   })
 
-  lab.test('home page NGR fails to return easting but ok address', function (done) {
+  lab.test('location page NGR fails to return easting but ok address', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -769,7 +768,7 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test('home page NGR fails to return northing but ok address', function (done) {
+  lab.test('location page NGR fails to return northing but ok address', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -793,7 +792,7 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test('home page NGR fails', function (done) {
+  lab.test('location page NGR fails', function (done) {
     var options = {
       method: 'POST',
       url: '/',
@@ -814,14 +813,14 @@ lab.experiment('home', async () => {
     })
   })
 
-  lab.test('home page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
+  lab.test('location page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
     const options = {
       method: 'GET',
-      url: '/?place=co10 onn'
+      url: '/location?place=co10 onn'
     }
 
     const response = await await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
+    Code.expect(response.payload).to.include(headers.location.standard)
   })
 })

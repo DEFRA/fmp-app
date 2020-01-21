@@ -22,8 +22,8 @@ module.exports = {
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
       const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
       const center = request.payload.center
-      let vector
 
+      let vector
       // Get Flood zone if not provided
       if (!zone) {
         if (polygon) {
@@ -34,7 +34,6 @@ module.exports = {
         const floodZone = new FloodZone(zone, !!polygon)
         zone = floodZone.zone
       }
-
       // Prepare point or polygon
       if (polygon) {
         vector = {
@@ -263,7 +262,6 @@ module.exports = {
           ]
         }
       }
-
       try {
         const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()

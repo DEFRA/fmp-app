@@ -2,10 +2,10 @@ module.exports = {
   400: '<h1 class="heading-xlarge" tabindex="0">Sorry, this service is temporarily unavailable</h1>',
   404: '<h1 class="heading-xlarge" tabindex="0">This page can’t be found</h1>',
   500: '<h1 class="heading-xlarge" tabindex="0">Sorry, this service is temporarily unavailable</h1>',
-  home: {
-    standard: '<h1 class="heading-xlarge">Flood map for planning</h1>',
+  location: {
+    standard: '<h1 class="heading-large">Find the location</h1>',
     invalidPlaceOrPostcode: '<span class="error-message">You need to give a place or postcode</span>',
-    invalidNationalGridReference: '<span class="error-message">You need to give a National Grid Reference (NGR)</span>',
+    invalidNationalGridReference: '<span\n              class="error-message">You need to give a National Grid Reference (NGR)</span>\n ',
     invalidEasting: '<span class="error-message">You need to give an easting</span>',
     invalidNorthing: '<span class="error-message">You need to give a northing</span>',
     invalidEastingAndNorthing: '<span class="error-message">You need to give an easting and northing</span>'

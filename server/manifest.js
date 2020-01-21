@@ -38,7 +38,6 @@ const manifest = {
     ]
   }
 }
-
 if (config.errbit.postErrors) {
   delete config.errbit.postErrors
   manifest.register.plugins.push({

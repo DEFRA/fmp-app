@@ -50,5 +50,8 @@
     "host": "http://dummyuri",
     "proxy": ""
   },
-  "siteUrl": "http://localhost:3000"
+  "siteUrl": "http://localhost:3000",
+  "notifyApiKey": "fmfpapp-keyneededAddining",
+  "notifyApiKeyDevTest":"fmfpdevtest-keyneededAdding",
+  "notifyEmailTemplateId": "keyneededAdding"
 }
