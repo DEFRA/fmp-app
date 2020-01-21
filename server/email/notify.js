@@ -1,4 +1,3 @@
-// $lab:coverage:off$
 const config = require('./../../config')
 var NotifyClient = require('notifications-node-client').NotifyClient
 var apiKey = config.notifyApiKey
@@ -14,4 +13,3 @@ function Email (emailAddress) {
   }
 }
 module.exports = Email
-// $lab:coverage:on$

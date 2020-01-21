@@ -1,4 +1,3 @@
-// $lab:coverage:off$
 function ContactViewModel (data, errors) {
   if (data) {
     this.fullName = data.fullName
@@ -23,4 +22,3 @@ function ContactViewModel (data, errors) {
 }
 
 module.exports = ContactViewModel
-// $lab:coverage:on$

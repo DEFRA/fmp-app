@@ -28,11 +28,9 @@ function FloodZoneModel (risk, polygon) {
         this.isZone3 = true
         this.zone = 'FZ3'
       }
-      // $lab:coverage:off$
     } else if (risk.areas_benefiting) {
       this.isAreaBenefiting = true
       this.zone = 'FZ3a'
-      // $lab:coverage:on$
     } else if (risk.floodzone_2) {
       this.isZone2 = true
       this.zone = 'FZ2'

@@ -13,7 +13,6 @@ module.exports = {
   options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
-      // $lab:coverage:off$
       const id = request.payload.id
       let zone = request.payload.zone
       const scale = request.payload.scale
@@ -35,8 +34,6 @@ module.exports = {
         const floodZone = new FloodZone(zone, !!polygon)
         zone = floodZone.zone
       }
-      // $lab:coverage:on$
-
       // Prepare point or polygon
       if (polygon) {
         vector = {
@@ -265,7 +262,6 @@ module.exports = {
           ]
         }
       }
-      // $lab:coverage:off$
       try {
         const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()
@@ -277,7 +273,6 @@ module.exports = {
       } catch (err) {
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
       }
-      // $lab:coverage:on$
     },
     validate: {
       payload: {
