@@ -28,12 +28,17 @@
               <input class="form-control" id="email" name="email" type="email" aria-describedby="email-hint"
                 autocomplete="false" spellcheck="false">
             </div>
-            <div class="form-group">
-              <button class="button" type="submit">Continue</button>
+            <div>
+              <input type="hidden" value={{PDFinformationDetailsObject.coordinates.x}} name="eastings" />
+              <input type="hidden" value={{PDFinformationDetailsObject.coordinates.y}} name="northing" />
             </div>
-          </div>
-        </div>
-      </div>
-  </main>
-  </form>
+    </form>
+    <div class="form-group">
+      <button class="button" type="submit">Continue</button>
+    </div>
+</div>
+</div>
+</div>
+</main>
+</form>
 </div>

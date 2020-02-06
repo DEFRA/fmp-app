@@ -1,7 +1,8 @@
-function ContactViewModel (data, errors) {
+function ContactAndPDFInformationObjectViewModel (data, errors) {
   if (data) {
     this.fullName = data.fullName
     this.email = data.email
+    this.PDFinformationDetailsObject = data.PDFinformationDetailsObject
   }
 
   if (errors) {
@@ -21,4 +22,4 @@ function ContactViewModel (data, errors) {
   }
 }
 
-module.exports = ContactViewModel
+module.exports = ContactAndPDFInformationObjectViewModel
