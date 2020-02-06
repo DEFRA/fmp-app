@@ -1,7 +1,8 @@
 const Boom = require('boom')
 const ContactAndPDFInformationObjectViewModel = require('../models/contact-and-pdf-information-view')
 const QueryString = require('querystring')
-
+const config = require('../../config')
+const wreck = require('wreck')
 module.exports = [
   {
     method: 'GET',
@@ -50,6 +51,12 @@ module.exports = [
           let queryParams = {}
           queryParams.email = payload.email
           const query = QueryString.stringify(queryParams)
+
+          const { x, y } = PDFinformationDetailsObject.coordinates
+          const data = JSON.stringify({ x, y })
+          await wreck.post(config.httpSendTriggerOrchestrationFunction, {
+            payload: data
+          })
           return h.redirect(`/confirmation?${query}`)
         } catch (err) {
           return Boom.badImplementation(err.message, err)
