@@ -44,7 +44,6 @@ module.exports = [
           if (request.payload && request.payload.eastings && request.payload.northing) {
             PDFinformationDetailsObject.coordinates.x = request.payload.eastings
             PDFinformationDetailsObject.coordinates.y = request.payload.northing
-            console.log(PDFinformationDetailsObject)
           } else {
             return Boom.badImplementation('Query parameters are not empty')
           }
