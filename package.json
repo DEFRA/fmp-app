@@ -57,7 +57,7 @@
     "govuk_template_mustache": "0.24.1",
     "hbsfy": "2.8.1",
     "lab": "18.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "standard": "12.0.1",
     "wisk": "1.0.1"
   }
