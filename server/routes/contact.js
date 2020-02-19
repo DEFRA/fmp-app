@@ -54,7 +54,7 @@ module.exports = [
 
           const { x, y } = PDFinformationDetailsObject.coordinates
           const data = JSON.stringify({ x, y })
-          await wreck.post(config.httpSendTriggerOrchestrationFunction, {
+          await wreck.post(config.httpSendTrigger, {
             payload: data
           })
           return h.redirect(`/confirmation?${query}`)
