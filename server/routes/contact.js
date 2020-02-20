@@ -2,7 +2,9 @@ const Boom = require('boom')
 const ContactAndPDFInformationObjectViewModel = require('../models/contact-and-pdf-information-view')
 const QueryString = require('querystring')
 const config = require('../../config')
+const util = require('../util')
 const wreck = require('wreck')
+const uuidv1 = require('uuid/v1')
 module.exports = [
   {
     method: 'GET',
@@ -39,6 +41,7 @@ module.exports = [
     path: '/contact',
     options: {
       handler: async (request, h) => {
+        var correlationId = uuidv1()
         try {
           const payload = request.payload
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 } }
@@ -50,15 +53,22 @@ module.exports = [
           }
           let queryParams = {}
           queryParams.email = payload.email
+          queryParams.x = PDFinformationDetailsObject.coordinates.x
+          queryParams.y = PDFinformationDetailsObject.coordinates.y
+          queryParams.correlationId = correlationId
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
           const data = JSON.stringify({ x, y })
-          await wreck.post(config.httpSendTriggerOrchestrationFunction, {
-            payload: data
-          })
+
+          await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
+           await wreck.post(config.httpSendTrigger, {
+             payload: data
+           })
+          await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)
           return h.redirect(`/confirmation?${query}`)
         } catch (err) {
+          util.LogMessage(`${err.message}`, '', correlationId)
           return Boom.badImplementation(err.message, err)
         }
       }
