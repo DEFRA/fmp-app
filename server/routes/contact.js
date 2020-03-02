@@ -62,13 +62,15 @@ module.exports = [
           const data = JSON.stringify({ x, y })
 
           await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
-           await wreck.post(config.httpSendTrigger, {
-             payload: data
-           })
+
+          //  await wreck.post(config.httpSendTrigger, {
+          //    payload: data
+          //})
+
           await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)
           return h.redirect(`/confirmation?${query}`)
         } catch (err) {
-          util.LogMessage(`${err.message}`, '', correlationId)
+          await util.LogMessage(`${err.message}`, '', correlationId)
           return Boom.badImplementation(err.message, err)
         }
       }
