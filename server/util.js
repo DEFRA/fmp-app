@@ -15,13 +15,22 @@ module.exports = {
     return '{"type": "Polygon", "coordinates": [' + JSON.stringify(coordinates) + ']}'
   },
   LogMessage: async (message, error, correlationId) => {
-    var fmplogdata = new fmplogViewModel()
-    fmplogdata.Message = message
-    fmplogdata.Error = error
-    fmplogdata.CorrelationId = correlationId
-    var jsonData = JSON.stringify(fmplogdata)
-    await wreck.post(config.httpLogTrigger, {
-      payload: jsonData
-    })
+    if (config.LogAuditTrial) {
+      var fmplogdata = new fmplogViewModel()
+      fmplogdata.Message = message
+      fmplogdata.Error = error
+      fmplogdata.CorrelationId = correlationId
+
+      var start = new Date().getTime();
+      var end = start;
+      while (end < start + 3000) {
+        end = new Date().getTime();
+      }
+      var jsonData = JSON.stringify(fmplogdata)
+      await wreck.post(config.httpLogTrigger, {
+        payload: jsonData
+      })
+    }
+    return Promise.resolve(1);
   }
 }
