@@ -5,6 +5,8 @@ const config = require('../../config')
 const util = require('../util')
 const wreck = require('wreck')
 const uuidv1 = require('uuid/v1')
+const { getApplicationReferenceNumber } = require('../services/application-reference')
+
 module.exports = [
   {
     method: 'GET',
@@ -44,31 +46,36 @@ module.exports = [
         var correlationId = uuidv1()
         try {
           const payload = request.payload
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 } }
+          const applicationReferenceNumber = await getApplicationReferenceNumber()
+          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '' }
           if (request.payload && request.payload.eastings && request.payload.northing) {
             PDFinformationDetailsObject.coordinates.x = request.payload.eastings
             PDFinformationDetailsObject.coordinates.y = request.payload.northing
+            PDFinformationDetailsObject.applicationReferenceNumber = applicationReferenceNumber
           } else {
             return Boom.badImplementation('Query parameters are not empty')
           }
           let queryParams = {}
           queryParams.email = payload.email
+          queryParams.applicationReferenceNumber = applicationReferenceNumber
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
           queryParams.correlationId = correlationId
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
-          const data = JSON.stringify({ x, y })
+          const name = payload.fullName
+          const email = payload.email
+          const data = JSON.stringify({ name, email, x, y, applicationReferenceNumber })
 
-          await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
-           await wreck.post(config.httpSendTrigger, {
-             payload: data
-           })
-          await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)
+          // await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
+          await wreck.post(config.httpSendTrigger, {
+            payload: data
+          })
+          // await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)
           return h.redirect(`/confirmation?${query}`)
         } catch (err) {
-          util.LogMessage(`${err.message}`, '', correlationId)
+          // util.LogMessage(`${err.message}`, '', correlationId)
           return Boom.badImplementation(err.message, err)
         }
       }
