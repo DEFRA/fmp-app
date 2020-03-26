@@ -6,6 +6,7 @@ const util = require('../util')
 const wreck = require('wreck')
 const uuidv1 = require('uuid/v1')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
+const publishToQueueURL = config.functionAppUrl + '/publish-queue'
 
 module.exports = [
   {
@@ -69,7 +70,7 @@ module.exports = [
           const data = JSON.stringify({ name, email, x, y, applicationReferenceNumber })
 
           // await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
-          await wreck.post(config.httpSendTrigger, {
+          await wreck.post(publishToQueueURL, {
             payload: data
           })
           // await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)

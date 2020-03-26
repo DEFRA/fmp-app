@@ -1,12 +1,12 @@
 const util = require('../util')
 const config = require('../../config')
-const url = config.service + '/pso-region-contact-details/'
+const url = config.service + '/pso/contacts'
 
 module.exports = {
   get: (easting, northing) => {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-    return util.getJson(url + easting + '/' + northing)
+    return util.getJson(url + '/' + easting + '/' + northing)
   }
 }

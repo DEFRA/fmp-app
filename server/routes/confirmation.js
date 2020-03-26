@@ -12,9 +12,9 @@ module.exports = {
     handler: async (request, h) => {
       try {
         if (request.query && request.query.email && request.query.correlationId) {
-          await util.LogMessage(`Calling Email Service`, '', `${request.query.correlationId}`)
+          // await util.LogMessage(`Calling Email Service`, '', `${request.query.correlationId}`)
           notifyEmailClient(request.query.email)
-          await util.LogMessage(`Called Email Service`, '', `${request.query.correlationId}`)
+          // await util.LogMessage(`Called Email Service`, '', `${request.query.correlationId}`)
           const result = await psoContactDetails.get(request.query.x, request.query.y)
           var model = new ConfirmationViewModel(request.query.email, request.query.applicationReferenceNumber)
           if (result && result.EmailAddress) {
@@ -31,10 +31,9 @@ module.exports = {
           if (request.query && request.query.x && request.query.y) {
             try {
               const result = pdfService.get(request.query.x, request.query.y)
-            }
-            catch (error) {
+            } catch (error) {
               await util.LogMessage(`${error.message}`, '', `${request.query.correlationId}`)
-              throw error;
+              throw error
             }
           } else {
             await util.LogMessage(`Error occured in getting x, y and correlationId`, '', `${request.query.correlationId}`)

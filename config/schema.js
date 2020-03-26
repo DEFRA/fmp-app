@@ -34,7 +34,7 @@ module.exports = {
   notifyApiKey: Joi.string().required(),
   notifyApiKeyDevTest: Joi.string().required(),
   notifyEmailTemplateId: Joi.string().required(),
-  httpSendTrigger: Joi.string().required(),
   httpLogTrigger: Joi.string().required(),
-  LogAuditTrial: Joi.boolean().required()
+  LogAuditTrial: Joi.boolean().required(),
+  functionAppUrl: Joi.string().required()
 }

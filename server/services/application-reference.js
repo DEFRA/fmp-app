@@ -1,5 +1,5 @@
 const config = require('../../config')
-const url = config.service + '/reference-number'
+const url = config.functionAppUrl + '/reference-number'
 const Wreck = require('wreck')
 
 const getApplicationReferenceNumber = async function () {
