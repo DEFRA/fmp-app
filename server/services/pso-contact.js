@@ -1,12 +1,16 @@
-const util = require('../util')
 const config = require('../../config')
-const url = config.service + '/pso/contacts'
+const Wreck = require('wreck')
+const url = config.functionAppUrl + '/pso/contacts'
 
-module.exports = {
-  get: (easting, northing) => {
+async function getPsoContacts (easting, northing) {
+  try {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-    return util.getJson(url + '/' + easting + '/' + northing)
+    const { payload } = await Wreck.get(url + '/' + easting + '/' + northing)
+    return JSON.parse(payload.toString())
+  } catch (error) {
+    throw new Error('Fetching Pso contacts failed: ', error)
   }
 }
+module.exports = { getPsoContacts }
