@@ -62,6 +62,7 @@ module.exports = [
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
           queryParams.correlationId = correlationId
+          queryParams.fullName = payload.fullName
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates

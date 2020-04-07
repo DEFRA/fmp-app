@@ -7,7 +7,10 @@ async function getPsoContacts (easting, northing) {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-    const { payload } = await Wreck.get(url + '/' + easting + '/' + northing)
+    const data = JSON.stringify({ x: easting, y: northing })
+    const { payload } = await Wreck.post(url, {
+      payload: data
+    })
     return JSON.parse(payload.toString())
   } catch (error) {
     throw new Error('Fetching Pso contacts failed: ', error)
