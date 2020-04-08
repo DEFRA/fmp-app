@@ -2,6 +2,7 @@ const Boom = require('boom')
 const ConfirmationViewModel = require('../models/confirmation-view')
 const psoContactDetails = require('../services/pso-contact')
 const emailConfirm = require('../services/email-confirmation')
+const pdfService = require('./../services/pdf-service')
 module.exports = {
   method: 'GET',
   path: '/confirmation',
