@@ -32,7 +32,7 @@ module.exports = {
               throw error
             }
           } else {
-            // await util.LogMessage(`Error occured in getting x, y and correlationId`, '', `${request.query.correlationId}`)
+            // await util.LogMessage(`Error occured in getting x, y and correlationId`, '', `${request.query.correlationId}`), this will be used later on
             return Boom.badImplementation('Error occured in getting the x and y co-ordinates')
           }
           await emailConfirm.emailConfirmation(request.query.fullName, 'lastname', request.query.applicationReferenceNumber, request.query.x, request.query.y, model.AreaName, model.EmailAddress, request.query.email)
