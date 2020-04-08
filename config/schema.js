@@ -31,7 +31,6 @@ module.exports = {
     proxy: Joi.string().allow('')
   }),
   siteUrl: Joi.string().uri().required(),
-  httpLogTrigger: Joi.string().required(),
   LogAuditTrial: Joi.boolean().required(),
   functionAppUrl: Joi.string().required()
 }
