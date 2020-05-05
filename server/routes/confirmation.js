@@ -10,11 +10,11 @@ module.exports = {
     description: 'Get confirmation  page for product 4',
     handler: async (request, h) => {
       try {
-        if (request.query && request.query.email && request.query.correlationId && request.query.fullName && request.query.applicationReferenceNumber) {
+        if (request.query && request.query.recipientemail && request.query.correlationId && request.query.fullName && request.query.applicationReferenceNumber) {
           const result = await psoContactDetails.getPsoContacts(request.query.x, request.query.y)
-          var model = new ConfirmationViewModel(request.query.email, request.query.applicationReferenceNumber)
+          var model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber)
           if (result && result.EmailAddress) {
-            model.EmailAddress = result.EmailAddress
+            model.psoEmailAddress = result.EmailAddress
           }
           if (result && result.AreaName) {
             model.AreaName = result.AreaName
@@ -35,7 +35,7 @@ module.exports = {
             // await util.LogMessage(`Error occured in getting x, y and correlationId`, '', `${request.query.correlationId}`), this will be used later on
             return Boom.badImplementation('Error occured in getting the x and y co-ordinates')
           }
-          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, request.query.x, request.query.y, model.AreaName, model.EmailAddress, request.query.email)
+          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, request.query.x, request.query.y, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')

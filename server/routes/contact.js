@@ -16,15 +16,15 @@ module.exports = [
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
         try {
-          const email = request.query.email
+          const recipientemail = request.query.recipientemail
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 } }
           PDFinformationDetailsObject.coordinates.x = request.query.eastings
           PDFinformationDetailsObject.coordinates.y = request.query.northing
-          if (email) {
+          if (recipientemail) {
             return h.view('contact', new ContactAndPDFInformationObjectViewModel(
               {
                 fullName: '',
-                email: email,
+                recipientemail: recipientemail,
                 PDFinformationDetailsObject: PDFinformationDetailsObject
               }))
           }
@@ -57,7 +57,7 @@ module.exports = [
             return Boom.badImplementation('Query parameters are not empty')
           }
           let queryParams = {}
-          queryParams.email = payload.email
+          queryParams.recipientemail = payload.recipientemail
           queryParams.applicationReferenceNumber = applicationReferenceNumber
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
@@ -67,8 +67,8 @@ module.exports = [
 
           const { x, y } = PDFinformationDetailsObject.coordinates
           const name = payload.fullName
-          const email = payload.email
-          const data = JSON.stringify({ name, email, x, y, applicationReferenceNumber })
+          const recipientemail = payload.recipientemail
+          const data = JSON.stringify({ name, recipientemail, x, y, applicationReferenceNumber })
 
           // await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
           await wreck.post(publishToQueueURL, {

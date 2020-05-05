@@ -1,7 +1,7 @@
-function ConfirmationViewModel (email, applicationReferenceNumber, EmailAddress, AreaName, LocalAuthorities) {
-  if (email) {
-    this.email = email
-    this.EmailAddress = EmailAddress
+function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoEmailAddress, AreaName, LocalAuthorities) {
+  if (recipientemail) {
+    this.recipientemail = recipientemail
+    this.psoEmailAddress = psoEmailAddress
     this.AreaName = AreaName
     this.LocalAuthorities = LocalAuthorities
   }

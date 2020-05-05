@@ -1,7 +1,7 @@
 function ContactAndPDFInformationObjectViewModel (data, errors) {
   if (data) {
     this.fullName = data.fullName
-    this.email = data.email
+    this.recipientemail = data.recipientemail
     this.PDFinformationDetailsObject = data.PDFinformationDetailsObject
   }
 
@@ -15,9 +15,9 @@ function ContactAndPDFInformationObjectViewModel (data, errors) {
     }
 
     // Email
-    const emailErrors = errors.find(e => e.path[0] === 'email')
+    const emailErrors = errors.find(e => e.path[0] === 'recipientemail')
     if (emailErrors) {
-      this.errors.email = 'You need to provide an email address'
+      this.errors.recipientemail = 'You need to provide an email address'
     }
   }
 }
