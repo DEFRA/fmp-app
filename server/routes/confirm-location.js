@@ -19,7 +19,7 @@ module.exports = {
       }
 
       try {
-        let point = request.query
+        const point = request.query
         if (!point.easting || !point.northing) {
           return Boom.badRequest('Easting and northing required')
         }
@@ -35,7 +35,12 @@ module.exports = {
           return h.redirect('/not-england?' + queryString)
         }
 
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon)
+        let location = ''
+        if (request.query.placeOrPostcode || request.query.nationalGridReference) {
+          location = request.query.placeOrPostcode ? request.query.placeOrPostcode : request.query.nationalGridReference
+        }
+
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location)
 
         return h.view('confirm-location', model)
       } catch (err) {

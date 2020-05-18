@@ -2,7 +2,6 @@ const Boom = require('boom')
 const ContactAndPDFInformationObjectViewModel = require('../models/contact-and-pdf-information-view')
 const QueryString = require('querystring')
 const config = require('../../config')
-const util = require('../util')
 const wreck = require('wreck')
 const uuidv1 = require('uuid/v1')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
@@ -17,9 +16,10 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const recipientemail = request.query.recipientemail
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 } }
+          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '' }
           PDFinformationDetailsObject.coordinates.x = request.query.eastings
           PDFinformationDetailsObject.coordinates.y = request.query.northing
+          PDFinformationDetailsObject.location = encodeURIComponent(request.query.location)
           if (recipientemail) {
             return h.view('contact', new ContactAndPDFInformationObjectViewModel(
               {
@@ -49,26 +49,29 @@ module.exports = [
           const payload = request.payload
           const applicationReferenceNumber = await getApplicationReferenceNumber()
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '' }
-          if (request.payload && request.payload.eastings && request.payload.northing) {
-            PDFinformationDetailsObject.coordinates.x = request.payload.eastings
-            PDFinformationDetailsObject.coordinates.y = request.payload.northing
+          if (payload && payload.eastings && payload.northing) {
+            PDFinformationDetailsObject.coordinates.x = payload.eastings
+            PDFinformationDetailsObject.coordinates.y = payload.northing
+            PDFinformationDetailsObject.location = decodeURIComponent(payload.location)
             PDFinformationDetailsObject.applicationReferenceNumber = applicationReferenceNumber
           } else {
-            return Boom.badImplementation('Query parameters are not empty')
+            return Boom.badImplementation('Query parameters are empty')
           }
-          let queryParams = {}
+          const queryParams = {}
           queryParams.recipientemail = payload.recipientemail
           queryParams.applicationReferenceNumber = applicationReferenceNumber
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
+          queryParams.location = PDFinformationDetailsObject.location
           queryParams.correlationId = correlationId
           queryParams.fullName = payload.fullName
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
+          const { location } = PDFinformationDetailsObject
           const name = payload.fullName
           const recipientemail = payload.recipientemail
-          const data = JSON.stringify({ name, recipientemail, x, y, applicationReferenceNumber })
+          const data = JSON.stringify({ name, recipientemail, x, y, location, applicationReferenceNumber })
 
           // await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
           await wreck.post(publishToQueueURL, {

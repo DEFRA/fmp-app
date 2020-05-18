@@ -59,7 +59,7 @@ module.exports = [{
         BNG.northing = payload.northing
       }
       // redirect to the confirm location page with the BNG in the query
-      let queryParams = {}
+      const queryParams = {}
       queryParams.easting = BNG.easting || ''
       queryParams.northing = BNG.northing || ''
       // if the search wasn't by E/N include the original search in the query params
