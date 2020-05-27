@@ -72,15 +72,11 @@ module.exports = [
           const name = payload.fullName
           const recipientemail = payload.recipientemail
           const data = JSON.stringify({ name, recipientemail, x, y, location, applicationReferenceNumber })
-
-          // await util.LogMessage(`Calling the  HttpTrigger with x and y co-ordinates ${x}, ${y}`, '', correlationId)
           await wreck.post(publishToQueueURL, {
             payload: data
           })
-          // await util.LogMessage(`Called the HttpTrigger Function `, '', correlationId)
           return h.redirect(`/confirmation?${query}`)
         } catch (err) {
-          // util.LogMessage(`${err.message}`, '', correlationId)
           return Boom.badImplementation(err.message, err)
         }
       }

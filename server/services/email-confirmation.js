@@ -2,12 +2,12 @@ const config = require('../../config')
 const Wreck = require('wreck')
 const url = config.functionAppUrl + '/email/confirmation'
 
-async function emailConfirmation (fullname, referencenumber, easting, northing, areaname, psoemailaddress, recipientemail) {
+async function emailConfirmation (fullname, referencenumber, location, areaname, psoemailaddress, recipientemail) {
   try {
-    if (!easting || !northing) {
+    if (!location) {
       throw new Error('No point provided')
     }
-    const data = JSON.stringify({ fullname: fullname, referencenumber: referencenumber, areaname: areaname, psoemailaddress: psoemailaddress, recipientemail: recipientemail, x: easting, y: northing })
+    const data = JSON.stringify({ fullname: fullname, referencenumber: referencenumber, areaname: areaname, psoemailaddress: psoemailaddress, recipientemail: recipientemail, location: location })
     await Wreck.post(url, {
       payload: data
     })

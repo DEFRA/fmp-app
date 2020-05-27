@@ -2,7 +2,6 @@ const Boom = require('boom')
 const ConfirmationViewModel = require('../models/confirmation-view')
 const psoContactDetails = require('../services/pso-contact')
 const emailConfirm = require('../services/email-confirmation')
-const pdfService = require('./../services/pdf-service')
 module.exports = {
   method: 'GET',
   path: '/confirmation',
@@ -24,18 +23,13 @@ module.exports = {
           } else {
             model.AreaName = 'No Data Exist'
           }
-          if (request.query && request.query.x && request.query.y) {
-            try {
-              pdfService.get(request.query.x, request.query.y)
-            } catch (error) {
-              // await util.LogMessage(`${error.message}`, '', `${request.query.correlationId}`)
-              throw error
-            }
+          var location = ''
+          if (request.query.location === undefined || request.query.location === 'undefined') {
+            location = request.query.x + '- ' + request.query.y
           } else {
-            // await util.LogMessage(`Error occured in getting x, y and correlationId`, '', `${request.query.correlationId}`), this will be used later on
-            return Boom.badImplementation('Error occured in getting the x and y co-ordinates')
+            location = request.query.location
           }
-          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, request.query.x, request.query.y, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
+          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, location, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')
