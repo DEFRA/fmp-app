@@ -17,5 +17,6 @@ module.exports = [].concat(
   require('./terms-conditions'),
   require('./location'),
   require('./contact'),
-  require('./confirmation')
+  require('./confirmation'),
+  require('./maintainence')
 )
