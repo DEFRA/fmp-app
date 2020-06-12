@@ -2,6 +2,7 @@ const Boom = require('boom')
 const config = require('../../config')
 const LoginViewModel = require('../models/login-view')
 const Users = require('./../user')
+const Bcrypt = require('bcrypt')
 
 module.exports = [
   {
@@ -23,10 +24,9 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const { username, password } = request.payload
-          const StoredUsername = Users[0].username
-          const StoredPassword = Users[0].password
+          const user = Users[username]
 
-          if (username !== StoredUsername || password !== StoredPassword) {
+          if (!user || !await Bcrypt.compare(password, user.password)) {
             return h.view('login')
           }
           request.cookieAuth.set({ username })

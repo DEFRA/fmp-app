@@ -6,7 +6,7 @@ exports.plugin = {
     server.auth.strategy('restricted', 'cookie', {
       cookie: {
         name: 'session',
-        password: 'product4product4product4product4',
+        password: '$2b$10$IpcDseChL3S19NWfc62vLu00MIW/5y1BiyMCaPQmj2zzX0nhs47k.',
         isSecure: false
       },
       redirectTo: '/'
