@@ -3,6 +3,9 @@ module.exports = {
   path: '/privacy-policy',
   options: {
     description: 'Privacy policy - Flood map for planning - GOV.UK',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: {
       view: {
         template: 'privacy-policy',

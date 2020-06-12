@@ -9,6 +9,9 @@ module.exports = {
   path: '/confirm-location',
   options: {
     description: 'Get confirm location page search results',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: async (request, h) => {
       // if a request to the old url, which accepted the param place, was made forward to the homepage
       if (request.query.place) {

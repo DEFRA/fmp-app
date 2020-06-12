@@ -9,6 +9,9 @@ module.exports = {
   path: '/summary',
   options: {
     description: 'Get flood risk summary for a point',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: async (request, h) => {
       try {
         if (request.query.polygon) {

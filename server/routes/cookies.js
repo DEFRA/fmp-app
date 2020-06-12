@@ -2,6 +2,9 @@ module.exports = {
   method: 'GET',
   path: '/cookies',
   options: {
+    auth: {
+      strategy: 'restricted'
+    },
     description: 'Cookies - Flood map for planning - GOV.UK',
     handler: {
       view: {

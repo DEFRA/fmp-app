@@ -5,6 +5,9 @@ module.exports = {
   path: '/privacy-notice',
   options: {
     description: 'Privacy notice - Flood information service - GOV.UK',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: {
       view: {
         template: 'privacy-notice',

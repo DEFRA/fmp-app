@@ -19,7 +19,6 @@ module.exports = {
   fbAppId: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
   mockAddressService: Joi.boolean().required(),
-  maintainence: Joi.boolean().required(),
   ordnanceSurvey: Joi.object().required().keys({
     namesUrl: Joi.string().uri().required(),
     mapsUrl: Joi.string().uri().required()
@@ -33,5 +32,7 @@ module.exports = {
   }),
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
-  functionAppUrl: Joi.string().required()
+  functionAppUrl: Joi.string().required(),
+  username: Joi.string().required(),
+  password: Joi.string().required()
 }

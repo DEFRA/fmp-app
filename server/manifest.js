@@ -31,6 +31,7 @@ const manifest = {
       {
         plugin: 'h2o2'
       },
+      './plugins/cookie-auth',
       './plugins/register-cookie',
       './plugins/full-url',
       './plugins/log-errors',

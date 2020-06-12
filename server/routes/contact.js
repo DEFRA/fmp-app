@@ -13,6 +13,9 @@ module.exports = [
     path: '/contact',
     options: {
       description: 'Get contact details page for product 4',
+      auth: {
+        strategy: 'restricted'
+      },
       handler: async (request, h) => {
         try {
           const recipientemail = request.query.recipientemail
@@ -43,6 +46,9 @@ module.exports = [
     method: 'POST',
     path: '/contact',
     options: {
+      auth: {
+        strategy: 'restricted'
+      },
       handler: async (request, h) => {
         var correlationId = uuidv1()
         try {

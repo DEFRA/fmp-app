@@ -9,6 +9,9 @@ module.exports = [{
   method: 'GET',
   path: '/location',
   options: {
+    auth: {
+      strategy: 'restricted'
+    },
     handler: (request, h) => {
       // if a legacy request containing a place parameter was included, accommodate it
       const place = request.query.place
@@ -27,6 +30,10 @@ module.exports = [{
   method: 'POST',
   path: '/location',
   options: {
+    auth: {
+      strategy: 'restricted',
+      mode: 'required'
+    },
     handler: async (request, h) => {
       const payload = request.payload
       // attempt to get BNG coordinates for the place or postcode

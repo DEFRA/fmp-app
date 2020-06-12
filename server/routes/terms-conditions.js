@@ -3,6 +3,9 @@ module.exports = {
   path: '/terms-conditions',
   options: {
     description: 'Terms and conditions - Flood map for planning - GOV.UK',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: {
       view: {
         template: 'terms-and-conditions',

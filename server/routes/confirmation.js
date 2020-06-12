@@ -7,6 +7,9 @@ module.exports = {
   path: '/confirmation',
   options: {
     description: 'Get confirmation  page for product 4',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: async (request, h) => {
       try {
         if (request.query && request.query.recipientemail && request.query.correlationId && request.query.fullName && request.query.applicationReferenceNumber) {

@@ -18,5 +18,6 @@ module.exports = [].concat(
   require('./location'),
   require('./contact'),
   require('./confirmation'),
-  require('./maintainence')
+  require('./maintainence'),
+  require('./login')
 )

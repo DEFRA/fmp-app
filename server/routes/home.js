@@ -1,7 +1,10 @@
 module.exports = {
   method: 'GET',
-  path: '/',
+  path: '/home',
   options: {
+    auth: {
+      strategy: 'restricted'
+    },
     handler: (request, h) => {
       return h.view('home')
     }
