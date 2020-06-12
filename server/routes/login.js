@@ -2,7 +2,6 @@ const Boom = require('boom')
 const config = require('../../config')
 const LoginViewModel = require('../models/login-view')
 const Users = require('./../user')
-const Bcrypt = require('bcrypt')
 
 module.exports = [
   {
@@ -10,6 +9,9 @@ module.exports = [
     path: '/',
     options: {
       handler: async (request, h) => {
+        if (config.maintainence) {
+          return h.view('maintainence')
+        }
         return h.view('login', new LoginViewModel())
       }
     }
