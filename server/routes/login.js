@@ -26,7 +26,7 @@ module.exports = [
           const StoredUsername = Users[0].username
           const StoredPassword = Users[0].password
 
-          if (username !== StoredUsername && password !== StoredPassword) {
+          if (username !== StoredUsername || password !== StoredPassword) {
             return h.view('login')
           }
           request.cookieAuth.set({ username })
