@@ -7,7 +7,7 @@ exports.plugin = {
       cookie: {
         name: 'session',
         password: '$2b$10$IpcDseChL3S19NWfc62vLu00MIW/5y1BiyMCaPQmj2zzX0nhs47k.',
-        isSecure: true
+        isSecure: false
       },
       redirectTo: '/'
     })
