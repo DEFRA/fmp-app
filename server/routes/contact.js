@@ -58,7 +58,11 @@ module.exports = [
           if (payload && payload.eastings && payload.northing) {
             PDFinformationDetailsObject.coordinates.x = payload.eastings
             PDFinformationDetailsObject.coordinates.y = payload.northing
-            PDFinformationDetailsObject.location = decodeURIComponent(payload.location)
+            if (!payload.location) {
+              PDFinformationDetailsObject.location = payload.eastings + ',' + payload.northing
+            } else {
+              PDFinformationDetailsObject.location = decodeURIComponent(payload.location)
+            }
             PDFinformationDetailsObject.applicationReferenceNumber = applicationReferenceNumber
           } else {
             return Boom.badImplementation('Query parameters are empty')
@@ -74,7 +78,7 @@ module.exports = [
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
-          const { location } = PDFinformationDetailsObject
+          var { location } = PDFinformationDetailsObject
           const name = payload.fullName
           const recipientemail = payload.recipientemail
           const data = JSON.stringify({ name, recipientemail, x, y, location, applicationReferenceNumber })

@@ -27,8 +27,8 @@ module.exports = {
             model.AreaName = 'No Data Exist'
           }
           var location = ''
-          if (request.query.location === undefined || request.query.location === 'undefined') {
-            location = request.query.x + '- ' + request.query.y
+          if (!request.query.location) {
+            location = request.query.x + ',' + request.query.y
           } else {
             location = request.query.location
           }
