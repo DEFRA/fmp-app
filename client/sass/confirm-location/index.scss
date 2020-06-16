@@ -45,6 +45,17 @@
       box-shadow: none;
       border-bottom: 2px solid $grey-2;
     }
+
+    .button-product4 {
+      // Presentation
+      @extend .button;
+      width: auto;
+      // Remove bottom shadow
+      -webkit-box-shadow-color: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+
   
     .button-map-download:hover {
       background-color: darken($grey-2, 10%);

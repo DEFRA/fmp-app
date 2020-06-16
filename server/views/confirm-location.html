@@ -74,8 +74,8 @@
       <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:confirm-location:FloodRiskAssessmentForAPlanningApplication">flood risk assessment for a planning application</a></p>
     </div>
     
-    <div class="govuk-form-group">
-      <a href="/contact?eastings={{easting}}&northing={{northing}}&location={{location}}" role="button" draggable="false" class="button">
+    <div class="nojs-hide ie-hide">
+      <a href="/contact?easting={{easting}}&northing={{northing}}&location={{location}}" data-journey-click="FMFP:confirm-location:RequestForProduct4" role="button" draggable="false" class="button button-product4">
         Request a Product 4
       </a>
     </div>
@@ -88,6 +88,7 @@
     ;(new FMP.ConfirmLocationPage({
       easting: '{{easting}}',
       northing: '{{northing}}',
+      location:'{{location}}',
       polygon: data
     }))
   })

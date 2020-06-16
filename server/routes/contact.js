@@ -20,7 +20,7 @@ module.exports = [
         try {
           const recipientemail = request.query.recipientemail
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '' }
-          PDFinformationDetailsObject.coordinates.x = request.query.eastings
+          PDFinformationDetailsObject.coordinates.x = request.query.easting
           PDFinformationDetailsObject.coordinates.y = request.query.northing
           PDFinformationDetailsObject.location = encodeURIComponent(request.query.location)
           if (recipientemail) {
@@ -55,11 +55,11 @@ module.exports = [
           const payload = request.payload
           const applicationReferenceNumber = await getApplicationReferenceNumber()
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '' }
-          if (payload && payload.eastings && payload.northing) {
-            PDFinformationDetailsObject.coordinates.x = payload.eastings
+          if (payload && payload.easting && payload.northing) {
+            PDFinformationDetailsObject.coordinates.x = payload.easting
             PDFinformationDetailsObject.coordinates.y = payload.northing
             if (!payload.location) {
-              PDFinformationDetailsObject.location = payload.eastings + ',' + payload.northing
+              PDFinformationDetailsObject.location = payload.easting + ',' + payload.northing
             } else {
               PDFinformationDetailsObject.location = decodeURIComponent(payload.location)
             }

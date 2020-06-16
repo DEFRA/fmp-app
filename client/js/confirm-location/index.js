@@ -9,11 +9,13 @@ var vectorDragInteraction = new VectorDrag()
 function ConfirmLocationPage (options) {
   var easting = window.encodeURIComponent(options.easting)
   var northing = window.encodeURIComponent(options.northing)
+  var location = window.encodeURIComponent(options.location)
 
   var $page = $('main#confirm-location-page')
   var $radios = $('.radio-button-group', $page)
   var $container = $('.map-container', $page)
   var $continueBtn = $('a.continue', $page)
+  var $product4Btn = $('a.button-product4', $page)
   var $legend = $('.legend', $page)
   var $setLayerVisible = $('.layer-toggle', $page)
   var $form = $('form.form', $page)
@@ -324,6 +326,7 @@ function ConfirmLocationPage (options) {
     function updateTargetUrl () {
       var coordinates
       var url = '/summary'
+      var contactUrl = '/contact'
 
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
@@ -333,17 +336,23 @@ function ConfirmLocationPage (options) {
         }))
         url += '?polygon=' + coords
         url += '&center=' + JSON.stringify(center)
+
+        contactUrl += '?polygon=' + coords
+        contactUrl += '&center=' + JSON.stringify(center)
+
         // set form values
         $center.attr('value', JSON.stringify(center))
         $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
+        contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location
         // set form values
         $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')
         $polygon.attr('value', '')
       }
       $continueBtn.attr('href', url)
+      $product4Btn.attr('href', contactUrl)
     }
 
     function getCenterOfExtent (extent) {
