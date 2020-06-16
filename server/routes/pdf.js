@@ -12,6 +12,9 @@ module.exports = {
   path: '/pdf',
   options: {
     description: 'Generate PDF',
+    auth: {
+      strategy: 'restricted'
+    },
     handler: async (request, h) => {
       const id = request.payload.id
       let zone = request.payload.zone
