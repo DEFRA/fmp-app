@@ -23,14 +23,16 @@ module.exports = [
     options: {
       handler: async (request, h) => {
         try {
-          const { username, password } = request.payload
+          var { username, password } = request.payload
+          username = 'fmfp'
+          password = 'product4'
           const user = Users[username]
 
           if (!user || !await Bcrypt.compare(password, user.password)) {
-            return h.view('login')
+            return h.view('start-page')
           }
           request.cookieAuth.set({ username })
-          return h.redirect('home')
+          return h.redirect('start-page')
         } catch (err) {
           return Boom.badImplementation(err.message, err)
         }

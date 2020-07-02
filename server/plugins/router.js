@@ -4,7 +4,8 @@ const routes = [].concat(
   require('../routes/confirmation'),
   require('../routes/contact'),
   require('../routes/results'),
-  require('../routes/public')
+  require('../routes/public'),
+  require('../routes/login')
 )
 
 module.exports = {

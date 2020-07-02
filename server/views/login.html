@@ -1,40 +1,50 @@
-<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/login/index.css">
-<div class="main-container">
-  <main id="login-page" role='main'>
-    <form autocomplete="off" class="form" method="post" action="/">
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <legend>
-            <h1 class="heading-medium">
-              Please enter login details
-            </h1>
-          </legend>
-          <div class="form-group nojs-hide ie-hide">
-            <div class="form-group">
-              <label class="form-label" for="userName">
-                Username
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+Login Page
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper " id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+            Login Page
+          </h1>
+        </legend>
+
+        <div class="govuk-form-group">
+
+          <form method="post">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-label--m" for="username">
+                username
               </label>
-              <input class="form-control" id="userName" name="username" type="text" autocomplete="false"
+              <input class="govuk-input" id="username" name="username" type="text" autocomplete="name"
                 spellcheck="false">
             </div>
-            <div class="form-group">
-              <label class="form-label" for="password">
-                Password
+
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-label--m" for="Password">
+                password
               </label>
-              <!-- <span id="password-hint" class="form-hint">Password to login</span> -->
-              <input class="form-control" id="password" name="password" type="password" aria-describedby="password-hint"
-                autocomplete="false" spellcheck="false">
+              <input class="govuk-input" id="Password" name="Password" type="password" autocomplete="Password"
+                spellcheck="false">
             </div>
             <div>
-              <input type="hidden" value={{userName}} name="userName" />
+              <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
+                Login
+              </button>
             </div>
-    </form>
-    <div class="form-group">
-      <button class="button" type="submit">Login</button>
-    </div>
+
+          </form>
+        </div>
+
+  </main>
 </div>
-</div>
-</div>
-</main>
-</form>
-</div>
+
+{% endblock %}
