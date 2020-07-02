@@ -9,6 +9,7 @@ module.exports = [
     method: 'GET',
     path: '/',
     options: {
+      description: 'Login Get',
       handler: async (request, h) => {
         if (config.maintainence) {
           return h.view('maintainence')
@@ -21,15 +22,13 @@ module.exports = [
     method: 'POST',
     path: '/',
     options: {
+      description: 'Login Post',
       handler: async (request, h) => {
         try {
           var { username, password } = request.payload
-          username = 'fmfp'
-          password = 'product4'
           const user = Users[username]
-
           if (!user || !await Bcrypt.compare(password, user.password)) {
-            return h.view('start-page')
+            return h.view('login')
           }
           request.cookieAuth.set({ username })
           return h.redirect('start-page')

@@ -1,5 +1,6 @@
 module.exports = [].concat(
   require('./not-england'),
+  require('./start-page'),
   require('./confirm-location'),
   require('./home'),
   require('./gwc-proxy'),

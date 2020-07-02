@@ -3,7 +3,7 @@ module.exports = [{
   method: 'GET',
   path: '/home',
   options: {
-    description: 'That location is not in England',
+    description: 'Home Page',
     auth: {
       strategy: 'restricted'
     },
@@ -21,6 +21,7 @@ module.exports = [{
   method: 'POST',
   path: '/home',
   options: {
+    description: 'Home Page Post',
     auth: {
       strategy: 'restricted'
     }
