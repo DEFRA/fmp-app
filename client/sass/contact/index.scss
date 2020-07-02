@@ -1,22 +1,22 @@
-@import "colours";
-@import "typography";
-@import "css3";
+// @import "colours";
+// @import "typography";
+// @import "css3";
 
-#contact-page {
-  @media (min-width: 641px) {
-    .form-control {
-      width: 100%;
-    }
-  }
-  .form-label {
-    font-family: "nta", Arial, sans-serif;
-    font-weight: 700;
-    text-transform: none;
-    font-size: 2.5rem;
-    line-height: 1.25;
-    margin-bottom: 10px;
-    color:#0b0c0c;
-    display: block;
-  }
-  }
+// #contact-page {
+//   @media (min-width: 641px) {
+//     .form-control {
+//       width: 100%;
+//     }
+//   }
+//   .form-label {
+//     font-family: "nta", Arial, sans-serif;
+//     font-weight: 700;
+//     text-transform: none;
+//     font-size: 2.5rem;
+//     line-height: 1.25;
+//     margin-bottom: 10px;
+//     color:#0b0c0c;
+//     display: block;
+//   }
+//   }
 
