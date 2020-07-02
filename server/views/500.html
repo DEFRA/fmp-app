@@ -1,8 +1,14 @@
-<main class="text">
-  <header>
-    <h1 class="heading-xlarge" tabindex="0">Sorry, this service is temporarily unavailable</h1>
-  </header>
-  <p class="lede" tabindex="0">
-    Thank you for your patience. We're working hard to fix the problem and will have the service running again as quickly as possible.
-  </p>
-</main>
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-main-wrapper">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-xl">Sorry, there is a problem with the page you requested</h1>
+          <p class="govuk-body">Information about all current flood warnings is also available on the Environment Agency 24-hour Floodline. Please call 0345 988 1188.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

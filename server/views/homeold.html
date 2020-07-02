@@ -1,0 +1,97 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+  Find out if you need a Flood Risk Assessment (FRA) and get flood maps for a planning application
+{% endblock %}
+
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+{% from "input/macro.njk" import govukInput %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Enter a location in England</h1>
+    {% if errorMessage %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: errorMessage,
+          href: "#location"
+        }
+      ]
+    }) }}
+    {% endif %}
+    <form method="post">
+      <div id="autocomplete-container" class="govuk-body">
+      {% if errorMessage %}
+        {{ govukInput({
+          label: {
+            text: "City, town or postcode"
+          },
+          hint: {
+            text: "For example Bakewell or SW1A 2AA"
+          },
+          errorMessage: {
+            "text": "Enter location"
+          },
+          id: "location",
+          name: "location"
+        }) }}
+      {% else %}
+      {{ govukInput({
+        label: {
+          text: "City, town or postcode"
+        },
+        hint: {
+          text: "For example Bakewell or SW1A 2AA"
+        },
+        id: "location",
+        name: "location"
+      }) }}
+      {% endif %}
+    </div>
+    <button type="submit" class="govuk-button">Continue</button>
+  </form>
+</div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<link rel="stylesheet" href="{{assetPath}}/accessible-autocomplete.min.css" />
+<script src="{{assetPath}}/accessible-autocomplete.min.js"></script>
+<script>
+  function suggest(query, populate) {
+    window.flood.utils.xhr('/suggest?q=' + query, function (err, results) {
+      if (err) {
+        console.error(err)
+        return
+      }
+
+      populate(results)
+    })
+  }
+
+  function onConfirm (confirmed) {
+    if (confirmed) {
+      document.querySelector("#main-content form > button").disabled = true
+      document.getElementById('location').value = confirmed
+      document.getElementsByTagName('form')[0].submit()
+    }    
+  }
+
+  accessibleAutocomplete({
+    element: document.getElementById('autocomplete-container'),
+    id: 'location',
+    name: 'location',
+    source: suggest,
+    onConfirm: onConfirm,
+    minLength: 3
+  })
+
+  // Remove the original input
+  document.getElementById('location').remove()
+  document.getElementById('autocomplete-container').classList.add('govuk-!-width-two-thirds')
+</script>
+{% endblock %}

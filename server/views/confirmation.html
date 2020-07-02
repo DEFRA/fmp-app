@@ -1,42 +1,39 @@
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{{assetPath}}}stylesheets/confirmation/index.css">
-<div>
-  <main id="confirmation-page" role="main">
-    <div class="grid-row">
-      <div class="column-two-thirds">
-        <div class="panel-confirmation">
-          <h1 class="heading-xlarge">
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
             Application complete
           </h1>
-          <div class="heading-large">
-            Your reference number<br><strong>{{applicationReferenceNumber}}</strong>
+          <div class="govuk-panel__body">
+            Your reference number<br><strong>HDJ2123F</strong>
           </div>
         </div>
 
-        <p>We have sent a confirmation email to {{recipientemail}} </p>
+        <p class="govuk-body">We have sent a confirmation email to {EMAIL ADDRESS} </p>
 
-        <h2 class="heading-medium">What happens next</h2>
-        <p>We’re processing your request.</p>
-        <p>
-          You will receive an email with a link to your flood risk assessment data (previously known as a product 4)
-          within 2 hours.
+        <h2 class="govuk-heading-m">What happens next</h2>
+
+        <p class="govuk-body">
+         Your request is now being processed and you will receive an email with a link to a PDF of the maps you have requested.
         </p>
 
-        <p>
-          If you need a product 5, 6, 7 or 8 contact the <strong>{{AreaName}}</strong> team at <strong>{{psoEmailAddress}}
-          </strong> </p>
 
-        <h2 class="heading-medium">Help and advice</h2>
-        <p>
-          For more advice around flood risk assessments and planning permission you could contact:
+        <p class="govuk-body">
+          <a href="#" class="govuk-link">What did you think of this service?</a> (takes 30 seconds)
         </p>
-        <ul class="list list-bullet">
-          <li>your local authority,<strong>{{LocalAuthorities}}</strong></li>
-          <li>the <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">
-              Environment Agency</a></li>
-        </ul>
-
-       
       </div>
     </div>
   </main>
 </div>
+
+{% endblock %}

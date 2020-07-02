@@ -1,15 +1,15 @@
-<meta property="fb:app_id" content="{{fbAppId}}" />
-<meta property="og:url" content="{{{fullUrl}}}" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="{{pageTitle}}" />
-<meta property="og:description" content="{{{ogDescription}}}" />
-{{#if metaDescription}}<meta property="description" content="{{metaDescription}}" />{{/if}}
-<meta name="google-site-verification" content="{{googleVerification}}" />
-<link rel="stylesheet" href="{{{assetPath}}}stylesheets/application.css">
-<!--[if IE 6]><link href="{{{assetPath}}}stylesheets/application-ie6.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-<!--[if IE 7]><link href="{{{assetPath}}}stylesheets/application-ie7.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-<!--[if IE 8]><link href="{{{assetPath}}}stylesheets/application-ie8.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-<!-- Application version: {{appVersion}} -->
-<link rel="stylesheet" href="{{{assetPath}}}fonts/style.css">
-<script src="{{{assetPath}}}javascripts/jquery.min.js"></script>
-<script src="{{{assetPath}}}javascripts/core.js"></script>
+<!--[if lte IE 8]><link href="/public/stylesheets/application-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if gt IE 8]><!--><link href="/server/public/build/stylesheets/application.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+
+{% for stylesheetUrl in extensionConfig.stylesheets %}
+  <link href="{{ stylesheetUrl }}" rel="stylesheet" type="text/css" />
+{% endfor %}
+
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+<style>
+  .map {
+    height: 600px;
+    width: 100%;
+  }
+</style>

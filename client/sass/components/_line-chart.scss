@@ -1,0 +1,405 @@
+// Line graph
+
+.column-full {
+    display:inline-block;
+    width:100%;
+}
+.defra-line-chart {
+    position:relative;
+    border-top:1px solid $govuk-border-colour;
+    border-bottom:1px solid $govuk-border-colour;
+    padding-top:20px;
+    @include mq ($from: tablet) {
+        padding-top:32px
+    }    
+    margin:0;
+}
+.defra-line-chart__caption {
+    display:block;
+    @extend .govuk-body;
+    margin-bottom:30px;
+    @include mq ($from: tablet) {
+        margin-bottom:40px;
+    }
+    margin-right:0px;
+    text-align:left;
+}
+.defra-line-chart__container {
+    position:relative;
+    margin:0;
+}
+
+/*
+.defra-line-chart-legend {
+    @include govuk-font($size: 16); 
+    @include mq ($from: desktop) {
+        position:absolute;
+        left:100%;
+        top:0;
+        width:18.5%;
+        margin-left:3.85%;
+    }
+    ul {
+        list-style:none;
+        margin: 0;
+        padding:0;
+    }
+    li {
+        @include mq ($from: tablet) {
+            display:inline-block;
+            margin-right:1.5em;
+        }
+        @include mq ($from: desktop) {
+            max-width:16em;
+            margin-right:0;
+        }
+        padding-left:1.75em;
+        padding-right:0em;
+        margin-bottom:1.5em;
+        box-sizing: border-box;
+    }
+    li:before {
+        position:relative;
+        content:' ';
+        float:left;
+        display:block;
+        width: 18px;
+        height: 4px;
+        margin-left:-1.75em;
+        border:0;
+        top:-1px;
+        left:1px;
+        @include mq ($from: tablet) {
+            top:2px;
+        }
+        background-color:$govuk-text-colour;
+    }
+    li.property:before {
+        background-color:rgba(#E3000F, 0.3);
+        height:16px;
+    }
+    li.land:before {
+        background-color:rgba(#F18700, 0.3);
+        height:16px;
+    }
+    li.normal:before {
+        background-color:rgba(#85994b, 0.3);
+        height:16px;
+    }
+    li.measured:before {
+        background-color:transparent;
+        border-bottom:$govuk-link-colour 4px solid;
+        top:1px;
+        @include mq ($from: tablet) {
+            top:3px;
+        }
+    }
+    li.forecast:before {
+        background-color:transparent;
+        border-bottom:#52585a 4px dotted;
+        top:1px;
+        @include mq ($from: tablet) {
+            top:3px;
+        }
+    }
+    li.max.max-off {
+        padding-left:0;
+    }
+    li.max.max-off:before {
+        display:none;
+    }
+    li.max:before {
+        background-color:transparent;
+        border-bottom:$govuk-text-colour 4px solid;
+        top:1px;
+        @include mq ($from: tablet) {
+            top:3px;
+        }
+    }
+    .list-graph-labels li {
+        display: inline-block;
+        @include mq ($from: tablet) {
+            display:block;
+        }
+    }
+    .data-level {
+        margin-top:0;
+        margin-bottom: em(30, 19);
+    }
+    .data-level-item-heading {
+        border-bottom:1px solid #dee0e2;
+        line-height:1.5;
+        margin-bottom:0.5em;
+        padding-left:1.5em;
+    }
+    .defra-line-chart-legend-normal-level {
+        @include mq ($from: tablet) {
+            max-width:14em;
+        }
+    }
+}
+*/
+
+.button-hide-threshold {
+    display:inline-block;
+}
+
+table.table-levels {
+    margin-bottom:1.5em;
+    thead {
+        th {
+          @include govuk-font($size: 19, $weight: bold); 
+        }
+        th:first-child {
+            width:50%;
+        }
+        .numeric {
+            padding-right:100px;
+        }
+    }
+    tbody {
+        td {
+            position:relative;
+        }
+        .numeric {
+            padding-right:100px;
+            vertical-align:top;
+        }
+        .error {
+            border:0;
+            position:absolute;
+            padding-top:inherit;
+            padding-bottom:inherit;
+            padding-left:0;
+            bottom:0;
+            right:0;
+            width:80px;
+            text-align:left;
+        }
+        .error:before {
+            background-color: $govuk-text-colour;
+            border-radius: 50%;
+            content: '!';
+            color: #fff;
+            line-height:1;
+            display:inline-block;
+            font-family: arial;
+            font-weight: bold;
+            height: 1em;
+            margin-left: 7px;
+            margin-right: 2px;
+            padding: 2px;
+            text-align: center;
+            width: 1em;
+        }
+    }
+}
+
+.defra-line-chart svg {
+    position:relative;
+    overflow:visible;
+    height:300px;
+    width:100%;
+    @include mq ($from: desktop) {
+        height:450px;
+    }
+    .axis.y { 
+        @include govuk-font($size: 16, $tabular: true); 
+    }
+    .axis.x { 
+        @include govuk-font($size: 16); 
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: $govuk-border-colour;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+    .axis.x .tick line {
+        visibility:hidden;
+    }
+    .axis.x .tick-today {
+        font-weight:bold;
+    }
+    .grid line {
+        fill: none;
+        stroke: rgba($govuk-text-colour, 0.1);
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+    .grid path {
+        visibility: hidden;
+    }
+    .warning {
+        stroke: #b10e1e; 
+        stroke-width: 2;
+        shape-rendering: crispEdges;
+    }
+    .warning-band {
+        stroke-width: 0;
+        fill: #fab8be; // 75% lightness of 30% shade (darker)
+    }
+    .alert {
+        stroke: #f47738;
+        stroke-width: 2;
+        shape-rendering: crispEdges;
+    }
+    .alert-band {
+        stroke-width: 0;
+        fill: #fbcdb6; // 85% lightness of 40% shade (darker)
+    }
+    .normal-band {
+        stroke-width: 0;
+        //fill: #b3deff; // 85% of 25% shade (darker) of #005EA5 (govuk-blue)
+        fill: rgba(#85994b, 0.2);
+    }
+    // Observed
+    .observed-line { 
+        stroke: $govuk-link-colour;
+        stroke-width: 2;
+        fill: none;
+    }
+    .observed-area { 
+        fill: rgba($govuk-link-colour, 0.1);
+    }
+    // Forecast
+    .forecast-line { 
+        stroke-dasharray: 4, 2; 
+        stroke: $govuk-secondary-text-colour;
+        stroke-width: 2;
+        fill: none;
+    }
+    .forecast-area {
+        fill: govuk-colour("light-grey", $legacy: "grey-3")
+        // fill: govuk-colour('grey-3');
+    }
+    // Locator
+    .locator-point {
+        stroke-width: 2;
+        stroke: $govuk-link-colour;
+        fill: white; 
+    }
+    .locator-line {
+        display:none;
+        stroke-width: 1;
+        stroke: rgba($govuk-text-colour, 0.1);
+        shape-rendering: crispEdges; 
+    }
+    .locator--offset .locator-line {
+        display:block;
+    }
+    .locator--forecast .locator-point {
+        stroke: $govuk-secondary-text-colour;
+    }
+    // Tooltip
+    .tool-tip {
+        display:none;
+    }
+    .tool-tip--visible {
+        display:block;
+    }
+    .tool-tip-bg {
+        fill:white;
+        stroke-width: 1;
+        stroke: $govuk-secondary-text-colour;
+        shape-rendering: crispEdges;
+    }
+    .tool-tip-text {
+        @include govuk-font($size: 16);
+        dominant-baseline:hanging;
+    }
+    .tool-tip-text__strong {
+        @include govuk-font($size: 19, $weight:bold);
+    }
+    // Now
+    .time-line {
+        stroke-width: 1;
+        stroke: $govuk-secondary-text-colour;
+        shape-rendering: crispEdges; 
+    }
+    .time-now-text {
+        @include govuk-font($size: 16);
+    }
+    .time-now-bg {
+        fill:white;
+        stroke-width: 1;
+        stroke: $govuk-secondary-text-colour;
+        shape-rendering: crispEdges;
+    }
+    // Thresholds
+    .threshold__line {
+        stroke: $govuk-border-colour;
+        stroke-width: 2;
+        shape-rendering: crispEdges;
+    }
+    .threshold__bg {
+        stroke: transparent;
+        fill: transparent; 
+    }
+    .threshold__remove {
+        display:none;
+    }
+    .threshold__remove line {
+        stroke-width: 2;
+        stroke: $govuk-text-colour;
+        shape-rendering: auto;
+    }
+    .threshold__remove rect {
+        stroke-width: 0;
+        stroke: transparent;
+        fill: white; 
+    }
+    .threshold__remove:hover {
+        cursor: pointer;
+    }
+    .threshold-label {
+        display: none;
+    }
+    .threshold-label__bg {
+        fill:white;
+        stroke-width: 1;
+        stroke: $govuk-text-colour;
+        shape-rendering: auto;
+    }
+    .threshold-label__text {
+        @include govuk-font($size: 16);
+        fill: $govuk-text-colour;
+        dominant-baseline:hanging;
+    }
+    /*
+    .threshold-cross {
+        stroke-width: 2;
+        stroke: $govuk-secondary-text-colour;
+        shape-rendering: auto;
+        pointer-events: none;
+    }
+    */
+    .threshold.threshold--selected {
+        .threshold-label,
+        .threshold__remove {
+            display: block;
+        }
+        .threshold__line {
+            stroke: $govuk-text-colour;
+        }
+    }
+    .threshold.threshold--mouseover {
+        cursor:pointer;
+        .threshold__line {
+            stroke: $govuk-text-colour;
+        }
+    }
+    // Typical/Alert
+    .threshold--alert {
+        .threshold__line {
+            stroke: #F8C37F;
+        }
+    }
+    .threshold.threshold--selected.threshold--alert,
+    .threshold.threshold--mouseover.threshold--alert {
+        .threshold__line {
+            stroke: #F18700;
+        }
+    }
+}

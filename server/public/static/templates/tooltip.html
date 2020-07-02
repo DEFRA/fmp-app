@@ -1,0 +1,26 @@
+
+{% if type == 'warnings' %}
+  <p>
+    <span class="govuk-body-m govuk-!-font-weight-bold">{{props.severity_description}}</span><br/>
+    <a class="govuk-body-s" href="/target-area/{{props.fwa_code}}">{{props.description}}</a>
+  </p>
+  <span class="ol-overlay__symbol ol-overlay__symbol--{{props.severity}}"></span>
+{% elif type == 'impact' %}
+  <p class="govuk-body-s">
+    Historic flood impact {{ props.obsDate }}<br/>
+    <span class="govuk-!-font-weight-bold">{{ props.description }}</span><br/>
+    <a href="/station/{{props.stationId}}?i={{props.impactId}}">{{ props.stationName }}</a>
+  </p>
+{% elif type == 'rain' %}
+  <p class="govuk-body-s">
+    Rainfall measuring gauge<br/>
+    <span class="govuk-!-font-weight-bold">
+    {% if rainfallValues.error %}
+      {{rainfallValues.error}}
+    {% else %}
+      {% if rainfallValues.dailyTotal === 0 %} No rain was recorded in the last 24 hour period measured{% else %} <strong>{{ rainfallValues.dailyTotal }}mm</strong> in the last 24 hour period measured{% endif %}
+    {% endif %}
+    </span><br/>
+    <a href="/rain-gauge/{{ props.stationReference }}#one-day">Rainfall at grid ref {{props.gridRef}}</a> 
+  </p>
+{% endif %}

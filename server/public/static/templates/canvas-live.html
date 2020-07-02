@@ -1,0 +1,11 @@
+{% if numFeatures <= 20 %}
+<ul class="map-feature-list">
+    {% for feature in features %}
+    <li>
+        <button data-id="{{ feature.id }}" data-layer="{{ feature.layer }}">{{ feature.description }}</button>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>{{ numFeatures }} features. Too many to display - zoom in to reduce number</p>
+{% endif %}

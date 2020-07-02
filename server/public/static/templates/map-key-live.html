@@ -1,0 +1,121 @@
+<div id="map-key" class="map-key__container">
+  <div class="map-key__heading">
+    <h2 class="map-key__title">Key</h2>
+  </div>
+  <form>
+    <div class="map-key__features">
+      <ul class="map-key-features__section">
+        <li class="map-key-features__item">
+          <div class="govuk-radios__item govuk-radios__item--map-key">
+            <input class="govuk-radios__input" id="mapView" data-layer="mapView" data-states="" name="baseLayer" type="radio"
+              checked value="mapView">
+            <label class="govuk-label govuk-radios__label" for="mapView">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -250px -900px;"></span>
+                  Default view
+              </span>
+            </label>
+          </div>
+        </li>
+        <li class="map-key-features__item">
+          <div class="govuk-radios__item govuk-radios__item--map-key">
+            <input class="govuk-radios__input" id="satelliteView" data-layer="satelliteView" data-states="" name="baseLayer"
+              type="radio" value="satelliteView">
+            <label class="govuk-label govuk-radios__label" for="satelliteView">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -300px -900px;"></span>
+                  Satellite view
+              </span>
+            </label>
+          </div>
+        </li>
+      </ul>
+      <ul class="map-key-features__section" style="display:none">
+        <li class="map-key-features__item" style="display:none">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="severeFloodWarnings" data-layer="severeFloodWarning"
+              data-severity="1" name="severeFloodWarnings" type="checkbox" value="flood-zones">
+            <label class="govuk-label govuk-checkboxes__label" for="severeFloodWarnings">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -450px" data-style="background-position:-200px -450px"
+                  data-style-offset="background-position:-250px -450px"></span>
+                  Severe warning
+              </span>
+            </label>
+          </div>
+        </li>
+        <li class="map-key-features__item" style="display:none">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="floodWarnings" data-layer="floodWarning"
+              data-severity="2" name="floodWarnings" type="checkbox" value="flood-zones">
+            <label class="govuk-label govuk-checkboxes__label" for="floodWarnings">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -500px" data-style="background-position: -200px -500px"
+                  data-style-offset="background-position: -250px -500px"></span>
+                  Flood warning
+              </span>
+            </label>
+          </div>
+        </li>
+        <li class="map-key-features__item" style="display:none">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="floodAlerts" data-layer="floodAlert"
+              data-severity="3" name="floodAlerts" type="checkbox" value="flood-zones">
+            <label class="govuk-label govuk-checkboxes__label" for="floodAlerts">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -550px" data-style="background-position: -200px -550px"
+                  data-style-offset="background-position: -250px -550px"></span>
+                  Flood alert
+              </span>
+            </label>
+          </div>
+        </li>
+      </ul>
+      <ul class="map-key-features__section" style="display:none">
+        <li class="map-key-features__item">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="impacts" data-layer="impacts" data-states="" name="impacts"
+              type="checkbox" value="impacts">
+            <label class="govuk-label govuk-checkboxes__label" for="impacts">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -250px" data-style="background-position: -200px -250px"
+                  data-style-offset="background-position: -250px -250px"></span>
+                  Historic flood impacts
+              </span>
+            </label>
+          </div>
+        </li>
+      </ul>
+      <ul class="map-key-features__section" style="display:none">
+        <li class="map-key-features__item">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="stations" data-layer="stations" data-states="" name="stations"
+              type="checkbox" value="stations">
+            <label class="govuk-label govuk-checkboxes__label" for="stations">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -50px" data-style="background-position: -200px -50px"
+                  data-style-offset="background-position: -250px -50px"></span>
+                  River or sea level
+              </span>
+            </label>
+          </div>
+        </li>
+      </ul>
+      <ul class="map-key-features__section" style="display:none">
+        <li class="map-key-features__item">
+          <div class="govuk-checkboxes__item govuk-checkboxes__item--map-key">
+            <input class="govuk-checkboxes__input" id="rain" data-layer="rain" data-states="" name="rain"
+              type="checkbox" value="rain">
+            <label class="govuk-label govuk-checkboxes__label" for="rain">
+              <span class="govuk-label__inner">
+                <span class="key-symbol" style="background-position: -200px -800px" data-style="background-position: -200px -800px"
+                  data-style-offset="background-position: -250px -800px"></span>
+                  Rainfall measurement
+              </span>
+            </label>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>

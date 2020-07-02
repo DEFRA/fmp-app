@@ -1,0 +1,102 @@
+.defra-warning-text-flood {
+    @extend .govuk-warning-text;
+    padding:10px 0px;
+    .defra-warning-text-flood__text {
+        @extend .govuk-warning-text__text;
+        @include govuk-font($size: 24, $weight: bold);
+        padding-left:56px;
+        @include mq ($from: tablet) {
+            padding-left:65px;
+        }
+    }
+    .defra-warning-text-flood__icon {
+        @extend .govuk-warning-text__icon;
+        background: transparent url('#{$govuk-images-path}icon-flood-symbols-2x.png') no-repeat;
+        border-radius: 0;
+        border:0;
+        background-size: 240px;
+        text-indent: -5000px;
+        padding: 0;
+        font-size: 1em;
+        line-height: auto;
+        width: 48px;
+        height: 48px;
+        margin-top:-27px;
+        background-position: -16px -95px;
+        @include mq ($from: tablet) {
+            background-position: -92px -92px;
+            width: 56px;
+            height: 56px;
+            margin-top:-30px;
+        }
+    }
+    .defra-warning-text-flood__secondary {
+        display: block;
+        @include govuk-font($size: 19);
+        font-weight: normal;
+    }
+}
+.defra-warning-text-flood--severe-flood-warning {
+    @extend .defra-warning-text-flood;
+    .govuk-warning-text__icon {
+        background-position: -16px -15px;
+        @include mq ($from: tablet) {
+            background-position:-92px -12px;
+        }
+    }
+}
+.defra-warning-text-flood--flood-alert {
+    @extend .defra-warning-text-flood;
+    .govuk-warning-text__icon {
+        background-position: -16px -175px;
+        @include mq ($from: tablet) {
+            background-position:-92px -172px;
+        }
+    }
+}
+.defra-warning-text-flood--warning-removed {
+    @extend .defra-warning-text-flood;
+    .govuk-warning-text__icon {
+        background-position: -16px -335px;
+        @include mq ($from: tablet) {
+            background-position:-92px -332px;
+        }
+    }
+}
+.defra-warning-text-flood--large {
+    padding:4px 0px;
+    .defra-warning-text-flood__text {
+        @include mq ($from: tablet) {
+            padding-left:80px;
+        }
+    }
+    .defra-warning-text-flood__icon {
+        @include mq ($from: tablet) {
+            width: 68px;
+            height: 68px;
+            margin-top:-35px;
+            background-position: -166px -86px;
+        }
+    }
+    &.defra-warning-text-flood--flood-alert {
+        .defra-warning-text-flood__icon {
+            @include mq ($from: tablet) {
+                background-position: -166px -166px;
+            }
+        }
+    }
+    &.defra-warning-text-flood--severe-flood-warning {
+        .defra-warning-text-flood__icon {
+            @include mq ($from: tablet) {
+                background-position: -166px -6px;
+            }
+        }
+    }
+    &.defra-warning-text-flood--warning-removed {
+        .defra-warning-text-flood__icon {
+            @include mq ($from: tablet) {
+                background-position: -166px -326px;
+            }
+        }
+    }
+}

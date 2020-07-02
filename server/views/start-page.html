@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Check if a location in England is at risk of flooding now</h1>
+        <p>Check if a location in England is at risk of flooding now</p>
+
+        
+        <ul class="govuk-list govuk-list--bullet">
+          <li>if any local flood warnings are in force</li>
+          <li>the flood risk forecast for the next 5 days</li>
+          <li>the latest river levels and forecast levels</li>
+        </ul>
+
+        <div class="govuk-inset-text">
+          This service is for England only. <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area">Northern Ireland,</a>  <a href="https://www.sepa.org.uk/environment/water/flooding/">Scotland</a> and <a href="https://naturalresources.wales/flooding?lang=en">Wales</a>  have their own flood risk information services.
+        </div>
+
+        <a href="/" role="button" draggable="false" class="govuk-button govuk-button--start">
+          Start now
+        </a>
+
+        <h3 class="govuk-heading-m">The national picture, at a glance</h3>
+
+        <p>You can also <a href="/national">look at the latest flood risk situation for all of England</a>, or  <a href="/national#outlook">see the 5-day outlook.</a></p>
+
+        <h3 class="govuk-heading-m">Get flood warnings by text, phone or email</h3>
+        
+        <p><a href="https://www.gov.uk/sign-up-for-flood-warnings">Sign up for flood warnings.</a>  This service is free.</p>
+
+        <h3 class="govuk-heading-m">Other ways to find out about flood risk</h3>
+
+        <p>For current flood warnings in force please call our 24-hour Floodline on:</p>
+
+        <p>Telephone: 0345 988 1188</p>
+  
+        <p>Type talk: 0345 602 6340 (for the hard of hearing)</p>
+
+        <p><a href="https://www.gov.uk/call-charges">Find out more about call charges.</a></p>
+
+      </div>
+    </div>
+</div>
+{% endblock %}

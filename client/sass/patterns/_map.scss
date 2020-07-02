@@ -1,0 +1,59 @@
+.app-map {
+    .govuk-button--show-map {
+        margin-bottom:0px;
+        @include mq ($from: tablet) {
+            display:none;
+        }
+    }
+    .govuk-button--progressive {
+        @extend .govuk-details__summary;
+        display:none;
+        position: relative;
+        background-color:transparent;
+        border:0px;
+        padding-top:3px;
+        padding-bottom:3px;
+        text-decoration:underline !important;
+        @include mq ($from: tablet) {
+            display:block;
+        }
+        box-shadow: none;
+        &:hover {
+            background-color:transparent;
+            outline: 0;
+            top:auto;
+        }
+        &:active,&:focus {
+            top:auto;
+            outline: 4px solid #ffbf47;
+            outline-offset: -1px;
+            background-color: #ffbf47 !important;
+        }
+        &::before {
+            top:0px !important;
+            margin-left:0;
+        }
+    }
+    .govuk-button--progressive + .app-map__container {
+        @include mq ($from: tablet) {
+            margin-top:20px;
+            display:none;
+        }
+    }
+    .govuk-button--progressive[aria-pressed='true'] + .app-map__container {
+        @include mq ($from: tablet) {
+            display:block;
+        }
+    }
+    .govuk-button--progressive[aria-pressed='true']:before {
+        display: block;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent;
+        -webkit-clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+        clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+        border-width: 12.124px 7px 0 7px;
+        border-top-color: inherit;
+    }
+}

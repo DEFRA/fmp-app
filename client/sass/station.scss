@@ -1,0 +1,63 @@
+
+@import "node_modules/govuk-frontend/govuk/settings/all";
+@import "node_modules/govuk-frontend/govuk/tools/all";
+@import "node_modules/govuk-frontend/govuk/helpers/all";
+@import './components/google-graph';
+
+#station-page {
+  #levels-heading {
+    margin-top: 0;
+  }
+
+  h1.xlarge-river-level {
+    margin-bottom: 0.75em;
+  }
+
+  #multiple-stations-info {
+    margin-bottom: 20px;
+  }
+
+  #marker {
+    font-family: "nta", Arial, sans-serif;
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    top: -20px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .chart-container {
+    position: relative;
+  }
+
+  ul.nearby-measuring-stations {
+    margin-bottom: 0;
+  }
+
+  .warning-inline {
+    text-decoration: none;
+    .warning-inline-name {
+      margin-right: 0.2em;
+      text-decoration: underline;
+    }
+    .warning-inline-icon:before {
+      display: inline-block;
+      vertical-align: bottom;
+      content: ' ';
+      width: 22px;
+      height: 22px;
+      background: url('/assets/images/icon-flood-warning.png');
+      background-position: left top;
+      background-size: 100%;
+      @include govuk-media-query($from: tablet) {
+        top: -2px;
+        width: 26px;
+        height: 26px;
+      }
+    }
+    .warning-inline-icon span {
+      color: $govuk-text-colour;
+    }
+  }
+}
