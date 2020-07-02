@@ -1,5 +1,4 @@
 const Boom = require('boom')
-const Joi = require('joi')
 const ContactViewModel = require('../models/contact-view')
 
 module.exports = {
