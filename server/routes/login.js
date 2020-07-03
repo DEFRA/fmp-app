@@ -31,7 +31,7 @@ module.exports = [
             return h.view('login')
           }
           request.cookieAuth.set({ username })
-          return h.redirect('start-page')
+          return h.redirect('home')
         } catch (err) {
           return Boom.badImplementation(err.message, err)
         }

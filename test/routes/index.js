@@ -30,12 +30,12 @@ lab.experiment('Get Routes test', () => {
     await sandbox.restore()
   })
 
-  lab.test('GET /start-page', async () => {
+  lab.test('GET /home', async () => {
     const plugin = {
       plugin: {
-        name: 'start-page',
+        name: 'home',
         register: (server, options) => {
-          server.route(require('../../server/routes/start-page'))
+          server.route(require('../../server/routes/home'))
         }
       }
     }
@@ -46,7 +46,7 @@ lab.experiment('Get Routes test', () => {
 
     const options = {
       method: 'GET',
-      url: '/start-page'
+      url: '/home'
     }
 
     const response = await server.inject(options)
