@@ -38,3 +38,125 @@ $govuk-global-styles: true;
 @import "components/modal-dialog"; // https://github.com/edenspiekermann/a11y-dialog
 @import "components/related-items";
 @import "components/contents"; 
+
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+
+.govuk-back-link {
+    position: relative;
+    top: -50px;
+  }
+  
+  
+  .govuk-grid-column-one-half #map {
+    margin-bottom: 50px;
+    position: relative;
+    height: 400px;
+    padding-bottom: 48px;
+    border: 1px solid #b1b4b6;
+  }
+  
+  .mapToolBtn {
+    font-family: "GDS Transport", Arial, sans-serif;
+    border: 0;
+    padding: 8px 10px 7px;
+    background: #1d70b8;
+    color: #fff;
+    position: absolute;
+    top: 1rem;
+    z-index: 9999;
+    font-size: 1rem;
+  }
+  .mapToolBtn.active {
+    background: #fd0;
+    color: #000;
+  }
+  
+  #drawShapeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    font-size: 1rem;
+  }
+  
+  #markerBtn {
+    right: 6rem;
+  }
+  
+  .govuk-form-group.markerRadiosContainer {
+    margin-bottom: 0;
+    padding: 1rem 1rem .5rem 1rem;
+  }
+  
+  .visually-hidden {
+      position: absolute !important;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap; /* added line */
+  }
+  
+  .blue-inset {
+    border-color: #5694ca;
+    background-color: #eef4fa;
+  }
+  
+  .ol-control {
+    background-color: rgba(98,106,110,.5) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .ol-control button {
+    color: #626a6e !important;
+    background-color: rgba(255,255,255,1) !important;
+    font-size: 1.5em !important;
+  }
+  
+  
+  .govuk-radios--small .govuk-radios__label {
+      margin-top: -2px;
+      padding: 13px 15px 13px 1px;
+      float: left;
+      font-size: 1rem;
+      line-height: 1.25;
+  }
+  .govuk-radios--small .govuk-radios__item {
+      min-height: 0;
+      margin-bottom: 0;
+      margin-right: 10px;
+      padding-left: 34px;
+      float: left;
+  }
+  .govuk-radios--small .govuk-radios__input {
+      left: -10px;
+  }
+  .govuk-radios--small .govuk-radios__label::before {
+      top: 8px;
+      width: 24px;
+      height: 24px;
+  }
+  .govuk-radios--small .govuk-radios__item:after {
+      content: "";
+      display: block;
+      clear: both;
+  }
+  
+  .govuk-form-group.markerRadiosContainer .govuk-radios--small {
+    display: inline-block;
+  }
+  
+  .govuk-form-group.markerRadiosContainer button {
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+  
+  .results-map-static {
+    max-width: 960px;
+  }
+  
