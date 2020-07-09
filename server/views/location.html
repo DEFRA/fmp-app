@@ -1,107 +1,83 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-<main class="govuk-main-wrapper " id="main-content" role="main">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+    {% from "radios/macro.njk" import govukRadios %}
+    {% from "input/macro.njk" import govukInput %}
 
-            <form autocomplete="off" class="form" method="post" action="/location">
-                {% if errorMessage %}
-                {{ govukErrorSummary({
-      titleText: "There is a problem",
-      errorList: [
-        {
-          text: errorMessage,
-          href: "#location"
-        }
-      ]
-    }) }}
-                {% endif %}
+    {% set placeorPostcodeHtml %}
+    {{ govukInput({
+  id: "placeorPostcode",
+  name: "placeorPostcode",
+  type: "text",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "For example, Bakewell or WA4 1AB"
+  },
+  attributes: {
+    spellcheck: "false"
+  }
+}) }}
+    {% endset -%}
 
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="how-contacted-conditional-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                            <h1 class="govuk-fieldset__heading">
-                                Find the location
-                            </h1>
-                        </legend>
-                        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="how-contacted-conditional" name="how-contacted"
-                                    type="radio" value="email"
-                                    data-aria-controls="conditional-how-contacted-conditional">
-                                <label class="govuk-label govuk-radios__label" for="how-contacted-conditional">
-                                    Place or postcode
-                                </label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                id="conditional-postcode-conditional">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="postcode">
-                                        Postcode
-                                    </label>
-                                    <input class="govuk-input govuk-!-width-one-third" id="contact-by-email"
-                                        name="contact-by-email" type="email" spellcheck="false">
-                                </div>
-
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="how-contacted-conditional-2" name="how-contacted"
-                                    type="radio" value="phone"
-                                    data-aria-controls="conditional-how-contacted-conditional-2">
-                                <label class="govuk-label govuk-radios__label" for="how-contacted-conditional-2">
-                                    National Grid Reference (NGR)
-                                </label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                id="conditional-how-contacted-conditional-2">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="contact-by-phone">
-                                        National Grid Reference (NGR)
-                                    </label>
-                                    <span id="passport-number-hint" class="govuk-hint">
-                                        For example, NY395557 (6, 8 or 12 digits)
-                                    </span>
-                                    <input class="govuk-input govuk-!-width-one-third" id="contact-by-phone"
-                                        name="contact-by-phone" type="tel">
-                                </div>
-
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="how-contacted-conditional-3" name="how-contacted"
-                                    type="radio" value="text"
-                                    data-aria-controls="conditional-how-contacted-conditional-3">
-                                <label class="govuk-label govuk-radios__label" for="how-contacted-conditional-3">
-                                    Easting and northing
-                                </label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                id="conditional-how-contacted-conditional-3">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="contact-by-text">
-                                        Easting
-                                    </label>
-                                    <input class="govuk-input govuk-!-width-one-third" id="contact-by-text"
-                                        name="contact-by-text" type="tel">
-                                    <label class="govuk-label" for="contact-by-text">
-                                        Northing
-                                    </label>
-                                    <input class="govuk-input govuk-!-width-one-third" id="contact-by-text"
-                                        name="contact-by-text" type="tel">
-                                </div>
-                            </div>
-                    </fieldset>
-                </div>
-
-                <a href="/results" role="button" draggable="false"
-                    class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
-                    data-module="govuk-button">
-                    Continue
-                </a>
-            </form>
-        </div>
-    </div>
-</main>
-</div>
-
+    {% set nationalGridReferenceHtml %}
+    {{ govukInput({
+  id: "nationalGridReference",
+  name: "nationalGridReference",
+  type: "number",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "For example, NY395557 (6, 8 or 12 digits)"
+  }
+}) }}
+    {% endset -%}
+    {% set eastingHtml %}
+    {{ govukInput({
+  id: "easting",
+  name: "easting",
+  type: "text",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "Easting"
+  },
+  attributes: {
+    spellcheck: "false"
+  }
+}) }}
+    {% endset -%}
+    {{ govukRadios({
+  idPrefix: "find-by-conditional",
+  name: "find-by",
+  fieldset: {
+    legend: {
+      text: "Find the location",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "Select one option."
+  },
+  items: [
+    {
+      value: "placeorPostcode",
+      text: "Place or Postcode",
+      conditional: {
+        html: placeorPostcodeHtml
+      }
+    },
+    {
+      value: "National Grid Reference (NGR)",
+      text: "National Grid Reference (NGR)",
+      conditional: {
+        html: nationalGridReferenceHtml
+      }
+    }    ,
+    {
+      value: "Easting and Northing",
+      text: "Easting and Northing",
+      conditional: {
+        html: eastingHtml
+      }
+    }  
+  ]
+}) }}
 {% endblock %}
