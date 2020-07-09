@@ -1,10 +1,11 @@
 {% extends 'layout.html' %}
 {% block content %}
-    {% from "radios/macro.njk" import govukRadios %}
-    {% from "input/macro.njk" import govukInput %}
+  {% from "radios/macro.njk" import govukRadios %}
+  {% from "input/macro.njk" import govukInput %}
+  {% from "button/macro.njk" import govukButton %}
 
-    {% set placeorPostcodeHtml %}
-    {{ govukInput({
+  {% set placeorPostcodeHtml %}
+  {{ govukInput({
   id: "placeorPostcode",
   name: "placeorPostcode",
   type: "text",
@@ -15,11 +16,12 @@
   attributes: {
     spellcheck: "false"
   }
-}) }}
-    {% endset -%}
+})
+ }}
+  {% endset -%}
 
-    {% set nationalGridReferenceHtml %}
-    {{ govukInput({
+  {% set nationalGridReferenceHtml %}
+  {{ govukInput({
   id: "nationalGridReference",
   name: "nationalGridReference",
   type: "number",
@@ -28,9 +30,9 @@
     text: "For example, NY395557 (6, 8 or 12 digits)"
   }
 }) }}
-    {% endset -%}
-    {% set eastingHtml %}
-    {{ govukInput({
+  {% endset -%}
+  {% set eastingHtml %}
+  {{ govukInput({
   id: "easting",
   name: "easting",
   type: "text",
@@ -42,8 +44,8 @@
     spellcheck: "false"
   }
 }) }}
-    {% endset -%}
-    {{ govukRadios({
+  {% endset -%}
+  {{ govukRadios({
   idPrefix: "find-by-conditional",
   name: "find-by",
   fieldset: {
@@ -79,5 +81,10 @@
       }
     }  
   ]
+})
+ }}
+ {{ govukButton({
+  text: "Continue",
+  preventDoubleClick: true
 }) }}
 {% endblock %}
