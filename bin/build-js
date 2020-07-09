@@ -1,4 +1,0 @@
-#!/bin/bash
-
-mkdir -p server/public/build/javascripts
-nunjucks-precompile server/public/static/templates > server/public/build/javascripts/templates.js
