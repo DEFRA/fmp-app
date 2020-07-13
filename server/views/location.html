@@ -12,6 +12,12 @@
                             }) 
         }}
   {% endif %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: 'Back',
+    href: 'javascript:history.back()'
+}) }}
 
   {% set placeOrPostcodeHtml %}
   {{ govukInput({
