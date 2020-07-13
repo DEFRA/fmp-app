@@ -3,88 +3,112 @@
   {% from "radios/macro.njk" import govukRadios %}
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
+  {% from "error-summary/macro.njk" import govukErrorSummary %}
+<form autocomplete="off" class="form" method="post" action="/location">
+  {% if errorSummary.length > 0 %}
+    {{ govukErrorSummary({
+                                titleText: "There is a problem",
+                                errorList: errorSummary
+                            }) 
+        }}
+  {% endif %}
 
-  {% set placeorPostcodeHtml %}
+  {% set placeOrPostcodeHtml %}
   {{ govukInput({
-  id: "placeorPostcode",
-  name: "placeorPostcode",
-  type: "text",
-  classes: "govuk-!-width-one-third",
-  label: {
-    text: "For example, Bakewell or WA4 1AB"
-  },
-  attributes: {
-    spellcheck: "false"
-  }
-})
- }}
+                        id: "placeOrPostcode",
+                        name: "placeOrPostcode",
+                        type: "text",
+                        classes: "govuk-!-width-one-third",
+                        label: {
+                                  text: "For example, Bakewell or WA4 1AB"
+                               },                       
+                        errorMessage: errors["placeOrPostcode"]
+                      })
+        }}
   {% endset -%}
 
   {% set nationalGridReferenceHtml %}
   {{ govukInput({
-  id: "nationalGridReference",
-  name: "nationalGridReference",
-  type: "number",
-  classes: "govuk-!-width-one-third",
-  label: {
-    text: "For example, NY395557 (6, 8 or 12 digits)"
-  }
-}) }}
+                        id: "nationalGridReference",
+                        name: "nationalGridReference",
+                        type: "text",
+                        classes: "govuk-!-width-one-third",
+                        label: {
+                                  text: "For example, NY395557 (6, 8 or 12 digits)"
+                               },                       
+                        errorMessage: errors["nationalGridReference"]
+                      })
+        }}
   {% endset -%}
-  {% set eastingHtml %}
+
+  {% set eastingNorthingHtml %}
   {{ govukInput({
-  id: "easting",
-  name: "easting",
-  type: "text",
-  classes: "govuk-!-width-one-third",
-  label: {
-    text: "Easting"
-  },
-  attributes: {
-    spellcheck: "false"
-  }
-}) }}
+                        id: "easting",
+                        name: "easting",
+                        type: "text",
+                        classes: "govuk-!-width-one-third",
+                        label: {
+                                  text: "For example, NY395557 (6, 8 or 12 digits)"
+                               },                       
+                        errorMessage: errors["easting"]
+                      })
+        }},
+        {{ govukInput({
+                        id: "northing",
+                        name: "northing",
+                        type: "text",
+                        classes: "govuk-!-width-one-third",
+                        label: {
+                                  text: "For example, NY395557 (6, 8 or 12 digits)"
+                               },                       
+                        errorMessage: errors["northing"]
+                      })
+        }}
   {% endset -%}
+
   {{ govukRadios({
-  idPrefix: "find-by-conditional",
-  name: "find-by",
-  fieldset: {
-    legend: {
-      text: "Find the location",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  hint: {
-    text: "Select one option."
-  },
-  items: [
-    {
-      value: "placeorPostcode",
-      text: "Place or Postcode",
-      conditional: {
-        html: placeorPostcodeHtml
-      }
-    },
-    {
-      value: "National Grid Reference (NGR)",
-      text: "National Grid Reference (NGR)",
-      conditional: {
-        html: nationalGridReferenceHtml
-      }
-    }    ,
-    {
-      value: "Easting and Northing",
-      text: "Easting and Northing",
-      conditional: {
-        html: eastingHtml
-      }
-    }  
-  ]
-})
- }}
- {{ govukButton({
-  text: "Continue",
-  preventDoubleClick: true
-}) }}
+                            idPrefix: "findbyconditional",
+                            name: "findby",
+                            fieldset: {
+                                        legend: {
+                                                    text: "Find the location",
+                                                    isPageHeading: true,
+                                                    classes: "govuk-fieldset__legend--l"
+                                                }
+                                      },
+                            hint: {
+                                    text: "Select one option."
+                                  },
+                                    items: [
+                                              {
+                                                 value: "placeOrPostcode",
+                                                 text: "Place or Postcode",
+                                                 conditional: {
+                                                   html: placeOrPostcodeHtml
+                                                 }
+                                               },
+                                               {
+                                                 value: "National Grid Reference (NGR)",
+                                                 text: "National Grid Reference (NGR)",
+                                                 conditional: {
+                                                   html: nationalGridReferenceHtml
+                                                 }
+                                               }    ,
+                                               {
+                                                 value: "Easting and Northing",
+                                                 text: "Easting and Northing",
+                                                 conditional: {
+                                                   html: eastingNorthingHtml
+                                                 }
+                                               }  
+                                           ]
+                        })
+          }}
+
+  {{ govukButton({
+                    text: "Continue",
+                     preventDoubleClick: true
+                })
+   }}
+</form>
 {% endblock %}
