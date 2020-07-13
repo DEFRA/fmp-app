@@ -15,17 +15,10 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    var errors = {}
-    errors.placeOrPostcode = ''
-    errors.nationalGridReference = ''
-    errors.easting = ''
-    errors.northing = ''
-    var errorSummaryModel = Object.values(errors)
+    var errors = []
     var model = new LocationViewModel({
-      errorSummary: errorSummaryModel
-
+      errorSummary: errors
     })
-
     return h.view('location', model)
   }
 },
@@ -38,19 +31,20 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    var errors = {}
-    errors.placeOrPostcode = ''
-    errors.nationalGridReference = ''
-    errors.easting = ''
-    errors.northing = ''
-    var errorSummaryModel = Object.values(errors)
     const payload = request.payload
     // attempt to get BNG coordinates for the place or postcode
     let BNG = {}
     var selectedOption = payload.findby
     if (selectedOption === 'placeOrPostcode') {
       try {
-        const address = await addressService.findByPlace(payload.placeorPostcode)
+        if (payload.placeOrPostcode === '') {
+          const errors = [{ text: 'Place Or Postcode is Required', href: '#placeOrPostcode' }]
+          var model = new LocationViewModel({
+            errorSummary: errors
+          })
+          return h.view('location', model)
+        }
+        const address = await addressService.findByPlace(payload.placeOrPostcode)
         if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
           throw new Error('No address found')
         }
@@ -62,12 +56,11 @@ module.exports = [{
         request.log(['error', 'address-service', 'find-by-place'], err)
         const data = {
           type: 'placeOrPostcode',
-          placeOrPostcode: payload.placeOrPostcode
+          placeOrPostcode: selectedOption
         }
-        const errors = [{
-          path: ['placeOrPostcode']
-        }]
-        return h.view('location', new LocationViewModel(data, errors))
+        const errors = { placeOrPostcode: 'Place or PostCode Not found' }
+        var errorSummary = Object.values(errors)
+        return h.view('location', new LocationViewModel(data, errorSummary))
       }
     } else if (selectedOption === 'nationalGridReference') {
       BNG = ngrToBng.convert(payload.nationalGridReference)

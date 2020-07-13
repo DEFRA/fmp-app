@@ -1,11 +1,10 @@
-function LocationViewModel (data, errorSummary) {
-  if (!data) {
-    data = {
-      findby: 'placeOrPostcode'
-    }
+function LocationViewModel (data) {
+  if (data) {
+    this.errorSummary = data.errorSummary
+  } else {
+    this.errors = {}
+    this.errorSummary = this.errors
   }
-  this.errors = { placeOrPostcode: '', easting: '', northing: '', nationGridReferencenumber: '' }
-  this.errorSummary = Object.values(this.errors)
 }
 
 module.exports = LocationViewModel
