@@ -4,6 +4,12 @@
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+   {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
 <form autocomplete="off" class="form" method="post" action="/location">
   {% if errorSummary.length > 0 %}
     {{ govukErrorSummary({
@@ -11,13 +17,7 @@
                                 errorList: errorSummary
                             }) 
         }}
-  {% endif %}
-  {% from "back-link/macro.njk" import govukBackLink %}
-
-  {{ govukBackLink({
-    text: 'Back',
-    href: 'javascript:history.back()'
-}) }}
+  {% endif %} 
 
   {% set placeOrPostcodeHtml %}
   {{ govukInput({
