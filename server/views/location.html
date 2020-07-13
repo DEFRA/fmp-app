@@ -3,6 +3,12 @@
   {% from "radios/macro.njk" import govukRadios %}
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: 'Back',
+    href: 'javascript:history.back()'
+}) }}
 
   {% set placeorPostcodeHtml %}
   {{ govukInput({
