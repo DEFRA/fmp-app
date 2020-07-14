@@ -29,7 +29,7 @@
                                   text: "For example, Bakewell or WA4 1AB"
                                },   
                          value:values["placeOrPostcode"],                     
-                        errorMessage: errors["placeOrPostcode"]
+                        errorMessage: placeOrPostcodeError
                       })
 
         }}
@@ -45,7 +45,7 @@
                                   text: "For example, NY395557 (6, 8 or 12 digits)"
                                },     
                         value:values["nationalGridReference"],                        
-                        errorMessage: errors["nationalGridReference"]
+                        errorMessage: nationalGridReferenceError
                       })
         }}
   {% endset -%}
@@ -60,9 +60,7 @@
                                   text: "For example, NY395557 (6, 8 or 12 digits)"
                                },     
                         value :values["easting"],                  
-                        errorMessage: {
-                                         "text": "You must provide Easting"
-                                      }
+                        errorMessage: eastingError
                       })
         }}
         {{ govukInput({
@@ -74,7 +72,7 @@
                                   text: "For example, NY395557 (6, 8 or 12 digits)"
                                },   
                         value :values["northing"],                        
-                        errorMessage: errors["northing"]
+                        errorMessage: northingError
                       })
         }}
   {% endset -%}

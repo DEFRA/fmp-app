@@ -1,11 +1,7 @@
-const Joi = require('joi')
 const QueryString = require('querystring')
 const addressService = require('../services/address')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
-const { object } = require('@hapi/joi')
-const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW]))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
-
 module.exports = [{
   method: 'GET',
   path: '/location',
@@ -57,7 +53,8 @@ module.exports = [{
             errorSummary: errors,
             placeOrPostcodeSelected: true,
             eastingNorthingSelected: false,
-            nationalGridReferenceSelected: false
+            nationalGridReferenceSelected: false,
+            placeOrPostcodeError: { text: 'Place Or Postcode is required' }
           })
           return h.view('location', model)
         }
@@ -74,7 +71,8 @@ module.exports = [{
             errorSummary: errors,
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: false,
-            nationalGridReferenceSelected: true
+            nationalGridReferenceSelected: true,
+            nationalGridReferenceError: { text: 'National Grid Reference Number is required' }
           })
           return h.view('location', model)
         }
@@ -87,15 +85,17 @@ module.exports = [{
           BNG.northing = payload.northing
         } else if (payload.easting === '' && payload.northing === '') {
           const errors = [
-            { text: 'Easting is Required', href: '#easting' },
-            { text: 'Northing is Required', href: '#northing' }
+            { text: 'Easting is required', href: '#easting' },
+            { text: 'Northing is required', href: '#northing' }
           ]
           model = {}
           model = new LocationViewModel({
             errorSummary: errors,
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
-            nationalGridReferenceSelected: false
+            nationalGridReferenceSelected: false,
+            eastingError: { text: 'Easting is required' },
+            northingError: { text: 'Northing is required' }
           })
           return h.view('location', model)
         } else if (payload.easting === '') {
@@ -107,7 +107,8 @@ module.exports = [{
             errorSummary: errors,
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
-            nationalGridReferenceSelected: false
+            nationalGridReferenceSelected: false,
+            eastingError: { text: 'Easting is required' }
           })
           return h.view('location', model)
         } else if (payload.northing === '') {
@@ -119,7 +120,9 @@ module.exports = [{
             errorSummary: errors,
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
-            nationalGridReferenceSelected: false
+            nationalGridReferenceSelected: false,
+            northingError: { text: 'Northing is required' }
+            
           })
           return h.view('location', model)
         } else {
