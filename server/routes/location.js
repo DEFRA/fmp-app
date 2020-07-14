@@ -52,9 +52,12 @@ module.exports = [{
           BNG.easting = addr.geometry_x
           BNG.northing = addr.geometry_y
         } else {
-          const errors = [{ text: 'Place Or Postcode is Required', href: '#placeOrPostcode' }]
+          const errors = [{ text: 'Place Or Postcode is required', href: '#placeOrPostcode' }]
           model = new LocationViewModel({
-            errorSummary: errors
+            errorSummary: errors,
+            placeOrPostcodeSelected: true,
+            eastingNorthingSelected: false,
+            nationalGridReferenceSelected: false
           })
           return h.view('location', model)
         }
@@ -65,10 +68,13 @@ module.exports = [{
         if (payload.nationalGridReference !== '') {
           BNG = ngrToBng.convert(payload.nationalGridReference)
         } else {
-          const errors = [{ text: 'National Grid Reference is Requered', href: '#nationalGridReference' }]
+          const errors = [{ text: 'National Grid Reference is required', href: '#nationalGridReference' }]
           model = {}
           model = new LocationViewModel({
-            errorSummary: errors
+            errorSummary: errors,
+            placeOrPostcodeSelected: false,
+            eastingNorthingSelected: false,
+            nationalGridReferenceSelected: true
           })
           return h.view('location', model)
         }
@@ -86,26 +92,46 @@ module.exports = [{
           ]
           model = {}
           model = new LocationViewModel({
-            errorSummary: errors
+            errorSummary: errors,
+            placeOrPostcodeSelected: false,
+            eastingNorthingSelected: true,
+            nationalGridReferenceSelected: false
           })
           return h.view('location', model)
         } else if (payload.easting === '') {
           const errors = [
-            { text: 'Easting is Required', href: '#easting' }
+            { text: 'Easting is required', href: '#easting' }
           ]
           model = {}
-          model = new LocationViewModel({ errorSummary: errors })
+          model = new LocationViewModel({
+            errorSummary: errors,
+            placeOrPostcodeSelected: false,
+            eastingNorthingSelected: true,
+            nationalGridReferenceSelected: false
+          })
           return h.view('location', model)
         } else if (payload.northing === '') {
           const errors = [
-            { text: 'Northing is Required', href: '#northing' }
+            { text: 'Northing is required', href: '#northing' }
           ]
           model = {}
-          model = new LocationViewModel({ errorSummary: errors })
+          model = new LocationViewModel({
+            errorSummary: errors,
+            placeOrPostcodeSelected: false,
+            eastingNorthingSelected: true,
+            nationalGridReferenceSelected: false
+          })
           return h.view('location', model)
         } else {
 
         }
+      } else {
+        const errors = [{ text: 'Please select an option, Place/Postcode, National Grid Reference or Easting and Northing', href: '#nationalGridReference' }]
+        model = {}
+        model = new LocationViewModel({
+          errorSummary: errors
+        })
+        return h.view('location', model)
       }
 
       queryParams.easting = BNG.easting || ''
@@ -117,10 +143,9 @@ module.exports = [{
         queryParams.placeOrPostcode = payload.placeOrPostcode
       }
 
-        const query = QueryString.stringify(queryParams)
-        return h.redirect(`/confirm-location?${query}`)
-      }
-     catch (error) {
+      const query = QueryString.stringify(queryParams)
+      return h.redirect(`/confirm-location?${query}`)
+    } catch (error) {
 
     }
   }

@@ -1,7 +1,12 @@
 
 {% extends 'layout.html' %}
 {% block content %}
-   {% from "back-link/macro.njk" import govukBackLink %}
+{% from "back-link/macro.njk" import govukBackLink %}
+   {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
  <form autocomplete="off" class="form" method="post" action="/location">
  <h1>This is Confirm Location Page</h1>
 </form>
