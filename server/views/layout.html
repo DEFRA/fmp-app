@@ -1,8 +1,6 @@
 {% extends "template.njk" %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "footer/macro.njk" import govukFooter %}
-{% from "back-link/macro.njk" import govukBackLink %}
-
 
 {% set metaTitle = (pageTitle or model.pageTitle or 'Check flood risk') + ' - GOV.UK' %}
 {% set metaDescription = model.metadata.description | default('Check your risk of flooding: get current flood warnings, river and sea levels, check the 5-day forecast or use flood risk maps') %}
@@ -39,11 +37,6 @@
 {% endblock %}
 
 {% block beforeContent %}
-   
-{{ govukBackLink({
-  text: 'Back',
-  href: 'javascript:history.back()'
-}) }}
 
 {% endblock %}
 

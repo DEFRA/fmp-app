@@ -6,6 +6,7 @@ module.exports = [{
   method: 'GET',
   path: '/location',
   options: {
+    description: 'Get location for a postcode, national grid reference, easting or northing',
     auth: {
       strategy: 'restricted'
     }
@@ -22,6 +23,7 @@ module.exports = [{
   method: 'POST',
   path: '/location',
   options: {
+    description: 'Post location for a postcode, national grid reference, easting or northing',
     auth: {
       strategy: 'restricted'
     }
@@ -122,7 +124,7 @@ module.exports = [{
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
             northingError: { text: 'Northing is required' }
-            
+
           })
           return h.view('location', model)
         } else {
