@@ -50,13 +50,13 @@ module.exports = [{
           BNG.easting = addr.geometry_x
           BNG.northing = addr.geometry_y
         } else {
-          const errors = [{ text: 'Place Or Postcode is required', href: '#placeOrPostcode' }]
+          const errors = [{ text: 'You need to give a place or postcode', href: '#placeOrPostcode' }]
           model = new LocationViewModel({
             errorSummary: errors,
             placeOrPostcodeSelected: true,
             eastingNorthingSelected: false,
             nationalGridReferenceSelected: false,
-            placeOrPostcodeError: { text: 'Place Or Postcode is required' }
+            placeOrPostcodeError: { text: 'You need to give a place or postcode' }
           })
           return h.view('location', model)
         }
@@ -67,14 +67,14 @@ module.exports = [{
         if (payload.nationalGridReference !== '') {
           BNG = ngrToBng.convert(payload.nationalGridReference)
         } else {
-          const errors = [{ text: 'National Grid Reference is required', href: '#nationalGridReference' }]
+          const errors = [{ text: 'You need to give a National Grid Reference (NGR)', href: '#nationalGridReference' }]
           model = {}
           model = new LocationViewModel({
             errorSummary: errors,
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: false,
             nationalGridReferenceSelected: true,
-            nationalGridReferenceError: { text: 'National Grid Reference Number is required' }
+            nationalGridReferenceError: { text: 'You need to give a National Grid Reference (NGR)' }
           })
           return h.view('location', model)
         }
@@ -87,8 +87,8 @@ module.exports = [{
           BNG.northing = payload.northing
         } else if (payload.easting === '' && payload.northing === '') {
           const errors = [
-            { text: 'Easting is required', href: '#easting' },
-            { text: 'Northing is required', href: '#northing' }
+            { text: 'You need to give an easting', href: '#easting' },
+            { text: 'You need to give an northing', href: '#northing' }
           ]
           model = {}
           model = new LocationViewModel({
@@ -96,13 +96,13 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
-            eastingError: { text: 'Easting is required' },
-            northingError: { text: 'Northing is required' }
+            eastingError: { text: 'You need to give an easting' },
+            northingError: { text: 'You need to give northing' }
           })
           return h.view('location', model)
         } else if (payload.easting === '') {
           const errors = [
-            { text: 'Easting is required', href: '#easting' }
+            { text: 'You need to give an easting', href: '#easting' }
           ]
           model = {}
           model = new LocationViewModel({
@@ -110,12 +110,12 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
-            eastingError: { text: 'Easting is required' }
+            eastingError: { text: 'You need to give an easting' }
           })
           return h.view('location', model)
         } else if (payload.northing === '') {
           const errors = [
-            { text: 'Northing is required', href: '#northing' }
+            { text: 'You need to give northing', href: '#northing' }
           ]
           model = {}
           model = new LocationViewModel({
@@ -123,7 +123,7 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
-            northingError: { text: 'Northing is required' }
+            northingError: { text: 'You need to give northing' }
 
           })
           return h.view('location', model)
@@ -131,7 +131,7 @@ module.exports = [{
 
         }
       } else {
-        const errors = [{ text: 'Please select an option, Place/Postcode, National Grid Reference or Easting and Northing', href: '#nationalGridReference' }]
+        const errors = [{ text: 'Please select an option, Place/Postcode or National Grid Reference(NGR) or Easting and Northing', href: '#findby' }]
         model = {}
         model = new LocationViewModel({
           errorSummary: errors
