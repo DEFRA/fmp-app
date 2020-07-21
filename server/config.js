@@ -15,7 +15,7 @@ const schema = joi.object({
   ordnanceSurveyKey: joi.string().optional(),
   browserRefreshUrl: joi.string().optional(),
   httpsProxy: joi.string().uri().default(''),
-  httpTimeoutMs: joi.number().default(10000),
+  httpTimeoutMs: joi.number().default(30000),
   gaAccId: joi.string().default(''),
   fbAppId: joi.string().default(''),
   siteUrl: joi.string().default(`http://localhost:${defaultPort}`),
@@ -32,7 +32,7 @@ const schema = joi.object({
 
 // Build config
 const config = {
-  restClientTimeoutMillis: 10000,
+  restClientTimeoutMillis: 30000,
   port: process.env.PORT,
   env: process.env.NODE_ENV,
   serviceUrl: process.env.FLOOD_APP_SERVICE_URL,
