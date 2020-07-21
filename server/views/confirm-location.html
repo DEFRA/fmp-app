@@ -1,15 +1,16 @@
 
 
 {% extends "layout.html" %}
-
+{% from "back-link/macro.njk" import govukBackLink %}
 {% block content %}
 
 <div class="govuk-width-container">
 
-  {{ govukBackLink({
-      text: 'Back',
-      href: 'javascript:history.back()'
-  }) }}
+   {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
 
 
   <div class="govuk-grid-row">
