@@ -88,7 +88,7 @@ module.exports = [{
         } else if (payload.easting === '' && payload.northing === '') {
           const errors = [
             { text: 'You need to give an easting', href: '#easting' },
-            { text: 'You need to give an northing', href: '#northing' }
+            { text: 'You need to give a northing', href: '#northing' }
           ]
           model = {}
           model = new LocationViewModel({
@@ -96,8 +96,10 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
+            easting: payload.easting,
+            northing: payload.northing,
             eastingError: { text: 'You need to give an easting' },
-            northingError: { text: 'You need to give northing' }
+            northingError: { text: 'You need to give a northing' }
           })
           return h.view('location', model)
         } else if (payload.easting === '') {
@@ -110,12 +112,13 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
+            northing: payload.northing,
             eastingError: { text: 'You need to give an easting' }
           })
           return h.view('location', model)
         } else if (payload.northing === '') {
           const errors = [
-            { text: 'You need to give northing', href: '#northing' }
+            { text: 'You need to give a northing', href: '#northing' }
           ]
           model = {}
           model = new LocationViewModel({
@@ -123,7 +126,8 @@ module.exports = [{
             placeOrPostcodeSelected: false,
             eastingNorthingSelected: true,
             nationalGridReferenceSelected: false,
-            northingError: { text: 'You need to give northing' }
+            easting: payload.easting,
+            northingError: { text: 'You need to a give northing' }
 
           })
           return h.view('location', model)
