@@ -2,9 +2,10 @@ const Joi = require('joi')
 
 const serverSchema = Joi.object().required().keys({
   host: Joi.string().hostname(),
-  port: Joi.number().required().default(3000),
+  port: Joi.number().required(),
   labels: Joi.string()
 })
+
 module.exports = {
   server: serverSchema,
   service: Joi.string().uri().required(),
@@ -25,12 +26,10 @@ module.exports = {
   }),
   errbit: Joi.object().required().keys({
     postErrors: Joi.boolean().required(),
-    options: Joi.object().required().keys({
-      env: Joi.string(),
-      key: Joi.string(),
-      host: Joi.string(),
-      proxy: Joi.string()
-    })
+    env: Joi.string().required(),
+    key: Joi.string().required(),
+    host: Joi.string().required(),
+    proxy: Joi.string().allow('')
   }),
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
