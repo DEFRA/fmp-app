@@ -4,7 +4,7 @@ const config = require('./config')
 async function createServer () {
   // Create the hapi server
   const server = hapi.server({
-    port: config.port,
+    port: 3000,
     routes: {
       validate: {
         options: {
