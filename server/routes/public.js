@@ -21,8 +21,10 @@ module.exports = [{
     handler: {
       directory: {
         path: [
+          'server/public/assest/images',
           'server/public/static',
           'server/public/build',
+          'server/public/assets',
           'node_modules/govuk-frontend/govuk/assets',
           'node_modules/accessible-autocomplete/dist',
           'node_modules/nunjucks/browser'

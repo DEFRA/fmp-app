@@ -1,6 +1,6 @@
 const Boom = require('boom')
 const config = require('../../config')
-const wreck = require('wreck').defaults({
+const wreck = require('@hapi/wreck').defaults({
   timeout: config.httpTimeoutMs
 })
 

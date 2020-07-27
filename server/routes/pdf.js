@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const Boom = require('boom')
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const moment = require('moment-timezone')
 const config = require('../../config')
 const riskService = require('../services/risk')
