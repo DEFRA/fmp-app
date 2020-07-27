@@ -26,10 +26,12 @@ module.exports = {
   }),
   errbit: Joi.object().required().keys({
     postErrors: Joi.boolean().required(),
-    env: Joi.string().required(),
-    key: Joi.string().required(),
-    host: Joi.string().required(),
-    proxy: Joi.string().allow('')
+    options: {
+      env: Joi.string().required(),
+      key: Joi.string().required(),
+      host: Joi.string().required(),
+      proxy: Joi.string().allow('')
+    }
   }),
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
