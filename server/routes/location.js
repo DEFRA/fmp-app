@@ -1,11 +1,9 @@
-const Joi = require('joi')
 const QueryString = require('querystring')
 const addressService = require('../services/address')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
-const isEnglandService = require('../services/is-england')
 const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW]))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
-const alphanumeric = /^[a-zA-Z][a-zA-Z0-9 ]*$/
+const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
 
 module.exports = [{
   method: 'GET',
@@ -45,7 +43,7 @@ module.exports = [{
 
         // If its Place or Postcode
         if (selectedOption === 'placeOrPostcode') {
-          const validPlaceOrPostcode = alphanumeric.test(payload.placeOrPostcode)
+          const validPlaceOrPostcode = ngrPlaceOrPostcode.test(payload.placeOrPostcode)
           if ((payload.placeOrPostcode && payload.placeOrPostcode.trim()) && validPlaceOrPostcode) {
             const address = await addressService.findByPlace(payload.placeOrPostcode)
             if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
@@ -80,10 +78,10 @@ module.exports = [{
         }
         // If NGR Reference
         else if (selectedOption === 'nationalGridReference') {
-          if (payload.nationalGridReference !== '') {
+          if (payload.nationalGridReference !== '' && ngrRegEx.test(payload.nationalGridReference)) {
             BNG = ngrToBng.convert(payload.nationalGridReference)
           } else {
-            const errors = [{ text: 'You need to give a National Grid Reference (NGR)', href: '#nationalGridReference' }]
+            const errors = [{ text: 'You need to give a valid National Grid Reference (NGR)', href: '#nationalGridReference' }]
             model = {}
             model = new LocationViewModel({
               errorSummary: errors,
@@ -92,7 +90,7 @@ module.exports = [{
               nationalGridReferenceSelected: true,
               placeOrPostcode: payload.placeOrPostcode,
               nationalGridReference: payload.nationalGridReference,
-              nationalGridReferenceError: { text: 'You need to give a National Grid Reference (NGR)' }
+              nationalGridReferenceError: { text: 'You need to give a valid National Grid Reference (NGR)' }
             })
             return h.view('location', model)
           }
