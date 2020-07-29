@@ -1,86 +1,102 @@
+
+{% extends "layout.html" %}
+{% from "back-link/macro.njk" import govukBackLink %}
+{% block content %}
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
 <main id="confirm-location-page">
-  <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
-    <div class="nojs-hide ie-hide map-header">
-      <p class="info">
-        You can move the marker <img class="marker-indicator" src="/assets/images/pin.png"> on the map to identify a specific location.<br>
-        Alternatively draw a shape to identify an approximate site boundary.
-      </p>
-      <details>
-        <summary aria-controls="polygon-tool" aria-expanded="false" role="button" data-journey-click="FMFP:confirm-location:HowToDrawAShape">
-          <span class="summary">How to draw a shape</span>
+<div class="govuk-width-container">
+
+   {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
+
+
+  <div class="govuk-grid-row">
+
+
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">Confirm your location</h1>
+    </div>
+
+    <div class="govuk-grid-column-one-half">
+
+      <h2 class="govuk-heading-m">For small or residential developments:</h2>
+
+      <p>Check the marker is in the right place. If it isn’t, move it to the right location.</p>
+      <h2 class="govuk-heading-m">For larger developments:</h2>
+      <p>Draw a shape showing the boundary of your site.</p>
+      <br>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            How to draw a shape
+          </span>
         </summary>
-        <div id="polygon-tool" class="panel panel-border-narrow" aria-hidden="true">
-          <ul class="list list-bullet">
-            <li>Select 'Draw shape'</li>
-            <li>Select any point on the site boundary</li>
-            <li>Select a second point on the boundary. You should see a line drawn between the first two points</li>
-            <li>Keep adding points until the boundary is defined</li>
-            <li>Double click or tap when you return to your first point</li>
-            <li>Edit the finished shape by dragging the points</li>
-            <li>Add more points to a shape by clicking or tapping on a line</li>
+        <div class="govuk-details__text">
+          <ul class="govuk-list govuk-list--bullet">
+            <li>select 'draw shape'</li>
+            <li>select any point on the site boundary</li>
+            <li>select a second point on the boundary - you should see a line drawn between the first two points </li>
+            <li>keep adding points until the boundary is defined</li>
+            <li>double click or tap when you mark your final point</li>
+            <li>edit the finished shape by dragging the points</li>
+            <li>add more points to a shape by clicking or tapping on a line</li>
           </ul>
         </div>
       </details>
-      <div class="map-download">
-          <div class="map-download-inner">
-            <a class="button button-map-download" href="#" data-toggle="dialog" data-target="report" data-journey-click="FMFP:confirm-location:DownloadReport">Download printable map (PDF)</a>
-          </div>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          Postcodes can vary in size, so you should check your location is correct before continuing.
+        </strong>
       </div>
-    </div>
-    <div class="main-container nojs-hide ie-hide">
-      <div class="map-container">
-        <div class="radio-button-group">
-          <input type="button" class="radio-button" name="type" value="point" id="marker" data-journey-click="FMFP:map:moveMarker">
-          <label for="marker">Move marker</label>
-          <input type="button" class="radio-button" name="type" value="polygon" id="polygon" data-journey-click="FMFP:map:DrawShape">
-          <label for="polygon">Draw Shape</label>
-          <input type="button" class="radio-button" name="type" value="deletePolygon" id="deletePolygon" data-journey-click="FMFP:map:Delete">
-          <label for="deletePolygon">Delete</label>
-        </div>
-        <div id="map" class="map"></div>
-        <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control">
-          <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
-        </div>
-        <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control">
-          <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
-        </div>
-        <div class="form-section visible-mobile">
-          <div class="multiple-choice">
-            <input id="layer-toggle" class="layer-toggle" name="layer-toggle" type="checkbox" checked data-journey-click="FMFP:confirm-location:HideFloodZones">
-            <label for="layer-toggle">Show flood zones</label>
-          </div>
-        </div>
-        <div class="rhs">
-          <aside class="controls" id="legend">
-          </aside>
-        </div>
-        <div class="form-section hidden-mobile">
-          <div class="multiple-choice">
-            <input id="layer-toggle2" class="layer-toggle" name="layer-toggle" type="checkbox" checked data-journey-click="FMFP:confirm-location:HideFloodZones">
-            <label for="layer-toggle2">Show flood zones</label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="nojs-hide ie-hide">
-      <p><a href="/summary?easting={{easting}}&northing={{northing}}" class="continue" title="View flood zone summary map and more guidance" data-journey-click="FMFP:confirm-location:ViewFloodZoneSummaryMapAndMoreGuidance">View flood zone summary map and more guidance</a></p>
-      <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:confirm-location:FloodRiskAssessmentForAPlanningApplication">flood risk assessment for a planning application</a></p>
-    </div>
-    
-    <div class="nojs-hide ie-hide">
-      <a href="/contact?easting={{easting}}&northing={{northing}}&location={{location}}" data-journey-click="FMFP:confirm-location:RequestForProduct4" role="button" draggable="false" class="button button-product4">
-        Request a Product 4
+      <a href="{{ data['results'] }}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+        Continue
       </a>
+
     </div>
 
+    <div class="govuk-grid-column-one-half">
+      <div id="map" class="map"></div>
+
+        <div class="govuk-form-group markerRadiosContainer">
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+              <div class="govuk-radios govuk-radios--inline govuk-radios--small">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="move-marker" name="marker-or-shape" type="radio" value="move-marker" checked>
+                  <label class="govuk-label govuk-radios__label" for="move-marker">
+                    Move marker
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="draw-shape" name="marker-or-shape" type="radio" value="draw-shape">
+                  <label class="govuk-label govuk-radios__label" for="draw-shape">
+                    Draw shape
+                  </label>
+                </div>
+              </div>
+              <button disabled class="govuk-button govuk-button--secondary" data-module="govuk-button" name="delete-shape" value="delete-shape" id="deleteShapeBtn">
+                Delete shape
+              </button>
+            </fieldset>
+          </div>
+        </div>
+
+      
+
+    </div>
+  </div>
+
+</div>
 </main>
 
-
-<!-- <link rel="stylesheet" href="{{assetPath}}/stylesheets/application.css"> -->
-<link rel="stylesheet" href="{{assetPath}}/fonts/style.css">
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
 <script src="{{assetPath}}/javascripts/core.js"></script>
 
@@ -96,3 +112,12 @@
     }))
   })
 </script>
+
+<style>
+  .map {
+    height: 600px;
+    width: 100%;
+  }
+</style>
+
+{% endblock %}

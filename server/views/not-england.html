@@ -1,4 +1,15 @@
-<main class="text" id="not-england-page">
+
+{% extends "layout.html" %}
+{% from "back-link/macro.njk" import govukBackLink %}
+{% block content %}
+<main id="not-england">
+<div class="govuk-width-container">
+
+   {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
   <header>
     <h1 class="heading-xlarge">We provide flood probability information for England only</h1>
   </header>
@@ -17,4 +28,6 @@
   <p>
     In England, you can use the <a href="/">Flood map for planning</a>.
   </p>
+  </div>
 </main>
+{% endblock %}

@@ -8,6 +8,8 @@ function LocationViewModel (data) {
     this.nationalGridReferenceError = data.nationalGridReferenceError
     this.eastingError = data.eastingError
     this.northingError = data.northingError
+    this.placeOrPostcode = data.placeOrPostcode
+    this.nationalGridReference = data.nationalGridReference
     this.northing = data.northing
     this.easting = data.easting
   } else {
