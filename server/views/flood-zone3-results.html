@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block pageTitle %}
+ Flood risk information for this location
+{% endblock %}
+{% block content %}
+
+    {% from "button/macro.njk" import govukButton %}
+    {% from "error-summary/macro.njk" import govukErrorSummary %}
+    {% from "back-link/macro.njk" import govukBackLink %}
+    {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
+    <form autocomplete="off" class="form" method="post" action="/flood-zone3-results">
+         <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
+          <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            <span class="govuk-warning-text__assistive">Warning</span>
+            You must carry out a flood risk assessment.
+          </strong>
+        </div>
+        <p class="govuk-body">Your development is in flood zone 3. This means it will have a high probability of flooding.</p>
+
+        <p class="govuk-body">Not a flood risk expert? <a href="results-expanded-fz3">Find out what this means, and what you should do next.</a></p>
+   <P>This is where the Map comes in </p>
+ <p class="govuk-body">To request flood risk assessment data (previously known as a <span class="govuk-!-font-weight-bold">product 4</span>) you’ll need an email address we can send the information to.</p>
+
+        <p class="govuk-body">You’ll receive the flood risk assessment data as a PDF file within 2 hours. <p>Depending on the data that's available, this will include:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>a flood zone map (flood map for planning)</li>
+          <li>
+            historic flood outlines
+          </li>
+          <li>
+       relevant modelled flood levels and extents
+          </li>
+          <li>
+          flood defence locations and attributes
+          </li>
+        </ul>
+
+        {{ govukButton({
+                    text: "Request your flood risk data",
+                     preventDoubleClick: true
+                })
+         }}
+        
+         <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the East Anglia Environment Agency team at <a href="mailto:communications_EAN@environment-agency.gov.uk">communications_EAN@environment-agency.gov.uk</a>.</p>
+
+        <p class="govuk-body"><a href="#">Check the risk from surface water and other sources of flooding</a></p>
+
+        <br><br>
+
+        <h3 class="govuk-heading-s">Location not right?</h3>
+
+         <p class="govuk-body"><a href="confirm-location">Reposition the marker</a></p>
+
+         <p class="govuk-body"><a href="location">Search for a different location</a></p>
+
+
+
+      </div>
+
+      <div class="govuk-grid-column-one-third">
+
+
+
+
+      </div>
+    </div>
+
+</div>
+    </form>
+{% endblock %}

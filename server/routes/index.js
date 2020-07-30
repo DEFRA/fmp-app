@@ -19,5 +19,6 @@ module.exports = [].concat(
   require('./contact'),
   require('./confirmation'),
   require('./maintainence'),
+  require('./flood-zone3-results'),
   require('./login')
 )

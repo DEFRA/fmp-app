@@ -175,7 +175,8 @@ module.exports = [{
         }
 
         const query = QueryString.stringify(queryParams)
-        return h.redirect(`/confirm-location?${query}`)
+        // return h.redirect(`/confirm-location?${query}`)
+        return h.redirect('/flood-zone3-results')
       } catch (error) {
       }
     }
