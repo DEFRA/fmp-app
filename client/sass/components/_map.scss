@@ -1,11 +1,11 @@
-.map {
-  display: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  @include mq ($from: tablet) {
-    margin:0;
-    padding:0px;
-  }
-}
+// .map {
+//   display: none;
+//   -webkit-tap-highlight-color: rgba(0,0,0,0);
+//   @include mq ($from: tablet) {
+//     margin:0;
+//     padding:0px;
+//   }
+// }
 .map canvas { // Open layers bug fix
   display:block !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
