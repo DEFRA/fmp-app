@@ -20,14 +20,14 @@
     {% endif %}
 
     {% set placeOrPostcodeHtml %}
+    <label class="govuk-hint">
+    For example, Bakewell or WA4 1AB
+  </label>
     {{ govukInput({
                         id: "placeOrPostcode",
                         name: "placeOrPostcode",
                         type: "text",
-                        classes: "govuk-!-width-one-third",
-                        label: {
-                                  text: "For example, Bakewell or WA4 1AB"
-                               },   
+                        classes: "govuk-!-width-one-third",                          
                          value:placeOrPostcode,                     
                         errorMessage: placeOrPostcodeError
                       })
@@ -36,14 +36,14 @@
     {% endset -%}
 
     {% set nationalGridReferenceHtml %}
+     <label class="govuk-hint">
+    For example, NY395557 (6, 8 or 12 digits)
+  </label>
     {{ govukInput({
                         id: "nationalGridReference",
                         name: "nationalGridReference",
                         type: "text",
-                        classes: "govuk-!-width-one-third",
-                        label: {
-                                  text: "For example, NY395557 (6, 8 or 12 digits)"
-                               },     
+                        classes: "govuk-!-width-one-third",                          
                         value:nationalGridReference,                        
                         errorMessage: nationalGridReferenceError
                       })
@@ -94,9 +94,6 @@
                                                     classes: "govuk-fieldset__legend--l"
                                                 }
                                       },
-                            hint: {
-                                    text: "Select one option."
-                                  },
                                     items: [
                                               {
                                                  value: "placeOrPostcode",
