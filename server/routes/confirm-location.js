@@ -3,8 +3,10 @@ const Joi = require('joi')
 const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
+const FloodRiskViewModel = require('../models/flood-risk-view')
+const psoContactDetails = require('../services/pso-contact')
 
-module.exports = {
+module.exports = [{
   method: 'GET',
   path: '/confirm-location',
   options: {
@@ -64,4 +66,29 @@ module.exports = {
       }
     }
   }
-}
+},
+{
+  method: 'POST',
+  path: '/confirm-location',
+  options: {
+    description: 'This page will take control to flood risk information page',
+    auth: {
+      strategy: 'restricted'
+    },
+    handler: async (request, h) => {
+      try {
+        const result = await psoContactDetails.getPsoContacts(383819, 398052)
+        var model = new FloodRiskViewModel()
+        if (result && result.EmailAddress) {
+          model.psoEmailAddress = result.EmailAddress
+        }
+        if (result && result.AreaName) {
+          model.areaName = result.AreaName
+        }
+        model.zone = 1
+        return h.redirect('/flood-zone-results', model)
+      } catch (error) {
+      }
+    }
+  }
+}]

@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% from "back-link/macro.njk" import govukBackLink %}
+  {% from "button/macro.njk" import govukButton %}
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
 <main id="confirm-location-page">
+ <form autocomplete="off" class="form" method="post" action="/confirm-location">
 <div class="govuk-width-container">
 
    {{ govukBackLink({
@@ -12,7 +14,6 @@
                        href: 'javascript:history.back()'
                    })
    }}
-
   <div class="govuk-grid-row">
 
 
@@ -55,9 +56,11 @@
           Postcodes can vary in size, so you should check your location is correct before continuing.
         </strong>
       </div>
-      <a href="{{ data['results'] }}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-        Continue
-      </a>
+        {{ govukButton({
+                    text: "Continue",
+                     preventDoubleClick: true
+                })
+   }}
 
     </div>
 
@@ -94,6 +97,7 @@
   </div>
 
 </div>
+</form>
 </main>
 
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>

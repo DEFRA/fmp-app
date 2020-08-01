@@ -5,14 +5,13 @@
 {% block content %}
 
     {% from "button/macro.njk" import govukButton %}
-    {% from "error-summary/macro.njk" import govukErrorSummary %}
     {% from "back-link/macro.njk" import govukBackLink %}
     {{ govukBackLink({
                       text: 'Back',
                        href: 'javascript:history.back()'
                    })
    }}
-    <form autocomplete="off" class="form" method="post" action="/flood-zone3-results">
+    <form autocomplete="off" class="form" method="post" action="/flood-zone-results">
          <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
           <div class="govuk-warning-text">
           <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
