@@ -5,22 +5,22 @@
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
   {% from "back-link/macro.njk" import govukBackLink %}
-   {{ govukBackLink({
+  {{ govukBackLink({
                       text: 'Back',
                        href: 'javascript:history.back()'
                    })
    }}
-<form autocomplete="off" class="form" method="post" action="/location">
-  {% if errorSummary.length > 0 %}
-    {{ govukErrorSummary({
+  <form autocomplete="off" class="form" method="post" action="/location">
+    {% if errorSummary.length > 0 %}
+      {{ govukErrorSummary({
                                 titleText: "There is a problem",
                                 errorList: errorSummary
                             }) 
         }}
-  {% endif %} 
+    {% endif %}
 
-  {% set placeOrPostcodeHtml %}
-  {{ govukInput({
+    {% set placeOrPostcodeHtml %}
+    {{ govukInput({
                         id: "placeOrPostcode",
                         name: "placeOrPostcode",
                         type: "text",
@@ -33,10 +33,10 @@
                       })
 
         }}
-  {% endset -%}
+    {% endset -%}
 
-  {% set nationalGridReferenceHtml %}
-  {{ govukInput({
+    {% set nationalGridReferenceHtml %}
+    {{ govukInput({
                         id: "nationalGridReference",
                         name: "nationalGridReference",
                         type: "text",
@@ -48,22 +48,32 @@
                         errorMessage: nationalGridReferenceError
                       })
         }}
-  {% endset -%}
+    {% endset -%}
 
-  {% set eastingNorthingHtml %}
-  {{ govukInput({
+    {% set eastingNorthingHtml %}
+     <label class="govuk-hint">
+    For example, 123456 123456
+  </label>
+    {{ govukInput({
+                       label: {
+                  text: "Easting",
+                  classes: "govuk-hint",
+                  isPageHeading: false
+                  },
                         id: "easting",
                         name: "easting",
                         type: "text",
                         classes: "govuk-!-width-one-third",
-                        label: {
-                                  text: "For example, 123456 123456"
-                               },     
                         value :easting,                
                         errorMessage: eastingError
                       })
         }}
-        {{ govukInput({
+    {{ govukInput({
+          label: {
+                  text: "Northing",
+                  classes: "govuk-hint",
+                  isPageHeading: false
+                  },
                         id: "northing",
                         name: "northing",
                         type: "text",
@@ -72,9 +82,9 @@
                         errorMessage: northingError
                       })
         }}
-  {% endset -%}
+    {% endset -%}
 
-  {{ govukRadios({
+    {{ govukRadios({
                             idPrefix: "findby",
                             name: "findby",
                             fieldset: {
@@ -90,7 +100,7 @@
                                     items: [
                                               {
                                                  value: "placeOrPostcode",
-                                                 text: "Place or Postcode",
+                                                 text: "Place or postcode",
                                                  conditional: {
                                                    html: placeOrPostcodeHtml
                                                  },
@@ -106,7 +116,7 @@
                                                }    ,
                                                {
                                                  value: "eastingNorthing",
-                                                 text: "Easting and Northing",
+                                                 text: "Easting and northing",
                                                  conditional: {
                                                    html: eastingNorthingHtml
                                                  },
@@ -117,10 +127,10 @@
                         })
           }}
 
-  {{ govukButton({
+    {{ govukButton({
                     text: "Continue",
                      preventDoubleClick: true
                 })
    }}
-</form>
+  </form>
 {% endblock %}
