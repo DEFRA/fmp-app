@@ -1,6 +1,6 @@
-
 {% extends "layout.html" %}
 {% from "back-link/macro.njk" import govukBackLink %}
+
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
@@ -62,7 +62,7 @@
     </div>
 
     <div class="govuk-grid-column-one-half">
-      <div id="map" class="map"></div>
+      <div id="map" class="map">
 
         <div class="govuk-form-group markerRadiosContainer">
           <div class="govuk-form-group">
@@ -88,7 +88,7 @@
           </div>
         </div>
 
-      
+      </div>
 
     </div>
   </div>
