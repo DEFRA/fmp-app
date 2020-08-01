@@ -7,6 +7,7 @@ module.exports = [{
       strategy: 'restricted'
     },
     handler: async (request, h) => {
+
       return h.view('flood-zone3-results-expanded')
     }
   }

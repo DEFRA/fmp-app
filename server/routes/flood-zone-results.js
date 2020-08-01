@@ -1,3 +1,5 @@
+const FloodRiskViewModel = require('../models/flood-risk-view')
+const psoContactDetails = require('../services/pso-contact')
 module.exports = [{
   method: 'GET',
   path: '/flood-zone-results',
@@ -7,7 +9,16 @@ module.exports = [{
       strategy: 'restricted'
     },
     handler: async (request, h) => {
-      return h.view('flood-zone-results')
+      const result = await psoContactDetails.getPsoContacts(383819, 398052)
+      var model = new FloodRiskViewModel()
+      if (result && result.EmailAddress) {
+        model.psoEmailAddress = result.EmailAddress
+      }
+      if (result && result.AreaName) {
+        model.areaName = result.AreaName
+      }
+      model.zone = 3
+      return h.view('flood-zone-results', model)
     }
   }
 },

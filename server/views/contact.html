@@ -1,59 +1,66 @@
-<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
-<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/confirm-location/index.css">
-
-{% extends "layout.html" %}
-
-{% block pageTitle %}
-  GOV.UK Prototype Kit
-{% endblock %}
-
+{% extends 'layout.html' %}
 {% block content %}
+  {% from "input/macro.njk" import govukInput %}
+  {% from "button/macro.njk" import govukButton %}
+  {% from "error-summary/macro.njk" import govukErrorSummary %}
+  {% from "fieldset/macro.njk" import govukFieldset %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+  {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
+  <form autocomplete="off" class="form" method="post" action="/contact">
+    {% if errorSummary.length > 0 %}
+      {{ govukErrorSummary({
+                                titleText: "There is a problem",
+                                errorList: errorSummary
+                            }) 
+        }}
+    {% endif %}
 
-<div class="govuk-width-container">
-  <a href="#" class="govuk-back-link">Back</a>
+    {{ govukFieldset({
+  legend: {
+    text: "Request your flood risk assessment data",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: true
+  }
+}) }}
 
-  <main class="govuk-main-wrapper " id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+<p>We’ll email you a link to a PDF file of your flood risk assessment data. This was previously known as a product 4.</p>
 
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
-            Contact details
-          </h1>
-        </legend>
-        
-        <div class="govuk-form-group">
+{{ govukInput({
+  label: {
+    text: "Fullname"
+  },
+  classes: "govuk-input--width-20",
+  id: "width-20",
+  name: "fullname",
+  value:fullname,                     
+  errorMessage: fullname
+}) }}
 
-        <form action="/form-handler" method="post" novalidate>
+{{ govukInput({
+  label: {
+    text: "Email address"
+  },
+  hint: {
+    text: "We’ll only use this to send you a pdf report"
+  },
+  id: "email",
+  name: "email",
+  classes: "govuk-input--width-20",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false,
+  value:email,                     
+  errorMessage: email
+}) }}
 
-          <div class="govuk-form-group">
-           <label class="govuk-label govuk-label--m" for="passport-number">
-              Full name
-            </label>
-            <input class="govuk-input" id="full-name" name="full-name" type="text" autocomplete="name" spellcheck="false">
-          </div>
-
-          <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--m" for="email">
-              Email address
-            </label>
-            <span id="email-hint" class="govuk-hint">
-              We will email the link to the PDF of the maps
-            </span>
-            <input class="govuk-input" id="email" name="email" type="email" aria-describedby="email-hint" autocomplete="email" spellcheck="false">
-          </div>
-
-        </form>
-        </div>
-
-
-         <a href="/confirmation" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-        Continue
-        </a>
-      
-      </div>
-
-  </main>
-</div>
-
+    {{ govukButton({
+                    text: "Continue",
+                     preventDoubleClick: true
+                })
+   }}
+  </form>
 {% endblock %}
