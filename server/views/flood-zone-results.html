@@ -25,75 +25,33 @@
     <p class="govuk-body">Not a flood risk expert? <a href="flood-zone3-results-expanded">Find out what this means, and what you should do next.</a>
     </p>
     <p>This is where the Map comes in </p>
+     {% if (zone === 1) %}
+       <p> Your are in Zone 1 </p>
+    {% endif %}
     {% if (zone === 3) %}
-      <p class="govuk-body">To request flood risk assessment data (previously known as a <span class="govuk-!-font-weight-bold">product 4</span>) you’ll need an email address we can send the information to.</p>
-
-      <p class="govuk-body">You’ll receive the flood risk assessment data as a PDF file within 2 hours. <p>Depending on the data that's available, this will include:
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>a flood zone map (flood map for planning)</li>
-          <li>
-            historic flood outlines
-          </li>
-          <li>
-       relevant modelled flood levels and extents
-          </li>
-          <li>
-          flood defence locations and attributes
-          </li>
-        </ul>
-
-      {% endif %}
-      {% if (zone === 1) %}
-        <p>&nbsp;</p>
-        <p class="govuk-body">You will need to do a flood risk assessment if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>bigger than 1 hectare (ha)</li>
-          <li>
-            in an area with critical drainage problems as notified by the Environment Agency
-          </li>
-          <li>
-            in an area that could be affected by sources of flooding other than rivers and the sea (such as surface water or reservoirs)
-          </li>
-          <li>
-            a change of use in development type to a more vulnerable category (for example from commercial to residential) <span class="govuk-!-font-weight-bold">and</span> in an area that could be affected by sources of flooding other than rivers and the sea
-          </li>
-        </ul>
-
-        <p class="govuk-body">If your development <span class="govuk-!-font-weight-bold">doesn't</span> fall into any of these categories, you only need to download the flood zone map on this page to include in your planning application.</p>
-
-        <p class="govuk-body">You can still use this service to request flood risk data (previously known as a product 4). However, as your site is in flood zone 1, it’s unlikely there will be any data available.  </p>
-
-      {% endif %}
-      {{ govukButton({
+    <p> Your are in Zone 3 </p>
+    {% endif %}
+   
+    {{ govukButton({
                     text: "Request your flood risk data",
                      preventDoubleClick: true
                 })
          }}
-
       <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the {{areaName}} team at <a href="{{areaName}}">{{psoEmailAddress}}</a>.</p>
-
       <p class="govuk-body">
         <a href="#">Check the risk from surface water and other sources of flooding</a>
       </p>
-
       <br><br>
-
       <h3 class="govuk-heading-s">Location not right?</h3>
-
       <p class="govuk-body">
         <a href="confirm-location">Reposition the marker</a>
       </p>
-
       <p class="govuk-body">
         <a href="location">Search for a different location</a>
       </p>
-
     </div>
-
     <div class="govuk-grid-column-one-third"></div>
   </div>
-
 </div>
 </form>
 {% endblock %}

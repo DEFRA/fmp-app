@@ -1,12 +1,12 @@
-function FloodRiskLocationViewModel (psoEmailAddress, areaName, zone) {
-  if (psoEmailAddress) {
-    this.psoEmailAddress = psoEmailAddress
+function FloodRiskLocationViewModel (data) {
+  if (data.psoEmailAddress) {
+    this.psoEmailAddress = data.psoEmailAddress
   }
-  if (areaName) {
-    this.areaName = areaName
+  if (data.areaName) {
+    this.areaName = data.areaName
   }
-  if (zone) {
-    this.zone = zone
+  if (data.zone) {
+    this.zone = data.zone
   }
 }
 module.exports = FloodRiskLocationViewModel
