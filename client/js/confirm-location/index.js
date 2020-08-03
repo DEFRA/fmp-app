@@ -12,7 +12,7 @@ function ConfirmLocationPage (options) {
   var location = window.encodeURIComponent(options.location)
 
   var $page = $('main#confirm-location-page')
-  var $radios = $('.radio-button-group', $page)
+  var $radios = $('.top-of-buttons', $page)
   var $container = $('.map-container', $page)
   var $continueBtn = $('a.continue', $page)
   var $product4Btn = $('a.button-product4', $page)
@@ -21,6 +21,7 @@ function ConfirmLocationPage (options) {
   var $form = $('form.form', $page)
   var $center = $('input[name="center"]', $form)
   var $polygon = $('input[name="polygon"]', $form)
+  var $deleteButton = $('#deletePolygon')
 
   var point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
@@ -47,7 +48,7 @@ function ConfirmLocationPage (options) {
         opacity: 1,
         size: [32, 32],
         scale: 0.5,
-        src: 'public/images/map-draw-cursor-2x.png'
+        src: '/assets/images/map-draw-cursor-2x.png'
       })
     })
 
@@ -57,7 +58,7 @@ function ConfirmLocationPage (options) {
         opacity: 1,
         size: [32, 32],
         scale: 0.5,
-        src: 'public/images/map-draw-cursor-2x.png'
+        src: '/assets/images/map-draw-cursor-2x.png'
       }),
       // Return the coordinates of the first ring of the polygon
       geometry: function (feature) {
@@ -78,7 +79,7 @@ function ConfirmLocationPage (options) {
         // scale: 0.5,
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction',
-        src: 'public/images/pin.png'
+        src: '/assets/images/iconfinder_marker.png'
       })
     })
 
@@ -111,7 +112,7 @@ function ConfirmLocationPage (options) {
       opacity: 1,
       size: [32, 32],
       scale: 0.5,
-      src: '/public/images/map-draw-cursor-2x.png'
+      src: '/assets/images/map-draw-cursor-2x.png'
     })
   })
 
@@ -128,7 +129,7 @@ function ConfirmLocationPage (options) {
       opacity: 1,
       size: [32, 32],
       scale: 0.5,
-      src: '/public/images/map-draw-cursor-2x.png'
+      src: '/assets/images/map-draw-cursor-2x.png'
     })
   })
 
@@ -245,15 +246,15 @@ function ConfirmLocationPage (options) {
       map.updateSize()
     })
 
-    $radios.on('click', 'label', function (e) {
-      if (e.target.getAttribute('for') === 'deletePolygon') {
-        if (polygon) {
-          vectorSource.removeFeature(polygon)
-          polygon = undefined
-          updateMode('polygon')
-        }
-      } else {
-        updateMode(e.target.getAttribute('for'))
+    $radios.on('click', 'input', function (e) {
+      updateMode(e.target.getAttribute('id'))
+    })
+
+    $deleteButton.on('click', function (e) {
+      if (polygon) {
+        vectorSource.removeFeature(polygon)
+        polygon = undefined
+        updateMode('polygon')
       }
     })
 
@@ -280,6 +281,9 @@ function ConfirmLocationPage (options) {
 
     function updateMode (mode) {
       if (mode === 'polygon') {
+        // Enabling the Delete shape button
+        $deleteButton.attr('disabled', false)
+
         // Remove the point feature
         if (vectorSource.getFeatures().length > 0) {
           vectorSource.removeFeature(point)
@@ -301,6 +305,9 @@ function ConfirmLocationPage (options) {
 
         featureMode = 'polygon'
       } else {
+        // disabling the Delete shape button
+        $deleteButton.attr('disabled', true)
+
         // Remove the polygon draw interaction to the map
         map.removeInteraction(modify)
         map.removeInteraction(draw)
