@@ -1,43 +1,43 @@
  $govuk-assets-path: "/govuk/assets/";
- $govuk-images-path: "/govuk/assets/images/";
- $govuk-fonts-path: "/govuk/assets/fonts/";
+//  $govuk-images-path: "/govuk/assets/images/";
+ $govuk-fonts-path: "/assets/fonts/";
  $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 
 @import "node_modules/govuk-frontend/govuk/all";
 
 // Patterns that aren't in Frontend
-@import "patterns/check-your-answers";
-@import "patterns/task-list";
+// @import "patterns/check-your-answers";
+// @import "patterns/task-list";
 
-// Custom patterns that aren't in Frontend or prorotpye kit
-@import "patterns/risk-detail"; // Dan Leech
-@import "patterns/map"; // Dan Leech (Pattern for buttons, progressive disclousre and map figure)
+// // Custom patterns that aren't in Frontend or prorotpye kit
+// @import "patterns/risk-detail"; // Dan Leech
+// @import "patterns/map"; // Dan Leech (Pattern for buttons, progressive disclousre and map figure)
 
-// Custom objects overides for existing components
-@import "objects/warning-text"; // Dan Leech (modifiers for govuk-warning-text)
-@import "objects/details"; // Dan Leech (modifier for govuk-details)
-@import "objects/lists"; // Dan Leech (modifier for govuk-list)
-@import "objects/header"; // Dan Leech (modifier to remove border when banner in use)
-@import "objects/main"; // Dan Leech (modifier to remove margins when a warning is used)
-@import "objects/typography"; // Dan Leech (modifier to remove margins when a warning is used)
+// // Custom objects overides for existing components
+// @import "objects/warning-text"; // Dan Leech (modifiers for govuk-warning-text)
+// @import "objects/details"; // Dan Leech (modifier for govuk-details)
+// @import "objects/lists"; // Dan Leech (modifier for govuk-list)
+// @import "objects/header"; // Dan Leech (modifier to remove border when banner in use)
+// @import "objects/main"; // Dan Leech (modifier to remove margins when a warning is used)
+// @import "objects/typography"; // Dan Leech (modifier to remove margins when a warning is used)
 
-// Components that aren't in Frontend
-@import "components/cookie-banner";
+// // Components that aren't in Frontend
+// @import "components/cookie-banner";
 
-// Custom components that aren't in Frontend or prorotpye kit
-@import "components/accordion"; // Dan Leech (modifier for flood warnings)
-@import "components/map"; // Dan Leech
-@import "components/bar-chart"; // Dan Leech
-@import "components/line-chart"; // Dan Leech
-@import "components/tabs"; // Dan Leech (modifier link display to improve affordance issues)
-@import "components/banners"; // Dan Leech (Warnings and alert banners)
-@import "components/flood-details"; // Dan Leech (Flood warning details)
-@import "components/buttons"; // Dan Leech (Button overides)
-@import "components/search-link"; // Dan Leech (Flood warning overview)
-@import "components/modal-dialog"; // https://github.com/edenspiekermann/a11y-dialog
-@import "components/related-items";
-@import "components/contents"; 
+// // Custom components that aren't in Frontend or prorotpye kit
+// @import "components/accordion"; // Dan Leech (modifier for flood warnings)
+// // @import "components/map"; // Dan Leech
+// @import "components/bar-chart"; // Dan Leech
+// @import "components/line-chart"; // Dan Leech
+// @import "components/tabs"; // Dan Leech (modifier link display to improve affordance issues)
+// @import "components/banners"; // Dan Leech (Warnings and alert banners)
+// @import "components/flood-details"; // Dan Leech (Flood warning details)
+// @import "components/buttons"; // Dan Leech (Button overides)
+// @import "components/search-link"; // Dan Leech (Flood warning overview)
+// @import "components/modal-dialog"; // https://github.com/edenspiekermann/a11y-dialog
+// @import "components/related-items";
+// @import "components/contents"; 
 
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
