@@ -33,11 +33,11 @@
   label: {
     text: "Fullname"
   },
-  classes: "govuk-input--width-20",
-  id: "width-20",
+   id: "fullname",
   name: "fullname",
+  classes: "govuk-input--width-20",
   value:fullname,                     
-  errorMessage: fullname
+  errorMessage: fullnameError
 }) }}
 
 {{ govukInput({
@@ -54,7 +54,7 @@
   autocomplete: "email",
   spellcheck: false,
   value:email,                     
-  errorMessage: email
+  errorMessage: emailError
 }) }}
 
     {{ govukButton({

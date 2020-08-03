@@ -17,7 +17,7 @@ module.exports = [{
       if (result && result.AreaName) {
         model.areaName = result.AreaName
       }
-      model.zone = 3
+      model.zone = 1
       return h.view('flood-zone-results', model)
     }
   }
