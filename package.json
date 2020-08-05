@@ -9,7 +9,6 @@
   "scripts": {
     "start": "pm2 start config/pm2.json",
     "copy": "npm run copy:gov && npm run copy:assets",
-    "copy:gov": "bin/copy-gov && bin/fix-layout.js",
     "copy:assets": "bin/copy-assets",
     "watch": "bin/watch",
     "build:js": "bin/build-js",
