@@ -2,13 +2,13 @@
 
 rm -rf server/public/assets
 rm -rf server/public/build
-mkdir server/public/assets
-mkdir server/public/assets/fonts
-mkdir server/public/assets/stylesheets
-mkdir server/public/assets/javascripts
-mkdir server/public/assets/images
-mkdir server/public/assets/images/icons
-mkdir server/public/build
-mkdir server/public/build/stylesheets
-mkdir server/public/build/javascripts
+mkdir -p server/public/assets
+mkdir -p server/public/assets/fonts
+mkdir -p server/public/assets/stylesheets
+mkdir -p server/public/assets/javascripts
+mkdir -p server/public/assets/images
+mkdir -p server/public/assets/images/icons
+mkdir -p server/public/build
+mkdir -p server/public/build/stylesheets
+mkdir -p server/public/build/javascripts
 
