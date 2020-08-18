@@ -1,5 +1,3 @@
-const Joi = require('joi')
-
 module.exports = {
   method: 'GET',
   path: '/not-england',

@@ -102,7 +102,7 @@
                   </li>
           <li>
                  flood defence locations and attributes
-                 </li>
+                 </li>                  
         </ul>
         {{govukButton({
                       text: "Request your flood risk data",
@@ -116,10 +116,10 @@
         <br><br>
         <h3 class="govuk-heading-s">Location not right?</h3>
         <p class="govuk-body">
-          <a href="confirm-location">Reposition the marker</a>
+          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
         </p>
         <p class="govuk-body">
-          <a href="location">Search for a different location</a>
+          <a href="home">Search for a different location</a>
         </p>
       {% endif %}
     </form>
