@@ -28,9 +28,24 @@
     </div>
     {% if (zone === 1) %}
       <p class="govuk-body">Your development is in flood zone 1. This means it is at low risk of flooding from rivers and the sea.</p>
-      <p class="govuk-body">Not a flood risk expert? <a href="/results-expanded-fz1">Find out what this means, and what you should do next.</a>
+      <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
       </p>
-      <p> This is where the maps comes in </p>
+      <div class="govuk-image results-map-static">
+        <div class="map-container">
+          <div class="mobile-heading">
+            <h2 class="heading-medium">Map</h2>
+            <a href="#legend">View map key</a>
+          </div>
+          <div id="map" class="map"></div>
+          <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          </div>
+          <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          </div>        
+
+        </div>
+      </div>
       <p>&nbsp;</p>
       <p class="govuk-body">You will need to do a flood risk assessment if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
       <ul class="govuk-list govuk-list--bullet">
@@ -67,10 +82,8 @@
     {% endif %}
     {% if (zone === 3) %}
       <p class="govuk-body">Your development is in flood zone 3. This means it will have a high probability of flooding.</p>
-      <p class="govuk-body">Not a flood risk expert? <a href="results-expanded-fz3">Find out what this means, and what you should do next.</a>
+      <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
       </p>
-
-
       <div class="govuk-image results-map-static">
         <div class="map-container">
           <div class="mobile-heading">

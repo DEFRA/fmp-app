@@ -4,6 +4,10 @@ Your results explained
 {% endblock %}
 {% block content %}
 
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
+
+
     {% from "button/macro.njk" import govukButton %}
     {% from "error-summary/macro.njk" import govukErrorSummary %}
     {% from "back-link/macro.njk" import govukBackLink %}
@@ -12,7 +16,7 @@ Your results explained
                        href: 'javascript:history.back()'
                    })
    }}
-    <form autocomplete="off" class="form" method="post" action="/flood-zone3-results-expanded">
+    <form autocomplete="off" class="form" method="post" action="/flood-zone-results-expanded">
          <h1 class="govuk-heading-xl">Your results explained</h1>
 
          <p class="govuk-body">Because your development is in flood zone 3, it has a high probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
@@ -24,7 +28,23 @@ Your results explained
           </span>
         </summary>
         <div class="govuk-details__text">
-          <img src="/public/images/p1-floodzones_v2.png" class="govuk-image results-map-static" alt="Example map">
+          <div class="govuk-image results-map-static">
+        <div class="map-container">
+          <div class="mobile-heading">
+            <h2 class="heading-medium">Map</h2>
+            <a href="#legend">View map key</a>
+          </div>
+          <div id="map" class="map"></div>
+          <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          </div>
+          <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          </div>        
+
+        </div>
+      </div>
+      <p>&nbsp;</p>
         </div>
       </details>
 
