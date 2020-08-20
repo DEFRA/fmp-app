@@ -26,7 +26,7 @@
             You must carry out a flood risk assessment.
           </strong>
     </div>
-    {% if (zone === 1) %}
+    {% if floodZone.isZone1 %}
       <p class="govuk-body">Your development is in flood zone 1. This means it is at low risk of flooding from rivers and the sea.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
       </p>
@@ -84,7 +84,7 @@
         <a href="location">Search for a different location</a>
       </p>
     {% endif %}
-    {% if (zone === 3) %}
+    {% if floodZone.isZone3 %}
       <p class="govuk-body">Your development is in flood zone 3. This means it will have a high probability of flooding.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
       </p>

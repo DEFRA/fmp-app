@@ -22,7 +22,6 @@ module.exports = [
           const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
           let psoEmailAddress = ''
           let areaName = ''
-          const zone = 3
           if (psoResults && psoResults.EmailAddress) {
             psoEmailAddress = psoResults.EmailAddress
           }
@@ -40,7 +39,7 @@ module.exports = [
             if (!result.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, zone, result, center, polygon))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon))
                 .unstate('pdf-download')
             }
           } else {
@@ -48,7 +47,7 @@ module.exports = [
             if (!result.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, zone, result, [easting, northing]))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing]))
                 .unstate('pdf-download')
             }
           }
