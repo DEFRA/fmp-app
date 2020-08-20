@@ -2,7 +2,7 @@ const Boom = require('boom')
 const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
-const FloodRiskLocationViewModel = require('../models/flood-risk-view')
+const FloodRiskViewModel = require('../models/flood-risk-view')
 const psoContactDetails = require('../services/pso-contact')
 
 module.exports = [
@@ -40,7 +40,7 @@ module.exports = [
             if (!result.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskLocationViewModel(psoEmailAddress, areaName, zone, result, center, polygon))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, zone, result, center, polygon))
                 .unstate('pdf-download')
             }
           } else {
@@ -48,7 +48,7 @@ module.exports = [
             if (!result.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskLocationViewModel(psoEmailAddress, areaName, zone, result, [easting, northing]))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, zone, result, [easting, northing]))
                 .unstate('pdf-download')
             }
           }
