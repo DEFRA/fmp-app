@@ -80,7 +80,7 @@ function Summary (options) {
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
-            src: '../../public/images/pin.png'
+            src: '/assets/images/iconfinder_marker.png'
           })
         })
       }))
