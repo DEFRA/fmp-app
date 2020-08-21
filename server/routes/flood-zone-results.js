@@ -16,12 +16,21 @@ module.exports = [
       },
       handler: async (request, h) => {
         try {
-          const easting = encodeURIComponent(request.query.easting)
-          const northing = encodeURIComponent(request.query.northing)
-
-          const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
+          let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
+
+          if (request.query.polygon) {
+            const center = request.query.center
+            easting = center[0]
+            northing = center[1]
+          } else {
+            easting = encodeURIComponent(request.query.easting)
+            northing = encodeURIComponent(request.query.northing)
+          }
+
+          const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
+
           if (psoResults && psoResults.EmailAddress) {
             psoEmailAddress = psoResults.EmailAddress
           }

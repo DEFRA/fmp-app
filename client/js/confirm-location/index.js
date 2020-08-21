@@ -14,7 +14,7 @@ function ConfirmLocationPage (options) {
   var $page = $('main#confirm-location-page')
   var $radios = $('.top-of-buttons', $page)
   var $container = $('.map-container', $page)
-  var $continueBtn = $('a.continue', $page)
+  var $continueBtn = $('a.govuk-button--start', $page)
   var $product4Btn = $('a.button-product4', $page)
   var $legend = $('.legend', $page)
   var $setLayerVisible = $('.layer-toggle', $page)
@@ -332,7 +332,7 @@ function ConfirmLocationPage (options) {
 
     function updateTargetUrl () {
       var coordinates
-      var url = '/summary'
+      var url = '/flood-zone-results'
       var contactUrl = '/contact'
 
       if (featureMode === 'polygon' && polygon) {

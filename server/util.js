@@ -29,6 +29,10 @@ function request (method, url, options, ext = false) {
     })
 }
 
+function convertToGeoJson (coordinates) {
+  return '{"type": "Polygon", "coordinates": [' + JSON.stringify(coordinates) + ']}'
+}
+
 function get (url, options, ext = false) {
   return request('get', url, options, ext)
 }
@@ -70,6 +74,7 @@ function groupBy (arr, prop) {
 }
 
 module.exports = {
+  convertToGeoJson,
   get,
   post,
   getJson,
