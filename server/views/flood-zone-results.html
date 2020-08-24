@@ -84,6 +84,67 @@
         <a href="location">Search for a different location</a>
       </p>
     {% endif %}
+
+    {% if floodZone.isZone2 %}
+      <p class="govuk-body">Your development is in flood zone 2. This means it will have a medium probability of flooding.</p>
+      <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
+      </p>
+      <div class="govuk-image results-map-static">
+        <div class="map-container">
+          <div class="mobile-heading">
+            <h2 class="heading-medium">Map</h2>
+            <a href="#legend">View map key</a>
+          </div>
+          <div id="map" class="map"></div>
+          <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          </div>
+          <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          </div>        
+          <div class="rhs">
+            <aside class="controls" id="legend">
+            {% include "./partials/map/summary-legend.html" %}
+            </aside>
+          </div>
+        </div>
+      </div>
+
+
+      <p>&nbsp;</p>
+      <p class="govuk-body">To request flood risk assessment data (previously known as a <span class="govuk-!-font-weight-bold">product 4</span>) you’ll need an email address we can send the information to.</p>
+      <p class="govuk-body">You’ll receive the flood risk assessment data as a PDF file within 2 hours. <p>Depending on the data that's available, this will include:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>a flood zone map (flood map for planning)</li>
+          <li>
+                     historic flood outlines
+                  </li>
+          <li>
+                    relevant modelled flood levels and extents
+                  </li>
+          <li>
+                 flood defence locations and attributes
+                 </li>                  
+        </ul>
+        {{govukButton({
+                      text: "Request your flood risk data",
+                       preventDoubleClick: true
+                })
+        }}
+        <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the East Anglia Environment Agency team at <a href="mailto:communications_ean@environment-agency.gov.uk">communications_EAN@environment-agency.gov.uk</a>.</p>
+        <p class="govuk-body">
+          <a href="#">Check the risk from surface water and other sources of flooding</a>
+        </p>
+        <br><br>
+        <h3 class="govuk-heading-s">Location not right?</h3>
+        <p class="govuk-body">
+          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
+        </p>
+        <p class="govuk-body">
+          <a href="home">Search for a different location</a>
+        </p>
+      {% endif %}
+
     {% if floodZone.isZone3 %}
       <p class="govuk-body">Your development is in flood zone 3. This means it will have a high probability of flooding.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
