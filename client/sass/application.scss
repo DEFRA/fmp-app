@@ -39,6 +39,94 @@ $govuk-global-styles: true;
 // @import "components/related-items";
 // @import "components/contents"; 
 
+$path: '/public/images/';
+@import 'related-items';
+@import 'govuk-elements';
+@import 'util';
+
+h1.heading-xlarge {
+  margin-bottom: 20px;
+}
+
+.search-box {
+  .form-group:first-child {
+    margin-bottom: 12px;
+
+    input.form-control {
+      width: 100%
+    }
+  }
+
+  button.button-get-started {
+    width: 100%
+  }
+}
+
+.enter-fullscreen {
+  z-index: 100;
+  display: block;
+}
+
+.exit-fullscreen {
+  z-index: 100;
+  display: none;
+}
+
+.fullscreen {
+  >:not(.main-container) {
+    display: none;
+  }
+  
+  >.main-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    background-color: white;
+  }
+
+  .column-half:first-child {
+    display: none;
+  }
+
+  .enter-fullscreen {
+    display: none;
+  }
+
+  .exit-fullscreen {
+    display: block;
+  }
+}
+
+ .ol-full-screen.ol-control.toggle-fullscreen {
+  button {
+    width: auto;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    height: 25px;
+  }
+}
+
+// Browser requirements
+
+.panel.panel-device-requirements {
+  @extend .panel-border-wide;
+  background-color: $panel-colour;
+  margin-top:em(5);
+  margin-bottom: em(20, 16);
+  p {
+      font-weight:bold;
+  }
+}
+
+
+
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
@@ -113,7 +201,9 @@ $govuk-global-styles: true;
   .ol-control button {
     color: #626a6e !important;
     background-color: rgba(255,255,255,1) !important;
-    font-size: 1.5em !important;
+    width: fit-content !important;
+    padding-left: 0.4em !important;
+    padding-right: 0.4em !important;
   }
   
   
