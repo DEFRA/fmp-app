@@ -7,7 +7,7 @@
 
 #summary-page {
   .main-container {
-    .column-half {
+    .results-map-static {
       @include media(tablet) {
         min-height: 700px;
       }
@@ -154,7 +154,7 @@
         }
 
       }
-    }
+    }   
   }
 
   .more {

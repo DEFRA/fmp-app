@@ -3,11 +3,12 @@
  Flood risk information for this location
 {% endblock %}
 {% block content %}
-
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
 <main id="summary-page" data-test-info="{{riskJSON}}">
+  {% include "./partials/printDialog.html" %}
 
   {% from "button/macro.njk" import govukButton %}
   {% from "back-link/macro.njk" import govukBackLink %}
@@ -30,27 +31,35 @@
       <p class="govuk-body">Your development is in flood zone 1. This means it is at low risk of flooding from rivers and the sea.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}">Find out what this means, and what you should do next.</a>
       </p>
-      <div class="govuk-image results-map-static">
+
+      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
+      (PDF)</a>
+
+
+     <div class="govuk-image results-map-static">
         <div class="map-container">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
           </div>
           <div id="map" class="map"></div>
+
           <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
             <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
           </div>
           <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
             <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
-          </div>
+          </div>  
           <div class="rhs">
             <aside class="controls" id="legend">
             {% include "./partials/map/summary-legend.html" %}
             </aside>
-          </div>    
+          </div>
         </div>
-      </div>
+      </div> 
       <p>&nbsp;</p>
+
       <p class="govuk-body">You will need to do a flood risk assessment if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
       <ul class="govuk-list govuk-list--bullet">
         <li>bigger than 1 hectare (ha)</li>
