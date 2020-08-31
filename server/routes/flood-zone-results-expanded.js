@@ -1,4 +1,5 @@
 const FloodRiskExpandedViewModel = require('../models/flood-risk-expanded-view')
+const psoContactDetails = require('../services/pso-contact')
 
 module.exports = [{
   method: 'GET',
@@ -11,7 +12,13 @@ module.exports = [{
     handler: async (request, h) => {
       const easting = encodeURIComponent(request.query.easting)
       const northing = encodeURIComponent(request.query.northing)
-      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing))
+      const zone = encodeURIComponent(request.query.zone)
+      const result = await psoContactDetails.getPsoContacts(easting, northing)
+      var localAuthorities = ''
+      if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
+        localAuthorities = result.LocalAuthorities.toString()
+      }
+      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, zone, localAuthorities))
     }
   }
 },
