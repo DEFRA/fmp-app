@@ -10,6 +10,7 @@
                        href: 'javascript:history.back()'
                    })
    }}
+<main>
   <form autocomplete="off" class="form" method="post" action="/contact">
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
@@ -31,25 +32,24 @@
 
 {{ govukInput({
   label: {
-    text: "Fullname"
+    text: "Full name",
+      classes:"govuk-label govuk-label--m"
   },
    id: "fullname",
   name: "fullname",
-  classes: "govuk-input--width-20",
+  classes: "govuk-input",
   value:fullname,                     
   errorMessage: fullnameError
 }) }}
 
 {{ govukInput({
   label: {
-    text: "Email address"
-  },
-  hint: {
-    text: "We’ll only use this to send you a pdf report"
+    text: "Email address",
+    classes:"govuk-label govuk-label--m"
   },
   id: "email",
   name: "email",
-  classes: "govuk-input--width-20",
+  classes: "govuk-input",
   type: "email",
   autocomplete: "email",
   spellcheck: false,
@@ -63,4 +63,5 @@
                 })
    }}
   </form>
+  </main>
 {% endblock %}

@@ -36,13 +36,13 @@ module.exports = [{
         if (email.trim() !== '' && isEmailFormatValid && fullname.trim() !== '' && isNameFormatValid) {
           return h.view('confirmation')
         } else if (email && email.trim() !== '' && isEmailFormatValid) {
-          const errors = [{ text: 'Please enter valid fullname', href: '#fullname' }]
+          const errors = [{ text: 'Please enter valid Full name', href: '#fullname' }]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
             fullname: fullname,
             email: email,
-            fullnameError: { text: 'Please enter valid fullname' }
+            fullnameError: { text: 'Please enter valid Full name' }
           })
         } else if (fullname && fullname.trim() !== '' && isNameFormatValid) {
           const errors = [{ text: 'Please enter valid email', href: '#email' }]
@@ -54,7 +54,7 @@ module.exports = [{
             emailError: { text: 'Please enter valid email' }
           })
         } else {
-          const errors = [{ text: 'Please enter valid name', href: '#fullname' },
+          const errors = [{ text: 'Please enter valid Full name', href: '#fullname' },
             { text: 'Please enter valid email', href: '#email' }
           ]
           model = {}
@@ -63,7 +63,7 @@ module.exports = [{
             fullname: fullname,
             email: email,
             emailError: { text: 'Please enter valid email' },
-            fullnameError: { text: 'Please enter valid fullname' }
+            fullnameError: { text: 'Please enter valid Full name' }
           })
         }
         return h.view('contact', model)
