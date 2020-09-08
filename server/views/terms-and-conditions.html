@@ -1,5 +1,14 @@
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{{assetPath}}}stylesheets/terms-and-conditions/index.css">
-<main>
+{% extends "layout.html" %}
+{% block pageTitle %}
+Terms and Conditions
+{% endblock %}
+{% block content %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+  {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}<main>
     <div class="grid-row">
         <div class="column-two-thirds">
             <div class="pub-c-title pub-c-title--bottom-margin">
@@ -139,3 +148,4 @@
         </div>
     </div>
 </main>
+{% endblock %}

@@ -1,13 +1,13 @@
 module.exports = {
   method: 'GET',
-  path: '/cookies',
+  path: '/accessibility',
   options: {
-    description: 'Cookies Page',
+    description: 'Accessibility Page',
     auth: {
       strategy: 'restricted'
     },
     handler: async (request, h) => {
-      return h.view('cookies')
+      return h.view('accessibility')
     }
   }
 }

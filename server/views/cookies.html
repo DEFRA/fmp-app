@@ -1,4 +1,14 @@
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{{assetPath}}}stylesheets/terms-and-conditions/index.css">
+{% extends "layout.html" %}
+{% block pageTitle %}
+Cookies
+{% endblock %}
+{% block content %}
+  {% from "back-link/macro.njk" import govukBackLink %}
+  {{ govukBackLink({
+                      text: 'Back',
+                       href: 'javascript:history.back()'
+                   })
+   }}
 <main>
     <div class="grid-row">
         <div class="column-two-thirds">
@@ -151,3 +161,4 @@
 
     </div>
 </main>
+{% endblock %}
