@@ -75,11 +75,13 @@
       </ul>
       <p class="govuk-body">If your development <span class="govuk-!-font-weight-bold">doesn't</span> fall into any of these categories, you only need to download the flood zone map on this page to include in your planning application.</p>
       <p class="govuk-body">You can still use this service to request flood risk data (previously known as a product 4). However, as your site is in flood zone 1, it’s unlikely there will be any data available.  </p>
-      {{govukButton({
-                    text: "Request your flood risk data",
-                     preventDoubleClick: true
-                })
-      }}
+
+      <div class="nojs-hide ie-hide">
+        <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center{{center}}&location={{location}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+          Request your flood risk data
+        </a>
+      </div>
+
       <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the East Anglia Environment Agency team at <a href="mailto:communications_ean@environment-agency.gov.uk">communications_EAN@environment-agency.gov.uk</a>.</p>
       <p class="govuk-body">
         <a href="#">Check the risk from surface water and other sources of flooding</a>
@@ -140,11 +142,13 @@
                  flood defence locations and attributes
                  </li>                  
         </ul>
-        {{govukButton({
-                      text: "Request your flood risk data",
-                       preventDoubleClick: true
-                })
-        }}
+
+        <div class="nojs-hide ie-hide">
+          <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center{{center}}&location={{location}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+            Request your flood risk data
+          </a>
+        </div>
+
         <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the East Anglia Environment Agency team at <a href="mailto:communications_ean@environment-agency.gov.uk">communications_EAN@environment-agency.gov.uk</a>.</p>
         <p class="govuk-body">
           <a href="#">Check the risk from surface water and other sources of flooding</a>
@@ -206,11 +210,13 @@
                  flood defence locations and attributes
                  </li>                  
         </ul>
-        {{govukButton({
-                      text: "Request your flood risk data",
-                       preventDoubleClick: true
-                })
-        }}
+
+        <div class="nojs-hide ie-hide">
+          <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center{{center}}&location={{location}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+            Request your flood risk data
+          </a>
+        </div>
+
         <p class="govuk-body">If you need a product 5, 6, 7 or 8 contact the East Anglia Environment Agency team at <a href="mailto:communications_ean@environment-agency.gov.uk">communications_EAN@environment-agency.gov.uk</a>.</p>
         <p class="govuk-body">
           <a href="#">Check the risk from surface water and other sources of flooding</a>
@@ -236,7 +242,7 @@
   <script>
     $(function () {
       var page = new FMP.SummaryPage({
-        polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
+        polygon: {{ polygon }}  // This needs to be verified as originally {{polygon}}
       })
     })
   </script>

@@ -64,20 +64,4 @@ module.exports = [{
       }
     }
   }
-},
-{
-  method: 'POST',
-  path: '/confirm-location',
-  options: {
-    description: 'This page will take control to flood risk information page',
-    auth: {
-      strategy: 'restricted'
-    },
-    handler: async (request, h) => {
-      try {
-        return h.redirect('/flood-zone-results')
-      } catch (error) {
-      }
-    }
-  }
 }]

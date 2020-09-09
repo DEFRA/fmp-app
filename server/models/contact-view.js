@@ -1,10 +1,11 @@
 function ContactViewModel (data) {
   if (data) {
     this.errorSummary = data.errorSummary
-    this.email = data.email
+    this.recipientemail = data.recipientemail
     this.emailError = data.emailError
     this.fullnameError = data.fullnameError
-    this.fullname = data.fullname
+    this.fullName = data.fullName
+    this.PDFinformationDetailsObject = data.PDFinformationDetailsObject
   } else {
     this.errors = {}
     this.errorSummary = this.errors

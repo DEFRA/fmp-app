@@ -341,16 +341,18 @@ function ConfirmLocationPage (options) {
         }))
         url += '?polygon=' + coords
         url += '&center=' + JSON.stringify(center)
+        url += '&location=' + location
 
         contactUrl += '?polygon=' + coords
         contactUrl += '&center=' + JSON.stringify(center)
+        contactUrl += '&location=' + location
 
         // set form values
         $center.attr('value', JSON.stringify(center))
         $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
-        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10)
+        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location
         contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location
         // set form values
         $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')

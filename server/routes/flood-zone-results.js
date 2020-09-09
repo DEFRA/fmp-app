@@ -19,6 +19,7 @@ module.exports = [
           let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
+          const location = encodeURIComponent(request.query.location)
 
           if (request.query.polygon) {
             const center = request.query.center
@@ -48,7 +49,7 @@ module.exports = [
             if (!result.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location))
                 .unstate('pdf-download')
             }
           } else {
@@ -56,7 +57,7 @@ module.exports = [
             if (!result.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing]))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing], undefined, location))
                 .unstate('pdf-download')
             }
           }
@@ -67,27 +68,16 @@ module.exports = [
       validate: {
         query: Joi.alternatives().required().try([{
           easting: Joi.number().max(700000).positive().required(),
-          northing: Joi.number().max(1300000).positive().required()
+          northing: Joi.number().max(1300000).positive().required(),
+          location: Joi.string().required()
         }, {
           polygon: Joi.array().required().items(Joi.array().items(
             Joi.number().max(700000).positive().required(),
             Joi.number().max(1300000).positive().required()
           )),
-          center: Joi.array().required()
+          center: Joi.array().required(),
+          location: Joi.string().required()
         }])
       }
-    }
-  },
-  {
-    method: 'POST',
-    path: '/flood-zone-results',
-    options: {
-      description: 'Displays Flood Zone Three Results Page',
-      auth: {
-        strategy: 'restricted'
-      }
-    },
-    handler: async (request, h) => {
-      return h.redirect('/contact')
     }
   }]
