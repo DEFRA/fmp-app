@@ -17,7 +17,6 @@ function ConfirmLocationPage (options) {
   var $continueBtn = $('a.govuk-button--start', $page)
   var $product4Btn = $('a.button-product4', $page)
   var $legend = $('.legend', $page)
-  var $setLayerVisible = $('.layer-toggle', $page)
   var $form = $('form.form', $page)
   var $center = $('input[name="center"]', $form)
   var $polygon = $('input[name="polygon"]', $form)
@@ -258,9 +257,8 @@ function ConfirmLocationPage (options) {
       }
     })
 
-    $setLayerVisible.on('change', function (e) {
-      map.setLayerVisible('fmp', this.checked)
-    })
+    // switching off the flood-zone layer
+    map.setLayerVisible('fmp', false)
 
     // Click handler for pointer
     map.on('singleclick', function (e) {
