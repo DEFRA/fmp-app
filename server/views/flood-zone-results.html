@@ -20,14 +20,15 @@
 
   <form autocomplete="off" class="form" method="post" action="/flood-zone-results">
     <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
-    <div class="govuk-warning-text">
+   
+    {% if floodZone.isZone1 %}
+     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
       <strong class="govuk-warning-text__text">
         <span class="govuk-warning-text__assistive">Warning</span>
             You may need to carry out a flood risk assessment.
           </strong>
     </div>
-    {% if floodZone.isZone1 %}
       <p class="govuk-body">Your development is in flood zone 1. This means it is at low risk of flooding from rivers and the sea.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
@@ -97,6 +98,13 @@
     {% endif %}
 
     {% if floodZone.isZone2 %}
+     <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+           You must carry out a flood risk assessment. 
+          </strong>
+    </div>
       <p class="govuk-body">Your development is in flood zone 2. This means it will have a medium probability of flooding.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
@@ -165,6 +173,13 @@
 
     
     {% if floodZone.isZone3 %}
+     <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+            You must carry out a flood risk assessment. 
+          </strong>
+    </div>
       <p class="govuk-body">Your development is in flood zone 3. This means it will have a high probability of flooding.</p>
       <p>Floodzone3</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
@@ -232,6 +247,13 @@
         </p>
       {% endif %}
       {% if floodZone.zone=='FZ2a' %}
+      <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+            You must carry out a flood risk assessment. 
+          </strong>
+    </div>
       <p class="govuk-body">Your development is in flood zone 2. It is also in an area benefiting from flood defences.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
@@ -298,6 +320,13 @@
         </p>
       {% endif %}
       {% if floodZone.zone =='FZ3a' %}
+       <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+            You must carry out a flood risk assessment. 
+          </strong>
+    </div>
       <p class="govuk-body">Your development is in flood zone 3. It is also in an area benefiting from flood defences.</p>
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
