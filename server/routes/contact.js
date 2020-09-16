@@ -6,6 +6,7 @@ const uuidv1 = require('uuid/v1')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const publishToQueueURL = config.functionAppUrl + '/publish-queue'
 const ContactViewModel = require('../models/contact-view')
+const { polygon } = require('@turf/turf')
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
 module.exports = [{
@@ -22,6 +23,7 @@ module.exports = [{
         var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '' }
         PDFinformationDetailsObject.coordinates.x = request.query.easting
         PDFinformationDetailsObject.coordinates.y = request.query.northing
+        PDFinformationDetailsObject.polygon = request.query.polygon
         PDFinformationDetailsObject.location = encodeURIComponent(request.query.location)
         if (recipientemail) {
           return h.view('contact', new ContactViewModel(
@@ -57,7 +59,7 @@ module.exports = [{
       try {
         const payload = request.payload
         const applicationReferenceNumber = await getApplicationReferenceNumber()
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '' }
+        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: [] }
 
         let model = {}
         const { recipientemail, fullName } = request.payload
@@ -84,6 +86,7 @@ module.exports = [{
           queryParams.location = PDFinformationDetailsObject.location
           queryParams.correlationId = correlationId
           queryParams.fullName = payload.fullName
+          queryParams.polygon = PDFinformationDetailsObject.polygon
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
@@ -102,6 +105,7 @@ module.exports = [{
             errorSummary: errors,
             fullName: fullName,
             PDFinformationDetailsObject: {
+              polygon: payload.polygon,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing
@@ -119,6 +123,7 @@ module.exports = [{
             fullName: fullName,
             recipientemail: recipientemail,
             PDFinformationDetailsObject: {
+              polygon: payload.polygon,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing
@@ -137,6 +142,7 @@ module.exports = [{
             fullName: fullName,
             recipientemail: recipientemail,
             PDFinformationDetailsObject: {
+              polygon: payload.polygon,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing
