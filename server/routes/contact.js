@@ -134,7 +134,7 @@ module.exports = [{
           })
         } else {
           const errors = [{ text: 'Please enter valid Full name', href: '#fullName' },
-          { text: 'Please enter valid email', href: '#recipientemail' }
+            { text: 'Please enter valid email', href: '#recipientemail' }
           ]
           model = {}
           model = new ContactViewModel({
