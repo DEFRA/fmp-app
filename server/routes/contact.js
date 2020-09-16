@@ -101,6 +101,13 @@ module.exports = [{
           model = new ContactViewModel({
             errorSummary: errors,
             fullName: fullName,
+            PDFinformationDetailsObject: {
+              coordinates: {
+                x: payload.easting,
+                y: payload.northing
+              },
+              location: payload.location
+            },
             recipientemail: recipientemail,
             fullnameError: { text: 'Please enter valid Full name' }
           })
@@ -111,24 +118,37 @@ module.exports = [{
             errorSummary: errors,
             fullName: fullName,
             recipientemail: recipientemail,
+            PDFinformationDetailsObject: {
+              coordinates: {
+                x: payload.easting,
+                y: payload.northing
+              },
+              location: payload.location
+            },
             emailError: { text: 'Please enter valid email' }
           })
         } else {
           const errors = [{ text: 'Please enter valid Full name', href: '#fullName' },
-            { text: 'Please enter valid email', href: '#recipientemail' }
+          { text: 'Please enter valid email', href: '#recipientemail' }
           ]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
             fullName: fullName,
             recipientemail: recipientemail,
+            PDFinformationDetailsObject: {
+              coordinates: {
+                x: payload.easting,
+                y: payload.northing
+              },
+              location: payload.location
+            },
             emailError: { text: 'Please enter valid email' },
             fullnameError: { text: 'Please enter valid Full name' }
           })
         }
         return h.view('contact', model)
       } catch (error) {
-
       }
     }
   }
