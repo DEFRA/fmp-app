@@ -5,9 +5,9 @@ Your results explained
 {% block content %}
 
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-  <link rel="stylesheet" type="text/css" href="{{assetpath}}/stylesheets/summary/index.css">
+  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
-  <main id="summary-page" data-test-info="{{riskjson}}">
+  <main id="summary-page" data-test-info="{{riskJSON}}">
 
     {% from "button/macro.njk" import govukButton %}
     {% from "error-summary/macro.njk" import govukErrorSummary %}
@@ -544,10 +544,10 @@ Your results explained
     </form>
   </main>
 
-  <script src="{{assetpath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetpath}}/javascripts/core.js"></script>
+  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+  <script src="{{assetPath}}/javascripts/core.js"></script>
 
-  <script src="{{assetpath}}/javascripts/summary.js"></script>
+  <script src="{{assetPath}}/javascripts/summary.js"></script>
   {% if polygon %}
     <script>
       $(function () {
