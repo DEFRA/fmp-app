@@ -90,7 +90,7 @@
       <br><br>
       <h3 class="govuk-heading-s">Location not right?</h3>
       <p class="govuk-body">
-        <a href="confirm-location">Reposition the marker</a>
+        <a href="confirm-location?easting={{easting}}&northing={{northing}}&placeOrPostcode={{placeOrPostcode}}">Reposition the marker</a>
       </p>
       <p class="govuk-body">
         <a href="location">Search for a different location</a>
@@ -164,10 +164,10 @@
         <br><br>
         <h3 class="govuk-heading-s">Location not right?</h3>
         <p class="govuk-body">
-          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
+         <a href="confirm-location?easting={{easting}}&northing={{northing}}&placeOrPostcode={{placeOrPostcode}}">Reposition the marker</a>
         </p>
         <p class="govuk-body">
-          <a href="home">Search for a different location</a>
+          <a href="location">Search for a different location</a>
         </p>
       {% endif %}
 
@@ -239,10 +239,10 @@
         <br><br>
         <h3 class="govuk-heading-s">Location not right?</h3>
         <p class="govuk-body">
-          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
+                   <a href="confirm-location?easting={{easting}}&northing={{northing}}&placeOrPostcode={{placeOrPostcode}}">Reposition the marker</a>
         </p>
         <p class="govuk-body">
-          <a href="home">Search for a different location</a>
+          <a href="location">Search for a different location</a>
         </p>
       {% endif %}
       {% if floodZone.zone=='FZ2a' %}
@@ -312,10 +312,10 @@
         <br><br>
         <h3 class="govuk-heading-s">Location not right?</h3>
         <p class="govuk-body">
-          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
+        <a href="confirm-location?easting={{easting}}&northing={{northing}}&placeOrPostcode={{placeOrPostcode}}">Reposition the marker</a>
         </p>
         <p class="govuk-body">
-          <a href="home">Search for a different location</a>
+          <a href="location">Search for a different location</a>
         </p>
       {% endif %}
       {% if floodZone.zone =='FZ3a' %}
@@ -385,10 +385,10 @@
         <br><br>
         <h3 class="govuk-heading-s">Location not right?</h3>
         <p class="govuk-body">
-          <a href="confirm-location?easting={{easting}}&northing={{northing}}">Reposition the marker</a>
+         <a href="confirm-location?easting={{easting}}&northing={{northing}}&placeOrPostcode={{placeOrPostcode}}">Reposition the marker</a>
         </p>
         <p class="govuk-body">
-          <a href="home">Search for a different location</a>
+          <a href="location">Search for a different location</a>
         </p>
       {% endif %}
     </form>

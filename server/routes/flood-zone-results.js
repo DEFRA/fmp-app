@@ -20,6 +20,7 @@ module.exports = [
           let psoEmailAddress = ''
           let areaName = ''
           const location = encodeURIComponent(request.query.location)
+          const placeOrPostcode = encodeURIComponent(request.query.placeOrPostcode)
 
           if (request.query.polygon) {
             const center = request.query.center
@@ -49,7 +50,7 @@ module.exports = [
             if (!result.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location, placeOrPostcode))
                 .unstate('pdf-download')
             }
           } else {
@@ -57,7 +58,7 @@ module.exports = [
             if (!result.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing], undefined, location))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing], undefined, location, placeOrPostcode))
                 .unstate('pdf-download')
             }
           }

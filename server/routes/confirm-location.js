@@ -43,7 +43,7 @@ module.exports = [{
           location = request.query.placeOrPostcode ? request.query.placeOrPostcode : request.query.nationalGridReference
         }
 
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location)
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location, point.placeOrPostcode)
 
         return h.view('confirm-location', model)
       } catch (err) {

@@ -1,6 +1,6 @@
 const FloodZone = require('./flood-zone')
 
-function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location) {
+function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location, placeOrPostcode) {
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
   }
@@ -14,6 +14,9 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
 
   if (location) {
     this.location = location
+  }
+  if (placeOrPostcode) {
+    this.placeOrPostcode = placeOrPostcode
   }
 
   this.easting = center[0]
