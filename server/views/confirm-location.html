@@ -4,7 +4,7 @@
 {% from "button/macro.njk" import govukButton %}
 
 {% block content %}
-  {% set detailsHTML %} 
+  {% set detailsHTML %}
   <ul class="govuk-list--bullet">
     <li>select 'draw shape'</li>
     <li>select any point on the site boundary</li>
@@ -37,12 +37,25 @@
           <p>Check the marker is in the right place. If it isn’t, move it to the right location.</p>
           <h2 class="govuk-heading-m">For larger developments:</h2>
           <p>Draw a shape showing the boundary of your site.</p>
-          <br>
-
-          {{ govukDetails({
-  summaryText: "Hoow to draw a shape",
-    html: detailsHTML
-}) }}
+          <br>    
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+              How to draw a shape
+            </span>
+            </summary>
+            <div class="govuk-details__text">
+              <ul class="govuk-list--bullet">
+                <li>select 'draw shape'</li>
+                <li>select any point on the site boundary</li>
+                <li>select a second point on the boundary - you should see a line drawn between the first two points </li>
+                <li>keep adding points until the boundary is defined</li>
+                <li>double click or tap when you mark your final point</li>
+                <li>edit the finished shape by dragging the points</li>
+                <li>add more points to a shape by clicking or tapping on a line</li>
+              </ul>
+            </div>
+          </details>
 
           <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
