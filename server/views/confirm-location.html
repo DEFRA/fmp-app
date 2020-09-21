@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "details/macro.njk" import govukDetails %}
 {% from "back-link/macro.njk" import govukBackLink %}
   {% from "button/macro.njk" import govukButton %}
 
@@ -28,14 +29,9 @@
         <p>Draw a shape showing the boundary of your site.</p>
         <br>
 
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              How to draw a shape
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <ul class="govuk-list govuk-list--bullet">
+      {{ govukDetails({
+  summaryText: "How to draw a shape",
+  html: "<ul class='govuk-list govuk-list--bullet'>
               <li>select 'draw shape'</li>
               <li>select any point on the site boundary</li>
               <li>select a second point on the boundary - you should see a line drawn between the first two points </li>
@@ -43,9 +39,8 @@
               <li>double click or tap when you mark your final point</li>
               <li>edit the finished shape by dragging the points</li>
               <li>add more points to a shape by clicking or tapping on a line</li>
-            </ul>
-          </div>
-        </details>      
+            </ul>"
+}) }}     
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
