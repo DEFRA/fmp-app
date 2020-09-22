@@ -12,6 +12,7 @@ module.exports = [].concat(
   require('./os-terms'),
   require('./error'),
   require('./cookies'),
+  require('./accessibility'),
   require('./privacy-policy'),
   require('./privacy-notice'),
   require('./terms-conditions')
