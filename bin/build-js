@@ -3,3 +3,4 @@
 browserify client/js/index.js -d | exorcist server/public/build/javascripts/core.js.map > server/public/build/javascripts/core.js
 browserify client/js/confirm-location/index.js -t hbsfy -d -s FMP.ConfirmLocationPage | exorcist server/public/build/javascripts/confirm-location.js.map > server/public/build/javascripts/confirm-location.js
 browserify client/js/summary/index.js -t hbsfy -d -s FMP.SummaryPage | exorcist server/public/build/javascripts/summary.js.map > server/public/build/javascripts/summary.js
+browserify client/js/expandedresults/index.js -d | exorcist server/public/build/javascripts/expandedresults.js.map > server/public/build/javascripts/expandedresults.js
