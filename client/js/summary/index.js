@@ -159,6 +159,9 @@ function Summary (options) {
       $map.css('height', $summaryColumn.height() + 'px')
       map.updateSize()
     })
+    $('#results-map').on('toggle', () => {
+      map.updateSize()
+    })
   })
 }
 
