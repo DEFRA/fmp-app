@@ -72,12 +72,14 @@ h1.heading-xlarge {
   display: none;
 }
 
+
+
+
 .fullscreen {
-  >:not(.main-container) {
+  > form > :not(.main-container) {
     display: none;
   }
-  
-  >.main-container {
+  > form > .main-container {
     position: absolute;
     top: 0;
     left: 0;

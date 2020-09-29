@@ -165,6 +165,9 @@
     .more {
       display: none;
     }
+    .map, .map-container {
+      height: 100%;
+    }
   }
 
   @include media(tablet) {

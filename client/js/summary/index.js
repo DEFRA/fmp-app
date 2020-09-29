@@ -147,18 +147,14 @@ function Summary (options) {
     $container.on('click', '.enter-fullscreen', function (e) {
       e.preventDefault()
       $page.addClass('fullscreen')
-      $map.css('height', $(window).height() + 'px')
-      $mapColumn.removeClass('column-half')
       map.updateSize()
     })
-
     $container.on('click', '.exit-fullscreen', function (e) {
       e.preventDefault()
       $page.removeClass('fullscreen')
-      $mapColumn.addClass('column-half')
-      $map.css('height', $summaryColumn.height() + 'px')
       map.updateSize()
     })
+
     $('#results-map').on('toggle', () => {
       map.updateSize()
     })
