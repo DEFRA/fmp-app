@@ -14,7 +14,8 @@
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
                                 titleText: "There is a problem",
-                                errorList: errorSummary
+                                errorList: errorSummary,
+                                classes: "govuk-grid-column-two-thirds"
                             }) 
         }}
     {% endif %}
