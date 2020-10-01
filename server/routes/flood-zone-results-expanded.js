@@ -13,12 +13,18 @@ module.exports = [{
       const easting = encodeURIComponent(request.query.easting)
       const northing = encodeURIComponent(request.query.northing)
       const zone = encodeURIComponent(request.query.zone)
+      var polygon = []
+
+      if (request.query.polygon) {
+        polygon = request.query.polygon
+      }
+
       const result = await psoContactDetails.getPsoContacts(easting, northing)
       var localAuthorities = ''
       if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
         localAuthorities = result.LocalAuthorities.toString()
       }
-      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, zone, localAuthorities))
+      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, zone, localAuthorities, polygon))
     }
   }
 },
