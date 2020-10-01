@@ -42,7 +42,9 @@ module.exports = [{
         if (request.query.placeOrPostcode || request.query.nationalGridReference) {
           location = request.query.placeOrPostcode ? request.query.placeOrPostcode : request.query.nationalGridReference
         }
-
+        if (request.query.easting && request.query.northing) {
+          location = `${request.query.easting} ${request.query.northing}`
+        }
         const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location, point.placeOrPostcode)
 
         return h.view('confirm-location', model)
