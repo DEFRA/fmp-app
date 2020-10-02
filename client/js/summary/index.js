@@ -146,11 +146,13 @@ function Summary (options) {
 
     $container.on('click', '.enter-fullscreen', function (e) {
       e.preventDefault()
+      $container.removeClass('map-size')
       $page.addClass('fullscreen')
       map.updateSize()
     })
     $container.on('click', '.exit-fullscreen', function (e) {
       e.preventDefault()
+      $container.addClass('map-size')
       $page.removeClass('fullscreen')
       map.updateSize()
     })

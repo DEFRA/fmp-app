@@ -76,10 +76,10 @@ h1.heading-xlarge {
 
 
 .fullscreen {
-  > form > :not(.main-container) {
+  .govuk-grid-row > div >form > :not(.main-container) {
     display: none;
   }
-  > form > .main-container {
+  .govuk-grid-row > div > form > .main-container {
     position: absolute;
     top: 0;
     left: 0;

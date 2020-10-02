@@ -6,8 +6,8 @@
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
-
-<main id="summary-page" data-test-info="{{riskJSON}}">
+<div class="govuk-width-container">
+<main id="summary-page" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" data-test-info="{{riskJSON}}">
   {% include "./partials/printDialog.html" %}
 
   {% from "button/macro.njk" import govukButton %}
@@ -18,6 +18,8 @@
                    })
    }}
 
+  <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
   <form autocomplete="off" class="form" method="post" action="/flood-zone-results">
     <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
    
@@ -33,13 +35,12 @@
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
 
-      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      <a href="#" class="govuk-button govuk-button--secondary" style="left:640px !important; margin-bottom:5px !important; margin-top:-20px !important;" data-module="govuk-button" data-toggle="dialog"
       data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
       (PDF)</a>
 
-
      <div class="main-container nojs-hide ie-hide">
-        <div class="map-container">
+        <div class="map-container map-size">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
@@ -57,7 +58,7 @@
             </aside>
           </div>
         </div>
-      </div> 
+      </div>
       <p>&nbsp;</p>
 
       <p class="govuk-body">You will need to do a flood risk assessment if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
@@ -108,12 +109,12 @@
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
 
-      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      <a href="#" class="govuk-button govuk-button--secondary" style="left:640px !important; margin-bottom:5px !important; margin-top:-20px !important;" data-module="govuk-button" data-toggle="dialog"
       data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
       (PDF)</a>
 
       <div class="main-container nojs-hide ie-hide">
-        <div class="map-container">
+        <div class="map-container map-size">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
@@ -183,12 +184,12 @@
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
 
-      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      <a href="#" class="govuk-button govuk-button--secondary" style="left:640px !important; margin-bottom:5px !important; margin-top:-20px !important;" data-module="govuk-button" data-toggle="dialog"
       data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
       (PDF)</a>
       
       <div class="main-container nojs-hide ie-hide">
-        <div class="map-container">
+        <div class="map-container map-size">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
@@ -256,12 +257,12 @@
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
 
-      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      <a href="#" class="govuk-button govuk-button--secondary" style="left:640px !important; margin-bottom:5px !important; margin-top:-20px !important;" data-module="govuk-button" data-toggle="dialog"
       data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
       (PDF)</a>
       
       <div class="main-container nojs-hide ie-hide">
-        <div class="map-container">
+        <div class="map-container map-size">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
@@ -329,12 +330,12 @@
       <p class="govuk-body">Not a flood risk expert? <a href="/flood-zone-results-expanded?easting={{easting}}&northing={{northing}}&zone={{floodZone.zone}}&polygon={{polygon}}&center{{center}}&location={{location}}">Find out what this means, and what you should do next.</a>
       </p>
 
-      <a href="#" class="govuk-button govuk-button--secondary" style="margin-left: 665px !important; margin-top: 0px !important; margin-bottom: 10px !important;" data-module="govuk-button" data-toggle="dialog"
+      <a href="#" class="govuk-button govuk-button--secondary" style="left:640px !important; margin-bottom:5px !important; margin-top:-20px !important;" data-module="govuk-button" data-toggle="dialog"
       data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information
       (PDF)</a>
       
       <div class="main-container nojs-hide ie-hide">
-        <div class="map-container">
+        <div class="map-container map-size">
           <div class="mobile-heading">
             <h2 class="heading-medium">Map</h2>
             <a href="#legend">View map key</a>
@@ -391,8 +392,11 @@
         </p>
       {% endif %}
     </form>
+  </div>
+   </div>
 
 </main>
+</div>
 
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
 <script src="{{assetPath}}/javascripts/core.js"></script>
@@ -416,4 +420,10 @@
     })
   </script>
 {% endif %}
+<style>
+  .map-size {
+    height: 600px;
+    width: 960px !important;
+  }
+</style>
   {% endblock %}
