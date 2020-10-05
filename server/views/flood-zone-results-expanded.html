@@ -7,6 +7,7 @@ Your results explained
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
+<div class="govuk-width-container">
   <main id="summary-page" data-test-info="{{riskJSON}}">
 
     {% from "button/macro.njk" import govukButton %}
@@ -17,6 +18,10 @@ Your results explained
                        href: 'javascript:history.back()'
                    })
    }}
+
+   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
     <form autocomplete="off" class="form" method="post" action="/flood-zone-results-expanded">
       <h1 class="govuk-heading-xl">Your results explained</h1>
       {% if zone == 'FZ1'%}
@@ -29,7 +34,7 @@ Your results explained
         </span>
           </summary>
           <div class="govuk-image results-map-static">
-            <div class="map-container">
+            <div class="map-container map-size">
               <div id="map" class="map"></div>
               <div class="rhs">
                 <aside class="controls" id="legend">
@@ -122,7 +127,7 @@ Your results explained
         </span>
           </summary>
           <div class="govuk-image results-map-static">
-            <div class="map-container">
+            <div class="map-container map-size">
               <div id="map" class="map"></div>
               <div class="rhs">
                 <aside class="controls" id="legend">
@@ -229,7 +234,7 @@ Your results explained
         </span>
           </summary>
           <div class="govuk-image results-map-static">
-            <div class="map-container">
+            <div class="map-container map-size">
               <div id="map" class="map"></div>
               <div class="rhs">
                 <aside class="controls" id="legend">
@@ -337,7 +342,7 @@ Your results explained
         </span>
           </summary>
           <div class="govuk-image results-map-static">
-            <div class="map-container">
+            <div class="map-container map-size">
               <div id="map" class="map"></div>
               <div class="rhs">
                 <aside class="controls" id="legend">
@@ -445,7 +450,7 @@ Your results explained
         </span>
           </summary>
           <div class="govuk-image results-map-static">
-            <div class="map-container">
+            <div class="map-container map-size">
               <div id="map" class="map"></div>
               <div class="rhs">
                 <aside class="controls" id="legend">
@@ -542,7 +547,10 @@ Your results explained
       {% endif %}
 
     </form>
+  </div>
+</div>
   </main>
+  </div>
 
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/core.js"></script>
@@ -564,9 +572,14 @@ Your results explained
     </script>
   {% endif %}
   <style>
-    .map {
+  .map-size {
+    height: 600px;
+    width: 960px !important;
+  }
+  .map {
       height: 600px;
       width: 100%;
     }
   </style>
+
 {% endblock %}

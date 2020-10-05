@@ -13,7 +13,7 @@ module.exports = [{
       const easting = encodeURIComponent(request.query.easting)
       const northing = encodeURIComponent(request.query.northing)
       const zone = encodeURIComponent(request.query.zone)
-      var polygon = []
+      var polygon = ''
 
       if (request.query.polygon) {
         polygon = request.query.polygon
