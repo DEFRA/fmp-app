@@ -63,7 +63,7 @@ module.exports = {
           type: 'vector',
           styles: {
             '': {
-              externalGraphic: siteUrl + '/public/images/pin.png',
+              externalGraphic: siteUrl + '/assets/images/pin.png',
               graphicXOffset: -10.5,
               graphicYOffset: -30.5,
               graphicWidth: 21,
