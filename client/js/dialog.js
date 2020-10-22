@@ -11,6 +11,10 @@ function closeDialog () {
   $('.dialog[aria-hidden=false]')
     .attr('aria-hidden', 'true')
 }
+function closeDownloadDialog () {
+  $('#report-downloading')
+    .attr('aria-hidden', 'true')
+}
 
 // Initialise on document ready
 $(function init () {
@@ -42,7 +46,11 @@ $(function init () {
         if (e.keyCode === 27) { // ESC
           closeDialog()
         }
+      },
+      mousemove: function (e) {
+        closeDownloadDialog()
       }
+
     })
   }
 })
