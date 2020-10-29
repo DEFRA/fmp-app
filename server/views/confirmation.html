@@ -6,42 +6,49 @@
 
 {% block content %}
 
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{assetPath}}/stylesheets/confirmation/index.css">
+  <link rel="stylesheet" type="text/css" property="stylesheet" href="{{assetPath}}/stylesheets/confirmation/index.css">
 
-<div class="govuk-width-container">
-  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="confirmation-page" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-panel govuk-panel--confirmation">
-          <h1 class="govuk-panel__title">
+  <div class="govuk-width-container">
+    <main class="govuk-main-wrapper govuk-main-wrapper--l" id="confirmation-page" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title">
             Application complete
           </h1>
-          <div class="govuk-panel__body">
-            Your reference number<br><strong>{{applicationReferenceNumber}}</strong>
+            <div class="govuk-panel__body">
+            Your reference number<br>
+              <strong>{{applicationReferenceNumber}}</strong>
+            </div>
           </div>
-        </div>
-        <p class="govuk-body">We have sent a confirmation email to {{recipientemail}} </p>
+          <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}
+          </p>
 
-        <h2 class="govuk-heading-m">What happens next</h2>
-        <p class="govuk-body">We’re processing your request.</p>
-        <p class="govuk-body">
-          Your request is now being processed and you will receive an email with a link to your flood risk assessment data (previously known as a product 4) within 2 hours.
+          <h2 class="govuk-heading-m">What happens next</h2>
+          <p class="govuk-body">We’re processing your request.</p>
+          <p class="govuk-body">
+          We'll aim to send your flood risk data by email in 10 working days. During busy periods, this could take up to 20 working days.
+        </p>
+          <p class="govuk-body">
+        However, as your site is in flood zone 1, it's unlikely there will be any data available.
+          </p>
+          <p class="govuk-body">    
+          If you need a product 5, 6, 7 or 8 contact the {{AreaName}} team at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a>
+          </strong>
         </p>
 
-        <p class="govuk-body">    
-          If you need a product 5, 6, 7 or 8 contact the {{AreaName}} team at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
-          </strong> </p>
-       
-          <h2 class="heading-medium">Help and advice</h2>
-          <p>
+        <h2 class="heading-medium">Help and advice</h2>
+        <p>
             For more advice around flood risk assessments and planning permission you could contact:
           </p>
-          <ul class="list list-bullet">
-            <li>speak to your local authority, <p class="govuk-body govuk-!-font-weight-bold">{{LocalAuthorities}}</p></li>
-            <li>contact the <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">
-                Environment Agency</a></li>
-          </ul>
-
+        <ul class="list list-bullet">
+          <li>speak to your local authority, <p class="govuk-body govuk-!-font-weight-bold">{{LocalAuthorities}}</p>
+          </li>
+          <li>contact the <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">
+                Environment Agency</a>
+          </li>
+        </ul>
+         <p><a href="#">Go back to your flood information</a></p>
       </div>
     </div>
   </main>
