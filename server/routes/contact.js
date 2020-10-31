@@ -20,11 +20,12 @@ module.exports = [{
     handler: async (request, h) => {
       try {
         const recipientemail = request.query.recipientemail
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '' }
+        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', zoneNumber: '' }
         PDFinformationDetailsObject.coordinates.x = request.query.easting
         PDFinformationDetailsObject.coordinates.y = request.query.northing
         PDFinformationDetailsObject.polygon = request.query.polygon
         PDFinformationDetailsObject.location = encodeURIComponent(request.query.location)
+        PDFinformationDetailsObject.zoneNumber = encodeURIComponent(request.query.zoneNumber)
         if (recipientemail) {
           return h.view('contact', new ContactViewModel(
             {
@@ -59,7 +60,7 @@ module.exports = [{
       try {
         const payload = request.payload
         const applicationReferenceNumber = await getApplicationReferenceNumber()
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '' }
+        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', zoneNumber: '' }
 
         let model = {}
         const { recipientemail, fullName } = request.payload
@@ -69,6 +70,7 @@ module.exports = [{
           if (payload && payload.easting && payload.northing) {
             PDFinformationDetailsObject.coordinates.x = payload.easting
             PDFinformationDetailsObject.coordinates.y = payload.northing
+            PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
             if (payload.polygon) {
               PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
             }
@@ -87,9 +89,12 @@ module.exports = [{
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
           queryParams.location = PDFinformationDetailsObject.location
+          queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
           queryParams.correlationId = correlationId
           queryParams.fullName = payload.fullName
           queryParams.polygon = PDFinformationDetailsObject.polygon
+          queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
+
           const query = QueryString.stringify(queryParams)
 
           const { x, y } = PDFinformationDetailsObject.coordinates
@@ -113,7 +118,8 @@ module.exports = [{
                 x: payload.easting,
                 y: payload.northing
               },
-              location: payload.location
+              location: payload.location,
+              zoneNumber: payload.zoneNumber
             },
             recipientemail: recipientemail,
             fullnameError: { text: 'Please enter valid Full name' }
@@ -131,6 +137,7 @@ module.exports = [{
                 x: payload.easting,
                 y: payload.northing
               },
+              zoneNumber: payload.zoneNumber,
               location: payload.location
             },
             emailError: { text: 'Please enter valid email' }
@@ -150,7 +157,8 @@ module.exports = [{
                 x: payload.easting,
                 y: payload.northing
               },
-              location: payload.location
+              location: payload.location,
+              zoneNumber: payload.zoneNumber
             },
             emailError: { text: 'Please enter valid email' },
             fullnameError: { text: 'Please enter valid Full name' }

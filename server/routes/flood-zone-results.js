@@ -50,7 +50,7 @@ module.exports = [
             if (!result.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location, placeOrPostcode))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location, placeOrPostcode, request.query.zoneNumber))
                 .unstate('pdf-download')
             }
           } else {

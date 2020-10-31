@@ -23,6 +23,11 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
   this.northing = center[1]
 
   this.floodZone = new FloodZone(risk, !!polygon)
+  if (this.floodZone.zone === 'FZ1') {
+    this.zoneNumber = 1
+  } else {
+    this.zoneNumber = 'not1'
+  }
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)

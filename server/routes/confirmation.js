@@ -32,6 +32,9 @@ module.exports = {
           } else {
             location = request.query.location
           }
+          if (request.query.zoneNumber) {
+            model.zoneNumber = request.query.zoneNumber
+          }
           await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, location, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
           return h.view('confirmation', model)
         } else {
