@@ -47,7 +47,7 @@ module.exports = [{
           if ((payload.placeOrPostcode && payload.placeOrPostcode.trim()) && validPlaceOrPostcode) {
             const address = await addressService.findByPlace(payload.placeOrPostcode)
             if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
-              const errors = [{ text: 'You need to provide valid  Place or postcode', href: '#placeOrPostcode' }]
+              const errors = [{ text: 'You need to provide valid  place or postcode', href: '#placeOrPostcode' }]
               model = new LocationViewModel({
                 errorSummary: errors,
                 placeOrPostcodeSelected: true,
@@ -55,7 +55,7 @@ module.exports = [{
                 nationalGridReferenceSelected: false,
                 placeOrPostcode: payload.placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
-                placeOrPostcodeError: { text: 'No address found for that Place or postcode' }
+                placeOrPostcodeError: { text: 'No address found for that place or postcode' }
               })
               return h.view('location', model)
             }
@@ -63,7 +63,7 @@ module.exports = [{
             BNG.easting = addr.geometry_x
             BNG.northing = addr.geometry_y
           } else {
-            const errors = [{ text: 'You need to give a valid Place or postcode', href: '#placeOrPostcode' }]
+            const errors = [{ text: 'You need to give a valid place or postcode', href: '#placeOrPostcode' }]
             model = new LocationViewModel({
               errorSummary: errors,
               placeOrPostcodeSelected: true,
@@ -71,7 +71,7 @@ module.exports = [{
               nationalGridReferenceSelected: false,
               placeOrPostcode: payload.placeOrPostcode,
               nationalGridReference: payload.nationalGridReference,
-              placeOrPostcodeError: { text: 'You need to give a valid Place or postcode' }
+              placeOrPostcodeError: { text: 'You need to give a valid place or postcode' }
             })
             return h.view('location', model)
           }
