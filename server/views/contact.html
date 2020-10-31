@@ -7,26 +7,26 @@
   {% from "back-link/macro.njk" import govukBackLink %}
   <div class="govuk-width-container">
 
-  {{ govukBackLink({
+    {{ govukBackLink({
                       text: 'Back',
                        href: 'javascript:history.back()'
                    })
    }}
 
-  <main class="govuk-main-wrapper" id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-    <form autocomplete="off" class="form" method="post" action="/contact">
+    <main class="govuk-main-wrapper" id="main-content" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <form autocomplete="off" class="form" method="post" action="/contact">
 
-    {% if errorSummary.length > 0 %}
-      {{ govukErrorSummary({
+            {% if errorSummary.length > 0 %}
+              {{ govukErrorSummary({
                                 titleText: "There is a problem",
                                 errorList: errorSummary
                             }) 
         }}
-    {% endif %}
+            {% endif %}
 
-    {{ govukFieldset({
+            {{ govukFieldset({
   legend: {
     text: "Request your flood risk assessment data",
     classes: "govuk-fieldset__legend--l",
@@ -34,8 +34,8 @@
   }
 }) }}
 
-<p class="govuk-body">We’ll email you a link to a PDF file of your flood risk assessment data. This was previously known as a product 4.</p>
-{{ govukInput({
+            <p class="govuk-body">We’ll email you a link to a PDF file of your flood risk assessment data. This was previously known as a product 4.</p>
+            {{ govukInput({
   label: {
     text: "Full name",
       classes:"govuk-label govuk-label--m"
@@ -47,22 +47,21 @@
   errorMessage: fullnameError
 }) }}
 
-{{ govukInput({
+            {{ govukInput({
   label: {
     text: "Email address",
-    classes:"govuk-label govuk-label--m"
+     classes:"govuk-label govuk-label--m"
   },
   id: "recipientemail",
   name: "recipientemail",
-  classes: "govuk-input",
   type: "email",
+  value: recipientemail,
   autocomplete: "email",
-  spellcheck: false,
-  value:recipientemail,                     
-  errorMessage: emailError
+  errorMessage:emailError,
+  spellcheck: false
 }) }}
 
-<div>
+ <div>
   <input type="hidden" value={{PDFinformationDetailsObject.coordinates.x}} name="easting" />
   <input type="hidden" value={{PDFinformationDetailsObject.coordinates.y}} name="northing" />
   <input type="hidden" value={{PDFinformationDetailsObject.location}} name="location" />
@@ -71,16 +70,15 @@
    <input type="hidden" value={{PDFinformationDetailsObject.zoneNumber}} name="zoneNumber" />
 </div>
 
-
-    {{ govukButton({
+            {{ govukButton({
                     text: "Continue",
                      preventDoubleClick: true
                 })
    }}
-  
-</form>
-</div>
-</main>
-</div>
-  
-{% endblock %}
+
+          </form>
+        </div>
+      </main>
+    </div>
+
+  {% endblock %}

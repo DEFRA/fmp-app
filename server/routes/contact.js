@@ -107,7 +107,7 @@ module.exports = [{
           })
           return h.redirect(`/confirmation?${query}`)
         } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
-          const errors = [{ text: 'Please enter valid Full name', href: '#fullName' }]
+          const errors = [{ text: 'Enter a valid full name', href: '#fullName' }]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
@@ -122,10 +122,10 @@ module.exports = [{
               zoneNumber: payload.zoneNumber
             },
             recipientemail: recipientemail,
-            fullnameError: { text: 'Please enter valid Full name' }
+            fullnameError: { text: 'Enter a valid full name' }
           })
         } else if (fullName && fullName.trim() !== '' && isNameFormatValid) {
-          const errors = [{ text: 'Please enter valid email', href: '#recipientemail' }]
+          const errors = [{ text: 'Enter a valid email address', href: '#recipientemail' }]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
@@ -140,11 +140,11 @@ module.exports = [{
               zoneNumber: payload.zoneNumber,
               location: payload.location
             },
-            emailError: { text: 'Please enter valid email' }
+            emailError: { text: 'Enter a valid email address' }
           })
         } else {
-          const errors = [{ text: 'Please enter valid Full name', href: '#fullName' },
-            { text: 'Please enter valid email', href: '#recipientemail' }
+          const errors = [{ text: 'Enter a valid full name', href: '#fullName' },
+            { text: 'Enter a valid email address', href: '#recipientemail' }
           ]
           model = {}
           model = new ContactViewModel({
@@ -160,8 +160,8 @@ module.exports = [{
               location: payload.location,
               zoneNumber: payload.zoneNumber
             },
-            emailError: { text: 'Please enter valid email' },
-            fullnameError: { text: 'Please enter valid Full name' }
+            emailError: { text: 'Enter a valid email address' },
+            fullnameError: { text: 'Enter a valid full name' }
           })
         }
         return h.view('contact', model)
