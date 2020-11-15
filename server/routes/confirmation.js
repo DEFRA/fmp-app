@@ -14,7 +14,7 @@ module.exports = {
       try {
         if (request.query && request.query.recipientemail && request.query.correlationId && request.query.fullName && request.query.applicationReferenceNumber) {
           const result = await psoContactDetails.getPsoContacts(request.query.x, request.query.y)
-          var model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber)
+          var model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber, '', '', '', '', request.query.x, request.query.y, request.query.polygon, request.query.cent, request.query.location)
           if (result && result.EmailAddress) {
             model.psoEmailAddress = result.EmailAddress
           }
@@ -34,6 +34,12 @@ module.exports = {
           }
           if (request.query.zoneNumber) {
             model.zoneNumber = request.query.zoneNumber
+          }
+          model.location = location
+          if (request.query.polygon) {
+            model.ispolygon = true
+          } else {
+            model.ispolygon = false
           }
           await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, location, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
           return h.view('confirmation', model)

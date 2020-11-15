@@ -24,6 +24,7 @@ module.exports = [{
         PDFinformationDetailsObject.coordinates.x = request.query.easting
         PDFinformationDetailsObject.coordinates.y = request.query.northing
         PDFinformationDetailsObject.polygon = request.query.polygon
+        PDFinformationDetailsObject.cent = request.query.center
         PDFinformationDetailsObject.location = encodeURIComponent(request.query.location)
         PDFinformationDetailsObject.zoneNumber = encodeURIComponent(request.query.zoneNumber)
         if (recipientemail) {
@@ -60,7 +61,7 @@ module.exports = [{
       try {
         const payload = request.payload
         const applicationReferenceNumber = await getApplicationReferenceNumber()
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', zoneNumber: '' }
+        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
 
         let model = {}
         const { recipientemail, fullName } = request.payload
@@ -73,6 +74,7 @@ module.exports = [{
             PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
             if (payload.polygon) {
               PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
+              PDFinformationDetailsObject.cent = payload.cent
             }
             if (!payload.location) {
               PDFinformationDetailsObject.location = payload.easting + ',' + payload.northing
@@ -92,7 +94,8 @@ module.exports = [{
           queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
           queryParams.correlationId = correlationId
           queryParams.fullName = payload.fullName
-          queryParams.polygon = PDFinformationDetailsObject.polygon
+          queryParams.polygon = payload.polygon
+          queryParams.cent = PDFinformationDetailsObject.cent
           queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
 
           const query = QueryString.stringify(queryParams)
@@ -114,6 +117,7 @@ module.exports = [{
             fullName: fullName,
             PDFinformationDetailsObject: {
               polygon: payload.polygon,
+              cent: payload.cent,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing
@@ -133,6 +137,7 @@ module.exports = [{
             recipientemail: recipientemail,
             PDFinformationDetailsObject: {
               polygon: payload.polygon,
+              cent: payload.cent,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing
@@ -153,6 +158,7 @@ module.exports = [{
             recipientemail: recipientemail,
             PDFinformationDetailsObject: {
               polygon: payload.polygon,
+              cent: payload.cent,
               coordinates: {
                 x: payload.easting,
                 y: payload.northing

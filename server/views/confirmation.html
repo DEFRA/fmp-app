@@ -68,7 +68,11 @@
           </li>
         </ul>
         <p>
-          <a href="#">Go back to your flood information</a>
+        {%if ispolygon  === true %}
+          <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood information</a>
+          {% else %}  
+         <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
+       {% endif %}
         </p>
       </div>
     </div>
