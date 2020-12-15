@@ -110,7 +110,7 @@ module.exports = [{
           })
           return h.redirect(`/confirmation?${query}`)
         } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
-          const errors = [{ text: 'Enter a valid full name', href: '#fullName' }]
+          const errors = [{ text: 'Enter your full name', href: '#fullName' }]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
@@ -126,10 +126,10 @@ module.exports = [{
               zoneNumber: payload.zoneNumber
             },
             recipientemail: recipientemail,
-            fullnameError: { text: 'Enter a valid full name' }
+            fullnameError: { text: 'Enter your full name' }
           })
         } else if (fullName && fullName.trim() !== '' && isNameFormatValid) {
-          const errors = [{ text: 'Enter a valid email address', href: '#recipientemail' }]
+          const errors = [{ text: 'Enter an email address in the correct format, like name@example.com', href: '#recipientemail' }]
           model = {}
           model = new ContactViewModel({
             errorSummary: errors,
@@ -145,11 +145,11 @@ module.exports = [{
               zoneNumber: payload.zoneNumber,
               location: payload.location
             },
-            emailError: { text: 'Enter a valid email address' }
+            emailError: { text: 'Enter an email address in the correct format, like name@example.com' }
           })
         } else {
-          const errors = [{ text: 'Enter a valid full name', href: '#fullName' },
-            { text: 'Enter a valid email address', href: '#recipientemail' }
+          const errors = [{ text: 'Enter your full name', href: '#fullName' },
+            { text: 'Enter an email address in the correct format, like name@example.com', href: '#recipientemail' }
           ]
           model = {}
           model = new ContactViewModel({
@@ -166,8 +166,8 @@ module.exports = [{
               location: payload.location,
               zoneNumber: payload.zoneNumber
             },
-            emailError: { text: 'Enter a valid email address' },
-            fullnameError: { text: 'Enter a valid full name' }
+            emailError: { text: 'Enter an email address in the correct format, like name@example.com' },
+            fullnameError: { text: 'Enter your full name' }
           })
         }
         return h.view('contact', model)
