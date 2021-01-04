@@ -32,7 +32,27 @@
         However, as your site is in flood zone 1, it's unlikely there will be any data available.
           </p>
 
-           <h2 class="govuk-heading-m">Help and advice</h2>
+           
+          {% endif %}
+
+          {% if zoneNumber !== '1' %}
+
+            <p class="govuk-body">Depending on the data that's available, this information will include:
+      </p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>a flood zone map (flood map for planning)</li>
+              <li>
+          historic flood outlines
+        </li>
+              <li>
+     relevant modelled flood levels and extents
+        </li>
+              <li>
+        flood defence locations and attributes
+        </li>
+            </ul>
+          {% endif %}
+          <h2 class="govuk-heading-m">Help and advice</h2>
 
         <p class="govuk-body">Contact the {{AreaName}} Environment Agency team at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:</p>
         <ul class="govuk-list govuk-list--bullet">
@@ -55,25 +75,6 @@
          <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
        {% endif %}
         </p>
-          {% endif %}
-
-          {% if zoneNumber !== '1' %}
-
-            <p class="govuk-body">Depending on the data that's available, this information will include:
-      </p>
-            <ul class="govuk-list govuk-list--bullet">
-              <li>a flood zone map (flood map for planning)</li>
-              <li>
-          historic flood outlines
-        </li>
-              <li>
-     relevant modelled flood levels and extents
-        </li>
-              <li>
-        flood defence locations and attributes
-        </li>
-            </ul>
-          {% endif %}
       </div>
     </div>
   </main>
