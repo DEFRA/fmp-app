@@ -1,8 +1,9 @@
 const QueryString = require('querystring')
 const addressService = require('../services/address')
+const isValidEastingNorthingService = require('../services/is-valid-easting-northing')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
-const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW]))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
+const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW] ))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
 const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
 
 module.exports = [{
@@ -95,66 +96,58 @@ module.exports = [{
             return h.view('location', model)
           }
         }
-
         // If Easting and Northing
         else if (selectedOption === 'eastingNorthing') {
-          if (payload.easting !== '' && payload.northing !== '') {
+          const eastingNorthingResponse = await isValidEastingNorthingService.get(payload.easting, payload.northing)
+          if (eastingNorthingResponse.isValid) {
             BNG.easting = payload.easting
             BNG.northing = payload.northing
-          } else if (payload.easting === '' && payload.northing === '') {
-            const errors = [
-              { text: 'Enter an Easting', href: '#easting' },
-              { text: 'Enter a Northing', href: '#northing' }
-            ]
-            model = {}
-            model = new LocationViewModel({
-              errorSummary: errors,
-              placeOrPostcodeSelected: false,
-              eastingNorthingSelected: true,
-              nationalGridReferenceSelected: false,
-              easting: payload.easting,
-              northing: payload.northing,
-              placeOrPostcode: payload.placeOrPostcode,
-              nationalGridReference: payload.nationalGridReference,
-              eastingError: { text: 'Enter an Easting' },
-              northingError: { text: 'Enter a Northing' }
-            })
-            return h.view('location', model)
-          } else if (payload.easting === '') {
-            const errors = [
-              { text: 'Enter an Easting', href: '#easting' }
-            ]
-            model = {}
-            model = new LocationViewModel({
-              errorSummary: errors,
-              placeOrPostcodeSelected: false,
-              eastingNorthingSelected: true,
-              nationalGridReferenceSelected: false,
-              northing: payload.northing,
-              placeOrPostcode: payload.placeOrPostcode,
-              nationalGridReference: payload.nationalGridReference,
-              eastingError: { text: 'Enter an Easting' }
-            })
-            return h.view('location', model)
-          } else if (payload.northing === '') {
-            const errors = [
-              { text: 'Enter a Northing', href: '#northing' }
-            ]
-            model = {}
-            model = new LocationViewModel({
-              errorSummary: errors,
-              placeOrPostcodeSelected: false,
-              eastingNorthingSelected: true,
-              nationalGridReferenceSelected: false,
-              easting: payload.easting,
-              placeOrPostcode: payload.placeOrPostcode,
-              nationalGridReference: payload.nationalGridReference,
-              northingError: { text: 'Enter a Northing' }
-
-            })
-            return h.view('location', model)
           } else {
-
+            const errors = [
+              { text: eastingNorthingResponse.eastingError, href: '#easting' },
+              { text: eastingNorthingResponse.northingError, href: '#northing' }
+            ]
+            if (!eastingNorthingResponse.northing.isValid && !eastingNorthingResponse.easting.isValid) {
+              model = {}
+              model = new LocationViewModel({
+                errorSummary: errors,
+                placeOrPostcodeSelected: false,
+                eastingNorthingSelected: true,
+                nationalGridReferenceSelected: false,
+                easting: payload.easting,
+                northing: payload.northing,
+                placeOrPostcode: payload.placeOrPostcode,
+                nationalGridReference: payload.nationalGridReference,
+                eastingError: { text: eastingNorthingResponse.eastingError },
+                northingError: { text: eastingNorthingResponse.northingError }
+              })
+            } else if (!eastingNorthingResponse.northing.isValid) {
+              model = {}
+              model = new LocationViewModel({
+                errorSummary: errors,
+                placeOrPostcodeSelected: false,
+                eastingNorthingSelected: true,
+                nationalGridReferenceSelected: false,
+                easting: payload.easting,
+                northing: payload.northing,
+                placeOrPostcode: payload.placeOrPostcode,
+                nationalGridReference: payload.nationalGridReference,
+                northingError: { text: eastingNorthingResponse.northingError }
+              })
+            } else {
+              model = new LocationViewModel({
+                errorSummary: errors,
+                placeOrPostcodeSelected: false,
+                eastingNorthingSelected: true,
+                nationalGridReferenceSelected: false,
+                easting: payload.easting,
+                northing: payload.northing,
+                placeOrPostcode: payload.placeOrPostcode,
+                nationalGridReference: payload.nationalGridReference,
+                eastingError: { text: eastingNorthingResponse.eastingError }
+              })
+            }
+            return h.view('location', model)
           }
         } else {
           const errors = [{ text: 'Select a place or postcode, National Grid Reference (NGR) or an Easting and northing', href: '#findby' }]
