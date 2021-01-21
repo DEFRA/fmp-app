@@ -4,11 +4,11 @@ module.exports = {
     var response = { northingError: '', isValid: false }
     if (formattedNorthing) {
       if (!isNaN(formattedNorthing)) {
-        if (formattedNorthing >= 0 && formattedNorthing <= 1300000) {
+        if (formattedNorthing >= 1 && formattedNorthing <= 1300000) {
           response.northingError = ''
           response.isValid = true
         } else {
-          response.northingError = 'Northing should be between 0 and 1300000 '
+          response.northingError = 'Northing should be between 1 and 1300000 '
           response.isValid = false
         }
       } else {

@@ -4,11 +4,11 @@ module.exports = {
     var response = { eastingError: '', isValid: false }
     if (formattedEasting) {
       if (!isNaN(formattedEasting)) {
-        if (formattedEasting >= 0 && formattedEasting <= 700000) {
+        if (formattedEasting >= 1 && formattedEasting <= 700000) {
           response.eastingError = ''
           response.isValid = true
         } else {
-          response.eastingError = 'Easting should be between 0 and 700000'
+          response.eastingError = 'Easting should be between 1 and 700000'
           response.isValid = false
         }
       } else {

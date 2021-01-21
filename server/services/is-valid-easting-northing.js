@@ -10,10 +10,10 @@ module.exports = {
     } else {
       response.isValid = false
       response.eastingError = eastingResponse.eastingError
-      response.easting.isValid = eastingResponse.isValid
       response.northingError = northingResponse.northingError
-      response.northing.isValid = northingResponse.isValid
     }
+    response.northing.isValid = northingResponse.isValid
+    response.easting.isValid = eastingResponse.isValid
     return response
   }
 }
