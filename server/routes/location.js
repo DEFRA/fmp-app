@@ -4,7 +4,6 @@ const isValidEastingNorthingService = require('../services/is-valid-easting-nort
 const isValidNgrService = require('../services/is-valid-ngr')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
-const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW] ))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
 const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
 
 module.exports = [{

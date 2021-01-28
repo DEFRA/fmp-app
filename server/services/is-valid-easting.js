@@ -8,11 +8,11 @@ module.exports = {
           response.eastingError = ''
           response.isValid = true
         } else {
-          response.eastingError = 'Easting should be between 1 and 700000'
+          response.eastingError = 'Enter an easting in the correct format'
           response.isValid = false
         }
       } else {
-        response.eastingError = 'Easting should be a number'
+        response.eastingError = 'Enter an easting in the correct format'
         response.isValid = false
       }
     } else {

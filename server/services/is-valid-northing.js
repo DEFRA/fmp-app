@@ -8,11 +8,11 @@ module.exports = {
           response.northingError = ''
           response.isValid = true
         } else {
-          response.northingError = 'Northing should be between 1 and 1300000 '
+          response.northingError = 'Enter a northing in the correct format'
           response.isValid = false
         }
       } else {
-        response.northingError = 'Northing should be a number'
+        response.northingError = 'Enter a northing in the correct format'
         response.isValid = false
       }
     } else {
