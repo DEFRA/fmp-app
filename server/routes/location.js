@@ -1,6 +1,7 @@
 const QueryString = require('querystring')
 const addressService = require('../services/address')
 const isValidEastingNorthingService = require('../services/is-valid-easting-northing')
+const isValidNgrService = require('../services/is-valid-ngr')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
 const ngrRegEx = /^((([sS]|[nN])[a-hA-Hj-zJ-Z])|(([tT]|[oO])[abfglmqrvwABFGLMQRVW])|([hH][l-zL-Z])|([jJ][lmqrvwLMQRVW] ))([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?([0-9]{2})?$/
@@ -79,7 +80,8 @@ module.exports = [{
         }
         // If NGR Reference
         else if (selectedOption === 'nationalGridReference') {
-          if (payload.nationalGridReference !== '' && ngrRegEx.test(payload.nationalGridReference)) {
+          var isNGrValid = await isValidNgrService.get(payload.nationalGridReference)
+          if (isNGrValid.isValid) {
             BNG = ngrToBng.convert(payload.nationalGridReference)
           } else {
             const errors = [{ text: 'Enter a real National Grid Reference (NGR)', href: '#nationalGridReference' }]
