@@ -1,0 +1,18 @@
+# FMP Release 1.2.9 3rd February 2021
+
+This is a data release
+
+# Instructions
+
+- Execute job FMP_EA_102_UPSERT_DATA (takes 3-4 hours approx)
+ using parameters:
+	- v202102
+	- AB
+	- DEF
+	- FSA
+	- FZ2
+	- FZ3
+
+- Execute job FMP_EA_103_COPY_TILE_CACHE (takes 1 hour approx)
+
+Then full code build and auto test run to update the service to version 1.2.9
