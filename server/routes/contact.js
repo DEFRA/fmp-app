@@ -6,7 +6,6 @@ const uuidv1 = require('uuid/v1')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const publishToQueueURL = config.functionAppUrl + '/publish-queue'
 const ContactViewModel = require('../models/contact-view')
-const { polygon } = require('@turf/turf')
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
 module.exports = [{

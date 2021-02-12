@@ -47,7 +47,7 @@
     "geojson": "0.5.0",
     "glupe": "1.0.3",
     "good-file": "6.0.1",
-    "govuk-frontend": "^3.7.0",
+    "govuk-frontend": "^3.11.0",
     "handlebars": "^4.7.6",
     "hapi-auth-cookie": "^10.0.0",
     "https-proxy-agent": "^3.0.1",
