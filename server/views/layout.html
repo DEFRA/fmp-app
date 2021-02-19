@@ -177,45 +177,38 @@
         cookieBanner.setAttribute('hidden', 'hidden')
       })
 
-    var cookieStorage = {
-      getItem: (key) => {
-        var cookies = document.cookie
+    
+    function setCookie(key, value){
+       document.cookie = `${key}=${value}; max-age=31536000;`
+    }
+    function getCookie(key){
+    var cookies = document.cookie
           .split(';')
           .map(cookie => cookie.split('='))
           .reduce((acc, [key, value]) => ({...acc,[key.trim()]: value}), {})
         return cookies[key]
-      },
-      setItem: (key, value) => {
-        document.cookie = `${key}=${value}; max-age=31536000;`
-      }
     }
-      var storageType = cookieStorage;
-      var consentPropertyName = `GA`
-      var shouldShowCookieBanner = () => !storageType.getItem(consentPropertyName);
-      var saveToStorage = () => storageType.setItem(consentPropertyName,"Demo");
-      window.onload = () => {
-           
-           //Accept Button
+    var cookieName = `GA`
+    var doesCookieExist=getCookie(cookieName)
+    window.onload = () => {
             var acceptFn = () =>{            
-            saveToStorage(storageType)
+          setCookie(cookieName,"Accept")
              cookieBanner.setAttribute('hidden', 'hidden')
           }
-          acceptButton.addEventListener('click', function(){acceptFn("Accept")})
-          if (shouldShowCookieBanner(storageType)) {
+          acceptButton.addEventListener('click', acceptFn)
+          if (!doesCookieExist) {
             questionBanner
               .classList
               .remove('hidden')
           }else{
             cookieBanner.setAttribute('hidden', 'hidden')
           }
-
-            //Reject Button
-            var rejectFn = () =>{
-            saveToStorage(storageType)
+            var rejectFn = () =>{            
+          setCookie(cookieName,"Reject")
              cookieBanner.setAttribute('hidden', 'hidden')
           }
           rejectButton.addEventListener('click', rejectFn)
-          if (shouldShowCookieBanner(storageType)) {
+          if (!doesCookieExist) {
             questionBanner
               .classList
               .remove('hidden')
