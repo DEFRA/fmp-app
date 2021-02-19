@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = [{
   method: 'GET',
   path: '/cookies',
   options: {
@@ -7,4 +7,14 @@ module.exports = {
       return h.view('cookies')
     }
   }
-}
+},
+{
+  method: 'POST',
+  path: '/cookies',
+  options: {
+    description: 'Cookies'
+  },
+  handler: async (request, h) => {
+    return h.redirect('/cookies')
+  }
+}]
