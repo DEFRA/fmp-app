@@ -178,9 +178,13 @@
       })
 
     
-    function setCookie(key, value){
-       document.cookie = `${key}=${value}; max-age=31536000;`
-    }
+  
+    function setCookie(cName, cValue, expDays) {
+        let date = new Date();
+        date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+}
     function getCookie(key){
     var cookies = document.cookie
           .split(';')
@@ -192,7 +196,7 @@
     var doesCookieExist=getCookie(cookieName)
     window.onload = () => {
             var acceptFn = () =>{            
-          setCookie(cookieName,"Accept")
+          setCookie(cookieName,"Accept", 365)
              cookieBanner.setAttribute('hidden', 'hidden')
           }
           acceptButton.addEventListener('click', acceptFn)
@@ -204,7 +208,7 @@
             cookieBanner.setAttribute('hidden', 'hidden')
           }
             var rejectFn = () =>{            
-          setCookie(cookieName,"Reject")
+          setCookie(cookieName,"Reject", 365)
              cookieBanner.setAttribute('hidden', 'hidden')
           }
           rejectButton.addEventListener('click', rejectFn)

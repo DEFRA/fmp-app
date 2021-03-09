@@ -9,6 +9,7 @@ module.exports = [{
       var model = new CookieViewModel({
         errorSummary: errors
       })
+      var header = h.response
       var cookie = request.state
       if (cookie !== null && cookie.GA !== null && cookie.GA === 'Accept') {
         model.isYesChecked = true
