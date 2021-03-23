@@ -5,9 +5,10 @@
     "extent": [0, 0, 800000, 1400000]
   },
   "OSGetCapabilities": "/os-get-capabilities",
+  "OSWMTS": "os-maps-proxy",
   "OSAttribution": "&#169; Crown copyright and database rights {{year}} <a href='http://www.ordnancesurvey.co.uk'>OS</a> 0100024198",
-  "OSLayer": "osgb",
-  "OSMatrixSet": "ZoomMap",
+  "OSLayer": "Outdoor_27700",
+  "OSMatrixSet": "EPSG:27700",
   "tileProxy": "/gwc-proxy",
   "tileExtent": [0, 0, 1000000, 1120000],
   "tileResolutions": [896, 448, 224, 112, 56, 28, 14, 7, 3.5, 1.75, 0.875],

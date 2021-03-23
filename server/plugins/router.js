@@ -12,6 +12,7 @@ const routes = [].concat(
   require('../routes/not-england'),
   require('../routes/gwc-proxy'),
   require('../routes/os-get-capabilities'),
+  require('../routes/os-maps-proxy'),
   require('../routes/summary'),
   require('../routes/feedback'),
   require('../routes/pdf'),

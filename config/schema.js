@@ -21,8 +21,11 @@ module.exports = {
   mockAddressService: Joi.boolean().required(),
   maintainence: Joi.boolean().required(),
   ordnanceSurvey: Joi.object().required().keys({
-    namesUrl: Joi.string().uri().required(),
-    mapsUrl: Joi.string().uri().required()
+    osGetCapabilitiesUrl: Joi.string().required().allow(''),
+    osMapsUrl: Joi.string().uri().required(),
+    osNamesUrl: Joi.string().uri().required(),
+    osSearchKey: Joi.string().required().allow(''),
+    osMapsKey: Joi.string().required().allow('')
   }),
   errbit: Joi.object().required().keys({
     postErrors: Joi.boolean().required(),
