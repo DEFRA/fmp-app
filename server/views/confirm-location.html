@@ -3,24 +3,24 @@
 {% from "button/macro.njk" import govukButton %}
 
 {% block content %}
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
-  <main id="confirm-location-page">
-    <div class="govuk-width-container">
-      {{ govukBackLink({
-                      text: 'Back',
-                       href: 'javascript:history.back()'
-                   })
-   }}
-      <div class="govuk-grid-row">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
+<main id="confirm-location-page">
+  <div class="govuk-width-container">
+    {{ govukBackLink({
+    text: 'Back',
+    href: 'javascript:history.back()'
+    })
+    }}
+    <div class="govuk-grid-row">
 
-        <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-xl">Confirm your location</h1>
-        </div>
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Confirm your location</h1>
+      </div>
 
-        <div class="govuk-grid-column-one-half">
+      <div class="govuk-grid-column-one-half">
 
-          <h2 class="govuk-heading-m">For small or residential developments:</h2>
+        <h2 class="govuk-heading-m">For small or residential developments:</h2>
 
           <p class="govuk-body">Check the marker is in the right place. If it isn’t, move it to the right location.</p>
           <h2 class="govuk-heading-m">For larger developments:</h2>
@@ -49,68 +49,71 @@
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text">
               <span class="govuk-warning-text__assistive">Warning</span>
-          Postcodes can vary in size, so you should check your location is correct before continuing.
-        </strong>
+              Postcodes can vary in size, so you should check your location is correct before continuing.
+            </strong>
           </div>
           <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-        Continue
-      </a>
+            Continue
+          </a>
+      </div>
 
-        </div>
-
-        <div class="govuk-grid-column-one-half">
-          <div class="map-container">
+      <div class="govuk-grid-column-one-half">
+        <figure class="map-container">
+          <figcaption class="visually-hidden" aria-hidden="false">
+            <h2>A map used to confirm the selected location</h2>
+            <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
+          </figcaption>
             <div id="map" class="map">
               <div class="govuk-form-group markerRadiosContainer">
                 <div class="top-of-buttons">
                   <div class="govuk-radios govuk-radios--inline govuk-radios--small">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point"
-                      data-journey-click="FMFP:map:moveMarker" checked>
+                        data-journey-click="FMFP:map:moveMarker" checked>
                       <label class="govuk-label govuk-radios__label" for="marker">
-                      Move marker
-                    </label>
+                        Move marker
+                      </label>
                     </div>
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon"
-                      data-journey-click="FMFP:map:DrawShape">
+                        data-journey-click="FMFP:map:DrawShape">
                       <label class="govuk-label govuk-radios__label" for="polygon">
-                      Draw shape
-                    </label>
+                        Draw shape
+                      </label>
                     </div>
                   </div>
                   <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete"
-                  data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
-                  Delete shape
-                </button>
+                    data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
+                    Delete shape
+                  </button>
                 </div>
               </div>
             </div>
 
-          </div>
-
-        </div>
+        </figure>
 
       </div>
+
     </div>
-  </main>
+  </div>
+</main>
 
-  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/core.js"></script>
+<script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+<script src="{{assetPath}}/javascripts/core.js"></script>
 
-  <script src="{{assetPath}}/javascripts/confirm-location.js"></script>
-  <script>
-    $(function () {
-      var data = {{ "true" if polygon else null }}
-      (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
+<script src="{{assetPath}}/javascripts/confirm-location.js"></script>
+<script>
+  $(function () {
+    var data = {{ "true" if polygon else null }}
+    (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
     })
-  </script>
+</script>
 
-  <style>
-    .map {
-      height: 600px;
-      width: 100%;
-    }
-  </style>
+<style>
+  .map {
+    height: 600px;
+    width: 100%;
+  }
+</style>
 
 {% endblock %}

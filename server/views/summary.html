@@ -31,7 +31,11 @@
       {{/if}}
     </div>
     <div class="column-half map-column">
-      <div class="map-container">
+      <figure class="map-container">
+        <figcaption class="visually-hidden" aria-hidden="false">
+          <h2>A map showing the flood zone results</h2>
+          <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
+        </figcaption>
         <div class="mobile-heading">
           <h2 class="heading-medium">Map</h2>
           <a href="#legend">View map key</a>
@@ -48,7 +52,7 @@
           {{> map/summary-legend}}
           </aside>
         </div>
-      </div>
+      </figure>
     </div>
   </div>
   <br>
