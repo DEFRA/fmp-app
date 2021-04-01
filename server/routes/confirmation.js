@@ -26,12 +26,7 @@ module.exports = {
           } else {
             model.AreaName = 'No Data Exist'
           }
-          var location = ''
-          if (!request.query.location) {
-            location = request.query.x + ',' + request.query.y
-          } else {
-            location = request.query.location
-          }
+          var location = request.query.x + ',' + request.query.y
           if (request.query.zoneNumber) {
             model.zoneNumber = request.query.zoneNumber
           }
