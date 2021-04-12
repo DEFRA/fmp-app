@@ -30,30 +30,31 @@
         {{/if}}
       {{/if}}
     </div>
-    <div class="column-half map-column">
-      <figure class="map-container">
+
+      <figure class="govuk-grid-column-one-half">
         <figcaption class="visually-hidden" aria-hidden="false">
           <h2>A map showing the flood zone results</h2>
           <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
         </figcaption>
-        <div class="mobile-heading">
-          <h2 class="heading-medium">Map</h2>
-          <a href="#legend">View map key</a>
-        </div>
-        <div id="map" class="map"></div>
-        <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
-        </div>
-        <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
-          <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
-        </div>        
-        <div class="rhs">
-          <aside class="controls" id="legend">
-          {{> map/summary-legend}}
-          </aside>
+        <div class="map-container">
+          <div class="mobile-heading">
+            <h2 class="heading-medium">Map</h2>
+            <a href="#legend">View map key</a>
+          </div>
+          <div id="map" class="map"></div>
+          <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          </div>
+          <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          </div>        
+          <div class="rhs">
+            <aside class="controls" id="legend">
+            {{> map/summary-legend}}
+            </aside>
+          </div>
         </div>
       </figure>
-    </div>
   </div>
   <br>
   <div class="form-group nojs-hide ie-hide"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download this information (PDF)</a></div>
