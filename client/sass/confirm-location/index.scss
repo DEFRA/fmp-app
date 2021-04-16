@@ -132,12 +132,16 @@
     .ol-full-screen, .ol-attribution {
       right: 135px;
     }
+    .os-api-branding {
+      bottom: 52px;
+    }
   }
   @include media(mobile) {
     .os-api-branding {
       bottom: 340px;
     }
   }
+
   .ol-scale-line {
     left:115px;
   }

@@ -172,4 +172,14 @@
       right: 135px;
     }
   }
+
+  @include media(mobile) {
+    .os-api-branding {
+      bottom: 290px;
+    }
+  }
+
+  .ol-scale-line {
+    left:100px;
+  }
 }
