@@ -124,10 +124,21 @@
     .form-section {
       display: none!important;
     }
+    .os-api-branding {
+      bottom: 0;
+    }
   }
   @include media(tablet) {
     .ol-full-screen, .ol-attribution {
       right: 135px;
     }
+  }
+  @include media(mobile) {
+    .os-api-branding {
+      bottom: 340px;
+    }
+  }
+  .ol-scale-line {
+    left:115px;
   }
 }

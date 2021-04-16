@@ -6,7 +6,7 @@
   },
   "OSGetCapabilities": "/os-get-capabilities",
   "OSWMTS": "os-maps-proxy",
-  "OSAttribution": "&#169; Crown copyright and database rights {{year}} <a href='http://www.ordnancesurvey.co.uk'>OS</a> 0100024198",
+  "OSAttribution": "Contains OS data &#169; Crown copyright and database rights {{year}}",
   "OSLayer": "Outdoor_27700",
   "OSMatrixSet": "EPSG:27700",
   "tileProxy": "/gwc-proxy",
