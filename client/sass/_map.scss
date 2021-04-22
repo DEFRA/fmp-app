@@ -4,201 +4,136 @@
 
 .map-container {
   position: relative;
-
+  
   .mobile-heading {
-    padding-bottom: 10px;
-    @include media(tablet) {
-      display: none;
-    }   
+  padding-bottom: 10px;
+  @include media(tablet) {
+  display: none;
+  } 
   }
+  
+  .map {
+  @include media(tablet) {
+  height: 600px;
+  }
+  
+  @include media(mobile) {
+  height: 550px;
+  }
+  }
+  
+}
+  
+
+.map-legend-item {
+  line-height: 1.1;
+  margin-bottom: 1.5em;
+  width: auto;
+}
+
+.map-legend-image--tall {
+  max-height: 30px;
+  width: auto !important;
+}
+
+.map-legend-image {
+  display: block;
+  margin-bottom: 3px;
+  width: 60px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.map--result {
+  border: 1px solid #b1b4b6;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+
+  @media (min-width:500px) {
+
+    flex-flow: row nowrap;
+
+  }
+}
+
+.map-legend-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0px;
+}
+
+.map-figure,
+.map-figcaption {
+  margin: 0;
 
   .map {
-    @include media(tablet) {
-      height: 600px;
-    }
+    width: calc(100% - 2px);
+  }
 
-    @include media(mobile) {
-      height: 350px;
+}
+
+.map-legend {
+  background: #fff;
+  text-align: center;
+
+  padding: 0 20px;
+  order: 2;
+  z-index: 1;
+
+  @media (min-width:500px) {
+    height: 100%;
+    width: 170px;
+  }
+
+  &-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    @media (min-width:500px) {
+      flex-flow: column nowrap;
     }
   }
 
-  .rhs {
-    @include media(tablet) {
-      margin-left: 215px;
+  &-item {
+    line-height: 1.1;
+    margin-bottom: 1.5em;
+    width: 50%;
+
+    @media (min-width:400px) {
+      width: 30%;
     }
 
-    @include media(tablet) {
-      .controls {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        width: 100px;
-        bottom: 0px;
-        text-align: center;
-      }
+    @media (min-width:500px) {
+      width: auto;
     }
 
-    @include media(mobile) {
-      .controls {
-        width: 300px;
-      }
-    }
-
-    .controls {
-      padding: 14px 14px 14px 0px;
-      overflow: hidden;
-      background-color: $white;
-
-      @include media(tablet) {
-        background-color: rgba(255, 255, 255, 0.9);
-      }
-
-      .heading-small {
-        font-size: medium;
-      }
-
-      .legend {
-        .subtitle {
-          font-size: 14px;
-        }
-
-        ul {
-          font-size: 14px;
-          display: inline-block;
-
-          li::before {
-            width: 50px;
-            height: 50px;
-            content: '';
-            display: inline-block;
-          }
-
-          li.round::before {
-            border-radius: 50%;
-          }
-
-          li.rectangle::before {
-            width: 59px; height: 24px;
-          }
-
-          li.line::before {
-            width: 59px; height: 5px;
-          }
-
-          li.image::before {
-            width: 60px;
-            height: 25px;
-            background-size: contain;
-            background-repeat: no-repeat;
-          }
-
-          li.pin::before {
-            width: 60px;
-            height: 60px;
-            background-position: center bottom;
-            background-image: url('../../images/iconfinder_marker.png');
-          }
-
-          li.polygon {
-            display: none;
-          }
-
-          li.red-border::before {
-            box-sizing: border-box;
-            border: solid 2px #B10E1E;
-          }
-
-          li.dark-blue::before {
-            background: #464d94;
-          }
-
-          li.light-blue::before {
-            background: #acd5ff;
-          }
-
-          li.black-border::before {
-            box-sizing: border-box;
-            border: solid 2px #000000;
-          }
-
-          li.area-benefiting::before {
-            background-image: url('../../images/area-benefiting.png');
-          }
-
-          li.orange::before {
-            background: #ff9000;
-          }
-
-          li.main-river::before {
-            background-position: center bottom;
-            background-image: url('../../images/main-river.png');
-          }
-
-          li.flood-holding-area::before {
-            background-image: url('../../images/flood-holding-area.png');
-          }
-
-          li.white::before {
-            background-color: #FFF;
-            border: solid 2px #b9b9b9;
-          }
-
-          @include media(tablet) {
-            li {
-              margin-bottom: 10px;
-            }
-          }
-
-          @include media(mobile) {
-            li {
-              margin-right: 10px;
-              margin-bottom: 5px;
-              display: block;
-
-              &::before {
-                width: 20px;
-                height: 20px;
-                vertical-align: middle;
-              }
-
-              div {
-                display: inline;
-                margin-left: 3px;
-                vertical-align: middle;
-              }
-            }
-          }
-        }
-
-        @include media(mobile) {
-          strong {
-            margin-right: 10px;
-          }
-        }
-
-        &.polygon {
-          li.pin {
-            display: none;
-          }
-          li.polygon {
-            display: block;
-          }
-        }
-      }
-
-      @include media(tablet) {
-        .print {
-          left: 0;
-          right: 0;
-          bottom: 0;
-          position: absolute;
-        }
-      }
-    }
   }
 
-  .form-section {
-    padding-top: 14px;
-    margin-bottom: 0;
+  &-image {
+    display: block;
+    margin-bottom: 3px;
+    width: 60px;
+
+    &--block {
+
+    }
+
+    &--tall {
+      max-height: 30px;
+      width: auto;
+    }
+
   }
+}
+
+.pdf-download {
+  text-align: right;
 }

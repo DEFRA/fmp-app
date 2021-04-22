@@ -1,31 +1,37 @@
-<div class="legend {% if polygon %}polygon{% endif %}">
-  <ul>
-    <li class="image pin">
-      <div>Selected location</div>
+<div id="legend" class="map-legend {% if polygon %}polygon{% endif %}">
+  <ul class="map-legend-list govuk-body-s govuk-!-font-size-14 govuk-!-margin-top-3">
+    <li class="map-legend-item">
+      <img class="map-legend-image map-legend-image--tall" src="{{assetPath}}/images/iconfinder_marker.png" alt="Map marker icon">
+      Selected location
     </li>
-    <li class="polygon rectangle red-border">
-      <div>Selected area</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/fz3.png" alt="Icon showing what flood zone 3 looks like on the map.">
+      Flood zone 3
     </li>
-    <li class="rectangle dark-blue">
-      <div>Flood zone 3</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/area-benefitting.png" alt="Icon showing what an area benefiting from flood defences looks like on the map.">
+      Areas benefitting from flood defences
     </li>
-    <li class="image area-benefiting">
-      <div>Areas benefiting from flood defences</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/fz2.png" alt="Icon showing what flood zone 2 looks like on the map.">
+      Flood zone 2
     </li>
-    <li class="rectangle light-blue">
-      <div>Flood zone 2</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/fz1.png" alt="Icon showing what flood zone 1 looks like on the map.">
+      Flood zone 1
     </li>
-    <li class="rectangle black-border">
-      <div>Flood zone 1</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image map-legend-image--small" src="{{assetPath}}/images/defence.png" alt="Icon showing what a flood defence looks like on the map.">
+      Flood defence
     </li>
-    <li class="line orange">
-      <div>Flood defence</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/main-river.png" alt="Icon showing what a main river looks like on the map.">
+      Main river
     </li>
-    <li class="image main-river">
-      <div>Main river</div>
-    </li>
-    <li class="image flood-holding-area">
-      <div>Flood storage area</div>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/flood-holding-area.png" alt="Icon showing what a flood storage area looks like on the map.">
+      Flood storage area
     </li>
   </ul>
 </div>
+
