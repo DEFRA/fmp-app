@@ -4,6 +4,8 @@
 
 .map-container {
   position: relative;
+  display: flex;
+  flex-flow: column nowrap;
   
   .mobile-heading {
   padding-bottom: 10px;
@@ -18,7 +20,7 @@
   }
   
   @include media(mobile) {
-  height: 550px;
+  height: 350px;
   }
   }
   
@@ -40,8 +42,8 @@
   display: block;
   margin-bottom: 3px;
   width: 60px;
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto; centres the images
+  // margin-right: auto;
 }
 
 .map--result {
@@ -50,17 +52,24 @@
   flex-flow: column nowrap;
   width: 100%;
 
-  @media (min-width:500px) {
+  @media (min-width:640px) {
 
     flex-flow: row nowrap;
 
   }
 }
 
+.map--result-confirm {
+  border: 1px solid #b1b4b6;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+}
+
 .map-legend-list {
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: left;
   justify-content: space-between;
   list-style: none;
   margin: 0;
@@ -79,13 +88,13 @@
 
 .map-legend {
   background: #fff;
-  text-align: center;
+  text-align: left;
 
   padding: 0 20px;
   order: 2;
   z-index: 1;
 
-  @media (min-width:500px) {
+  @media (min-width:640px) {
     height: 100%;
     width: 170px;
   }
@@ -97,7 +106,10 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    @media (min-width:500px) {
+    @media (min-width:640px) {
+      flex-flow: column nowrap;
+    }
+    @media (max-width:250px) {
       flex-flow: column nowrap;
     }
   }

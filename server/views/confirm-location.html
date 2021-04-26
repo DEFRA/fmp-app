@@ -19,7 +19,6 @@
       </div>
 
       <div class="govuk-grid-column-one-half">
-
         <h2 class="govuk-heading-m">For small or residential developments:</h2>
 
           <p class="govuk-body">Check the marker is in the right place. If it isn’t, move it to the right location.</p>
@@ -57,40 +56,36 @@
           </a>
       </div>
 
-        <figure class="govuk-grid-column-one-half">
+      <div class="govuk-grid-column-one-half">
+        <figure class="map-figure map-container">
           <figcaption class="visually-hidden" aria-hidden="false">
             <h2>A map used to confirm the selected location</h2>
             <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
           </figcaption>
-          <div class="map-container">
-            <div id="map" class="map">
-              <div class="govuk-form-group markerRadiosContainer">
-                <div class="top-of-buttons">
-                  <div class="govuk-radios govuk-radios--inline govuk-radios--small">
-                    <div class="govuk-radios__item">
-                      <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point"
-                        data-journey-click="FMFP:map:moveMarker" checked>
+          <div class="map--result-confirm">
+            <div class="govuk-form-group markerRadiosContainer">
+              <div class="govuk-radios govuk-radios--inline govuk-radios--small">
+                  <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point" data-journey-click="FMFP:map:moveMarker" checked>
                       <label class="govuk-label govuk-radios__label" for="marker">
                         Move marker
                       </label>
-                    </div>
-                    <div class="govuk-radios__item">
-                      <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon"
-                        data-journey-click="FMFP:map:DrawShape">
+                  </div>
+                  <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
                       <label class="govuk-label govuk-radios__label" for="polygon">
                         Draw shape
                       </label>
-                    </div>
                   </div>
-                  <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete"
-                    data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
-                    Delete shape
-                  </button>
-                </div>
               </div>
+              <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
+                Delete shape
+              </button>
             </div>
+            <div id="map" class="map"></div>
           </div>
         </figure>
+      </div>
         
     </div>
   </div>
@@ -107,11 +102,11 @@
     })
 </script>
 
-<style>
+{# <style>
   .map {
     height: 600px;
     width: 100%;
   }
-</style>
+</style> #}
 
 {% endblock %}
