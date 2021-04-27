@@ -6,57 +6,101 @@
   position: relative;
   display: flex;
   flex-flow: column nowrap;
+  margin-bottom: 8px;
   
   .mobile-heading {
-  padding-bottom: 10px;
-  @include media(tablet) {
-  display: none;
+    padding-bottom: 10px;
+
+    @include media(tablet) {
+      display: none;
+    } 
   } 
-  }
-  
-  .map {
-  @include media(tablet) {
-  height: 600px;
-  }
-  
-  @include media(mobile) {
-  height: 350px;
-  }
-  }
-  
-}
-  
-
-.map-legend-item {
-  line-height: 1.1;
-  margin-bottom: 1.5em;
-  width: auto;
-}
-
-.map-legend-image--tall {
-  max-height: 30px;
-  width: auto !important;
-}
-
-.map-legend-image {
-  display: block;
-  margin-bottom: 3px;
-  width: 60px;
-  // margin-left: auto; centres the images
-  // margin-right: auto;
 }
 
 .map--result {
   border: 1px solid #b1b4b6;
   display: flex;
-  flex-flow: column nowrap;
   width: 100%;
+  flex-flow: row nowrap;
 
-  @media (min-width:640px) {
-
+  @include media(tablet) {
     flex-flow: row nowrap;
-
+    .map {
+      height: 600px;
+    }
+    .map-legend {
+      height : 600px;
+      width: 150px;
+      text-align: left;
+      padding: 0 11px;
+    }
   }
+    
+  @include media(mobile) {
+    flex-flow: column nowrap;
+    .map {
+      height: 350px;
+    }
+    .map-legend {
+      height: 100%;
+      width: 95%;
+      margin:auto;
+      text-align: center;
+    }
+  }
+
+  .map{
+    width: 100%;
+  }
+
+  .map-legend {
+    background: #fff;
+    order: 2;
+    z-index: 1;
+
+    &-list {
+      display: flex;
+      list-style: none;
+      height: 100%;
+      flex-flow: column nowrap;
+      justify-content: space-evenly;
+      overflow: scroll;
+      @include media(mobile) {
+        flex-flow: row wrap;
+      }
+  
+    .map-legend-item {
+      margin-top: 10px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: auto;
+      @include media(mobile) {
+        max-width: 70px;
+      }
+    }
+  
+    .map-legend-image {
+      display: block;
+      margin-bottom: 3px;
+      width: 60px;
+
+      &--tall {
+        max-height: 30px;
+        width: auto;
+      }
+      @include media(mobile) {
+        // centres the images
+        margin-left: auto;
+        margin-right: auto;
+        
+        &--tall {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
+}
 }
 
 .map--result-confirm {
@@ -64,88 +108,13 @@
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
-}
-
-.map-legend-list {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: left;
-  justify-content: space-between;
-  list-style: none;
-  margin: 0;
-  padding: 0px;
-}
-
-.map-figure,
-.map-figcaption {
-  margin: 0;
-
-  .map {
-    width: calc(100% - 2px);
-  }
-
-}
-
-.map-legend {
-  background: #fff;
-  text-align: left;
-
-  padding: 0 20px;
-  order: 2;
-  z-index: 1;
-
-  @media (min-width:640px) {
-    height: 100%;
-    width: 170px;
-  }
-
-  &-list {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    @media (min-width:640px) {
-      flex-flow: column nowrap;
-    }
-    @media (max-width:250px) {
-      flex-flow: column nowrap;
-    }
-  }
-
-  &-item {
-    line-height: 1.1;
-    margin-bottom: 1.5em;
-    width: 50%;
-
-    @media (min-width:400px) {
-      width: 30%;
-    }
-
-    @media (min-width:500px) {
-      width: auto;
-    }
-
-  }
-
-  &-image {
-    display: block;
-    margin-bottom: 3px;
-    width: 60px;
-
-    &--block {
-
-    }
-
-    &--tall {
-      max-height: 30px;
-      width: auto;
-    }
-
-  }
+  margin-bottom: 10px;
 }
 
 .pdf-download {
   text-align: right;
 }
+
+  // @media (min-width:640px) {
+  //   flex-flow: row nowrap;
+  //??  }
