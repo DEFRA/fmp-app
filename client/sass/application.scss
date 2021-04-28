@@ -39,7 +39,7 @@ $govuk-global-styles: true;
 // @import "components/related-items";
 // @import "components/contents"; 
 
-$path: '/public/images/';
+
 @import 'related-items';
 @import 'govuk-elements';
 @import 'util';
@@ -134,12 +134,13 @@ h1.heading-xlarge {
 
   .govuk-back-link {
     position: relative;
-    top: -20px;
+    top: -40px;
+    @include media(mobile) {
+      top: -20px;
+    }
   }
   
-  
   .govuk-grid-column-one-half #map {
-    // changed for the confirm-location page
     position: relative;
     height: 400px;
     border: 1px solid #b1b4b6;
@@ -156,6 +157,7 @@ h1.heading-xlarge {
     z-index: 9999;
     font-size: 1rem;
   }
+
   .mapToolBtn.active {
     background: #fd0;
     color: #000;
@@ -207,7 +209,6 @@ h1.heading-xlarge {
     padding-right: 0.4em !important;
   }
   
-  
   .govuk-radios--small .govuk-radios__label {
       margin-top: -2px;
       padding: 13px 15px 13px 1px;
@@ -215,6 +216,7 @@ h1.heading-xlarge {
       font-size: 1rem;
       line-height: 1.25;
   }
+
   .govuk-radios--small .govuk-radios__item {
       min-height: 0;
       margin-bottom: 0;
@@ -222,14 +224,17 @@ h1.heading-xlarge {
       padding-left: 34px;
       float: left;
   }
+
   .govuk-radios--small .govuk-radios__input {
       left: -10px;
   }
+
   .govuk-radios--small .govuk-radios__label::before {
       top: 8px;
       width: 24px;
       height: 24px;
   }
+
   .govuk-radios--small .govuk-radios__item:after {
       content: "";
       display: block;
