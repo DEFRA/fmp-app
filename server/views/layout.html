@@ -30,14 +30,6 @@
 {% endblock %}
 
 {% block header %}
-  {# <div id="global-cookie-message" class="cookie-banner no-print" role="region" aria-label="cookie banner">
-      <div class="govuk-width-container">
-        <p class="govuk-body">
-          This website only stores the cookies that are essential to make it work. Read more about <a class="govuk-link" href="cookies">how we use cookies</a>
-        </p>
-        <button id="close-global-cookie-message" class="govuk-button govuk-!-margin-bottom-0" type="submit">Close</button>
-      </div>
-    </div> #}
 
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",
@@ -49,107 +41,77 @@
 {% endblock %}
 
 {%block bodyStart%}
-  {{ govukCookieBanner({
-    "classes": "js-cookies-banner",
-    "messages": [
+{% set acceptHtml %}
+  <p>You’ve accepted analytics cookies. You can <a href="#">change your cookie settings</a> at any time.</p>
+{% endset %}
+
+{% set rejectHtml %}
+  <p>You’ve rejected analytics cookies. You can <a href="#">change your cookie settings</a> at any time.</p>
+{% endset %}
+
+{{ govukCookieBanner({
+  ariaLabel: "Cookies on Flood Map For Planning",    
+  classes: "js-cookies-banner",
+  messages: [
+    {
+      headingText: "Cookies on Flood Map For Planning",
+      text: "We use analytics cookies to help understand how users use our service.",
+      hidden:true,
+      actions: [
         {
-            "headingText": "Cookies on Flood Map For Planning",
-            "text": "We use analytics cookies to help understand how users use our service.",
-            "actions": [
-                {
-                    "text": "Accept analytics cookies",
-                    "type": "button",
-                    "classes": "js-cookies-button-accept"
-                },
-                {
-                    "text": "Reject analytics cookies",
-                    "type": "button",
-                    "classes": "js-cookies-button-reject"
-                },
-                {
-                    "text": "View cookie preferences",
-                    "href": "cookies"
-                }
-            ],
-            "classes": "js-question-banner"
+          text: "Accept analytics cookies",
+          type: "button",
+          classes: "js-cookies-button-accept"
         },
         {
-            "text": "Your cookie preferences have been saved. You have accepted cookies.",
-            "role": "alert",
-            "actions": [
-                {
-                    "text": "Hide this message",
-                    "type": "button",
-                    "classes": "js-hide"
-                }
-            ],
-            "classes": "js-cookies-accepted",
-            "hidden": true
+          text: "Reject analytics cookies",
+          type: "button",
+          classes: "js-cookies-button-reject"
         },
         {
-            "text": "Your cookie preferences have been saved. You have rejected cookies.",
-            "role": "alert",
-            "actions": [
-                {
-                    "text": "Hide this message",
-                    "type": "button",
-                    "classes": "js-hide"
-                }
-            ],
-            "classes": "js-cookies-rejected",
-            "hidden": true
+          text: "View cookie preferences",
+          href: "cookies"
         }
-    ]
-    }) }}
+      ],
+      classes: "js-question-banner"
+    },
+    {
+      html: acceptHtml,
+      role: "alert",
+      hidden: true,
+      actions: [
+        {
+          text: "Hide this message"
+        }
+      ],
+      classes: "js-cookies-accepted"
+    },
+    {
+      html: rejectHtml,
+      role: "alert",
+      hidden: true,
+      actions: [
+        {
+          text: "Hide this message"
+        }
+      ],
+      classes: "js-cookies-rejected"
+    }
+  ]
+}) }}
 {% endblock %}
-
-{% block beforeContent %}{% endblock %}
-
-{% block content %}{% endblock %}
 
 {% block bodyEnd %}
 
-  {% include "partials/exit-survey-dialog.html" %}
-
-  {# DEBUG 
-  <details>
-    <summary>DEBUG</summary>
-    <pre>{{ model | dump(2) | safe }}</pre>
-  </details>
-  #}
-
-  {# Google Analytics #}
-  {% if gaAccId %}
-    <script type="text/javascript">
-      var analyticsAccount = '{{gaAccId}}';
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-          (i[r].q = i[r].q || []).push(arguments)
-        },
-        i[r].l = 1 * new Date();
-        a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m
-          .parentNode
-          .insertBefore(a, m)
-      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga')
-
-      ga('create', analyticsAccount, 'auto')
-      ga('send', 'pageview')
-    </script>
-  {% endif %}
   <script>
-    var acceptButton = document.querySelector('.js-cookies-button-accept')
-    var rejectButton = document.querySelector('.js-cookies-button-reject')
+    var cookieBanner = document.querySelector('.js-cookies-banner')
+    var questionBanner = document.querySelector('.js-question-banner')
     var acceptedBanner = document.querySelector('.js-cookies-accepted')
     var rejectedBanner = document.querySelector('.js-cookies-rejected')
-    var questionBanner = document.querySelector('.js-question-banner')
-    var cookieBanner = document.querySelector('.js-cookies-banner')
+    var acceptButton = document.querySelector('.js-cookies-button-accept')
+    var rejectButton = document.querySelector('.js-cookies-button-reject')
+    
     function showBanner(banner) {
-      questionBanner.setAttribute('hidden', 'hidden')
       banner.removeAttribute('hidden')
       // Shift focus to the banner
       banner.setAttribute('tabindex', '-1')
@@ -158,70 +120,65 @@
         banner.removeAttribute('tabindex')
       })
     }
-    acceptButton.addEventListener('click', function (event) {
-      showBanner(acceptedBanner)
-      event.preventDefault()
-    })
-    rejectButton.addEventListener('click', function (event) {
-      showBanner(rejectedBanner)
-      event.preventDefault()
-    })
-    acceptedBanner
-      .querySelector('.js-hide')
-      .addEventListener('click', function () {
-        cookieBanner.setAttribute('hidden', 'hidden')
-      })
-    rejectedBanner
-      .querySelector('.js-hide')
-      .addEventListener('click', function () {
-        cookieBanner.setAttribute('hidden', 'hidden')
-      })
-
-    
-  
+   
     function setCookie(cName, cValue, expDays) {
-        let date = new Date();
-        date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
-}
+      let date = new Date();
+      date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";259063
+    }
+
+    function splitCookies (cookie) {
+      return cookie.split('=')
+    }
+
+    function cookieReducerFn (acc, cookieArr) {
+      let key = cookieArr[0].trim()
+      let value = cookieArr[1]
+      acc[key] = value
+      return acc
+    }
+
     function getCookie(key){
-    var cookies = document.cookie
-          .split(';')
-          .map(cookie => cookie.split('='))
-          .reduce((acc, [key, value]) => ({...acc,[key.trim()]: value}), {})
+      {# Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring #}
+      var cookies = document.cookie
+        .split(';')
+        .map(splitCookies)
+        .reduce(cookieReducerFn, {})
         return cookies[key]
     }
-    var cookieName = `GA`
+    var cookieName = 'GA'
     var doesCookieExist=getCookie(cookieName)
-    window.onload = () => {
-            var acceptFn = () =>{            
-          setCookie(cookieName,"Accept", 365)
-             cookieBanner.setAttribute('hidden', 'hidden')
-          }
-          acceptButton.addEventListener('click', acceptFn)
-          if (!doesCookieExist) {
-            questionBanner
-              .classList
-              .remove('hidden')
-          }else{
-            cookieBanner.setAttribute('hidden', 'hidden')
-          }
-            var rejectFn = () =>{            
-          setCookie(cookieName,"Reject", 365)
-             cookieBanner.setAttribute('hidden', 'hidden')
-          }
-          rejectButton.addEventListener('click', rejectFn)
-          if (!doesCookieExist) {
-            questionBanner
-              .classList
-              .remove('hidden')
-          }else{
-            cookieBanner.setAttribute('hidden', 'hidden')
-          }
-      }
-  </script>
 
+    window.onload = function () {
+      var acceptFn = function () {            
+        event.preventDefault()
+        setCookie(cookieName,"Accept", 365)
+        questionBanner.setAttribute('hidden', true)
+        showBanner(acceptedBanner)
+      }
+      var rejectFn = function () {            
+        event.preventDefault()
+        setCookie(cookieName,"Reject", 365)
+        questionBanner.setAttribute('hidden', true)
+        showBanner(rejectedBanner)
+      }
+
+      acceptButton.addEventListener('click', acceptFn)
+      rejectButton.addEventListener('click', rejectFn)
+
+      acceptedBanner.addEventListener('click', function () {
+        cookieBanner.setAttribute('hidden', true)
+      })
+      rejectedBanner.addEventListener('click', function () {
+        cookieBanner.setAttribute('hidden', true)
+      })
+      
+      if (!doesCookieExist) {
+        questionBanner.removeAttribute("hidden");
+      }
+    }
+  </script>
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="{{ assetPath }}/all.js"></script>
   <!-- <script src="{{ assetPath }}/javascripts/components/a11y-dialog.js"></script> -->
