@@ -4,201 +4,108 @@
 
 .map-container {
   position: relative;
-
+  display: flex;
+  flex-flow: column nowrap;
+  margin-bottom: 8px;
+  
   .mobile-heading {
     padding-bottom: 10px;
+
     @include media(tablet) {
       display: none;
-    }   
+    } 
+  } 
+}
+
+.map--result {
+  border: 1px solid #b1b4b6;
+  display: flex;
+  width: 100%;
+  flex-flow: row nowrap;
+    
+  @include media(mobile) {
+    flex-flow: column nowrap;
   }
 
   .map {
-    @include media(tablet) {
-      height: 600px;
-    }
-
+    width: 100%;
+    height: 600px;
     @include media(mobile) {
       height: 350px;
     }
   }
 
-  .rhs {
-    @include media(tablet) {
-      margin-left: 215px;
-    }
-
-    @include media(tablet) {
-      .controls {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        width: 100px;
-        bottom: 0px;
-        text-align: center;
-      }
-    }
+  .map-legend {
+    height : 600px;
+    width: 150px;
+    text-align: left;
+    padding: 0 11px;
+    background: #fff;
+    order: 2;
+    z-index: 1;
 
     @include media(mobile) {
-      .controls {
-        width: 300px;
-      }
+      height: 100%;
+      width: 95%;
+      margin: auto;
+      text-align: center;
+      padding: 0 0px;
     }
 
-    .controls {
-      padding: 14px 14px 14px 0px;
-      overflow: hidden;
-      background-color: $white;
-
-      @include media(tablet) {
-        background-color: rgba(255, 255, 255, 0.9);
+    &-list {
+      display: flex;
+      list-style: none;
+      height: 100%;
+      flex-flow: column nowrap;
+      justify-content: space-evenly;
+      overflow: scroll;
+      @include media(mobile) {
+        flex-flow: row wrap;
       }
-
-      .heading-small {
-        font-size: medium;
+  
+    .map-legend-item {
+      margin-top: 10px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: auto;
+      @include media(mobile) {
+        max-width: 70px;
       }
+    }
+  
+    .map-legend-image {
+      display: block;
+      margin-bottom: 3px;
+      width: 60px;
 
-      .legend {
-        .subtitle {
-          font-size: 14px;
-        }
-
-        ul {
-          font-size: 14px;
-          display: inline-block;
-
-          li::before {
-            width: 50px;
-            height: 50px;
-            content: '';
-            display: inline-block;
-          }
-
-          li.round::before {
-            border-radius: 50%;
-          }
-
-          li.rectangle::before {
-            width: 59px; height: 24px;
-          }
-
-          li.line::before {
-            width: 59px; height: 5px;
-          }
-
-          li.image::before {
-            width: 60px;
-            height: 25px;
-            background-size: contain;
-            background-repeat: no-repeat;
-          }
-
-          li.pin::before {
-            width: 60px;
-            height: 60px;
-            background-position: center bottom;
-            background-image: url('../../images/iconfinder_marker.png');
-          }
-
-          li.polygon {
-            display: none;
-          }
-
-          li.red-border::before {
-            box-sizing: border-box;
-            border: solid 2px #B10E1E;
-          }
-
-          li.dark-blue::before {
-            background: #464d94;
-          }
-
-          li.light-blue::before {
-            background: #acd5ff;
-          }
-
-          li.black-border::before {
-            box-sizing: border-box;
-            border: solid 2px #000000;
-          }
-
-          li.area-benefiting::before {
-            background-image: url('../../images/area-benefiting.png');
-          }
-
-          li.orange::before {
-            background: #ff9000;
-          }
-
-          li.main-river::before {
-            background-position: center bottom;
-            background-image: url('../../images/main-river.png');
-          }
-
-          li.flood-holding-area::before {
-            background-image: url('../../images/flood-holding-area.png');
-          }
-
-          li.white::before {
-            background-color: #FFF;
-            border: solid 2px #b9b9b9;
-          }
-
-          @include media(tablet) {
-            li {
-              margin-bottom: 10px;
-            }
-          }
-
-          @include media(mobile) {
-            li {
-              margin-right: 10px;
-              margin-bottom: 5px;
-              display: block;
-
-              &::before {
-                width: 20px;
-                height: 20px;
-                vertical-align: middle;
-              }
-
-              div {
-                display: inline;
-                margin-left: 3px;
-                vertical-align: middle;
-              }
-            }
-          }
-        }
-
-        @include media(mobile) {
-          strong {
-            margin-right: 10px;
-          }
-        }
-
-        &.polygon {
-          li.pin {
-            display: none;
-          }
-          li.polygon {
-            display: block;
-          }
-        }
+      &--tall {
+        max-height: 30px;
+        width: auto;
       }
-
-      @include media(tablet) {
-        .print {
-          left: 0;
-          right: 0;
-          bottom: 0;
-          position: absolute;
+      @include media(mobile) {
+        // centres the images
+        margin-left: auto;
+        margin-right: auto;
+        
+        &--tall {
+          margin-left: auto;
+          margin-right: auto;
         }
       }
     }
-  }
-
-  .form-section {
-    padding-top: 14px;
-    margin-bottom: 0;
   }
 }
+}
+
+.map--result-confirm {
+  border: 1px solid #b1b4b6;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.pdf-download {
+  text-align: right;
+}
+  
