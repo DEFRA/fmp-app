@@ -58,7 +58,6 @@
       height: 100%;
       flex-flow: column nowrap;
       justify-content: space-evenly;
-      overflow: scroll;
       @include media(mobile) {
         flex-flow: row wrap;
       }
