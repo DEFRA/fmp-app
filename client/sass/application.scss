@@ -1,5 +1,4 @@
  $govuk-assets-path: "/govuk/assets/";
-//  $govuk-images-path: "/govuk/assets/images/";
  $govuk-fonts-path: "/assets/fonts/";
  $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
@@ -61,56 +60,6 @@ h1.heading-xlarge {
     width: 100%
   }
 }
-
-// .enter-fullscreen {
-//   z-index: 100;
-//   display: block;
-// }
-
-// .exit-fullscreen {
-//   z-index: 100;
-//   display: none;
-// }
-
-// .fullscreen {
-//   .govuk-grid-row > div >form > :not(.main-container) {
-//     display: none;
-//   }
-//   .govuk-grid-row > div > form > .main-container {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     bottom: 0;
-//     right: 0;
-//     z-index: 10;
-//     margin: 0;
-//     background-color: white;
-//   }
-
-//   .column-half:first-child {
-//     display: none;
-//   }
-
-//   .enter-fullscreen {
-//     display: none;
-//   }
-
-//   .exit-fullscreen {
-//     display: block;
-//   }
-// }
-
-//  .ol-full-screen.ol-control.toggle-fullscreen {
-//   button {
-//     width: auto;
-//     padding: 3px;
-//     font-weight: normal;
-//     font-size: 14px;
-//     line-height: 1.5;
-//     cursor: pointer;
-//     height: 25px;
-//   }
-// }
 
 // Browser requirements
 
