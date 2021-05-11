@@ -1,7 +1,8 @@
 @import "colours";
 @import "typography";
 @import "css3";
-
+// @include media(mobile) { => max-width: 640 px
+// @include media(tablet) { => min-width: 641px
 .map-container {
   position: relative;
   display: flex;
@@ -36,7 +37,7 @@
   }
 
   .map-legend {
-    height : 600px;
+    height: 600px;
     width: 150px;
     text-align: left;
     padding: 0 11px;
