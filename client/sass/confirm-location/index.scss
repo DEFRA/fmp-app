@@ -3,3 +3,9 @@
 @import "css3";
 @import '../map';
 @import '../dialog';
+
+.govuk-grid-column-one-half #map {
+    position: relative;
+    height: 400px;
+    border-top: 1px solid #b1b4b6;
+}
