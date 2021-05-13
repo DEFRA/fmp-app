@@ -1,5 +1,4 @@
 window.onload = function () {
-
   var cookieBanner = document.querySelector('.js-cookies-banner')
   var questionBanner = document.querySelector('.js-question-banner')
   var acceptedBanner = document.querySelector('.js-cookies-accepted')
@@ -63,13 +62,14 @@ window.onload = function () {
   rejectButton.addEventListener('click', rejectFn)
 
   acceptedBanner.addEventListener('click', function () {
-    cookieBanner.setAttribute('hidden', true)
+    cookieBanner.classList.add('govuk-visually-hidden')
   })
   rejectedBanner.addEventListener('click', function () {
-    cookieBanner.setAttribute('hidden', true)
+    cookieBanner.classList.add('govuk-visually-hidden')
   })
 
   if (!doesCookieExist) {
+    cookieBanner.classList.remove('govuk-visually-hidden')
     questionBanner.removeAttribute("hidden");
   }
 }
