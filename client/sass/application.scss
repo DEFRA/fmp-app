@@ -1,5 +1,4 @@
  $govuk-assets-path: "/govuk/assets/";
-//  $govuk-images-path: "/govuk/assets/images/";
  $govuk-fonts-path: "/assets/fonts/";
  $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
@@ -39,7 +38,7 @@ $govuk-global-styles: true;
 // @import "components/related-items";
 // @import "components/contents"; 
 
-$path: '/public/images/';
+
 @import 'related-items';
 @import 'govuk-elements';
 @import 'util';
@@ -62,59 +61,6 @@ h1.heading-xlarge {
   }
 }
 
-.enter-fullscreen {
-  z-index: 100;
-  display: block;
-}
-
-.exit-fullscreen {
-  z-index: 100;
-  display: none;
-}
-
-
-
-
-.fullscreen {
-  .govuk-grid-row > div >form > :not(.main-container) {
-    display: none;
-  }
-  .govuk-grid-row > div > form > .main-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 10;
-    margin: 0;
-    background-color: white;
-  }
-
-  .column-half:first-child {
-    display: none;
-  }
-
-  .enter-fullscreen {
-    display: none;
-  }
-
-  .exit-fullscreen {
-    display: block;
-  }
-}
-
- .ol-full-screen.ol-control.toggle-fullscreen {
-  button {
-    width: auto;
-    padding: 3px;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 1.5;
-    cursor: pointer;
-    height: 25px;
-  }
-}
-
 // Browser requirements
 
 .panel.panel-device-requirements {
@@ -132,18 +78,12 @@ h1.heading-xlarge {
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
-.govuk-back-link {
+  .govuk-back-link {
     position: relative;
-    top: -50px;
-  }
-  
-  
-  .govuk-grid-column-one-half #map {
-    margin-bottom: 50px;
-    position: relative;
-    height: 400px;
-    padding-bottom: 48px;
-    border: 1px solid #b1b4b6;
+    top: -40px;
+    @include media(mobile) {
+      top: -20px;
+    }
   }
   
   .mapToolBtn {
@@ -157,6 +97,7 @@ h1.heading-xlarge {
     z-index: 9999;
     font-size: 1rem;
   }
+
   .mapToolBtn.active {
     background: #fd0;
     color: #000;
@@ -208,7 +149,6 @@ h1.heading-xlarge {
     padding-right: 0.4em !important;
   }
   
-  
   .govuk-radios--small .govuk-radios__label {
       margin-top: -2px;
       padding: 13px 15px 13px 1px;
@@ -216,6 +156,7 @@ h1.heading-xlarge {
       font-size: 1rem;
       line-height: 1.25;
   }
+
   .govuk-radios--small .govuk-radios__item {
       min-height: 0;
       margin-bottom: 0;
@@ -223,14 +164,17 @@ h1.heading-xlarge {
       padding-left: 34px;
       float: left;
   }
+
   .govuk-radios--small .govuk-radios__input {
       left: -10px;
   }
+
   .govuk-radios--small .govuk-radios__label::before {
       top: 8px;
       width: 24px;
       height: 24px;
   }
+
   .govuk-radios--small .govuk-radios__item:after {
       content: "";
       display: block;
