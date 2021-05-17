@@ -1,4 +1,4 @@
-window.onload = function () {
+module.exports = window.onload = function () {
   var cookieBanner = document.querySelector('.js-cookies-banner')
   var questionBanner = document.querySelector('.js-question-banner')
   var acceptedBanner = document.querySelector('.js-cookies-accepted')

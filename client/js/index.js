@@ -1,1 +1,2 @@
-require('./cookies')
+const cookieScript = require('./cookies')
+cookieScript()
