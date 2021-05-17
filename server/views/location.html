@@ -6,129 +6,136 @@
   {% from "error-summary/macro.njk" import govukErrorSummary %}
   {% from "back-link/macro.njk" import govukBackLink %}
   {{ govukBackLink({
-                      text: 'Back',
-                       href: 'javascript:history.back()'
-                   })
-   }}
+    text: 'Back',
+    href: 'javascript:history.back()'
+  })}}
   <form autocomplete="off" class="form" method="post" action="/location">
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
-                                titleText: "There is a problem",
-                                errorList: errorSummary,
-                                classes: "govuk-grid-column-two-thirds"
-                            }) 
-        }}
+        titleText: "There is a problem",
+        errorList: errorSummary,
+        classes: "govuk-grid-column-two-thirds"
+      }) 
+    }}
     {% endif %}
 
     {% set placeOrPostcodeHtml %}
-    <label class="govuk-hint">
-    For example, Bakewell or WA4 1AB
-  </label>
     {{ govukInput({
-                        id: "placeOrPostcode",
-                        name: "placeOrPostcode",
-                        type: "text",
-                        classes: "govuk-!-width-one-third",                          
-                         value:placeOrPostcode,                     
-                        errorMessage: placeOrPostcodeError
-                      })
-
-        }}
+      id: "placeOrPostcode",
+      name: "placeOrPostcode",
+      type: "text",
+      classes: "govuk-!-width-one-third",                          
+      value: placeOrPostcode,                     
+      errorMessage: placeOrPostcodeError,
+      hint: {
+        text: "For example, Bakewell or WA4 1AB"
+      },
+      label: {
+        text: 'Place or Postcode',
+        classes: 'govuk-label visually-hidden',
+        for: "placeOrPostcode",
+        isPageHeading: false
+      }
+    })}}
     {% endset -%}
 
     {% set nationalGridReferenceHtml %}
-     <label class="govuk-hint">
-    For example, SJ8632197947 (10 or 12 digits)
-  </label>
     {{ govukInput({
-                        id: "nationalGridReference",
-                        name: "nationalGridReference",
-                        type: "text",
-                        classes: "govuk-!-width-one-third",                          
-                        value:nationalGridReference,                        
-                        errorMessage: nationalGridReferenceError
-                      })
-        }}
+      id: "nationalGridReference",
+      name: "nationalGridReference",
+      type: "text",
+      classes: "govuk-!-width-one-third",                          
+      value:nationalGridReference,                        
+      errorMessage: nationalGridReferenceError,
+      hint: {
+        text: "For example, SJ8632197947 (10 or 12 digits)"
+      },
+      label: {
+        text: 'Nation Grid Reference',
+        classes: 'govuk-label visually-hidden',
+        for: "nationalGridReference",
+        isPageHeading: false
+      }
+    })}}
     {% endset -%}
 
     {% set eastingNorthingHtml %}
-     <label class="govuk-hint">
-    Eastings and northings should only include numbers.  For example: 123456
-  </label>
+    <div id="event-name-hint" class="govuk-hint">
+      Eastings and northings should only include numbers.  For example: 123456
+    </div>
     {{ govukInput({
-                       label: {
-                  text: "Easting",
-                  classes: "govuk-hint",
-                  isPageHeading: false
-                  },
-                        id: "easting",
-                        name: "easting",
-                        type: "text",
-                        classes: "govuk-!-width-one-third",
-                        value :easting,                
-                        errorMessage: eastingError
-                      })
-        }}
+        id: "easting",
+        name: "easting",
+        type: "text",
+        classes: "govuk-!-width-one-third",
+        value :easting,                
+        errorMessage: eastingError,
+        label: {
+          text: 'Easting',
+          classes: 'govuk-label',
+          for: "easting",
+          isPageHeading: false
+        }
+    })}}
     {{ govukInput({
-          label: {
-                  text: "Northing",
-                  classes: "govuk-hint",
-                  isPageHeading: false
-                  },
-                        id: "northing",
-                        name: "northing",
-                        type: "text",
-                        classes: "govuk-!-width-one-third",
-                        value :northing,                      
-                        errorMessage: northingError
-                      })
-        }}
+      id: "northing",
+      name: "northing",
+      type: "text",
+      classes: "govuk-!-width-one-third",
+      value :northing,                      
+      errorMessage: northingError,
+      label: {
+        text: 'Northing',
+        classes: 'govuk-label',
+        for: "northing",
+        isPageHeading: false
+      }
+    })}}
     {% endset -%}
 
     {{ govukRadios({
-                            idPrefix: "findby",
-                            name: "findby",
-                            fieldset: {
-                                        legend: {
-                                                    text: "Find the location",
-                                                    isPageHeading: true,
-                                                    classes: "govuk-fieldset__legend--l"
-                                                }
-                                      },
-                                    items: [
-                                              {
-                                                 value: "placeOrPostcode",
-                                                 text: "Place or postcode",
-                                                 conditional: {
-                                                   html: placeOrPostcodeHtml
-                                                 },
-                                                   checked:placeOrPostcodeSelected
-                                               },
-                                               {
-                                                 value: "nationalGridReference",
-                                                 text: "National Grid Reference (NGR)",
-                                                 conditional: {
-                                                   html: nationalGridReferenceHtml
-                                                 },
-                                                   checked:nationalGridReferenceSelected
-                                               }    ,
-                                               {
-                                                 value: "eastingNorthing",
-                                                 text: "Easting and northing",
-                                                 conditional: {
-                                                   html: eastingNorthingHtml
-                                                 },
-                                                 checked:eastingNorthingSelected
-                                               }  
-                                           ],
-                                            errorMessage: errors["findby"]
-                        })
-          }}
+      idPrefix: "findby",
+      name: "findby",
+      fieldset: {
+        legend: {
+          text: "Find the location",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      items: [
+        {
+          value: "placeOrPostcode",
+          text: "Place or postcode",
+          conditional: {
+            html: placeOrPostcodeHtml
+          },
+          checked:placeOrPostcodeSelected
+        },
+        {
+          value: "nationalGridReference",
+          text: "National Grid Reference (NGR)",
+          conditional: {
+            html: nationalGridReferenceHtml
+          },
+          checked:nationalGridReferenceSelected
+        }    ,
+        {
+          value: "eastingNorthing",
+          text: "Easting and northing",
+          conditional: {
+            html: eastingNorthingHtml
+          },
+          checked:eastingNorthingSelected
+        }  
+      ],
+      errorMessage: errors["findby"]
+    })}}
+      
 
     {{ govukButton({
-                    text: "Continue",
-                     preventDoubleClick: true
-                })
-   }}
+      text: "Continue",
+      preventDoubleClick: true
+    })}}
   </form>
 {% endblock %}
