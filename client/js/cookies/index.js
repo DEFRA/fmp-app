@@ -1,73 +1,75 @@
-var acceptButton = document.querySelector('.js-cookies-button-accept')
-var rejectButton = document.querySelector('.js-cookies-button-reject')
-var acceptedBanner = document.querySelector('.js-cookies-accepted')
-var rejectedBanner = document.querySelector('.js-cookies-rejected')
-var questionBanner = document.querySelector('.js-question-banner')
-var cookieBanner = document.querySelector('.js-cookies-banner')
-function showBanner (banner) {
-  questionBanner.setAttribute('hidden', 'hidden')
-  banner.removeAttribute('hidden')
-  // Shift focus to the banner
-  banner.setAttribute('tabindex', '-1')
-  banner.focus()
-  banner.addEventListener('blur', function () {
-    banner.removeAttribute('tabindex')
+module.exports = window.onload = function () {
+  var cookieBanner = document.querySelector('.js-cookies-banner')
+  var questionBanner = document.querySelector('.js-question-banner')
+  var acceptedBanner = document.querySelector('.js-cookies-accepted')
+  var rejectedBanner = document.querySelector('.js-cookies-rejected')
+  var acceptButton = document.querySelector('.js-cookies-button-accept')
+  var rejectButton = document.querySelector('.js-cookies-button-reject')
+
+  function showBanner(banner) {
+    banner.removeAttribute('hidden')
+    // Shift focus to the banner
+    banner.setAttribute('tabindex', '-1')
+    banner.focus()
+    banner.addEventListener('blur', function () {
+      banner.removeAttribute('tabindex')
+    })
+  }
+
+  function setCookie(cName, cValue, expDays) {
+    let date = new Date();
+    date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = cName + "=" + cValue + "; " + expires + "; path=/"; 259063
+  }
+
+  function splitCookies(cookie) {
+    return cookie.split('=')
+  }
+
+  function cookieReducerFn(acc, cookieArr) {
+    let key = cookieArr[0].trim()
+    let value = cookieArr[1]
+    acc[key] = value
+    return acc
+  }
+
+  function getCookie(key) {
+    // Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring
+    var cookies = document.cookie
+      .split(';')
+      .map(splitCookies)
+      .reduce(cookieReducerFn, {})
+    return cookies[key]
+  }
+  var cookieName = 'GA'
+  var doesCookieExist = getCookie(cookieName)
+
+  var acceptFn = function () {
+    event.preventDefault()
+    setCookie(cookieName, "Accept", 365)
+    questionBanner.setAttribute('hidden', true)
+    showBanner(acceptedBanner)
+  }
+  var rejectFn = function () {
+    event.preventDefault()
+    setCookie(cookieName, "Reject", 365)
+    questionBanner.setAttribute('hidden', true)
+    showBanner(rejectedBanner)
+  }
+
+  acceptButton.addEventListener('click', acceptFn)
+  rejectButton.addEventListener('click', rejectFn)
+
+  acceptedBanner.addEventListener('click', function () {
+    cookieBanner.classList.add('govuk-visually-hidden')
   })
-}
-acceptButton.addEventListener('click', function (event) {
-  showBanner(acceptedBanner)
-  event.preventDefault()
-})
-rejectButton.addEventListener('click', function (event) {
-  showBanner(rejectedBanner)
-  event.preventDefault()
-})
-acceptedBanner
-  .querySelector('.js-hide')
-  .addEventListener('click', function () {
-    cookieBanner.setAttribute('hidden', 'hidden')
-  })
-rejectedBanner
-  .querySelector('.js-hide')
-  .addEventListener('click', function () {
-    cookieBanner.setAttribute('hidden', 'hidden')
+  rejectedBanner.addEventListener('click', function () {
+    cookieBanner.classList.add('govuk-visually-hidden')
   })
 
-function setCookie (key, value) {
-  document.cookie = `${key}=${value}; max-age=31536000;`
-}
-function getCookie (key) {
-  var cookies = document.cookie
-    .split(';')
-    .map(cookie => cookie.split('='))
-    .reduce((acc, [key, value]) => ({ ...acc, [key.trim()]: value }), {})
-  return cookies[key]
-}
-var cookieName = 'GA'
-var doesCookieExist = getCookie(cookieName)
-window.onload = () => {
-  var acceptFn = () => {
-    setCookie(cookieName, 'Accept')
-    cookieBanner.setAttribute('hidden', 'hidden')
-  }
-  acceptButton.addEventListener('click', acceptFn)
   if (!doesCookieExist) {
-    questionBanner
-      .classList
-      .remove('hidden')
-  } else {
-    cookieBanner.setAttribute('hidden', 'hidden')
-  }
-  var rejectFn = () => {
-    setCookie(cookieName, 'Reject')
-    cookieBanner.setAttribute('hidden', 'hidden')
-  }
-  rejectButton.addEventListener('click', rejectFn)
-  if (!doesCookieExist) {
-    questionBanner
-      .classList
-      .remove('hidden')
-  } else {
-    cookieBanner.setAttribute('hidden', 'hidden')
+    cookieBanner.classList.remove('govuk-visually-hidden')
+    questionBanner.removeAttribute("hidden");
   }
 }
