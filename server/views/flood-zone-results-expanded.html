@@ -463,16 +463,16 @@ Your results explained
 
     </div>
   </main>
-</div>
+  </div>
 
-<script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-<script src="{{assetPath}}/javascripts/core.js"></script>
-<script src="{{assetPath}}/javascripts/summary.js"></script>
-{% if polygon %}
-  <script>
-    $(function () {
-      var page = new FMP.SummaryPage({
-        polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
+  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+  <script src="{{assetPath}}/javascripts/summary.js"></script>
+  {% if polygon %}
+    <script>
+      $(function () {
+        var page = new FMP.SummaryPage({
+          polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
+        })
       })
     })
   </script>
