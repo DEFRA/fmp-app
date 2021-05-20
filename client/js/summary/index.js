@@ -4,6 +4,7 @@ var ol = require('openlayers')
 var Map = require('../map')
 var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
+require('../os-branding')
 
 function Summary (options) {
   var mapOptions = {
