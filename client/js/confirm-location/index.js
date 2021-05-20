@@ -4,6 +4,8 @@ var Map = require('../map')
 var mapConfig = require('../map-config.json')
 var VectorDrag = require('../vector-drag')
 var dialog = require('../dialog')
+require('../os-branding')
+
 var vectorDragInteraction = new VectorDrag()
 
 function ConfirmLocationPage (options) {
