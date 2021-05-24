@@ -51,7 +51,7 @@
         text: "For example, SJ8632197947 (10 or 12 digits)"
       },
       label: {
-        text: 'Nation Grid Reference',
+        text: 'National Grid Reference',
         classes: 'govuk-label visually-hidden',
         for: "nationalGridReference",
         isPageHeading: false
@@ -94,7 +94,6 @@
     {% endset -%}
 
     {{ govukRadios({
-      idPrefix: "findby",
       name: "findby",
       fieldset: {
         legend: {
