@@ -29,8 +29,10 @@
   }
 
   .map {
+    position: relative;
     width: 100%;
     height: 600px;
+
     @include media(mobile) {
       height: 350px;
     }
@@ -111,9 +113,4 @@
 
 .ol-scale-line {
   left: 115px;
-}
-
-.ol-attribution {
-  display: none,
-  // bottom: 20px
 }
