@@ -14,7 +14,7 @@ const defaultContext = {
   homepageUrl: 'https://www.gov.uk/',
   logoLinkTitle: 'Go to the GOV.UK homepage',
   crownCopyrightMessage: '© Crown copyright',
-  assetPath: '/public/',
+  // assetPath: '/public/',
   htmlLang: 'en',
   headerClass: 'with-proposition',
   analyticsAccount: analyticsAccount,

@@ -67,7 +67,7 @@
             <div class="govuk-form-group markerRadiosContainer top-of-buttons">
               <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
-                  <h1 class="govuk-fieldset__heading">Confirm Location Map</h1>
+                  <h1 class="govuk-fieldset__heading">Choose how to confirm your location</h1>
                 </legend>
                 <div class="govuk-radios govuk-radios--inline govuk-radios--small">
                     <div class="govuk-radios__item">
@@ -97,14 +97,12 @@
   </div>
 </main>
 
-<script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-<script src="{{assetPath}}/javascripts/core.js"></script>
-
-<script src="{{assetPath}}/javascripts/confirm-location.js"></script>
-<script>
-  $(function () {
-    var data = {{ "true" if polygon else null }}
-    (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
+  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+  <script src="{{assetPath}}/javascripts/confirm-location.js"></script>
+  <script>
+    $(function () {
+      var data = {{ "true" if polygon else null }}
+      (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
     })
 </script>
 
