@@ -40,8 +40,11 @@
   "httpTimeoutMs": 10000,
   "mockAddressService": true,
   "ordnanceSurvey": {
-    "namesUrl": "http://dummyuri",
-    "mapsUrl": "http://dummyuri"
+    "osGetCapabilitiesUrl": "http://dummyuri",
+    "osMapsUrl": "http://dummyuri",
+    "osNamesUrl": "http://dummyuri",
+    "osSearchKey": "replace_this",
+    "osMapsKey": "replace_this"
   },
   "errbit": {
     "postErrors": false,

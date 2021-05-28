@@ -1,0 +1,14 @@
+# FMP Release 1.3.2
+
+# Information
+
+The primary purpose of this release is to fix the broken NI flood map for planing link and rewording of the texts aroud it.
+
+# Tickets
+FCRM-2651
+FCRM-2652
+
+# Webops
+There are no Webops scripts changes required for this release apart from standard deployment.
+
+There are no data changes with this release.
