@@ -2,8 +2,17 @@
 
 # Features that are released
 The following are the features released in UI
-1. FCRM-2651 Live service issue - broken link on 'We provide flood probability information for England only' page
-2. FCRM-2652 Private beta UI - broken link on 'We provide flood probability information for England only' page
+1.) https://eaflood.atlassian.net/browse/FCRM-2652
+2.) https://eaflood.atlassian.net/browse/FCRM-2392
+3.) https://eaflood.atlassian.net/browse/FCRM-2388
+4.) https://eaflood.atlassian.net/browse/FCRM-2394
+5.) https://eaflood.atlassian.net/browse/FCRM-1917
+6.) https://eaflood.atlassian.net/browse/FCRM-2389
+7.) https://eaflood.atlassian.net/browse/FCRM-2563
+8.) https://eaflood.atlassian.net/browse/FCRM-645
+9.) https://eaflood.atlassian.net/browse/FCRM-1609
+10.) https://eaflood.atlassian.net/browse/FCRM-1614
+11.) https://eaflood.atlassian.net/browse/FCRM-1610 
 
 
 # No Changes
