@@ -2,7 +2,7 @@
 
 # Information
 
-The primary purpose of this release is to fix the broken NI flood map for planing link and rewording of the texts aroud it.
+The primary purpose of this release is to fix the broken NI flood map for planing link and rewording of the texts around it.
 
 # Tickets
 FCRM-2651
