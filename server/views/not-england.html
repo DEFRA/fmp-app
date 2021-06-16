@@ -1,31 +1,26 @@
-
 {% extends "layout.html" %}
 {% from "back-link/macro.njk" import govukBackLink %}
 {% block content %}
- <main class="text" id="not-england-page">
-   {{ govukBackLink({
-                      text: 'Back',
-                       href: 'javascript:history.back()'
-                   })
-   }}
- 
-  <header>
-    <h1 class="heading-xlarge">This service is for locations in England only</h1>
-  </header>
-  <p>
-    Find 
-    <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="FMFP:NotInEnglandPage:NIPP">flood information for Northern Ireland</a>.
-  </p>
-  <p>
-    Find  
-    <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="FMFP:NotInEnglandPage:SEPA">flood information for Scotland</a>.
-  </p>
-  <p>
-    Find  
-    <a href="https://naturalresources.wales" rel="external" data-journey-click="FMFP:NotInEnglandPage:NRW">flood information for Wales</a>.
-  </p>
-  <p>
-    In England, you can get <a href="/">flood risk information for planning</a>.
-  </p>
-</main>
+  {{ super() }}
+
+  <div id="not-england-page"  class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-xlarge">This service is for locations in England only</h1>
+      <p>
+        Find 
+        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="FMFP:NotInEnglandPage:NIPP">flood information for Northern Ireland</a>.
+      </p>
+      <p>
+        Find  
+        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="FMFP:NotInEnglandPage:SEPA">flood information for Scotland</a>.
+      </p>
+      <p>
+        Find  
+        <a href="https://naturalresources.wales" rel="external" data-journey-click="FMFP:NotInEnglandPage:NRW">flood information for Wales</a>.
+      </p>
+      <p>
+        In England, you can get <a href="/">flood risk information for planning</a>.
+      </p>
+    </div>
+  </div>
 {% endblock %}

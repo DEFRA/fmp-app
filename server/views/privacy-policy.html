@@ -1,81 +1,71 @@
 {% extends "layout.html" %}
 {% block pageTitle %}
-Privacy Policy
+    Privacy Policy
 {% endblock %}
 {% block content %}
-  {% from "back-link/macro.njk" import govukBackLink %}
-  {{ govukBackLink({
-                      text: 'Back',
-                       href: 'javascript:history.back()'
-                   })
-   }}<main>
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <div class="pub-c-title pub-c-title--bottom-margin">
-                <h1 id="title" class="heading-xlarge">Personal information charter</h1>
-            </div>
+    {{ super() }}
+    <div id="privacy-policy" class="grid-row">
+        <div class="grid-row column-two-thirds">
+            <h1 id="title" class="heading-xlarge">Personal information charter</h1>
         </div>
-    </div>
-    <div class="grid-row responsive-bottom-margin">
-        <div class="column-two-thirds">
-            <div class="gem-c-govspeak govuk-govspeak ">
-                <p>
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <div class="gem-c-govspeak govuk-govspeak">
+                    <p>
                     We are the Environment Agency and this information charter sets out the standards you can expect from us when we collect, hold or use your personal information.
                     We are a data controller – a data controller determines how and why personal data is processed.
                     We will follow all applicable UK and EU data protection laws in how we treat your personal information.
                 </p>
-                <div class="govspeak">
-                    <h2>Contents</h2>
+                    <div class="govspeak">
+                        <h2>Contents</h2>
+                    </div>
                 </div>
-            </div>
 
-            <div id="contents" class="app-c-contents-list-with-body" data-module="sticky-element-container">
-                    <div class="responsive-bottom-margin">
-                        <nav role="navigation" class="gem-c-contents-list gem-c-contents-list--no-underline " data-module="track-click">
-                            <ol class="gem-c-contents-list__list">
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#your-rights">
+                <div id="contents" class="app-c-contents-list-with-body" data-module="sticky-element-container">
+                    <nav role="navigation" class="gem-c-contents-list gem-c-contents-list--no-underline " data-module="track-click">
+                        <ol class="gem-c-contents-list__list">
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#your-rights">
                                         Your rights
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#privacy-notes">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#privacy-notes">
                                         Privacy notices
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#storing-and-processing-your-data">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#storing-and-processing-your-data">
                                         Storing and processing your data
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#sharing-your-data">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#sharing-your-data">
                                         Sharing your data
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#how-to-contact-us">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#how-to-contact-us">
                                         How to contact us
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#how-to-contact-the-data-protection-officer">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#how-to-contact-the-data-protection-officer">
                                         How to contact the Data Protection Officer
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#independent-advice-on-data-protection-and-privacy">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#independent-advice-on-data-protection-and-privacy">
                                         Independent advice on data protection and privacy
                                     </a>
-                                </li>
-                                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
-                                    <a class="gem-c-contents-list__link" href="#changes-to-this-personal-information-charter">
+                            </li>
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed ">
+                                <a class="gem-c-contents-list__link" href="#changes-to-this-personal-information-charter">
                                         Changes to this personal information charter
                                     </a>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
+                            </li>
+                        </ol>
+                    </nav>
                     <div class="responsive-bottom-margin">
                         <div class="gem-c-govspeak govuk-govspeak ">
                             <div class="govspeak">
@@ -86,8 +76,12 @@ Privacy Policy
                                 <ul>
                                     <li>what the data is being used for</li>
                                     <li>why we’re legally able to process your data (also called the ‘lawful basis for processing’)</li>
-                                    <li><a href="#storing-and-processing-your-data">how long we will keep your data</a></li>
-                                    <li><a href="#sharing-your-data">who we will share it with</a></li>
+                                    <li>
+                                        <a href="#storing-and-processing-your-data">how long we will keep your data</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sharing-your-data">who we will share it with</a>
+                                    </li>
                                     <li>whether it will be <a href="#storing-and-processing-your-data">transferred or accessed outside the UK or EU</a>, and what legal protection it will have</li>
                                     <li>who our <a href="#how-to-contact-the-data-protection-officer">Data Protection Officer</a> is</li>
                                     <li>about any rights you have, including the <a href="#storing-and-processing-your-data">right to access your information</a> or to object to its being used</li>
@@ -130,7 +124,9 @@ Privacy Policy
                                 <h2>Processing personal data for law enforcement purposes</h2>
                                 <p>We process personal data for the prevention and detection of crime, and the prosecution and apprehension of offenders under Part 3 of the DPA 2018. This is part of our role as an environmental regulator.</p>
 
-                                <a name="how-to-contact-us"><h2>How to contact us</h2></a>
+                                <a name="how-to-contact-us">
+                                    <h2>How to contact us</h2>
+                                </a>
                                 <p>If you are already in touch with one of our teams, you can direct your query through your normal contact. </p>
                                 <p>This includes requests to exercise any of your rights under data protection legislation, including to:</p>
                                 <ul>
@@ -144,11 +140,11 @@ Privacy Policy
                                 </p>
                                 <p>
                                     Email
-                                    <br />
+                                    <br/>
                                     <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>
-                                    <br />
+                                    <br/>
                                     Telephone
-                                    <br />
+                                    <br/>
                                     03708 506 506
                                 </p>
 
@@ -169,7 +165,7 @@ Privacy Policy
                                     </p>
                                     <p>
                                         Email
-                                        <br />
+                                        <br/>
                                         <a href="mailto:dataprotection@environment-agency.gov.uk">dataprotection@environment-agency.gov.uk</a>
                                     </p>
                                 </div>
@@ -189,20 +185,20 @@ Privacy Policy
                                     </p>
                                     <p>
                                         Email
-                                        <br />
+                                        <br/>
                                         <a href="mailto:casework@ico.org.uk">casework@ico.org.uk </a>
-                                        <br />
+                                        <br/>
                                         Contact form
-                                        <br />
+                                        <br/>
                                         <a href="https://ico.org.uk/global/contact-us/email/">
                                             https://ico.org.uk/global/contact-us/email/
                                         </a>
                                     </p>
                                     <p>
-                                        Telephone<br />
+                                        Telephone<br/>
                                         0303 123 1113
-                                        <br />
-                                        Textphone <br />
+                                        <br/>
+                                        Textphone <br/>
                                         01625 545860
                                     </p>
                                 </div>
@@ -218,21 +214,24 @@ Privacy Policy
                         </div>
                     </div>
                 </div>
-        </div>
-        <div class="column-third">
-            <div class="related">
-                <aside class="govuk-related-items">
-                    <h2 class="heading-small">Related content</h2>
-                    <nav role="navigation">
-                        <ul>
-                            <li><a href="/cookies">Cookies</a></li>
-                            <li><a href="/terms-conditions">Terms and conditions</a></li>
-                        </ul>
-                    </nav>
-                </aside>
+            </div>
+            <div class="column-third">
+                <div class="related">
+                    <aside class="govuk-related-items">
+                        <h2 class="heading-small">Related content</h2>
+                        <nav role="navigation">
+                            <ul>
+                                <li>
+                                    <a href="/cookies">Cookies</a>
+                                </li>
+                                <li>
+                                    <a href="/terms-conditions">Terms and conditions</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </aside>
+                </div>
             </div>
         </div>
-
     </div>
-</main>
 {% endblock %}

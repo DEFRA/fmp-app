@@ -6,45 +6,42 @@ Login Page
 
 {% block content %}
 
-<div class="govuk-width-container">
-  <main class="govuk-main-wrapper " id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+        <h1 class="govuk-fieldset__heading">
             Login Page
           </h1>
-        </legend>
+      </legend>
 
-        <div class="govuk-form-group">
+      <div class="govuk-form-group">
 
-          <form method="post" novalidate='false'>
-            <div class="govuk-form-group">
-              <label class="govuk-label govuk-label--m" for="username">
+        <form method="post" novalidate>
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="username">
                 username
               </label>
-              <input class="govuk-input" id="username" name="username" type="text" autocomplete="name"
+            <input class="govuk-input" id="username" name="username" type="text" autocomplete="name"
                 spellcheck="false">
-            </div>
+          </div>
 
-            <div class="govuk-form-group">
-              <label class="govuk-label govuk-label--m" for="password">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="password">
                 password
               </label>
-              <input class="govuk-input" id="password" name="password" type="password" autocomplete="password"
+            <input class="govuk-input" id="password" name="password" type="password" autocomplete="password"
                 spellcheck="false">
-            </div>
-            <div>
-              <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
+          </div>
+          <div>
+            <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
                 Login
               </button>
-            </div>
+          </div>
 
-          </form>
-        </div>
-
-  </main>
-</div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
