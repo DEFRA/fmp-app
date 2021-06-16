@@ -29,8 +29,10 @@
   }
 
   .map {
+    position: relative;
     width: 100%;
     height: 600px;
+
     @include media(mobile) {
       height: 350px;
     }
@@ -108,4 +110,7 @@
 .pdf-download {
   text-align: right;
 }
-  
+
+.ol-scale-line {
+  left: 115px;
+}

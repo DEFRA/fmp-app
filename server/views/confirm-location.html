@@ -5,6 +5,7 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
+
 <main id="confirm-location-page">
   <div class="govuk-width-container">
     {{ govukBackLink({
@@ -98,7 +99,7 @@
 </main>
 
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/confirm-location.js"></script>
+  <script src="{{assetPath}}/javascripts/confirm-location.js" data-statement=" "></script>
   <script>
     $(function () {
       var data = {{ "true" if polygon else null }}
