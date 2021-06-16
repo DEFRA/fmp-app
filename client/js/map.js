@@ -98,7 +98,6 @@ function Map (mapOptions) {
     callback = fn
   }
 
-  logoScript()
 }
 
 module.exports = Map
