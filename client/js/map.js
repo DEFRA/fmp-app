@@ -97,8 +97,6 @@ function Map (mapOptions) {
   this.onReady = function (fn) {
     callback = fn
   }
-
-  logoScript()
 }
 
 module.exports = Map
