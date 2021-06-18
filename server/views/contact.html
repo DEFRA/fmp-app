@@ -12,7 +12,6 @@
    }}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
       <form autocomplete="off" class="form" method="post" action="/contact" novalidate>
 
         {% if errorSummary.length > 0 %}
@@ -58,13 +57,13 @@
         }) }}
 
         <div id="location-context">
-          <input type="hidden" value={{PDFinformationDetailsObject.coordinates.x}} name="easting"/>
-          <input type="hidden" value={{PDFinformationDetailsObject.coordinates.y}} name="northing"/>
-          <input type="hidden" value={{PDFinformationDetailsObject.location}} name="location"/>
-          <input type="hidden" value={{PDFinformationDetailsObject.polygon}} name="polygon"/>
-          <input type="hidden" value={{PDFinformationDetailsObject.cent}} name="cent"/>
-          <input type="hidden" value={{correlationId}} name="correlationId"/>
-          <input type="hidden" value={{PDFinformationDetailsObject.zoneNumber}} name="zoneNumber"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.x}}" name="easting"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.y}}" name="northing"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.location}}" name="location"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.polygon}}" name="polygon"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.cent}}" name="cent"/>
+          <input type="hidden" value="{{correlationId}}" name="correlationId"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
         </div>
 
         {{ govukButton({

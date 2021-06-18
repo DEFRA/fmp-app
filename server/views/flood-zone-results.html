@@ -19,7 +19,6 @@
       }}
 
       <div class="govuk-grid-row">
-
         {% if floodZone.isZone1 %}
           <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
@@ -80,7 +79,7 @@
             </div>
 
             <div class="nojs-hide ie-hide">
-              <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center={{center}}&location={{location}}&zoneNumber= {{zoneNumber}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk data</a>
+              <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center={{center}}&location={{location}}&zoneNumber={{zoneNumber}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk data</a>
             </div>
 
             <h3 class="govuk-heading-s">More help and advice</h3>
@@ -359,6 +358,8 @@
                 <a href="https://flood-warning-information.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}">Check the risk from surface water and other sources of flooding</a>
               </p>
             </div>
+
+
             <div class="nojs-hide ie-hide">
               <a href="/contact?easting={{easting}}&northing={{northing}}&polygon={{polygon}}&center={{center}}&location={{location}}&zoneNumber={{zoneNumber}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk data</a>
             </div>

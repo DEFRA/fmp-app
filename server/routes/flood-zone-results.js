@@ -19,26 +19,26 @@ module.exports = [
           let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
-          const location = encodeURIComponent(request.query.location)
-          const placeOrPostcode = encodeURIComponent(request.query.placeOrPostcode)
+          const location = request.query.location
+          const placeOrPostcode = request.query.placeOrPostcode
 
           if (request.query.polygon) {
             const center = request.query.center
-            easting = center[0]
-            northing = center[1]
+            easting = encodeURIComponent(center[0])
+            northing = encodeURIComponent(center[1])
           } else {
             easting = encodeURIComponent(request.query.easting)
             northing = encodeURIComponent(request.query.northing)
           }
 
-          const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
+          // const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
 
-          if (psoResults && psoResults.EmailAddress) {
-            psoEmailAddress = psoResults.EmailAddress
-          }
-          if (psoResults && psoResults.AreaName) {
-            areaName = psoResults.AreaName
-          }
+          // if (psoResults && psoResults.EmailAddress) {
+          //   psoEmailAddress = psoResults.EmailAddress
+          // }
+          // if (psoResults && psoResults.AreaName) {
+          //   areaName = psoResults.AreaName
+          // }
 
           if (request.query.polygon) {
             const center = request.query.center
