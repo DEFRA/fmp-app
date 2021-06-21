@@ -40,27 +40,16 @@ module.exports = [
       },
       handler: async (request, h) => {
         try {
-          const recipientemail = request.query.recipientemail
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: "", zoneNumber: "", polygon: "", cent: "" }
+          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: "", zoneNumber: "", polygon: "", cent: "" }
           PDFinformationDetailsObject.coordinates.x = request.query.easting
           PDFinformationDetailsObject.coordinates.y = request.query.northing
           PDFinformationDetailsObject.polygon = request.query.polygon
           PDFinformationDetailsObject.cent = request.query.center
           PDFinformationDetailsObject.location = request.query.location
           PDFinformationDetailsObject.zoneNumber = request.query.zoneNumber
-          let model
-          if (recipientemail) {
-            model = new ContactViewModel(
-              {
-                fullName: '',
-                recipientemail: recipientemail,
-                PDFinformationDetailsObject: PDFinformationDetailsObject
-              })
-          } else {
-            model = new ContactViewModel({
-              PDFinformationDetailsObject: PDFinformationDetailsObject
-            })
-          }
+          const model = new ContactViewModel({
+            PDFinformationDetailsObject: PDFinformationDetailsObject
+          })
           return h.view('contact', model)
         } catch (err) {
           return Boom.badImplementation(err.message, err)
@@ -87,8 +76,9 @@ module.exports = [
 
           let model = {}
           const { recipientemail, fullName } = request.payload
-          const isEmailFormatValid = emailRegex.test(recipientemail)
+          // Sanitise user inputs
           const isNameFormatValid = nameRegex.test(fullName)
+          const isEmailFormatValid = emailRegex.test(recipientemail)
           if (recipientemail.trim() !== '' && isEmailFormatValid && fullName.trim() !== '' && isNameFormatValid) {
             if (payload && payload.easting && payload.northing) {
               PDFinformationDetailsObject.coordinates.x = payload.easting
@@ -132,6 +122,7 @@ module.exports = [
             queryParams.correlationId = correlationId
             queryParams.cent = PDFinformationDetailsObject.cent
 
+            // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding. 
             const query = QueryString.stringify(queryParams)
             return h.redirect(`/confirmation?${query}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {

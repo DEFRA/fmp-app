@@ -24,7 +24,7 @@ module.exports = {
           if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
             model.LocalAuthorities = result.LocalAuthorities.toString()
           } else {
-            model.AreaName = 'No Data Exist'
+            model.LocalAuthorities = 'No Data Exists'
           }
           var location = request.query.x + ',' + request.query.y
           if (request.query.zoneNumber) {
