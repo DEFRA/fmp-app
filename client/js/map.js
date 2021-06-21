@@ -97,7 +97,6 @@ function Map (mapOptions) {
   this.onReady = function (fn) {
     callback = fn
   }
-
 }
 
 module.exports = Map
