@@ -29,56 +29,52 @@
           <p class="govuk-body">We'll aim to send your flood risk data by email in 10 working days. During busy periods, this could take up to 20 working days.</p>
           {% if zoneNumber === '1' %}
             <p class="govuk-body">
-        However, as your site is in flood zone 1, it's unlikely there will be any data available.
-          </p>
-
-           
+              However, as your site is in flood zone 1, it's unlikely there will be any data available.
+            </p>
           {% endif %}
 
           {% if zoneNumber !== '1' %}
-
-            <p class="govuk-body">Depending on the data that's available, this information will include:
-      </p>
+            <p class="govuk-body">Depending on the data that's available, this information will include:</p>
             <ul class="govuk-list govuk-list--bullet">
               <li>a flood zone map (flood map for planning)</li>
-              <li>
-          historic flood outlines
-        </li>
-              <li>
-     relevant modelled flood levels and extents
-        </li>
-              <li>
-        flood defence locations and attributes
-        </li>
+              <li>historic flood outlines</li>
+              <li>relevant modelled flood levels and extents</li>
+              <li>flood defence locations and attributes</li>
             </ul>
           {% endif %}
+
           <h2 class="govuk-heading-m">Help and advice</h2>
+          <p class="govuk-body">Contact the local Environment Agency team 
+            {% if psoEmailAddress %}
+              {{AreaName}}
+            {% endif %}
+            {% if psoEmailAddress %}
+              at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a>
+            {% endif %}
+            for:
+          </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>more information about getting a <a class="govuk-link"  href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">product 5, 6, 7 or 8</a>
+            <li>general help and advice about the site you're requesting data for</li>
+          </ul>
+          <p>For advice around flood risk assessments and planning permission you could:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>speak to your local authority, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span></li>
+            <li>
+              <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>
+            </li>
+          </ul>
 
-        <p class="govuk-body">Contact the {{AreaName}} Environment Agency team at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>more information about getting a <a class="govuk-link"  href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">product 5, 6, 7 or 8</a>
-
-          <li>
-            general help and advice about the site you're requesting data for
-          </li>
-        </ul>
-
-        <p>For advice around flood risk assessments and planning permission you could:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>speak to your local authority, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span></li>
-          <li><a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a></li>
-        </ul>
-
-         <p>
-        {%if ispolygon  === true %}
-          <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood information</a>
-          {% else %}  
-         <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
-       {% endif %}
-        </p>
+          <p>
+            {%if ispolygon  === true %}
+              <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood information</a>
+            {% else %}
+              <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
+            {% endif %}
+          </p>
+        </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 
 {% endblock %}
