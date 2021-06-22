@@ -1,5 +1,4 @@
 /* global $ */
-
 var ol = require('openlayers')
 var Map = require('../map')
 var dialog = require('../dialog')

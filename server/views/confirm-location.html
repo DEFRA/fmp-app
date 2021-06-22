@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
 
+
   <div id="confirm-location-page" class="govuk-grid-row">
 
     <div class="govuk-grid-column-full">
@@ -47,7 +48,7 @@
               Postcodes can vary in size, so you should check your location is correct before continuing.
             </strong>
       </div>
-      <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
             Continue
           </a>
     </div>
@@ -92,19 +93,11 @@
   </div>
 
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/confirm-location.js"></script>
+  <script src="{{assetPath}}/javascripts/confirm-location.js" data-statement=" "></script>
   <script>
     $(function () {
       var data = {{ "true" if polygon else null }}
       (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
     })
   </script>
-
-  <style>
-    .map {
-      height: 600px;
-      width: 100%;
-    }
-  </style>
-
 {% endblock %}
