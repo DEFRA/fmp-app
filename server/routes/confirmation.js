@@ -15,28 +15,13 @@ module.exports = {
         if (request.query && request.query.recipientemail && request.query.correlationId && request.query.fullName && request.query.applicationReferenceNumber) {
           const result = await psoContactDetails.getPsoContacts(request.query.x, request.query.y)
           var model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber, '', '', '', '', request.query.x, request.query.y, request.query.polygon, request.query.cent, request.query.location)
-          if (result && result.EmailAddress) {
-            model.psoEmailAddress = result.EmailAddress
-          }
-          if (result && result.AreaName) {
-            model.AreaName = result.AreaName
-          }
-          if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
-            model.LocalAuthorities = result.LocalAuthorities.toString()
-          } else {
-            model.AreaName = 'No Data Exist'
-          }
-          var location = request.query.x + ',' + request.query.y
-          if (request.query.zoneNumber) {
-            model.zoneNumber = request.query.zoneNumber
-          }
-          model.location = location
-          if (request.query.polygon) {
-            model.ispolygon = true
-          } else {
-            model.ispolygon = false
-          }
-          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, location, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
+          model.location = request.query.x + ',' + request.query.y
+          model.psoEmailAddress = (result && result.EmailAddress) ? result.EmailAddress : undefined
+          model.AreaName = (result && result.AreaName) ? result.AreaName : 'local area name not found'
+          model.LocalAuthorities = (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) ? result.LocalAuthorities : 'local authorities not found'
+          model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
+          model.ispolygon = (request.query.polygon) ? true : false
+          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, request.query.recipientemail)
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')

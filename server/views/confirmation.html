@@ -12,10 +12,10 @@
     <div class="govuk-grid-column-two-thirds">
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">
-              Application complete
-            </h1>
+            Application complete
+          </h1>
         <div class="govuk-panel__body">
-              Your reference number<br>
+            Your reference number<br>
           <bold>{{applicationReferenceNumber}}</bold>
         </div>
       </div>
@@ -42,12 +42,19 @@
       {% endif %}
 
       <h2 class="govuk-heading-m">Help and advice</h2>
-      <p class="govuk-body">Contact the {{AreaName}} Environment Agency team at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:</p>
+      <p class="govuk-body">Contact the local Environment Agency team 
+            {% if psoEmailAddress %}
+          {{AreaName}}
+        {% endif %}
+        {% if psoEmailAddress %}
+              at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a>
+        {% endif %}
+            for:
+          </p>
       <ul class="govuk-list govuk-list--bullet">
         <li>more information about getting a <a class="govuk-link"  href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">product 5, 6, 7 or 8</a>
         <li>general help and advice about the site you're requesting data for</li>
       </ul>
-
       <p>For advice around flood risk assessments and planning permission you could:</p>
       <ul class="govuk-list govuk-list--bullet">
         <li>speak to your local authority, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span></li>
@@ -58,12 +65,11 @@
 
       <p>
         {%if ispolygon  === true %}
-          <a href="/flood-zone-results?location={{location}}&amp;polygon={{polygon}}&amp;center={{cent}}">Go back to your flood information</a>
+          <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood information</a>
         {% else %}
-          <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}">Go back to your flood information</a>
+          <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
         {% endif %}
       </p>
     </div>
   </div>
-
 {% endblock %}

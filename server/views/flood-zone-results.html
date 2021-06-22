@@ -66,6 +66,7 @@
               <span class="govuk-!-font-weight-bold">doesn't</span> 
               fall into any of these categories, you only need to download the flood zone map on this page to include in your planning application.
             </p>
+
         <p class="govuk-body">You can still use this service to request flood risk data (previously known as a product 4). However, as your site is in flood zone 1, it’s unlikely there will be any data available.</p>
 
         <div class="govuk-inset-text">
@@ -92,8 +93,32 @@
         <p class="govuk-body">
           <a href="location">Search for a different location</a>
         </p>
+        <p class="govuk-body">You can still use this service to request flood risk data (previously known as a product 4). However, as your site is in flood zone 1, it’s unlikely there will be any data available.</p>
 
+        <div class="govuk-inset-text">
+          <p class="govuk-body">This service does not provide information about surface water flooding.</br>
+          <a href="https://flood-warning-information.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&amp;northing={{northing}}">Check the risk from surface water and other sources of flooding</a>
+        </p>
       </div>
+
+      <div class="nojs-hide ie-hide">
+        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk data</a>
+      </div>
+
+      <h3 class="govuk-heading-s">More help and advice</h3>
+      <p class="govuk-body">Contact the  {{areaName}} Agency team at  <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>more information about getting a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">product 5, 6, 7 or 8</a>
+        <li>general help and advice about the site you're requesting data for</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Location not right?</h3>
+      <p class="govuk-body">
+        <a href="confirm-location?easting={{easting}}&amp;northing={{northing}}&amp;placeOrPostcode={{location}}">Reposition the marker</a>
+      </p>
+      <p class="govuk-body">
+        <a href="location">Search for a different location</a>
+      </p>
     {% endif %}
 
     {% if floodZone.isZone2 %}
@@ -379,6 +404,7 @@
           <a href="location">Search for a different location</a>
         </p>
       </div>
+
     {% endif %}
 
   </div>

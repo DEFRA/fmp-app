@@ -19,13 +19,13 @@ module.exports = [
           let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
-          const location = encodeURIComponent(request.query.location)
-          const placeOrPostcode = encodeURIComponent(request.query.placeOrPostcode)
+          const location = request.query.location
+          const placeOrPostcode = request.query.placeOrPostcode
 
           if (request.query.polygon) {
             const center = request.query.center
-            easting = center[0]
-            northing = center[1]
+            easting = encodeURIComponent(center[0])
+            northing = encodeURIComponent(center[1])
           } else {
             easting = encodeURIComponent(request.query.easting)
             northing = encodeURIComponent(request.query.northing)
@@ -45,20 +45,20 @@ module.exports = [
             const polygon = request.query.polygon
             const geoJson = util.convertToGeoJson(polygon)
 
-            const result = await riskService.getByPolygon(geoJson)
+            const riskResult = await riskService.getByPolygon(geoJson)
 
-            if (!result.in_england) {
+            if (!riskResult.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, center, polygon, location, placeOrPostcode, request.query.zoneNumber))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, request.query.zoneNumber))
                 .unstate('pdf-download')
             }
           } else {
-            const result = await riskService.getByPoint(easting, northing)
-            if (!result.point_in_england) {
+            const riskResult = await riskService.getByPoint(easting, northing)
+            if (!riskResult.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, result, [easting, northing], undefined, location, placeOrPostcode))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode))
                 .unstate('pdf-download')
             }
           }
