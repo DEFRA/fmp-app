@@ -99,10 +99,12 @@ module.exports = [{
         }
         // If Easting and Northing
         else if (selectedOption === 'eastingNorthing') {
-          const eastingNorthingResponse = await isValidEastingNorthingService.get(payload.easting, payload.northing)
+          const formattedEasting = payload.easting ? payload.easting.trim().replace(/\s+/g, '') : undefined
+          const formattedNorthing = payload.northing ? payload.northing.trim().replace(/\s+/g, '') : undefined
+          const eastingNorthingResponse = await isValidEastingNorthingService.get(formattedEasting, formattedNorthing)
           if (eastingNorthingResponse.isValid) {
-            BNG.easting = payload.easting
-            BNG.northing = payload.northing
+            BNG.easting = formattedEasting
+            BNG.northing = formattedNorthing
           } else {
             const errors = [
               { text: eastingNorthingResponse.eastingError, href: '#easting' },

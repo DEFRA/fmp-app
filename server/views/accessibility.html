@@ -3,14 +3,9 @@
 Accessibility
 {% endblock %}
 {% block content %}
-  {% from "back-link/macro.njk" import govukBackLink %}
-  {{ govukBackLink({
-                      text: 'Back',
-                       href: 'javascript:history.back()'
-                   })
-   }}
-<main>
-    <div class="grid-row">
+    {{ super() }}
+
+    <div id="accessibility-page" class="grid-row">
         <div class="column-two-thirds">
             <h1 class="heading-medium" tabindex="0">Accessibility statement for the Flood map for planning service</h1>
             <p> This accessibility statement applies to the Flood map for planning website.</p>
@@ -21,12 +16,10 @@ Accessibility
                 <li>navigate most of the website using speech recognition software</li>
                 <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
             </ul>
-            <p>
-We’ve also made the website text as simple as possible to understand.
-</p>
+            <p> We’ve also made the website text as simple as possible to understand.</p>
             <p>
                 <a href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> has advice on making your device easier to use if you have a disability.
-            </p>
+                </p>
             <h2 class="heading-medium" tabindex="0">How accessible this website is</h2>
             <p>We know some parts of this website are not fully accessible. For example:</p>
             <ul class="list list-bullet">
@@ -76,8 +69,6 @@ We’ve also made the website text as simple as possible to understand.
             <h2 class="heading-medium" tabindex="0"> Preparation of this accessibility statement</h2>
             <p>This statement was prepared on 17 September 2020. It was last reviewed on 17 September 2020.</p>
             <p>This website was last tested on 18 March 2020. The test was carried out internally by the Environment Agency.</p>
-
         </div>
     </div>
-</main>
 {% endblock %}

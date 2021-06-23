@@ -3,99 +3,93 @@
 {% from "button/macro.njk" import govukButton %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
+  {{ super() }}
+  
+  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
 
-<main id="confirm-location-page">
-  <div class="govuk-width-container">
-    {{ govukBackLink({
-      text: 'Back',
-      href: 'javascript:history.back()'
-    })
-    }}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">Confirm your location</h1>
-      </div>
 
-      <div class="govuk-grid-column-one-half">
-        <h2 class="govuk-heading-m">For small or residential developments:</h2>
+  <div id="confirm-location-page" class="govuk-grid-row">
 
-          <p class="govuk-body">Check the marker is in the right place. If it isn’t, move it to the right location.</p>
-          <h2 class="govuk-heading-m">For larger developments:</h2>
-          <p class="govuk-body">Draw a shape showing the boundary of your site.</p>
-          <br>
-          <details class="govuk-details" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">Confirm your location</h1>
+    </div>
+
+    <div class="govuk-grid-column-one-half">
+      <h2 class="govuk-heading-m">For small or residential developments:</h2>
+
+      <p class="govuk-body">Check the marker is in the right place. If it isn’t, move it to the right location.</p>
+      <h2 class="govuk-heading-m">For larger developments:</h2>
+      <p class="govuk-body">Draw a shape showing the boundary of your site.</p>
+      <br>
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
                 How to draw a shape
               </span>
-            </summary>
-            <div class="govuk-details__text">
-              <ol class="govuk-list govuk-list--number">
-                <li>Select 'draw shape'.</li>
-                <li>Select any point on the site boundary.</li>
-                <li>Select a second point on the boundary - you should see a line drawn between the first two points.</li>
-                <li>Keep adding points until the boundary is defined.</li>
-                <li>Double click or tap when you mark your final point.</li>
-                <li>Edit the finished shape by dragging the points.</li>
-                <li>Add more points to a shape by clicking or tapping on a line.</li>
-              </ol>
-            </div>
-          </details>
+        </summary>
+        <div class="govuk-details__text">
+          <ol class="govuk-list govuk-list--number">
+            <li>Select 'draw shape'.</li>
+            <li>Select any point on the site boundary.</li>
+            <li>Select a second point on the boundary - you should see a line drawn between the first two points.</li>
+            <li>Keep adding points until the boundary is defined.</li>
+            <li>Double click or tap when you mark your final point.</li>
+            <li>Edit the finished shape by dragging the points.</li>
+            <li>Add more points to a shape by clicking or tapping on a line.</li>
+          </ol>
+        </div>
+      </details>
 
-          <div class="govuk-warning-text">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text">
-              <span class="govuk-warning-text__assistive">Warning</span>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
               Postcodes can vary in size, so you should check your location is correct before continuing.
             </strong>
-          </div>
-          <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+      </div>
+      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
             Continue
           </a>
-      </div>
+    </div>
 
-      <div class="govuk-grid-column-one-half">
-        <figure class="map-container">
-          <figcaption class="visually-hidden" aria-hidden="false">
-            <h2>A map used to confirm the selected location</h2>
-            <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
-          </figcaption>
-          <div class="map--result-confirm">
-
-            <div class="govuk-form-group markerRadiosContainer top-of-buttons">
-              <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
-                  <h1 class="govuk-fieldset__heading">Choose how to confirm your location</h1>
-                </legend>
-                <div class="govuk-radios govuk-radios--inline govuk-radios--small">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point" data-journey-click="FMFP:map:moveMarker" checked>
-                        <label class="govuk-label govuk-radios__label" for="marker">
-                          Move marker
-                        </label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
-                        <label class="govuk-label govuk-radios__label" for="polygon">
-                          Draw shape
-                        </label>
-                    </div>
+    <div class="govuk-grid-column-one-half">
+      <figure class="map-container">
+        <figcaption class="visually-hidden" aria-hidden="false">
+          <h2>A map used to confirm the selected location</h2>
+          <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
+        </figcaption>
+        <div class="map--result-confirm">
+          <div class="govuk-form-group markerRadiosContainer top-of-buttons">
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
+                Choose how to confirm your location
+              </legend>
+              <div class="govuk-radios govuk-radios--inline govuk-radios--small">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point" data-journey-click="FMFP:map:moveMarker" checked>
+                  <label class="govuk-label govuk-radios__label" for="marker">
+                    Move marker
+                  </label>
                 </div>
-                <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
+                  <label class="govuk-label govuk-radios__label" for="polygon">
+                    Draw shape
+                  </label>
+                </div>
+              </div>
+              <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
                   Delete shape
                 </button>
-              </fieldset>
-            </div>
-            <div id="map" class="map"></div>
+            </fieldset>
           </div>
-        </figure>
-      </div>
-        
+          <div id="map" class="map"></div>
+        </div>
+      </figure>
     </div>
+
   </div>
-</main>
 
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/confirm-location.js" data-statement=" "></script>
@@ -104,6 +98,6 @@
       var data = {{ "true" if polygon else null }}
       (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
     })
-</script>
+  </script>
 
 {% endblock %}

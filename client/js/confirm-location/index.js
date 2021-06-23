@@ -12,7 +12,7 @@ function ConfirmLocationPage (options) {
   var northing = window.encodeURIComponent(options.northing)
   var location = window.encodeURIComponent(options.location)
 
-  var $page = $('main#confirm-location-page')
+  var $page = $('#confirm-location-page')
   var $radios = $('.top-of-buttons', $page)
   var $container = $('.map-container', $page)
   var $continueBtn = $('a.govuk-button--start', $page)
