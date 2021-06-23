@@ -87,7 +87,7 @@ function Summary (options) {
 
   var $summaryColumn = $('.summary-column')
   var $map = $('#map')
-  var $page = $('main#summary-page')
+  var $page = $('#summary-page')
   var $container = $('.map-container')
   var $mapColumn = $('.map-column')
 
