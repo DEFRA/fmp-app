@@ -1,9 +1,9 @@
 function ConfirmLocationViewModel (easting, northing, polygon, location, placeOrPostcode) {
-  this.easting = easting
-  this.northing = northing
-  this.polygon = JSON.stringify(polygon)
-  this.location = location
-  this.placeOrPostcode = placeOrPostcode
+  this.easting = encodeURIComponent(easting)
+  this.northing = encodeURIComponent(northing)
+  this.polygon = encodeURIComponent(JSON.stringify(polygon))
+  this.location = encodeURIComponent(location)
+  this.placeOrPostcode = encodeURIComponent(placeOrPostcode)
 }
 
 module.exports = ConfirmLocationViewModel
