@@ -31,14 +31,6 @@ function Map (mapOptions) {
       matrixSet: config.OSMatrixSet
     })
 
-    var attribution = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
-
-    wmtsOptions.attributions = [
-      new ol.Attribution({
-        html: attribution
-      })
-    ]
-
     var source = new ol.source.WMTS(wmtsOptions)
     source.setUrls([config.OSWMTS])
 

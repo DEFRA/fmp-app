@@ -1,0 +1,10 @@
+# FMP Release 1.3.3
+
+# Information
+
+The primary purpose of this release is to fix the copyright statements for the Ordnance Survey.
+
+# Webops
+A full code build is required to update the service to version 1.3.3.
+
+There are no data changes with this release.
