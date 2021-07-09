@@ -129,7 +129,7 @@
     }
   }
   @include media(tablet) {
-    .ol-full-screen, .ol-attribution {
+    .ol-full-screen {
       right: 135px;
     }
     .os-api-branding {
@@ -137,8 +137,14 @@
     }
   }
   @include media(mobile) {
-    .os-api-branding {
-      bottom: 340px;
+    .os-api-branding.logo{
+      top: 310px;
+    }
+    .os-api-branding.copyright{
+      display: none;
+    }   
+    .ol-scale-line {
+      display: none;
     }
   }
 
