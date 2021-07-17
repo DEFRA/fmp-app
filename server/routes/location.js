@@ -99,8 +99,8 @@ module.exports = [{
         }
         // If Easting and Northing
         else if (selectedOption === 'eastingNorthing') {
-          const formattedEasting = payload.easting ? payload.easting.trim().replace(/\s+/g, '') : undefined
-          const formattedNorthing = payload.northing ? payload.northing.trim().replace(/\s+/g, '') : undefined
+          const formattedEasting = payload.easting ? payload.easting.trim().replace(/\s+/g, '') : ''
+          const formattedNorthing = payload.northing ? payload.northing.trim().replace(/\s+/g, '') : ''
           const eastingNorthingResponse = await isValidEastingNorthingService.get(formattedEasting, formattedNorthing)
           if (eastingNorthingResponse.isValid) {
             BNG.easting = formattedEasting
