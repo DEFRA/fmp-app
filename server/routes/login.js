@@ -26,8 +26,9 @@ module.exports = [
       handler: async (request, h) => {
         try {
           var { username, password } = request.payload
-          const user = Users[username]
-          if (!user || !await Bcrypt.compare(password, user.password)) {
+          const userFromConfig = config.username
+          const passwordFromConfig = config.password
+          if (userFromConfig !== username || passwordFromConfig !== password) {
             return h.view('login')
           }
           request.cookieAuth.set({ username })
