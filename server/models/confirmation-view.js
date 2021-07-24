@@ -1,4 +1,4 @@
-function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoEmailAddress, AreaName, LocalAuthorities, zoneNumber, easting, northing, polygon, cent, location) {
+function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoEmailAddress, AreaName, LocalAuthorities, zoneNumber, easting, northing, polygon, cent, location, search) {
   if (recipientemail) {
     this.recipientemail = recipientemail
     this.psoEmailAddress = psoEmailAddress
@@ -11,6 +11,7 @@ function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoE
     this.polygon = polygon
     this.cent = cent
     this.location = location
+    this.search= search
   }
   if (applicationReferenceNumber) {
     this.applicationReferenceNumber = applicationReferenceNumber.replace(/(\w{4})/g, '$1 ').replace(/(^\s+|\s+$)/, '')
