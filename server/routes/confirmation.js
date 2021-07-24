@@ -21,8 +21,8 @@ module.exports = {
           model.LocalAuthorities = (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) ? result.LocalAuthorities : undefined
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
           model.ispolygon = (request.query.polygon) ? true : false
-          model.search = request.query.location ? request.query.location : undefined
-          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, request.query, model.search)
+          model.search = request.query.location ? request.query.location : ''
+          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, model.recipientemail, model.search)
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')
