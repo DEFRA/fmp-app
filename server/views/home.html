@@ -1,61 +1,130 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Find out if you need a Flood Risk Assessment (FRA) and get flood maps for a planning application
+Find out if you need a Flood Risk Assessment (FRA) and get flood maps for a planning application
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">Get flood risk information for planning</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>
+    <p>
+      <strong>If you do not need flood risk information for planning you can <a class="govuk-link"
+          href="https://www.gov.uk/check-flood-risk">find out if you're at risk of flooding in England</a>.
+      </strong>
+    </p>
 
-      <div class="govuk-inset-text blue-inset">
-        Use this service to request flood risk data (previously known as a product 4) without having to contact the Environment Agency. This service replaces flood maps for planning.
-        </div>
+    <div class="govuk-inset-text blue-inset">
+      Use this service to request flood risk assessment data for planning (previously known as a product 4). This
+      replaces the flood map for planning service.
+    </div>
 
-      <p class="govuk-body">Use this service to:</p>
+    <p class="govuk-body">Use this service for locations in England to:</p>
 
-      <ul class="govuk-list govuk-list--bullet">
-        <li>find out if you need a flood risk assessment as part of a planning application (sometimes known as planning permission)
-          </li>
-        <li>get flood risk assessment data</li>
-      </ul>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>find out if you need a flood risk assessment as part of a planning application (sometimes known as planning
+        permission)
+      </li>
+      <li>request flood risk assessment data (previouly known as a product 4)</li>
+    </ul>
 
-      <a href="location" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+    <p class="govuk-body">
+      Get flood risk information for <a class="govuk-link" href="not-england">Wales, Scotland or Northern
+        Ireland</a>.
+      <p>
+
+        <a href="location" role="button" draggable="false"
+          class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
+          data-module="govuk-button">
           Start now
-          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
-          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
-        </svg>
-      </a>
+          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+            viewBox="0 0 33 40" role="presentation" focusable="false">
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+          </svg>
+        </a>
 
-      <h2 class="govuk-heading-m">Before you start</h2>
+        <h2 class="govuk-heading-m">Before you start</h2>
 
-      <p class="govuk-body">You’ll usually need a flood risk consultant to carry out a flood risk assessment. If it’s for a simple, low risk development like a house extension you may be able to do it yourself.
+        <p class="govuk-body">
+          For the location you want to know about you will need one of the following:
         </p>
 
-      <p class="govuk-body">If you’re unsure <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>.</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            postcode
+          </li>
+          <li>
+            place
+          </li>
+          <li>
+            national grid reference (NGR)
+          </li>
+          <li>
+            easting and northing coordinates
+          </li>
+        </ul>
 
-      <p class="govuk-body">Find out more about <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?_ga=2.259503306.1978570411.1573555009-902236253.1554453719&amp;_gac=1.182218197.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE#when-you-need-an-assessment">flood risk assessments for planning permission</a>.
+        <p class="govuk-body">
+          Find out more about <a
+            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?_ga=2.259503306.1978570411.1573555009-902236253.1554453719&_gac=1.182218197.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE#when-you-need-an-assessment">flood
+            risk assessments for planning permission</a>.
         </p>
 
-      <p class="govuk-body">For general flood information, including local flood warnings, use the <a href="https://flood-warning-information.service.gov.uk/warnings">flood information service</a>.</p>
+        <p class="govuk-body">You’ll usually need a flood risk consultant to carry out a flood risk assessment. If it’s
+          for a simple, low risk development like a house extension you may be able to do it yourself.
+        </p>
 
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
+        <p class="govuk-body">If you’re unsure <a
+            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the
+            Environment Agency</a>.</p>
+
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
               I need help doing things online
             </span>
-        </summary>
-        <div class="govuk-details__text">
-          <ul class="govuk-list">
-            <li>For help getting flood risk data, contact the Environment Agency.</li>
-            <li>Telephone: 03708 506 506.</li>
-            <li>Monday to Friday, 8am to 6pm.</li>
-          </ul>
-        </div>
-      </details>
-    </div>
-    <div class="govuk-grid-column-one-third"></div>
+          </summary>
+          <div class="govuk-details__text">
+            For help getting flood risk information, contact the Environment Agency.<br />
+            Telephone: 03708 506 506<br />
+            Monday to Friday, 8am to 6pm
+          </div>
+        </details>
+
   </div>
+
+  <div class="govuk-grid-column-one-third">
+
+    <!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
+
+    {# <aside class="app-related-items" role="complementary">
+          <h2 class="govuk-heading-m" id="subsection-title">
+            Related content
+          </h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="govuk-list govuk-!-font-size-16">
+              <li>
+                <a class="govuk-link" href="https://flood-warning-information.service.gov.uk/warnings">
+                  Check your immediate flood risk
+                </a>
+              </li>
+              <li>
+                <a class="govuk-link" href="https://flood-warning-information.service.gov.uk/5-day-flood-risk?_ga=2.203237463.77474540.1572345023-902236253.1554453719&_gac=1.158934600.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE">
+                  Check your flood risk for the next 5 days
+                </a>
+              </li>
+              <li>
+                <a href="https://flood-warning-information.service.gov.uk/long-term-flood-risk?_ga=2.127667275.77474540.1572345023-902236253.1554453719&_gac=1.124390008.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE" class="govuk-link govuk-!-font-weight-bold">
+                  Check your long-term flood risk
+                </a>
+              </li>
+              <li><a href="https://www.planningportal.co.uk/" class="govuk-link govuk-!-font-weight-bold">Planning portal </a></li>
+            </ul>
+          </nav>
+        </aside> #}
+
+  </div>
+</div>
 
 {% endblock %}
