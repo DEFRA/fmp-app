@@ -29,13 +29,13 @@
         </summary>
         <div class="govuk-details__text">
           <ol class="govuk-list govuk-list--number">
-            <li>Select 'draw shape'.</li>
+            <li>Select 'draw boundary'.</li>
             <li>Select any point on the site boundary.</li>
             <li>Select a second point on the boundary - you should see a line drawn between the first two points.</li>
             <li>Keep adding points until the boundary is defined.</li>
             <li>Double click or tap when you mark your final point.</li>
-            <li>Edit the finished shape by dragging the points.</li>
-            <li>Add more points to a shape by clicking or tapping on a line.</li>
+            <li>Edit the finished boundary by dragging the points.</li>
+            <li>Add more points to a boundary by clicking or tapping on a line.</li>
           </ol>
         </div>
       </details>
@@ -59,7 +59,7 @@
       <figure class="map-container">
         <figcaption class="visually-hidden" aria-hidden="false">
           <h2>A map used to confirm the selected location</h2>
-          <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
+          <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw boundary' map tools.</p>
         </figcaption>
         <div class="map--result-confirm">
           <div class="govuk-form-group markerRadiosContainer top-of-buttons">
@@ -77,12 +77,12 @@
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
                   <label class="govuk-label govuk-radios__label" for="polygon">
-                    Draw shape
+                    Draw boundary
                   </label>
                 </div>
               </div>
               <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
-                  Delete shape
+                  Delete boundary
                 </button>
             </fieldset>
           </div>
