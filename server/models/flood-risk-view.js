@@ -24,7 +24,7 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
 
   this.floodZone = new FloodZone(risk, !!polygon)
   if (this.floodZone.zone === 'FZ1') {
-    this.zoneNumber = 1
+    this.zoneNumber = '1'
   } else {
     this.zoneNumber = 'not1'
   }
