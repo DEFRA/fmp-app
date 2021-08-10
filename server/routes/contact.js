@@ -10,7 +10,7 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
 
 class ContactViewErrorObject {
-  constructor(fullName, recipientemail, payload, errorSummarArray) {
+  constructor (fullName, recipientemail, payload, errorSummarArray) {
     this.fullName = fullName
     this.PDFinformationDetailsObject = {
       polygon: payload.polygon,
@@ -40,7 +40,7 @@ module.exports = [
       },
       handler: async (request, h) => {
         try {
-          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: "", zoneNumber: "", polygon: "", cent: "" }
+          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', zoneNumber: '', polygon: '', cent: '' }
           PDFinformationDetailsObject.coordinates.x = request.query.easting
           PDFinformationDetailsObject.coordinates.y = request.query.northing
           PDFinformationDetailsObject.polygon = request.query.polygon
@@ -120,11 +120,12 @@ module.exports = [
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.correlationId = correlationId
-            queryParams.cent = PDFinformationDetailsObject.cent
+            queryParams.cent = payload.cent
 
-            // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding. 
+            // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
             const query = QueryString.stringify(queryParams)
-            return h.redirect(`/confirmation?${query}`)
+            return h.redirect(`/application-review-summary?${query}`)
+            // return h.redirect(`/confirmation?${query}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
             contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
