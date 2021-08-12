@@ -12,6 +12,9 @@ module.exports = [
     path: '/application-review-summary',
     options: {
       description: 'Application Review Summary',
+      auth: {
+        strategy: 'restricted'
+      },
       handler: async (request, h) => {
         const payload = request.query
         var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
