@@ -42,6 +42,8 @@ module.exports = [
           PDFinformationDetailsObject.cent = request.query.center
           PDFinformationDetailsObject.location = request.query.location
           PDFinformationDetailsObject.zoneNumber = request.query.zoneNumber
+          PDFinformationDetailsObject.fullName = request.query.fullName
+          PDFinformationDetailsObject.recipientemail = request.query.recipientemail
           const model = new ContactViewModel({
             PDFinformationDetailsObject: PDFinformationDetailsObject
           })
