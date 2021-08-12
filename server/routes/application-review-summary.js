@@ -9,7 +9,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const payload = request.query
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '' }
+        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
         const { recipientemail, fullName } = payload
         if (payload && payload.x && payload.y) {
           PDFinformationDetailsObject.coordinates.x = payload.x
@@ -42,8 +42,10 @@ module.exports = [
           return Boom.badImplementation('RecipientEmail is Empty')
         }
         var model = new ApplicationReviewSummaryViewModel({
-          PDFinformationDetailsObject: PDFinformationDetailsObject
-        })
+          PDFinformationDetailsObject: PDFinformationDetailsObject,
+          contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}`,
+          confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}`
+               })
         return h.view('application-review-summary', model)
       }
     }
