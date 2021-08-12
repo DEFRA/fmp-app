@@ -1,10 +1,5 @@
 const Boom = require('boom')
 const QueryString = require('querystring')
-const config = require('../../config')
-const wreck = require('wreck')
-const uuidv1 = require('uuid/v1')
-const { getApplicationReferenceNumber } = require('../services/application-reference')
-const publishToQueueURL = config.functionAppUrl + '/publish-queue'
 const ContactViewModel = require('../models/contact-view')
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
@@ -63,16 +58,14 @@ module.exports = [
     method: 'POST',
     path: '/contact',
     options: {
-      description: 'submits the page to Confirmation Screen',
+      description: 'submits the page to Application summary Review Screen',
       auth: {
         strategy: 'restricted'
       },
       handler: async (request, h) => {
-        var correlationId = uuidv1()
         try {
           const payload = request.payload
-          const applicationReferenceNumber = await getApplicationReferenceNumber()
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
+          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', polygon: '', center: '', zoneNumber: '' }
 
           let model = {}
           const { recipientemail, fullName } = request.payload
@@ -95,38 +88,25 @@ module.exports = [
               } else {
                 PDFinformationDetailsObject.location = payload.location
               }
-              PDFinformationDetailsObject.applicationReferenceNumber = applicationReferenceNumber
             } else {
               return Boom.badImplementation('Query parameters are empty')
             }
-            // Send details to function app
-            const { x, y } = PDFinformationDetailsObject.coordinates
-            const { location, polygon } = PDFinformationDetailsObject
-            const name = payload.fullName
-            const recipientemail = payload.recipientemail
-            const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber })
-            await wreck.post(publishToQueueURL, {
-              payload: data
-            })
 
-            // Forward details to confirmation page
+            // Forward details to application summary review page
             const queryParams = {}
             queryParams.fullName = payload.fullName
             queryParams.polygon = payload.polygon
             queryParams.recipientemail = payload.recipientemail
-            queryParams.applicationReferenceNumber = applicationReferenceNumber
             queryParams.x = PDFinformationDetailsObject.coordinates.x
             queryParams.y = PDFinformationDetailsObject.coordinates.y
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
-            queryParams.correlationId = correlationId
             queryParams.cent = payload.cent
 
             // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
             const query = QueryString.stringify(queryParams)
             return h.redirect(`/application-review-summary?${query}`)
-            // return h.redirect(`/confirmation?${query}`)
-          } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
+            } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
             contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
             model = new ContactViewModel(contactViewErrorObject)

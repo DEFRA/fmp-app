@@ -104,16 +104,26 @@
 }) }}
 
 
+  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+      <div class="map--result">
+        <div id="map" class="map"></div>
+      </div>
+            <div id="location-context">
+          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.x}}" name="easting"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.y}}" name="northing"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.location}}" name="location"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.polygon}}" name="polygon"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.cent}}" name="cent"/>
+             <input type="hidden" value="{{PDFinformationDetailsObject.recipientemail}}" name="recipientemail"/>
+               <input type="hidden" value="{{PDFinformationDetailsObject.fullName}}" name="fullName"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
+        </div>
 
         {{ govukButton({
         text: "Request your flood risk assessment data",
         preventDoubleClick: true
         })
         }}
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-      <div class="map--result">
-        <div id="map" class="map"></div>
-      </div>
  </form>
     </div>
   </div>
