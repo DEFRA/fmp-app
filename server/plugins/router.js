@@ -23,7 +23,6 @@ const routes = [].concat(
   require('../routes/privacy-policy'),
   require('../routes/privacy-notice'),
   require('../routes/terms-conditions'),
-  require('../routes/application-review-summary'),
   require('../routes/maintainence'))
 
 module.exports = {
