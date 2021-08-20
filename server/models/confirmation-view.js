@@ -11,7 +11,7 @@ function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoE
     this.polygon = polygon
     this.cent = cent
     this.location = location
-    this.search= search
+    this.search = search
   }
   if (applicationReferenceNumber) {
     this.applicationReferenceNumber = applicationReferenceNumber.replace(/(\w{4})/g, '$1 ').replace(/(^\s+|\s+$)/, '')

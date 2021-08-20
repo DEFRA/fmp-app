@@ -14,7 +14,7 @@
   {% from "button/macro.njk" import govukButton %}
   {% from "back-link/macro.njk" import govukBackLink %}
 
-  <div id="contact-page" class="govuk-grid-row">
+  <div id="application-review-summary-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form autocomplete="off" class="form" method="post" action="/application-review-summary" novalidate>
     
@@ -34,7 +34,7 @@
   rows: [
     {
       key: {
-        text: "name"
+        text: "Name"
       },
       value: {
         text: PDFinformationDetailsObject.fullName
@@ -51,7 +51,7 @@
     },
     {
       key: {
-        text: "email address"
+        text: "Email address"
       },
       value: {
         text: PDFinformationDetailsObject.recipientemail
@@ -71,7 +71,7 @@
         text: "Location"
       },
       value: {
-        html: '          <figure class="map-container govuk-!-margin-bottom-6">
+        html: '<figure class="map-container govuk-!-margin-bottom-6">
            <div class="map--result">
               <div id="map" class="map"></div>
             </div>
@@ -105,17 +105,15 @@
 
 
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-      <div class="map--result">
-        <div id="map" class="map"></div>
-      </div>
-            <div id="location-context">
+      
+          <div id="summary-review-context">
           <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.x}}" name="easting"/>
           <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.y}}" name="northing"/>
           <input type="hidden" value="{{PDFinformationDetailsObject.location}}" name="location"/>
           <input type="hidden" value="{{PDFinformationDetailsObject.polygon}}" name="polygon"/>
           <input type="hidden" value="{{PDFinformationDetailsObject.cent}}" name="cent"/>
-             <input type="hidden" value="{{PDFinformationDetailsObject.recipientemail}}" name="recipientemail"/>
-               <input type="hidden" value="{{PDFinformationDetailsObject.fullName}}" name="fullName"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.recipientemail}}" name="recipientemail"/>
+          <input type="hidden" value="{{PDFinformationDetailsObject.fullName}}" name="fullName"/>
           <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
         </div>
 
@@ -128,22 +126,12 @@
     </div>
   </div>
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-<script src="{{assetPath}}/javascripts/summary.js"></script>
-
-{% if polygon %}
-<script>
-  $(function () {
-    var page = new FMP.SummaryPage({
-      polygon: {{ PDFinformationDetailsObject.polygon }} // This needs to be verified as originally {{polygon}}
-        })
-      })
-</script>
-{% else %}
-<script>
-  $(function () {
-    var page = new FMP.SummaryPage({ easting: '{{PDFinformationDetailsObject.coordinates.x}}', northing: '{{PDFinformationDetailsObject.coordinates.y}}' })
-  })
-</script>
-{% endif %}
+  <script src="{{assetPath}}/javascripts/summary-review.js"></script>
+  <script>
+    $(function () {
+      var data = {{ "true" if PDFinformationDetailsObject.polygon else null }}
+      (new FMP.ApplicationSummaryReviewPage({easting: '{{PDFinformationDetailsObject.coordinates.x}}', northing: '{{PDFinformationDetailsObject.coordinates.y}}', location: '{{location}}', polygon: data}))
+    })
+  </script>
 
 {% endblock %}
