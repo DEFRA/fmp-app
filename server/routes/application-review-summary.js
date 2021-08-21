@@ -19,15 +19,15 @@ module.exports = [
         const payload = request.query
         var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
         const { recipientemail, fullName } = payload
-        if (payload && payload.x && payload.y) {
-          PDFinformationDetailsObject.coordinates.x = payload.x
-          PDFinformationDetailsObject.coordinates.y = payload.y
+        if (payload && payload.easting && payload.northing) {
+          PDFinformationDetailsObject.coordinates.x = payload.easting
+          PDFinformationDetailsObject.coordinates.y = payload.northing
           if (payload.zoneNumber) {
             PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
           }
           if (payload.polygon) {
-            PDFinformationDetailsObject.polygon = JSON.parse(payload.polygon)
-            PDFinformationDetailsObject.cent = JSON.parse(payload.cent)
+            PDFinformationDetailsObject.polygon = payload.polygon
+            PDFinformationDetailsObject.cent = payload.center
           }
           if (!payload.location) {
             PDFinformationDetailsObject.location = payload.easting + ',' + payload.northing

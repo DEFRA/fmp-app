@@ -1,4 +1,5 @@
 const Boom = require('boom')
+const { param } = require('jquery')
 const QueryString = require('querystring')
 const ContactViewModel = require('../models/contact-view')
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -104,10 +105,10 @@ module.exports = [
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
+           var params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
 
-            // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
-            const query = QueryString.stringify(queryParams)
-            return h.redirect(`/application-review-summary?${query}`)
+          
+            return h.redirect(`/application-review-summary?${params}`)
             } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
             contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
