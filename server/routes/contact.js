@@ -74,14 +74,14 @@ module.exports = [
           let model = {}
           const { recipientemail, fullName } = request.payload
           // Sanitise user inputs
-          const isNameFormatValid = nameRegex.test(fullName)
-          const isEmailFormatValid = emailRegex.test(recipientemail)
+          const isNameFormatValid = nameRegex.test(fullName.trim())
+          const isEmailFormatValid = emailRegex.test(recipientemail.trim())
           if (recipientemail.trim() !== '' && isEmailFormatValid && fullName.trim() !== '' && isNameFormatValid) {
             if (payload && payload.easting && payload.northing) {
               PDFinformationDetailsObject.coordinates.x = payload.easting
               PDFinformationDetailsObject.coordinates.y = payload.northing
-              PDFinformationDetailsObject.recipientemail = recipientemail
-              PDFinformationDetailsObject.fullName = fullName
+              PDFinformationDetailsObject.recipientemail = recipientemail.trim()
+              PDFinformationDetailsObject.fullName = fullName.trim()
               if (payload.zoneNumber) {
                 PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
               }
