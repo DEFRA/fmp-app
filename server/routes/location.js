@@ -169,6 +169,8 @@ module.exports = [{
         } else if (selectedOption === 'placeOrPostcode') {
           queryParams.placeOrPostcode = payload.placeOrPostcode
         }
+        queryParams.recipientemail = 'notset'
+        queryParams.fullName = 'notset'
 
         const query = QueryString.stringify(queryParams)
         return h.redirect(`/confirm-location?${query}`)

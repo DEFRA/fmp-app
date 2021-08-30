@@ -44,7 +44,16 @@ module.exports = [{
         } else if (request.query.easting && request.query.northing) {
           location = `${request.query.easting} ${request.query.northing}`
         }
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location, point.placeOrPostcode)
+        let recipientemail = ''
+        if (request.query.recipientemail) {
+          recipientemail = request.query.recipientemail
+        }
+
+        let fullName = ''
+        if (request.query.fullName) {
+          fullName = request.query.fullName
+        }
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location, point.placeOrPostcode, recipientemail, fullName)
 
         return h.view('confirm-location', model)
       } catch (err) {
@@ -61,7 +70,9 @@ module.exports = [{
         )),
         place: Joi.string(),
         placeOrPostcode: Joi.string(),
-        nationalGridReference: Joi.string()
+        nationalGridReference: Joi.string(),
+        recipientemail: Joi.string(),
+        fullName: Joi.string()
       }
     }
   }

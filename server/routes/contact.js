@@ -11,12 +11,13 @@ class ContactViewErrorObject {
     this.PDFinformationDetailsObject = {
       polygon: payload.polygon,
       cent: payload.cent,
+      recipientemail: payload.recipientemail,
+      fullName: payload.fullName,
       coordinates: {
         x: payload.easting,
         y: payload.northing
       },
       location: payload.location,
-      zoneNumber: payload.zoneNumber
     },
     this.recipientemail = recipientemail,
     this.errorSummary = errorSummarArray
@@ -79,6 +80,8 @@ module.exports = [
             if (payload && payload.easting && payload.northing) {
               PDFinformationDetailsObject.coordinates.x = payload.easting
               PDFinformationDetailsObject.coordinates.y = payload.northing
+              PDFinformationDetailsObject.recipientemail = recipientemail
+              PDFinformationDetailsObject.fullName = fullName
               if (payload.zoneNumber) {
                 PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
               }

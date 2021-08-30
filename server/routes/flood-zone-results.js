@@ -58,7 +58,7 @@ module.exports = [
             if (!riskResult.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, request.query.recipientemail, request.query.fullName))
                 .unstate('pdf-download')
             }
           }
@@ -70,7 +70,9 @@ module.exports = [
         query: Joi.alternatives().required().try([{
           easting: Joi.number().max(700000).positive().required(),
           northing: Joi.number().max(1300000).positive().required(),
-          location: Joi.string().required()
+          location: Joi.string().required(),
+          fullName: Joi.string(),
+          recipientemail: Joi.string()
         }, {
           polygon: Joi.array().required().items(Joi.array().items(
             Joi.number().max(700000).positive().required(),
