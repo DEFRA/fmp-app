@@ -1,0 +1,10 @@
+# FMP Release 1.3.5
+
+# Information
+
+The primary purpose of this release is to restrict the zoom level of base mapping and fix an Internet Explorer 11 rendering issue.
+
+# Webops
+A full code build is required to update the service to version 1.3.5
+
+There are no data changes with this release.
