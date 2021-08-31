@@ -14,6 +14,8 @@ module.exports = [{
       const northing = encodeURIComponent(request.query.northing)
       const zone = encodeURIComponent(request.query.zone)
       const zoneNumber = encodeURIComponent(request.query.zoneNumber)
+      const recipientemail = request.query.recipientemail
+      const fullName = request.query.fullName
       var polygon = ''
 
       if (request.query.polygon) {
@@ -25,7 +27,7 @@ module.exports = [{
       if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
         localAuthorities = result.LocalAuthorities.toString()
       }
-      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, zone, localAuthorities, polygon, zoneNumber))
+      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, zone, localAuthorities, polygon, zoneNumber, recipientemail, fullName))
     }
   }
 },

@@ -98,7 +98,7 @@
   <script>
     $(function () {
       var data = {{ "true" if polygon else null }}
-      (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: data}))
+      (new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', fullName: '{{fullName}}', recipientemail: '{{recipientemail}}', polygon: data}))
     })
   </script>
 

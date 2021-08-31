@@ -11,6 +11,8 @@ function ConfirmLocationPage (options) {
   var easting = window.encodeURIComponent(options.easting)
   var northing = window.encodeURIComponent(options.northing)
   var location = window.encodeURIComponent(options.location)
+  var fullName = window.encodeURIComponent(options.fullName)
+  var recipientemail = window.encodeURIComponent(options.recipientemail)
 
   var $page = $('#confirm-location-page')
   var $radios = $('.top-of-buttons', $page)
@@ -343,18 +345,22 @@ function ConfirmLocationPage (options) {
         url += '?polygon=' + coords
         url += '&center=' + JSON.stringify(center)
         url += '&location=' + location
+        url += '&fullName=' + fullName
+        url += '&recipientemail=' + recipientemail
 
         contactUrl += '?polygon=' + coords
         contactUrl += '&center=' + JSON.stringify(center)
         contactUrl += '&location=' + location
+        contactUrl += '&fullName=' + fullName
+        contactUrl += '&recipientemail=' + recipientemail
 
         // set form values
         $center.attr('value', JSON.stringify(center))
         $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
-        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location
-        contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location
+        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
+        contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
         // set form values
         $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')
         $polygon.attr('value', '')

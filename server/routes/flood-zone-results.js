@@ -19,6 +19,9 @@ module.exports = [
           let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
+          const fullName = request.query.fullName
+          const recipientemail = request.query.recipientemail
+
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
 
@@ -50,7 +53,7 @@ module.exports = [
             if (!riskResult.in_england) {
               return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, request.query.zoneNumber))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, recipientemail, fullName))
                 .unstate('pdf-download')
             }
           } else {
@@ -58,7 +61,7 @@ module.exports = [
             if (!riskResult.point_in_england) {
               return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, request.query.recipientemail, request.query.fullName))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, recipientemail, fullName))
                 .unstate('pdf-download')
             }
           }
@@ -79,7 +82,9 @@ module.exports = [
             Joi.number().max(1300000).positive().required()
           )),
           center: Joi.array().required(),
-          location: Joi.string().required()
+          location: Joi.string().required(),
+          fullName: Joi.string(),
+          recipientemail: Joi.string()
         }])
       }
     }

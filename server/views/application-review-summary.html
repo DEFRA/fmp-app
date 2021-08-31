@@ -71,7 +71,8 @@
         text: "Location"
       },
       value: {
-        html: '<figure class="map-container govuk-!-margin-bottom-6">
+        html: '</br>
+        <figure class="map-container govuk-!-margin-bottom-6">
            <div class="map--result">
               <div id="map" class="map"></div>
             </div>
@@ -127,11 +128,22 @@
   </div>
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/summary-review.js"></script>
+
+
+  {% if PDFinformationDetailsObject.polygon %}
   <script>
     $(function () {
-      var data = {{ "true" if PDFinformationDetailsObject.polygon else null }}
-      (new FMP.ApplicationSummaryReviewPage({easting: '{{PDFinformationDetailsObject.coordinates.x}}', northing: '{{PDFinformationDetailsObject.coordinates.y}}', location: '{{location}}', polygon: data}))
+      var page = new FMP.ApplicationSummaryReviewPage({
+        polygon: {{ PDFinformationDetailsObject.polygon }} // This needs to be verified as originally {{polygon}}
+          })
+        })
+  </script>
+  {% else %}
+  <script>
+    $(function () {
+      var page = new FMP.ApplicationSummaryReviewPage({ easting: '{{PDFinformationDetailsObject.coordinates.x}}', northing: '{{PDFinformationDetailsObject.coordinates.y}}' })
     })
   </script>
-
-{% endblock %}
+  {% endif %}
+  
+  {% endblock %}
