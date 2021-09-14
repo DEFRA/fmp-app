@@ -20,8 +20,12 @@
 17) https://eaflood.atlassian.net/browse/FCRM-3023
 
 
-# Features that are released
-
+# Features that are released - FOllowing features are released in data updates and arc-gis side
+1. Updated all Map Edit datasets
+2. FCRM-3049: Updated code to display modelled 2D data locations based on size of site boundary
+3. FCRM-3050: Fixed display of tidal climate change modelled flood outlines
+4. FCRM-3072: Changed text on flood defences attribute introduction page
+5. FCRM-3073: Removed 'Flood event code' and 'Name' columns from the historic data table
 
 # No Changes
 1) There are no changes in fmp-service apart from the bumping the version number
