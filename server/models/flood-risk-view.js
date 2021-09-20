@@ -38,7 +38,7 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
   } else if (this.floodZone.zone === 'FZ3') {
     this.zoneNumber = '3'
   } else if (this.floodZone.zone === 'FZ3a') {
-    this.zoneNumber = '3 with defences'
+    this.zoneNumber = '3 in an area benefitting from flood defences'
   } else {
     this.zoneNumber = 'not available'
   }
