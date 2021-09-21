@@ -1,7 +1,11 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+Feedback - Flood map for planning.
+{% endblock %}
+
+{% block content %}
+<div id="feedback-page">
   <script id="ss-embed-275052">(function(d,w){var s,ss;ss=d.createElement('script');ss.type='text/javascript';ss.async=true;ss.src=('https:'==d.location.protocol?'https://':'http://')+'www.smartsurvey.co.uk/s/r/embed.aspx?i=253619&c=275052&ref={{ref}}&useragent={{userAgent}}';s=d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ss, s);})(document,window);</script>
-  <div id="feedback-page" class="noscript-iframe text">
-    <h1 class="heading-xlarge">There was a problem displaying the feedback form</h1>
-    <p>We can&#39;t display the feedback form. This is usually because JavaScript is turned off in your browser (for example Chrome, Explorer, Firefox or Safari).</p>
-    <p>Turn JavaScript on in your &#39;Preferences&#39; menu if you would like to try again.</p>
-    <p>Alternatively <a href="https://www.gov.uk/government/organisations/environment-agency#org-contacts">you can contact us</a></p>
-  </div>
+</div>
+{% endblock %}

@@ -37,6 +37,14 @@
     serviceUrl: "/"
   }) }}
 
+  {{ govukPhaseBanner({
+    tag: {
+      text: "beta"
+    },
+    classes: "govuk-width-container",
+    html: 'This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.'
+  }) }}
+
 {% endblock %}
 
 {%block bodyStart%}
