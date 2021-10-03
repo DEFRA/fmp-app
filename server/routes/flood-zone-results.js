@@ -75,7 +75,7 @@ module.exports = [
           northing: Joi.number().max(1300000).positive().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
-          recipientemail: Joi.string()
+          recipientemail: Joi.string().allow('')
         }, {
           polygon: Joi.array().required().items(Joi.array().items(
             Joi.number().max(700000).positive().required(),
@@ -84,7 +84,7 @@ module.exports = [
           center: Joi.array().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
-          recipientemail: Joi.string()
+          recipientemail: Joi.string().allow('')
         }])
       }
     }

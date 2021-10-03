@@ -1,7 +1,8 @@
 
-function FloodRiskExpandedViewModel (easting, northing, zone, localAuthorities, polygon, zoneNumber, recipientemail, fullName) {
+function FloodRiskExpandedViewModel (easting, northing, location, zone, localAuthorities, polygon, zoneNumber, recipientemail, fullName) {
   this.easting = easting
   this.northing = northing
+  this.location = location
   this.zone = zone
   this.localAuthorities = localAuthorities
   this.zoneNumber = zoneNumber
@@ -11,4 +12,5 @@ function FloodRiskExpandedViewModel (easting, northing, zone, localAuthorities, 
     this.polygon = polygon
   }
 }
+
 module.exports = FloodRiskExpandedViewModel
