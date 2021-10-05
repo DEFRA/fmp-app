@@ -17,7 +17,7 @@
     "build": "bin/build",
     "watch": "bin/watch",
     "lint": "standard",
-    "test": "npm run lint && lab -c -r console -o stdout -r lcov -o lcov.info",
+    "test": "npm run lint && lab -l -c -r console -o stdout -r lcov -o lcov.info",
     "postinstall": "npm run build"
   },
   "author": "",
