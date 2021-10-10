@@ -11,7 +11,7 @@ os.Branding = {
     options: {
         div: 'map',
         logo: 'os-logo-maps', // os-logo-maps | os-logo-maps-white
-        statement: 'Contains OS data &copy; Crown copyright and database rights YYYY',
+        statement: '<a href="os-terms">Contains OS data &copy; Crown copyright and database rights YYYY</a>',
         prefix: '',
         suffix: ''
     },
