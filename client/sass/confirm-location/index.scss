@@ -10,3 +10,18 @@
     height: 400px;
     border-top: 1px solid #b1b4b6;
 }
+
+  .os-credits__text {
+    background-color: rgba(255, 255, 255, 0.75);
+    bottom: 0;
+    font-size: 10px !important;
+    padding: 10px 6px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    z-index: 999;
+  }
+  
+  .os-credits__link {
+    text-decoration: none;
+  }
