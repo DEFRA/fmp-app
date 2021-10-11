@@ -1,11 +1,11 @@
 {
   "server": {
-    "host": "0.0.0.0",
+    "host": "127.0.0.1",
     "port": 3000,
     "labels": "web"
   },
-  "service": "http://localhost:8050",
-  "geoserver": "http://internal-DVFMP1ASLB01-611236341.eu-west-1.elb.amazonaws.com:8080",
+  "service": "http://127.0.0.1:8050",
+  "geoserver": "http://dummyuri",
   "logging": {
     "ops": {
       "interval": 1000
@@ -32,27 +32,26 @@
     }
   },
   "views": {
-    "isCached": true
+    "isCached": false
   },
-  "analyticsAccount": "UA-86307035-2",
-  "googleVerification": "HjuKUejT64a0rBdUxxtbnIKNB4_cZ3X3hlXOxk4_OX8",
-  "fbAppId": "1919931248230651",
+  "analyticsAccount": "replace_this",
+  "googleVerification": "replace_this",
+  "fbAppId": "replace_this",
   "httpTimeoutMs": 10000,
-  "mockAddressService": false,
+  "mockAddressService": true,
   "ordnanceSurvey": {
-    "osGetCapabilitiesUrl": "SERVICE=WMTS&request=getcapabilities&VERSION=1.0.0&URL=https://flood-warning-information.service.gov.uk/",
-    "osMapsUrl": "https://api.os.uk/maps/raster/v1/wmts",
-    "osNamesUrl": "https://api.os.uk/search/names/v1/find?maxresults=1&query=",
-    "osSearchKey": "koB1uF1KKHt7ULx5AAwlUNoYiNcJDrLE",
-    "osMapsKey": "koB1uF1KKHt7ULx5AAwlUNoYiNcJDrLE"
+    "osGetCapabilitiesUrl": "http://dummyuri",
+    "osMapsUrl": "http://dummyuri",
+    "osNamesUrl": "http://dummyuri",
+    "osSearchKey": "replace_this",
+    "osMapsKey": "replace_this"
   },
   "errbit": {
-    "postErrors": true,
+    "postErrors": false,
     "env": "development",
-    "key": "9e0ef4d84837bea80028a6669eb49e83",
-    "host": "dst-errbit.herokuapp.com",
-    "proxy": "http://10.209.13.33:3128"
+    "key": "replace_this",
+    "host": "http://dummyuri",
+    "proxy": ""
   },
-  "siteUrl": "https://fmp-development.aws.defra.cloud"
+  "siteUrl": "http://localhost:3000"
 }
-
