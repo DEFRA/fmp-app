@@ -2,7 +2,6 @@
 
 This is a flood map data and application release. The application release updates the Flood Information
 Service Links referenced in the start page and flood zones page.
-Updated the contact link url to https://www.gov.uk/government/organisations/environment-agency?#org-contacts
 
 # Instructions
 
