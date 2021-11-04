@@ -3,7 +3,6 @@ var ol = require('openlayers')
 var Map = require('../map')
 var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
-
 function Summary (options) {
   var mapOptions = {
     layers: [
@@ -32,7 +31,6 @@ function Summary (options) {
       pinchRotate: false
     })
   }
-
   if (options.polygon) {
     var polygon = new ol.geom.Polygon([options.polygon])
     mapOptions.polygon = polygon
@@ -61,7 +59,6 @@ function Summary (options) {
   } else {
     var easting = window.encodeURIComponent(options.easting)
     var northing = window.encodeURIComponent(options.northing)
-
     mapOptions.point = [parseInt(easting, 10), parseInt(northing, 10)]
     mapOptions.layers.push(
       new ol.layer.Vector({
@@ -84,44 +81,24 @@ function Summary (options) {
         })
       }))
   }
-
   var $summaryColumn = $('.summary-column')
   var $map = $('#map')
   var $page = $('#summary-page')
   var $container = $('.map-container')
-  var $mapColumn = $('.map-column')
-
-  var setBlendMode = function (evt) {
-    evt.context.globalCompositeOperation = 'multiply'
-  }
-
-  var resetBlendModeFromSelect = function (evt) {
-    evt.context.globalCompositeOperation = 'source-over'
-  }
-
-  mapOptions.layers[0].on('precompose', setBlendMode)
-  mapOptions.layers[0].on('postcompose', resetBlendModeFromSelect)
-
   this.map = new Map(mapOptions)
-
   function isMobile () {
     return $('.visible-mobile:visible').length > 0
   }
-
   function sizeColumn () {
     var height = !isMobile() ? $summaryColumn.height() : 450
     $map.height(height)
   }
-
   // set start height
   sizeColumn()
-
   $(window).on('resize', sizeColumn)
-
   this.map.onReady(function (map) {
     var id, cookieTimer, cookiePattern
     var cookieName = 'pdf-download'
-
     function checkCookies () {
       // If the local cookies have been updated, clear the timer
       if (document.cookie.search(cookiePattern) >= 0) {
@@ -129,20 +106,16 @@ function Summary (options) {
         dialog.closeDialog()
       }
     }
-
     $('#report form').submit(function () {
       // Create the `id` variable. This is echoed back as
       // the cookie value to notify the download is complete
       id = (new Date()).getTime()
       $('input[name=id][type=hidden]', this).val(id)
       cookiePattern = new RegExp(cookieName + '=' + id, 'i')
-
       dialog.closeDialog()
       dialog.openDialog('#report-downloading')
-
       cookieTimer = window.setInterval(checkCookies, 500)
     })
-
     $container.on('click', '.enter-fullscreen', function (e) {
       e.preventDefault()
       $container.removeClass('map-size')
@@ -155,11 +128,9 @@ function Summary (options) {
       $page.removeClass('fullscreen')
       map.updateSize()
     })
-
     $('#results-map').on('toggle', () => {
       map.updateSize()
     })
   })
 }
-
 module.exports = Summary
