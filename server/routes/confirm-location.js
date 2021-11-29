@@ -44,12 +44,12 @@ module.exports = [{
         } else if (request.query.easting && request.query.northing) {
           location = `${request.query.easting} ${request.query.northing}`
         }
-        let recipientemail = ''
+        let recipientemail = ' '
         if (request.query.recipientemail) {
           recipientemail = request.query.recipientemail
         }
 
-        let fullName = ''
+        let fullName = ' '
         if (request.query.fullName) {
           fullName = request.query.fullName
         }
