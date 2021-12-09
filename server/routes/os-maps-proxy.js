@@ -12,7 +12,7 @@ module.exports = {
     try {
       const url = `${osMapsUrl}${request.url.search}&key=${osMapsKey}`
       const payload = await wreck.get(url)
-      return h.response(payload.payload).type('application/octect-stream')
+      return h.response(payload.payload).type('image/png')
     } catch (err) {
       return Boom.badRequest('os-get-maps failed')
     }
