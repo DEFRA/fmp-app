@@ -13,10 +13,9 @@ Your results explained
   {% from "back-link/macro.njk" import govukBackLink %}
 
   <div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
-    <h1 class="govuk-heading-xl">Your results explained</h1>
-
     {% if zone == 'FZ1'%}
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Your results explained</h1>
         <p class="govuk-body">Because your development is in flood zone 1, it has a low probability of flooding.</p>
       </div>
 
@@ -107,6 +106,7 @@ Your results explained
 
     {% if zone == 'FZ2'%}
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Your results explained</h1>
         <p class="govuk-body">Because your development is in flood zone 2, it has medium probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
       </div>
 
@@ -202,6 +202,7 @@ Your results explained
 
     {% if zone == 'FZ3'%}
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Your results explained</h1>
         <p class="govuk-body">Because your development is in flood zone 3, it has a high probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
       </div>
 
@@ -293,9 +294,10 @@ Your results explained
 
     {% if zone == 'FZ2a'%}
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Your results explained</h1>
         <p class="govuk-body">Your development is in flood zone 2. It is also in an area that has some protection from flood
           defences.</p>
-        <p>Without the local flood defences, this area would be at medium risk of flooding. You’ll need to do a flood risk
+        <p class="govuk-body">Without the local flood defences, this area would be at medium risk of flooding. You’ll need to do a flood risk
           assessment as part of your planning application.
         </p>
       </div>
@@ -387,9 +389,10 @@ Your results explained
 
     {% if zone == 'FZ3a'%}
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Your results explained</h1>
         <p class="govuk-body">Your development is in flood zone 3. It is also in an area that has some protection from flood
           defences.</p>
-        <p>Without the local flood defences, this area would be at high risk of flooding. You’ll need to do a flood risk
+        <p class="govuk-body">Without the local flood defences, this area would be at high risk of flooding. You’ll need to do a flood risk
           assessment as part of your planning application.
         </p>
       </div> 
