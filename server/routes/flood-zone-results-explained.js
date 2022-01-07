@@ -3,7 +3,7 @@ const psoContactDetails = require('../services/pso-contact')
 
 module.exports = [{
   method: 'GET',
-  path: '/flood-zone-results-expanded',
+  path: '/flood-zone-results-explained',
   options: {
     description: 'Displays Flood Zone Results expanded Page',
     auth: {
@@ -28,13 +28,13 @@ module.exports = [{
       if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
         localAuthorities = result.LocalAuthorities.toString()
       }
-      return h.view('flood-zone-results-expanded', new FloodRiskExpandedViewModel(easting, northing, location, zone, localAuthorities, polygon, zoneNumber, recipientemail, fullName))
+      return h.view('flood-zone-results-explained', new FloodRiskExpandedViewModel(easting, northing, location, zone, localAuthorities, polygon, zoneNumber, recipientemail, fullName))
     }
   }
 },
 {
   method: 'POST',
-  path: '/flood-zone-results-expanded',
+  path: '/flood-zone-results-explained',
   options: {
     description: 'Displays Flood Zone Results Expanded Page',
     auth: {

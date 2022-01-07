@@ -1,7 +1,7 @@
 const routes = [].concat(
   require('../routes/home'),
   require('../routes/flood-zone-results'),
-  require('../routes/flood-zone-results-expanded'),
+  require('../routes/flood-zone-results-explained'),
   require('../routes/location'),
   require('../routes/confirm-location'),
   require('../routes/confirmation'),
@@ -23,7 +23,7 @@ const routes = [].concat(
   require('../routes/privacy-policy'),
   require('../routes/privacy-notice'),
   require('../routes/terms-conditions'),
-  require('../routes/application-review-summary'),
+  require('../routes/check-your-details'),
   require('../routes/maintainence'))
 
 module.exports = {

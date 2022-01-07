@@ -1,5 +1,5 @@
 const Boom = require('boom')
-const ApplicationReviewSummaryViewModel = require('../models/application-review-summary')
+const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const config = require('../../config')
 const wreck = require('wreck')
@@ -9,7 +9,7 @@ const QueryString = require('querystring')
 module.exports = [
   {
     method: 'GET',
-    path: '/application-review-summary',
+    path: '/check-your-details',
     options: {
       description: 'Application Review Summary',
       auth: {
@@ -54,13 +54,13 @@ module.exports = [
           contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
           confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
         })
-        return h.view('application-review-summary', model)
+        return h.view('check-your-details', model)
       }
     }
   },
   {
     method: 'POST',
-    path: '/application-review-summary',
+    path: '/check-your-details',
     options: {
       description: 'submits the page to Confirmation Screen',
       auth: {

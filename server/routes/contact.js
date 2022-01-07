@@ -111,7 +111,7 @@ module.exports = [
            var params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
 
           
-            return h.redirect(`/application-review-summary?${params}`)
+            return h.redirect(`/check-your-details?${params}`)
             } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
             contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
