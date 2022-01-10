@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 {% from "back-link/macro.njk" import govukBackLink %}
 {% from "button/macro.njk" import govukButton %}
-
-{% block content %}
-  {{ super() }}
     {% block pageTitle %}
 Confirm location - Flood map for planning - GOV.UK
 {% endblock %}
+
+{% block content %}
+  {{ super() }}
+
   
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">

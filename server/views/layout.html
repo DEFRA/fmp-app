@@ -9,10 +9,6 @@
 {% set metaDescription = model.metadata.description | default('Flood map for planning Service : Flood map for planning') %}
 {% set metaKeywords = model.metadata.keywords | default('flood,mapfor,planning,service,gov,uk') %}
 
-{% block pageTitle %}
-  {{ metaTitle }}
-{% endblock %}
-
 {% block head %}
   <meta property="fb:app_id" content="{{fbAppId}}"/>
   <meta property="og:type" content="website"/>
