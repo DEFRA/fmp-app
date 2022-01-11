@@ -19,7 +19,7 @@ function closeDownloadDialog () {
 // Initialise on document ready
 $(function init () {
   if ($('.dialog').length > 0) {
-    $('a[data-toggle=dialog]').on('click', function (e) {
+    $('button[data-toggle=dialog]').on('click', function (e) {
       e.preventDefault()
 
       var $this = $(this)
