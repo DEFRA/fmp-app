@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/DEFRA/fmp-app.svg?branch=master)](https://travis-ci.org/DEFRA/fmp-app)
-[![Dependency Status](https://david-dm.org/DEFRA/fmp-app.svg)](https://david-dm.org/DEFRA/fmp-app)
-[![Test Coverage](https://codeclimate.com/github/DEFRA/fmp-app/badges/coverage.svg)](https://codeclimate.com/github/DEFRA/fmp-app/coverage)
+![Build status](https://github.com/DEFRA/fmp-app/actions/workflows/ci.yml/badge.svg)[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fmp-app&metric=alert_status)](https://sonarcloud.io/dashboard?id=DEFRA_fmp-app)[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fmp-app&metric=coverage)](https://sonarcloud.io/dashboard?id=DEFRA_fmp-app)
 
 # fmp-app
 
