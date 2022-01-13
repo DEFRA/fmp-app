@@ -4,17 +4,17 @@ const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
 const { manifest, options } = require('../../server')
 
-lab.experiment('terms-conditions', () => {
+lab.experiment('terms-and-conditions', () => {
   let server
 
   lab.before(async () => {
     server = await glupe.compose(manifest, options)
   })
 
-  lab.test('terms-conditions', async () => {
+  lab.test('terms-and-conditions', async () => {
     const options = {
       method: 'GET',
-      url: '/terms-conditions'
+      url: '/terms-and-conditions'
     }
 
     const response = await server.inject(options)

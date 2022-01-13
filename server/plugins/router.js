@@ -19,10 +19,10 @@ const routes = [].concat(
   require('../routes/os-terms'),
   require('../routes/error'),
   require('../routes/cookies'),
-  require('../routes/accessibility'),
-  require('../routes/privacy-policy'),
+  require('../routes/accessibility-statement'),
+  require('../routes/personal-information-charter'),
   require('../routes/privacy-notice'),
-  require('../routes/terms-conditions'),
+  require('../routes/terms-and-conditions'),
   require('../routes/check-your-details'),
   require('../routes/maintainence'))
 

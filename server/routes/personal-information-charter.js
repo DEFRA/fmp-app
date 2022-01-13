@@ -1,16 +1,16 @@
 module.exports = {
   method: 'GET',
-  path: '/terms-conditions',
+  path: '/personal-information-charter',
   options: {
-    description: 'Terms and conditions - Flood map for planning - GOV.UK',
+    description: 'Privacy policy - Flood map for planning - GOV.UK',
     auth: {
       strategy: 'restricted'
     },
     handler: {
       view: {
-        template: 'terms-and-conditions',
+        template: 'personal-information-charter',
         context: {
-          pageTitle: 'Terms and conditions - Flood map for planning - GOV.UK',
+          pageTitle: 'Privacy policy - Flood map for planning - GOV.UK',
           feedback: false,
           metaDescription: 'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.'
         }
