@@ -88,7 +88,7 @@ lab.experiment('confirm-location', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/not-england?easting=259309&northing=672290')
+    Code.expect(response.headers.location).to.equal('/england-only?easting=259309&northing=672290')
   })
 
   lab.test('confirm-location returns not in england with place and postcode', async () => {
@@ -105,7 +105,7 @@ lab.experiment('confirm-location', () => {
     const responseURL = URL.parse(response.headers.location)
     const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(responseURL.pathname).to.equal('/not-england')
+    Code.expect(responseURL.pathname).to.equal('/england-only')
     Code.expect(responseQueryParams.easting.startsWith('333433')).to.be.true()
     Code.expect(responseQueryParams.northing.startsWith('186528')).to.be.true()
     Code.expect(responseQueryParams.placeOrPostcode).to.equal('Newport')
@@ -125,7 +125,7 @@ lab.experiment('confirm-location', () => {
     const responseURL = URL.parse(response.headers.location)
     const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(responseURL.pathname).to.equal('/not-england')
+    Code.expect(responseURL.pathname).to.equal('/england-only')
     Code.expect(responseQueryParams.easting.startsWith('31800')).to.be.true()
     Code.expect(responseQueryParams.northing.startsWith('17720')).to.be.true()
     Code.expect(responseQueryParams.nationalGridReference).to.equal('ST180772')

@@ -51,7 +51,7 @@ module.exports = [
             const riskResult = await riskService.getByPolygon(geoJson)
 
             if (!riskResult.in_england) {
-              return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
+              return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
               return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, recipientemail, fullName))
                 .unstate('pdf-download')
@@ -59,7 +59,7 @@ module.exports = [
           } else {
             const riskResult = await riskService.getByPoint(easting, northing)
             if (!riskResult.point_in_england) {
-              return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
+              return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
             } else {
               return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, recipientemail, fullName))
                 .unstate('pdf-download')

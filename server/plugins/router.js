@@ -9,7 +9,7 @@ const routes = [].concat(
   require('../routes/results'),
   require('../routes/public'),
   require('../routes/login'),
-  require('../routes/not-england'),
+  require('../routes/england-only'),
   require('../routes/gwc-proxy'),
   require('../routes/os-get-capabilities'),
   require('../routes/os-maps-proxy'),

@@ -35,7 +35,7 @@ module.exports = [{
         if (!result.is_england) {
           // redirect to the not England page with the search params in the query
           const queryString = QueryString.stringify(request.query)
-          return h.redirect('/not-england?' + queryString)
+          return h.redirect('/england-only?' + queryString)
         }
 
         let location = ''

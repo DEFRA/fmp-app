@@ -20,7 +20,7 @@ module.exports = {
     zone3: '<h2 class="heading-large">Flood zone 3</h2>',
     zoneAreaBen: '<h3 class="heading-medium">area that benefits from flood defences</h3>'
   },
-  'not-england': {
+  'england-only': {
     standard: '<h1 class="heading-xlarge">This service is for locations in England only</h1>'
   }
 }

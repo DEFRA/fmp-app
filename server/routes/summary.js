@@ -22,7 +22,7 @@ module.exports = {
           const result = await riskService.getByPolygon(geoJson)
 
           if (!result.in_england) {
-            return h.redirect(`/not-england?centroid=true&easting=${center[0]}&northing=${center[1]}`)
+            return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
           } else {
             return h.view('summary', new SummaryViewModel(result, center, polygon))
               .unstate('pdf-download')
@@ -33,7 +33,7 @@ module.exports = {
           const result = await riskService.getByPoint(easting, northing)
 
           if (!result.point_in_england) {
-            return h.redirect(`/not-england?easting=${easting}&northing=${northing}`)
+            return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
           } else {
             return h.view('summary', new SummaryViewModel(result, [easting, northing]))
               .unstate('pdf-download')

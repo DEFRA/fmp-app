@@ -54,12 +54,12 @@ lab.experiment('Get Routes test', () => {
     Code.expect(response.payload).to.include('Check if a location in England is at risk of flooding now')
     Code.expect(response.headers['content-type']).to.include('text/html')
   })
-  lab.test('GET /location-not-england', async () => {
+  lab.test('GET /england-only', async () => {
     const plugin = {
       plugin: {
         name: 'location-not-england',
         register: (server, options) => {
-          server.route(require('../../server/routes/location-not-england'))
+          server.route(require('../../server/routes/england-only'))
         }
       }
     }
