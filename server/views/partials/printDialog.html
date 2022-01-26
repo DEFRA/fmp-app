@@ -1,7 +1,13 @@
+{% from "button/macro.njk" import govukButton %}
 <div class="dialog" id="report" aria-hidden="true">
   <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
-      <h1 class="dialog-heading">Download report</h1>
+      {{ govukButton({
+    text: "Close",
+    classes: "govuk-button--secondary dialog-cancel",
+    href:"#"
+  }) }}
+    <h1 class="dialog-heading">Download report</h1>
       <form class="form" method="POST" action="pdf">
         <input name="id" type="hidden">
         <input name="zone" type="hidden" value="{{floodZone.zone}}">
@@ -24,10 +30,7 @@
           <button class="button" type="submit">Download</button>
           <a class="dialog-cancel" href="#">Cancel</a>
         </div>
-        <button class="dialog-close" aria-label="close" type="submit">
-          <span class="icon icon-close">x</span>
-        </button>
-      </form>
+        </form>
     </div>
   </div>
 </div>
