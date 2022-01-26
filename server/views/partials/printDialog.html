@@ -2,12 +2,15 @@
 <div class="dialog" id="report" aria-hidden="true">
   <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
-      {{ govukButton({
+      <div class ="align-right">     
+     {{ govukButton({
     text: "Close",
-    classes: "govuk-button--secondary dialog-cancel",
+    classes: "govuk-button--secondary dialog-cancel closebutton",
     href:"#"
   }) }}
+  </div>
     <h1 class="dialog-heading">Download report</h1>
+  
       <form class="form" method="POST" action="pdf">
         <input name="id" type="hidden">
         <input name="zone" type="hidden" value="{{floodZone.zone}}">

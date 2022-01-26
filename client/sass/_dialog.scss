@@ -139,4 +139,15 @@ $module: 'dialog';
     }
 
   }
+
+  .closebutton {
+    width:70px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin:0px auto;
+   }
+   .align-right {
+    text-align: right;
+    border: 0;
+  }
 }
