@@ -1,4 +1,6 @@
 {% from "button/macro.njk" import govukButton %}
+{% from "select/macro.njk" import govukSelect %}
+{% from "input/macro.njk" import govukInput %}
 <div class="dialog" id="report" aria-hidden="true" aria-modal="true">
   <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
@@ -10,33 +12,71 @@
   }) }}
   </div>
     <h1 class="dialog-heading">Download report</h1>
-  
-      <form class="form" method="POST" action="pdf">
+     <span class="govuk-hint govuk-hint--block">
+            To download your report: enter a reference name, select a scale, then click download.
+      </span>
+<form class="form" method="POST" action="pdf">
         <input name="id" type="hidden">
         <input name="zone" type="hidden" value="{{floodZone.zone}}">
         <input name="polygon" type="hidden" value="{{polygon}}">
         <input name="center" type="hidden" value="[{{easting}},{{northing}}]">
         <div class="form-group">
-          <label class="form-label" for="reference">Your reference</label>
-          <input class="form-control" id="reference" name="reference" type="text" maxlength="13">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="scale">Scale</label>
-          <select class="form-control" id="scale" name="scale" style="max-width: 200px;">            
-            <option value="2500">1:2500</option>
-            <option value="10000">1:10000</option>
-            <option value="25000">1:25000</option>
-            <option value="50000">1:50000</option>
-          </select>
+        {{ govukInput({
+            label: {
+      text: "Your reference",
+      classes: "govuk-label--l",
+      isPageHeading: true
+  },
+  hint: {
+    text: "This is chosen by you to help you find the report later"
+  },
+  id: "reference",
+  name: "reference"
+}) }}
+</div>
+       <div class="form-group">
+        {{ govukSelect({
+  id: "Scale",
+  name: "Scale",
+  classes: "govuk-label--l ",
+  label: {
+    text: "Scale",  
+    classes :"heading-medium"
+  },
+  hint: {
+      
+    text: "Select the scale of the map shown in the report"
+  },
+  items: [
+    {
+      value: "1:2500",
+      text: "1:2500",
+      selected: true
+    },
+    {
+      value: "1:10000",
+      text: "1:10000"   
+    },
+    {
+      value: "1:25000",
+      text: "1:25000"
+    },
+    {
+      value: "1:50000",
+      text: "1:50000"
+    }
+  ]
+}) }}
+
         </div>
         <div class="dialog-actions">
           <button class="button" type="submit">Download</button>
           <a class="dialog-cancel" href="#">Cancel</a>
-        </div>
-        </form>
+        </div>        
     </div>
   </div>
 </div>
+</form>
 <div class="dialog" id="report-downloading" aria-hidden="true" aria-modal="true">
   <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
