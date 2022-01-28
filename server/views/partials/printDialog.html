@@ -20,7 +20,7 @@
         <input name="zone" type="hidden" value="{{floodZone.zone}}">
         <input name="polygon" type="hidden" value="{{polygon}}">
         <input name="center" type="hidden" value="[{{easting}},{{northing}}]">
-        <div class="form-group">
+       <div class="form-group">
         {{ govukInput({
             label: {
       text: "Your reference",
@@ -36,11 +36,11 @@
 </div>
        <div class="form-group">
         {{ govukSelect({
-  id: "Scale",
-  name: "Scale",
-  classes: "govuk-label--l ",
+  id: "scale",
+  name: "scale",
+  classes: "govuk-label--l form-control",
   label: {
-    text: "Scale",  
+    text: "scale",  
     classes :"heading-medium"
   },
   hint: {
@@ -49,20 +49,20 @@
   },
   items: [
     {
-      value: "1:2500",
+      value: "2500",
       text: "1:2500",
       selected: true
     },
     {
-      value: "1:10000",
+      value: "10000",
       text: "1:10000"   
     },
     {
-      value: "1:25000",
+      value: "25000",
       text: "1:25000"
     },
     {
-      value: "1:50000",
+      value: "50000",
       text: "1:50000"
     }
   ]
@@ -72,11 +72,12 @@
         <div class="dialog-actions">
           <button class="button" type="submit">Download</button>
           <a class="dialog-cancel" href="#">Cancel</a>
-        </div>        
+        </div>  
+        </form>      
     </div>
+
   </div>
 </div>
-</form>
 <div class="dialog" id="report-downloading" aria-hidden="true" aria-modal="true">
   <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
