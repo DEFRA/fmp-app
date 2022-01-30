@@ -4,7 +4,9 @@ const config = require('../../config')
 const pkg = require('../../package.json')
 const {
   gaAccId,
-  fbAppId
+  fbAppId,
+  analyticsAccount
+
 } = config
 
 module.exports = {
@@ -44,7 +46,8 @@ module.exports = {
       assetPath: '/assets',
       serviceName: 'Flood Map for Planning',
       gaAccId,
-      fbAppId
+      fbAppId,
+      analyticsAccount
     }
   }
 }
