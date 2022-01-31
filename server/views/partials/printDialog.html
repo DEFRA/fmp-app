@@ -11,7 +11,7 @@
     href:"#"
   }) }}
   </div>
-    <h1 class="dialog-heading">Download report</h1>
+    <h2 class="dialog-heading">Download report</h2>
      <span class="govuk-hint govuk-hint--block">
             To download your report: enter a reference name, select a scale, then click download.
       </span>
@@ -24,8 +24,8 @@
         {{ govukInput({
             label: {
       text: "Your reference",
-      classes: "govuk-label--l",
-      isPageHeading: true
+      classes: "govuk-label--m",
+      isPageHeading: false
   },
   hint: {
     text: "This is chosen by you to help you find the report later"
@@ -41,7 +41,7 @@
   classes: "govuk-label--l form-control",
   label: {
     text: "scale",  
-    classes :"heading-medium"
+    classes :"govuk-label--m"
   },
   hint: {
       
