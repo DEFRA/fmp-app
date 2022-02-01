@@ -145,6 +145,11 @@ $module: 'dialog';
     overflow: hidden;
     white-space: nowrap;
     margin:0px auto;
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 5px;
+    right: 5px;
    }
    .align-right {
     text-align: right;
