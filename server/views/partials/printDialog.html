@@ -7,7 +7,7 @@
       <div class ="align-right">     
      {{ govukButton({
     text: "Close",
-    classes: "govuk-button--secondary dialog-cancel closebutton",
+    classes: "govuk-button--secondary dialog-cancel closebutton govuk-!-font-size-14",
     href:"#"
   }) }}
   </div>
@@ -38,14 +38,15 @@
         {{ govukSelect({
   id: "scale",
   name: "scale",
-  classes: ".govuk-label--m",
+  classes: "govuk-label--m",
   label: {
     text: "Scale",  
-    classes :".govuk-label--m"
+    classes :"govuk-label--m"
   },
   hint: {
       
-    text: "Select the scale of the map shown in the report"
+    text: "Select the scale of the map shown in the report",
+    class
   },
   items: [
     {
