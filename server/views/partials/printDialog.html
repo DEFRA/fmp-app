@@ -2,7 +2,7 @@
 {% from "select/macro.njk" import govukSelect %}
 {% from "input/macro.njk" import govukInput %}
 <div class="dialog" id="report" aria-hidden="true" aria-modal="true">
-  <div class="dialog-holder" aria-labelledby="dialog-title" aria-describedby="dialog-content" role="dialog">
+  <div class="dialog-holder" aria-labelledby="dialog-heading" aria-describedby="dialog-content" role="dialog">
     <div class="dialog-content" role="document" tabindex="0">
       <div class ="align-right">     
      {{ govukButton({
@@ -12,7 +12,7 @@
   }) }}
   </div>
     <h2 class="dialog-heading">Download report</h2>
-     <span class="govuk-hint govuk-hint--block">
+     <span class="govuk-hint govuk-hint--block" id="dialog-content">
             To download your report: enter a reference name, select a scale, then click download.
       </span>
 <form class="form" method="POST" action="pdf">
