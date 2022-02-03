@@ -8,9 +8,6 @@ module.exports = [{
   method: 'GET',
   path: '/confirm-location',
   options: {
-    auth: {
-      strategy: 'restricted'
-    },
     description: 'Get confirm location page search results',
     handler: async (request, h) => {
       // if a request to the old url, which accepted the param place, was made forward to the homepage

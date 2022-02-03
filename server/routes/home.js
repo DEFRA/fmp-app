@@ -1,12 +1,9 @@
 
 module.exports = [{
   method: 'GET',
-  path: '/home',
+  path: '/',
   options: {
     description: 'Home Page',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: async (request, h) => {
       if (typeof request.yar === 'undefined' || typeof request.yar.get('displayError') === 'undefined') {
         return h.view('home')
@@ -19,12 +16,9 @@ module.exports = [{
   }
 }, {
   method: 'POST',
-  path: '/home',
+  path: '/',
   options: {
-    description: 'Home Page Post',
-    auth: {
-      strategy: 'restricted'
-    }
+    description: 'Home Page Post'
   },
   handler: async (request, h) => {
     return h.redirect('/location')

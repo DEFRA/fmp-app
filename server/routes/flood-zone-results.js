@@ -11,9 +11,6 @@ module.exports = [
     path: '/flood-zone-results',
     options: {
       description: 'Displays flood zone results page',
-      auth: {
-        strategy: 'restricted'
-      },
       handler: async (request, h) => {
         try {
           let easting, northing

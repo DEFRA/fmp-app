@@ -12,9 +12,6 @@ module.exports = [
     path: '/check-your-details',
     options: {
       description: 'Application Review Summary',
-      auth: {
-        strategy: 'restricted'
-      },
       handler: async (request, h) => {
         const payload = request.query
         var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
@@ -63,9 +60,6 @@ module.exports = [
     path: '/check-your-details',
     options: {
       description: 'submits the page to Confirmation Screen',
-      auth: {
-        strategy: 'restricted'
-      },
       handler: async (request, h) => {
         try {
           const payload = request.payload

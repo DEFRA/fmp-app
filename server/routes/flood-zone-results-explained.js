@@ -6,9 +6,6 @@ module.exports = [{
   path: '/flood-zone-results-explained',
   options: {
     description: 'Displays Flood Zone Results expanded Page',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: async (request, h) => {
       const easting = encodeURIComponent(request.query.easting)
       const northing = encodeURIComponent(request.query.northing)
@@ -37,9 +34,6 @@ module.exports = [{
   path: '/flood-zone-results-explained',
   options: {
     description: 'Displays Flood Zone Results Expanded Page',
-    auth: {
-      strategy: 'restricted'
-    }
   },
   handler: async (request, h) => {
     return h.redirect('/contact')

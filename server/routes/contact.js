@@ -32,9 +32,6 @@ module.exports = [
     path: '/contact',
     options: {
       description: 'Get contact details page for product 4',
-      auth: {
-        strategy: 'restricted'
-      },
       handler: async (request, h) => {
         try {
           const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', zoneNumber: '', polygon: '', cent: '' }
@@ -63,9 +60,6 @@ module.exports = [
     path: '/contact',
     options: {
       description: 'submits the page to Application summary Review Screen',
-      auth: {
-        strategy: 'restricted'
-      },
       handler: async (request, h) => {
         try {
           const payload = request.payload

@@ -3,9 +3,6 @@ module.exports = {
   path: '/personal-information-charter',
   options: {
     description: 'Privacy policy - Flood map for planning - GOV.UK',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: {
       view: {
         template: 'personal-information-charter',

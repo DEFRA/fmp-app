@@ -5,7 +5,7 @@ const LoginViewModel = require('../models/login-view')
 module.exports = [
   {
     method: 'GET',
-    path: '/',
+    path: '/Login',
     options: {
       description: 'Login Get',
       handler: async (request, h) => {
@@ -18,7 +18,7 @@ module.exports = [
   },
   {
     method: 'POST',
-    path: '/',
+    path: '/Login',
     options: {
       description: 'Login Post',
       handler: async (request, h) => {

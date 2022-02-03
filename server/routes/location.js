@@ -10,10 +10,7 @@ module.exports = [{
   method: 'GET',
   path: '/location',
   options: {
-    description: 'Get location for a postcode, national grid reference, easting or northing',
-    auth: {
-      strategy: 'restricted'
-    }
+    description: 'Get location for a postcode, national grid reference, easting or northing'
   },
   handler: async (request, h) => {
     var errors = []
@@ -28,9 +25,6 @@ module.exports = [{
   path: '/location',
   options: {
     description: 'Get location for a postcode, national grid reference, easting or northing',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: async (request, h) => {
       try {
         const queryParams = {}

@@ -3,9 +3,6 @@ module.exports = {
   path: '/feedback',
   options: {
     description: 'Get the feedback page',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: async (request, h) => {
       const ref = (request.info.referrer && request.info.referrer.indexOf('/feedback') === -1) ? request.info.referrer : request.server.info.protocol + '://' + request.info.host
       return h.view('feedback', {

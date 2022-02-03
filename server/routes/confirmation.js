@@ -7,9 +7,6 @@ module.exports = {
   path: '/confirmation',
   options: {
     description: 'Get confirmation  page for product 4',
-    auth: {
-      strategy: 'restricted'
-    },
     handler: async (request, h) => {
       try {
         if (request.query && request.query.recipientemail && request.query.fullName && request.query.applicationReferenceNumber && request.query.location) {
@@ -20,7 +17,7 @@ module.exports = {
           model.AreaName = (result && result.AreaName) ? result.AreaName : undefined
           model.LocalAuthorities = (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) ? result.LocalAuthorities : undefined
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
-          model.ispolygon = (request.query.polygon) ? true : false
+          model.ispolygon = !!(request.query.polygon)
           model.search = request.query.location ? request.query.location : ''
           await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, model.recipientemail, model.search)
           return h.view('confirmation', model)
