@@ -38,6 +38,5 @@ module.exports = {
   }),
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
-  functionAppUrl: Joi.string().required(),
-  credentials: Joi.array().required()
+  functionAppUrl: Joi.string().required()
 }
