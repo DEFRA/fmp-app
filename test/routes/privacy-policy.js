@@ -1,20 +1,26 @@
 const Lab = require('lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
-lab.experiment('personal-information-charter', () => {
+lab.experiment('privacy-policy', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
   })
 
-  lab.test('personal-information-charter', async () => {
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
+  })
+
+  lab.test('privacy-policy', async () => {
     const options = {
       method: 'GET',
-      url: '/personal-information-charter'
+      url: '/privacy-policy'
     }
 
     const response = await server.inject(options)

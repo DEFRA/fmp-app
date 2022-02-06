@@ -1,3 +1,4 @@
+require('./os-branding')
 var $ = require('jquery')
 // proj4 is accessed using global variable within openlayers library
 window.proj4 = require('proj4') //  JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations
@@ -5,7 +6,6 @@ var raf = require('raf') // requestAnimationFrame polyfill for node and the brow
 var ol = require('openlayers')
 var parser = new ol.format.WMTSCapabilities()
 var config = require('./map-config.json')
-const logoScript = require('./os-branding')
 var map, callback
 
 function Map (mapOptions) {

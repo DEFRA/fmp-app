@@ -1,17 +1,23 @@
 const Lab = require('lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
-lab.experiment('terms-and-conditions', () => {
+lab.experiment('terms-conditions', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
   })
 
-  lab.test('terms-and-conditions', async () => {
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
+  })
+
+  lab.test('terms-conditions', async () => {
     const options = {
       method: 'GET',
       url: '/terms-and-conditions'
