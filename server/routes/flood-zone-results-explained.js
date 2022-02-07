@@ -33,7 +33,7 @@ module.exports = [{
   method: 'POST',
   path: '/flood-zone-results-explained',
   options: {
-    description: 'Displays Flood Zone Results Expanded Page',
+    description: 'Displays Flood Zone Results Expanded Page'
   },
   handler: async (request, h) => {
     return h.redirect('/contact')
