@@ -8,7 +8,8 @@
      {{ govukButton({
     text: "Close",
     classes: "govuk-button--secondary dialog-cancel closebutton govuk-!-font-size-14",
-    href:"#"
+    href:"#",
+    id:"close"
   }) }}
   </div>
     <h2 id="dialog-heading" class="dialog-heading">Download report</h2>
@@ -70,8 +71,8 @@
 
         </div>
         <div class="dialog-actions">
-          <button class="button" type="submit">Download</button>
-          <a class="dialog-cancel" href="#">Cancel</a>
+          <button class="button" type="submit" id="download">Download</button>
+          <a class="dialog-cancel" href="#" id="cancel">Cancel</a>
         </div>  
         </form>      
     </div>

@@ -5,11 +5,13 @@ function openDialog (sel) {
 
   $dialog.attr('aria-hidden', 'false')
     .find('.dialog-content input').focus()
+  $('body').addClass('modal-open')
 }
 
 function closeDialog () {
   $('.dialog[aria-hidden=false]')
     .attr('aria-hidden', 'true')
+  $('body').removeClass('modal-open')
 }
 function closeDownloadDialog () {
   $('#report-downloading')
@@ -51,6 +53,9 @@ $(function init () {
         closeDownloadDialog()
       }
 
+    })
+    $('.govuk-button .button').click(function () {
+      $('body').removeClass('modal-open')
     })
   }
 })

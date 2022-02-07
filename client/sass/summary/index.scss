@@ -16,7 +16,12 @@
     text-align: right;
     z-index: 999;
   }
-  
+  body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+  }  
   .os-credits__link {
     text-decoration: none;
   }
