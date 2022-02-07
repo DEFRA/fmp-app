@@ -115,6 +115,7 @@ function Summary (options) {
       dialog.closeDialog()
       dialog.openDialog('#report-downloading')
       cookieTimer = window.setInterval(checkCookies, 500)
+      $('body').removeClass('modal-open')
     })
     $container.on('click', '.enter-fullscreen', function (e) {
       e.preventDefault()
