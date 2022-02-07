@@ -1,8 +1,8 @@
 
 /* global $ */
+require('../dialog')
 var ol = require('openlayers')
 var Map = require('../summary-review-map')
-var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
 
 function ApplicationSummaryReviewPage (options) {

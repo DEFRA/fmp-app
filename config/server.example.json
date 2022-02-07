@@ -1,0 +1,61 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 3000,
+    "labels": "web"
+  },
+  "service": "http://127.0.0.1:8050",
+  "geoserver": "http://dummyuri",
+  "logging": {
+    "ops": {
+      "interval": 1000
+    },
+    "reporters": {
+      "console": [
+        {
+          "module": "good-squeeze",
+          "name": "Squeeze",
+          "args": [
+            {
+              "log": "*",
+              "response": "*",
+              "error": "*",
+              "request": "error"
+            }
+          ]
+        },
+        {
+          "module": "good-console"
+        },
+        "stdout"
+      ]
+    }
+  },
+  "views": {
+    "isCached": false
+  },
+  "analyticsAccount": "replace_this",
+  "googleVerification": "replace_this",
+  "fbAppId": "replace_this",
+  "httpTimeoutMs": 10000,
+  "mockAddressService": true,
+  "maintainence":false,
+  "ordnanceSurvey": {
+    "osGetCapabilitiesUrl": "http://dummyuri",
+    "osMapsUrl": "http://dummyuri",
+    "osNamesUrl": "http://dummyuri",
+    "osSearchKey": "replace_this",
+    "osMapsKey": "replace_this"
+  },
+  "errbit": {
+    "postErrors": false,
+    "options":{
+    "env": "development",
+    "key": "replace_this",
+    "host": "http://dummyuri"
+    }
+  },
+  "siteUrl": "http://localhost:3000",
+  "LogAuditTrial": false,
+  "functionAppUrl": "http://dummyuri"
+}

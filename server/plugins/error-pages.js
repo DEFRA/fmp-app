@@ -29,7 +29,7 @@ module.exports = {
           // In the event of 400
           // return the invalid location error
           if (statusCode === 400) {
-            request.yar.set('displayError', { errorMessage: 'Enter a valid location' })
+            // request.yar.set('displayError', { errorMessage: 'Enter a valid location' })
             return h.redirect('/')
           }
 

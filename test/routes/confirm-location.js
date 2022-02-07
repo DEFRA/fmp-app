@@ -1,22 +1,25 @@
 const Lab = require('lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const QueryString = require('querystring')
-const URL = require('url')
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
 lab.experiment('confirm-location', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
-
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }
+  })
+
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
   })
 
   lab.test('confirm-location with easting & northing', async () => {
@@ -26,7 +29,6 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers).to.not.include('location')
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include(headers['confirm-location'].standard)
   })
@@ -37,9 +39,7 @@ lab.experiment('confirm-location', () => {
       url: '/confirm-location?easting=360799'
     }
     const response = await server.inject(options)
-    Code.expect(response.headers).to.not.include('location')
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers['400'])
+    Code.expect(response.statusCode).to.equal(302)
   })
 
   lab.test('confirm-location with northing only', async () => {
@@ -48,9 +48,7 @@ lab.experiment('confirm-location', () => {
       url: '/confirm-location?northing=388244'
     }
     const response = await server.inject(options)
-    Code.expect(response.headers).to.not.include('location')
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers['400'])
+    Code.expect(response.statusCode).to.equal(302)
   })
 
   lab.test('confirm-location with invalid query expect redirect', async () => {
@@ -60,9 +58,7 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.headers).to.not.include('location')
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.include(headers['400'])
+    Code.expect(response.statusCode).to.equal(302)
   })
 
   lab.test('confirm-location with unknown parameter to return 400 page', async () => {
@@ -72,8 +68,7 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(400)
-    Code.expect(response.payload).to.contain(headers[400])
+    Code.expect(response.statusCode).to.equal(302)
   })
 
   lab.test('confirm-location returns not in england redirection by E/N', async () => {
@@ -102,13 +97,8 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    const responseURL = URL.parse(response.headers.location)
-    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(responseURL.pathname).to.equal('/england-only')
-    Code.expect(responseQueryParams.easting.startsWith('333433')).to.be.true()
-    Code.expect(responseQueryParams.northing.startsWith('186528')).to.be.true()
-    Code.expect(responseQueryParams.placeOrPostcode).to.equal('Newport')
+    Code.expect(response.headers.location).to.equal('/england-only?placeOrPostcode=Newport&easting=333433&northing=186528')
   })
 
   lab.test('confirm-location returns not in england with NGR ST180772', async () => {
@@ -122,13 +112,8 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    const responseURL = URL.parse(response.headers.location)
-    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(responseURL.pathname).to.equal('/england-only')
-    Code.expect(responseQueryParams.easting.startsWith('31800')).to.be.true()
-    Code.expect(responseQueryParams.northing.startsWith('17720')).to.be.true()
-    Code.expect(responseQueryParams.nationalGridReference).to.equal('ST180772')
+    Code.expect(response.headers.location).to.equal('/england-only?nationalGridReference=ST180772&easting=31800&northing=177200')
   })
 
   lab.test('isEngland Errors', async () => {
@@ -143,7 +128,6 @@ lab.experiment('confirm-location', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(500)
-    Code.expect(response.payload).to.contain(headers[500])
   })
 
   lab.test('confirm-location with legacy place parameter redirects to homepage', async () => {
@@ -153,10 +137,7 @@ lab.experiment('confirm-location', () => {
     }
 
     const response = await server.inject(options)
-    const responseURL = URL.parse(response.headers.location)
-    const responseQueryParams = QueryString.parse(responseURL.query)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(responseURL.pathname).to.equal('/')
-    Code.expect(responseQueryParams.place).to.equal('co10 0nn')
+    Code.expect(response.headers.location).to.equal('/?place=co10%200nn')
   })
 })

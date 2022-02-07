@@ -70,9 +70,7 @@ module.exports = [{
             })
             return h.view('location', model)
           }
-        }
-        // If NGR Reference
-        else if (selectedOption === 'nationalGridReference') {
+        } else if (selectedOption === 'nationalGridReference') {
           var isNGrValid = await isValidNgrService.get(payload.nationalGridReference)
           if (isNGrValid.isValid) {
             BNG = ngrToBng.convert(payload.nationalGridReference)
@@ -90,9 +88,7 @@ module.exports = [{
             })
             return h.view('location', model)
           }
-        }
-        // If Easting and Northing
-        else if (selectedOption === 'eastingNorthing') {
+        } else if (selectedOption === 'eastingNorthing') {
           const formattedEasting = payload.easting ? payload.easting.trim().replace(/\s+/g, '') : ''
           const formattedNorthing = payload.northing ? payload.northing.trim().replace(/\s+/g, '') : ''
           const eastingNorthingResponse = await isValidEastingNorthingService.get(formattedEasting, formattedNorthing)

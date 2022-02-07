@@ -6,7 +6,7 @@ module.exports = window.onload = function () {
   var acceptButton = document.querySelector('.js-cookies-button-accept')
   var rejectButton = document.querySelector('.js-cookies-button-reject')
 
-  function showBanner(banner) {
+  function showBanner (banner) {
     banner.removeAttribute('hidden')
     // Shift focus to the banner
     banner.setAttribute('tabindex', '-1')
@@ -16,25 +16,25 @@ module.exports = window.onload = function () {
     })
   }
 
-  function setCookie(cName, cValue, expDays) {
-    let date = new Date();
-    date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + date.toUTCString();
-    document.cookie = cName + "=" + cValue + "; " + expires + "; path=/"; 259063
+  function setCookie (cName, cValue, expDays) {
+    const date = new Date()
+    date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000))
+    const expires = 'expires=' + date.toUTCString()
+    document.cookie = cName + '=' + cValue + '; ' + expires + '; path=/'
   }
 
-  function splitCookies(cookie) {
+  function splitCookies (cookie) {
     return cookie.split('=')
   }
 
-  function cookieReducerFn(acc, cookieArr) {
-    let key = cookieArr[0].trim()
-    let value = cookieArr[1]
+  function cookieReducerFn (acc, cookieArr) {
+    const key = cookieArr[0].trim()
+    const value = cookieArr[1]
     acc[key] = value
     return acc
   }
 
-  function getCookie(key) {
+  function getCookie (key) {
     // Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring
     var cookies = document.cookie
       .split(';')
@@ -46,14 +46,12 @@ module.exports = window.onload = function () {
   var doesCookieExist = getCookie(cookieName)
 
   var acceptFn = function () {
-    event.preventDefault()
-    setCookie(cookieName, "Accept", 365)
+    setCookie(cookieName, 'Accept', 365)
     questionBanner.setAttribute('hidden', true)
     showBanner(acceptedBanner)
   }
   var rejectFn = function () {
-    event.preventDefault()
-    setCookie(cookieName, "Reject", 365)
+    setCookie(cookieName, 'Reject', 365)
     questionBanner.setAttribute('hidden', true)
     showBanner(rejectedBanner)
   }
@@ -70,6 +68,6 @@ module.exports = window.onload = function () {
 
   if (!doesCookieExist) {
     cookieBanner.classList.remove('govuk-visually-hidden')
-    questionBanner.removeAttribute("hidden");
+    questionBanner.removeAttribute('hidden')
   }
 }

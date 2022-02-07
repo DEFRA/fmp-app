@@ -1,8 +1,6 @@
 const Boom = require('boom')
-const { param } = require('jquery')
-const QueryString = require('querystring')
 const ContactViewModel = require('../models/contact-view')
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
 
 class ContactViewErrorObject {
@@ -17,9 +15,9 @@ class ContactViewErrorObject {
         x: payload.easting,
         y: payload.northing
       },
-      location: payload.location,
-    },
-    this.recipientemail = recipientemail,
+      location: payload.location
+    }
+    this.recipientemail = recipientemail
     this.errorSummary = errorSummarArray
   }
 }
@@ -102,20 +100,19 @@ module.exports = [
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
-           var params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
+            var params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
 
-          
             return h.redirect(`/check-your-details?${params}`)
-            } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
-            contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
+          } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
           } else if (fullName && fullName.trim() !== '' && isNameFormatValid) {
-            contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [emailErrorMessage])
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [emailErrorMessage])
             contactViewErrorObject.emailError = emailErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
           } else {
-            contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage, emailErrorMessage])
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage, emailErrorMessage])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
             contactViewErrorObject.emailError = emailErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
