@@ -34,12 +34,14 @@ $(function init () {
       e.preventDefault()
 
       closeDialog()
+      $('.pdf-download').find('.govuk-button--pdf-download').focus()
     })
 
     $('.dialog-cancel').on('click', function (e) {
       e.preventDefault()
 
       closeDialog()
+      $('.pdf-download').find('.govuk-button--pdf-download').focus()
     })
 
     // Document binding events
