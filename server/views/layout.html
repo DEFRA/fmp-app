@@ -109,7 +109,7 @@
     text: "Back",
     href: "javascript:history.back()"
   }) }}
-  
+  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/stageprompt.js"></script>
   <script type="text/javascript">
     var analyticsAccount = '{{analyticsAccount}}'
@@ -143,15 +143,15 @@
         }
       {% endif %}
 
-
-      {# $(function() {
+      
+       $(function() {
         // Setup custom callback until pull request
         // `https://github.com/alphagov/govuk_frontend_toolkit_npm/pull/35` is accepted,
         // we can then go back to using the simpler GOVUK.performance.stageprompt.setupForGoogleAnalytics().
         GOVUK.performance.stageprompt.setup(function (category, event, label) {
           ga('send', 'event', category, event, label)
         })
-      }) #}
+      })
     }
 
   </script>
