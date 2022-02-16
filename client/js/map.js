@@ -48,7 +48,8 @@ function Map (mapOptions) {
       source: source
     })
 
-    var layers = Array.prototype.concat([layer], mapOptions.layers)
+    // var layers = Array.prototype.concat([layer], mapOptions.layers)
+    var layers = mapOptions.layers
 
     // Prevent map from zooming in too far
     const resolutions = source.tileGrid.getResolutions().slice(0, 10)
