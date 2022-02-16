@@ -106,7 +106,7 @@ Your results explained - Flood map for planning - GOV.UK
         <ul class="govuk-list govuk-list--bullet">
           <li>contact your local authority, <span class="govuk-!-font-weight-bold">{{localAuthorities}}</span>
           </li>
-          <li>read <a href="https://www.gov.uk/planning-permission-england-wales">guidance on planning permission</a>
+          <li>read <a href="https://www.gov.uk/planning-permission-england-wales" data-journey-click="FMFP:FloodZoneResultsExplained:PPEngWales">guidance on planning permission</a>
           </li>
           <li>
             <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>
@@ -115,7 +115,7 @@ Your results explained - Flood map for planning - GOV.UK
 
         <h2 class="govuk-heading-m">More flood information</h2>
         <p class="govuk-body">
-          <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
+          <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater" data-journey-click="FMFP:FloodZoneResultsExplained:CheckLongTermFR">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
       </div>
     {% endif %}
 
@@ -215,7 +215,7 @@ Your results explained - Flood map for planning - GOV.UK
               We recommend that you work with a flood risk consultant to get your flood risk assessment.
             </div>
 
-        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true" data-journey-click="FMFP:FloodZoneResultsExplained:RequestFloodRiskData">Request your flood risk assessment data</a>
 
 
         <h2 class="govuk-heading-m">Get help</h2>
@@ -233,7 +233,7 @@ Your results explained - Flood map for planning - GOV.UK
 
         <h2 class="govuk-heading-m">More flood information</h2>
         <p class="govuk-body">
-          <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
+          <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater" data-journey-click="FMFP:FloodZoneResultsExplained:CheckLongTermFRSW">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
       </div>
     {% endif %}
 
