@@ -290,6 +290,7 @@ module.exports = {
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
+          .header('X-XSS-Protection', '1; mode=block')
           .state('pdf-download', id.toString())
       } catch (err) {
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
