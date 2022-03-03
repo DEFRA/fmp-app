@@ -7,11 +7,13 @@ const createServer = require('../../server')
 
 lab.experiment('confirm-location', () => {
   let server
+  let restoreIsEnglandService
 
   lab.before(async () => {
     console.log('Creating server')
     server = await createServer()
     await server.initialize()
+    restoreIsEnglandService = isEnglandService.get
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }
@@ -20,6 +22,7 @@ lab.experiment('confirm-location', () => {
   lab.after(async () => {
     console.log('Stopping server')
     await server.stop()
+    isEnglandService.get = restoreIsEnglandService
   })
 
   lab.test('confirm-location with easting & northing', async () => {
