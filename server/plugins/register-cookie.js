@@ -10,7 +10,7 @@ exports.plugin = {
       isSecure: config.siteUrl.startsWith('https'),
       path: '/',
       isSameSite: false,
-      isHttpOnly: false,
+      isHttpOnly: true,
       encoding: 'none',
       clearInvalid: true,
       strictHeader: true
