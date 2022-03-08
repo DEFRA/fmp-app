@@ -13,9 +13,9 @@ module.exports = [{
       // if a request to the old url, which accepted the param place, was made forward to the homepage
       if (request.query.place) {
         const place = encodeURIComponent(request.query.place)
-        if (place) {
-          return h.redirect(`/?place=${place}`)
-        }
+        // if (place) { // question - this line seems moot as it will always evaluate to true if request.query.place evaluates to true
+        return h.redirect(`/?place=${place}`)
+        // }
       }
 
       try {
@@ -38,7 +38,7 @@ module.exports = [{
         let location = ''
         if (request.query.placeOrPostcode || request.query.nationalGridReference) {
           location = request.query.placeOrPostcode ? request.query.placeOrPostcode : request.query.nationalGridReference
-        } else if (request.query.easting && request.query.northing) {
+        } else { // if (request.query.easting && request.query.northing) { // This test is moot as we have already established that easting and northing are set
           location = `${request.query.easting} ${request.query.northing}`
         }
         let recipientemail = ' '
