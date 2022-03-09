@@ -45,7 +45,7 @@ module.exports = [
             PDFinformationDetailsObject: PDFinformationDetailsObject
           })
           return h.view('contact', model)
-        } catch (err) {
+        } catch (err) { // I can't think of a way to cause an error in this try catch block so this catch may be unrequired and is not covered by tests
           return Boom.badImplementation(err.message, err)
         }
       },
@@ -69,7 +69,7 @@ module.exports = [
           const isNameFormatValid = nameRegex.test(fullName.trim())
           const isEmailFormatValid = emailRegex.test(recipientemail.trim())
           if (recipientemail.trim() !== '' && isEmailFormatValid && fullName.trim() !== '' && isNameFormatValid) {
-            if (payload && payload.easting && payload.northing) {
+            if (payload.easting && payload.northing) {
               PDFinformationDetailsObject.coordinates.x = payload.easting
               PDFinformationDetailsObject.coordinates.y = payload.northing
               PDFinformationDetailsObject.recipientemail = recipientemail.trim()
