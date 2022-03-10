@@ -5,6 +5,7 @@ const ngrToBngService = require('../../server/services/ngr-to-bng')
 const addressService = require('../../server/services/address')
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
+const { payloadMatchTest } = require('../utils')
 
 lab.experiment('location', async () => {
   let server
@@ -391,7 +392,7 @@ lab.experiment('location', async () => {
 
     // Question: the model that is passed to the location view doesn't contain any of the query params (eg place in this example)
     // (see location.js lines 17-19) is this a bug?
-    const response = await await server.inject(options)
+    const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
   })
 
@@ -438,11 +439,6 @@ lab.experiment('location', async () => {
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=%20&fullName=%20')
   })
-
-  const payloadMatchTest = (payload, regex, expectedMatchCount = 1) => {
-    const errorMatch = payload.match(regex) || []
-    Code.expect(errorMatch.length, `\nFailed Regex match: ${regex}\n`).to.equal(expectedMatchCount)
-  }
 
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
   const payloads = [

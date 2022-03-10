@@ -2,6 +2,7 @@ const Lab = require('lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
+const { payloadMatchTest } = require('../utils')
 
 lab.experiment('contact', () => {
   let server
@@ -81,11 +82,6 @@ lab.experiment('contact', () => {
       Code.expect(response.headers.location).to.equal(expectedUrl)
     })
   })
-
-  const payloadMatchTest = (payload, regex, expectedMatchCount = 1) => {
-    const errorMatch = payload.match(regex) || []
-    Code.expect(errorMatch.length, `\nFailed Regex match: ${regex}\n`).to.equal(expectedMatchCount)
-  }
 
   const fullNames = ['', ' ', '123']
   fullNames.forEach((fullName) => {
