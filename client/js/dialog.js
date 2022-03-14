@@ -10,7 +10,8 @@ function openDialog (sel) {
   const focusableElements =
 "button, [href], input, select, [tabindex]:not([tabindex='-1'])"
   const modal = document.querySelector('#report')
-  const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]
+  const focusableElement = modal.querySelectorAll(focusableElements)[1]
+  const firstFocusableElement = modal.querySelectorAll(focusableElements)[2]
   const focusableContent = modal.querySelectorAll(focusableElements)
   const lastFocusableElement = focusableContent[focusableContent.length - 1]
   document.addEventListener('keydown', function (e) {
@@ -25,7 +26,7 @@ function openDialog (sel) {
       }
     } else { // if tab key is pressed
       if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
-        firstFocusableElement.focus() // add focus for the first focusable element
+        focusableElement.focus() // add focus for the first focusable element
         e.preventDefault()
       }
     }
