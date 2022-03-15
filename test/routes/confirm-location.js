@@ -7,19 +7,20 @@ const createServer = require('../../server')
 
 lab.experiment('confirm-location', () => {
   let server
+  let restoreIsEnglandService
 
   lab.before(async () => {
-    console.log('Creating server')
     server = await createServer()
     await server.initialize()
+    restoreIsEnglandService = isEnglandService.get
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }
   })
 
   lab.after(async () => {
-    console.log('Stopping server')
     await server.stop()
+    isEnglandService.get = restoreIsEnglandService
   })
 
   lab.test('confirm-location with easting & northing', async () => {
@@ -139,5 +140,95 @@ lab.experiment('confirm-location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(response.headers.location).to.equal('/?place=co10%200nn')
+  })
+
+  lab.test('confirm-location should throw an exception if isEnglandService returns false', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?easting=360799&northing=388244'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return false
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(500)
+  })
+
+  lab.test('confirm-location view should contain location=placeOrPostcode if placeOrPostcode is set', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?placeOrPostcode=Newport&easting=333433&northing=186528'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+
+    // Check that location=Newport is included in the flood-zone-results url
+    const { result } = response
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;location=Newport/g)
+    Code.expect(matchResults.length).to.equal(1)
+  })
+
+  lab.test('confirm-location view should contain location=nationalGridReference if nationalGridReference is set', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?nationalGridReference=ST180772&easting=333433&northing=186528'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+
+    // Check that location=ST180772 is included in the flood-zone-results url
+    const { result } = response
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;location=ST180772/g)
+    Code.expect(matchResults.length).to.equal(1)
+  })
+
+  lab.test('confirm-location view should contain recipientemail if it is set', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?recipientemail=joe@example.com&easting=333433&northing=186528'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+
+    // Check that recipientemail=joe@example.com is included in the flood-zone-results url
+    const { result } = response
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*recipientemail=joe%40example.com/g)
+    Code.expect(matchResults.length).to.equal(1)
+  })
+
+  lab.test('confirm-location view should contain fullName if it is set', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?fullName=joe%20bloggs&easting=333433&northing=186528'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+
+    // Check that recipientemail=joe@example.com is included in the flood-zone-results url
+    const { result } = response
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*fullName=joe%20bloggs/g)
+    Code.expect(matchResults.length).to.equal(1)
   })
 })

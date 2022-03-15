@@ -1,18 +1,23 @@
 const Lab = require('lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
-// const headers = require('../models/page-headers')
 const ngrToBngService = require('../../server/services/ngr-to-bng')
 const addressService = require('../../server/services/address')
+const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
+const { payloadMatchTest } = require('../utils')
 
 lab.experiment('location', async () => {
   let server
+  let restoreIsValidNgrService
+  let restoreFindByPlaceService
 
   lab.before(async () => {
     console.log('Creating server')
     server = await createServer()
     await server.initialize()
+    restoreIsValidNgrService = isValidNgrService.get
+    restoreFindByPlaceService = addressService.findByPlace
 
     addressService.findByPlace = async (place) => {
       return [{
@@ -25,6 +30,8 @@ lab.experiment('location', async () => {
   lab.after(async () => {
     console.log('Stopping server')
     await server.stop()
+    isValidNgrService.get = restoreIsValidNgrService
+    addressService.findByPlace = restoreFindByPlaceService
   })
 
   lab.test('location page with ngr', async () => {
@@ -380,10 +387,283 @@ lab.experiment('location', async () => {
   lab.test('location page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
     const options = {
       method: 'GET',
-      url: '/location/?place=co10 onn'
+      url: '/location?place=co10 onn'
     }
 
-    const response = await await server.inject(options)
+    // Question: the model that is passed to the location view doesn't contain any of the query params (eg place in this example)
+    // (see location.js lines 17-19) is this a bug?
+    const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
+  })
+
+  lab.test('location page with placeOrPostcode AGAIN', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        type: 'placeOrPostcode',
+        placeOrPostcode: 'Warrington'
+      }
+    }
+
+    addressService.findByPlace = async (place) => {
+      return [{
+        geometry_x: 360799,
+        geometry_y: 388244
+      }]
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+  })
+
+  lab.test('location page with a valid placeOrPostcode should redirect to /confirm-location', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'placeOrPostcode',
+        placeOrPostcode: 'Warrington'
+      }
+    }
+
+    addressService.findByPlace = async (place) => {
+      return [{
+        geometry_x: 360799,
+        geometry_y: 388244
+      }]
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=%20&fullName=%20')
+  })
+
+  // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
+  const payloads = [
+    { findby: 'placeOrPostcode' },
+    { findby: 'placeOrPostcode', placeOrPostcode: ' ' },
+    { findby: 'placeOrPostcode', placeOrPostcode: '123 Invalid' }
+  ]
+  payloads.forEach(async (requestPayload) => {
+    lab.test(`location page with placeOrPostcode: "${requestPayload.placeOrPostcode || 'undefined'}" should load /location view with errors`, async () => {
+      const options = {
+        method: 'POST',
+        url: '/location',
+        payload: requestPayload
+      }
+
+      addressService.findByPlace = async (place) => {
+        return [{
+          geometry_x: 360799,
+          geometry_y: 388244
+        }]
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      const { request, payload } = response
+      const { path } = request
+      Code.expect(path).to.equal('/location')
+      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real place name or postcode/g)
+      payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+    })
+  })
+
+  const findByAddressResponse = [
+    false,
+    undefined,
+    [],
+    [{ geometry_x: 12345 }],
+    [{ geometry_y: 12345 }]
+  ]
+  findByAddressResponse.forEach((addressResponse) => {
+    lab.test(`location page with placeOrPostcode and findByAddressResponse: "${JSON.stringify(addressResponse)}" should load /location view with errors`, async () => {
+      const options = {
+        method: 'POST',
+        url: '/location',
+        payload: {
+          findby: 'placeOrPostcode',
+          placeOrPostcode: 'Warrington'
+        }
+      }
+
+      addressService.findByPlace = async (place) => addressResponse
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      const { request, payload } = response
+      const { path } = request
+      Code.expect(path).to.equal('/location')
+      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> No address found for that place or postcode/g)
+      payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+    })
+  })
+
+  lab.test('location page with nationalGridReference and ngrResponse: "[{ isValid: false }]" should load /location view with errors', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'nationalGridReference',
+        nationalGridReference: 'TQ2770808448'
+      }
+    }
+
+    isValidNgrService.get = async (ngr) => ({ isValid: false })
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { request, payload } = response
+    const { path } = request
+    Code.expect(path).to.equal('/location')
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real National Grid Reference \(NGR\)/g)
+    payloadMatchTest(payload, /<a href="#nationalGridReference">Enter a real National Grid Reference \(NGR\)<\/a>/g)
+  })
+
+  lab.test('location page with a valid nationalGridReference should redirect to /confirm-location', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'nationalGridReference',
+        nationalGridReference: 'TQ2770808448'
+      }
+    }
+
+    isValidNgrService.get = async (ngr) => ({ isValid: true })
+    ngrToBngService.convert = (ngr) => ({ easting: 360799, northing: 388244 })
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&nationalGridReference=TQ2770808448&recipientemail=%20&fullName=%20')
+  })
+
+  lab.test('location page with a valid nationalGridReference should redirect to /confirm-location if ngrToBngService.convert returns an empty response', async () => {
+    // NOTE - This may be an invalid test but it adds coverage for lines 154-155
+    // it may be more correct for this state to generate an internal error if ngrToBngService.convert returns an empty object {}
+    // 154 queryParams.easting = BNG.easting || ''
+    // 155 queryParams.northing = BNG.northing || ''
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'nationalGridReference',
+        nationalGridReference: 'TQ2770808448'
+      }
+    }
+
+    isValidNgrService.get = async (ngr) => ({ isValid: true })
+    ngrToBngService.convert = (ngr) => ({ })
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirm-location?easting=&northing=&nationalGridReference=TQ2770808448&recipientemail=%20&fullName=%20')
+  })
+
+  lab.test('location page with a valid eastingNorthing should redirect to /confirm-location', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'eastingNorthing',
+        easting: '360799',
+        northing: '388244'
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&recipientemail=%20&fullName=%20')
+  })
+
+  lab.test('location page findby eastingNorthing with missing easting and northing should should load /location view with errors', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'eastingNorthing'
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { request, payload } = response
+    const { path } = request
+    Code.expect(path).to.equal('/location')
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting/g)
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing/g)
+    payloadMatchTest(payload, /<a href="#easting">Enter an easting<\/a>/g)
+    payloadMatchTest(payload, /<a href="#northing">Enter a northing<\/a>/g)
+  })
+
+  lab.test('location page findby eastingNorthing with invalid easting and northing should should load /location view with errors', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'eastingNorthing',
+        easting: 'notvalid',
+        northing: 'notvalid'
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { request, payload } = response
+    const { path } = request
+    Code.expect(path).to.equal('/location')
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g)
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g)
+    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g)
+    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g)
+  })
+
+  lab.test('location page findby eastingNorthing with invalid easting should should load /location view with errors', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'eastingNorthing',
+        easting: 'not valid',
+        northing: '360799'
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { request, payload } = response
+    const { path } = request
+    Code.expect(path).to.equal('/location')
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 1)
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 0)
+    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 1)
+    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 0)
+  })
+
+  lab.test('location page findby eastingNorthing with invalid northing should should load /location view with errors', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'eastingNorthing',
+        easting: '360799',
+        northing: 'not valid'
+      }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { request, payload } = response
+    const { path } = request
+    Code.expect(path).to.equal('/location')
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 0)
+    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 1)
+    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 0)
+    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 1)
   })
 })
