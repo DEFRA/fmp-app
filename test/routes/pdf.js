@@ -6,7 +6,7 @@ const riskService = require('../../server/services/risk')
 const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
-lab.experiment('flood-zone-results', async () => {
+lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetByPolygon
   let restoreGetByPoint
