@@ -7,7 +7,7 @@ const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
 
-lab.experiment('location', async () => {
+lab.experiment('location', () => {
   let server
   let restoreIsValidNgrService
   let restoreFindByPlaceService

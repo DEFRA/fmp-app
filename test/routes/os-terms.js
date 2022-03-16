@@ -3,7 +3,7 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 
-lab.experiment('os-terms', async () => {
+lab.experiment('os-terms', () => {
   let server
 
   lab.before(async () => {
