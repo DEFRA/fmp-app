@@ -6,7 +6,7 @@ const addressService = require('../../server/services/address')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 
-lab.experiment('home', async () => {
+lab.experiment('home', () => {
   let server
 
   lab.before(async () => {

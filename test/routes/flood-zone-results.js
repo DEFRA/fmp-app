@@ -6,7 +6,7 @@ const psoContactDetails = require('../../server/services/pso-contact')
 const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
 
-lab.experiment('flood-zone-results', async () => {
+lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContacts
   let restoreGetByPolygon
