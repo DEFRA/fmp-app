@@ -66,7 +66,7 @@ lab.experiment('flood-zone-results', () => {
       }
 
       const response = await server.inject(options)
-      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.statusCode).to.equal(204)
       Code.expect(printUrl).to.equal(config.geoserver + '/geoserver/pdf/print.pdf')
       Code.expect(postedPayload.reference).to.equal(payload.reference || '<Unspecified>')
       const { layers } = postedPayload
