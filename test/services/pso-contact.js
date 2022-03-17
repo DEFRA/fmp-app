@@ -2,7 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const { getPsoContacts } = require('../../server/services/pso-contact')
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
 lab.experiment('pso-contact', () => {

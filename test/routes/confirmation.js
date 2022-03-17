@@ -5,7 +5,7 @@ const createServer = require('../../server')
 const emailConfirm = require('../../server/services/email-confirmation')
 const psoContactDetails = require('../../server/services/pso-contact')
 
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
 lab.experiment('confirmation', () => {
