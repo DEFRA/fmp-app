@@ -1,0 +1,121 @@
+npm WARN deprecated topo@3.0.3: This module has moved and is now available at @hapi/topo. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated bourne@1.1.2: This module has moved and is now available at @hapi/bourne. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated @hapi/pinpoint@1.0.2: Moved to 'npm install @sideway/pinpoint'
+npm WARN deprecated @hapi/topo@3.1.6: This version has been deprecated and is no longer supported or maintained
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated har-validator@5.1.3: this library is no longer supported
+npm WARN deprecated code@5.2.4: This module has moved and is now available at @hapi/code. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated good-file@6.0.1: This module is no longer maintained
+npm WARN deprecated cryptiles@2.0.5: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated boom@7.3.0: This module has moved and is now available at @hapi/boom. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated hoek@5.0.4: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm WARN deprecated hoek@6.1.3: This module has moved and is now available at @hapi/hoek. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated bounce@1.2.3: This module has moved and is now available at @hapi/bounce. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+npm WARN deprecated rollup-plugin-node-resolve@3.4.0: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
+npm WARN deprecated @hapi/formula@1.2.0: Moved to 'npm install @sideway/formula'
+npm WARN deprecated source-map-url@0.4.0: See https://github.com/lydell/source-map-url#deprecated
+npm WARN deprecated chokidar@1.6.1: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+npm WARN deprecated wreck@14.2.0: This module has moved and is now available at @hapi/wreck. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated boom@2.10.1: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated boom@2.10.1: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated sntp@1.0.9: This module moved to @hapi/sntp. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
+npm WARN deprecated querystring@0.2.0: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
+npm WARN deprecated nomnom@1.8.1: Package no longer supported. Contact support@npmjs.com for more info.
+npm WARN deprecated hapi-auth-cookie@10.0.0: This module has moved and is now available at @hapi/cookie. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated @hapi/address@2.1.4: Moved to 'npm install @sideway/address'
+npm WARN deprecated codeclimate-test-reporter@0.5.1: codeclimate-test-reporter has been deprecated in favor of our new unified test-reporter. Please visit https://docs.codeclimate.com/docs/configuring-test-coverage for details on setting up the new test-reporter.
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+npm WARN deprecated rollup-plugin-commonjs@8.4.1: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-commonjs.
+npm WARN deprecated hoek@2.16.3: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated hoek@2.16.3: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated hoek@2.16.3: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated mkdirp@0.5.1: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
+npm WARN deprecated request@2.81.0: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated har-validator@4.2.1: this library is no longer supported
+npm WARN deprecated tar@3.1.5: This version of tar is no longer supported, and will not receive security updates. Please upgrade asap.
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated @hapi/hoek@8.5.1: This version has been deprecated and is no longer supported or maintained
+npm WARN deprecated airbrake@2.1.1: airbrake is no longer maintained. Upgrade to @airbrake/node.
+npm WARN deprecated hawk@3.1.3: This module moved to @hapi/hawk. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
+npm WARN deprecated joi@13.0.2: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated joi@14.3.1: This module has moved and is now available at @hapi/joi. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+npm WARN deprecated @hapi/joi@16.1.8: Switch to 'npm install joi'
+npm WARN deprecated uws@9.14.0: New code is available at github.com/uNetworking/uWebSockets.js
+npm WARN deprecated openlayers@4.6.5: Please use the ol package instead
+
+> fmfp@0.3.8 postinstall
+> npm run build
+
+
+> fmfp@0.3.8 build
+> bin/build
+
+
+> fmfp@0.3.8 clean
+> bin/clean-public
+
+
+> fmfp@0.3.8 copy
+> npm run copy:gov && npm run copy:assets
+
+
+> fmfp@0.3.8 copy:gov
+> bin/copy-gov && bin/fix-layout.js
+
+
+> fmfp@0.3.8 copy:assets
+> bin/copy-assets
+
+
+> fmfp@0.3.8 build:css
+> bin/build-css
+
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/application-ie6.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/application-ie7.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/application-ie8.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/application.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/confirm-location/index.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/confirmation/index.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/personal-information-charter/index.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/summary/index.css
+Rendering Complete, saving .css file...
+Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/terms-and-conditions/index.css
+Wrote 9 CSS files to /home/mark/src/fmp-app/server/public/build/stylesheets
+
+> fmfp@0.3.8 build:js
+> bin/build-js
+
+(node:14920) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14942) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14964) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14986) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+added 1364 packages, and audited 1365 packages in 23s
+
+198 packages are looking for funding
+  run `npm fund` for details
+
+37 vulnerabilities (2 low, 8 moderate, 18 high, 9 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
