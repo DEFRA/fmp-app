@@ -2,7 +2,7 @@ const Boom = require('boom')
 const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const config = require('../../config')
-const wreck = require('wreck')
+const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/publish-queue'
 const QueryString = require('querystring')
 
@@ -14,7 +14,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const payload = request.query
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
+        let PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
         const { recipientemail, fullName } = payload
         if (payload.easting && payload.northing) {
           PDFinformationDetailsObject.coordinates.x = payload.easting
@@ -45,7 +45,7 @@ module.exports = [
         } else {
           return Boom.badImplementation('RecipientEmail is Empty')
         }
-        var model = new ApplicationReviewSummaryViewModel({
+        let model = new ApplicationReviewSummaryViewModel({
           PDFinformationDetailsObject: PDFinformationDetailsObject,
           contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
           confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
@@ -63,7 +63,7 @@ module.exports = [
         try {
           const payload = request.payload || {}
           const applicationReferenceNumber = await getApplicationReferenceNumber()
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
+          let PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
           const { recipientemail, fullName } = payload
           // Sanitise user inputs
           if (payload.easting && payload.northing) {

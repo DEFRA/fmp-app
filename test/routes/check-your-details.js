@@ -2,7 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
 const ApplicationReviewSummaryViewModel = require('../../server/models/check-your-details')
