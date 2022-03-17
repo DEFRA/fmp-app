@@ -58,7 +58,7 @@ module.exports = [{
       }
     },
     validate: {
-      query: {
+      query: Joi.object({
         easting: Joi.number().max(700000).positive(),
         northing: Joi.number().max(1300000).positive(),
         polygon: Joi.array().items(Joi.array().items(
@@ -70,7 +70,7 @@ module.exports = [{
         nationalGridReference: Joi.string(),
         recipientemail: Joi.string(),
         fullName: Joi.string()
-      }
+      })
     }
   }
 }]
