@@ -295,13 +295,13 @@ module.exports = {
       }
     },
     validate: {
-      payload: {
+      payload: Joi.object({
         id: Joi.number().required(),
         reference: Joi.string().allow('').max(13).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
         center: Joi.array().required().allow('')
-      }
+      })
     }
   }
 }
