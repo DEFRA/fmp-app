@@ -1,5 +1,5 @@
 const config = require('../../config')
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const url = config.functionAppUrl + '/pso/contacts'
 
 async function getPsoContacts (easting, northing) {
