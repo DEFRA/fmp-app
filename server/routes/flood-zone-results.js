@@ -21,9 +21,10 @@ module.exports = [
 
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
+          const polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
+          const center = request.query.center ? JSON.parse(request.query.center) : undefined
 
-          if (request.query.polygon) {
-            const center = request.query.center
+          if (polygon) {
             easting = encodeURIComponent(center[0])
             northing = encodeURIComponent(center[1])
           } else {
@@ -40,9 +41,7 @@ module.exports = [
             areaName = psoResults.AreaName
           }
 
-          if (request.query.polygon) {
-            const center = request.query.center
-            const polygon = request.query.polygon
+          if (polygon) {
             const geoJson = util.convertToGeoJson(polygon)
 
             const riskResult = await riskService.getByPolygon(geoJson)
@@ -67,22 +66,19 @@ module.exports = [
         }
       },
       validate: {
-        query: Joi.alternatives().required().try([{
+        query: Joi.alternatives().required().try(Joi.object().keys({
           easting: Joi.number().max(700000).positive().required(),
           northing: Joi.number().max(1300000).positive().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
           recipientemail: Joi.string().allow('')
-        }, {
-          polygon: Joi.array().required().items(Joi.array().items(
-            Joi.number().max(700000).positive().required(),
-            Joi.number().max(1300000).positive().required()
-          )),
-          center: Joi.array().required(),
+        }), Joi.object().keys({
+          polygon: Joi.string().required(),
+          center: Joi.string().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
           recipientemail: Joi.string().allow('')
-        }])
+        }))
       }
     }
   }]
