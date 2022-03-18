@@ -1,9 +1,8 @@
-const Joi = require('joi')
 const schema = require('./schema')
 const config = require('./server.json')
 
 // Validate config
-const result = Joi.validate(config, schema, { abortEarly: false })
+const result = schema.validate(config, { abortEarly: false })
 
 // Throw if config is invalid
 if (result.error) {

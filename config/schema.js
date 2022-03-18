@@ -6,7 +6,7 @@ const serverSchema = Joi.object().required().keys({
   labels: Joi.string()
 })
 
-module.exports = {
+module.exports = Joi.object({
   server: serverSchema,
   service: Joi.string().uri().required(),
   geoserver: Joi.string().uri().required(),
@@ -39,4 +39,4 @@ module.exports = {
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
   functionAppUrl: Joi.string().required()
-}
+})
