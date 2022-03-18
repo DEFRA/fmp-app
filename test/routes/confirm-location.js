@@ -49,7 +49,9 @@ lab.experiment('confirm-location', () => {
       url: '/confirm-location?northing=388244'
     }
     const response = await server.inject(options)
+    const { headers } = response
     Code.expect(response.statusCode).to.equal(302)
+    Code.expect(headers.location).to.equal('/')
   })
 
   lab.test('confirm-location with invalid query expect redirect', async () => {
@@ -226,9 +228,40 @@ lab.experiment('confirm-location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
 
-    // Check that recipientemail=joe@example.com is included in the flood-zone-results url
     const { result } = response
     const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*fullName=joe%20bloggs/g)
     Code.expect(matchResults.length).to.equal(1)
+  })
+
+  lab.test('confirm-location view should accept polygon', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?fullName=joe%20bloggs&easting=333433&northing=186528&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+
+    const { result } = response
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*fullName=joe%20bloggs/g)
+    Code.expect(matchResults.length).to.equal(1)
+  })
+
+  lab.test('confirm-location view with invalid polygon should redirect to /', async () => {
+    const options = {
+      method: 'GET',
+      url: '/confirm-location?fullName=joe%20bloggs&easting=333433&northing=186528&polygon=notarray'
+    }
+
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+    const { headers, statusCode } = await server.inject(options)
+    Code.expect(statusCode).to.equal(302)
+    Code.expect(headers.location).to.equal('/')
   })
 })
