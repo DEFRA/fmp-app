@@ -21,8 +21,8 @@
   <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet"/>
   {# For Internet Explorer 8, you need to compile specific stylesheet #}
   {# see https://github.com/alphagov/govuk-frontend/blob/master/docs/installation/supporting-internet-explorer-8.md #}
-  <script src="//cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="{{assetPath}}/javascripts/polyfill.min.js"></script>
+  <script src="{{assetPath}}/javascripts/js.cookie.min.js"></script>
 {% endblock %}
 
 {% block header %}
