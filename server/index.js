@@ -32,6 +32,11 @@ async function createServer () {
     })
   }
 
+  server.ext('onPreResponse', async (request, h) => {
+    request.response.header('cache-control', 'no-cache')
+    return h.continue
+  })
+
   return server
 }
 
