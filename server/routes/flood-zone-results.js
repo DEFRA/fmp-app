@@ -1,4 +1,4 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')

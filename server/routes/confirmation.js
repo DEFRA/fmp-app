@@ -1,4 +1,4 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const ConfirmationViewModel = require('../models/confirmation-view')
 const psoContactDetails = require('../services/pso-contact')
 const emailConfirm = require('../services/email-confirmation')

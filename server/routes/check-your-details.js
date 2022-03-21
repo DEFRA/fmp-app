@@ -1,4 +1,4 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const config = require('../../config')
