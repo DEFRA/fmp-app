@@ -3,7 +3,6 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 const riskService = require('../../server/services/risk')
-// const { payloadMatchTest } = require('../utils')
 const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
@@ -43,24 +42,12 @@ lab.experiment('flood-zone-results', async () => {
     Code.expect(headers.location).to.equal('/')
   })
 
-  // payload: {
-  //   id: Joi.number().required(),
-  //   zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a', ''),
-  //   reference: Joi.string().allow('').max(13).trim(),
-  //   scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
-  //   polygon: Joi.string().required().allow(''),
-  //   center: Joi.array().required().allow('')
-  // }
-
-  // server/routes/pdf.js missing coverage on line(s):  17-26, 29-31, 33, 35, 36, 40, 41, 61, 84, 97, 286-289, 296
-  // server/routes/pdf.js missing coverage on line(s): 20, 24, 29-31, 33, 35, 36, 40, 41,         97,          296
-  // server/routes/pdf.js missing coverage on line(s):     24, 29-31, 33, 35, 36, 40, 41,         97,          296
-  // server/routes/pdf.js missing coverage on line(s):         29-31, 33, 35, 36,                              296
-
   const payloads = [
     ['empty-reference', { id: 1234, zone: 'FZ1', reference: '', scale: 2500, polygon: '', center: '' }],
     ['test-reference', { id: 1234, zone: 'FZ1', reference: 'testRef', scale: 2500, polygon: '', center: '' }],
-    ['with polygon', { id: 1234, zone: 'FZ1', reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: [1, 1] }]
+    ['with polygon', { id: 1234, zone: 'FZ1', reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: [1, 1] }],
+    ['with polygon without zone', { id: 1234, zone: '', reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: [1, 1] }],
+    ['without polygon without zone', { id: 1234, zone: '', reference: 'testRef', scale: 2500, polygon: '', center: [1, 1] }]
   ]
   payloads.forEach(([testDescription, payload]) => {
     lab.test(`a /pdf request with a payload: ${testDescription} should call the geoserver print.pdf route`, async () => {
@@ -87,6 +74,25 @@ lab.experiment('flood-zone-results', async () => {
       const vector = layers[2]
       const expectedGraphicOffset = payload.polygon ? undefined : -10.5
       Code.expect(vector.styles[''].graphicXOffset).to.equal(expectedGraphicOffset)
+    })
+  })
+
+  /*eslint-disable */
+  const postErrorFunctions = [
+    async (url, options) => {throw new Error('testing error')},
+    async (url, options) => {throw undefined},
+    async (url, options) => {throw 'a string'},
+  ]
+ /* eslint-enable */
+  postErrorFunctions.forEach((postErrorFunction) => {
+    lab.test('a /pdf request should return an internal error if Wreck.post fails', async () => {
+      const payload = payloads[0][1]
+      const options = { method: 'POST', url: '/pdf', payload }
+
+      Wreck.post = postErrorFunction
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(500)
     })
   })
 })
