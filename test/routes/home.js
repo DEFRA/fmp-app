@@ -4,6 +4,7 @@ const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const addressService = require('../../server/services/address')
 const createServer = require('../../server')
+const { payloadMatchTest } = require('../utils')
 
 lab.experiment('home', async () => {
   let server
@@ -32,7 +33,7 @@ lab.experiment('home', async () => {
       url: '/'
     }
 
-    const response = await await server.inject(options)
+    const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include(headers.home.standard)
   })
@@ -54,8 +55,18 @@ lab.experiment('home', async () => {
       url: '/?place=co10 onn'
     }
 
-    const response = await await server.inject(options)
+    const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include(headers.home.standard)
+  })
+
+  lab.test('home page footer should contain OS link titled Ordance Survey (OS)', async () => {
+    const options = { method: 'GET', url: '/' }
+
+    const response = await server.inject(options)
+    const { payload } = response
+
+    await payloadMatchTest(payload, /<a href = "https:\/\/www.ordnancesurvey.co.uk\/">Ordnance Survey\(OS\)<\/a>/g)
+    await payloadMatchTest(payload, /<a href="os-terms">Ordnance Survey terms and conditions<\/a>/g)
   })
 })
