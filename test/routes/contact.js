@@ -106,8 +106,8 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
-      payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
+      await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
     })
   })
 
@@ -134,8 +134,8 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
+      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
     })
   })
 
@@ -161,10 +161,10 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
-      payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
+      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
+      await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
     })
   })
 
