@@ -1,4 +1,4 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
