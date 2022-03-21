@@ -1,4 +1,4 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const config = require('../../config')
 const { osMapsUrl, osMapsKey } = config.ordnanceSurvey
 const wreck = require('@hapi/wreck').defaults({
