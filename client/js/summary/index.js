@@ -3,6 +3,8 @@ var ol = require('openlayers')
 var Map = require('../map')
 var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
+const { fixMapTabOrder } = require('../map-tab-order')
+
 function Summary (options) {
   var mapOptions = {
     layers: [
@@ -132,56 +134,7 @@ function Summary (options) {
     $('#results-map').on('toggle', () => {
       map.updateSize()
     })
-
-    const figureSelector = 'figure.map-container'
-    const figureElement = document.querySelector(figureSelector)
-    const zoomInElement = figureElement ? figureElement.querySelector('.ol-zoom-in') : undefined
-    const zoomOutElement = figureElement ? figureElement.querySelector('.ol-zoom-out') : undefined
-    const osTermsElement = figureElement ? figureElement.querySelector('a[href$="os-terms"]') : undefined
-    const attributionsElement = figureElement ? figureElement.querySelector('[title="Attributions"]') : undefined
-
-    const getKeyboardFocusableElements = (element = document) => [...element.querySelectorAll(
-      'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
-    )].filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'))
-
-    const setTabActions = (element, nextElement, previousElement) => {
-      if (!element) {
-        return
-      }
-      element.addEventListener('keydown', (e) => {
-        if (e.which === 9) {
-          if (e.shiftKey && previousElement) {
-            previousElement.focus()
-            e.preventDefault()
-          } else if (nextElement) {
-            nextElement.focus()
-            e.preventDefault()
-          }
-        }
-      })
-    }
-
-    let figureFound = false
-    const nextFocussableElement = getKeyboardFocusableElements().find((element) => {
-      if (figureFound === false && element.closest(figureSelector)) {
-        figureFound = true
-      }
-      if (figureFound && !element.closest(figureSelector)) {
-        return true
-      }
-      return false
-    })
-
-    setTabActions(zoomOutElement, attributionsElement, zoomInElement)
-    setTabActions(attributionsElement, osTermsElement, zoomOutElement)
-    setTabActions(osTermsElement, nextFocussableElement, attributionsElement)
-    setTabActions(nextFocussableElement, undefined, osTermsElement)
-    if (osTermsElement) {
-      osTermsElement.tabIndex = '-1'
-    }
-    if (attributionsElement) {
-      attributionsElement.tabIndex = '-1'
-    }
+    fixMapTabOrder()
   })
 }
 module.exports = Summary
