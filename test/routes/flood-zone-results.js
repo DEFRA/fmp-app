@@ -72,7 +72,7 @@ lab.experiment('flood-zone-results', async () => {
       Code.expect(response.statusCode).to.equal(200)
       const { AreaName = '' } = (psoContactResponse || {})
       const regex = new RegExp(String.raw`<p class="govuk-body">Contact the ${AreaName} at <a`)
-      payloadMatchTest(payload, regex)
+      await payloadMatchTest(payload, regex)
     })
   })
 
