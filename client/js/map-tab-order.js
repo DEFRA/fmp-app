@@ -11,7 +11,7 @@ const setTabActions = (element, nextElement, previousElement) => {
       if (event.shiftKey && previousElement) {
         previousElement.focus()
         event.preventDefault()
-      } else if (nextElement) {
+      } else if (!event.shiftKey && nextElement) {
         nextElement.focus()
         event.preventDefault()
       }
@@ -19,16 +19,16 @@ const setTabActions = (element, nextElement, previousElement) => {
   })
 }
 
-const fixMapTabOrder = () => {
+const fixMapTabOrder = (container = document) => {
   const figureSelector = 'figure.map-container'
-  const figureElement = document.querySelector(figureSelector)
+  const figureElement = container.querySelector(figureSelector)
   const zoomInElement = figureElement ? figureElement.querySelector('.ol-zoom-in') : undefined
   const zoomOutElement = figureElement ? figureElement.querySelector('.ol-zoom-out') : undefined
   const osTermsElement = figureElement ? figureElement.querySelector('a[href$="os-terms"]') : undefined
   const attributionsElement = figureElement ? figureElement.querySelector('[title="Attributions"]') : undefined
 
   let figureFound = false
-  const nextFocussableElement = getKeyboardFocusableElements().find(element => {
+  const nextFocussableElement = getKeyboardFocusableElements(container).find(element => {
     if (figureFound === false && element.closest(figureSelector)) {
       figureFound = true
     }
@@ -50,4 +50,4 @@ const fixMapTabOrder = () => {
   }
 }
 
-module.exports = { fixMapTabOrder }
+module.exports = { fixMapTabOrder, setTabActions, getKeyboardFocusableElements }
