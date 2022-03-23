@@ -5,7 +5,7 @@ const ngrToBngService = require('../../server/services/ngr-to-bng')
 const addressService = require('../../server/services/address')
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
-const { payloadMatchTest } = require('../utils')
+const { payloadMatchTest, titleTest } = require('../utils')
 
 lab.experiment('location', async () => {
   let server
@@ -396,6 +396,14 @@ lab.experiment('location', async () => {
     Code.expect(response.statusCode).to.equal(200)
   })
 
+  lab.test('location title should not contain Error prefix ', async () => {
+    const options = { method: 'GET', url: '/location' }
+    const response = await server.inject(options)
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    await titleTest(payload, 'Find location - Flood map for planning - GOV.UK')
+  })
+
   lab.test('location page with placeOrPostcode AGAIN', async () => {
     const options = {
       method: 'POST',
@@ -468,6 +476,7 @@ lab.experiment('location', async () => {
       Code.expect(path).to.equal('/location')
       await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real place name or postcode/g)
       await payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+      await titleTest(payload, 'Error: Find location - Flood map for planning - GOV.UK')
     })
   })
 
