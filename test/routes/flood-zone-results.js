@@ -48,6 +48,8 @@ lab.experiment('flood-zone-results', async () => {
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
     await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
+    // FCRM 3594
+    await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
   })
 
   // Test all iterations of psoContactResponse to get full coverage
