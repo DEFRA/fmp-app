@@ -95,6 +95,11 @@
         }
       }
     }
+    .map-legend-image-with-border {
+      border: 2px solid black;
+      // The box shadow is there to mask a gap between the image and the border
+      box-shadow: inset 0px 0px 0px 1px black;
+    }
   }
 }
 }
