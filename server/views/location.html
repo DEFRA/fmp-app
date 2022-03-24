@@ -13,7 +13,6 @@
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
-  {% from "back-link/macro.njk" import govukBackLink %}
   
   <form autocomplete="off" class="form" method="post" action="/location" novalidate>
     {% if errorSummary.length > 0 %}
