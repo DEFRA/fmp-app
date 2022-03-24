@@ -104,12 +104,14 @@
 }) }}
 {% endblock %}
 
-{% block content %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "javascript:history.back()"
-  }) }}
-  
+{% block beforeContent %}
+{{ govukBackLink({
+  text: "Back",
+  href: "javascript:history.back()"
+}) }}
+{% endblock %}  
+
+{% block content %} 
   <script src="{{assetPath}}/javascripts/stageprompt.js"></script>
   <script type="text/javascript">
     var analyticsAccount = '{{analyticsAccount}}'
