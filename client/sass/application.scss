@@ -80,10 +80,6 @@ h1.heading-xlarge {
 
   .govuk-back-link {
     position: relative;
-    top: -40px;
-    @include media(mobile) {
-      top: -20px;
-    }
   }
   
   .mapToolBtn {
