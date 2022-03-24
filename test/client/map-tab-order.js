@@ -82,28 +82,107 @@ lab.experiment('setTabActions', () => {
   })
 })
 
-lab.experiment('map-tab-order', () => {
+lab.experiment('fixMapTabOrder', () => {
   let querySelector
   let querySelectorAll
   let addEventListener
   let hasAttribute
   let getAttribute
 
+  let elementBeforeFigure1
+  let elementBeforeFigure2
+  let hiddenElement
+  let disabledElement
+  let zoomInElement
+  let zoomOutElement
+  let osTermsElement
+  let attributionsElement
+  let elementAfterFigure1
+  let elementAfterFigure2
+  let figureElement
+
+  let documentElements
+
   lab.beforeEach(async () => {
+  // ElementConstructor (hasAttributeResult = false, getAttributeResult = false, closestResult = false) {
+    elementBeforeFigure1 = new ElementConstructor(false, false, false)
+    elementBeforeFigure2 = new ElementConstructor(false, false, false)
+    hiddenElement = new ElementConstructor(false, true, false)
+    disabledElement = new ElementConstructor(true, false, false)
+    zoomInElement = new ElementConstructor(false, false, true)
+    zoomOutElement = new ElementConstructor(false, false, true)
+    osTermsElement = new ElementConstructor(false, false, true)
+    attributionsElement = new ElementConstructor(false, false, true)
+    elementAfterFigure1 = new ElementConstructor(false, false, false)
+    elementAfterFigure2 = new ElementConstructor(false, false, false)
+    figureElement = new ElementConstructor(false, false, false)
+
+    documentElements = [
+      elementBeforeFigure1,
+      elementBeforeFigure2,
+      hiddenElement,
+      disabledElement,
+      zoomInElement,
+      zoomOutElement,
+      osTermsElement,
+      attributionsElement,
+      elementAfterFigure1,
+      elementAfterFigure2
+    ]
+
     querySelector = sinon.stub()
     querySelectorAll = sinon.stub().returns([])
     addEventListener = sinon.stub()
     hasAttribute = sinon.stub().returns(false)
     getAttribute = sinon.stub().returns(false)
+    documentElements.forEach((element) => {
+      element.querySelector = querySelector
+      element.querySelectorAll = querySelectorAll
+      element.addEventListener = addEventListener
+    })
+    figureElement.querySelector = querySelector
+    figureElement.querySelectorAll = querySelectorAll
+    figureElement.addEventListener = addEventListener
   })
 
   lab.afterEach(async () => { sinon.restore() })
 
-  lab.test('fixMapTabOrder', async () => {
+  lab.test('fixMapTabOrder should call querySelectorAll on document ', async () => {
     querySelector.returns({ querySelector, querySelectorAll, addEventListener, hasAttribute, getAttribute })
     const mockDocument = { querySelector, querySelectorAll }
     fixMapTabOrder(mockDocument)
-    Code.expect(1).to.equal(1)
+    Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(5)
+    Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
+    sinon.restore()
+  })
+
+  lab.test('fixMapTabOrder should set tabIndex to -1 on osTermsElement and attributionsElement ', async () => {
+    querySelectorAll.returns(documentElements)
+    querySelector.withArgs('figure.map-container').returns(figureElement)
+    querySelector.withArgs('.ol-zoom-in').returns(zoomInElement)
+    querySelector.withArgs('.ol-zoom-out').returns(zoomOutElement)
+    querySelector.withArgs('a[href$="os-terms"]').returns(osTermsElement)
+    querySelector.withArgs('[title="Attributions"]').returns(attributionsElement)
+
+    const mockDocument = { querySelector, querySelectorAll }
+    fixMapTabOrder(mockDocument)
+    Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(5)
+    Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
+    Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be -1').to.equal('-1')
+    Code.expect(attributionsElement.tabIndex, 'osTermsElement.tabIndex should be -1').to.equal('-1')
+    sinon.restore()
+  })
+
+  lab.test('fixMapTabOrder should not set tabIndex to -1 on osTermsElement and attributionsElement if figure is missing', async () => {
+    querySelectorAll.returns(documentElements)
+    querySelector.returns(undefined)
+
+    const mockDocument = { querySelector, querySelectorAll }
+    fixMapTabOrder(mockDocument)
+    Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(1)
+    Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
+    Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
+    Code.expect(attributionsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
     sinon.restore()
   })
 })
