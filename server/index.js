@@ -34,6 +34,7 @@ async function createServer () {
 
   server.ext('onPreResponse', async (request, h) => {
     request.response.header('cache-control', 'no-cache')
+    request.response.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
     return h.continue
   })
 
