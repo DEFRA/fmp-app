@@ -1,7 +1,7 @@
 module.exports = {
   400: '<h1 class="heading-xlarge" tabindex="0">Sorry, this service is temporarily unavailable</h1>',
   404: '<h1 class="heading-xlarge" tabindex="0">This page can’t be found</h1>',
-  500: '<h5 class="heading-large" tabindex="0">Sorry, the service is temporarily unavailable</h5>',
+  500: '<h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>',
   home: {
     standard: '<h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>',
     invalidPlaceOrPostcode: '<span class="error-message">You need to give a place or postcode</span>',
