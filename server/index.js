@@ -25,6 +25,11 @@ async function createServer () {
   await server.register(require('blipp'))
   await server.register(require('./plugins/logging'))
 
+  if (config.mockAddressService) {
+    require('./mock/address')
+    console.log('mocking addresses')
+  }
+
   if (config.errbit.postErrors) {
     await server.register({
       plugin: require('node-hapi-airbrake'),
