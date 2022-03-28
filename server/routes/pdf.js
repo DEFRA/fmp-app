@@ -15,7 +15,7 @@ module.exports = {
     description: 'Generate PDF',
     handler: async (request, h) => {
       const id = request.payload.id
-      let zone = ''
+      let zone = request.payload.zone
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
       const siteUrl = config.siteUrl
@@ -297,7 +297,6 @@ module.exports = {
     validate: {
       payload: {
         id: Joi.number().required(),
-        zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a', ''),
         reference: Joi.string().allow('').max(13).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
