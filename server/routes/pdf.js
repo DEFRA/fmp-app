@@ -15,7 +15,7 @@ module.exports = {
     description: 'Generate PDF',
     handler: async (request, h) => {
       const id = request.payload.id
-      let zone = request.payload.zone
+      let zone = ''
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
       const siteUrl = config.siteUrl
@@ -25,16 +25,14 @@ module.exports = {
       const center = request.payload.center
       let vector
 
-      // Get Flood zone if not provided
-      if (!zone) {
-        if (polygon) {
-          zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
-        } else {
-          zone = await riskService.getByPoint(center[0], center[1])
-        }
-        const floodZone = new FloodZone(zone, !!polygon)
-        zone = floodZone.zone
+      // Always get Flood zone as flood zone is provided in the request if not provided.
+      if (polygon) {
+        zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
+      } else {
+        zone = await riskService.getByPoint(center[0], center[1])
       }
+      const floodZone = new FloodZone(zone, !!polygon)
+      zone = floodZone.zone
 
       // Prepare point or polygon
       if (polygon) {
