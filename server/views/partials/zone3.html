@@ -1,0 +1,81 @@
+<div class="govuk-grid-column-two-thirds">
+  <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
+
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span> 
+      You must carry out a flood risk assessment.
+    </strong>
+  </div>
+  <p class="govuk-body">Your development is in flood zone 3. This means it has 
+    a high probability of flooding.
+  </p>
+  <p class="govuk-body"><a
+      href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+      More information about your results</a>
+  </p>
+</div>
+
+<div class="govuk-grid-column-full">
+  <div class="pdf-download">
+    <button href="#"
+      class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1 govuk-button--pdf-download"
+      data-module="govuk-button" draggable="false" data-toggle="dialog" data-target="report"
+      data-journey-click="FMFP:Summary:DownloadReport">Download printable map (PDF)</button>
+  </div>
+  <figure class="map-container govuk-!-margin-bottom-6" role="application">
+    <figcaption class="govuk-visually-hidden" aria-hidden="false">
+      A map showing the flood risk for the location you have provided
+    </figcaption>
+    <div class="mobile-heading">
+      <h2 class="heading-medium">Map</h2>
+      <a href="#legend">View map key</a>
+    </div>
+    <div class="map--result">
+      <div id="map" class="map"></div>
+      {% include "./map/summary-legend.html" %}
+    </div>
+  </figure>
+</div>
+
+<div class="govuk-grid-column-two-thirds">
+  <p class="govuk-body">To request flood risk assessment data (previously known as a 
+    <span class="govuk-!-font-weight-bold">product 4</span>) 
+    you’ll need an email address we can send the information to.
+  </p>
+  <p class="govuk-body">You should receive your data within 20 working days.</p>
+  <p class="govuk-body">Depending on the data that's available, your flood risk assessment data will include:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>a flood zone map (flood map for planning)</li>
+    <li>historic flood outlines</li>
+    <li>relevant modelled flood levels and extents</li>
+    <li>flood defence locations and attributes</li>
+  </ul>
+  <div class="govuk-inset-text">
+    <p class="govuk-body">You should also 
+      <a
+        href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater">check
+        the risk from surface water and other sources of flooding</a> when doing a flood risk assessment.
+    </p>
+  </div>
+  <div class="nojs-hide ie-hide">
+    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
+      role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+  </div>
+
+  <h3 class="govuk-heading-s">More help and advice</h3>
+  <p class="govuk-body">Contact the {{areaName}} at <a
+      href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    {% include "./more-information.html" %}
+    <li>general help and advice about the site you're requesting data for</li>
+  </ul>
+
+  <h3 class="govuk-heading-s">Change location</h3>
+  <p class="govuk-body">
+<a href="confirm-location?easting={{easting}}&amp;northing={{northing}}&amp;placeOrPostcode={{location}}">Reposition the marker or change boundary</a>    </p>
+  <p class="govuk-body">
+    <a href="location">Search for a different location</a>
+  </p>
+</div>
