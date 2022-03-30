@@ -1,0 +1,101 @@
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/summary/index.css">
+<main id="summary-page" data-test-info="{{riskJSON}}">
+  {{> printDialog}}
+  <h1 class="heading-xlarge">Likelihood of flooding in this area</h1>
+  {{> nojs}}
+  {{> ie}}
+  <div class="nojs-hide ie-hide">
+    {{#if floodZone.isZone1}}
+      <p>This location is in an area with a low probability of flooding</p>
+    {{else if floodZone.isZone2}}
+      <p>This location is in an area with a medium probability of flooding</p>
+    {{else}}
+      <p>This location is in an area with a high probability of flooding</p>
+    {{/if}}
+  </div>
+  <div class="grid-row main-container nojs-hide ie-hide">
+    <div class="column-half summary-column">
+      {{#if floodZone.isAreaBenefiting}}
+        {{> summary/area-benefiting}}
+      {{else}}
+        {{#if floodZone.isZone3}}
+          {{> summary/zone3}}
+        {{else}}
+          {{#if floodZone.isZone2}}
+            {{> summary/zone2}}
+          {{else}}
+            {{> summary/zone1}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </div>
+
+      <figure class="govuk-grid-column-one-half" role="application">
+        <figcaption class="visually-hidden" aria-hidden="false">
+          <h2>A map showing the flood zone results</h2>
+          <p>Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw shape' map tools.</p>
+        </figcaption>
+        <div class="map-container govuk-!-margin-bottom-6">
+          <div class="mobile-heading">
+            <h2 class="heading-medium">Map</h2>
+            <a href="#legend">View map key</a>
+          </div>
+          <div id="map" class="map">
+            {% include "./partials/map/no-js.html" %}
+           </div>
+          <div class="enter-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-false" type="button" title="Full screen" data-journey-click="FMFP:map:FullScreen"><span>Full screen</span> <i class="fa fa-enlarge2"></i></button>
+          </div>
+          <div class="exit-fullscreen toggle-fullscreen ol-full-screen ol-control hidden-mobile">
+            <button class="ol-full-screen-true" type="button" title="Exit full screen" data-journey-click="FMFP:map:FullScreen"><span>Exit full screen</span> <i class="fa fa-compress"></i></button>
+          </div>        
+          <div class="rhs">
+            <aside class="controls" id="legend">
+            {{> map/summary-legend}}
+            </aside>
+          </div>
+        </div>
+      </figure>
+  </div>
+  <br>
+  <div class="form-group nojs-hide ie-hide"><a href="#" data-toggle="dialog" data-target="report" class="button" data-journey-click="FMFP:Summary:DownloadReport">Download printable map (PDF)</a></div>
+  <div class="nojs-hide ie-hide">
+    <div class="grid-row search-box">
+      <div class="column-two-thirds">
+        <p><a href="/confirm-location?easting={{easting}}&amp;northing={{northing}}{{#if polygon}}&amp;polygon={{polygon}}{{/if}}" data-journey-click="FMFP:FloodZones:RefineSearch">Refine this search</a></p>
+        <p>Find out the <a href="/" data-journey-click="FMFP:FloodZones:SearchAgain">flood probability for another location</a></p>
+        <p>You can use this information as part of a <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:FloodZones:FloodAssessmentForAPlanningApplication">flood risk assessment for a planning application</a></p>
+        <div class="clearfix"></div>
+        <details>
+          <summary aria-controls="terms-of-use" aria-expanded="false" role="button" data-journey-click="FMFP:FloodZones:TermsOfUse">
+            <span class="summary">Terms of use</span>
+          </summary>
+          <div id="terms-of-use" class="panel panel-border-narrow" aria-hidden="true">
+            Flood zone maps are modelled using local and national river and sea data. 
+            This information provides an indication of the likelihood of flooding and is intended for planning use only.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="{{{assetPath}}}javascripts/summary.js"></script>
+{{#if polygon}}
+  <script>
+    $(function () {
+      var page = new FMP.SummaryPage({
+        polygon: {{polygon}}
+      })
+    })
+  </script>
+{{else}}
+  <script>
+    $(function () {
+      var page = new FMP.SummaryPage({
+        easting: '{{easting}}',
+        northing: '{{northing}}'
+      })
+    })
+  </script>
+{{/if}}
