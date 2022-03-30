@@ -76,12 +76,25 @@ Check your details - Flood map for planning - GOV.UK
       value: {
         html: '</br>
         <figure class="map-container govuk-!-margin-bottom-6" role="application">
-           <div class="map--result">
-             <div id="map" class="map">
-               {% include "./partials/map/no-js.html" %}
-              </div>
+          <div class="map--result">
+            <div id="map" class="map">
+              <noscript>
+                <h2 class="govuk-heading-m">The interactive map part of this service needs javascript to function.</h2>
+                <p class="govuk-body">
+                  It is still possible for you to use the service but without the map it might be difficult to supply an accurate location.
+                  This could mean that your request is delayed.
+                </p>
+                <p class="govuk-body">
+                  If you can, please enable JavaScript to allow the service to work to its full potential
+                </p>
+                <p class="govuk-body">
+                  If this is something that you are unable to do, it might be best to contact the Environment Agency by telephone: 
+                  03708 506 506 (Monday to Friday, 8am to 6pm) to help you
+                </p>
+              </noscript>
             </div>
-          </figure>'
+          </div>
+        </figure>'
       },
         actions: {
         items: [
