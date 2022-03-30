@@ -17,27 +17,7 @@
   </p>
 </div>
 
-<div class="govuk-grid-column-full">
-  <div class="pdf-download">
-    <button href="#"
-      class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1 govuk-button--pdf-download"
-      data-module="govuk-button" draggable="false" data-toggle="dialog" data-target="report"
-      data-journey-click="FMFP:Summary:DownloadReport">Download printable map (PDF)</button>
-  </div>
-  <figure class="map-container govuk-!-margin-bottom-6" role="application">
-    <figcaption class="govuk-visually-hidden" aria-hidden="false">
-      A map showing the flood risk for the location you have provided
-    </figcaption>
-    <div class="mobile-heading">
-      <h2 class="heading-medium">Map</h2>
-      <a href="#legend">View map key</a>
-    </div>
-    <div class="map--result">
-      <div id="map" class="map"></div>
-      {% include "./map/summary-legend.html" %}
-    </div>
-  </figure>
-</div>
+{% include "./map/flood-zone-results-map-column.html" %}
 
 <div class="govuk-grid-column-two-thirds">
   <p class="govuk-body">To request flood risk assessment data (previously known as a
