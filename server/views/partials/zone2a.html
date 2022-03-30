@@ -39,22 +39,8 @@
   <p class="govuk-body">
     You also need to make a separate request a Flood Defence Breach Hazard Map from the {{areaName}} team at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>. This will be available if modelling has been carried out for breach scenarios.
   </p>
+  {% include "./flood-zone-results-footer.html" %}
 
-  <div class="govuk-inset-text">
-    <p class="govuk-body">You should also 
-      <a
-        href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater">check
-        the risk from surface water and other sources of flooding</a> when doing a flood risk assessment.
-    </p>
-  </div>
-  <div class="nojs-hide ie-hide">
-    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
-      role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
-  </div>
-
-  <h3 class="govuk-heading-s">More help and advice</h3>
-  <p class="govuk-body">Contact the {{areaName }} at <a
-      href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
   <ul class="govuk-list govuk-list--bullet">
     <li>{% include "./more-information.html" %}</li>
     <li>general help and advice about the site you're requesting data for</li>
