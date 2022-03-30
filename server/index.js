@@ -25,12 +25,24 @@ async function createServer () {
   await server.register(require('blipp'))
   await server.register(require('./plugins/logging'))
 
+  if (config.mockAddressService) {
+    require('./mock/address')
+    console.log('mocking')
+  }
+
   if (config.errbit.postErrors) {
     await server.register({
       plugin: require('node-hapi-airbrake'),
       options: config.errbit.options
     })
   }
+
+  server.ext('onPreResponse', async (request, h) => {
+    request.response.header('cache-control', 'no-cache')
+    request.response.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
+    request.response.header('Content-Security-Policy')
+    return h.continue
+  })
 
   return server
 }

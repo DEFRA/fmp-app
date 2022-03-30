@@ -2,7 +2,7 @@ const Lab = require('lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const { payloadMatchTest } = require('../utils')
+const { payloadMatchTest, titleTest } = require('../utils')
 
 lab.experiment('contact', () => {
   let server
@@ -25,8 +25,10 @@ lab.experiment('contact', () => {
     }
 
     const response = await server.inject(options)
+    const { payload } = response
     Code.expect(response.headers).to.not.include('contact')
     Code.expect(response.statusCode).to.equal(200)
+    await titleTest(payload, 'Request flood risk assessment data - Flood map for planning - GOV.UK')
   })
 
   const parametersToTest = [
@@ -106,8 +108,8 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
-      payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
+      await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
     })
   })
 
@@ -134,8 +136,9 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
+      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await titleTest(payload, 'Error: Request flood risk assessment data - Flood map for planning - GOV.UK')
     })
   })
 
@@ -161,10 +164,10 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
-      payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
+      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
+      await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
     })
   })
 

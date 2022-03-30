@@ -5,7 +5,7 @@ const ngrToBngService = require('../../server/services/ngr-to-bng')
 const addressService = require('../../server/services/address')
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
-const { payloadMatchTest } = require('../utils')
+const { payloadMatchTest, titleTest } = require('../utils')
 
 lab.experiment('location', async () => {
   let server
@@ -396,6 +396,14 @@ lab.experiment('location', async () => {
     Code.expect(response.statusCode).to.equal(200)
   })
 
+  lab.test('location title should not contain Error prefix ', async () => {
+    const options = { method: 'GET', url: '/location' }
+    const response = await server.inject(options)
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    await titleTest(payload, 'Find location - Flood map for planning - GOV.UK')
+  })
+
   lab.test('location page with placeOrPostcode AGAIN', async () => {
     const options = {
       method: 'POST',
@@ -466,8 +474,9 @@ lab.experiment('location', async () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/location')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real place name or postcode/g)
-      payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real place name or postcode/g)
+      await payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+      await titleTest(payload, 'Error: Find location - Flood map for planning - GOV.UK')
     })
   })
 
@@ -496,8 +505,8 @@ lab.experiment('location', async () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/location')
-      payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> No address found for that place or postcode/g)
-      payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
+      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> No address found for that place or postcode/g)
+      await payloadMatchTest(payload, /<a href="#placeOrPostcode">Enter a real place name or postcode<\/a>/g)
     })
   })
 
@@ -518,8 +527,8 @@ lab.experiment('location', async () => {
     const { request, payload } = response
     const { path } = request
     Code.expect(path).to.equal('/location')
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real National Grid Reference \(NGR\)/g)
-    payloadMatchTest(payload, /<a href="#nationalGridReference">Enter a real National Grid Reference \(NGR\)<\/a>/g)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a real National Grid Reference \(NGR\)/g)
+    await payloadMatchTest(payload, /<a href="#nationalGridReference">Enter a real National Grid Reference \(NGR\)<\/a>/g)
   })
 
   lab.test('location page with a valid nationalGridReference should redirect to /confirm-location', async () => {
@@ -595,10 +604,10 @@ lab.experiment('location', async () => {
     const { request, payload } = response
     const { path } = request
     Code.expect(path).to.equal('/location')
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting/g)
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing/g)
-    payloadMatchTest(payload, /<a href="#easting">Enter an easting<\/a>/g)
-    payloadMatchTest(payload, /<a href="#northing">Enter a northing<\/a>/g)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting/g)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing/g)
+    await payloadMatchTest(payload, /<a href="#easting">Enter an easting<\/a>/g)
+    await payloadMatchTest(payload, /<a href="#northing">Enter a northing<\/a>/g)
   })
 
   lab.test('location page findby eastingNorthing with invalid easting and northing should should load /location view with errors', async () => {
@@ -617,10 +626,10 @@ lab.experiment('location', async () => {
     const { request, payload } = response
     const { path } = request
     Code.expect(path).to.equal('/location')
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g)
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g)
-    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g)
-    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g)
+    await payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g)
+    await payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g)
   })
 
   lab.test('location page findby eastingNorthing with invalid easting should should load /location view with errors', async () => {
@@ -639,10 +648,10 @@ lab.experiment('location', async () => {
     const { request, payload } = response
     const { path } = request
     Code.expect(path).to.equal('/location')
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 1)
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 0)
-    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 1)
-    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 0)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 1)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 0)
+    await payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 1)
+    await payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 0)
   })
 
   lab.test('location page findby eastingNorthing with invalid northing should should load /location view with errors', async () => {
@@ -661,9 +670,9 @@ lab.experiment('location', async () => {
     const { request, payload } = response
     const { path } = request
     Code.expect(path).to.equal('/location')
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 0)
-    payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 1)
-    payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 0)
-    payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 1)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format/g, 0)
+    await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format/g, 1)
+    await payloadMatchTest(payload, /<a href="#easting">Enter an easting in the correct format<\/a>/g, 0)
+    await payloadMatchTest(payload, /<a href="#northing">Enter a northing in the correct format<\/a>/g, 1)
   })
 })

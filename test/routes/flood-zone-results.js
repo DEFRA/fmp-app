@@ -47,7 +47,9 @@ lab.experiment('flood-zone-results', async () => {
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
+    await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
+    // FCRM 3594
+    await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
   })
 
   // Test all iterations of psoContactResponse to get full coverage
@@ -70,7 +72,7 @@ lab.experiment('flood-zone-results', async () => {
       Code.expect(response.statusCode).to.equal(200)
       const { AreaName = '' } = (psoContactResponse || {})
       const regex = new RegExp(String.raw`<p class="govuk-body">Contact the ${AreaName} at <a`)
-      payloadMatchTest(payload, regex)
+      await payloadMatchTest(payload, regex)
     })
   })
 

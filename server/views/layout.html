@@ -21,8 +21,8 @@
   <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet"/>
   {# For Internet Explorer 8, you need to compile specific stylesheet #}
   {# see https://github.com/alphagov/govuk-frontend/blob/master/docs/installation/supporting-internet-explorer-8.md #}
-  <script src="//cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="{{assetPath}}/javascripts/polyfill.min.js"></script>
+  <script src="{{assetPath}}/javascripts/js.cookie.min.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -104,12 +104,14 @@
 }) }}
 {% endblock %}
 
-{% block content %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "javascript:history.back()"
-  }) }}
-  
+{% block beforeContent %}
+{{ govukBackLink({
+  text: "Back",
+  href: "javascript:history.back()"
+}) }}
+{% endblock %}  
+
+{% block content %} 
   <script src="{{assetPath}}/javascripts/stageprompt.js"></script>
   <script type="text/javascript">
     var analyticsAccount = '{{analyticsAccount}}'
@@ -191,7 +193,7 @@
           text: "Privacy notice"
         }
       ],
-        html: '<p class="govuk-body-s">Built by the <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a></p><p class="govuk-body-s" style="max-width: 70ch;">© Crown copyright and database rights 2021 <a href = "https://www.ordnancesurvey.co.uk/">OS</a> 100024198. Use of the address and mapping data is subject to the <a href="os-terms">terms and conditions</a>.</p>'
+        html: '<p class="govuk-body-s">Built by the <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a></p><p class="govuk-body-s" style="max-width: 70ch;">© Crown copyright and database rights 2021 <a href = "https://www.ordnancesurvey.co.uk/">Ordnance Survey(OS)</a> 100024198. Use of the address and mapping data is subject to the <a href="os-terms">Ordnance Survey terms and conditions</a>.</p>'
     }
   }) }}
 {% endblock %}

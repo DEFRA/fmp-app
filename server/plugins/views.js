@@ -44,7 +44,7 @@ module.exports = {
       env: config.env,
       appVersion: pkg.version,
       assetPath: '/assets',
-      serviceName: 'Flood Map for Planning',
+      serviceName: 'Flood map for planning',
       gaAccId,
       fbAppId,
       analyticsAccount
