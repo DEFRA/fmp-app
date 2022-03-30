@@ -25,16 +25,14 @@ module.exports = {
       const center = request.payload.center
       let vector
 
-      // Get Flood zone if not provided
-      if (!zone) {
-        if (polygon) {
-          zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
-        } else {
-          zone = await riskService.getByPoint(center[0], center[1])
-        }
-        const floodZone = new FloodZone(zone, !!polygon)
-        zone = floodZone.zone
+      // Always get Flood zone as flood zone is provided in the request if not provided.
+      if (polygon) {
+        zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
+      } else {
+        zone = await riskService.getByPoint(center[0], center[1])
       }
+      const floodZone = new FloodZone(zone, !!polygon)
+      zone = floodZone.zone
 
       // Prepare point or polygon
       if (polygon) {
@@ -290,6 +288,7 @@ module.exports = {
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
+          .header('X-XSS-Protection', '1; mode=block')
           .state('pdf-download', id.toString())
       } catch (err) {
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
@@ -298,7 +297,6 @@ module.exports = {
     validate: {
       payload: {
         id: Joi.number().required(),
-        zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a', ''),
         reference: Joi.string().allow('').max(13).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),

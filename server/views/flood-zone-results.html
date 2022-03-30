@@ -9,9 +9,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
-{% include "./partials/printDialog.html" %}
 {% from "button/macro.njk" import govukButton %}
-{% from "back-link/macro.njk" import govukBackLink %}
 
 <div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
 
@@ -26,12 +24,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         You may need to carry out a flood risk assessment.
       </strong>
     </div>
-    <p class="govuk-body">Your development is in flood zone 1. This means it has
+    <p class="govuk-body">Your selected location is in flood zone 1. This means it has
       a low probability of flooding from rivers and the sea.</p>
-    <p class="govuk-body">Not a flood risk expert?
-      <a
-        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">Find
-        out what this means, and what you should do next.</a>
+    <p class="govuk-body"><a
+        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+        More information about your results</a>
     </p>
   </div>
 
@@ -44,15 +41,16 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>
     <figure class="map-container govuk-!-margin-bottom-6" role="application">
       <figcaption class="govuk-visually-hidden" aria-hidden="false">
-        <h2>A Map showing the flood zone results</h2>
-        <p>This map displays the flood zone 1 area for the location of interest.</p>
+        A map showing the flood risk for the location you have provided
       </figcaption>
       <div class="mobile-heading">
         <h2 class="heading-medium">Map</h2>
         <a href="#legend">View map key</a>
       </div>
       <div class="map--result">
-        <div id="map" class="map"></div>
+        <div id="map" class="map">
+          {% include "./partials/map/no-js.html" %}
+        </div>
         {% include "./partials/map/summary-legend.html" %}
       </div>
     </figure>
@@ -96,8 +94,10 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">Contact the {{areaName}} at <a
         href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li><a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">more information about getting a product 5, 6, 7 or 8</a>
-      <li>general help and advice about the site you're requesting data for</li>
+      <li>
+        {% include "./partials/more-information.html" %}
+      </li>
+    <li>general help and advice about the site you're requesting data for</li>
     </ul>
 
     <h3 class="govuk-heading-s">Change location</h3>
@@ -122,11 +122,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         <span class="govuk-warning-text__assistive">Warning</span> You must carry out a flood risk assessment.
       </strong>
     </div>
-    <p class="govuk-body">Your development is in flood zone 2. This means it has a medium probability of flooding.
+    <p class="govuk-body">Your selected location is in flood zone 2. This means it has a medium probability of flooding.
     </p>
-    <p class="govuk-body">Not a flood risk expert? <a
-        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">Find
-        out what this means, and what you should do next.</a>
+    <p class="govuk-body"><a
+        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+        More information about your results</a>
     </p>
   </div>
 
@@ -139,15 +139,16 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>
     <figure class="map-container govuk-!-margin-bottom-6" role="application">
       <figcaption class="govuk-visually-hidden" aria-hidden="false">
-        <h2>A Map showing the flood zone results</h2>
-        <p>This map displays the flood zone 2 area for the location of interest.</p>
+        A map showing the flood risk for the location you have provided
       </figcaption>
       <div class="mobile-heading">
         <h2 class="heading-medium">Map</h2>
         <a href="#legend">View map key</a>
       </div>
       <div class="map--result">
-        <div id="map" class="map"></div>
+        <div id="map" class="map">
+          {% include "./partials/map/no-js.html" %}
+         </div>
         {% include "./partials/map/summary-legend.html" %}
       </div>
     </figure>
@@ -181,9 +182,10 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">Contact the {{areaName}} at  <a
         href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li><a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">more information about getting a product 5, 6, 7 or 8</a>
-      <li>general help and advice about the site you're requesting data for</li>
+      <li>
+        {% include "./partials/more-information.html" %}
+      </li>
+    <li>general help and advice about the site you're requesting data for</li>
     </ul>
 
     <h3 class="govuk-heading-s">Change location</h3>
@@ -205,11 +207,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <strong class="govuk-warning-text__text">
         <span class="govuk-warning-text__assistive">Warning</span> You must carry out a flood risk assessment.</strong>
     </div>
-    <p class="govuk-body">Your development is in flood zone 3. This means it has a high probability of flooding.
+    <p class="govuk-body">Your selected location is in flood zone 3. This means it has a high probability of flooding.
     </p>
-    <p class="govuk-body">Not a flood risk expert? <a
-        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">Find
-        out what this means, and what you should do next.</a>
+    <p class="govuk-body"><a
+        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+        More information about your results</a>
     </p>
   </div>
 
@@ -222,15 +224,16 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>
     <figure class="map-container govuk-!-margin-bottom-6" role="application">
       <figcaption class="govuk-visually-hidden" aria-hidden="false">
-        <h2>A Map showing the flood zone results</h2>
-        <p>This map displays the flood zone 3 area for the location of interest.</p>
+        A map showing the flood risk for the location you have provided
       </figcaption>
       <div class="mobile-heading">
         <h2 class="heading-medium">Map</h2>
         <a href="#legend">View map key</a>
       </div>
       <div class="map--result">
-        <div id="map" class="map"></div>
+        <div id="map" class="map">
+          {% include "./partials/map/no-js.html" %}
+         </div>
         {% include "./partials/map/summary-legend.html" %}
       </div>
     </figure>
@@ -264,8 +267,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">Contact the {{areaName}} at <a
         href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li><a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">more information about getting a product 5, 6, 7 or 8</a>
+      <li>
+        {% include "./partials/more-information.html" %}
+      </li>
       <li>general help and advice about the site you're requesting data for</li>
     </ul>
 
@@ -289,10 +293,10 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         You must carry out a flood risk assessment.
       </strong>
     </div>
-    <p class="govuk-body">Your development is in flood zone 2. It is also in an area benefiting from flood defences.</p>
-    <p class="govuk-body">Not a flood risk expert? <a
-        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">Find
-        out what this means, and what you should do next.</a>
+    <p class="govuk-body">Your selected location is in flood zone 2. It is also in an area benefiting from flood defences.</p>
+    <p class="govuk-body"><a
+        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+        More information about your results</a>
     </p>
   </div>
 
@@ -305,15 +309,16 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>
     <figure class="map-container govuk-!-margin-bottom-6" role="application">
       <figcaption class="govuk-visually-hidden" aria-hidden="false">
-        <h2>A Map showing the flood zone results</h2>
-        <p>This map displays the flood zone 2 area with flood defences for the location of interest.</p>
+        A map showing the flood risk for the location you have provided
       </figcaption>
       <div class="mobile-heading">
         <h2 class="heading-medium">Map</h2>
         <a href="#legend">View map key</a>
       </div>
       <div class="map--result">
-        <div id="map" class="map"></div>
+        <div id="map" class="map">
+          {% include "./partials/map/no-js.html" %}
+         </div>
         {% include "./partials/map/summary-legend.html" %}
       </div>
     </figure>
@@ -355,8 +360,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">Contact the {{areaName }} at <a
         href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li><a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">more information about getting a product 5, 6, 7 or 8</a>
+      <li>
+        {% include "./partials/more-information.html" %}
+      </li>
       <li>general help and advice about the site you're requesting data for</li>
     </ul>
 
@@ -378,10 +384,10 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <strong class="govuk-warning-text__text">
         <span class="govuk-warning-text__assistive">Warning</span> You must carry out a flood risk assessment.</strong>
     </div>
-    <p class="govuk-body">Your development is in flood zone 3. It is also in an area benefiting from flood defences.</p>
-    <p class="govuk-body">Not a flood risk expert? <a
-        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">Find
-        out what this means, and what you should do next.</a>
+    <p class="govuk-body">Your selected location is in flood zone 3. It is also in an area benefiting from flood defences.</p>
+    <p class="govuk-body"><a
+        href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+        More information about your results</a>
     </p>
   </div>
 
@@ -394,15 +400,16 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>
     <figure class="map-container govuk-!-margin-bottom-6" role="application">
       <figcaption class="govuk-visually-hidden" aria-hidden="false">
-        <h2>A Map showing the flood zone results</h2>
-        <p>This map displays the flood zone 3 area with flood defences for the location of interest.</p>
+        A map showing the flood risk for the location you have provided
       </figcaption>
       <div class="mobile-heading">
         <h2 class="heading-medium">Map</h2>
         <a href="#legend">View map key</a>
       </div>
       <div class="map--result">
-        <div id="map" class="map"></div>
+        <div id="map" class="map">
+          {% include "./partials/map/no-js.html" %}
+         </div>
         {% include "./partials/map/summary-legend.html" %}
       </div>
     </figure>
@@ -441,8 +448,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">Contact the {{areaName }} at <a
         href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li><a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">more information about getting a product 5, 6, 7 or 8</a>
+      <li>
+        {% include "./partials/more-information.html" %}
+      </li>
       <li>general help and advice about the site you're requesting data for</li>
     </ul>
 
@@ -477,4 +485,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 </script>
 {% endif %}
 
+{% endblock %}
+{% block bodyEnd %}
+  {% include "./partials/printDialog.html" %}
 {% endblock %}

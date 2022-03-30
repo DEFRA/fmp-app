@@ -3,6 +3,8 @@ var ol = require('openlayers')
 var Map = require('../map')
 var dialog = require('../dialog')
 var mapConfig = require('../map-config.json')
+const { fixMapTabOrder } = require('../map-tab-order')
+
 function Summary (options) {
   var mapOptions = {
     layers: [
@@ -132,6 +134,7 @@ function Summary (options) {
     $('#results-map').on('toggle', () => {
       map.updateSize()
     })
+    fixMapTabOrder()
   })
 }
 module.exports = Summary

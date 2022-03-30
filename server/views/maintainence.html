@@ -1,17 +1,20 @@
 {% extends "layout.html" %}
+{% block pageTitle %}
+  Sorry, the service is unavailable - Flood map for planning - GOV.UK
+{% endblock %}
 {% block content %}
  <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-<header>
-  <h5 class="heading-large" tabindex="0">Sorry, the service is temporarily unavailable</h5>
-</header>
-<p class="govuk-body">
-          This is due to planned maintenance work - it should be up and running again soon.
-        </p>
-
-        <p class="govuk-body">
-          You can use the current <a href="https://flood-map-for-planning.service.gov.uk/">flood map for planning service</a> to find out which flood zone a location is in.
-        </p>
-        </div>
-        </div>
+      <header>
+        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+      </header>
+      <p class="govuk-body"> You will be able to use the service later </p>
+      <p class="govuk-body">
+        We have not saved your search results. When the service is available you will have to start again
+      </p>
+      <p class="govuk-body">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">Contact the Environment Agency</a>for help getting flood risk information.
+      </p>
+    </div>
+  </div>
 {% endblock %}

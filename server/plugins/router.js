@@ -12,7 +12,6 @@ const routes = [].concat(
   require('../routes/gwc-proxy'),
   require('../routes/os-get-capabilities'),
   require('../routes/os-maps-proxy'),
-  require('../routes/summary'),
   require('../routes/feedback'),
   require('../routes/pdf'),
   require('../routes/os-terms'),

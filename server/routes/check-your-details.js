@@ -16,7 +16,7 @@ module.exports = [
         const payload = request.query
         var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
         const { recipientemail, fullName } = payload
-        if (payload && payload.easting && payload.northing) {
+        if (payload.easting && payload.northing) {
           PDFinformationDetailsObject.coordinates.x = payload.easting
           PDFinformationDetailsObject.coordinates.y = payload.northing
           if (payload.zoneNumber) {
@@ -35,7 +35,6 @@ module.exports = [
         } else {
           return Boom.badImplementation('Query parameters are empty')
         }
-
         if (fullName) {
           PDFinformationDetailsObject.fullName = fullName
         } else {
@@ -62,12 +61,12 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         try {
-          const payload = request.payload
+          const payload = request.payload || {}
           const applicationReferenceNumber = await getApplicationReferenceNumber()
           var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
           const { recipientemail, fullName } = payload
           // Sanitise user inputs
-          if (payload && payload.easting && payload.northing) {
+          if (payload.easting && payload.northing) {
             PDFinformationDetailsObject.coordinates.x = payload.easting
             PDFinformationDetailsObject.coordinates.y = payload.northing
             if (payload.zoneNumber) {
