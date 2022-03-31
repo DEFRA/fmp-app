@@ -62,15 +62,9 @@ Your results explained - Flood map for planning - GOV.UK
       </div>
         <h2 class="govuk-heading-m">When you need a flood risk assessment</h2>
         <p class="govuk-body">You'll only need to do a flood risk assessment as part of your planning application if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>bigger than 1 hectare (ha)</li>
-          <li>in an area with critical drainage problems as notified by the Environment Agency</li>
-          <li>identified as being at increased flood risk in future by the local authority's strategic flood risk assessment</li>
-          <li>
-            at risk from other sources of flooding (such as surface water or reservoirs) and its development would increase the 
-            vulnerability of its use (such as constructing an office on an undeveloped site or converting a shop to a dwelling)
-          </li>
-        </ul>
+
+        {% include "./partials/zone1-reasons-for-fra.html" %}
+
         <h2 class="govuk-heading-m">Next steps</h2>
 
         <p class="govuk-body">If you think your development needs a flood risk assessment, you should speak to a flood risk consultant to do this. </p>
