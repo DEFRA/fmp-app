@@ -13,3 +13,10 @@
 
 <h3 class="govuk-heading-s">More help and advice</h3>
 <p class="govuk-body">Contact the {{areaName}} at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>{% include "./more-information.html" %}</li>
+  <li>general help and advice about the site you're requesting data for</li>
+</ul>
+
+{% include "./change-location.html" %}
