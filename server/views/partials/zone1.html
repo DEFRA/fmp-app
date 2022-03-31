@@ -1,0 +1,45 @@
+<div class="govuk-grid-column-two-thirds">
+  <h1 class="govuk-heading-xl">Flood risk information for this location</h1>
+
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      You may need to carry out a flood risk assessment.
+    </strong>
+  </div>
+  <p class="govuk-body">Your development is in flood zone 1. This means it has
+    a low probability of flooding from rivers and the sea.
+  </p>
+  <p class="govuk-body"><a
+      href="/flood-zone-results-explained?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodZone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
+      More information about your results</a>
+  </p>
+</div>
+
+{% include "./map/flood-zone-results-map-column.html" %}
+
+<div class="govuk-grid-column-two-thirds">
+  <p class="govuk-body">You will need to do a flood risk assessment if your development is
+    <span class="govuk-!-font-weight-bold">any of the following:</span>
+  </p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>bigger than 1 hectare (ha)</li>
+    <li>in an area with critical drainage problems as notified by the Environment Agency</li>
+    <li>a change of use in development type to a more vulnerable category (for example from commercial to residential)
+      <span class="govuk-!-font-weight-bold">and</span> in an area that could be affected by sources of flooding other
+      than rivers and the sea (such as surface water or reservoirs)</li>
+  </ul>
+  <p class="govuk-body">If your development
+    <span class="govuk-!-font-weight-bold">does not</span>
+    fall into any of these categories, you only need to download the flood map for planning on this page showing your
+    flood zone to include in your planning application.
+  </p>
+
+  <p class="govuk-body">You can still use this service to request flood risk data (also known as a product 4).
+    You should receive your data within 20 working days.
+    However, as your site is in flood zone 1, it’s unlikely there will be any data available.</p>
+
+  {% include "./flood-zone-results-footer.html" %}
+  
+</div>
