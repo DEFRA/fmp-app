@@ -50,6 +50,10 @@ lab.experiment('flood-zone-results', async () => {
     await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
     // FCRM 3594
     await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
+    await payloadMatchTest(payload, /<h3 class="govuk-heading-s">More help and advice<\/h3>/g, 0)
+    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 1)
+    await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
+    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
   })
 
   // Test all iterations of psoContactResponse to get full coverage
