@@ -50,7 +50,7 @@ lab.experiment('flood-zone-results', () => {
     ['without polygon without zone', { id: 1234, reference: 'testRef', scale: 2500, polygon: '', center: [1, 1] }]
   ]
   payloads.forEach(([testDescription, payload]) => {
-    lab.test.only(`a /pdf request with a payload: ${testDescription} should call the geoserver print.pdf route`, async () => {
+    lab.test(`a /pdf request with a payload: ${testDescription} should call the geoserver print.pdf route`, async () => {
       const options = {
         method: 'POST',
         url: '/pdf',
