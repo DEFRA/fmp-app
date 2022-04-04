@@ -34,31 +34,31 @@ npm WARN deprecated joi@13.0.2: This version has been deprecated in accordance w
 npm WARN deprecated uws@9.14.0: New code is available at github.com/uNetworking/uWebSockets.js
 npm WARN deprecated openlayers@4.6.5: Please use the ol package instead
 
-> fmfp@0.3.8 postinstall
+> fmfp@2.0.0 postinstall
 > npm run build
 
 
-> fmfp@0.3.8 build
+> fmfp@2.0.0 build
 > bin/build
 
 
-> fmfp@0.3.8 clean
+> fmfp@2.0.0 clean
 > bin/clean-public
 
 
-> fmfp@0.3.8 copy
+> fmfp@2.0.0 copy
 > npm run copy:gov && npm run copy:assets
 
 
-> fmfp@0.3.8 copy:gov
+> fmfp@2.0.0 copy:gov
 > bin/copy-gov && bin/fix-layout.js
 
 
-> fmfp@0.3.8 copy:assets
+> fmfp@2.0.0 copy:assets
 > bin/copy-assets
 
 
-> fmfp@0.3.8 build:css
+> fmfp@2.0.0 build:css
 > bin/build-css
 
 Rendering Complete, saving .css file...
@@ -81,16 +81,16 @@ Rendering Complete, saving .css file...
 Wrote CSS to /home/mark/src/fmp-app/server/public/build/stylesheets/terms-and-conditions/index.css
 Wrote 9 CSS files to /home/mark/src/fmp-app/server/public/build/stylesheets
 
-> fmfp@0.3.8 build:js
+> fmfp@2.0.0 build:js
 > bin/build-js
 
-(node:30020) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(node:21601) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30042) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(node:21623) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30066) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(node:21645) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30088) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
+(node:21667) [DEP0128] DeprecationWarning: Invalid 'main' field in '/home/mark/src/fmp-app/node_modules/mold-source-map/package.json' of 'mold-source-map.js'. Please either fix that or report it to the module author
 (Use `node --trace-deprecation ...` to show where the warning was created)
 
 added 1352 packages, and audited 1353 packages in 27s
@@ -98,7 +98,7 @@ added 1352 packages, and audited 1353 packages in 27s
 198 packages are looking for funding
   run `npm fund` for details
 
-37 vulnerabilities (2 low, 8 moderate, 18 high, 9 critical)
+37 vulnerabilities (2 low, 5 moderate, 21 high, 9 critical)
 
 To address issues that do not require attention, run:
   npm audit fix
