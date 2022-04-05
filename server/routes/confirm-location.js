@@ -1,6 +1,5 @@
 const Boom = require('@hapi/boom')
 const Joi = require('joi')
-const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
@@ -13,9 +12,7 @@ module.exports = [{
       // if a request to the old url, which accepted the param place, was made forward to the homepage
       if (request.query.place) {
         const place = encodeURIComponent(request.query.place)
-        // if (place) { // question - this line seems moot as it will always evaluate to true if request.query.place evaluates to true
         return h.redirect(`/?place=${place}`)
-        // }
       }
 
       try {
@@ -31,7 +28,7 @@ module.exports = [{
 
         if (!result.is_england) {
           // redirect to the not England page with the search params in the query
-          const queryString = QueryString.stringify(request.query)
+          const queryString = new URLSearchParams(request.query).toString()
           return h.redirect('/england-only?' + queryString)
         }
 
