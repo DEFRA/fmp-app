@@ -43,11 +43,11 @@ lab.experiment('flood-zone-results', () => {
   })
 
   const payloads = [
-    ['empty-reference', { id: 1234, reference: '', scale: 2500, polygon: '', center: '' }],
-    ['test-reference', { id: 1234, reference: 'testRef', scale: 2500, polygon: '', center: '' }],
-    ['with polygon', { id: 1234, reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: [1, 1] }],
-    ['with polygon without zone', { id: 1234, reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: [1, 1] }],
-    ['without polygon without zone', { id: 1234, reference: 'testRef', scale: 2500, polygon: '', center: [1, 1] }]
+    ['empty-reference', { id: 1234, reference: '', scale: 2500, polygon: '', center: '[1, 1]' }],
+    ['test-reference', { id: 1234, reference: 'testRef', scale: 2500, polygon: '', center: '[1, 1]' }],
+    ['with polygon', { id: 1234, reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: '[1, 1]' }],
+    ['with polygon without zone', { id: 1234, reference: 'testRef', scale: 2500, polygon: '[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]', center: '[1, 1]' }],
+    ['without polygon without zone', { id: 1234, reference: 'testRef', scale: 2500, polygon: '', center: '[1, 1]' }]
   ]
   payloads.forEach(([testDescription, payload]) => {
     lab.test(`a /pdf request with a payload: ${testDescription} should call the geoserver print.pdf route`, async () => {
