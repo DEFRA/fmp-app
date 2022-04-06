@@ -22,7 +22,7 @@ module.exports = {
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
       const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
-      const center = request.payload.center
+      const center = request.payload.center ? JSON.parse(request.payload.center) : undefined
       let vector
 
       // Always get Flood zone as flood zone is provided in the request if not provided.
@@ -77,7 +77,6 @@ module.exports = {
           }
         }
       }
-
       // Prepare the PDF generate options
       const options = {
         payload: {
@@ -295,12 +294,12 @@ module.exports = {
       }
     },
     validate: {
-      payload: Joi.object({
+      payload: Joi.object().keys({
         id: Joi.number().required(),
         reference: Joi.string().allow('').max(13).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
-        center: Joi.array().required().allow('')
+        center: Joi.string().required().allow('')
       })
     }
   }
