@@ -4,7 +4,7 @@
   "description": "Flood map for planning",
   "main": "index.js",
   "engines": {
-    "node": ">12"
+    "node": ">16.14.0"
   },
   "scripts": {
     "start": "pm2 start config/pm2.json",
