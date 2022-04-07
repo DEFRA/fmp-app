@@ -1,6 +1,6 @@
 // os-api-branding.js v0.2.0
 
-var scriptTag = document.currentScript
+const scriptTag = document.currentScript
 
 const os = window.os || {}
 
@@ -29,14 +29,14 @@ os.Branding = {
     obj = (typeof obj !== 'undefined') ? obj : {}
     Object.assign(this.options, obj)
 
-    var elem = document.getElementById(this.options.div)
+    const elem = document.getElementById(this.options.div)
 
-    var logoClassName = 'os-api-branding logo'
+    let logoClassName = 'os-api-branding logo'
     if (this.options.logo === 'os-logo-maps-white') {
       logoClassName = 'os-api-branding logo white'
     }
 
-    var copyrightStatement = this.options.statement
+    let copyrightStatement = this.options.statement
     copyrightStatement = copyrightStatement.replace('YYYY', new Date().getFullYear())
 
     if (this.options.prefix !== '') {
@@ -50,12 +50,12 @@ os.Branding = {
     document.querySelectorAll('#' + this.options.div + ' .os-api-branding').forEach(el => el.remove())
 
     // Append the API logo.
-    var div1 = document.createElement('div')
+    const div1 = document.createElement('div')
     div1.className = logoClassName
     elem.appendChild(div1)
 
     // Append the copyright statement.
-    var div2 = document.createElement('div')
+    const div2 = document.createElement('div')
     div2.className = 'os-api-branding copyright'
     div2.innerHTML = copyrightStatement
     elem.appendChild(div2)

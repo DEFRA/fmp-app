@@ -5,11 +5,11 @@ module.exports = [{
   options: {
     description: 'Cookies Page',
     handler: async (request, h) => {
-      var errors = []
-      var model = new CookieViewModel({
+      const errors = []
+      const model = new CookieViewModel({
         errorSummary: errors
       })
-      var cookie = request.state
+      const cookie = request.state
       if (cookie !== null && cookie.GA !== null && cookie.GA === 'Accept') {
         model.isYesChecked = true
         model.isNoChecked = false

@@ -1,11 +1,11 @@
-var $ = require('jquery')
+const $ = require('jquery')
 // proj4 is accessed using global variable within openlayers library
 window.proj4 = require('proj4') //  JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations
-var raf = require('raf') // requestAnimationFrame polyfill for node and the browser.
-var ol = require('openlayers')
-var parser = new ol.format.WMTSCapabilities()
-var config = require('./map-config.json')
-var map, callback
+const raf = require('raf') // requestAnimationFrame polyfill for node and the browser.
+const ol = require('openlayers')
+const parser = new ol.format.WMTSCapabilities()
+const config = require('./map-config.json')
+let map, callback
 
 function Map (mapOptions) {
   // add the projection to Window.proj4
@@ -15,7 +15,7 @@ function Map (mapOptions) {
   raf.polyfill()
   require('classlist-polyfill')
 
-  var projection = ol.proj.get(config.projection.ref)
+  const projection = ol.proj.get(config.projection.ref)
 
   projection.setExtent(config.projection.extent)
 
@@ -24,24 +24,24 @@ function Map (mapOptions) {
     // therefore sizes is set to undefined array, which sets fullTileRanges_
     // to an array of undefineds thus breaking the map      return
 
-    var result = parser.read(OS)
+    const result = parser.read(OS)
 
-    var wmtsOptions = ol.source.WMTS.optionsFromCapabilities(result, {
+    const wmtsOptions = ol.source.WMTS.optionsFromCapabilities(result, {
       layer: config.OSLayer,
       matrixSet: config.OSMatrixSet
     })
 
     wmtsOptions.attributions = []
 
-    var source = new ol.source.WMTS(wmtsOptions)
+    const source = new ol.source.WMTS(wmtsOptions)
     source.setUrls([config.OSWMTS])
 
-    var layer = new ol.layer.Tile({
+    const layer = new ol.layer.Tile({
       ref: config.OSLayer,
       source: source
     })
 
-    var layers = Array.prototype.concat([layer], mapOptions.layers)
+    const layers = Array.prototype.concat([layer], mapOptions.layers)
 
     // Prevent map from zooming in too far
     const resolutions = source.tileGrid.getResolutions().slice(0, 11)

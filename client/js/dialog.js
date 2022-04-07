@@ -1,7 +1,7 @@
 /* global $ */
 
 function openDialog (sel) {
-  var $dialog = $(sel)
+  const $dialog = $(sel)
 
   $dialog.attr('aria-hidden', 'false')
     .find('.dialog-content input').focus()
@@ -50,8 +50,8 @@ $(function init () {
     $('button[data-toggle=dialog]').on('click', function (e) {
       e.preventDefault()
 
-      var $this = $(this)
-      var target = '#' + $this.attr('data-target')
+      const $this = $(this)
+      const target = '#' + $this.attr('data-target')
 
       openDialog(target)
     })

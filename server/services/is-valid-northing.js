@@ -1,7 +1,7 @@
 module.exports = {
   get: (northing) => {
-    var formattedNorthing = northing.trim()
-    var response = { northingError: '', isValid: false }
+    const formattedNorthing = northing.trim()
+    const response = { northingError: '', isValid: false }
     if (formattedNorthing) {
       if (!isNaN(formattedNorthing)) {
         if (formattedNorthing >= 1 && formattedNorthing <= 1300000) {

@@ -1,4 +1,4 @@
-var ol = require('openlayers')
+const ol = require('openlayers')
 
 function VectorDrag () {
   ol.interaction.Pointer.call(this, {
@@ -20,11 +20,11 @@ function VectorDrag () {
 ol.inherits(VectorDrag, ol.interaction.Pointer)
 
 VectorDrag.prototype.handleDownEvent = function (evt) {
-  var map = evt.map
+  const map = evt.map
 
-  var features = []
+  const features = []
 
-  var feature = map.forEachFeatureAtPixel(evt.pixel,
+  const feature = map.forEachFeatureAtPixel(evt.pixel,
     function (feature) {
       return feature
     })
@@ -49,8 +49,8 @@ VectorDrag.prototype.handleDownEvent = function (evt) {
 }
 
 VectorDrag.prototype.handleDragEvent = function (evt) {
-  var deltaX = evt.coordinate[0] - this.coordinate[0]
-  var deltaY = evt.coordinate[1] - this.coordinate[1]
+  const deltaX = evt.coordinate[0] - this.coordinate[0]
+  const deltaY = evt.coordinate[1] - this.coordinate[1]
 
   this.features.forEach(function (feature) {
     feature.getGeometry().translate(deltaX, deltaY)
@@ -62,12 +62,12 @@ VectorDrag.prototype.handleDragEvent = function (evt) {
 
 VectorDrag.prototype.handleMoveEvent = function (evt) {
   if (this.cursor) {
-    var map = evt.map
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
+    const map = evt.map
+    const feature = map.forEachFeatureAtPixel(evt.pixel,
       function (feature) {
         return feature
       })
-    var element = evt.map.getTargetElement()
+    const element = evt.map.getTargetElement()
     if (feature) {
       if (element.style.cursor !== this.cursor) {
         this.previouscursor = element.style.cursor

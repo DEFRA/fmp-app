@@ -12,8 +12,8 @@ module.exports = [{
     description: 'Get location for a postcode, national grid reference, easting or northing'
   },
   handler: async (request, h) => {
-    var errors = []
-    var model = new LocationViewModel({
+    const errors = []
+    const model = new LocationViewModel({
       errorSummary: errors
     })
     return h.view('location', model)
@@ -70,7 +70,7 @@ module.exports = [{
             return h.view('location', model)
           }
         } else if (selectedOption === 'nationalGridReference') {
-          var isNGrValid = await isValidNgrService.get(payload.nationalGridReference)
+          const isNGrValid = await isValidNgrService.get(payload.nationalGridReference)
           if (isNGrValid.isValid) {
             BNG = ngrToBng.convert(payload.nationalGridReference)
           } else {
