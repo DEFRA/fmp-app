@@ -11,7 +11,7 @@ module.exports = {
       try {
         if (request.query.recipientemail && request.query.fullName && request.query.applicationReferenceNumber && request.query.location) {
           const result = await psoContactDetails.getPsoContacts(request.query.x, request.query.y)
-          var model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber, '', '', '', '', request.query.x, request.query.y, request.query.polygon, request.query.cent, request.query.location, '')
+          const model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber, '', '', '', '', request.query.x, request.query.y, request.query.polygon, request.query.cent, request.query.location, '')
           model.location = request.query.x + ',' + request.query.y
           model.psoEmailAddress = (result && result.EmailAddress) ? result.EmailAddress : undefined
           model.AreaName = (result && result.AreaName) ? result.AreaName : undefined

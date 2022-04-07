@@ -1,44 +1,44 @@
-var $ = require('jquery')
-var ol = require('openlayers')
-var Map = require('../map')
-var mapConfig = require('../map-config.json')
-var VectorDrag = require('../vector-drag')
-var dialog = require('../dialog')
+const $ = require('jquery')
+const ol = require('openlayers')
+const Map = require('../map')
+const mapConfig = require('../map-config.json')
+const VectorDrag = require('../vector-drag')
+const dialog = require('../dialog')
 
-var vectorDragInteraction = new VectorDrag()
+const vectorDragInteraction = new VectorDrag()
 
 function ConfirmLocationPage (options) {
-  var easting = window.encodeURIComponent(options.easting)
-  var northing = window.encodeURIComponent(options.northing)
-  var location = window.encodeURIComponent(options.location)
-  var fullName = window.encodeURIComponent(options.fullName)
-  var recipientemail = window.encodeURIComponent(options.recipientemail)
+  const easting = window.encodeURIComponent(options.easting)
+  const northing = window.encodeURIComponent(options.northing)
+  const location = window.encodeURIComponent(options.location)
+  const fullName = window.encodeURIComponent(options.fullName)
+  const recipientemail = window.encodeURIComponent(options.recipientemail)
 
-  var $page = $('#confirm-location-page')
-  var $radios = $('.top-of-buttons', $page)
-  var $container = $('.map-container', $page)
-  var $continueBtn = $('a.govuk-button--start', $page)
-  var $product4Btn = $('a.button-product4', $page)
-  var $legend = $('.legend', $page)
-  var $form = $('form.form', $page)
-  var $center = $('input[name="center"]', $form)
-  var $polygon = $('input[name="polygon"]', $form)
-  var $deleteButton = $('#deletePolygon')
+  const $page = $('#confirm-location-page')
+  const $radios = $('.top-of-buttons', $page)
+  const $container = $('.map-container', $page)
+  const $continueBtn = $('a.govuk-button--start', $page)
+  const $product4Btn = $('a.button-product4', $page)
+  const $legend = $('.legend', $page)
+  const $form = $('form.form', $page)
+  const $center = $('input[name="center"]', $form)
+  const $polygon = $('input[name="polygon"]', $form)
+  const $deleteButton = $('#deletePolygon')
 
-  var point = new ol.Feature({
+  const point = new ol.Feature({
     geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
   })
 
-  var vectorSource = new ol.source.Vector({
+  const vectorSource = new ol.source.Vector({
     features: [
       point
     ]
   })
 
   // Styles for features
-  var vectorStyle = function (feature, resolution) {
+  const vectorStyle = function (feature, resolution) {
     // Complete polygon drawing style
-    var drawCompleteStyle = new ol.style.Style({
+    const drawCompleteStyle = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(255, 255, 255, 0.5)'
       }),
@@ -55,7 +55,7 @@ function ConfirmLocationPage (options) {
     })
 
     // Complete polygon geometry style
-    var drawCompleteGeometryStyle = new ol.style.Style({
+    const drawCompleteGeometryStyle = new ol.style.Style({
       image: new ol.style.Icon({
         opacity: 1,
         size: [32, 32],
@@ -65,7 +65,7 @@ function ConfirmLocationPage (options) {
       // Return the coordinates of the first ring of the polygon
       geometry: function (feature) {
         if (feature.getGeometry().getType() === 'Polygon') {
-          var coordinates = feature.getGeometry().getCoordinates()[0]
+          const coordinates = feature.getGeometry().getCoordinates()[0]
           return new ol.geom.MultiPoint(coordinates)
         } else {
           return null
@@ -74,7 +74,7 @@ function ConfirmLocationPage (options) {
     })
 
     // Point style
-    var pointStyle = new ol.style.Style({
+    const pointStyle = new ol.style.Style({
       image: new ol.style.Icon({
         // size: [53, 71],
         anchor: [0.5, 1],
@@ -85,7 +85,7 @@ function ConfirmLocationPage (options) {
       })
     })
 
-    var featureType = feature.getGeometry().getType()
+    const featureType = feature.getGeometry().getType()
 
     if (featureType === 'Polygon') {
       return [drawCompleteStyle, drawCompleteGeometryStyle]
@@ -94,7 +94,7 @@ function ConfirmLocationPage (options) {
     }
   }
 
-  var vectorLayer = new ol.layer.Vector({
+  const vectorLayer = new ol.layer.Vector({
     ref: 'centre',
     visible: true,
     source: vectorSource,
@@ -102,7 +102,7 @@ function ConfirmLocationPage (options) {
   })
 
   // Start polygon drawing style
-  var drawStyle = new ol.style.Style({
+  const drawStyle = new ol.style.Style({
     fill: new ol.style.Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
@@ -119,7 +119,7 @@ function ConfirmLocationPage (options) {
   })
 
   // Modify polygon drawing style
-  var modifyStyle = new ol.style.Style({
+  const modifyStyle = new ol.style.Style({
     fill: new ol.style.Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
@@ -135,22 +135,22 @@ function ConfirmLocationPage (options) {
     })
   })
 
-  var modify = new ol.interaction.Modify({
+  const modify = new ol.interaction.Modify({
     source: vectorSource,
     style: modifyStyle
   })
 
-  var draw = new ol.interaction.Draw({
+  const draw = new ol.interaction.Draw({
     source: vectorSource,
     type: 'Polygon',
     style: drawStyle
   })
 
-  var snap = new ol.interaction.Snap({
+  const snap = new ol.interaction.Snap({
     source: vectorSource
   })
 
-  var mapOptions = {
+  const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [new ol.layer.Tile({
       ref: 'fmp',
@@ -182,11 +182,11 @@ function ConfirmLocationPage (options) {
   this.map = new Map(mapOptions)
 
   this.map.onReady(function (map) {
-    var polygon
-    var featureMode = 'point'
+    let polygon
+    let featureMode = 'point'
 
-    var id, cookieTimer, cookiePattern
-    var cookieName = 'pdf-download'
+    let id, cookieTimer, cookiePattern
+    const cookieName = 'pdf-download'
 
     function checkCookies () {
       // If the local cookies have been updated, clear the timer
@@ -219,13 +219,13 @@ function ConfirmLocationPage (options) {
 
     modify.on('modifyend', function (e) {
       // Update polygon and targetUrl
-      var features = e.features.getArray()
+      const features = e.features.getArray()
       polygon = features[0]
       updateTargetUrl()
     })
 
     draw.on('drawend', function (e) {
-      var coordinates = e.feature.getGeometry().getCoordinates()[0]
+      const coordinates = e.feature.getGeometry().getCoordinates()[0]
       if (coordinates.length >= 4) {
         // Update polygon and targetUrl
         polygon = e.feature
@@ -332,14 +332,14 @@ function ConfirmLocationPage (options) {
     }
 
     function updateTargetUrl () {
-      var coordinates
-      var url = '/flood-zone-results'
-      var contactUrl = '/contact'
+      let coordinates
+      let url = '/flood-zone-results'
+      let contactUrl = '/contact'
 
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
-        var center = getCenterOfExtent(polygon.getGeometry().getExtent())
-        var coords = JSON.stringify(coordinates.map(function (item) {
+        const center = getCenterOfExtent(polygon.getGeometry().getExtent())
+        const coords = JSON.stringify(coordinates.map(function (item) {
           return [parseInt(item[0], 10), parseInt(item[1], 10)]
         }))
         url += '?polygon=' + coords
@@ -370,8 +370,8 @@ function ConfirmLocationPage (options) {
     }
 
     function getCenterOfExtent (extent) {
-      var X = extent[0] + (extent[2] - extent[0]) / 2
-      var Y = extent[1] + (extent[3] - extent[1]) / 2
+      const X = extent[0] + (extent[2] - extent[0]) / 2
+      const Y = extent[1] + (extent[3] - extent[1]) / 2
       return [parseInt(X, 10), parseInt(Y, 10)]
     }
   })

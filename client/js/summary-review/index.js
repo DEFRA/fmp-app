@@ -1,12 +1,12 @@
 
 /* global $ */
 require('../dialog')
-var ol = require('openlayers')
-var Map = require('../summary-review-map')
-var mapConfig = require('../map-config.json')
+const ol = require('openlayers')
+const Map = require('../summary-review-map')
+const mapConfig = require('../map-config.json')
 
 function ApplicationSummaryReviewPage (options) {
-  var mapOptions = {
+  const mapOptions = {
     layers: [
       new ol.layer.Tile({
         ref: 'fmp',
@@ -35,7 +35,7 @@ function ApplicationSummaryReviewPage (options) {
   }
 
   if (options.polygon) {
-    var polygon = new ol.geom.Polygon([options.polygon])
+    const polygon = new ol.geom.Polygon([options.polygon])
     mapOptions.polygon = polygon
     mapOptions.point = [parseInt(options.polygon[0][0], 10), parseInt(options.polygon[0][1], 10)]
     mapOptions.layers.push(
@@ -60,8 +60,8 @@ function ApplicationSummaryReviewPage (options) {
         })
       }))
   } else {
-    var easting = window.encodeURIComponent(options.easting)
-    var northing = window.encodeURIComponent(options.northing)
+    const easting = window.encodeURIComponent(options.easting)
+    const northing = window.encodeURIComponent(options.northing)
 
     mapOptions.point = [parseInt(easting, 10), parseInt(northing, 10)]
     mapOptions.layers.push(
@@ -86,14 +86,14 @@ function ApplicationSummaryReviewPage (options) {
       }))
   }
 
-  var $summaryColumn = $('.summary-column')
-  var $map = $('#map')
+  const $summaryColumn = $('.summary-column')
+  const $map = $('#map')
 
-  var setBlendMode = function (evt) {
+  const setBlendMode = function (evt) {
     evt.context.globalCompositeOperation = 'multiply'
   }
 
-  var resetBlendModeFromSelect = function (evt) {
+  const resetBlendModeFromSelect = function (evt) {
     evt.context.globalCompositeOperation = 'source-over'
   }
 
@@ -107,7 +107,7 @@ function ApplicationSummaryReviewPage (options) {
   }
 
   function sizeColumn () {
-    var height = !isMobile() ? $summaryColumn.height() : 450
+    const height = !isMobile() ? $summaryColumn.height() : 450
     $map.height(height)
   }
 

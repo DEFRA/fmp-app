@@ -14,14 +14,14 @@ module.exports = [{
       const zoneNumber = encodeURIComponent(request.query.zoneNumber)
       const recipientemail = request.query.recipientemail
       const fullName = request.query.fullName
-      var polygon = ''
+      let polygon = ''
 
       if (request.query.polygon) {
         polygon = request.query.polygon
       }
 
       const result = await psoContactDetails.getPsoContacts(easting, northing)
-      var localAuthorities = ''
+      let localAuthorities = ''
       if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
         localAuthorities = result.LocalAuthorities.toString()
       }

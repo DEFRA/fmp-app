@@ -61,7 +61,7 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', polygon: '', center: '', zoneNumber: '' }
+          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', polygon: '', center: '', zoneNumber: '' }
 
           let model = {}
           const { recipientemail, fullName } = request.payload
@@ -100,7 +100,7 @@ module.exports = [
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
-            var params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
+            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
 
             return h.redirect(`/check-your-details?${params}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {

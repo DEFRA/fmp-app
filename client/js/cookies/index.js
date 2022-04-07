@@ -1,10 +1,10 @@
 module.exports = window.onload = function () {
-  var cookieBanner = document.querySelector('.js-cookies-banner')
-  var questionBanner = document.querySelector('.js-question-banner')
-  var acceptedBanner = document.querySelector('.js-cookies-accepted')
-  var rejectedBanner = document.querySelector('.js-cookies-rejected')
-  var acceptButton = document.querySelector('.js-cookies-button-accept')
-  var rejectButton = document.querySelector('.js-cookies-button-reject')
+  const cookieBanner = document.querySelector('.js-cookies-banner')
+  const questionBanner = document.querySelector('.js-question-banner')
+  const acceptedBanner = document.querySelector('.js-cookies-accepted')
+  const rejectedBanner = document.querySelector('.js-cookies-rejected')
+  const acceptButton = document.querySelector('.js-cookies-button-accept')
+  const rejectButton = document.querySelector('.js-cookies-button-reject')
 
   function showBanner (banner) {
     banner.removeAttribute('hidden')
@@ -36,21 +36,21 @@ module.exports = window.onload = function () {
 
   function getCookie (key) {
     // Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring
-    var cookies = document.cookie
+    const cookies = document.cookie
       .split(';')
       .map(splitCookies)
       .reduce(cookieReducerFn, {})
     return cookies[key]
   }
-  var cookieName = 'GA'
-  var doesCookieExist = getCookie(cookieName)
+  const cookieName = 'GA'
+  const doesCookieExist = getCookie(cookieName)
 
-  var acceptFn = function () {
+  const acceptFn = function () {
     setCookie(cookieName, 'Accept', 365)
     questionBanner.setAttribute('hidden', true)
     showBanner(acceptedBanner)
   }
-  var rejectFn = function () {
+  const rejectFn = function () {
     setCookie(cookieName, 'Reject', 365)
     questionBanner.setAttribute('hidden', true)
     showBanner(rejectedBanner)

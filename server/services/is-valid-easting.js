@@ -1,7 +1,7 @@
 module.exports = {
   get: (easting) => {
-    var formattedEasting = easting.trim()
-    var response = { eastingError: '', isValid: false }
+    const formattedEasting = easting.trim()
+    const response = { eastingError: '', isValid: false }
     if (formattedEasting) {
       if (!isNaN(formattedEasting)) {
         if (formattedEasting >= 1 && formattedEasting <= 700000) {
