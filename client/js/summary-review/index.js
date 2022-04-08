@@ -1,18 +1,31 @@
-
 /* global $ */
 require('../dialog')
-const ol = require('openlayers')
+
+const TileLayer = require('ol/layer/Tile').default
+const VectorLayer = require('ol/layer/Vector').default
+const TileWMS = require('ol/source/TileWMS').default
+const VectorSource = require('ol/source/Vector').default
+const TileGrid = require('ol/tilegrid/TileGrid').default
+const Polygon = require('ol/geom/Polygon').default
+const Point = require('ol/geom/Point').default
+const Feature = require('ol/Feature').default
+const Style = require('ol/style/Style').default
+const Stroke = require('ol/style/Stroke').default
+const Fill = require('ol/style/Fill').default
+const Icon = require('ol/style/Icon').default
+const { defaults: InteractionDefaults } = require('ol/interaction')
+
 const Map = require('../summary-review-map')
 const mapConfig = require('../map-config.json')
 
 function ApplicationSummaryReviewPage (options) {
   const mapOptions = {
     layers: [
-      new ol.layer.Tile({
+      new TileLayer({
         ref: 'fmp',
         opacity: 0.7,
         zIndex: 0,
-        source: new ol.source.TileWMS({
+        source: new TileWMS({
           url: mapConfig.tileProxy,
           serverType: 'geoserver',
           params: {
@@ -20,7 +33,7 @@ function ApplicationSummaryReviewPage (options) {
             TILED: true,
             VERSION: '1.1.1'
           },
-          tileGrid: new ol.tilegrid.TileGrid({
+          tileGrid: new TileGrid({
             extent: mapConfig.tileExtent,
             resolutions: mapConfig.tileResolutions,
             tileSize: mapConfig.tileSize
@@ -28,33 +41,33 @@ function ApplicationSummaryReviewPage (options) {
         })
       })
     ],
-    mapInteractions: ol.interaction.defaults({
+    mapInteractions: InteractionDefaults({
       altShiftDragRotate: false,
       pinchRotate: false
     })
   }
 
   if (options.polygon) {
-    const polygon = new ol.geom.Polygon([options.polygon])
+    const polygon = new Polygon([options.polygon])
     mapOptions.polygon = polygon
     mapOptions.point = [parseInt(options.polygon[0][0], 10), parseInt(options.polygon[0][1], 10)]
     mapOptions.layers.push(
-      new ol.layer.Vector({
+      new VectorLayer({
         ref: 'centre',
         visible: true,
         zIndex: 1,
-        source: new ol.source.Vector({
+        source: new VectorSource({
           features: [
-            new ol.Feature({
+            new Feature({
               geometry: polygon
             })]
         }),
-        style: new ol.style.Style({
-          stroke: new ol.style.Stroke({
+        style: new Style({
+          stroke: new Stroke({
             color: '#b21122',
             width: 3
           }),
-          fill: new ol.style.Fill({
+          fill: new Fill({
             color: 'rgba(178, 17, 34, 0.1)'
           })
         })
@@ -65,18 +78,18 @@ function ApplicationSummaryReviewPage (options) {
 
     mapOptions.point = [parseInt(easting, 10), parseInt(northing, 10)]
     mapOptions.layers.push(
-      new ol.layer.Vector({
+      new VectorLayer({
         ref: 'centre',
         visible: true,
         zIndex: 1,
-        source: new ol.source.Vector({
+        source: new VectorSource({
           features: [
-            new ol.Feature({
-              geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
+            new Feature({
+              geometry: new Point([parseInt(easting, 10), parseInt(northing, 10)])
             })]
         }),
-        style: new ol.style.Style({
-          image: new ol.style.Icon({
+        style: new Style({
+          image: new Icon({
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
