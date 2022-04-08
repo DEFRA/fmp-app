@@ -1,5 +1,24 @@
 const $ = require('jquery')
-const ol = require('openlayers')
+
+const TileLayer = require('ol/layer/Tile').default
+const VectorLayer = require('ol/layer/Vector').default
+const TileWMS = require('ol/source/TileWMS').default
+const VectorSource = require('ol/source/Vector').default
+const TileGrid = require('ol/tilegrid/TileGrid').default
+const Polygon = require('ol/geom/Polygon').default
+const Point = require('ol/geom/Point').default
+const MultiPoint = require('ol/geom/MultiPoint').default
+const Feature = require('ol/Feature').default
+const Style = require('ol/style/Style').default
+const Stroke = require('ol/style/Stroke').default
+const Fill = require('ol/style/Fill').default
+const Icon = require('ol/style/Icon').default
+const Modify = require('ol/interaction/Modify').default
+const Draw = require('ol/interaction/Draw').default
+const Snap = require('ol/interaction/Snap').default
+
+const { defaults: InteractionDefaults } = require('ol/interaction')
+
 const Map = require('../map')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
@@ -25,11 +44,11 @@ function ConfirmLocationPage (options) {
   const $polygon = $('input[name="polygon"]', $form)
   const $deleteButton = $('#deletePolygon')
 
-  const point = new ol.Feature({
-    geometry: new ol.geom.Point([parseInt(easting, 10), parseInt(northing, 10)])
+  const point = new Feature({
+    geometry: new Point([parseInt(easting, 10), parseInt(northing, 10)])
   })
 
-  const vectorSource = new ol.source.Vector({
+  const vectorSource = new VectorSource({
     features: [
       point
     ]
@@ -38,15 +57,15 @@ function ConfirmLocationPage (options) {
   // Styles for features
   const vectorStyle = function (feature, resolution) {
     // Complete polygon drawing style
-    const drawCompleteStyle = new ol.style.Style({
-      fill: new ol.style.Fill({
+    const drawCompleteStyle = new Style({
+      fill: new Fill({
         color: 'rgba(255, 255, 255, 0.5)'
       }),
-      stroke: new ol.style.Stroke({
+      stroke: new Stroke({
         color: '#B10E1E',
         width: 3
       }),
-      image: new ol.style.Icon({
+      image: new Icon({
         opacity: 1,
         size: [32, 32],
         scale: 0.5,
@@ -55,8 +74,8 @@ function ConfirmLocationPage (options) {
     })
 
     // Complete polygon geometry style
-    const drawCompleteGeometryStyle = new ol.style.Style({
-      image: new ol.style.Icon({
+    const drawCompleteGeometryStyle = new Style({
+      image: new Icon({
         opacity: 1,
         size: [32, 32],
         scale: 0.5,
@@ -66,7 +85,7 @@ function ConfirmLocationPage (options) {
       geometry: function (feature) {
         if (feature.getGeometry().getType() === 'Polygon') {
           const coordinates = feature.getGeometry().getCoordinates()[0]
-          return new ol.geom.MultiPoint(coordinates)
+          return new MultiPoint(coordinates)
         } else {
           return null
         }
@@ -74,8 +93,8 @@ function ConfirmLocationPage (options) {
     })
 
     // Point style
-    const pointStyle = new ol.style.Style({
-      image: new ol.style.Icon({
+    const pointStyle = new Style({
+      image: new Icon({
         // size: [53, 71],
         anchor: [0.5, 1],
         // scale: 0.5,
@@ -94,7 +113,7 @@ function ConfirmLocationPage (options) {
     }
   }
 
-  const vectorLayer = new ol.layer.Vector({
+  const vectorLayer = new VectorLayer({
     ref: 'centre',
     visible: true,
     source: vectorSource,
@@ -102,15 +121,15 @@ function ConfirmLocationPage (options) {
   })
 
   // Start polygon drawing style
-  const drawStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
+  const drawStyle = new Style({
+    fill: new Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
-    stroke: new ol.style.Stroke({
+    stroke: new Stroke({
       color: '#005EA5',
       width: 3
     }),
-    image: new ol.style.Icon({
+    image: new Icon({
       opacity: 1,
       size: [32, 32],
       scale: 0.5,
@@ -119,15 +138,15 @@ function ConfirmLocationPage (options) {
   })
 
   // Modify polygon drawing style
-  const modifyStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
+  const modifyStyle = new Style({
+    fill: new Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
-    stroke: new ol.style.Stroke({
+    stroke: new Stroke({
       color: '#FFBF47',
       width: 3
     }),
-    image: new ol.style.Icon({
+    image: new Icon({
       opacity: 1,
       size: [32, 32],
       scale: 0.5,
@@ -135,28 +154,28 @@ function ConfirmLocationPage (options) {
     })
   })
 
-  const modify = new ol.interaction.Modify({
+  const modify = new Modify({
     source: vectorSource,
     style: modifyStyle
   })
 
-  const draw = new ol.interaction.Draw({
+  const draw = new Draw({
     source: vectorSource,
     type: 'Polygon',
     style: drawStyle
   })
 
-  const snap = new ol.interaction.Snap({
+  const snap = new Snap({
     source: vectorSource
   })
 
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
-    layers: [new ol.layer.Tile({
+    layers: [new TileLayer({
       ref: 'fmp',
       opacity: 0.7,
       zIndex: 0,
-      source: new ol.source.TileWMS({
+      source: new TileWMS({
         url: mapConfig.tileProxy,
         serverType: 'geoserver',
         params: {
@@ -164,7 +183,7 @@ function ConfirmLocationPage (options) {
           TILED: true,
           VERSION: '1.1.1'
         },
-        tileGrid: new ol.tilegrid.TileGrid({
+        tileGrid: new TileGrid({
           extent: mapConfig.tileExtent,
           resolutions: mapConfig.tileResolutions,
           tileSize: mapConfig.tileSize
@@ -173,7 +192,7 @@ function ConfirmLocationPage (options) {
     }),
     vectorLayer],
     // Add vector drag to map interactions
-    interactions: ol.interaction.defaults({
+    interactions: InteractionDefaults({
       altShiftDragRotate: false,
       pinchRotate: false
     }).extend([vectorDragInteraction])
@@ -211,8 +230,8 @@ function ConfirmLocationPage (options) {
 
     if (options.polygon) {
       // Load polygon from saved state
-      polygon = new ol.Feature({
-        geometry: new ol.geom.Polygon([options.polygon])
+      polygon = new Feature({
+        geometry: new Polygon([options.polygon])
       })
       updateMode('polygon')
     }

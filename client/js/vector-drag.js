@@ -1,7 +1,7 @@
-const ol = require('openlayers')
+const Pointer = require('ol/interaction/Pointer').default
 
 function VectorDrag () {
-  ol.interaction.Pointer.call(this, {
+  Pointer.call(this, {
     handleDownEvent: VectorDrag.prototype.handleDownEvent,
     handleDragEvent: VectorDrag.prototype.handleDragEvent,
     handleMoveEvent: VectorDrag.prototype.handleMoveEvent,
@@ -17,7 +17,9 @@ function VectorDrag () {
   this.features = []
 }
 
-ol.inherits(VectorDrag, ol.interaction.Pointer)
+// ol.inherits(VectorDrag, Pointer) - inherits is deprecated, these 2 lines perform the same action:
+VectorDrag.prototype = Object.create(Pointer.prototype)
+VectorDrag.prototype.constructor = VectorDrag
 
 VectorDrag.prototype.handleDownEvent = function (evt) {
   const map = evt.map
