@@ -64,7 +64,9 @@ function Map (mapOptions) {
         altShiftDragRotate: false,
         pinchRotate: false
       }),
-      controls: ControlDefaults().extend([
+      controls: ControlDefaults({
+        rotate: false
+      }).extend([
         new ScaleLine({
           units: 'metric',
           minWidth: 50
