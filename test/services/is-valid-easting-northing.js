@@ -1,5 +1,5 @@
 
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const isValidEastingService = require('../../server/services/is-valid-easting')

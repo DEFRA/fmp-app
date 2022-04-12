@@ -1,4 +1,3 @@
-const QueryString = require('querystring')
 const addressService = require('../services/address')
 const isValidEastingNorthingService = require('../services/is-valid-easting-northing')
 const isValidNgrService = require('../services/is-valid-ngr')
@@ -162,7 +161,7 @@ module.exports = [{
         queryParams.recipientemail = ' '
         queryParams.fullName = ' '
 
-        const query = QueryString.stringify(queryParams)
+        const query = new URLSearchParams(queryParams).toString()
         return h.redirect(`/confirm-location?${query}`)
       } catch (error) {
       }

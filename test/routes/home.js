@@ -1,4 +1,4 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
@@ -6,7 +6,7 @@ const addressService = require('../../server/services/address')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 
-lab.experiment('home', async () => {
+lab.experiment('home', () => {
   let server
 
   lab.before(async () => {

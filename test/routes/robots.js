@@ -1,9 +1,9 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 
-lab.experiment('robots.txt', async () => {
+lab.experiment('robots.txt', () => {
   let server
 
   lab.before(async () => {

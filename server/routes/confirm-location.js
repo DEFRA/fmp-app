@@ -1,6 +1,5 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const Joi = require('joi')
-const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
@@ -13,9 +12,7 @@ module.exports = [{
       // if a request to the old url, which accepted the param place, was made forward to the homepage
       if (request.query.place) {
         const place = encodeURIComponent(request.query.place)
-        // if (place) { // question - this line seems moot as it will always evaluate to true if request.query.place evaluates to true
         return h.redirect(`/?place=${place}`)
-        // }
       }
 
       try {
@@ -31,7 +28,7 @@ module.exports = [{
 
         if (!result.is_england) {
           // redirect to the not England page with the search params in the query
-          const queryString = QueryString.stringify(request.query)
+          const queryString = new URLSearchParams(request.query).toString()
           return h.redirect('/england-only?' + queryString)
         }
 
@@ -50,7 +47,14 @@ module.exports = [{
         if (request.query.fullName) {
           fullName = request.query.fullName
         }
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon, location, point.placeOrPostcode, recipientemail, fullName)
+        let polygon
+        try {
+          polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
+        } catch {
+          return Boom.badRequest('Invalid polygon value passed')
+        }
+
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, polygon, location, point.placeOrPostcode, recipientemail, fullName)
 
         return h.view('confirm-location', model)
       } catch (err) {
@@ -58,19 +62,16 @@ module.exports = [{
       }
     },
     validate: {
-      query: {
+      query: Joi.object().keys({
         easting: Joi.number().max(700000).positive(),
         northing: Joi.number().max(1300000).positive(),
-        polygon: Joi.array().items(Joi.array().items(
-          Joi.number().max(700000).positive().required(),
-          Joi.number().max(1300000).positive().required()
-        )),
+        polygon: Joi.string(),
         place: Joi.string(),
         placeOrPostcode: Joi.string(),
         nationalGridReference: Joi.string(),
         recipientemail: Joi.string(),
         fullName: Joi.string()
-      }
+      })
     }
   }
 }]

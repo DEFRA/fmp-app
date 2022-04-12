@@ -1,4 +1,4 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
@@ -6,7 +6,7 @@ const psoContactDetails = require('../../server/services/pso-contact')
 const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
 
-lab.experiment('flood-zone-results', async () => {
+lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContacts
   let restoreGetByPolygon
@@ -73,6 +73,7 @@ lab.experiment('flood-zone-results', async () => {
 
       const response = await server.inject(options)
       const { payload } = response
+
       Code.expect(response.statusCode).to.equal(200)
       const { AreaName = '' } = (psoContactResponse || {})
       const regex = new RegExp(String.raw`<p class="govuk-body">Contact the ${AreaName} at <a`)

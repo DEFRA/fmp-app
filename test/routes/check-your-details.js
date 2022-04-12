@@ -1,8 +1,8 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const Wreck = require('wreck')
+const Wreck = require('@hapi/wreck')
 const config = require('../../config')
 
 const ApplicationReviewSummaryViewModel = require('../../server/models/check-your-details')
@@ -290,8 +290,8 @@ lab.experiment('check-your-details', () => {
       payload: {
         easting: 12345,
         northing: 678910,
-        polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
-        cent: [479579, 484104]
+        polygon: '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]',
+        cent: '[479579,484104]'
       }
     }
 
@@ -308,15 +308,9 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-
-    // Question - Is this correct - polygon seems to be passed in a variety of ways
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[479472,484194,479467,484032,479678,484015,479691,484176,479472,484194]","location":"12345,678910","applicationReferenceNumber":123456}' })
-
-    // There seems to be a bug with QueryString.stringify(queryParams) (line 109 in check-your-details.js)
-    // which causes polygon=&polygon=&polygon=&polygon=&polygon= to be the query string here
-    // but I am unsure of the correct format for polygons, so it may be an issue with this test
-    // const { headers } = response
-    // Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=[479472,484194,479467,484032,479678,484015,479691,484176,479472,484194]&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","applicationReferenceNumber":123456}' })
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
   })
 
   lab.test('check-your-details POST with easting, northing and location should repost to config.functionAppUrl/publish-queue', async () => {

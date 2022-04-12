@@ -1,4 +1,4 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const ngrToBngService = require('../../server/services/ngr-to-bng')
@@ -7,7 +7,7 @@ const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
 
-lab.experiment('location', async () => {
+lab.experiment('location', () => {
   let server
   let restoreIsValidNgrService
   let restoreFindByPlaceService
@@ -445,7 +445,7 @@ lab.experiment('location', async () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=%20&fullName=%20')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=+&fullName=+')
   })
 
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
@@ -547,7 +547,7 @@ lab.experiment('location', async () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&nationalGridReference=TQ2770808448&recipientemail=%20&fullName=%20')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&nationalGridReference=TQ2770808448&recipientemail=+&fullName=+')
   })
 
   lab.test('location page with a valid nationalGridReference should redirect to /confirm-location if ngrToBngService.convert returns an empty response', async () => {
@@ -570,7 +570,7 @@ lab.experiment('location', async () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=&northing=&nationalGridReference=TQ2770808448&recipientemail=%20&fullName=%20')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=&northing=&nationalGridReference=TQ2770808448&recipientemail=+&fullName=+')
   })
 
   lab.test('location page with a valid eastingNorthing should redirect to /confirm-location', async () => {
@@ -587,7 +587,7 @@ lab.experiment('location', async () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&recipientemail=%20&fullName=%20')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&recipientemail=+&fullName=+')
   })
 
   lab.test('location page findby eastingNorthing with missing easting and northing should should load /location view with errors', async () => {

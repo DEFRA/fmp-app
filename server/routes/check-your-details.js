@@ -1,10 +1,9 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { getApplicationReferenceNumber } = require('../services/application-reference')
 const config = require('../../config')
-const wreck = require('wreck')
+const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/publish-queue'
-const QueryString = require('querystring')
 
 module.exports = [
   {
@@ -14,7 +13,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const payload = request.query
-        var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
+        const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
         const { recipientemail, fullName } = payload
         if (payload.easting && payload.northing) {
           PDFinformationDetailsObject.coordinates.x = payload.easting
@@ -45,7 +44,7 @@ module.exports = [
         } else {
           return Boom.badImplementation('RecipientEmail is Empty')
         }
-        var model = new ApplicationReviewSummaryViewModel({
+        const model = new ApplicationReviewSummaryViewModel({
           PDFinformationDetailsObject: PDFinformationDetailsObject,
           contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
           confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
@@ -63,7 +62,7 @@ module.exports = [
         try {
           const payload = request.payload || {}
           const applicationReferenceNumber = await getApplicationReferenceNumber()
-          var PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
+          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
           const { recipientemail, fullName } = payload
           // Sanitise user inputs
           if (payload.easting && payload.northing) {
@@ -95,18 +94,18 @@ module.exports = [
 
           // Forward details to confirmation page
           const queryParams = {}
-          queryParams.fullName = payload.fullName
-          queryParams.polygon = payload.polygon
-          queryParams.recipientemail = payload.recipientemail
+          queryParams.fullName = payload.fullName || ''
+          queryParams.polygon = payload.polygon || ''
+          queryParams.recipientemail = payload.recipientemail || ''
           queryParams.applicationReferenceNumber = applicationReferenceNumber
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
           queryParams.location = PDFinformationDetailsObject.location
           queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
-          queryParams.cent = payload.cent
+          queryParams.cent = payload.cent || ''
 
           // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
-          const query = QueryString.stringify(queryParams)
+          const query = new URLSearchParams(queryParams).toString()
           return h.redirect(`/confirmation?${query}`)
         } catch (error) {
         }
