@@ -55,7 +55,7 @@ function ConfirmLocationPage (options) {
   })
 
   // Styles for features
-  const vectorStyle = function (feature, resolution) {
+  const vectorStyle = function (feature, _resolution) {
     // Complete polygon drawing style
     const drawCompleteStyle = new Style({
       fill: new Fill({
@@ -108,9 +108,8 @@ function ConfirmLocationPage (options) {
 
     if (featureType === 'Polygon') {
       return [drawCompleteStyle, drawCompleteGeometryStyle]
-    } else if (featureType === 'Point') {
-      return [pointStyle]
     }
+    return [pointStyle]
   }
 
   const vectorLayer = new VectorLayer({
