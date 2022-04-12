@@ -14,7 +14,7 @@ const Fill = require('ol/style/Fill').default
 const Icon = require('ol/style/Icon').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
-const Map = require('../map')
+const FMPMap = require('../map')
 const dialog = require('../dialog')
 const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
@@ -101,7 +101,7 @@ function Summary (options) {
   const $map = $('#map')
   const $page = $('#summary-page')
   const $container = $('.map-container')
-  this.map = new Map(mapOptions)
+  this.map = new FMPMap(mapOptions)
   function isMobile () {
     return $('.visible-mobile:visible').length > 0
   }

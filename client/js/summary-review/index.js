@@ -15,7 +15,7 @@ const Fill = require('ol/style/Fill').default
 const Icon = require('ol/style/Icon').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
-const Map = require('../summary-review-map')
+const FMPMap = require('../summary-review-map')
 const mapConfig = require('../map-config.json')
 
 function ApplicationSummaryReviewPage (options) {
@@ -113,7 +113,7 @@ function ApplicationSummaryReviewPage (options) {
   mapOptions.layers[0].on('precompose', setBlendMode)
   mapOptions.layers[0].on('postcompose', resetBlendModeFromSelect)
 
-  this.map = new Map(mapOptions)
+  this.map = new FMPMap(mapOptions)
 
   function isMobile () {
     return $('.visible-mobile:visible').length > 0

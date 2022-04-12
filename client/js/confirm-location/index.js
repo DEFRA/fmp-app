@@ -19,7 +19,7 @@ const Snap = require('ol/interaction/Snap').default
 
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
-const Map = require('../map')
+const FMPMap = require('../map')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -198,7 +198,7 @@ function ConfirmLocationPage (options) {
     }).extend([vectorDragInteraction])
   }
 
-  this.map = new Map(mapOptions)
+  this.map = new FMPMap(mapOptions)
 
   this.map.onReady(function (map) {
     let polygon
