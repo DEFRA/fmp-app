@@ -35,7 +35,6 @@ function ConfirmLocationPage (options) {
 
   const $page = $('#confirm-location-page')
   const $radios = $('.top-of-buttons', $page)
-  const $container = $('.map-container', $page)
   const $continueBtn = $('a.govuk-button--start', $page)
   const $product4Btn = $('a.button-product4', $page)
   const $legend = $('.legend', $page)
@@ -252,18 +251,6 @@ function ConfirmLocationPage (options) {
           map.removeInteraction(draw)
         }, 500)
       }
-    })
-
-    $container.on('click', '.enter-fullscreen', function (e) {
-      e.preventDefault()
-      $page.addClass('fullscreen')
-      map.updateSize()
-    })
-
-    $container.on('click', '.exit-fullscreen', function (e) {
-      e.preventDefault()
-      $page.removeClass('fullscreen')
-      map.updateSize()
     })
 
     $radios.on('click', 'input', function (e) {

@@ -99,8 +99,6 @@ function Summary (options) {
   }
   const $summaryColumn = $('.summary-column')
   const $map = $('#map')
-  const $page = $('#summary-page')
-  const $container = $('.map-container')
   this.map = new FMPMap(mapOptions)
   function isMobile () {
     return $('.visible-mobile:visible').length > 0
@@ -132,21 +130,6 @@ function Summary (options) {
       dialog.openDialog('#report-downloading')
       cookieTimer = window.setInterval(checkCookies, 500)
       $('body').removeClass('modal-open')
-    })
-    $container.on('click', '.enter-fullscreen', function (e) {
-      e.preventDefault()
-      $container.removeClass('map-size')
-      $page.addClass('fullscreen')
-      map.updateSize()
-    })
-    $container.on('click', '.exit-fullscreen', function (e) {
-      e.preventDefault()
-      $container.addClass('map-size')
-      $page.removeClass('fullscreen')
-      map.updateSize()
-    })
-    $('#results-map').on('toggle', () => {
-      map.updateSize()
     })
     fixMapTabOrder()
   })
