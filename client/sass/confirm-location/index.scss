@@ -5,10 +5,22 @@
 @import '../dialog';
 @import '../os-branding';
 
-.govuk-grid-column-one-half #map {
+.govuk-grid-column-one-half {
+  #map:not(:fullscreen) {
     position: relative;
     height: 400px;
     border-top: 1px solid #b1b4b6;
+  }
+}
+
+#map--result:fullscreen {
+  #map {
+    height: 100%;
+  }
+  .markerRadiosContainer {
+    background-color: #fff;
+  }
+
 }
 
   .os-credits__text {
