@@ -110,7 +110,7 @@ function Summary (options) {
   // set start height
   sizeColumn()
   $(window).on('resize', sizeColumn)
-  this.map.onReady(function (map) {
+  this.map.onReady(function () {
     let id, cookieTimer, cookiePattern
     const cookieName = 'pdf-download'
     function checkCookies () {
