@@ -1,22 +1,34 @@
 require('./os-branding')
 const $ = require('jquery')
-// proj4 is accessed using global variable within openlayers library
-window.proj4 = require('proj4') //  JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations
+const proj4 = require('proj4').default //  JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations
 const raf = require('raf') // requestAnimationFrame polyfill for node and the browser.
-const ol = require('openlayers')
-const parser = new ol.format.WMTSCapabilities()
+
+const WMTSCapabilities = require('ol/format/WMTSCapabilities').default
+const WMTS = require('ol/source/WMTS').default
+const Proj = require('ol/proj')
+const TileLayer = require('ol/layer/Tile').default
+const OLMap = require('ol/Map').default
+const ScaleLine = require('ol/control/ScaleLine').default
+const View = require('ol/View').default
+const { register } = require('ol/proj/proj4')
+const { optionsFromCapabilities } = require('ol/source/WMTS')
+const { defaults: InteractionDefaults } = require('ol/interaction')
+const { defaults: ControlDefaults } = require('ol/control')
+const parser = new WMTSCapabilities()
+
 const config = require('./map-config.json')
 let map, callback
 
 function Map (mapOptions) {
   // add the projection to Window.proj4
-  window.proj4.defs(config.projection.ref, config.projection.proj4)
+  proj4.defs(config.projection.ref, config.projection.proj4)
+  register(proj4)
 
   // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
   require('classlist-polyfill')
 
-  const projection = ol.proj.get(config.projection.ref)
+  const projection = Proj.get(config.projection.ref)
 
   projection.setExtent(config.projection.extent)
 
@@ -27,23 +39,17 @@ function Map (mapOptions) {
 
     const result = parser.read(OS)
 
-    const wmtsOptions = ol.source.WMTS.optionsFromCapabilities(result, {
+    const wmtsOptions = optionsFromCapabilities(result, {
       layer: config.OSLayer,
       matrixSet: config.OSMatrixSet
     })
 
-    const attribution = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
+    wmtsOptions.attributions = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
 
-    wmtsOptions.attributions = [
-      new ol.Attribution({
-        html: attribution
-      })
-    ]
-
-    const source = new ol.source.WMTS(wmtsOptions)
+    const source = new WMTS(wmtsOptions)
     source.setUrls([config.OSWMTS])
 
-    const layer = new ol.layer.Tile({
+    const layer = new TileLayer({
       ref: config.OSLayer,
       source: source
     })
@@ -53,13 +59,15 @@ function Map (mapOptions) {
     // Prevent map from zooming in too far
     const resolutions = source.tileGrid.getResolutions().slice(0, 10)
 
-    map = new ol.Map({
-      interactions: mapOptions.interactions || ol.interaction.defaults({
+    map = new OLMap({
+      interactions: mapOptions.interactions || InteractionDefaults({
         altShiftDragRotate: false,
         pinchRotate: false
       }),
-      controls: ol.control.defaults().extend([
-        new ol.control.ScaleLine({
+      controls: ControlDefaults({
+        rotate: false
+      }).extend([
+        new ScaleLine({
           units: 'metric',
           minWidth: 50
         })
@@ -67,7 +75,7 @@ function Map (mapOptions) {
       layers: layers,
       pixelRatio: 1,
       target: 'map',
-      view: new ol.View({
+      view: new View({
         resolutions: resolutions,
         projection: projection,
         center: mapOptions.point || [440000, 310000],
