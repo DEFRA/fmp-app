@@ -14,6 +14,7 @@ module.exports = [{
   handler: async (request, h) => {
     const errors = []
     const model = new LocationViewModel({
+      placeOrPostcodeSelected: true,
       errorSummary: errors
     })
     return h.view('location', model)
