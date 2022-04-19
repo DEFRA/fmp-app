@@ -96,7 +96,7 @@ lab.experiment('fixMapTabOrder', () => {
   let zoomInElement
   let zoomOutElement
   let osTermsElement
-  let attributionsElement
+  let fullScreenElement
   let elementAfterFigure1
   let elementAfterFigure2
   let figureElement
@@ -112,7 +112,7 @@ lab.experiment('fixMapTabOrder', () => {
     zoomInElement = new ElementConstructor(false, false, true)
     zoomOutElement = new ElementConstructor(false, false, true)
     osTermsElement = new ElementConstructor(false, false, true)
-    attributionsElement = new ElementConstructor(false, false, true)
+    fullScreenElement = new ElementConstructor(false, false, true)
     elementAfterFigure1 = new ElementConstructor(false, false, false)
     elementAfterFigure2 = new ElementConstructor(false, false, false)
     figureElement = new ElementConstructor(false, false, false)
@@ -125,7 +125,7 @@ lab.experiment('fixMapTabOrder', () => {
       zoomInElement,
       zoomOutElement,
       osTermsElement,
-      attributionsElement,
+      fullScreenElement,
       elementAfterFigure1,
       elementAfterFigure2
     ]
@@ -162,14 +162,14 @@ lab.experiment('fixMapTabOrder', () => {
     querySelector.withArgs('.ol-zoom-in').returns(zoomInElement)
     querySelector.withArgs('.ol-zoom-out').returns(zoomOutElement)
     querySelector.withArgs('a[href$="os-terms"]').returns(osTermsElement)
-    querySelector.withArgs('.ol-full-screen-false').returns(attributionsElement)
+    querySelector.withArgs('.ol-full-screen-false').returns(fullScreenElement)
 
     const mockDocument = { querySelector, querySelectorAll }
     fixMapTabOrder(mockDocument)
     Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(5)
     Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
     Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be -1').to.equal('-1')
-    Code.expect(attributionsElement.tabIndex, 'osTermsElement.tabIndex should be -1').to.equal('-1')
+    Code.expect(fullScreenElement.tabIndex, 'fullScreenElement.tabIndex should be -1').to.equal('-1')
     sinon.restore()
   })
 
@@ -182,7 +182,7 @@ lab.experiment('fixMapTabOrder', () => {
     Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(1)
     Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
     Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
-    Code.expect(attributionsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
+    Code.expect(fullScreenElement.tabIndex, 'fullScreenElement.tabIndex should be undefined').to.equal(undefined)
     sinon.restore()
   })
 })
