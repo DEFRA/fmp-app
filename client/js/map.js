@@ -13,7 +13,7 @@ const View = require('ol/View').default
 const { register } = require('ol/proj/proj4')
 const { optionsFromCapabilities } = require('ol/source/WMTS')
 const { defaults: InteractionDefaults } = require('ol/interaction')
-const { defaults: ControlDefaults } = require('ol/control')
+const { defaults: ControlDefaults, FullScreen } = require('ol/control')
 const parser = new WMTSCapabilities()
 
 const config = require('./map-config.json')
@@ -70,7 +70,7 @@ function Map (mapOptions) {
         new ScaleLine({
           units: 'metric',
           minWidth: 50
-        })
+        }), new FullScreen({ source: 'map--result' })
       ]),
       layers: layers,
       pixelRatio: 1,
