@@ -142,4 +142,14 @@
       preventDoubleClick: true
     })}}
   </form>
+  <script>
+    // FCRM-3619 - Now checks the Radio for PostCode by default (to avoid errors when JS is disabled)
+    // This script unchecks the radio, when JS is enabled so the UX is the same (nothing is checked by default)
+    document.addEventListener("DOMContentLoaded", () => {
+      const radio = document.getElementById("findby")
+      if (radio) {
+        radio.checked = false
+      }
+    })
+  </script>
 {% endblock %}
