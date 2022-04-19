@@ -162,7 +162,7 @@ lab.experiment('fixMapTabOrder', () => {
     querySelector.withArgs('.ol-zoom-in').returns(zoomInElement)
     querySelector.withArgs('.ol-zoom-out').returns(zoomOutElement)
     querySelector.withArgs('a[href$="os-terms"]').returns(osTermsElement)
-    querySelector.withArgs('[title="Attributions"]').returns(attributionsElement)
+    querySelector.withArgs('.ol-full-screen-false').returns(attributionsElement)
 
     const mockDocument = { querySelector, querySelectorAll }
     fixMapTabOrder(mockDocument)
