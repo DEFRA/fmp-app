@@ -3,6 +3,7 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const { findByPlace } = require('../../server/services/address')
 const util = require('../../server/util')
+const config = require('../../config')
 
 lab.experiment('address', () => {
   let restoreGetJson
@@ -13,6 +14,15 @@ lab.experiment('address', () => {
 
   lab.after(async () => {
     util.getJson = restoreGetJson
+  })
+
+  lab.test('findByPlace should call the os api with a filter applied', async () => {
+    util.getJson = (url) => {
+      const expectedUrl = config.ordnanceSurvey.osNamesUrl + '/pickering&key=AYfAP6WCn6jmCAdnL9gBJ3QYefYpso2g&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode'
+
+      Code.expect(url).to.equal(expectedUrl)
+    }
+    await findByPlace('/pickering')
   })
 
   lab.test('findByPlace should return an empty array if payload does not exist', async () => {
