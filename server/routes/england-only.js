@@ -4,7 +4,8 @@ module.exports = {
   options: {
     description: 'That location is not in England',
     handler: async (request, h) => {
-      return h.view('england-only')
+      const { locationDetails } = request.query
+      return h.view('england-only', { locationDetails })
     }
   }
 }

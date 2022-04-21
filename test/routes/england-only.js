@@ -3,8 +3,9 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const createServer = require('../../server')
+const { payloadMatchTest } = require('../utils')
 
-lab.experiment('confirm-location', () => {
+lab.experiment('england-only', () => {
   let server
 
   lab.before(async () => {
@@ -93,5 +94,29 @@ lab.experiment('confirm-location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include(headers['england-only'].standard)
+  })
+
+  lab.test('england-only with locationDetails in url should show the location details paragraph ', async () => {
+    const options = {
+      method: 'GET',
+      url: '/england-only?easting=243218&northing=555241&placeOrPostcode=wigtown&recipientemail=+&fullName=+&locationDetails=Wigtown%2C+Dumfries+and+Galloway%2C+Scotland'
+    }
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers['england-only'].standard)
+    const { payload } = response
+    await payloadMatchTest(payload, /<p>Your search has returned: Wigtown, Dumfries and Galloway, Scotland<\/p>/g)
+  })
+
+  lab.test('england-only without locationDetails in url should not show the location details paragraph ', async () => {
+    const options = {
+      method: 'GET',
+      url: '/england-only?easting=243218&northing=555241&placeOrPostcode=wigtown&recipientemail=+&fullName=+'
+    }
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    Code.expect(response.payload).to.include(headers['england-only'].standard)
+    const { payload } = response
+    await payloadMatchTest(payload, /<p>Your search has returned: /g, 0)
   })
 })

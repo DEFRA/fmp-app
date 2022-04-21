@@ -448,6 +448,31 @@ lab.experiment('location', () => {
     Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=+&fullName=+')
   })
 
+  lab.test('location page should pass locationDetails on to to /confirm-location', async () => {
+    const options = {
+      method: 'POST',
+      url: '/location',
+      payload: {
+        findby: 'placeOrPostcode',
+        placeOrPostcode: 'Warrington'
+      }
+    }
+    addressService.findByPlace = async (place) => {
+      return [{
+        geometry_x: 360799,
+        geometry_y: 388244,
+        locationDetails: 'Wigtown, Dumfries and Galloway, Scotland'
+      }]
+    }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal(
+      '/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=+&fullName=+&locationDetails=Wigtown%2C+Dumfries+and+Galloway%2C+Scotland'
+    )
+  })
+
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
   const payloads = [
     { findby: 'placeOrPostcode' },
