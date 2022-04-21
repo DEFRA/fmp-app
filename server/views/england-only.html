@@ -11,6 +11,10 @@
   <div id="not-england-page"  class="grid-row">
     <div class="column-two-thirds">
       <h1 class="heading-xlarge">This service is for locations in England only</h1>
+      {% if locationDetails %} 
+      <p>Your search has returned: {{locationDetails}}</p>
+      {% endif %}
+
       <p>
         Find 
         <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="FMFP:NotInEnglandPage:NIPP">flood information for Northern Ireland</a>.

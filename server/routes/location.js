@@ -30,6 +30,7 @@ module.exports = [{
         const queryParams = {}
         let BNG = {}
         let model = {}
+        let locationDetails
 
         const payload = request.payload
 
@@ -57,6 +58,7 @@ module.exports = [{
             const addr = address[0]
             BNG.easting = addr.geometry_x
             BNG.northing = addr.geometry_y
+            locationDetails = addr.locationDetails
           } else {
             const errors = [{ text: 'Enter a real place name or postcode', href: '#placeOrPostcode' }]
             model = new LocationViewModel({
@@ -161,6 +163,9 @@ module.exports = [{
         }
         queryParams.recipientemail = ' '
         queryParams.fullName = ' '
+        if (locationDetails) {
+          queryParams.locationDetails = locationDetails
+        }
 
         const query = new URLSearchParams(queryParams).toString()
         return h.redirect(`/confirm-location?${query}`)

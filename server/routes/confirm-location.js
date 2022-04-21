@@ -70,7 +70,8 @@ module.exports = [{
         placeOrPostcode: Joi.string(),
         nationalGridReference: Joi.string(),
         recipientemail: Joi.string(),
-        fullName: Joi.string()
+        fullName: Joi.string(),
+        locationDetails: Joi.string()
       })
     }
   }
