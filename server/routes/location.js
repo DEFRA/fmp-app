@@ -3,7 +3,17 @@ const isValidEastingNorthingService = require('../services/is-valid-easting-nort
 const isValidNgrService = require('../services/is-valid-ngr')
 const LocationViewModel = require('../models/location-view')
 const ngrToBng = require('../services/ngr-to-bng')
-const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
+
+const validatePlaceOrPostcode = (placeOrPostcode = '') => {
+  if (placeOrPostcode.length < 2) {
+    return false
+  }
+  if (placeOrPostcode.length === 2) {
+    return /^[a-zA-Z][0-9]$/.test(placeOrPostcode)
+  }
+  const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
+  return ngrPlaceOrPostcode.test(placeOrPostcode)
+}
 
 module.exports = [{
   method: 'GET',
@@ -39,7 +49,7 @@ module.exports = [{
 
         // If its Place or Postcode
         if (selectedOption === 'placeOrPostcode') {
-          const validPlaceOrPostcode = ngrPlaceOrPostcode.test(payload.placeOrPostcode)
+          const validPlaceOrPostcode = validatePlaceOrPostcode(payload.placeOrPostcode)
           if ((payload.placeOrPostcode && payload.placeOrPostcode.trim()) && validPlaceOrPostcode) {
             const address = await addressService.findByPlace(payload.placeOrPostcode)
             if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
