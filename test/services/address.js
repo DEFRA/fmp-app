@@ -52,6 +52,67 @@ lab.experiment('address', () => {
       }]
     })
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([{ geometry_x: 123, geometry_y: 456 }])
+    Code.expect(places).to.equal([{ geometry_x: 123, geometry_y: 456, locationDetails: '' }])
+  })
+
+  const apiResults = [
+    {
+      GAZETTEER_ENTRY: {
+        NAME1: 'CF10 1FJ',
+        POPULATED_PLACE: 'Caerdydd / Cardiff',
+        COUNTY_UNITARY: 'Caerdydd - Cardiff',
+        REGION: 'Wales',
+        COUNTRY: 'Wales'
+      },
+      expectedLocationDetails: 'CF10 1FJ, Caerdydd / Cardiff, Caerdydd - Cardiff, Wales'
+    },
+    {
+      GAZETTEER_ENTRY: {
+        NAME1: 'M1 1AD',
+        POPULATED_PLACE: 'Manchester',
+        DISTRICT_BOROUGH: 'Manchester',
+        REGION: 'North West',
+        COUNTRY: 'England'
+      },
+      expectedLocationDetails: 'M1 1AD, Manchester, North West, England'
+    },
+    {
+      GAZETTEER_ENTRY: {
+        NAME1: 'BD1 5DA',
+        POPULATED_PLACE: 'Bradford',
+        DISTRICT_BOROUGH: 'Bradford',
+        REGION: 'Yorkshire and the Humber',
+        COUNTRY: 'England',
+        COUNTRY_URI: 'http://data.ordnancesurvey.co.uk/id/country/england'
+      },
+      expectedLocationDetails: 'BD1 5DA, Bradford, Yorkshire and the Humber, England'
+    },
+    {
+      GAZETTEER_ENTRY: {
+        NAME1: 'NG1 1AA',
+        POPULATED_PLACE: 'Nottingham',
+        COUNTY_UNITARY: 'City of Nottingham',
+        REGION: 'East Midlands',
+        COUNTRY: 'England'
+      },
+      expectedLocationDetails: 'NG1 1AA, Nottingham, City of Nottingham, East Midlands, England'
+    },
+    {
+      GAZETTEER_ENTRY: {
+        NAME1: 'Nottingham',
+        COUNTY_UNITARY: 'City of Nottingham',
+        REGION: 'East Midlands',
+        COUNTRY: 'England'
+      },
+      expectedLocationDetails: 'Nottingham, City of Nottingham, East Midlands, England'
+    }
+  ]
+  lab.test('findByPlace should populate locationDetails with an address description', async () => {
+    util.getJson = () => ({
+      results: apiResults
+    })
+    const places = await findByPlace('/pickering')
+    places.forEach(({ locationDetails }, index) =>
+      Code.expect(locationDetails).to.equal(apiResults[index].expectedLocationDetails))
   })
 })
