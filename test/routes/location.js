@@ -425,27 +425,36 @@ lab.experiment('location', () => {
     Code.expect(response.statusCode).to.equal(200)
   })
 
-  lab.test('location page with a valid placeOrPostcode should redirect to /confirm-location', async () => {
-    const options = {
-      method: 'POST',
-      url: '/location',
-      payload: {
-        findby: 'placeOrPostcode',
-        placeOrPostcode: 'Warrington'
+  const validPayloads = [
+    { findby: 'placeOrPostcode', placeOrPostcode: 'M1' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'M33' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'M1 1AA' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'SK2' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'SK2 7AT' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'Lee' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'Warrington' }
+  ]
+  validPayloads.forEach(async (requestPayload) => {
+    lab.test(`location page with a valid placeOrPostcode: ${requestPayload.placeOrPostcode} should redirect to /confirm-location`, async () => {
+      const options = {
+        method: 'POST',
+        url: '/location',
+        payload: requestPayload
       }
-    }
 
-    addressService.findByPlace = async (place) => {
-      return [{
-        geometry_x: 360799,
-        geometry_y: 388244
-      }]
-    }
+      addressService.findByPlace = async (place) => {
+        return [{
+          geometry_x: 360799,
+          geometry_y: 388244
+        }]
+      }
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=+&fullName=+')
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      const { headers } = response
+      const expectedPlaceOrPostcode = new URLSearchParams(`placeOrPostcode=${requestPayload.placeOrPostcode}`).toString()
+      Code.expect(headers.location).to.equal(`/confirm-location?easting=360799&northing=388244&${expectedPlaceOrPostcode}&recipientemail=+&fullName=+`)
+    })
   })
 
   lab.test('location page should pass locationDetails on to to /confirm-location', async () => {
@@ -474,12 +483,14 @@ lab.experiment('location', () => {
   })
 
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
-  const payloads = [
+  const invalidPayloads = [
+    { findby: 'placeOrPostcode', placeOrPostcode: 'LE' },
+    { findby: 'placeOrPostcode', placeOrPostcode: 'M' },
     { findby: 'placeOrPostcode' },
     { findby: 'placeOrPostcode', placeOrPostcode: ' ' },
     { findby: 'placeOrPostcode', placeOrPostcode: '123 Invalid' }
   ]
-  payloads.forEach(async (requestPayload) => {
+  invalidPayloads.forEach(async (requestPayload) => {
     lab.test(`location page with placeOrPostcode: "${requestPayload.placeOrPostcode || 'undefined'}" should load /location view with errors`, async () => {
       const options = {
         method: 'POST',
