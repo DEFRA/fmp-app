@@ -39,8 +39,7 @@
 
     const setup = function (analyticsCallback, element = document) {
       // Send an analytics event for all elements with the data-journey attrib
-      const journeyStageElements = element.querySelectorAll('[data-journey]')
-      journeyStageElements.forEach((journeyElement) =>
+      element.querySelectorAll('[data-journey]').forEach(journeyElement =>
         analyticsCallback.apply(null, splitAction(journeyElement.dataset.journey)))
 
       // Add a click handler to all elements with the data-journey-click attrib
