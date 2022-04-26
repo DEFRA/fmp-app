@@ -54,7 +54,13 @@ module.exports = [{
           return Boom.badRequest('Invalid polygon value passed')
         }
         let { locationDetails = '' } = request.query
-        locationDetails = locationDetails.replace(', England', '')
+        if (locationDetails) {
+          locationDetails = locationDetails.replace(/, England$/, '')
+          const removePlace = `${point.placeOrPostcode}, `
+          if (locationDetails.startsWith(removePlace)) {
+            locationDetails = locationDetails.slice(removePlace.length)
+          }
+        }
 
         const model = new ConfirmLocationViewModel(point.easting, point.northing, polygon, location, point.placeOrPostcode, recipientemail, fullName, locationDetails)
 

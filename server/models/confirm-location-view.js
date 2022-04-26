@@ -7,6 +7,7 @@ function ConfirmLocationViewModel (easting, northing, polygon, location, placeOr
   this.recipientemail = encodeURIComponent(recipientemail)
   this.fullName = encodeURIComponent(fullName)
   this.locationDetails = locationDetails
+  this.placeOrPostcodeUnencoded = placeOrPostcode
 }
 
 module.exports = ConfirmLocationViewModel

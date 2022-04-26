@@ -4,8 +4,10 @@ module.exports = {
   options: {
     description: 'That location is not in England',
     handler: async (request, h) => {
-      const { locationDetails } = request.query
-      return h.view('england-only', { locationDetails })
+      let { locationDetails = '' } = request.query
+      const { placeOrPostcode = '' } = request.query
+      locationDetails = locationDetails.replace(`${placeOrPostcode}, `, '')
+      return h.view('england-only', { locationDetails, placeOrPostcode })
     }
   }
 }
