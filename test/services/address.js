@@ -18,7 +18,7 @@ lab.experiment('address', () => {
 
   lab.test('findByPlace should call the os api with a filter applied', async () => {
     util.getJson = (url) => {
-      const expectedUrl = config.ordnanceSurvey.osNamesUrl + '/pickering&key=AYfAP6WCn6jmCAdnL9gBJ3QYefYpso2g&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode'
+      const expectedUrl = config.ordnanceSurvey.osNamesUrl + `/pickering&key=${config.ordnanceSurvey.osSearchKey}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode`
 
       Code.expect(url).to.equal(expectedUrl)
     }
