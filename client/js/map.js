@@ -99,6 +99,11 @@ function Map (mapOptions) {
     // Callback to notify map is ready
     if (callback) {
       callback(map)
+      const GOVUK = window.GOVUK
+      if (GOVUK && GOVUK.performance && GOVUK.performance.stageprompt) {
+        const element = document.getElementById('map--result')
+        GOVUK.performance.stageprompt.setupForGoogleAnalytics(element)
+      }
     }
   })
 
