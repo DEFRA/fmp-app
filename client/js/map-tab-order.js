@@ -25,7 +25,7 @@ const fixMapTabOrder = (container = document) => {
   const zoomInElement = figureElement ? figureElement.querySelector('.ol-zoom-in') : undefined
   const zoomOutElement = figureElement ? figureElement.querySelector('.ol-zoom-out') : undefined
   const osTermsElement = figureElement ? figureElement.querySelector('a[href$="os-terms"]') : undefined
-  const attributionsElement = figureElement ? figureElement.querySelector('[title="Attributions"]') : undefined
+  const fullScreenElement = figureElement ? figureElement.querySelector('.ol-full-screen-false') : undefined
 
   let figureFound = false
   const nextFocussableElement = getKeyboardFocusableElements(container).find(element => {
@@ -36,17 +36,17 @@ const fixMapTabOrder = (container = document) => {
   })
 
   // setTabActions(element, nextTabbableElement, previousTabbableElement)
-  setTabActions(zoomOutElement, attributionsElement, zoomInElement)
-  setTabActions(attributionsElement, osTermsElement, zoomOutElement)
-  setTabActions(osTermsElement, nextFocussableElement, attributionsElement)
+  setTabActions(zoomOutElement, fullScreenElement, zoomInElement)
+  setTabActions(fullScreenElement, osTermsElement, zoomOutElement)
+  setTabActions(osTermsElement, nextFocussableElement, fullScreenElement)
   setTabActions(nextFocussableElement, undefined, osTermsElement)
   // Remove the tabIndex on the map elements that were breaking the tab order flow
   // they are now handled by code.
   if (osTermsElement) {
     osTermsElement.tabIndex = '-1'
   }
-  if (attributionsElement) {
-    attributionsElement.tabIndex = '-1'
+  if (fullScreenElement) {
+    fullScreenElement.tabIndex = '-1'
   }
 }
 
