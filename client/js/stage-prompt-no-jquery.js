@@ -21,7 +21,7 @@
 //
 //     <a class="help-button" href="#" data-journey-click="stage:help:info">See more info...</a>
 
-;(function (global) {
+(function (global) {
   'use strict'
 
   const GOVUK = global.GOVUK || {}
@@ -31,22 +31,24 @@
   GOVUK.performance.stageprompt = (function () {
     const splitAction = function (action) {
       const parts = action.split(':')
-      if (parts.length <= 3) return parts
+      if (parts.length <= 3) {
+        return parts
+      }
       return [parts.shift(), parts.shift(), parts.join(':')]
     }
 
     const setup = function (analyticsCallback, element = document) {
       // Send an analytics event for all elements with the data-journey attrib
       const journeyStageElements = element.querySelectorAll('[data-journey]')
-      journeyStageElements.forEach((element) => analyticsCallback.apply(null, splitAction(element.dataset.journey)))
+      journeyStageElements.forEach((journeyElement) =>
+        analyticsCallback.apply(null, splitAction(journeyElement.dataset.journey)))
 
       // Add a click handler to all elements with the data-journey-click attrib
-      element.querySelectorAll('[data-journey-click]').forEach((journeyHelper) => {
-        journeyHelper.addEventListener('click', function (event) {
-          const action = journeyHelper.dataset.journeyClick
-          analyticsCallback.apply(null, splitAction(action))
-        })
-      })
+      element.querySelectorAll('[data-journey-click]').forEach(journeyHelper =>
+        journeyHelper.addEventListener('click', () =>
+          analyticsCallback.apply(null, splitAction(journeyHelper.dataset.journeyClick))
+        )
+      )
     }
 
     const setupForGoogleAnalytics = function (element = document) {
