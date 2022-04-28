@@ -5,12 +5,14 @@ const createServer = require('../../server')
 const psoContactDetails = require('../../server/services/pso-contact')
 const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
+const isEnglandService = require('../../server/services/is-england')
 
 lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContacts
   let restoreGetByPolygon
   let restoreGetByPoint
+  let restoreIsEnglandService
 
   const urlByPoint = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
   const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
@@ -27,6 +29,11 @@ lab.experiment('flood-zone-results', () => {
     riskService.getByPolygon = () => ({ in_england: true })
     riskService.getByPoint = () => ({ point_in_england: true })
 
+    restoreIsEnglandService = isEnglandService.get
+    isEnglandService.get = async (x, y) => {
+      return { is_england: true }
+    }
+
     server = await createServer()
     await server.initialize()
   })
@@ -35,6 +42,7 @@ lab.experiment('flood-zone-results', () => {
     psoContactDetails.getPsoContacts = restoreGetPsoContacts
     riskService.getByPolygon = restoreGetByPolygon
     riskService.getByPoint = restoreGetByPoint
+    isEnglandService.get = restoreIsEnglandService
     await server.stop()
   })
 
@@ -106,5 +114,19 @@ lab.experiment('flood-zone-results', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(500)
+  })
+
+  lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
+    const url = '/flood-zone-results?easting=341638&northing=352001&location=Caldecott%2520Green&fullName=%2520&recipientemail=%2520'
+    const options = { method: 'GET', url }
+    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    riskService.getByPolygon = () => ({ in_england: true })
+    riskService.getByPoint = () => ({ point_in_england: true })
+    isEnglandService.get = async () => ({ is_england: false })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    const expectedRedirectUrl = '/england-only?easting=341638&northing=352001&location=Caldecott%2520Green&fullName=%2520&recipientemail=%2520'
+    Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 })

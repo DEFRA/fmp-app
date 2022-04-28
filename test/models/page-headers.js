@@ -29,6 +29,6 @@ module.exports = {
     zoneAreaBen: '<h3 class="heading-medium">area that benefits from flood defences</h3>'
   },
   'england-only': {
-    standard: '<h1 class="heading-xlarge">This service is for locations in England only</h1>'
+    standard: '<h1 class="heading-xlarge">This service provides data for locations in England only</h1>'
   }
 }
