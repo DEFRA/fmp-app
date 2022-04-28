@@ -4,6 +4,7 @@ const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskViewModel = require('../models/flood-risk-view')
 const psoContactDetails = require('../services/pso-contact')
+const isEnglandService = require('../services/is-england')
 
 module.exports = [
   {
@@ -30,6 +31,15 @@ module.exports = [
           } else {
             easting = encodeURIComponent(request.query.easting)
             northing = encodeURIComponent(request.query.northing)
+          }
+          const result = await isEnglandService.get(easting, northing)
+          if (!result) {
+            throw new Error('No Result from England service')
+          }
+          if (!result.is_england) {
+            // redirect to the not England page with the search params in the query
+            const queryString = new URLSearchParams(request.query).toString()
+            return h.redirect('/england-only?' + queryString)
           }
 
           const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
