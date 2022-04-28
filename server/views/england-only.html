@@ -10,9 +10,11 @@
 
   <div id="not-england-page"  class="grid-row">
     <div class="column-two-thirds">
-      <h1 class="heading-xlarge">This service is for locations in England only</h1>
+      <h1 class="heading-xlarge">This service provides data for locations in England only</h1>
       {% if locationDetails %} 
       <p>Your search for '{{placeOrPostcode}}' has been placed in {{locationDetails}}</p>
+      {% else %}
+      <p>The location you submitted is not in England, or is only partly in England.</p>
       {% endif %}
 
       <p>
@@ -29,6 +31,10 @@
       </p>
       <p>
         In England, you can get <a href="/">flood information for planning</a>.
+      </p>
+      <p>
+        If you think you have submitted the the wrong information <a href="javascript:history.back()">
+          try again to confirm your location.</a>
       </p>
 
     </div>
