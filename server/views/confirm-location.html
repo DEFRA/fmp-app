@@ -9,11 +9,8 @@ Confirm location - Flood map for planning - GOV.UK
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
   <div id="confirm-location-page" class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">Confirm the location</h1>
-    </div>
-
     <div class="govuk-grid-column-one-half">
+      <h1 class="govuk-heading-xl">Confirm the location</h1>
       {% if locationDetails %} 
       <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}</p>
       {% endif %}
@@ -21,7 +18,6 @@ Confirm location - Flood map for planning - GOV.UK
 
       <p class="govuk-body">To get accurate information you should draw the boundary of your site.</p>
       
-      <br>
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
@@ -43,17 +39,6 @@ Confirm location - Flood map for planning - GOV.UK
 
       <h2 class="govuk-heading-m govuk-!-margin-top-7">For single residential properties and extensions</h2>
       <p class="govuk-body">Check the marker is on your property. If it isn’t, move it to the right location.</p>
-
-      <div class="govuk-warning-text govuk-!-margin-top-7">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-          Check your location is correct before continuing.
-        </strong>
-      </div>
-      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-            Continue
-          </a>
     </div>
 
     <div class="govuk-grid-column-one-half">
@@ -101,6 +86,18 @@ Confirm location - Flood map for planning - GOV.UK
       </figure>
     </div>
 
+    <div class="govuk-grid-column-full">
+      <div class="govuk-warning-text govuk-!-margin-top-7">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          Check your location is correct before continuing.
+        </strong>
+      </div>
+      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+        Continue
+      </a>
+    </div>
   </div>
 
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
