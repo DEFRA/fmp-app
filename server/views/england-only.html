@@ -14,7 +14,9 @@
       {% if locationDetails %} 
       <p>Your search for '{{placeOrPostcode}}' has been placed in {{locationDetails}}</p>
       {% else %}
-      <p>The location you submitted is not in England, or is only partly in England.</p>
+        {% if isSearch %}
+          <p>The location you submitted is not in England, or is only partly in England.</p>
+        {% endif %}
       {% endif %}
 
       <p>
@@ -30,8 +32,12 @@
         <a href="https://naturalresources.wales" rel="external" data-journey-click="FMFP:NotInEnglandPage:NRW">flood information for Wales</a>.
       </p>
       <p>
-        If you think you have submitted the the wrong information <a href="javascript:history.back()">
+        {% if isSearch %} 
+          If you think you have submitted the wrong information <a href="javascript:history.back()">            
           try again to confirm your location.</a>
+        {% else %}
+          <p>In England you can get <a href="/">flood information for planning</a></p>
+        {% endif %}
       </p>
 
     </div>
