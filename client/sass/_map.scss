@@ -9,6 +9,19 @@
   flex-flow: column nowrap;
   margin-bottom: 8px;
   height: 600px;
+
+  @include media(mobile) {
+    height: 660px;
+  }
+  &.confirm-location-map {
+    height: 480px;
+    @include media(mobile) {
+      height: 575px;
+    }
+  }
+  &.results-explained-map {
+    height: 620px;
+  }
   
   .mobile-heading {
     padding-bottom: 10px;
@@ -27,6 +40,9 @@
 
   @include media(mobile) {
     flex-flow: column nowrap;
+    .map-legend-list {
+      height: 200px
+    }
   }
 
   .map {
@@ -49,7 +65,7 @@
     z-index: 1;
 
     @include media(mobile) {
-      height: 100%;
+      height: 220px;
       width: 95%;
       margin: auto;
       text-align: center;
@@ -64,6 +80,7 @@
       justify-content: space-evenly;
       @include media(mobile) {
         flex-flow: row wrap;
+        height: auto;
       }
   
     .map-legend-item {
