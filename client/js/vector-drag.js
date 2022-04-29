@@ -46,7 +46,10 @@ class VectorDrag extends Pointer {
     const deltaY = evt.coordinate[1] - this.coordinate[1]
 
     this.features.forEach(function (feature) {
-      feature.getGeometry().translate(deltaX, deltaY)
+      const geometry = feature.getGeometry()
+      if (geometry.getType() !== 'Polygon') { // FCRM-3665 disable dragging polygons
+        geometry.translate(deltaX, deltaY)
+      }
     })
 
     this.coordinate[0] = evt.coordinate[0]
@@ -61,7 +64,8 @@ class VectorDrag extends Pointer {
           return feature
         })
       const element = evt.map.getTargetElement()
-      if (feature) {
+      const geometry = feature ? feature.getGeometry() : undefined
+      if (feature && geometry.getType() !== 'Polygon') { // FCRM-3665 stop the icon changing implying polygons can be dragged
         if (element.style.cursor !== this.cursor) {
           this.previouscursor = element.style.cursor
           element.style.cursor = this.cursor
