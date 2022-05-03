@@ -20,7 +20,7 @@ function openDialog (sel) {
       return
     }
     if (e.shiftKey) { // if shift key pressed for shift + tab combination
-      if (document.activeElement === firstFocusableElement) {
+      if (document.activeElement === focusableElement) {
         lastFocusableElement.focus() // add focus for the last focusable element
         e.preventDefault()
       }
