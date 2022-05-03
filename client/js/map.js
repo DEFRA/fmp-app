@@ -104,6 +104,16 @@ function Map (mapOptions) {
         const element = document.getElementById('map--result')
         GOVUK.performance.stageprompt.setupForGoogleAnalytics(element)
       }
+      // FCRM-3271 Add ariaLabels to map zoom controls
+      const zoomIn = document.getElementsByClassName('ol-zoom-in')[0]
+      const zoomOut = document.getElementsByClassName('ol-zoom-out')[0]
+      if (zoomIn) {
+        zoomIn.ariaLabel = 'Zoom in on map'
+      }
+
+      if (zoomOut) {
+        zoomOut.ariaLabel = 'Zoom out on map'
+      }
     }
   })
 
