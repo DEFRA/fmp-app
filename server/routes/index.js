@@ -4,6 +4,7 @@ module.exports = [].concat(
   require('./home'),
   require('./gwc-proxy'),
   require('./os-get-capabilities'),
+  require('./os-maps-proxy'),
   require('./public'),
   require('./summary'),
   require('./feedback'),
@@ -12,6 +13,7 @@ module.exports = [].concat(
   require('./os-terms'),
   require('./error'),
   require('./cookies'),
+  require('./accessibility'),
   require('./privacy-policy'),
   require('./privacy-notice'),
   require('./terms-conditions')

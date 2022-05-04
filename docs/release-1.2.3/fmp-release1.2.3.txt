@@ -1,0 +1,21 @@
+# FMP Release 1.2.3 29th October 2019
+
+This is a data release
+
+# Tickets
+FCRM-864
+
+# Instructions
+
+- Execute job FMP_EA_102_UPSERT_DATA (takes 3-4 hours approx)
+ using parameters:
+	- v201911
+	- AB
+	- DEF
+	- FSA
+	- FZ2
+	- FZ3
+
+- Execute job FMP_EA_103_COPY_TILE_CACHE (takes 1 hour approx)
+
+Then full code build and auto test run to update the service to version 1.2.3
