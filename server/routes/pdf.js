@@ -6,7 +6,6 @@ const config = require('../../config')
 const riskService = require('../services/risk')
 const FloodZone = require('../models/flood-zone')
 const util = require('../util')
-const { osMapsUrl, osMapsKey } = config.ordnanceSurvey
 
 module.exports = {
   method: 'POST',
@@ -92,104 +91,89 @@ module.exports = {
           easting: parseInt(center[0]),
           scale: scale,
           northing: parseInt(center[1]),
-          timestamp: moment().tz('Europe/London').format('D MMM YYYY H:mm'),
+          timestamp: moment().tz('Europe/London').format('d MMM YYYY H:mm'),
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
           pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
           layers: [
             {
               type: 'WMTS',
-              baseURL: osMapsUrl,
+              baseURL: 'https://tiles.ordnancesurvey.co.uk/osmapapi/wmts/segab6nu/ts',
               version: '1.0.0',
               requestEncoding: 'KVP',
+              customParams: {
+                url: 'https://flood-warning-information.service.gov.uk/'
+              },
               format: 'image/png',
-              layer: 'Outdoor_27700',
+              layer: 'osgb',
               opacity: 1,
               style: 'default',
-              matrixSet: `EPSG:27700&key=${osMapsKey}`,
+              matrixSet: 'ZoomMap&url=https://flood-warning-information.service.gov.uk/',
               matrixIds: [{
-                identifier: 'EPSG:27700:0',
-                matrixSize: [5, 7],
+                identifier: '00',
+                matrixSize: [4, 6],
                 resolution: 896,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:1',
-                matrixSize: [10, 13],
+                identifier: '01',
+                matrixSize: [7, 12],
                 resolution: 448,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:2',
-                matrixSize: [20, 25],
+                identifier: '02',
+                matrixSize: [13, 24],
                 resolution: 224,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:3',
-                matrixSize: [40, 49],
+                identifier: '03',
+                matrixSize: [25, 48],
                 resolution: 112,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:4',
-                matrixSize: [80, 98],
+                identifier: '04',
+                matrixSize: [50, 96],
                 resolution: 56,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:5',
-                matrixSize: [159, 195],
+                identifier: '05',
+                matrixSize: [100, 192],
                 resolution: 28,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:6',
-                matrixSize: [318, 390],
+                identifier: '06',
+                matrixSize: [200, 384],
                 resolution: 14,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:7',
-                matrixSize: [636, 779],
+                identifier: '07',
+                matrixSize: [400, 768],
                 resolution: 7,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:8',
-                matrixSize: [1271, 1558],
+                identifier: '08',
+                matrixSize: [800, 1536],
                 resolution: 3.5,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:9',
-                matrixSize: [2542, 3116],
+                identifier: '09',
+                matrixSize: [1600, 3072],
                 resolution: 1.75,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }, {
-                identifier: 'EPSG:27700:10',
-                matrixSize: [5083, 6232],
+                identifier: '10',
+                matrixSize: [3200, 6144],
                 resolution: 0.875,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:11',
-                matrixSize: [10165, 12463],
-                resolution: 0.4375,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:12',
-                matrixSize: [20329, 24925],
-                resolution: 0.21875,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:13',
-                matrixSize: [40657, 49849],
-                resolution: 0.109375,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
+                tileSize: [250, 250],
+                topLeftCorner: [0, 1344000]
               }]
             }, {
               type: 'WMTS',

@@ -1,10 +1,11 @@
+const sprintf = require('sprintf-js')
 const util = require('../util')
 const config = require('../../config')
-const { osNamesUrl, osSearchKey } = config.ordnanceSurvey
+const urlNamesApi = config.ordnanceSurvey.namesUrl
 
 module.exports = {
   findByPlace: async (place) => {
-    const uri = `${osNamesUrl}${place}&key=${osSearchKey}`
+    const uri = sprintf.vsprintf(urlNamesApi, [place])
     const payload = await util.getJson(uri)
 
     if (!payload || !payload.results || !payload.results.length) {

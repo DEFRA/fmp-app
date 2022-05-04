@@ -20,11 +20,8 @@ module.exports = {
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
   mockAddressService: Joi.boolean().required(),
   ordnanceSurvey: Joi.object().required().keys({
-    osGetCapabilitiesUrl: Joi.string().required().allow(''),
-    osMapsUrl: Joi.string().uri().required(),
-    osNamesUrl: Joi.string().uri().required(),
-    osSearchKey: Joi.string().required().allow(''),
-    osMapsKey: Joi.string().required().allow('')
+    namesUrl: Joi.string().uri().required(),
+    mapsUrl: Joi.string().uri().required()
   }),
   errbit: Joi.object().required().keys({
     postErrors: Joi.boolean().required(),

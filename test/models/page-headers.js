@@ -21,6 +21,6 @@ module.exports = {
     zoneAreaBen: '<h3 class="heading-medium">area that benefits from flood defences</h3>'
   },
   'not-england': {
-    standard: '<h1 class="heading-xlarge">This service is for locations in England only</h1>'
+    standard: '<h1 class="heading-xlarge">We provide flood probability information for England only</h1>'
   }
 }
