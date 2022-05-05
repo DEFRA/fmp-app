@@ -21,22 +21,22 @@
 
       <p>
         Find 
-        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="FMFP:NotInEnglandPage:NIPP">flood information for Northern Ireland</a>.
+        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="England-Only:External-Link:Northern-Ireland">flood information for Northern Ireland</a>.
       </p>
       <p>
         Find  
-        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="FMFP:NotInEnglandPage:SEPA">flood information for Scotland</a>.
+        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="England-Only:External-Link:Scotland">flood information for Scotland</a>.
       </p>
       <p>
         Find  
-        <a href="https://naturalresources.wales" rel="external" data-journey-click="FMFP:NotInEnglandPage:NRW">flood information for Wales</a>.
+        <a href="https://naturalresources.wales" rel="external" data-journey-click="England-Only:External-Link:Wales">flood information for Wales</a>.
       </p>
       <p>
         {% if isSearch %} 
-          If you think you have submitted the wrong information <a href="javascript:history.back()">            
+          If you think you have submitted the wrong information <a href="javascript:history.back()" data-journey-click="England-Only:Internal-Link:Try-Again">
           try again to confirm your location.</a>
         {% else %}
-          <p>In England you can get <a href="/">flood information for planning</a></p>
+          <p>In England you can get <a href="/" data-journey-click="England-Only:Internal-Link:England">flood information for planning</a></p>
         {% endif %}
       </p>
 
