@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <main class="govuk-main-wrapper " id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Flood Risk Assessment map</h1>
+        <p class="govuk-body">You will need a map product 4 for your FRA</p>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Map products and how to get them
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+          <p class="govuk-body">Map products are packages of information that you need to carry out a flood risk assessment.</p>
+          <p class="govuk-body">The map product you need for your FRA depends on:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>the flood zone it is in</li>
+            <li>the size of the development</li>
+            <li>if it is behind flood defences</li>
+          </ul>
+          <p class="govuk-body">You can get the map products you need from this page:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Map product 1 - Download the map (PDF)</li>
+            <li>Map product 4 - Request a product 4</li>
+            <li>Map products 5,6,7 and 8 - Contact the Environment Agency</li>
+          </ul>
+          </div>
+        </details>
+
+        <a href="#" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-top-2 govuk-!-margin-bottom-8" data-module="govuk-button">
+        Download printable map (PDF)
+        </a>
+
+        <h2 class="govuk-heading-m">Map product 4</h2>
+
+        <p class="govuk-body">To request a map product 4 you will need an email address we can send the information to.</p>
+
+        <p class="govuk-body">You will receive the map product 4 (PDF) within 2 hours.</p>
+
+        <a href="/contact" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" data-module="govuk-button">
+        Download FRA maps (PDF)
+        </a>
+
+
+        <h2 class="govuk-heading-m">Other FRA maps</h2>
+
+        <p class="govuk-body">For other FRA maps <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?_ga=2.255246152.1978570411.1573555009-902236253.1554453719&amp;_gac=1.91450728.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE#contact">contact the Environment Agency (EA)</a>.</p>
+
+        <br><br><br>
+
+         <p class="govuk-body"><a href="/refine-your-search-map">Refine this search</a></p>
+
+         <p class="govuk-body"><a href="/home">Search for a different location</a></p>
+      </div>
+
+      <div class="govuk-grid-column-one-third">
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

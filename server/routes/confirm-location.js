@@ -1,10 +1,9 @@
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const Joi = require('joi')
-const QueryString = require('querystring')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
-module.exports = {
+module.exports = [{
   method: 'GET',
   path: '/confirm-location',
   options: {
@@ -13,13 +12,11 @@ module.exports = {
       // if a request to the old url, which accepted the param place, was made forward to the homepage
       if (request.query.place) {
         const place = encodeURIComponent(request.query.place)
-        if (place) {
-          return h.redirect(`/?place=${place}`)
-        }
+        return h.redirect(`/?place=${place}`)
       }
 
       try {
-        let point = request.query
+        const point = request.query
         if (!point.easting || !point.northing) {
           return Boom.badRequest('Easting and northing required')
         }
@@ -31,11 +28,39 @@ module.exports = {
 
         if (!result.is_england) {
           // redirect to the not England page with the search params in the query
-          const queryString = QueryString.stringify(request.query)
-          return h.redirect('/not-england?' + queryString)
+          const queryString = new URLSearchParams(request.query).toString()
+          return h.redirect('/england-only?' + queryString)
         }
 
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, request.query.polygon)
+        let location = ''
+        if (request.query.placeOrPostcode || request.query.nationalGridReference) {
+          location = request.query.placeOrPostcode ? request.query.placeOrPostcode : request.query.nationalGridReference
+        } else { // if (request.query.easting && request.query.northing) { // This test is moot as we have already established that easting and northing are set
+          location = `${request.query.easting} ${request.query.northing}`
+        }
+        let recipientemail = ' '
+        if (request.query.recipientemail) {
+          recipientemail = request.query.recipientemail
+        }
+
+        let fullName = ' '
+        if (request.query.fullName) {
+          fullName = request.query.fullName
+        }
+        let polygon
+        try {
+          polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
+        } catch {
+          return Boom.badRequest('Invalid polygon value passed')
+        }
+        let { locationDetails = '' } = request.query
+        if (locationDetails) {
+          locationDetails = locationDetails
+            .replace(/, England$/, '')
+            .replace((new RegExp(`^${point.placeOrPostcode}, `, 'i')), '')
+        }
+
+        const model = new ConfirmLocationViewModel(point.easting, point.northing, polygon, location, point.placeOrPostcode, recipientemail, fullName, locationDetails)
 
         return h.view('confirm-location', model)
       } catch (err) {
@@ -43,17 +68,17 @@ module.exports = {
       }
     },
     validate: {
-      query: {
+      query: Joi.object().keys({
         easting: Joi.number().max(700000).positive(),
         northing: Joi.number().max(1300000).positive(),
-        polygon: Joi.array().items(Joi.array().items(
-          Joi.number().max(700000).positive().required(),
-          Joi.number().max(1300000).positive().required()
-        )),
+        polygon: Joi.string(),
         place: Joi.string(),
         placeOrPostcode: Joi.string(),
-        nationalGridReference: Joi.string()
-      }
+        nationalGridReference: Joi.string(),
+        recipientemail: Joi.string(),
+        fullName: Joi.string(),
+        locationDetails: Joi.string()
+      })
     }
   }
-}
+}]

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+ {% block pageTitle %}
+  This service is for England only - Flood map for planning - GOV.UK
+{% endblock %}
+{% block content %}
+  {{ super() }}
+
+ 
+ 
+
+  <div id="not-england-page"  class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-xlarge">This service provides data for locations in England only</h1>
+      {% if locationDetails %} 
+      <p>Your search for '{{placeOrPostcode}}' has been placed in {{locationDetails}}</p>
+      {% else %}
+        {% if isSearch %}
+          <p>The location you submitted is not in England, or is only partly in England.</p>
+        {% endif %}
+      {% endif %}
+
+      <p>
+        Find 
+        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="FMFP:NotInEnglandPage:NIPP">flood information for Northern Ireland</a>.
+      </p>
+      <p>
+        Find  
+        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="FMFP:NotInEnglandPage:SEPA">flood information for Scotland</a>.
+      </p>
+      <p>
+        Find  
+        <a href="https://naturalresources.wales" rel="external" data-journey-click="FMFP:NotInEnglandPage:NRW">flood information for Wales</a>.
+      </p>
+      <p>
+        {% if isSearch %} 
+          If you think you have submitted the wrong information <a href="javascript:history.back()">            
+          try again to confirm your location.</a>
+        {% else %}
+          <p>In England you can get <a href="/">flood information for planning</a></p>
+        {% endif %}
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

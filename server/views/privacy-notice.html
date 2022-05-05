@@ -1,102 +1,230 @@
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{{assetPath}}}stylesheets/personal-information-charter/index.css">
-<main>
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <div class="pub-c-title pub-c-title--bottom-margin">
-        <h1 id="title" class="heading-xlarge">Privacy notice</h1>
-      </div>
-    </div>
-  </div>
-  <div class="grid-row responsive-bottom-margin">
-    <div class="column-two-thirds">
-      <div class="gem-c-govspeak govuk-govspeak ">
-        <p>These are the standards you can expect from the Environment Agency when we collect, hold or use your
-          personal information when you use our service.</p>
+{% extends "layout.html" %}
 
-        <p>We do this in line with data protection law, including the <a href="https://www.gov.uk/government/publications/guide-to-the-general-data-protection-regulation">General
-            Data Protection Regulation (GDPR)</a> and the <a href="https://www.gov.uk/data-protection">Data
-            Protection Act (DPA) 2018</a> .</p>
+{% block pageTitle %}
+ Privacy notice - Flood map for planning - GOV.UK
+{% endblock %}
 
-        <p>We are a data controller – this means we determine how and why your personal data is processed.
-          You can learn more from our <a href="./privacy-policy">personal information charter.</a> </p>
+{% block content %}
 
-        <h2>Which data we collect</h2>
-        <p>When you use our GOV.UK service, we place small files called cookies onto your computer to collect
-          information about how you use it.
-          You can <a href="./cookies">find out more about cookies and how to manage them</a>.</p>
+<div class="govuk-width-container">
 
-        <p>When you submit feedback through our GOV.UK service, we collect:</p>
-        <ul>
-          <li>your email address if you include it</li>
-          <li>your Internet Protocol (IP) address, and details of which version of which <a href="https://www.gov.uk/support/browsers">web
-              browser</a> you use</li>
-        </ul>
+  <div class="govuk-main-wrapper">
 
-        <p>We are lawfully allowed to process your personal data because you consent to us doing so. You have
-          the right to withdraw this consent at any time by contacting us:</p>
-        <p>Email: <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-        <p>Telephone: 03708 506 506</p>
+    <div class="govuk-grid-row">
 
-        <h2>Why we collect your data</h2>
+      <div class="govuk-grid-column-two-thirds">
 
-        <p>We collect data to:</p>
-        <ul>
-          <li>improve the service by monitoring how it’s used and analysing feedback</li>
-          <li>respond to any feedback you provide, if you ask us to</li>
-        </ul>
-        <p>We will not share or disclose your personal data to any party outside the Environment Agency without
-          your consent
-          unless we are lawfully able to do so. </p>
-
-        <h2>How long we retain your data</h2>
-        <p>After 24 months we delete all personal data. We may retain anonymised feedback longer than this.</p>
-
-        <h2>Keeping your data secure</h2>
-        <p>We have procedures and security features in place to keep your data secure once we receive it. It’s
-          stored on secure servers in the <a href="https://www.gov.uk/eu-eea">European Economic Area</a>
-          (EEA).</p>
-
-        <h2>Any data you send is at your own risk</h2>
-        <p>Sending information over the internet is generally not completely secure, and we can’t guarantee the
-          security of your data while it’s in transit.</p>
-
-        <h2>Your rights</h2>
-        <p>You have rights under the General Data Protection Regulation (GDPR), including the right to <a href="https://www.gov.uk/data-protection">access
-            your data</a> and the right to complain to the <a href="https://ico.org.uk/">Information
-            Commissioner’s Office</a>.</p>
-        <p>You have the right to withdraw consent. You can <a href="https://flood-warning-information.service.gov.uk/privacy-policy#how-to-contact-us">contact
-            us</a> to do this.</p>
-        <p>You can find out more about your rights in our <a href="./privacy-policy">personal Information
-            charter</a>.</p>
-
-        <h2>Links to other websites</h2>
-        <p>GOV.UK contains links to other websites. This privacy policy only applies to GOV.UK and doesn’t
-          cover other government services and transactions that we link to. These services, such as <a href="https://www.gov.uk/government/publications/introducing-govuk-verify">GOV.UK
-            Verify</a>, have their own terms, conditions and privacy policies.</p>
-        <p>If you go to another website directly from this one, read its privacy policy to find out what it
-          does with your information.</p>
-
-        <h2>Following a link to GOV.UK from another website</h2>
-        <p>If you come to GOV.UK from another website, we may receive information from the other website. We
-          don’t use this data. You should read the privacy policy of the website you came from to find out
-          more about this.</p>
+        <h1 class="govuk-heading-xl">
+          Privacy notice
+        </h1>
 
       </div>
+
     </div>
 
-    <div class="column-third">
-      <div class="related">
-        <aside class="govuk-related-items">
-          <h2 class="heading-small">Related content</h2>
-          <nav role="navigation">
-            <ul>
-              <li><a href="/cookies">Cookies</a></li>
-              <li><a href="/terms-conditions">Terms and conditions</a></li>
+    <div class="govuk-grid-row">
+
+      <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">
+          These are the standards you can expect from the Environment Agency when we collect, hold or use your personal information when you use the flood map for planning service.
+        </p>
+
+        <p class="govuk-body">
+          We do this in line with data protection law, including the <a href="https://www.gov.uk/government/publications/guide-to-the-general-data-protection-regulation">General Data Protection Regulation (GDPR)</a> and the <a href="https://www.gov.uk/data-protection">Data Protection Act (DPA) 2018</a>.
+        </p>
+
+        <p class="govuk-body">
+          We are a data controller – this means we determine how and why your personal data is processed.
+        </p>
+
+        <p class="govuk-body">
+            You can learn more from our <a href="https://www.gov.uk/government/organisations/environment-agency/about/personal-information-charter">personal information charter</a> which provides information on:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            how to contact us
+          </li>
+          <li>
+            our Data Protection Officer contact details
+          </li>
+          <li>
+            your rights
+          </li>
+          <li>
+            how you can contact the regulator, including how to complain
+          </li>
+        </ul>
+
+        <h2 class="govuk-heading-m">
+          Which data we collect
+        </h2>
+
+        <p class="govuk-body">
+          When you use our GOV.UK service, we place small files called cookies onto your computer to collect information about how you use it. You can <a href="cookies">find out more about cookies and how to manage them</a>.
+        </p>
+
+        <p class="govuk-body">
+          When you submit feedback through our GOV.UK service, we collect:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            your email address if you include it
+          </li>
+          <li>
+            your Internet Protocol (IP) address, and details of which version of which <a href="https://www.gov.uk/support/browsers">web browser</a> you use
+          </li>
+        </ul>
+
+        <p class="govuk-body"></p>
+          We are lawfully allowed to process your personal data because you consent to us doing so. You have the right to withdraw this consent at any time by <a href="https://www.gov.uk/government/organisations/environment-agency/about/personal-information-charter#contact-us"> contacting us</a>.
+        </p>
+
+        <p class="govuk-body">
+          When you request flood risk assessment data we collect:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            your name
+          </li>
+          <li>
+            your email address
+          </li>
+        </ul>
+
+        <p class="govuk-body">
+          The lawful basis we rely on to process this personal data is legal obligation - the processing of personal data is necessary for compliance with making a request for information under the Environmental Information Regulations.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Why we collect your data
+        </h2>
+
+        <p class="govuk-body">
+          We collect data to:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            improve the service by monitoring how it’s used and analysing feedback
+          </li>
+          <li>
+            respond to any feedback you provide, if you ask us to
+          </li>
+          <li>
+            provide you with flood risk assessment data if you have requested it
+          </li>
+          </ul>
+
+        <p class="govuk-body">
+          We will not share or disclose your personal data to any party outside the Environment Agency without your consent unless we are lawfully able to do so.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          How long we retain your data
+        </h2>
+
+        <p class="govuk-body">
+          After 36 months we delete all personal data created by making requests for flood risk assessment data.
+        </p>
+
+        <p class="govuk-body">
+          After 24 months we delete all personal data from feedback if you provided it.
+        </p>
+
+        <p class="govuk-body">
+          We may retain anonymous feedback for longer than this.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Keeping your data secure
+        </h2>
+
+        <p class="govuk-body">
+          We have procedures and security features in place to keep your data secure once we receive it. It’s stored on secure servers in the <a href="https://www.gov.uk/eu-eea">European Economic Area</a> (EEA).
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Any data you send is at your own risk
+        </h2>
+
+        <p class="govuk-body">
+          Sending information over the internet is generally not completely secure, and we can’t guarantee the security of your data while it’s in transit.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Your rights
+        </h2>
+
+        <p class="govuk-body">
+          You have rights under the General Data Protection Regulation (GDPR), including the right to <a href="https://www.gov.uk/data-protection">access your data</a> and the right to complain to the <a href="https://ico.org.uk/">Information Commissioner’s Office</a>.
+        </p>
+
+        <p class="govuk-body">
+          You have the right to withdraw consent. You can <a href="https://www.gov.uk/government/organisations/environment-agency/about/personal-information-charter#contact-us">contact us</a> to do this.
+        </p>
+
+        <p class="govuk-body">
+          You can find out more about your rights in our <a href="https://www.gov.uk/government/organisations/environment-agency/about/personal-information-charter">personal information charter</a>.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Links to other websites
+        </h2>
+
+        <p class="govuk-body">
+          GOV.UK contains links to other websites. This privacy policy only applies to GOV.UK and doesn’t cover other government services and transactions that we link to. These services, such as <a href="https://www.gov.uk/government/publications/introducing-govuk-verify">GOV.UK Verify</a>, have their own terms, conditions and privacy policies.
+        </p>
+
+        <p class="govuk-body">
+          If you go to another website directly from this one, read its privacy policy to find out what it does with your information.
+        </p>
+
+        <h2 class="govuk-heading-m">
+          Following a link to GOV.UK from another website
+        </h2>
+
+        <p class="govuk-body">
+          If you come to GOV.UK from another website, we may receive information from the other website. We don’t use this data. You should read the privacy policy of the website you came from to find out more about this.
+        <p>
+
+      </div>
+
+      <div class="govuk-grid-column-one-third">
+
+        <!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
+
+        <aside class="govuk-related-items" role="complementary">
+
+          <h2 class="heading-small">
+            Related content
+          </h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="govuk-list govuk-!-font-size-16">
+              <li>
+                <a class="govuk-link" href="cookies">
+                  Cookies
+                </a>
+              </li>
+              <li>
+                <a class="govuk-link" href="terms-and-conditions">
+                  Terms and conditions
+                </a>
+              </li>
             </ul>
           </nav>
+
         </aside>
+
       </div>
+
     </div>
 
   </div>
-</main>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,167 @@
+<article class="article-expandable" data-id="article-more-about-this-station">
+  <details class="govuk-details govuk-!-margin-bottom-1">
+    <summary class="govuk-details__summary" aria-controls="details-content-key-info" aria-expanded="false" role="button" data-journey-click="lfw:station:key-info">
+      <span class="govuk-details__summary-text">
+        {% if station.isGroundwater %}
+          About this location
+        {% else %}
+          Key information
+        {% endif %}
+      </span>
+    </summary>
+    <div class="govuk-details__text" id="details-content-key-info" aria-hidden="true">
+      <ul class="govuk-list">
+        <li><strong>Station name:</strong> {{station.name}} {% if station.isMulti %} ({{station.direction}}){% endif %}</li>
+        <li><strong>Station ID:</strong> {{station.id}}</li>
+        {% if not station.isGroundwater %}
+        <li><strong>{% if station.isCoastal %}Estuary/harbour:{% else %}River name:{% endif %}</strong> {{station.river}}</li>
+        {% endif %}
+        {% if station.isCoastal %}
+        <li><strong>Highest astronomical tide prediction:</strong> {{station.porMaxValue}}mAOD</li>
+        {{else if station.isGroundwater}}
+        <li><strong>Highest level on record:</strong> {{station.porMaxValue}}m on {{station.porMaxDate | formatDate("DD MMMM YYYY")}} {% if station.porMaxValueIsProvisional %} (awaiting validation){% endif %}</li>
+        <li><strong>Lowest level on record:</strong> {{station.porMinValue}}m on {{station.porMinDate | formatDate("DD MMMM YYYY")}}</li>
+        {% else %}
+        <li><strong>Typical range:</strong> {{station.percentile95}}m to {{station.percentile5}}m</li>
+        <li><strong>Highest level on record:</strong> {{station.porMaxValue}}m on {{station.porMaxDate | formatDate("DD MMMM YYYY")}} {% if station.porMaxValueIsProvisional %} (awaiting validation){% endif %}</li>
+        {% endif %}
+        <li><strong>Site datum:</strong> {{station.stageDatum}}mAOD (<a href="#summary-express" id="expand-summary-express">what does this mean?</a>)</li>
+      </ul>
+    </div>
+  </details>
+  <details class="govuk-details govuk-!-margin-bottom-1">
+    <summary class="govuk-details__summary" id="summary-express" aria-controls="details-content-impacts" aria-expanded="false" role="button" data-journey-click="lfw:station:impacts">
+      <span class="govuk-details__summary-text">
+        Impacts
+      </span>
+    </summary>
+    <div class="govuk-details__text" id="details-content-impacts" aria-hidden="true">
+      {% if model.impacts and ( model.impacts | length > 0 ) %}
+      <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">Level</th>
+      <th class="govuk-table__header" scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  {% for impact in model.impacts %}
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">{{ impact.value }}m</th>
+      <td class="govuk-table__cell">{{ impact.description }} {% if impact.obsFloodYear > 0 %} ({{ impact.obsFloodYear }}) {% endif %} </td>
+      <td class="govuk-table__cell"><a class="govuk-link" href="#">Show on Chart</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+      {% else %}
+      <p>No impacts for this area.</p>
+      {% endif %}
+    </div>
+  </details>
+  {% if station.isGroundwater %}
+    <details class="govuk-details govuk-!-margin-bottom-1">
+      <summary class="govuk-details__summary" aria-controls="details-content-groundwater-risk" aria-expanded="false" role="button" data-journey-click="lfw:station:groundwater-risk">
+        <span class="govuk-details__summary-text">Can groundwater increase flood risk?</span>
+      </summary>
+      <div class="govuk-details__text" id="details-content-groundwater-risk" aria-hidden="true">
+        <p>
+          If groundwater height is below the level of a building, the risk of flooding from groundwater alone is unlikely.
+          You can find out the height of any location using an ordnance survey map.
+        </p>
+        <p>
+          Flooding is more likely to occur when several things happen together, such as poor weather, high tides and high river and groundwater levels.
+          You can <a href="/">find out more about the latest flood warning information in England and Wales</a>.
+        </p>
+      </div>
+    </details>
+    <details class="govuk-details govuk-!-margin-bottom-1">
+      <summary class="govuk-details__summary" id="summary-express" aria-controls="details-content-how-groundwater-measured" aria-expanded="false" role="button" data-journey-click="lfw:station:how-groundwater-measured">
+        <span class="govuk-details__summary-text">How are groundwater levels measured?</span>
+      </summary>
+      <div class="govuk-details__text" id="details-content-how-groundwater-measured" aria-hidden="true">
+        <p>
+          The Environment Agency uses a network of boreholes accross the country. Each one has its own datum - a height in metres fixed relative to mean sea level.
+          This height is expressed as metres above ordnance datum (mAOD).<br>
+          The groundwater levels we provide for each borehole are all relative to its site datum.
+        </p>
+      </div>
+    </details>
+    <details class="govuk-details govuk-!-margin-bottom-1">
+      <summary class="govuk-details__summary" aria-controls="details-content-when-groundwater-measured" aria-expanded="false" role="button">
+        <span class="govuk-details__summary-text">How often are groundwater levels measured?</span>
+      </summary>
+      <div class="govuk-details__text" id="details-content-when-groundwater-measured" aria-hidden="true">
+        <p>
+          The data we collect is fed into this service once a day under normal conditions.<br>
+          We increase this frequency whenever there's a greater risk of flooding.
+        </p>
+      </div>
+    </details>
+  {% else %}
+    <details class="govuk-details govuk-!-margin-bottom-1">
+      <summary class="govuk-details__summary" id="summary-express" aria-controls="details-content-how-measured" aria-expanded="false" role="button" data-journey-click="lfw:station:how-measured">
+        <span class="govuk-details__summary-text">
+          {% if station.isCoastal %}How are tide levels in coastal and estuary areas measured?{% else %}How are river levels measured?{% endif %}
+        </span>
+      </summary>
+      <div class="govuk-details__text" id="details-content-how-measured" aria-hidden="true">
+        {% if not station.isCoastal %}
+          <p>The Environment agency uses a network of monitoring stations across the country. Each one has its own datum - a height in metres fixed relative to mean sea level. This height is expressed as metres above ordnance datum (mAOD). The river levels we provide for each monitoring station are all relative to its site datum.</p>
+          <p>If we didn't do this, we'd show some very high measurements, which could cause confusion. By using a local site datum, the river levels are easier to understand, especially by users familiar with the data from a particular monitoring station.</p>
+          <p>A river's height above ordnance datum can be seen by adding the site datum to the river level.</p>
+          {% else %}
+          <p>Tide levels in coastal and estuary areas are shown in metres above mean sea level, or ordnance datum (mAOD).</p>
+          <p>Monitoring stations in these locations do have their own datum - a height in metres fixed relative to mean sea level. But, because of their location, these stations usually have the same datum as actual mean sea level. So it's expressed as zero metres.</p>
+          {% endif %}
+      </div>
+    </details>
+    <details class="govuk-details govuk-!-margin-bottom-1">
+      <summary class="govuk-details__summary" aria-controls="details-content-when-measured" aria-expanded="false" role="button" data-journey-click="lfw:station:when-measured">
+        <span class="govuk-details__summary-text">
+          {% if station.isCoastal %}How often are tide levels in coastal and estuary areas measured?{% else %}How often are river levels measured?{% endif %}
+        </span>
+      </summary>
+      <div class="govuk-details__text" id="details-content-when-measured" aria-hidden="true">
+        <p>
+          We use measuring stations like this one to collect water level data, usually once or twice a day. We collect data more frequently
+          when there's a greater risk of flooding. That's why the graph might show a short time lag since the last
+          measurement.
+        </p>
+      </div>
+    </details>
+    {% if not station.isCoastal %}
+      <details class="govuk-details govuk-!-margin-bottom-1">
+        <summary class="govuk-details__summary" aria-controls="details-content-flood-risk" aria-expanded="false" role="button" data-journey-click="lfw:station:flood-risk">
+          <span class="govuk-details__summary-text">How might river levels affect flood risk?</span>
+        </summary>
+        <div class="govuk-details__text" id="details-content-flood-risk" aria-hidden="true">
+          <div><strong>Typical range</strong></div>
+          <p>This is the usual range of river levels at this station, based on historical data.</p>
+          <div><strong>Above typical</strong></div>
+          <p>
+            This means that flooding is possible because river levels at this station are currently higher than usual.<br>
+            Many factors can influence the possibility of flooding - river levels are only one indicator. Always <a href='/' title="Check for flood warnings">check if there's a flood warning in place</a> at a particular location.
+          </p>
+          <div><strong>Below typical</strong></div>
+          <p>
+            This means that river levels at this station are currently lower than usual.<br>
+            Drought or water management measures may be in place. Please check for the latest information on water resources and restrictions in your area.
+          </p>
+        </div>
+      </details>
+    {% endif %}
+    {% if hasForecast %}
+      <details class="govuk-details govuk-!-margin-bottom-1">
+        <summary class="govuk-details__summary" aria-controls="details-content-how-forecasts-produced" aria-expanded="false" role="button" data-journey-click="lfw:station:how-forecasts-produced">
+          <span class="govuk-details__summary-text">How are forecasts produced?</span>
+        </summary>
+        <div class="govuk-details__text" id="details-content-how-forecasts-produced" aria-hidden="true">
+          <p>The forecasts shown here are computer models based on technical data, local conditions and <a href="https://www.metoffice.gov.uk">Met Office</a> rainfall predictions and may contain uncertainty. Because they’re linked to the weather, forecasts can change quickly. We update them more frequently if the risk of flooding increases.</p>
+          <p>When we issue flood warnings and alerts we assess many factors including these forecasts, local conditions, tides and the weather forecast.</p>
+          <p>Flood warnings and alerts can still be issued even if water levels at a measuring station are forecast to remain within its typical range. For the latest information, always <a href="/warnings">check for up to date flood warnings and alerts</a>.</p>
+        </div>
+      </details>
+    {% endif %}
+  {% endif %}
+</article>

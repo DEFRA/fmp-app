@@ -1,21 +1,34 @@
-var $ = require('jquery')
-// proj4 is accessed using global variable within openlayers library
-window.proj4 = require('proj4')
-var raf = require('raf')
-var ol = require('openlayers')
-var parser = new ol.format.WMTSCapabilities()
-var config = require('./map-config.json')
-var map, callback
+require('./os-branding')
+const $ = require('jquery')
+const proj4 = require('proj4').default //  JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations
+const raf = require('raf') // requestAnimationFrame polyfill for node and the browser.
+
+const WMTSCapabilities = require('ol/format/WMTSCapabilities').default
+const WMTS = require('ol/source/WMTS').default
+const Proj = require('ol/proj')
+const TileLayer = require('ol/layer/Tile').default
+const OLMap = require('ol/Map').default
+const ScaleLine = require('ol/control/ScaleLine').default
+const View = require('ol/View').default
+const { register } = require('ol/proj/proj4')
+const { optionsFromCapabilities } = require('ol/source/WMTS')
+const { defaults: InteractionDefaults } = require('ol/interaction')
+const { defaults: ControlDefaults, FullScreen } = require('ol/control')
+const parser = new WMTSCapabilities()
+
+const config = require('./map-config.json')
+let map, callback
 
 function Map (mapOptions) {
   // add the projection to Window.proj4
-  window.proj4.defs(config.projection.ref, config.projection.proj4)
+  proj4.defs(config.projection.ref, config.projection.proj4)
+  register(proj4)
 
   // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
   require('classlist-polyfill')
 
-  var projection = ol.proj.get(config.projection.ref)
+  const projection = Proj.get(config.projection.ref)
 
   projection.setExtent(config.projection.extent)
 
@@ -24,55 +37,46 @@ function Map (mapOptions) {
     // therefore sizes is set to undefined array, which sets fullTileRanges_
     // to an array of undefineds thus breaking the map      return
 
-    var result = parser.read(OS)
-    // TODO
-    // need to set tiles to https
-    // follow up with OS
-    result.OperationsMetadata.GetTile.DCP.HTTP.Get[0].href = result.OperationsMetadata.GetTile.DCP.HTTP.Get[0].href.replace('http://', 'https://')
-    var wmtsOptions = ol.source.WMTS.optionsFromCapabilities(result, {
+    const result = parser.read(OS)
+
+    const wmtsOptions = optionsFromCapabilities(result, {
       layer: config.OSLayer,
       matrixSet: config.OSMatrixSet
     })
 
-    var attribution = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
+    wmtsOptions.attributions = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
 
-    wmtsOptions.attributions = [
-      new ol.Attribution({
-        html: attribution
-      })
-    ]
+    const source = new WMTS(wmtsOptions)
+    source.setUrls([config.OSWMTS])
 
-    var source = new ol.source.WMTS(wmtsOptions)
-
-    // array of ol.tileRange can't find any reference to this object in ol3 documentation, but is set to NaN and stops the map from functioning
-    // openlayers doesn't expose fulltileranges as a property, so when using minified ol have to set tilegrid.a to null, which is what fulltileranges
-    // is mapped as, hopefully OS will fix their service, otherwise something more robust needs sorting out
-    source.tileGrid.fullTileRanges_ = null
-    source.tileGrid.a = null
-
-    var layer = new ol.layer.Tile({
+    const layer = new TileLayer({
       ref: config.OSLayer,
       source: source
     })
 
-    var layers = Array.prototype.concat([layer], mapOptions.layers)
+    const layers = Array.prototype.concat([layer], mapOptions.layers)
 
-    map = new ol.Map({
-      interactions: mapOptions.interactions || ol.interaction.defaults({
+    // Prevent map from zooming in too far
+    const resolutions = source.tileGrid.getResolutions().slice(0, 10)
+
+    map = new OLMap({
+      interactions: mapOptions.interactions || InteractionDefaults({
         altShiftDragRotate: false,
         pinchRotate: false
       }),
-      controls: ol.control.defaults().extend([
-        new ol.control.ScaleLine({
+      controls: ControlDefaults({
+        rotate: false
+      }).extend([
+        new ScaleLine({
           units: 'metric',
           minWidth: 50
-        })
+        }), new FullScreen({ source: 'map--result' })
       ]),
       layers: layers,
       pixelRatio: 1,
       target: 'map',
-      view: new ol.View({
-        resolutions: source.tileGrid.getResolutions(),
+      view: new View({
+        resolutions: resolutions,
         projection: projection,
         center: mapOptions.point || [440000, 310000],
         zoom: mapOptions.point ? 9 : 0,
@@ -95,6 +99,21 @@ function Map (mapOptions) {
     // Callback to notify map is ready
     if (callback) {
       callback(map)
+      const GOVUK = window.GOVUK
+      if (GOVUK && GOVUK.performance && GOVUK.performance.stageprompt) {
+        const element = document.getElementById('map--result')
+        GOVUK.performance.stageprompt.setupForGoogleAnalytics(element)
+      }
+      // FCRM-3271 Add ariaLabels to map zoom controls
+      const zoomIn = document.getElementsByClassName('ol-zoom-in')[0]
+      const zoomOut = document.getElementsByClassName('ol-zoom-out')[0]
+      if (zoomIn) {
+        zoomIn.ariaLabel = 'Zoom in on map'
+      }
+
+      if (zoomOut) {
+        zoomOut.ariaLabel = 'Zoom out on map'
+      }
     }
   })
 

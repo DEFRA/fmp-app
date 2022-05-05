@@ -13,6 +13,7 @@ $module: 'dialog';
   padding: $gutter-half;
   position: fixed; left: 0; top: 0; right: 0; bottom: 0;
   text-align: center;
+  overflow: scroll;
   width: 100%;
   z-index: 0;
 
@@ -24,7 +25,7 @@ $module: 'dialog';
   &[aria-hidden="false"] {
     opacity: 1;
     visibility: visible;
-    z-index: 111;
+    z-index: 1110;
   }
 
 
@@ -96,7 +97,7 @@ $module: 'dialog';
     display: block;
     background-image: url(/public/images/icon-close.png);
     text-indent: -119988px;
-    overflow: hidden;
+    overflow: scroll;
     text-align: left;    
     background-color: transparent; // Removed background colour in Chrome (bug)
     border: 0 none;
@@ -137,5 +138,21 @@ $module: 'dialog';
       width: auto; // Prevent default style for buttons on mobile devices
     }
 
+  }
+
+  .closebutton {
+    width:auto;
+    overflow: hidden;
+    white-space: nowrap;
+    margin:0px auto;
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+   }
+   .align-right {
+    text-align: right;
+    border: 0;
   }
 }

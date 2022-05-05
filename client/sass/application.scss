@@ -1,4 +1,44 @@
-$path: '/public/images/';
+ $govuk-assets-path: "/govuk/assets/";
+ $govuk-fonts-path: "/assets/fonts/";
+ $govuk-images-path: "/assets/images/";
+$govuk-global-styles: true;
+
+@import "node_modules/govuk-frontend/govuk/all";
+
+// Patterns that aren't in Frontend
+// @import "patterns/check-your-answers";
+// @import "patterns/task-list";
+
+// // Custom patterns that aren't in Frontend or prorotpye kit
+// @import "patterns/risk-detail"; // Dan Leech
+// @import "patterns/map"; // Dan Leech (Pattern for buttons, progressive disclousre and map figure)
+
+// // Custom objects overides for existing components
+// @import "objects/warning-text"; // Dan Leech (modifiers for govuk-warning-text)
+// @import "objects/details"; // Dan Leech (modifier for govuk-details)
+// @import "objects/lists"; // Dan Leech (modifier for govuk-list)
+// @import "objects/header"; // Dan Leech (modifier to remove border when banner in use)
+// @import "objects/main"; // Dan Leech (modifier to remove margins when a warning is used)
+// @import "objects/typography"; // Dan Leech (modifier to remove margins when a warning is used)
+
+// // Components that aren't in Frontend
+// @import "components/cookie-banner";
+
+// // Custom components that aren't in Frontend or prorotpye kit
+// @import "components/accordion"; // Dan Leech (modifier for flood warnings)
+// // @import "components/map"; // Dan Leech
+// @import "components/bar-chart"; // Dan Leech
+// @import "components/line-chart"; // Dan Leech
+// @import "components/tabs"; // Dan Leech (modifier link display to improve affordance issues)
+// @import "components/banners"; // Dan Leech (Warnings and alert banners)
+// @import "components/flood-details"; // Dan Leech (Flood warning details)
+// @import "components/buttons"; // Dan Leech (Button overides)
+// @import "components/search-link"; // Dan Leech (Flood warning overview)
+// @import "components/modal-dialog"; // https://github.com/edenspiekermann/a11y-dialog
+// @import "components/related-items";
+// @import "components/contents"; 
+
+
 @import 'related-items';
 @import 'govuk-elements';
 @import 'util';
@@ -21,57 +61,6 @@ h1.heading-xlarge {
   }
 }
 
-.enter-fullscreen {
-  z-index: 100;
-  display: block;
-}
-
-.exit-fullscreen {
-  z-index: 100;
-  display: none;
-}
-
-.fullscreen {
-  >:not(.main-container) {
-    display: none;
-  }
-  
-  >.main-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 10;
-    margin: 0;
-    background-color: white;
-  }
-
-  .column-half:first-child {
-    display: none;
-  }
-
-  .enter-fullscreen {
-    display: none;
-  }
-
-  .exit-fullscreen {
-    display: block;
-  }
-}
-
- .ol-full-screen.ol-control.toggle-fullscreen {
-  button {
-    width: auto;
-    padding: 3px;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 1.5;
-    cursor: pointer;
-    height: 25px;
-  }
-}
-
 // Browser requirements
 
 .panel.panel-device-requirements {
@@ -83,3 +72,123 @@ h1.heading-xlarge {
       font-weight:bold;
   }
 }
+
+
+
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+
+  .govuk-back-link {
+    position: relative;
+  }
+  
+  .mapToolBtn {
+    font-family: "GDS Transport", Arial, sans-serif;
+    border: 0;
+    padding: 8px 10px 7px;
+    background: #1d70b8;
+    color: #fff;
+    position: absolute;
+    top: 1rem;
+    z-index: 9999;
+    font-size: 1rem;
+  }
+
+  .mapToolBtn.active {
+    background: #fd0;
+    color: #000;
+  }
+  
+  #drawShapeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    font-size: 1rem;
+  }
+  
+  #markerBtn {
+    right: 6rem;
+  }
+  
+  .govuk-form-group.markerRadiosContainer {
+    margin-bottom: 0;
+    padding: 1rem .5rem .5rem .75rem;
+  }
+  
+  .visually-hidden {
+      position: absolute !important;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap; /* added line */
+  }
+  
+  .blue-inset {
+    border-color: #5694ca;
+    background-color: #eef4fa;
+  }
+  
+  .ol-control {
+    background-color: rgba(98,106,110,.5) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .ol-control button {
+    color: #626a6e !important;
+    background-color: rgba(255,255,255,1) !important;
+    width: fit-content !important;
+    padding-left: 0.4em !important;
+    padding-right: 0.4em !important;
+  }
+  
+  .govuk-radios--small .govuk-radios__label {
+      margin-top: -2px;
+      padding: 13px 15px 13px 1px;
+      float: left;
+      font-size: 1rem;
+      line-height: 1.25;
+  }
+
+  .govuk-radios--small .govuk-radios__item {
+      min-height: 0;
+      margin-bottom: 0;
+      margin-right: 4px;
+      padding-left: 30px;
+      float: left;
+  }
+
+  .govuk-radios--small .govuk-radios__input {
+      left: -10px;
+  }
+
+  .govuk-radios--small .govuk-radios__label::before {
+      top: 8px;
+      width: 24px;
+      height: 24px;
+  }
+
+  .govuk-radios--small .govuk-radios__item:after {
+      content: "";
+      display: block;
+      clear: both;
+  }
+  
+  .govuk-form-group.markerRadiosContainer .govuk-radios--small {
+    display: inline-block;
+  }
+  
+  .govuk-form-group.markerRadiosContainer button {
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+  
+  .results-map-static {
+    max-width: 960px;
+  }
+  

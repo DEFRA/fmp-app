@@ -1,12 +1,10 @@
 # Release 0.0.5
 
-## Jira tickets
-https://eaflood.atlassian.net/browse/FLO-2653
-https://eaflood.atlassian.net/browse/FLO-2650
-https://eaflood.atlassian.net/browse/FLO-2703
+# Features that are released
+The following are the features relased in geoserver for map updates
 
-## Webops intructions
+1. Updated all Map Edit datasets, all Flood Map datasets and AIMS Defences
 
-Full application build needs to be carried out
-
-Followed by the manual run of the copy tile cache job `FMP_EA_103_COPY_TILE_CACHE` This may take a couple of hours to complete.
+# No Changes
+1) There are no changes in fmp-service apart from the bumping the version number
+2) There are no changes in fmp-app apart from the bumping the version number

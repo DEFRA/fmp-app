@@ -31,6 +31,7 @@ const manifest = {
       {
         plugin: 'h2o2'
       },
+      './plugins/cookie-auth',
       './plugins/register-cookie',
       './plugins/full-url',
       './plugins/log-errors',
@@ -38,7 +39,6 @@ const manifest = {
     ]
   }
 }
-
 if (config.errbit.postErrors) {
   delete config.errbit.postErrors
   manifest.register.plugins.push({

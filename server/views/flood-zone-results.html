@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block pageTitle %}
+Flood risk information for this location - Flood map for planning - GOV.UK
+{% endblock %}
+{% block content %}
+{{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
+
+{% from "button/macro.njk" import govukButton %}
+
+<div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
+
+  {% if floodZone.isZone1 %}
+    {% include "./partials/zone1.html" %}
+  {% endif %}
+
+  {% if floodZone.isZone2 %}
+    {% include "./partials/zone2.html" %}
+  {% endif %}
+
+  {% if floodZone.isZone3 %}
+    {% include "./partials/zone3.html" %}
+  {% endif %}
+
+  {% if floodZone.zone == 'FZ2a' %}
+    {% include "./partials/zone2a.html" %}
+  {% endif %}
+
+  {% if floodZone.zone == 'FZ3a' %}
+    {% include "./partials/zone3a.html" %}
+  {% endif %}
+
+</div>
+
+<script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+<script src="{{assetPath}}/javascripts/summary.js"></script>
+
+{% if polygon %}
+<script>
+  $(function () {
+    var page = new FMP.SummaryPage({
+      polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
+        })
+      })
+</script>
+{% else %}
+<script>
+  $(function () {
+    var page = new FMP.SummaryPage({ easting: '{{easting}}', northing: '{{northing}}' })
+  })
+</script>
+{% endif %}
+
+{% endblock %}
+{% block bodyEnd %}
+  {% include "./partials/printDialog.html" %}
+{% endblock %}

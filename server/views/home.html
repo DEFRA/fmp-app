@@ -1,121 +1,126 @@
-<link rel="stylesheet" type="text/css" href="{{{assetPath}}}stylesheets/home/index.css">
-<main id="home-page">
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      {{#if errors}}
-        <div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
-          <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
-          <ul class="error-summary-list">
-            {{#each errors}}
-              <li><a href="#{{@key}}">{{this}}</a></li>
-            {{/each}}
-          </ul>
-        </div>
-      {{/if}}
-      <h1 class="heading-xlarge">Flood map for planning</h1>
-      <p>Use this service to find out which flood zone a location is in, as part of <a href="https://www.planningportal.co.uk/info/200130/common_projects/9/change_of_use" rel="external" data-journey-click="FMFP:StartPage:landUsePlanning">land use planning</a></p>
-      <p>If you're planning a development you may need to undertake a more detailed <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" rel="external" data-journey-click="FMFP:StartPage:FloodRiskAssessment">flood risk assessment</a></p>
-      <div class="nojs-hide ie-hide">
-        <h2 class="heading-medium">Before you start</h2>
-        <p>You will need the postcode, place, national grid reference (NGR) or easting and northing co-ordinates for the location you want to know about.</p>
-        <p>You can then:</p>
-        <ul class="list list-bullet">
-          <li>confirm the location with a marker or site shape to see the likelihood of it flooding</li>
-          <li>view and download the map and guidance information as a PDF file</li>
-        </ul>
-        <form autocomplete="off" class="form" method="post" action="/">
-          <div class="form-group form-location-planning">
-            <fieldset>
-              <legend>
-                <h1 class="heading-large">Find the location</h1>
-              </legend>
-              <!-- Place or postcode -->
-              <div class="multiple-choice" data-target="place-postcode">
-                <input id="pp" type="radio" name="type" value="placeOrPostcode" {{#if isPlaceOrPostcode}}checked="checked"{{/if}}>
-                <label for="pp">By place or postcode</label>
-              </div>
-              <div id="place-postcode" class="panel panel-border-narrow {{#if errors.placeOrPostcode}}form-group-error{{/if}}">
-                <label class="form-label" for="place">
-                  <span class="visuallyhidden">Place or postcode</span>
-                  <span class="form-hint">For example, Bakewell or WA4 1AB</span>
-                  {{#if errors.placeOrPostcode}}<span class="error-message">{{errors.placeOrPostcode}}</span>{{/if}}
-                </label>
-                <input class="form-control {{#if errors.placeOrPostcode}}form-control-error{{/if}}" id="placeOrPostcode" name="placeOrPostcode" type="text" value="{{placeOrPostcode}}">
-              </div>
+{% extends "layout.html" %}
 
-              <!-- National grid reference -->
-              <div class="multiple-choice" data-target="national-grid-reference">
-                <input id="ngr" type="radio" name="type" value="nationalGridReference" {{#if isNationalGridReference}}checked="checked"{{/if}}>
-                <label for="ngr">By National Grid Reference (NGR)</label>
-              </div>
-              <div id="national-grid-reference" class="panel panel-border-narrow {{#if errors.nationalGridReference}}form-group-error{{/if}}">
-                <label class="form-label" for="ngr">
-                  <span class="visuallyhidden">National Grid Reference</span>
-                  <span class="form-hint">For example, NY395557 (6, 8 or 12 digits)</span>
-                  {{#if errors.nationalGridReference}}<span class="error-message">{{errors.nationalGridReference}}</span>{{/if}}
-                </label>
-                <input class="form-control {{#if errors.nationalGridReference}}form-control-error{{/if}}" id="nationalGridReference" name="nationalGridReference" type="text" value="{{nationalGridReference}}">
-              </div>
+  {% block pageTitle %}
+Flood map for planning - GOV.UK
+{% endblock %}
 
-              <!-- Easting Northing -->
-              <div class="multiple-choice" data-target="easting-northing">
-                <input id="en" type="radio" name="type" value="eastingNorthing" {{#if isEastingNorthing}}checked="checked"{{/if}}>
-                <label for="en">By easting and northing</label>
-              </div>
-              <div id="easting-northing" class="panel panel-border-narrow {{#if showEastingNorthingGroupInError}}form-group-error{{/if}}">
-                <div class="form-group-easting-northing">
-                  <fieldset>
-                    <legend>
-                      <span class="visuallyhidden">Easting and northing</span>
-                      <span class="form-hint">For example, 123456 123456</span>
-                      {{#if errors.easting}}
-                        <span class="error-message">{{errors.easting}}</span>
-                      {{else if errors.northing}}
-                        <span class="error-message">{{errors.northing}}</span>
-                      {{/if}}
-                    </legend>
-                    <div class="form-group form-group-easting">
-                      <div class="form-group-container">
-                        <label class="form-label" for="easting">
-                          <span class="font-small">Easting</span>
-                        </label>
-                        <input class="form-control {{#if errors.easting}}form-control-error{{/if}}" id="easting" name="easting" type="number" value="{{easting}}">
-                      </div>
-                    </div>
-                    <div class="form-group form-group-northing">
-                      <div class="form-group-container">
-                        <label class="form-label" for="northing">
-                          <span class="font-small">Northing</span>
-                        </label>
-                        <input class="form-control {{#if showNorthingControlInError}}form-control-error{{/if}}" id="northing" name="northing" type="number" value="{{northing}}">
-                      </div>
-                    </div>
-                  </fieldset>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="form-group">
-            <button class="button" type="submit">Continue</button>
-          </div>
-        </form>
-      </div>
+{% block content %}
+{{ super() }}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>
+    <p>
+      <span class="govuk-link">For general flood information, including local flood warnings you can 
+        <a class="govuk-link" href="https://www.gov.uk/check-flood-risk">check for flooding</a>.
+      </span>
+    </p>
+
+    <div class="govuk-inset-text blue-inset">
+      You can now use this service to request flood risk assessment data for planning (also known as a product 4).
     </div>
-  </div>
-  {{> nojs}}
-  {{> ie}}
-  <div class="grid-row">
-    <div class="column-full">
+
+    <p class="govuk-body">Use this service for locations in England to:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>find out if you need a flood risk assessment as part of a planning application (sometimes known as planning
+        permission)
+      </li>
+      <li>request flood risk assessment data (also known as a product 4)</li>
+    </ul>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="england-only">Get flood risk information for Wales, Scotland or Northern
+        Ireland</a>.
       <p>
-        For general flood information, including local flood warnings, use the <a href="https://flood-warning-information.service.gov.uk/" data-journey-click="FMFP:StartPage:FisLink">flood information service</a>.
-      </p>
-    </div>
+
+        <a href="location" role="button" draggable="false"
+          class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
+          data-module="govuk-button">
+          Start now
+          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+            viewBox="0 0 33 40" role="presentation" focusable="false">
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+          </svg>
+        </a>
+
+        <h2 class="govuk-heading-m">Before you start</h2>
+
+        <p class="govuk-body">
+          For the location you want to know about you will need one of the following:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            postcode
+          </li>
+          <li>
+            place
+          </li>
+          <li>
+            national grid reference (NGR)
+          </li>
+          <li>
+            easting and northing coordinates
+          </li>
+        </ul>
+
+        <p class="govuk-body">
+          <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?_ga=2.259503306.1978570411.1573555009-902236253.1554453719&_gac=1.182218197.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE#when-you-need-an-assessment">Find out more about flood risk assessments for planning permission</a>.
+        </p>
+
+        <p class="govuk-body">You’ll usually need a flood risk consultant to carry out a flood risk assessment. If it’s
+          for a simple, low risk development like a house extension you may be able to do it yourself.
+        </p>
+
+        <p class="govuk-body">If you’re unsure <a
+            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the
+            Environment Agency</a>.</p>
+
+              <h2 class="govuk-heading-m">Other ways to get this information</h2>
+               <p class="govuk-body">
+          For help getting flood risk information, contact the Environment Agency.
+        </p>
+            <p class="govuk-body">
+            Environment Agency <br />
+            Telephone: 03708 506 506<br />
+            Monday to Friday, 8am to 6pm<br />
+            <a
+            href="https://www.gov.uk/call-charges">Find out about call charges</a>
+       </p>
+
   </div>
-</main>
-<script src="{{{assetPath}}}javascripts/show-hide-content.js"></script>
-<script>
-  $(function () {
-    var showHideContent = new GOVUK.ShowHideContent()
-    showHideContent.init()
-  })
-</script>
+
+  <div class="govuk-grid-column-one-third">
+
+    <!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
+
+    {# <aside class="app-related-items" role="complementary">
+          <h2 class="govuk-heading-m" id="subsection-title">
+            Related content
+          </h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="govuk-list govuk-!-font-size-16">
+              <li>
+                <a class="govuk-link" href="https://flood-warning-information.service.gov.uk/warnings">
+                  Check your immediate flood risk
+                </a>
+              </li>
+              <li>
+                <a class="govuk-link" href="https://flood-warning-information.service.gov.uk/5-day-flood-risk?_ga=2.203237463.77474540.1572345023-902236253.1554453719&_gac=1.158934600.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE">
+                  Check your flood risk for the next 5 days
+                </a>
+              </li>
+              <li>
+                <a href="https://flood-warning-information.service.gov.uk/long-term-flood-risk?_ga=2.127667275.77474540.1572345023-902236253.1554453719&_gac=1.124390008.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE" class="govuk-link govuk-!-font-weight-bold">
+                  Check your long-term flood risk
+                </a>
+              </li>
+              <li><a href="https://www.planningportal.co.uk/" class="govuk-link govuk-!-font-weight-bold">Planning portal </a></li>
+            </ul>
+          </nav>
+        </aside> #}
+
+  </div>
+</div>
+
+{% endblock %}

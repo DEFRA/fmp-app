@@ -1,11 +1,12 @@
 const Joi = require('joi')
-const Boom = require('boom')
-const Wreck = require('wreck')
+const Boom = require('@hapi/boom')
+const Wreck = require('@hapi/wreck')
 const moment = require('moment-timezone')
 const config = require('../../config')
 const riskService = require('../services/risk')
 const FloodZone = require('../models/flood-zone')
 const util = require('../util')
+const { osMapsUrl, osMapsKey } = config.ordnanceSurvey
 
 module.exports = {
   method: 'POST',
@@ -21,19 +22,17 @@ module.exports = {
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
       const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
-      const center = request.payload.center
+      const center = request.payload.center ? JSON.parse(request.payload.center) : undefined
       let vector
 
-      // Get Flood zone if not provided
-      if (!zone) {
-        if (polygon) {
-          zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
-        } else {
-          zone = await riskService.getByPoint(center[0], center[1])
-        }
-        const floodZone = new FloodZone(zone, !!polygon)
-        zone = floodZone.zone
+      // Always get Flood zone as flood zone is provided in the request if not provided.
+      if (polygon) {
+        zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
+      } else {
+        zone = await riskService.getByPoint(center[0], center[1])
       }
+      const floodZone = new FloodZone(zone, !!polygon)
+      zone = floodZone.zone
 
       // Prepare point or polygon
       if (polygon) {
@@ -61,7 +60,7 @@ module.exports = {
           type: 'vector',
           styles: {
             '': {
-              externalGraphic: siteUrl + '/public/images/pin.png',
+              externalGraphic: siteUrl + '/assets/images/pin.png',
               graphicXOffset: -10.5,
               graphicYOffset: -30.5,
               graphicWidth: 21,
@@ -78,7 +77,6 @@ module.exports = {
           }
         }
       }
-
       // Prepare the PDF generate options
       const options = {
         payload: {
@@ -97,83 +95,101 @@ module.exports = {
           layers: [
             {
               type: 'WMTS',
-              baseURL: 'https://tiles.ordnancesurvey.co.uk/osmapapi/wmts/segab6nu/ts',
+              baseURL: osMapsUrl,
               version: '1.0.0',
               requestEncoding: 'KVP',
               customParams: {
                 url: 'https://flood-warning-information.service.gov.uk/'
               },
               format: 'image/png',
-              layer: 'osgb',
+              layer: 'Outdoor_27700',
               opacity: 1,
               style: 'default',
-              matrixSet: 'ZoomMap&url=https://flood-warning-information.service.gov.uk/',
+              matrixSet: `EPSG:27700&key=${osMapsKey}`,
               matrixIds: [{
-                identifier: '00',
-                matrixSize: [4, 6],
+                identifier: 'EPSG:27700:0',
+                matrixSize: [5, 7],
                 resolution: 896,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '01',
-                matrixSize: [7, 12],
+                identifier: 'EPSG:27700:1',
+                matrixSize: [10, 13],
                 resolution: 448,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '02',
-                matrixSize: [13, 24],
+                identifier: 'EPSG:27700:2',
+                matrixSize: [20, 25],
                 resolution: 224,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '03',
-                matrixSize: [25, 48],
+                identifier: 'EPSG:27700:3',
+                matrixSize: [40, 49],
                 resolution: 112,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '04',
-                matrixSize: [50, 96],
+                identifier: 'EPSG:27700:4',
+                matrixSize: [80, 98],
                 resolution: 56,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '05',
-                matrixSize: [100, 192],
+                identifier: 'EPSG:27700:5',
+                matrixSize: [159, 195],
                 resolution: 28,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '06',
-                matrixSize: [200, 384],
+                identifier: 'EPSG:27700:6',
+                matrixSize: [318, 390],
                 resolution: 14,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '07',
-                matrixSize: [400, 768],
+                identifier: 'EPSG:27700:7',
+                matrixSize: [636, 779],
                 resolution: 7,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '08',
-                matrixSize: [800, 1536],
+                identifier: 'EPSG:27700:8',
+                matrixSize: [1271, 1558],
                 resolution: 3.5,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '09',
-                matrixSize: [1600, 3072],
+                identifier: 'EPSG:27700:9',
+                matrixSize: [2542, 3116],
                 resolution: 1.75,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }, {
-                identifier: '10',
-                matrixSize: [3200, 6144],
+                identifier: 'EPSG:27700:10',
+                matrixSize: [5083, 6232],
                 resolution: 0.875,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1344000]
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
+              }, {
+                identifier: 'EPSG:27700:11',
+                matrixSize: [10165, 12463],
+                resolution: 0.4375,
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
+              }, {
+                identifier: 'EPSG:27700:12',
+                matrixSize: [20329, 24925],
+                resolution: 0.21875,
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
+              }, {
+                identifier: 'EPSG:27700:13',
+                matrixSize: [40657, 49849],
+                resolution: 0.109375,
+                tileSize: [256, 256],
+                topLeftCorner: [-238375.0, 1376256.0]
               }]
             }, {
               type: 'WMTS',
@@ -271,20 +287,20 @@ module.exports = {
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
+          .header('X-XSS-Protection', '1; mode=block')
           .state('pdf-download', id.toString())
       } catch (err) {
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
       }
     },
     validate: {
-      payload: {
+      payload: Joi.object().keys({
         id: Joi.number().required(),
-        zone: Joi.string().required().allow('FZ1', 'FZ2', 'FZ3', 'FZ3a', ''),
         reference: Joi.string().allow('').max(13).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
-        center: Joi.array().required().allow('')
-      }
+        center: Joi.string().required()
+      })
     }
   }
 }

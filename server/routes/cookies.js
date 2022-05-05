@@ -1,17 +1,26 @@
-module.exports = {
+const CookieViewModel = require('../models/cookie-view')
+module.exports = [{
   method: 'GET',
   path: '/cookies',
   options: {
-    description: 'Cookies - Flood map for planning - GOV.UK',
-    handler: {
-      view: {
-        template: 'cookies',
-        context: {
-          pageTitle: 'Cookies - Flood map for planning - GOV.UK',
-          heading: 'Flood map for planning',
-          metaDescription: 'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.'
-        }
+    description: 'Cookies Page',
+    handler: async (request, h) => {
+      const errors = []
+      const model = new CookieViewModel({
+        errorSummary: errors
+      })
+      const cookie = request.state
+      if (cookie !== null && cookie.GA !== null && cookie.GA === 'Accept') {
+        model.isYesChecked = true
+        model.isNoChecked = false
+      } else if (cookie !== null && cookie.GA !== null && cookie.GA === 'Reject') {
+        model.isNoChecked = true
+        model.isYesChecked = false
+      } else {
+        model.isNoChecked = false
+        model.isYesChecked = false
       }
+      return h.view('cookies', model)
     }
   }
-}
+}]

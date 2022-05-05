@@ -1,20 +1,26 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
 lab.experiment('terms-conditions', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
+  })
+
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
   })
 
   lab.test('terms-conditions', async () => {
     const options = {
       method: 'GET',
-      url: '/terms-conditions'
+      url: '/terms-and-conditions'
     }
 
     const response = await server.inject(options)

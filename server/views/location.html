@@ -1,0 +1,155 @@
+{% extends 'layout.html' %}
+{% block pageTitle %}
+  {% if errorSummary.length > 0 %}
+      Error: Find location - Flood map for planning - GOV.UK
+  {% else %}
+      Find location - Flood map for planning - GOV.UK
+  {% endif %}
+{% endblock %}
+{% block content %}
+  {{ super() }}
+
+  {% from "radios/macro.njk" import govukRadios %}
+  {% from "input/macro.njk" import govukInput %}
+  {% from "button/macro.njk" import govukButton %}
+  {% from "error-summary/macro.njk" import govukErrorSummary %}
+  
+  <form autocomplete="off" class="form" method="post" action="/location" novalidate>
+    {% if errorSummary.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary,
+        classes: "govuk-grid-column-two-thirds"
+      }) 
+    }}
+    {% endif %}
+
+    {% set placeOrPostcodeHtml %}
+    {{ govukInput({
+      id: "placeOrPostcode",
+      name: "placeOrPostcode",
+      type: "text",
+      classes: "govuk-!-width-one-third",                          
+      value: placeOrPostcode,                     
+      errorMessage: placeOrPostcodeError,
+      hint: {
+        text: "For example, Bakewell or WA4 1AB"
+      },
+      label: {
+        text: 'Place or Postcode',
+        classes: 'govuk-label visually-hidden',
+        for: "placeOrPostcode",
+        isPageHeading: false
+      }
+    })}}
+    {% endset -%}
+
+    {% set nationalGridReferenceHtml %}
+    {{ govukInput({
+      id: "nationalGridReference",
+      name: "nationalGridReference",
+      type: "text",
+      classes: "govuk-!-width-one-third",                          
+      value:nationalGridReference,                        
+      errorMessage: nationalGridReferenceError,
+      hint: {
+        text: "For example, SJ8632197947 (10 or 12 digits)"
+      },
+      label: {
+        text: 'National Grid Reference',
+        classes: 'govuk-label visually-hidden',
+        for: "nationalGridReference",
+        isPageHeading: false
+      }
+    })}}
+    {% endset -%}
+
+    {% set eastingNorthingHtml %}
+    <div id="event-name-hint" class="govuk-hint">
+      Eastings and northings should only include numbers.  For example: 123456
+    </div>
+    {{ govukInput({
+        id: "easting",
+        name: "easting",
+        type: "text",
+        classes: "govuk-!-width-one-third",
+        value :easting,                
+        errorMessage: eastingError,
+        label: {
+          text: 'Easting',
+          classes: 'govuk-label',
+          for: "easting",
+          isPageHeading: false
+        }
+    })}}
+    {{ govukInput({
+      id: "northing",
+      name: "northing",
+      type: "text",
+      classes: "govuk-!-width-one-third",
+      value :northing,                      
+      errorMessage: northingError,
+      label: {
+        text: 'Northing',
+        classes: 'govuk-label',
+        for: "northing",
+        isPageHeading: false
+      }
+    })}}
+    {% endset -%}
+
+    {{ govukRadios({
+      name: "findby",
+      fieldset: {
+        legend: {
+          text: "Find the location",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      items: [
+        {
+          value: "placeOrPostcode",
+          text: "Place or postcode",
+          conditional: {
+            html: placeOrPostcodeHtml
+          },
+          checked:placeOrPostcodeSelected
+        },
+        {
+          value: "nationalGridReference",
+          text: "National Grid Reference (NGR)",
+          conditional: {
+            html: nationalGridReferenceHtml
+          },
+          checked:nationalGridReferenceSelected
+        },
+        {
+          value: "eastingNorthing",
+          text: "Easting and northing",
+          conditional: {
+            html: eastingNorthingHtml
+          },
+          checked:eastingNorthingSelected
+        }  
+      ],
+      errorMessage: errors["findby"]
+    })}}
+    
+
+    {{ govukButton({
+      text: "Continue",
+      preventDoubleClick: true
+    })}}
+  </form>
+  <script>
+    // FCRM-3619 - Now checks the Radio for PostCode by default (to avoid errors when JS is disabled)
+    // This script unchecks the radio, when JS is enabled so the UX is the same (nothing is checked by default)
+    document.addEventListener("DOMContentLoaded", () => {
+      const radio = document.getElementById("findby")
+      if (radio) {
+        radio.checked = false
+      }
+    })
+  </script>
+{% endblock %}

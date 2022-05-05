@@ -1,0 +1,32 @@
+{% if model.readings %}
+  <h3 class="nojs-show heading-small">Observed data</h3>
+  <table id="telemetry" class="nojs-show">
+    <thead>
+      <tr>
+        <th scope="col">DateTime</th>
+        <th scope="col" class="numeric">Value</th>
+        <th>Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in model.telemetry %}
+        <tr>
+          <td scope="row"><time datetime="{{item.ts}}">{{item.ts}}</time></td>
+          <td class="numeric">{{item._}}</td>
+          <td>{{item.err}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h3 class="nojs-show heading-small">Forecast data</h3>
+  <table id="forecast" class="nojs-show table-levels">
+    <tbody>
+      {% for item in model.ffoi.processedValues %}
+        <tr>
+          <td scope="row"><time datetime="{{item.$.date}}T{{item.$.time}}Z">{{item.formattedTimestamp}}</time></td>
+          <td class="numeric">{{item._}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

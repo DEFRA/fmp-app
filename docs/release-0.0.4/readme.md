@@ -1,34 +1,14 @@
 # Release 0.0.4
 
-PDF Download
+# Features that are released
+The following are the features relased in geoserver for map updates
 
-# Jira tickets
+1. Implemented fishnet selection of modelled node locations
+2. Added code to label modelled node locations in a more logical manner
+3. Added code to stop modelled node location labels from overlapping
+4. Updated various parts of the static text in the PDF accoridng to the sample PDF v4 produced by UCD team
+5. Updated code to extract WITH_DEFENCES value for modelled measurements from the associated modelled flood outlines if they are all the same value
 
-Release ticket
-https://eaflood.atlassian.net/browse/FLO-2683
-
-Consisting of
-https://eaflood.atlassian.net/browse/FLO-2140
-
-
-# Config
-
-No config changes
-
-# Webops instructions
-
-The instructions below have more detail but basically:
-
-1. Update the Geoserver instance using the new .war file on S3 along with the new Geoserver data directory contained in the `fmp` repo on Gitlab.
-2. Update the FMP-APP
-
-
-
-The following .war file on S3 has been updated to include the [Geoserver Print Module extension](http://docs.geoserver.org/latest/en/user/extensions/printing/index.html)
-
-https://s3-eu-west-1.amazonaws.com/ansible-flood-map-service/geoserver/geoserver_v2.9.1-print-2.11.2.war
-
-This will need referencing in the ansible script and the Geoserver role will need running.
-
-
-The configuration on the extension lives in GEOSERVER_DATA_DIR/printing/config.yaml.
+# No Changes
+1) There are no changes in fmp-service apart from the bumping the version number
+2) There are no changes in fmp-app apart from the bumping the version number

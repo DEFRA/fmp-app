@@ -1,0 +1,99 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <header class="intro">
+      <span class="govuk-caption-xl">{{model.title}}</span>
+      <h1 class="govuk-heading-xl">
+        {{model.station.river}} at {{model.station.name}} {% if model.station.isMulti %}({{model.station.direction}} data){% endif %}
+      </h1>
+      {% if model.station.isClosed %}
+        <br>
+        <div class="notice">
+          <i class="icon icon-important">
+            <span class="visually-hidden">Important</span>
+          </i>
+          <strong class="bold-small">This station is closed and no data is available.</strong>
+        </div>
+        <br>
+        {#
+        <p class="nojs-hide ie-hide">
+          Use the <a href="/river-and-sea-levels?lat={{model.lat}}&lng={{model.long}}">map</a> to select another station.
+        </p>
+        #}
+      {% else %}
+        <!-- Station latest value banner -->
+        {% if model.recentValue.err %}
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-warning-text__assistive">Important</span>
+              The latest {{model.title}} recorded is unreliable.
+            </strong>
+          </div>
+          <p>
+            Reasons for this include very low river levels or a technical fault with the measuring equipment.
+          </p>
+          {#
+          <p class="nojs-hide ie-hide">
+            Use the <a href="/river-and-sea-levels?lat={{model.lat}}&lng={{model.long}}">map</a> to select another station.
+          </p>
+          #}
+        {% else %}
+          {% if model.station.isSuspended %}
+            <div class="govuk-warning-text">
+              <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+              <strong class="govuk-warning-text__text">
+                <span class="govuk-warning-text__assistive">Important</span>
+                {{ model.station.statusReason if model.station.statusReason else "This station is temporarily closed and no data is available." }}
+              </strong>
+            </div>
+            {#
+            <p class="nojs-hide ie-hide">
+              Use the <a href="/river-and-sea-levels?lat={{model.lat}}&lng={{model.long}}">map</a> to select another station.
+            </p>
+            #}
+          {% else %}
+            {% if model.readings %}
+              {% if model.ffoi.hasWarnings %}
+                <div class="govuk-warning-text">
+                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                  <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Important Warning</span>
+                    {{model.ffoi.warningMessage}}
+                  </strong>
+                </div>
+                <p>
+                  {{model.ffoi.warningSeverity.subTitle}} <a href="#target-areas" data-journey-click="ffoi:station:flood-warnings">View details</a>.
+                </p>
+              {% else %}
+                {% if model.station.floodingIsPossible %}
+                  <div class="govuk-warning-text">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                      <span class="govuk-warning-text__assistive">Important Warning</span>
+                      Flooding is possible - Be prepared
+                    </strong>
+                  </div>
+                  <p>
+                    The latest information indicates flooding is possible - <a href="https://www.gov.uk/help-during-flood">Take action</a>.
+                  </p>
+                {% endif %}
+
+                {#
+                {% if not model.isFfoi %}
+                  <p>
+                    <a href="{{model.warningsUrl}}">Check for flood warnings in this area</a>
+                  </p>
+                {% endif %}
+                #}
+              {% endif %}
+              {% if model.recentValue %}
+                <p>Latest recorded level <strong>{{model.recentValue._ | toFixed(2)}}m</strong> at 
+                <strong>{{model.recentValue.ts | formatDate}}</strong>.</p>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </header>
+  </div>
+</div>

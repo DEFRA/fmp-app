@@ -1,0 +1,197 @@
+// Defra charts
+//
+// Transforms a table and ticks element in to a bar chart
+
+// Reset table properties
+.defra-bar-chart {
+    position:relative;
+    padding-left:56px;
+    margin:0px;
+    @include mq ($from: tablet) {
+        padding-left:67px;
+        padding-bottom:25px;
+    }
+    table {
+        display: block;
+        position:relative;
+        width:100%;
+        @include mq ($from: tablet) {
+            width:80%;
+        }
+        margin:0px;
+    }
+    thead {
+        @extend .govuk-visually-hidden;
+    }
+    tbody {
+        display: block;
+        position:relative;
+        z-index:2;
+        left:0px;
+        width:100%;
+        height:200px;
+        @include mq ($from: tablet) {
+            height:360px;
+        }
+        border-left:2px solid $govuk-border-colour;
+        border-bottom:2px solid $govuk-border-colour;
+    }
+    tfoot {
+        position:absolute;
+        z-index:1;
+        width:100%;
+        left:-2px;
+        height:200px;
+        @include mq ($from: tablet) {
+            height:360px;
+        }
+        border-left:2px solid transparent;
+        border-bottom:2px solid transparent;
+        bottom:0px;
+    }
+    td {
+        position:absolute;
+        display:block;
+        bottom:0px;
+    }
+}
+.defra-bar-chart__caption {
+    display:block;
+    position:relative;
+    margin-left:-56px;
+    margin-bottom:30px;
+    @include mq ($from: tablet) {
+        margin-left:-67px;
+        margin-bottom:40px;
+    }
+    margin-right:0px;
+    text-align:left;
+}
+.defra-bar-chart__inner {
+    position:relative;
+}
+.defra-bar-chart__legend {
+    position:relative;
+    box-sizing:border-box;
+    @extend .govuk-body-s;
+    margin-top:40px;
+    margin-bottom:0px;
+    padding-left:25px;
+    @include mq ($until: tablet) {
+        bottom:auto !important;
+    }
+    @include mq ($from: tablet) {
+        position:absolute;
+        display: table; 
+        width:20%;
+        right:0px;
+        padding-left:15px;
+        height:100px;
+        margin-bottom:-48px;
+    }
+    .defra-bar-chart__legend--inner {
+        display: table-cell; 
+        width:100%;
+        height:100%;
+        vertical-align: middle;
+        text-align: left;
+    }
+}
+
+.defra-bar-chart__legend:before {
+    @include mq ($until: tablet) {
+        position:absolute;
+        content:'';
+        left:0px;
+        top:50%;
+        width:15px;
+        margin-top:-2px;
+        border-bottom: 2px dashed govuk-colour('black');
+    }
+}  
+.defra-bar-chart__h-value {
+    margin-left:-1px; // Offset added left border on tbody
+}
+.defra-bar-chart__h-value-inner {
+    position:absolute;
+    left:2px;
+    right:2px;
+    top:1px; // Offset border position of v tick lines
+    bottom:0px;
+    @include mq ($from: tablet) {
+        left:4px;
+        right:4px;
+    }
+    text-indent:-5000px;
+    background-color: govuk-colour('light-blue');
+}
+.defra-bar-chart__h-tick {
+    display:block;
+    font-family: "ntatabularnumbers","nta",Arial,sans-serif;
+    top:100%;
+    text-align:center;
+    padding-top:7px;
+    margin-left:-1px; // Offset added left border on tbody
+}
+.defra-bar-chart__h-tick:before {
+    position:absolute;
+    content:'';
+    left:50%;
+    top:0px;
+    width:2px;
+    height:5px;
+    background-color: govuk-colour("mid-grey", $legacy: "grey-2");
+    // background-color: govuk-colour('grey-2');
+}   
+// Quick mobile fix but may not work for other offsets and increments
+tr:nth-of-type(2n) .defra-bar-chart__h-tick {
+    @include mq ($until: tablet) {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: -1px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        clip: rect(0 0 0 0) !important;
+        -webkit-clip-path: inset(50%) !important;
+        clip-path: inset(50%) !important;
+        border: 0 !important;
+        white-space: nowrap !important;
+    }
+}
+.defra-bar-chart__v-tick {
+    position:relative;
+    left:0px;
+    right:0px;
+    border-bottom:1px solid govuk-colour("light-grey", $legacy: "grey-3");
+    // border-bottom:1px solid govuk-colour('grey-3');
+    z-index:-1; // Ensure v tick line is behind threshold mask
+}
+.defra-bar-chart__v-tick:first-child {
+    border:0px;
+}
+.defra-bar-chart__v-tick-label {
+    position:absolute;
+    font-family: "ntatabularnumbers","nta",Arial,sans-serif;
+    right:100%;
+    @extend .govuk-body-s;
+    height:1em;
+    margin-top:-0.5em;
+    margin-right:10px;
+}   
+.defra-bar-chart__v-threshold {
+    position:relative;
+    left:0px;
+    right:0px;
+    border-bottom:2px dashed govuk-colour('black');
+}
+.defra-bar-chart__v-threshold:before {
+    position:absolute;
+    content:'';
+    z-index:1;
+    height:1px;
+    left:0px;
+    right:0px;
+    border-bottom:2px solid white;
+    z-index:-1; // Needed to mask possible v tick line
+}

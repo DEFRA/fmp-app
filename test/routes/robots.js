@@ -1,15 +1,22 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
-lab.experiment('robots.txt', async () => {
+lab.experiment('robots.txt', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
   })
+
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
+  })
+
   lab.test('robots.txt returns 200', async () => {
     const options = {
       method: 'GET',

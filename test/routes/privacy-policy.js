@@ -1,14 +1,20 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
 lab.experiment('privacy-policy', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
+  })
+
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
   })
 
   lab.test('privacy-policy', async () => {

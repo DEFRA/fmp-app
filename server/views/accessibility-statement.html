@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block pageTitle %}
+Accessibility statement - Flood map for planning - GOV.UK
+{% endblock %}
+{% block content %}
+    {{ super() }}
+
+    <div id="accessibility-page" class="grid-row">
+        <div class="column-two-thirds">
+            <h1 class="heading-xlarge" tabindex="0">Accessibility statement</h1>
+            <p> This accessibility statement applies to the flood map for planning service.</p>
+            <p>This website is run by the Environment Agency. We want as many people as possible to be able to use this website. For example, that means that you should be able to:</p>
+            <ul class="list list-bullet">
+                <li>zoom in up to 300% without the text spilling off the screen</li>
+                <li>navigate most of the website using just a keyboard</li>
+                <li>navigate most of the website using speech recognition software</li>
+                <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+            </ul>
+            <p> We’ve also made the website text as simple as possible to understand.</p>
+            <p>
+                <a href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> has advice on making your device easier to use if you have a disability.
+                </p>
+            <h2 class="heading-medium" tabindex="0">How accessible this website is</h2>
+            <p>We know some parts of this website are not fully accessible. For example:</p>
+            <ul class="list list-bullet">
+                <li>we link to guidance on GOV.UK that includes PDF documents that are not fully accessible to screen reader software</li>
+                <li>the printable map that can be downloaded is in PDF form, so may not be fully accessible to screen reader software</li>
+                <li>the flood map for planning is not accessible for those using assistive technology</li>
+            </ul>
+            <h2 class="heading-medium" tabindex="0">Feedback and contact information</h2>
+            <p>If you need information on this website in a different format like an accessible PDF, large print, easy read, audio recording or braille:</p>
+            <ul class="list list-bullet">
+                <li>email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></li>
+                <li>call 03708 506 506 (Monday to Friday, 8am to 5pm)</li>
+            </ul>
+
+            <h2 class="heading-medium" tabindex="0">Reporting accessibility problems with this website</h2>
+            <p>We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact:</p>
+            <ul class="list list-bullet">
+                <li>email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></li>
+                <li>call 03708 506 506 (Monday to Friday, 8am to 5pm)</li>
+            </ul>
+            <h2 class="heading-medium" tabindex="0">Enforcement procedure</h2>
+            <p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No.2) Accessibility Regulations 2018 (the ‘accessibility regulations’).</p>
+            <p>If you’re not happy with how we respond to your complaint <a href="https://www.equalityadvisoryservice.com/"> contact the Equality Advisory and Support Service (EASS)</a>.</p>
+
+            <h2 class="heading-medium" tabindex="0">Technical information about this website’s accessibility</h2>
+            <p>The Environment Agency is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p>
+
+            <h2 class="heading-medium" tabindex="0">Compliance status</h2>
+            <p>This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard,</a> due to the following non-compliances and exemptions.</p>
+
+            <h2 class="heading-medium" tabindex="0">Non-accessible content</h2>
+            <p>The content listed below is non-accessible for the following reasons.</p>
+
+            <h3 class="heading-small" tabindex="0">Non-compliance with the accessibility regulations</h3>
+            <p>There are a number of elements that are part of the third party map user interface that are not fully descriptive or accessible. These include the zoom controls, the copyright information and the scale key.</p>
+
+            <p>There is an issue with the ‘Check your details’ page where an empty element is being added to the page that can be confusing to screen reader users.</p>
+
+            <h2 class="heading-medium" tabindex="0"> Content that’s not within the scope of the accessibility regulations</h2>
+            <p>The website has the following content which is out of scope of the accessibility regulations:</p>
+            <ul class="list list-bullet">
+                <li>online maps</li>
+                <li>third party content which is out of our control, for example a corporate logo on the map the website uses</li>
+                <li>PDF content that was published before 23 September 2018</li>
+            </ul>
+
+            <h2 class="heading-medium" tabindex="0"> What we’re doing to improve accessibility</h2>
+            <ul class="list list-bullet">
+                <li>we are exploring ways to improve the accessibility of the controls on the map user interface so that they are more descriptive and usable</li>
+                <li>we commit to providing accessible pdfs where requests are made to the Environment Agency</li>
+                <li>we are aware of the colour contrast issues used on the mapping layers and are investigating a more accessible scheme to differentiate layers</li>
+                <li>we are considering using the Ordnance Survey colour contrast accessible maps to improve the experience for visually impaired people</li>
+                <li>we are considering ways to increase zoom levels on the map</li>
+                <li>the framework used to make the service will be updated to the latest version. This will fix the issues on the ‘Check your details’ page</li>
+            </ul>
+
+            <h2 class="heading-medium" tabindex="0"> Preparation of this accessibility statement</h2>
+            <p>This statement was prepared on 30 March 2022. It was last reviewed on 17 March 2022. This website was last tested on 17 March 2022.</p>
+            <p>The test was carried out internally by the Environment Agency.</p>
+        </div>
+    </div>
+{% endblock %}

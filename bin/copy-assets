@@ -3,7 +3,9 @@
 
 cp -R client/images/* server/public/assets/images
 cp -R client/fonts/* server/public/assets/fonts
+cp -R client/js/js.cookie.min.js server/public/assets/javascripts/js.cookie.min.js
+cp -R client/js/polyfill.min.js server/public/assets/javascripts/polyfill.min.js
 cp node_modules/jquery/dist/jquery.min.js server/public/assets/javascripts/jquery.min.js
 cp node_modules/jquery/dist/jquery.min.map server/public/assets/javascripts/jquery.min.map
-cp node_modules/openlayers/css/ol.css server/public/assets/stylesheets/ol.css
+cp node_modules/ol/src/ol.css server/public/assets/stylesheets/ol.css
 cp node_modules/govuk_frontend_toolkit/javascripts/govuk/show-hide-content.js server/public/assets/javascripts/show-hide-content.js

@@ -1,14 +1,20 @@
-const Lab = require('lab')
+const Lab = require('@hapi/lab')
 const Code = require('code')
-const glupe = require('glupe')
 const lab = exports.lab = Lab.script()
-const { manifest, options } = require('../../server')
+const createServer = require('../../server')
 
-lab.experiment('os-terms', async () => {
+lab.experiment('os-terms', () => {
   let server
 
   lab.before(async () => {
-    server = await glupe.compose(manifest, options)
+    console.log('Creating server')
+    server = await createServer()
+    await server.initialize()
+  })
+
+  lab.after(async () => {
+    console.log('Stopping server')
+    await server.stop()
   })
 
   lab.test('os-terms page returns 200', async () => {
