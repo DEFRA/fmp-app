@@ -22,7 +22,8 @@ const routes = [].concat(
   require('../routes/privacy-notice'),
   require('../routes/terms-and-conditions'),
   require('../routes/check-your-details'),
-  require('../routes/maintainence'))
+  require('../routes/maintenance'),
+  require('../routes/404'))
 
 module.exports = {
   plugin: {
