@@ -1,0 +1,16 @@
+const maintenanceRouteHandler = (_request, h) => {
+  return h.view('maintainence')
+}
+
+module.exports = [
+  {
+    method: 'GET',
+    path: '/maintenance',
+    handler: maintenanceRouteHandler
+  },
+  {
+    method: 'GET',
+    path: '/maintainence',
+    handler: maintenanceRouteHandler
+  }
+]

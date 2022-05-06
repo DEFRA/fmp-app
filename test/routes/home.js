@@ -38,15 +38,14 @@ lab.experiment('home', () => {
     Code.expect(response.payload).to.include(headers.home.standard)
   })
 
-  lab.test('unknown url returns 200', async () => {
+  lab.test('unknown url returns 404', async () => {
     const options = {
       method: 'GET',
       url: '/jksfds'
     }
 
     const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers[500])
+    Code.expect(response.statusCode).to.equal(404)
   })
 
   lab.test('home page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
