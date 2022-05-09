@@ -62,6 +62,7 @@ lab.experiment('flood-zone-results', () => {
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 1)
     await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
+    await payloadMatchTest(payload, /We recommend that you check the relevant local planning authority's strategic flood risk assessment \(SFRA\)/g)
   })
 
   // Test all iterations of psoContactResponse to get full coverage
