@@ -26,7 +26,18 @@ const dialog = require('../dialog')
 
 const vectorDragInteraction = new VectorDrag()
 
+const addOptionsFromSession = (options) => {
+  const polygonFromSession = window.sessionStorage.getItem('polygon')
+  if (polygonFromSession) {
+    console.log('we should use session polygon data here: ', polygonFromSession)
+    options.polygon = JSON.parse(polygonFromSession)
+  }
+
+  return options
+}
+
 function ConfirmLocationPage (options) {
+  options = addOptionsFromSession(options)
   const easting = window.encodeURIComponent(options.easting)
   const northing = window.encodeURIComponent(options.northing)
   const location = window.encodeURIComponent(options.location)

@@ -72,6 +72,8 @@ function Summary (options) {
           })
         })
       }))
+    window.sessionStorage.setItem('polygon', JSON.stringify(options.polygon))
+    window.sessionStorage.removeItem('point')
   } else {
     const easting = window.encodeURIComponent(options.easting)
     const northing = window.encodeURIComponent(options.northing)
@@ -96,6 +98,8 @@ function Summary (options) {
           })
         })
       }))
+    window.sessionStorage.setItem('point', mapOptions.point)
+    window.sessionStorage.removeItem('polygon')
   }
   const $summaryColumn = $('.summary-column')
   const $map = $('#map')
