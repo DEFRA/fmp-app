@@ -23,16 +23,19 @@
        <div class="form-group">
         {{ govukInput({
             label: {
-      text: "Your reference",
-      classes: "govuk-label--m",
-      isPageHeading: false
-  },
-  hint: {
-    text: "This is chosen by you to help you find the report later"
-  },
-  id: "reference",
-  name: "reference"
-}) }}
+              text: "Your reference (upto 25 characters)",
+              classes: "govuk-label--m",
+              isPageHeading: false
+          },
+          hint: {
+            text: "This is chosen by you to help you find the report later"
+          },
+          id: "reference",
+          name: "reference",
+          attributes: {
+            maxlength: 25
+          }
+        }) }}
 </div>
        <div class="form-group">
         {{ govukSelect({
