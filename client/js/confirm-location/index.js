@@ -47,11 +47,6 @@ function ConfirmLocationPage (options) {
   const $page = $('#confirm-location-page')
   const $radios = $('.top-of-buttons', $page)
   const $continueBtn = $('a.govuk-button--start', $page)
-  const $product4Btn = $('a.button-product4', $page)
-  const $legend = $('.legend', $page)
-  const $form = $('form.form', $page)
-  const $center = $('input[name="center"]', $form)
-  const $polygon = $('input[name="polygon"]', $form)
   const $deleteButton = $('#deletePolygon')
 
   const point = new Feature({
@@ -317,7 +312,6 @@ function ConfirmLocationPage (options) {
         }
 
         // add polygon class to legend to hide point and show polygon icon
-        $legend.addClass('polygon')
         $radios.addClass('polygon')
 
         featureMode = 'polygon'
@@ -338,7 +332,6 @@ function ConfirmLocationPage (options) {
         vectorSource.addFeature(point)
 
         // add polygon class to legend to hide point and show polygon icon
-        $legend.removeClass('polygon')
         $radios.removeClass('polygon')
 
         featureMode = 'point'
@@ -350,7 +343,6 @@ function ConfirmLocationPage (options) {
     function updateTargetUrl () {
       let coordinates
       let url = '/flood-zone-results'
-      let contactUrl = '/contact'
 
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
@@ -364,25 +356,13 @@ function ConfirmLocationPage (options) {
         url += '&fullName=' + fullName
         url += '&recipientemail=' + recipientemail
 
-        contactUrl += '?polygon=' + coords
-        contactUrl += '&center=' + JSON.stringify(center)
-        contactUrl += '&location=' + location
-        contactUrl += '&fullName=' + fullName
-        contactUrl += '&recipientemail=' + recipientemail
-
         // set form values
-        $center.attr('value', JSON.stringify(center))
-        $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
-        contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
         // set form values
-        $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')
-        $polygon.attr('value', '')
       }
       $continueBtn.attr('href', url)
-      $product4Btn.attr('href', contactUrl)
     }
 
     function getCenterOfExtent (extent) {
