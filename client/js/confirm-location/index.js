@@ -1,10 +1,7 @@
 const $ = require('jquery')
 
-const TileLayer = require('ol/layer/Tile').default
 const VectorLayer = require('ol/layer/Vector').default
-const TileWMS = require('ol/source/TileWMS').default
 const VectorSource = require('ol/source/Vector').default
-const TileGrid = require('ol/tilegrid/TileGrid').default
 const Polygon = require('ol/geom/Polygon').default
 const Point = require('ol/geom/Point').default
 const MultiPoint = require('ol/geom/MultiPoint').default
@@ -20,6 +17,7 @@ const Snap = require('ol/interaction/Snap').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
+const { createTileLayer } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -175,26 +173,7 @@ function ConfirmLocationPage (options) {
 
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
-    layers: [new TileLayer({
-      ref: 'fmp',
-      opacity: 0.7,
-      zIndex: 0,
-      source: new TileWMS({
-        url: mapConfig.tileProxy,
-        serverType: 'geoserver',
-        params: {
-          LAYERS: 'fmp:fmp',
-          TILED: true,
-          VERSION: '1.1.1'
-        },
-        tileGrid: new TileGrid({
-          extent: mapConfig.tileExtent,
-          resolutions: mapConfig.tileResolutions,
-          tileSize: mapConfig.tileSize
-        })
-      })
-    }),
-    vectorLayer],
+    layers: [createTileLayer(mapConfig), vectorLayer],
     // Add vector drag to map interactions
     interactions: InteractionDefaults({
       altShiftDragRotate: false,
