@@ -26,11 +26,15 @@ const vectorDragInteraction = new VectorDrag()
 
 const addOptionsFromSession = (options) => {
   const polygonFromSession = window.sessionStorage.getItem('polygon')
+  let pointFromSession = window.sessionStorage.getItem('point')
   if (polygonFromSession) {
-    console.log('we should use session polygon data here: ', polygonFromSession)
     options.polygon = JSON.parse(polygonFromSession)
   }
-
+  if (pointFromSession) {
+    pointFromSession = JSON.parse(pointFromSession)
+    options.easting = pointFromSession[0]
+    options.northing = pointFromSession[1]
+  }
   return options
 }
 
@@ -271,8 +275,13 @@ function ConfirmLocationPage (options) {
     })
 
     function updateMode (mode) {
+      const radio = document.getElementById(mode)
+      if (radio) {
+        radio.checked = true
+      }
       if (mode === 'polygon') {
         // Enabling the Delete shape button
+
         $deleteButton.attr('disabled', false)
 
         // Remove the point feature

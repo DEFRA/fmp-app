@@ -76,7 +76,7 @@ function Summary (options) {
           })
         })
       }))
-    window.sessionStorage.setItem('point', mapOptions.point)
+    window.sessionStorage.setItem('point', JSON.stringify(mapOptions.point))
     window.sessionStorage.removeItem('polygon')
   }
   const $summaryColumn = $('.summary-column')
