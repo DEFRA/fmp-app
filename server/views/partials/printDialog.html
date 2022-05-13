@@ -14,7 +14,7 @@
   </div>
     <h2 id="dialog-heading" class="dialog-heading">Download report</h2>
      <span class="govuk-hint govuk-hint--block" id="dialog-content">
-            To download your report: enter a reference name, select a scale, then click download.
+            To download your report: enter a reference name (optional), select a scale, then click download.
       </span>
 <form class="form" method="POST" action="pdf">
         <input name="id" type="hidden">
@@ -23,16 +23,19 @@
        <div class="form-group">
         {{ govukInput({
             label: {
-      text: "Your reference",
-      classes: "govuk-label--m",
-      isPageHeading: false
-  },
-  hint: {
-    text: "This is chosen by you to help you find the report later"
-  },
-  id: "reference",
-  name: "reference"
-}) }}
+              text: "Your reference",
+              classes: "govuk-label--m",
+              isPageHeading: false
+          },
+          hint: {
+            text: "This is chosen by you to help you find the report later and should be less than 25 characters"
+          },
+          id: "reference",
+          name: "reference",
+          attributes: {
+            maxlength: 25
+          }
+        }) }}
 </div>
        <div class="form-group">
         {{ govukSelect({
