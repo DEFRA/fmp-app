@@ -4,6 +4,7 @@ const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 const Wreck = require('@hapi/wreck')
 const config = require('../../config')
+const { payloadMatchTest } = require('../utils')
 
 const ApplicationReviewSummaryViewModel = require('../../server/models/check-your-details')
 
@@ -88,13 +89,14 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
 
-    const { result } = response
+    const { result, payload } = response
     Code.expect(result.match(/input type="hidden" value="360799" name="easting"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="388244" name="northing"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="joe@example.com" name="recipientemail"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="Joe Bloggs" name="fullName"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="joe@example.com" name="recipientemail"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="" name="zoneNumber"/g).length).to.equal(1)
+    await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}An image of a map showing the site you have provided for the location for assessment[\s\S]*<\/figcaption>/g, 1)
   })
 
   lab.test('check-your-details with zoneNumber should render view with zoneNumber', async () => {
