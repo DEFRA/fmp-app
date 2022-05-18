@@ -2,7 +2,7 @@ const TileLayer = require('ol/layer/Tile').default
 const TileWMS = require('ol/source/TileWMS').default
 const TileGrid = require('ol/tilegrid/TileGrid').default
 
-const createTileLayer = (mapConfig) => {
+const createTileLayer = mapConfig => {
   return new TileLayer({
     ref: 'fmp',
     opacity: 0.7,

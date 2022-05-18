@@ -24,7 +24,7 @@ const dialog = require('../dialog')
 
 const vectorDragInteraction = new VectorDrag()
 
-const addOptionsFromSession = (options) => {
+const addOptionsFromSession = options => {
   const polygonFromSession = window.sessionStorage.getItem('polygon')
   let pointFromSession = window.sessionStorage.getItem('point')
   if (polygonFromSession) {
