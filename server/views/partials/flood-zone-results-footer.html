@@ -7,8 +7,27 @@
 </div>
 
 <div class="nojs-hide ie-hide">
-  <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
-    role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+  {% if floodZone.isZone1 %}
+   <p class="govuk-body">
+     <span class="govuk-!-font-weight-bold">Request a flood risk assessment</span>
+    <p>To request a flood risk assessment for this location you need to contact the Environemnt
+      Agency team in Greater Manchester, Merseyside and Cheshire at 
+      <a href="#">InfoRequests.GMMC@environment-agencygov.uk</a>
+    </p>
+     
+     <p>Your email should: </p>
+     <ul class="govuk-list govuk-list--bullet">
+      <li>say that you are  requesting a flood risk assessment</li>
+      <li>include the address for the site you require the flood risk assessment for</li>
+      <li>include a location map for the site you require the flood risk assessment for</li>
+    </ul>
+      
+   </p>
+   <p>You should recieve a reply to your request within 20 days</p>
+  {% else %}
+    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
+      role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+  {% endif %}
 </div>
 
 <h2 class="govuk-heading-s">More help and advice</h2>
