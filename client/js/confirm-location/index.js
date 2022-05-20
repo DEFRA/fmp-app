@@ -17,7 +17,7 @@ const Snap = require('ol/interaction/Snap').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer } = require('../map-utils')
+const { createTileLayer, mapState } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -25,8 +25,8 @@ const dialog = require('../dialog')
 const vectorDragInteraction = new VectorDrag()
 
 const addOptionsFromSession = options => {
-  const polygonFromSession = window.sessionStorage.getItem('polygon')
-  let pointFromSession = window.sessionStorage.getItem('point')
+  const polygonFromSession = mapState.getItem('polygon')
+  let pointFromSession = mapState.getItem('point')
   if (polygonFromSession) {
     options.polygon = JSON.parse(polygonFromSession)
   }

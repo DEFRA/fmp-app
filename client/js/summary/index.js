@@ -15,7 +15,7 @@ const FMPMap = require('../map')
 const dialog = require('../dialog')
 const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
-const { createTileLayer } = require('../map-utils')
+const { createTileLayer, mapState } = require('../map-utils')
 
 function Summary (options) {
   const mapOptions = {
@@ -50,8 +50,8 @@ function Summary (options) {
           })
         })
       }))
-    window.sessionStorage.setItem('polygon', JSON.stringify(options.polygon))
-    window.sessionStorage.removeItem('point')
+    mapState.setItem('polygon', JSON.stringify(options.polygon))
+    mapState.removeItem('point')
   } else {
     const easting = window.encodeURIComponent(options.easting)
     const northing = window.encodeURIComponent(options.northing)
@@ -76,8 +76,8 @@ function Summary (options) {
           })
         })
       }))
-    window.sessionStorage.setItem('point', JSON.stringify(mapOptions.point))
-    window.sessionStorage.removeItem('polygon')
+    mapState.setItem('point', JSON.stringify(mapOptions.point))
+    mapState.removeItem('polygon')
   }
   const $summaryColumn = $('.summary-column')
   const $map = $('#map')

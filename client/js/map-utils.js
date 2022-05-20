@@ -23,4 +23,24 @@ const createTileLayer = mapConfig => {
     })
   })
 }
-module.exports = { createTileLayer }
+
+let sessionStorageAvailable = true
+try {
+  sessionStorageAvailable = Boolean(window.sessionStorage)
+} catch (ex) {
+  // stop an error being logged in the browser when sessionStorage is turned off
+  sessionStorageAvailable = false
+}
+
+const mapState = {
+  getItem: name => sessionStorageAvailable
+    ? window.sessionStorage.getItem(name)
+    : undefined,
+  setItem: (name, value) => sessionStorageAvailable
+    ? window.sessionStorage.setItem(name, value)
+    : undefined,
+  removeItem: (name) => sessionStorageAvailable
+    ? window.sessionStorage.removeItem(name)
+    : undefined
+}
+module.exports = { createTileLayer, mapState }
