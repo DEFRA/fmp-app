@@ -55,6 +55,10 @@ module.exports = [
             useAutomatedService = psoResults.useAutomatedService
           }
 
+          let variables = {
+            placeOrPostcode, recipientemail, fullName, useAutomatedService
+          }
+
           if (polygon) {
             const geoJson = util.convertToGeoJson(polygon)
 
@@ -63,7 +67,7 @@ module.exports = [
             if (!riskResult.in_england) {
               return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, recipientemail, fullName, useAutomatedService))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, variables))
                 .unstate('pdf-download')
             }
           } else {
@@ -71,7 +75,7 @@ module.exports = [
             if (!riskResult.point_in_england) {
               return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, recipientemail, fullName, useAutomatedService))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, variables))
                 .unstate('pdf-download')
             }
           }
