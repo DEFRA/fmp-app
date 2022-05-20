@@ -1,7 +1,7 @@
 const FloodZone = require('./flood-zone')
 
 function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location, variables) {
-  const {placeOrPostcode, recipientemail, fullName, useAutomatedService} = variables
+  const { placeOrPostcode, recipientemail, fullName, useAutomatedService } = variables
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
   }
