@@ -1,6 +1,6 @@
 const FloodZone = require('./flood-zone')
 
-function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location, placeOrPostcode, recipientemail, fullName,useAutomatedService) {
+function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location, placeOrPostcode, recipientemail, fullName, useAutomatedService) {
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
   }
@@ -14,7 +14,6 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
   if (fullName) {
     this.fullName = fullName
   }
-  
   if (polygon) {
     this.polygon = JSON.stringify(polygon)
     this.center = JSON.stringify(center)
@@ -26,11 +25,12 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
   if (placeOrPostcode) {
     this.placeOrPostcode = placeOrPostcode
   }
+  this.useAutomatedService = useAutomatedService
 
   this.easting = center[0]
   this.northing = center[1]
 
-  this.floodZone = new FloodZone(risk, !!polygon,useAutomatedService)
+  this.floodZone = new FloodZone(risk, !!polygon)
   if (this.floodZone.zone === 'FZ1') {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {

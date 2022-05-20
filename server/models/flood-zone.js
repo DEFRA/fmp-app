@@ -1,4 +1,4 @@
-function FloodZoneModel (risk, polygon,useAutomatedService) {
+function FloodZoneModel (risk, polygon) {
   this.isAreaBenefiting = false
   this.isZone3 = false
   this.isZone2 = false
@@ -15,7 +15,7 @@ function FloodZoneModel (risk, polygon,useAutomatedService) {
       this.isZone2 = true
       this.zone = 'FZ2'
     } else {
-      !useAutomatedService ? this.isZone1 = true : this.isZone1 = false
+      this.isZone1 = true
       this.zone = 'FZ1'
     }
   } else { // Set points for flood zone (polygon)
@@ -35,7 +35,7 @@ function FloodZoneModel (risk, polygon,useAutomatedService) {
       this.isZone2 = true
       this.zone = 'FZ2'
     } else {
-      !useAutomatedService ? this.isZone1 = true : this.isZone1 = false
+      this.isZone1 = true
       this.zone = 'FZ1'
     }
   }

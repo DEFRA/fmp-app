@@ -7,26 +7,33 @@
 </div>
 
 <div class="nojs-hide ie-hide">
-  {% if floodZone.isZone1 %}
-   <p class="govuk-body">
-     <span class="govuk-!-font-weight-bold">Request a flood risk assessment</span>
-    <p>To request a flood risk assessment for this location you need to contact the Environemnt
+  {% if useAutomatedService %}
+    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
+    role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+  {% else %}
+    <p class="govuk-body">
+      We recommend that you check the relevant local planning authority's strategic flood risk 
+      assessment (SFRA) as part of your work to prepare a flood risk assessment.
+    </p>
+    <p class="govuk-body">
+      <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
+    <p class="govuk-body">To request a flood risk assessment for this location you need to contact the Environemnt
       Agency team in Greater Manchester, Merseyside and Cheshire at 
       <a href="#">InfoRequests.GMMC@environment-agencygov.uk</a>
     </p>
-     
-     <p>Your email should: </p>
-     <ul class="govuk-list govuk-list--bullet">
-      <li>say that you are  requesting a flood risk assessment</li>
-      <li>include the address for the site you require the flood risk assessment for</li>
-      <li>include a location map for the site you require the flood risk assessment for</li>
+      
+      <p class="govuk-body">Your email should say that you are requesting flood risk assessment data and include: </p>
+      <ul class="govuk-list govuk-list--bullet">
+      <li>the address</li>
+      <li>a map of the location</li>
     </ul>
       
-   </p>
-   <p>You should recieve a reply to your request within 20 days</p>
-  {% else %}
-    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
-      role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+    </p>
+    {% if floodZone.isZone1 %}
+      <p class="govuk-body">Please note that as your provided location is in Flood Zone 1 then it is 
+        likely that there will be no extra data available.
+      </p>
+    {% endif %}
   {% endif %}
 </div>
 
