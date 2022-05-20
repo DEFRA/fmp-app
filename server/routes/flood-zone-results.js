@@ -55,7 +55,7 @@ module.exports = [
             useAutomatedService = psoResults.useAutomatedService
           }
 
-          let variables = {
+          const variables = {
             placeOrPostcode, recipientemail, fullName, useAutomatedService
           }
 
