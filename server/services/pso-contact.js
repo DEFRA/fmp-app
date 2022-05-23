@@ -16,4 +16,11 @@ async function getPsoContacts (easting, northing) {
     throw new Error('Fetching Pso contacts failed: ', error)
   }
 }
-module.exports = { getPsoContacts }
+
+const ignoreUseAutomatedService = () => {
+  // This can be set to true (used on pre-prod) to force the ability
+  // to download P4s even if turned off for the specific authority
+  return Boolean(config.ignoreUseAutomatedService)
+}
+
+module.exports = { getPsoContacts, ignoreUseAutomatedService }
