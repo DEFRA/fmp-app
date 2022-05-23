@@ -23,7 +23,8 @@ lab.experiment('flood-zone-results', () => {
     restoreGetByPoint = riskService.getByPoint
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire'
+      AreaName: 'Yorkshire',
+      useAutomatedService: false
     })
 
     riskService.getByPolygon = () => ({ in_england: true })
@@ -51,7 +52,6 @@ lab.experiment('flood-zone-results', () => {
       method: 'GET',
       url: urlByPoint
     }
-
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
@@ -62,6 +62,15 @@ lab.experiment('flood-zone-results', () => {
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 1)
     await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
+  })
+
+  lab.test('get flood-zone-results request data button if useAutomated is true', async () => {
+    const options = { method: 'GET', url: urlByPoint }
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { payload } = response
+    await payloadMatchTest(payload, /<h2 class="govuk-heading-m">Request flood risk assessment data<\/h2>/g, 1)
+    await payloadMatchTest(payload, /<p class="govuk-heading-m">Request flood risk assessment data<\/p>/g, 0)
   })
 
   // Test all iterations of psoContactResponse to get full coverage

@@ -33,10 +33,11 @@
     flood zone to include in your planning application.
   </p>
 
-  <p class="govuk-body">You can still use this service to request flood risk data (also known as a product 4).
+  {% if useAutomatedService %}
+  <p class="govuk-body" >You can still use this service to request flood risk data (also known as a product 4).
     You should receive your data within 20 working days.
     However, as your site is in flood zone 1, it’s unlikely there will be any data available.</p>
-
+  {% endif %}
   {% include "./flood-zone-results-footer.html" %}
   
 </div>

@@ -17,6 +17,7 @@ module.exports = [
           let easting, northing
           let psoEmailAddress = ''
           let areaName = ''
+          let useAutomatedService = true
           const fullName = request.query.fullName
           const recipientemail = request.query.recipientemail
 
@@ -50,6 +51,13 @@ module.exports = [
           if (psoResults && psoResults.AreaName) {
             areaName = psoResults.AreaName
           }
+          if (psoResults && psoResults.useAutomatedService !== undefined) {
+            useAutomatedService = psoResults.useAutomatedService
+          }
+
+          const variables = {
+            placeOrPostcode, recipientemail, fullName, useAutomatedService
+          }
 
           if (polygon) {
             const geoJson = util.convertToGeoJson(polygon)
@@ -59,7 +67,7 @@ module.exports = [
             if (!riskResult.in_england) {
               return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, placeOrPostcode, recipientemail, fullName))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, variables))
                 .unstate('pdf-download')
             }
           } else {
@@ -67,7 +75,7 @@ module.exports = [
             if (!riskResult.point_in_england) {
               return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
             } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, placeOrPostcode, recipientemail, fullName))
+              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, variables))
                 .unstate('pdf-download')
             }
           }

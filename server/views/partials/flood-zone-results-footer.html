@@ -7,8 +7,34 @@
 </div>
 
 <div class="nojs-hide ie-hide">
-  <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
+  {% if useAutomatedService %}
+    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}"
     role="button" draggable="false" class="govuk-button" data-module="govuk-button">Request your flood risk assessment data</a>
+  {% else %}
+    <p class="govuk-body">
+      We recommend that you check the relevant local planning authority's strategic flood risk 
+      assessment (SFRA) as part of your work to prepare a flood risk assessment.
+    </p>
+    <p class="govuk-body">
+      <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
+    <p class="govuk-body">To request a flood risk assessment for this location you need to contact the Environment
+      Agency team in {{areaName}} at 
+      <a href="mailto:Inforequests.GMMC@environment-agency.gov.uk">InfoRequests.GMMC@environment-agencygov.uk</a>
+    </p>
+      
+      <p class="govuk-body">Your email should say that you are requesting flood risk assessment data and include: </p>
+      <ul class="govuk-list govuk-list--bullet">
+      <li>the address</li>
+      <li>a map of the location</li>
+    </ul>
+      
+    </p>
+    {% if floodZone.isZone1 %}
+      <p class="govuk-body">Please note that as your provided location is in Flood Zone 1 then it is 
+        likely that there will be no extra data available.
+      </p>
+    {% endif %}
+  {% endif %}
 </div>
 
 <h2 class="govuk-heading-s">More help and advice</h2>
