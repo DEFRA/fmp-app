@@ -51,7 +51,7 @@ module.exports = [
           if (psoResults && psoResults.AreaName) {
             areaName = psoResults.AreaName
           }
-          if (psoResults && psoResults.useAutomatedService !== undefined) {
+          if (psoResults && psoResults.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
             useAutomatedService = psoResults.useAutomatedService
           }
 
