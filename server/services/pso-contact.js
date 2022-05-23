@@ -17,10 +17,8 @@ async function getPsoContacts (easting, northing) {
   }
 }
 
-const ignoreUseAutomatedService = () => {
-  // This can be set to true (used on pre-prod) to force the ability
-  // to download P4s even if turned off for the specific authority
-  return Boolean(config.ignoreUseAutomatedService)
-}
+// This can be set to true (used on pre-prod) to force the ability
+// to download P4s even if turned off for the specific authority
+const ignoreUseAutomatedService = () => Boolean(config.ignoreUseAutomatedService)
 
 module.exports = { getPsoContacts, ignoreUseAutomatedService }
