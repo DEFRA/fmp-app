@@ -17,7 +17,6 @@ const routes = [].concat(
   require('../routes/error'),
   require('../routes/cookies'),
   require('../routes/accessibility-statement'),
-  require('../routes/personal-information-charter'),
   require('../routes/privacy-notice'),
   require('../routes/terms-and-conditions'),
   require('../routes/check-your-details'),
