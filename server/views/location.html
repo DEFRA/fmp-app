@@ -14,7 +14,7 @@
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
   
-  <form autocomplete="off" class="form" method="post" action="/location" novalidate>
+  <form autocomplete="off" id='location-form' class="form" method="post" action="/location" novalidate>
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
         titleText: "There is a problem",
@@ -151,5 +151,16 @@
         radio.checked = false
       }
     })
+    const form = document.getElementById('location-form')
+    if (form) {
+      form.onsubmit = () => {
+        try {
+          if (window.sessionStorage) {
+            window.sessionStorage.removeItem('polygon')
+            window.sessionStorage.removeItem('point')
+          }
+        } catch (ex) { }
+      }
+    }
   </script>
 {% endblock %}
