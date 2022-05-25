@@ -1,10 +1,7 @@
 const $ = require('jquery')
 
-const TileLayer = require('ol/layer/Tile').default
 const VectorLayer = require('ol/layer/Vector').default
-const TileWMS = require('ol/source/TileWMS').default
 const VectorSource = require('ol/source/Vector').default
-const TileGrid = require('ol/tilegrid/TileGrid').default
 const Polygon = require('ol/geom/Polygon').default
 const Point = require('ol/geom/Point').default
 const MultiPoint = require('ol/geom/MultiPoint').default
@@ -20,13 +17,29 @@ const Snap = require('ol/interaction/Snap').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
+const { createTileLayer, mapState } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
 
 const vectorDragInteraction = new VectorDrag()
 
+const addOptionsFromSession = options => {
+  const polygonFromSession = mapState.getItem('polygon')
+  let pointFromSession = mapState.getItem('point')
+  if (polygonFromSession) {
+    options.polygon = JSON.parse(polygonFromSession)
+  }
+  if (pointFromSession) {
+    pointFromSession = JSON.parse(pointFromSession)
+    options.easting = pointFromSession[0]
+    options.northing = pointFromSession[1]
+  }
+  return options
+}
+
 function ConfirmLocationPage (options) {
+  options = addOptionsFromSession(options)
   const easting = window.encodeURIComponent(options.easting)
   const northing = window.encodeURIComponent(options.northing)
   const location = window.encodeURIComponent(options.location)
@@ -36,11 +49,6 @@ function ConfirmLocationPage (options) {
   const $page = $('#confirm-location-page')
   const $radios = $('.top-of-buttons', $page)
   const $continueBtn = $('a.govuk-button--start', $page)
-  const $product4Btn = $('a.button-product4', $page)
-  const $legend = $('.legend', $page)
-  const $form = $('form.form', $page)
-  const $center = $('input[name="center"]', $form)
-  const $polygon = $('input[name="polygon"]', $form)
   const $deleteButton = $('#deletePolygon')
 
   const point = new Feature({
@@ -169,26 +177,7 @@ function ConfirmLocationPage (options) {
 
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
-    layers: [new TileLayer({
-      ref: 'fmp',
-      opacity: 0.7,
-      zIndex: 0,
-      source: new TileWMS({
-        url: mapConfig.tileProxy,
-        serverType: 'geoserver',
-        params: {
-          LAYERS: 'fmp:fmp',
-          TILED: true,
-          VERSION: '1.1.1'
-        },
-        tileGrid: new TileGrid({
-          extent: mapConfig.tileExtent,
-          resolutions: mapConfig.tileResolutions,
-          tileSize: mapConfig.tileSize
-        })
-      })
-    }),
-    vectorLayer],
+    layers: [createTileLayer(mapConfig), vectorLayer],
     // Add vector drag to map interactions
     interactions: InteractionDefaults({
       altShiftDragRotate: false,
@@ -286,8 +275,13 @@ function ConfirmLocationPage (options) {
     })
 
     function updateMode (mode) {
+      const radio = document.getElementById(mode)
+      if (radio) {
+        radio.checked = true
+      }
       if (mode === 'polygon') {
         // Enabling the Delete shape button
+
         $deleteButton.attr('disabled', false)
 
         // Remove the point feature
@@ -306,7 +300,6 @@ function ConfirmLocationPage (options) {
         }
 
         // add polygon class to legend to hide point and show polygon icon
-        $legend.addClass('polygon')
         $radios.addClass('polygon')
 
         featureMode = 'polygon'
@@ -327,7 +320,6 @@ function ConfirmLocationPage (options) {
         vectorSource.addFeature(point)
 
         // add polygon class to legend to hide point and show polygon icon
-        $legend.removeClass('polygon')
         $radios.removeClass('polygon')
 
         featureMode = 'point'
@@ -339,7 +331,6 @@ function ConfirmLocationPage (options) {
     function updateTargetUrl () {
       let coordinates
       let url = '/flood-zone-results'
-      let contactUrl = '/contact'
 
       if (featureMode === 'polygon' && polygon) {
         coordinates = polygon.getGeometry().getCoordinates()[0]
@@ -353,25 +344,13 @@ function ConfirmLocationPage (options) {
         url += '&fullName=' + fullName
         url += '&recipientemail=' + recipientemail
 
-        contactUrl += '?polygon=' + coords
-        contactUrl += '&center=' + JSON.stringify(center)
-        contactUrl += '&location=' + location
-        contactUrl += '&fullName=' + fullName
-        contactUrl += '&recipientemail=' + recipientemail
-
         // set form values
-        $center.attr('value', JSON.stringify(center))
-        $polygon.attr('value', coords)
       } else {
         coordinates = point.getGeometry().getCoordinates()
         url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
-        contactUrl += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
         // set form values
-        $center.attr('value', '[' + parseInt(coordinates[0], 10) + ',' + parseInt(coordinates[1], 10) + ']')
-        $polygon.attr('value', '')
       }
       $continueBtn.attr('href', url)
-      $product4Btn.attr('href', contactUrl)
     }
 
     function getCenterOfExtent (extent) {
