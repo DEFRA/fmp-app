@@ -1,11 +1,8 @@
 /* global $ */
 require('../dialog')
 
-const TileLayer = require('ol/layer/Tile').default
 const VectorLayer = require('ol/layer/Vector').default
-const TileWMS = require('ol/source/TileWMS').default
 const VectorSource = require('ol/source/Vector').default
-const TileGrid = require('ol/tilegrid/TileGrid').default
 const Polygon = require('ol/geom/Polygon').default
 const Point = require('ol/geom/Point').default
 const Feature = require('ol/Feature').default
@@ -17,30 +14,11 @@ const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../summary-review-map')
 const mapConfig = require('../map-config.json')
+const { createTileLayer } = require('../map-utils')
 
 function ApplicationSummaryReviewPage (options) {
   const mapOptions = {
-    layers: [
-      new TileLayer({
-        ref: 'fmp',
-        opacity: 0.7,
-        zIndex: 0,
-        source: new TileWMS({
-          url: mapConfig.tileProxy,
-          serverType: 'geoserver',
-          params: {
-            LAYERS: 'fmp:fmp',
-            TILED: true,
-            VERSION: '1.1.1'
-          },
-          tileGrid: new TileGrid({
-            extent: mapConfig.tileExtent,
-            resolutions: mapConfig.tileResolutions,
-            tileSize: mapConfig.tileSize
-          })
-        })
-      })
-    ],
+    layers: [createTileLayer(mapConfig)],
     mapInteractions: InteractionDefaults({
       altShiftDragRotate: false,
       pinchRotate: false
