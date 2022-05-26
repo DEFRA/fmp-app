@@ -101,4 +101,45 @@ lab.experiment('confirmation', () => {
     Code.expect(response.statusCode).to.equal(200)
     await payloadMatchTest(payload, /<a href="\/flood-zone-results\?location=479643,484215&polygon=\[\[479536,484410\],\[479425,484191\],\[479785,484020\],\[479861,484314\],\[479536,484410\]\]&center=\[479643,484215\]">Go back to your flood information<\/a>/g)
   })
+
+  const assertZone1SpecificText = async (response, isZone1 = true) => {
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    const zone1OnlyCount = isZone1 ? 1 : 0
+    const notZone1Count = isZone1 ? 0 : 1
+
+    // NOT SHOWN FOR ZONE 1
+    await payloadMatchTest(payload, /<p class="govuk-body">We have sent a confirmation email to joe@example.com<\/p>/g, notZone1Count)
+
+    // SHOWN FOR ZONE 1
+    await payloadMatchTest(payload, /<p class="govuk-body">We have sent a confirmation email to joe@example.com, stating that you have made a request for flood risk assessment data, which we are currently processing.<\/p>/g, zone1OnlyCount)
+    await payloadMatchTest(payload, /<p class="govuk-body">However, as your selected location is in flood zone 1, it's unlikely there will be any data available.<\/p>/g, zone1OnlyCount)
+    await payloadMatchTest(payload, /<p class="govuk-body">Due to this potential lack of data, you may shortly receive an email stating that the report you requested is not available.<\/p>/g, zone1OnlyCount)
+    await payloadMatchTest(payload, /<p class="govuk-body">Otherwise, you should recieve your data within 20 working days.<\/p>/g, zone1OnlyCount)
+  }
+
+  lab.test('confirmation page in zone 1 should show specific zone 1 text', async () => {
+    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+
+    const options = {
+      method: 'GET',
+      url: '/confirmation?x=12345&y=67890&fullName=Joe%20Bloggs&recipientemail=joe@example.com&applicationReferenceNumber=12345&location=Pickering&zoneNumber=1'
+    }
+    const response = await server.inject(options)
+    assertZone1SpecificText(response, true)
+  })
+
+  const zoneNumbers = [undefined, '2', '3', '3 in an area benefitting from flood defences', 'not available']
+  zoneNumbers.forEach((zoneNumber) => {
+    lab.test(`confirmation page NOT in zone 1 (zone ${zoneNumber}) should NOT show specific zone 1 text`, async () => {
+      psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+
+      const options = {
+        method: 'GET',
+        url: `/confirmation?x=12345&y=67890&fullName=Joe%20Bloggs&recipientemail=joe@example.com&applicationReferenceNumber=12345&location=Pickering&zoneNumber=${zoneNumber}`
+      }
+      const response = await server.inject(options)
+      assertZone1SpecificText(response, false)
+    })
+  })
 })

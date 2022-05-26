@@ -84,6 +84,7 @@ lab.experiment('flood-zone-results', () => {
       AreaName: 'Yorkshire',
       useAutomatedService: false
     })
+    psoContactDetails.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response

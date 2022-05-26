@@ -20,16 +20,17 @@ Request submitted - Flood map for planning - GOV.UK
           <bold>{{applicationReferenceNumber}}</bold>
         </div>
       </div>
-      <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}
-      </p>
-
-      <h2 class="govuk-heading-m">What happens next</h2>
-      <p class="govuk-body">We’re processing your request for flood risk assessment data</p>
-      <p class="govuk-body">You should receive your data within 20 working days.</p>
       {% if zoneNumber === '1' %}
-        <p class="govuk-body">
-              However, as your site is in flood zone 1, it's unlikely there will be any data available
-            </p>
+        <h2 class="govuk-heading-m">What happens next</h2>
+        <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}, stating that you have made a request for flood risk assessment data, which we are currently processing.</p>
+        <p class="govuk-body">However, as your selected location is in flood zone 1, it's unlikely there will be any data available.</p>
+        <p class="govuk-body">Due to this potential lack of data, you may shortly receive an email stating that the report you requested is not available.</p>
+        <p class="govuk-body">Otherwise, you should recieve your data within 20 working days.</p>
+      {% else %}
+        <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}</p>
+        <h2 class="govuk-heading-m">What happens next</h2>
+        <p class="govuk-body">We’re processing your request for flood risk assessment data</p>
+        <p class="govuk-body">You should receive your data within 20 working days.</p>
       {% endif %}
 
       {% if zoneNumber !== '1' %}
