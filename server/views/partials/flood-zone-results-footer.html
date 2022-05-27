@@ -17,21 +17,18 @@
     </p>
     <p class="govuk-body">
       <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
-    <p class="govuk-body">To request a flood risk assessment for this location you need to contact the Environment
-      Agency team in {{areaName}} at 
-      <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
-    </p>
-      
-      <p class="govuk-body">Your email should say that you are requesting flood risk assessment data and include: </p>
+      <p class="govuk-body">To request flood risk assessment data for this location, contact the {{areaName}} at 
+        <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
+      </p>
+      <p class="govuk-body">Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include: </p>
       <ul class="govuk-list govuk-list--bullet">
-      <li>the address</li>
-      <li>a map of the location</li>
-    </ul>
-      
+        <li>the address</li>
+        <li>a map showing the site boundary</li>
+      </ul>
     </p>
     {% if floodZone.isZone1 %}
-      <p class="govuk-body">Please note that as your provided location is in Flood Zone 1 then it is 
-        likely that there will be no extra data available.
+      <p class="govuk-body">
+        As your selected location is in Flood Zone 1, it is likely that there will be no extra data available.
       </p>
     {% endif %}
   {% endif %}
