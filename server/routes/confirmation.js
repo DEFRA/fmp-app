@@ -19,7 +19,7 @@ module.exports = {
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
           model.ispolygon = !!(request.query.polygon)
           model.search = request.query.location
-          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, model.recipientemail, model.search)
+          await emailConfirm.emailConfirmation(request.query.fullName, request.query.applicationReferenceNumber, model.location, model.AreaName, model.psoEmailAddress, model.recipientemail, model.search, model.zoneNumber)
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')
