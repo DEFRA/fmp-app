@@ -27,6 +27,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
+      LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: true
     })
 
@@ -113,6 +114,7 @@ lab.experiment('flood-zone-results-explained', () => {
       LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: true
     })
+    psoContactDetails.ignoreUseAutomatedService = () => undefined
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
