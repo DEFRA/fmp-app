@@ -87,9 +87,22 @@ lab.experiment('flood-zone-results-explained', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
-    console.log('Mock payload ', payload)
     await payloadMatchTest(payload, /<ul>the address<\/ul> /g, 0)
     await payloadMatchTest(payload, /<li>the address<\/li> /g, 0)
+  })
+
+  lab.test('get flood-zone-results-explained request data button should not be if useAutomated is undefined', async () => {
+    const options = { method: 'GET', url: urlByPoint }
+    psoContactDetails.getPsoContacts = () => ({
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      useAutomatedService: undefined
+    })
+    psoContactDetails.ignoreUseAutomatedService = () => false
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { payload } = response
+    testIfP4DownloadButtonExists(payload, undefined)
   })
 
   lab.test('get flood-zone-results-explained request data button should be present if useAutomated is true', async () => {
@@ -97,13 +110,28 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
-      LocalAuthorities: 'thames',
+      LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: true
     })
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
     testIfP4DownloadButtonExists(payload, true)
+  })
+
+  lab.test('get flood-zone-results-explained request localAuthority should be empty when localAuthorithy is undefined ', async () => {
+    const options = { method: 'GET', url: urlByPoint }
+    psoContactDetails.getPsoContacts = () => ({
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      LocalAuthorities: undefined,
+      useAutomatedService: false
+    })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+    const { payload } = response
+    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span> /g, 0)
+    await payloadMatchTest(payload, /<a class="govuk-!-font-weight-bold">South Oxfordshire<\/a>/g, 0)
   })
 
   lab.test('get flood-zone-results should error if a library error occurs', async () => {
@@ -124,7 +152,7 @@ lab.experiment('flood-zone-results-explained', () => {
     Code.expect(response.statusCode).to.equal(200)
   })
 
-  lab.test('get flood-zone-results-explained should error if a library error occurs', async () => {
+  lab.test('get flood-zone-results-explained should throw an error if a wrong http method', async () => {
     const url = '/flood1-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
 
     const options = { method: 'POST', url: url }
