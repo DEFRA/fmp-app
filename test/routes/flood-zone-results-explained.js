@@ -104,4 +104,13 @@ lab.experiment('flood-zone-results-explained', () => {
     const { payload } = response
     testIfP4DownloadButtonExists(payload, true)
   })
+
+  lab.test('get flood-zone-results should error if a library error occurs', async () => {
+    const options = { method: 'GET', url: urlByPoint }
+    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    riskService.getByPoint = () => { throw new Error('Deliberate Testing Error ') }
+
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(200)
+  })
 })

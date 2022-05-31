@@ -14,28 +14,27 @@ module.exports = [{
       const zoneNumber = encodeURIComponent(request.query.zoneNumber)
       const recipientemail = request.query.recipientemail
       const fullName = request.query.fullName
-      let polygon = ''
+      const polygon = request.query.polygon ? request.query.polygon : ''
       let useAutomatedService = true
       let psoEmailAddress = ''
       let areaName = ''
-
-      if (request.query.polygon) {
-        polygon = request.query.polygon
-      }
+      let localAuthorities = ''
 
       const result = await psoContactDetails.getPsoContacts(easting, northing)
-      let localAuthorities = ''
-      if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
-        localAuthorities = result.LocalAuthorities.toString()
-      }
-      if (result && result.EmailAddress) {
-        psoEmailAddress = result.EmailAddress
-      }
-      if (result && result.AreaName) {
-        areaName = result.AreaName
-      }
-      if (result && result.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
-        useAutomatedService = result.useAutomatedService
+      if (result) {
+        const { LocalAuthorities, EmailAddress, AreaName } = result
+        if (LocalAuthorities !== undefined && LocalAuthorities !== 0) {
+          localAuthorities = LocalAuthorities.toString()
+        }
+        if (EmailAddress) {
+          psoEmailAddress = EmailAddress
+        }
+        if (AreaName) {
+          areaName = AreaName
+        }
+        if (result.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
+          useAutomatedService = result.useAutomatedService
+        }
       }
       const localViewVariables = {
         zoneNumber, recipientemail, fullName, useAutomatedService, psoEmailAddress, areaName
