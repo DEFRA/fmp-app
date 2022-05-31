@@ -57,7 +57,6 @@ lab.experiment('flood-zone-results', () => {
     }
     const response = await server.inject(options)
     const { payload } = response
-    // console.log('result payload ', payload)
     Code.expect(response.statusCode).to.equal(200)
     await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
     // FCRM 3594
