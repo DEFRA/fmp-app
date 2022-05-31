@@ -16,6 +16,8 @@ module.exports = [{
       const fullName = request.query.fullName
       let polygon = ''
       let useAutomatedService = true
+      let psoEmailAddress = ''
+      let areaName = ''
 
       if (request.query.polygon) {
         polygon = request.query.polygon
@@ -26,11 +28,17 @@ module.exports = [{
       if (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) {
         localAuthorities = result.LocalAuthorities.toString()
       }
+      if (result && result.EmailAddress) {
+        psoEmailAddress = result.EmailAddress
+      }
+      if (result && result.AreaName) {
+        areaName = result.AreaName
+      }
       if (result && result.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
         useAutomatedService = result.useAutomatedService
       }
       const localViewVariables = {
-        zoneNumber, recipientemail, fullName, useAutomatedService
+        zoneNumber, recipientemail, fullName, useAutomatedService, psoEmailAddress, areaName
       }
       return h.view('flood-zone-results-explained', new FloodRiskExpandedViewModel(easting, northing, location, zone, localAuthorities, polygon,
         localViewVariables))
