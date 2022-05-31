@@ -200,7 +200,7 @@ Your results explained - Flood map for planning - GOV.UK
           <p class="govuk-body">
              Locations have a high probability of flooding and will need a flood risk assessment.
             </p>         
-
+          {% if useAutomatedService %}  
           <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
 
         <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
@@ -210,7 +210,7 @@ Your results explained - Flood map for planning - GOV.UK
             </div>
 
         <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
-
+        {% endif %}
 
         <h2 class="govuk-heading-m">Get help</h2>
 
@@ -311,17 +311,18 @@ Your results explained - Flood map for planning - GOV.UK
           </h3>
           <p class="govuk-body">
              Locations have a high probability of flooding and will need a flood risk assessment.
-            </p>         
-          <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
+            </p>
+          {% if useAutomatedService %}           
+              <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
 
-        <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
+            <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
 
-        <div class="govuk-inset-text">
-              We recommend that you work with a flood risk consultant to get your flood risk assessment.
-            </div>
+            <div class="govuk-inset-text">
+                  We recommend that you work with a flood risk consultant to get your flood risk assessment.
+                </div>
 
-        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
-
+            <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+          {% endif %}
         <h2 class="govuk-heading-m">Get help</h2>
 
         <p class="govuk-body">For more advice around flood risk assessments and planning permission you could:</p>
@@ -424,17 +425,18 @@ Your results explained - Flood map for planning - GOV.UK
           </h3>
           <p class="govuk-body">
              Locations have a high probability of flooding and will need a flood risk assessment.
-            </p>         
-          <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
+            </p> 
+          {% if useAutomatedService %}          
+            <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
 
-        <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
+            <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
 
-        <div class="govuk-inset-text">
+            <div class="govuk-inset-text">
               We recommend that you work with a flood risk consultant to get your flood risk assessment.
             </div>
 
-        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
-
+            <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+          {% endif %}
         <h2 class="govuk-heading-m">Get help</h2>
 
         <p class="govuk-body">For more advice around flood risk assessments and planning permission you could:</p>
@@ -545,17 +547,18 @@ Your results explained - Flood map for planning - GOV.UK
           </h3>
           <p class="govuk-body">
              Locations have a high probability of flooding and will need a flood risk assessment.
-            </p>         
-          <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
+            </p>
+            {% if useAutomatedService %}           
+                <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
 
-        <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
+              <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
 
-        <div class="govuk-inset-text">
-              We recommend that you work with a flood risk consultant to get your flood risk assessment.
-            </div>
+              <div class="govuk-inset-text">
+                    We recommend that you work with a flood risk consultant to get your flood risk assessment.
+                  </div>
 
-        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
-
+              <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+            {% endif %}
         <h2 class="govuk-heading-m">Get help</h2>
 
         <p class="govuk-body">For more advice around flood risk assessments and planning permission you could:</p>
