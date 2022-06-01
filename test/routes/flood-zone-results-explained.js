@@ -82,6 +82,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
+      LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: false
     })
     psoContactDetails.ignoreUseAutomatedService = () => false
@@ -97,6 +98,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
+      LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: undefined
     })
     psoContactDetails.ignoreUseAutomatedService = () => false
@@ -136,9 +138,9 @@ lab.experiment('flood-zone-results-explained', () => {
     await payloadMatchTest(payload, /<a class="govuk-!-font-weight-bold">South Oxfordshire<\/a>/g, 0)
   })
 
-  lab.test('get flood-zone-results should error if a library error occurs', async () => {
+  lab.test('get flood-zone-results-explained should throw an error if a library error occurs', async () => {
     const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'South Oxfordshire' })
     riskService.getByPoint = () => { throw new Error('Deliberate Testing Error ') }
 
     const response = await server.inject(options)
