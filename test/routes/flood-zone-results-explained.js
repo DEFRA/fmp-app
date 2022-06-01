@@ -88,6 +88,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
+    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
     await payloadMatchTest(payload, /<ul>the address<\/ul> /g, 0)
     await payloadMatchTest(payload, /<li>the address<\/li> /g, 0)
@@ -104,6 +105,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
+    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
     testIfP4DownloadButtonExists(payload, undefined)
   })
@@ -119,6 +121,7 @@ lab.experiment('flood-zone-results-explained', () => {
     psoContactDetails.ignoreUseAutomatedService = () => undefined
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
+    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.undefined()
     const { payload } = response
     testIfP4DownloadButtonExists(payload, true)
   })
@@ -129,7 +132,7 @@ lab.experiment('flood-zone-results-explained', () => {
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
       LocalAuthorities: undefined,
-      useAutomatedService: false
+      useAutomatedService: true
     })
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
