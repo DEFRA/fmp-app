@@ -25,6 +25,7 @@
               document.write(CurrentYear)
           </script>
           </a>
+        </div>
       </figure>
     </details>
   </div>
@@ -51,32 +52,7 @@ The data in the map relates to the selected location and is not specific to any 
       <li>Work with a flood risk consultant to get a flood risk assessment.</li>
     </ol>
 
-     <h2 class="govuk-heading-m">Flood zones explained</h2>
-    <p class="govuk-body">Flood zones are based on how likely it is that a location will flood from rivers and the sea.</p>
-     <h3 class="govuk-heading-s">
-    Flood zone 1
-    </h3>
-
-  <p class="govuk-body">
-    Locations have a low probability of flooding, some locations will need a flood risk assessment. Find out more about <a
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?_ga=2.259503306.1978570411.1573555009-902236253.1554453719&_gac=1.182218197.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE#when-you-need-an-assessment">which developments need a flood risk assessment in flood zone 1</a>.
-  </p>
-
-  <h3 class="govuk-heading-s">
-    Flood zone 2
-    </h3>
-
-      <p class="govuk-body">
-        Locations have a medium probability of flooding and will need a flood risk assessment.
-        </p>
-
-     <h3 class="govuk-heading-s">
-      Flood zone 3
-      </h3>
-      <p class="govuk-body">
-         Locations have a high probability of flooding and will need a flood risk assessment.
-        </p>
-                
+        {% include "./flood-zones-explained-fra.html" %}  
           <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
           {% if useAutomatedService %} 
         <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
