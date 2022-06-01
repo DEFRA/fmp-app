@@ -77,7 +77,7 @@ lab.experiment('flood-zone-results-explained', () => {
     await payloadMatchTest(payload, /Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include: /g, shouldExist ? 0 : 1)
   }
 
-  lab.test('get flood-zone-results-explained request data button should be hidden if useAutomated is false', async () => {
+  lab.test('get flood-zone-results-explained request data button should be hidden if useAutomated is false and config.ignoreUseAutomatedService is false', async () => {
     const options = { method: 'GET', url: urlByPoint }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
@@ -93,7 +93,7 @@ lab.experiment('flood-zone-results-explained', () => {
     await payloadMatchTest(payload, /<li>the address<\/li> /g, 0)
   })
 
-  lab.test('get flood-zone-results-explained request data button should not be if useAutomated is undefined', async () => {
+  lab.test('get flood-zone-results-explained request data button should not shown be if useAutomated is undefined  and config.ignoreUseAutomatedService is false', async () => {
     const options = { method: 'GET', url: urlByPoint }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
@@ -108,7 +108,7 @@ lab.experiment('flood-zone-results-explained', () => {
     testIfP4DownloadButtonExists(payload, undefined)
   })
 
-  lab.test('get flood-zone-results-explained request data button should be present if useAutomated is true', async () => {
+  lab.test('get flood-zone-results-explained request data button should be present if useAutomated is true  and config.ignoreUseAutomatedService is undefined', async () => {
     const options = { method: 'GET', url: urlByPoint }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
