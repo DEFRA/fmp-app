@@ -115,20 +115,25 @@ lab.experiment('flood-zone-results-explained', () => {
     testIfP4DownloadButtonExists(payload, undefined)
   })
 
-  lab.test('get flood-zone-results-explained request data button should be present if useAutomated is true  and config.ignoreUseAutomatedService is undefined', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: 'South Oxfordshire',
-      useAutomatedService: true
+  const useAutomatedServiceValues = [true, false]
+  const ignoreUseAutomatedServiceValues = [undefined, true]
+  ignoreUseAutomatedServiceValues.forEach((ignoreUseAutomatedService) => {
+    useAutomatedServiceValues.forEach((useAutomatedService) => {
+      lab.test(`get flood-zone-results-explained request data button should be present if useAutomated is ${useAutomatedService}  and config.ignoreUseAutomatedService is ${ignoreUseAutomatedService}`, async () => {
+        const options = { method: 'GET', url: urlByPoint }
+        psoContactDetails.getPsoContacts = () => ({
+          EmailAddress: 'psoContact@example.com',
+          AreaName: 'Yorkshire',
+          LocalAuthorities: 'South Oxfordshire',
+          useAutomatedService
+        })
+        psoContactDetails.ignoreUseAutomatedService = () => ignoreUseAutomatedService
+        const response = await server.inject(options)
+        Code.expect(response.statusCode).to.equal(200)
+        const { payload } = response
+        testIfP4DownloadButtonExists(payload, true)
+      })
     })
-    psoContactDetails.ignoreUseAutomatedService = () => undefined
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.undefined()
-    const { payload } = response
-    testIfP4DownloadButtonExists(payload, true)
   })
 
   const localAuthorities = [undefined, 0]
