@@ -14,6 +14,7 @@ lab.experiment('email-confirmation', () => {
   const psoemailaddress = 'pso@example.com'
   const recipientemail = 'joeBloggs@example.com'
   const search = '123,456'
+  const zoneNumber = '1'
 
   lab.before(async () => {
     restoreWreckPost = Wreck.post
@@ -26,7 +27,7 @@ lab.experiment('email-confirmation', () => {
 
   lab.test('emailConfirmation should throw an exception if location is not set', async () => {
     try {
-      await emailConfirmation(fullname, referencenumber, undefined, areaname, psoemailaddress, recipientemail, search)
+      await emailConfirmation(fullname, referencenumber, undefined, areaname, psoemailaddress, recipientemail, search, zoneNumber)
     } catch (err) {
       Code.expect(err.message).to.equal('Failed to send email')
     }
