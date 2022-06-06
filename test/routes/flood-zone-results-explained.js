@@ -14,7 +14,6 @@ lab.experiment('flood-zone-results-explained', () => {
   let restoreGetByPoint
   let restoreIsEnglandService
   let restoreIgnoreUseAutomatedService
-
   // const urlByPoint = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
   const urlByPoint = '/flood-zone-results-explained?easting=358584&northing=172691&zone=FZ3&polygon=&center&location=358584%20172691&zoneNumber=3&fullName=%20&recipientemail='
   const urlByPolygon = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
@@ -30,7 +29,6 @@ lab.experiment('flood-zone-results-explained', () => {
       LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: true
     })
-
     riskService.getByPolygon = () => ({ in_england: true })
     riskService.getByPoint = () => ({ point_in_england: true })
 
@@ -64,8 +62,6 @@ lab.experiment('flood-zone-results-explained', () => {
     // FCRM 3594
     await payloadMatchTest(payload, /<h1 class="govuk-heading-xl">Your results explained<\/h1>/g, 1)
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 0)
-    // await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
-    // await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
   })
 
   const testIfP4DownloadButtonExists = async (payload, shouldExist = true) => {
@@ -90,8 +86,16 @@ lab.experiment('flood-zone-results-explained', () => {
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
-    await payloadMatchTest(payload, /<ul>the address<\/ul> /g, 0)
-    await payloadMatchTest(payload, /<li>the address<\/li> /g, 0)
+    await payloadMatchTest(payload, /<ul>the address<\/ul>/g, 0)
+    await payloadMatchTest(payload, /<li>the address<\/li>/g, 1)
+  })
+
+  lab.test('return undefined when getPsoContacts is undefined ', async () => {
+    const options = { method: 'GET', url: urlByPoint }
+    psoContactDetails.getPsoContacts = () => undefined
+    const { payload } = await server.inject(options)
+    Code.expect(psoContactDetails.getPsoContacts()).to.be.equals(undefined)
+    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span>/g, 2)
   })
 
   lab.test('get flood-zone-results-explained request data button should not shown be if useAutomated is undefined  and config.ignoreUseAutomatedService is false', async () => {
@@ -107,6 +111,7 @@ lab.experiment('flood-zone-results-explained', () => {
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
+    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold">South Oxfordshire<\/span>/g, 2)
     testIfP4DownloadButtonExists(payload, undefined)
   })
 
@@ -126,19 +131,21 @@ lab.experiment('flood-zone-results-explained', () => {
     testIfP4DownloadButtonExists(payload, true)
   })
 
-  lab.test('get flood-zone-results-explained request localAuthority should be empty when localAuthorithy is undefined ', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: undefined,
-      useAutomatedService: true
+  const localAuthorities = [undefined, 0]
+  localAuthorities.forEach((localAuthority) => {
+    lab.test('get flood-zone-results-explained request localAuthority should be empty when localAuthorithy is undefined ', async () => {
+      const options = { method: 'GET', url: urlByPoint }
+      psoContactDetails.getPsoContacts = () => ({
+        EmailAddress: 'psoContact@example.com',
+        AreaName: 'Yorkshire',
+        LocalAuthorities: localAuthority,
+        useAutomatedService: true
+      })
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      const { payload } = response
+      await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span>/g, 2)
     })
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    const { payload } = response
-    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span> /g, 0)
-    await payloadMatchTest(payload, /<a class="govuk-!-font-weight-bold">South Oxfordshire<\/a>/g, 0)
   })
 
   lab.test('get flood-zone-results-explained should throw an error if a library error occurs', async () => {
