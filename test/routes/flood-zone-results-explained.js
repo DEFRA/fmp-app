@@ -171,13 +171,15 @@ lab.experiment('flood-zone-results-explained', () => {
     Code.expect(response.statusCode).to.equal(200)
   })
 
-  lab.test('get flood-zone-results-explained should throw an error if a wrong http method', async () => {
-    const url = '/flood1-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
+  lab.test('get flood-zone-results-explained should redirect to contact page', async () => {
+    const url = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
 
     const options = { method: 'POST', url: url }
     psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', Location: 'thames' })
 
     const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(404)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/contact')
   })
 })
