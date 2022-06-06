@@ -1,0 +1,86 @@
+<div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Your results explained</h1>
+    <p class="govuk-body">Because your selected location is in flood zone {{zoneNumber}}, it has a high probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <details id="results-map" class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">See these results on a map</span>
+      </summary>
+      <figure class="map-container results-explained-map govuk-!-margin-bottom-6" role="application">
+        <figcaption class="visually-hidden" aria-hidden="false">
+          A map showing the flood risk for the location you have provided
+        </figcaption>
+        <div id="map--result" class="map--result">
+          <div id="map" class="map">
+            {% include "./map/no-js.html" %}
+           </div>
+           {% include "./map/summary-legend.html" %}
+        </div>
+        <div class="os-credits__text">
+          <a href="os-terms" class="os-credits__link">
+            OS data &copy; Crown copyright and database rights <script>
+              var CurrentYear = new Date().getFullYear()
+              document.write(CurrentYear)
+          </script>
+          </a>
+        </div>
+      </figure>
+    </details>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+   <div>
+  <h2 class="govuk-heading-m">
+Map data
+</h2>
+
+<p class="govuk-body">
+The flood map for planning shows river and sea flooding data only. It doesn’t include other sources of flooding. It is for use in development planning and flood risk assessments.
+</p>
+
+<p class="govuk-body">
+The data in the map relates to the selected location and is not specific to any property within it. The map is updated regularly and is correct at the time of printing.
+</p>
+  </div>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Next steps</h2>
+    <ol class="govuk-list govuk-list--number">
+      <li>Speak to your local authority to find out more about their planning requirements - your local authority is <span class="govuk-!-font-weight-bold">{{localAuthorities}}</span>.</li>
+      <li>Work with a flood risk consultant to get a flood risk assessment.</li>
+    </ol>
+
+        {% include "./flood-zones-explained-fra.html" %}  
+          <h2 class="govuk-heading-m">Getting a flood risk assessment</h2>
+          {% if useAutomatedService %} 
+        <p class="govuk-body">You can use this service to request flood risk data that can be used as part of a flood risk assessment. However, some developments are more complex than others, and this data isn’t always enough to allow you to produce a flood risk assessment.</p>
+        {% endif %}
+        <div class="govuk-inset-text">
+              We recommend that you work with a flood risk consultant to get your flood risk assessment.
+            </div>
+      {% if useAutomatedService %} 
+        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+        {% else %}
+        {% include "./risk-assessment-fra.html" %}
+      {% endif %}
+    <h2 class="govuk-heading-m">More help and advice</h2>
+
+    <p class="govuk-body">For more advice around flood risk assessments and planning permission you could:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>contact your local authority, <span class="govuk-!-font-weight-bold">{{localAuthorities}}</span>
+      </li>
+      <li>read <a href="https://www.gov.uk/planning-permission-england-wales">guidance on planning permission</a>
+      </li>
+      <li>
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>
+      </li>
+    </ul>
+
+    <h2 class="govuk-heading-m">More flood information</h2>
+    <p class="govuk-body">
+      <a 
+      data-journey-click="Flood-Zone-Results-Explained:External-Link:Check-Long-Term-Flood-Risk-FZ3"
+      href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}&amp;map=SurfaceWater">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
+  </div>
