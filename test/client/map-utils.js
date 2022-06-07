@@ -4,20 +4,43 @@ const lab = exports.lab = Lab.script()
 const mapConfig = require('../../client/js/map-config.json')
 const mock = require('mock-require')
 
+const sessionStorage = (() => {
+  let store = {}
+  return {
+    getItem: (key) => store[key] || null,
+    setItem: (key, value) => (store[key] = value.toString()),
+    removeItem: (key) => (delete store[key]),
+    clear: () => (store = {})
+  }
+})()
+
 lab.experiment('map-utils', () => {
   let createTileLayer
+  let mapState
+  let restoreStorageAvailable
+  let mapUtils
+
   lab.before(async () => {
     const defaultMock = function (config) { return config }
     mock('ol/layer/Tile', { default: defaultMock })
     mock('ol/source/TileWMS', { default: defaultMock })
     mock('ol/tilegrid/TileGrid', { default: defaultMock })
-    createTileLayer = require('../../client/js/map-utils').createTileLayer
+    global.window = { sessionStorage }
+    mapUtils = require('../../client/js/map-utils')
+    restoreStorageAvailable = mapUtils._mockSessionStorageAvailable(true)
+    createTileLayer = mapUtils.createTileLayer
+    mapState = mapUtils.mapState
+  })
+
+  lab.afterEach(async () => {
+    global.window.sessionStorage.clear()
   })
 
   lab.after(async () => {
     mock.stop('ol/layer/Tile')
     mock.stop('ol/source/TileWMS')
     mock.stop('ol/tilegrid/TileGrid')
+    mapUtils._mockSessionStorageAvailable(restoreStorageAvailable)
   })
 
   lab.test('createTileLayer', async () => {
@@ -37,5 +60,23 @@ lab.experiment('map-utils', () => {
         }
       }
     })
+  })
+
+  lab.test('mapState.getItem calls should be initially null', async () => {
+    Code.expect(mapState.getItem('point')).to.be.null()
+  })
+
+  lab.test('mapState.setItem followed by getItem should return the set item', async () => {
+    Code.expect(mapState.getItem('point')).to.be.null()
+    mapState.setItem('point', '12345')
+    Code.expect(mapState.getItem('point')).to.equal('12345')
+  })
+
+  lab.test('mapState.removeItem should remove the item from storage', async () => {
+    Code.expect(mapState.getItem('point')).to.be.null()
+    mapState.setItem('point', '12345')
+    Code.expect(mapState.getItem('point')).to.equal('12345')
+    mapState.removeItem('point')
+    Code.expect(mapState.getItem('point')).to.be.null()
   })
 })

@@ -32,6 +32,12 @@ try {
   sessionStorageAvailable = false
 }
 
+const _mockSessionStorageAvailable = (value) => {
+  const currentValue = sessionStorageAvailable
+  sessionStorageAvailable = value
+  return currentValue
+}
+
 const mapState = {
   getItem: name => sessionStorageAvailable
     ? window.sessionStorage.getItem(name)
@@ -43,4 +49,4 @@ const mapState = {
     ? window.sessionStorage.removeItem(name)
     : undefined
 }
-module.exports = { createTileLayer, mapState }
+module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable }
