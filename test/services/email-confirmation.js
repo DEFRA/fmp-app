@@ -14,6 +14,9 @@ lab.experiment('email-confirmation', () => {
   const psoemailaddress = 'pso@example.com'
   const recipientemail = 'joeBloggs@example.com'
   const search = '123,456'
+  const zoneNumber = '1'
+
+  const model = { fullname, referencenumber, areaname, psoemailaddress, recipientemail, location, search, zoneNumber }
 
   lab.before(async () => {
     restoreWreckPost = Wreck.post
@@ -26,7 +29,7 @@ lab.experiment('email-confirmation', () => {
 
   lab.test('emailConfirmation should throw an exception if location is not set', async () => {
     try {
-      await emailConfirmation(fullname, referencenumber, undefined, areaname, psoemailaddress, recipientemail, search)
+      await emailConfirmation(model)
     } catch (err) {
       Code.expect(err.message).to.equal('Failed to send email')
     }
@@ -37,7 +40,7 @@ lab.experiment('email-confirmation', () => {
       try {
         Code.expect(url).to.equal(config.functionAppUrl + '/email/confirmation')
         Code.expect(data).to.equal({
-          payload: '{"fullname":"Joe Bloggs","referencenumber":"1234","areaname":"pickering","psoemailaddress":"pso@example.com","recipientemail":"joeBloggs@example.com","location":"123,456","search":"123,456"}'
+          payload: '{"fullname":"Joe Bloggs","referencenumber":"1234","areaname":"pickering","psoemailaddress":"pso@example.com","recipientemail":"joeBloggs@example.com","location":"123,456","search":"123,456","zoneNumber":"1"}'
         })
       } catch (assertError) {
         console.log('assertError failed', assertError)
@@ -45,7 +48,7 @@ lab.experiment('email-confirmation', () => {
       }
     }
     try {
-      await emailConfirmation(fullname, referencenumber, location, areaname, psoemailaddress, recipientemail, search)
+      await emailConfirmation(model)
     } catch (err) {
       // This is a dummy catch - if any of the asserts in the mocked Wreck.post above fail, then emailConfirmation
       // will throw the error 'Failed to send email
