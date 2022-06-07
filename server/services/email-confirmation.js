@@ -7,7 +7,17 @@ async function emailConfirmation (fullname, referencenumber, location, areaname,
     if (!location) {
       throw new Error('No point provided')
     }
-    const data = JSON.stringify({ fullname: fullname, referencenumber: referencenumber, areaname: areaname, psoemailaddress: psoemailaddress, recipientemail: recipientemail, location: location, search: search, zoneNumber: zoneNumber })
+    const emailObj = {
+      fullname: fullname,
+      referencenumber: referencenumber,
+      areaname: areaname,
+      psoemailaddress: psoemailaddress,
+      recipientemail: recipientemail,
+      location: location,
+      search: search,
+      zoneNumber: zoneNumber
+    }
+    const data = JSON.stringify(emailObj)
     await Wreck.post(url, {
       payload: data
     })
