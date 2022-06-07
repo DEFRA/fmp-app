@@ -50,7 +50,7 @@ const mapState = {
     : undefined
 }
 
-const getCenterOfExtent = (extent) => {
+const getCenterOfExtent = extent => {
   const X = extent[0] + (extent[2] - extent[0]) / 2
   const Y = extent[1] + (extent[3] - extent[1]) / 2
   return [parseInt(X, 10), parseInt(Y, 10)]
@@ -72,7 +72,6 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
     url += '&center=' + JSON.stringify(center)
   } else {
     coordinates = point.getGeometry().getCoordinates()
-    console.log('Point coordinates', coordinates)
     url += '?easting=' + parseInt(coordinates[0], 10)
     url += '&northing=' + parseInt(coordinates[1], 10)
   }
