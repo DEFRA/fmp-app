@@ -2,12 +2,23 @@ const config = require('../../config')
 const Wreck = require('@hapi/wreck')
 const url = config.functionAppUrl + '/email/confirmation'
 
-async function emailConfirmation (fullname, referencenumber, location, areaname, psoemailaddress, recipientemail, search) {
+async function emailConfirmation (model) {
+  const { fullname, referencenumber, areaname, psoemailaddress, recipientemail, location, search, zoneNumber } = model
   try {
     if (!location) {
       throw new Error('No point provided')
     }
-    const data = JSON.stringify({ fullname: fullname, referencenumber: referencenumber, areaname: areaname, psoemailaddress: psoemailaddress, recipientemail: recipientemail, location: location, search: search })
+    const emailObj = {
+      fullname: fullname,
+      referencenumber: referencenumber,
+      areaname: areaname,
+      psoemailaddress: psoemailaddress,
+      recipientemail: recipientemail,
+      location: location,
+      search: search,
+      zoneNumber: zoneNumber
+    }
+    const data = JSON.stringify(emailObj)
     await Wreck.post(url, {
       payload: data
     })
