@@ -17,7 +17,7 @@ const Snap = require('ol/interaction/Snap').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer, mapState } = require('../map-utils')
+const { createTileLayer, mapState, getTargetUrl } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -329,34 +329,8 @@ function ConfirmLocationPage (options) {
     }
 
     function updateTargetUrl () {
-      let coordinates
-      let url = '/flood-zone-results'
-
-      if (featureMode === 'polygon' && polygon) {
-        coordinates = polygon.getGeometry().getCoordinates()[0]
-        const center = getCenterOfExtent(polygon.getGeometry().getExtent())
-        const coords = JSON.stringify(coordinates.map(function (item) {
-          return [parseInt(item[0], 10), parseInt(item[1], 10)]
-        }))
-        url += '?polygon=' + coords
-        url += '&center=' + JSON.stringify(center)
-        url += '&location=' + location
-        url += '&fullName=' + fullName
-        url += '&recipientemail=' + recipientemail
-
-        // set form values
-      } else {
-        coordinates = point.getGeometry().getCoordinates()
-        url += '?easting=' + parseInt(coordinates[0], 10) + '&northing=' + parseInt(coordinates[1], 10) + '&location=' + location + '&fullName=' + fullName + '&recipientemail=' + recipientemail
-        // set form values
-      }
+      const url = getTargetUrl(featureMode, polygon, point, location, fullName, recipientemail)
       $continueBtn.attr('href', url)
-    }
-
-    function getCenterOfExtent (extent) {
-      const X = extent[0] + (extent[2] - extent[0]) / 2
-      const Y = extent[1] + (extent[3] - extent[1]) / 2
-      return [parseInt(X, 10), parseInt(Y, 10)]
     }
   })
 }
