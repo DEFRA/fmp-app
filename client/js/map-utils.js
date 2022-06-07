@@ -32,7 +32,7 @@ try {
   sessionStorageAvailable = false
 }
 
-const _mockSessionStorageAvailable = (value) => {
+const _mockSessionStorageAvailable = value => {
   const currentValue = sessionStorageAvailable
   sessionStorageAvailable = value
   return currentValue
@@ -45,7 +45,7 @@ const mapState = {
   setItem: (name, value) => sessionStorageAvailable
     ? window.sessionStorage.setItem(name, value)
     : undefined,
-  removeItem: (name) => sessionStorageAvailable
+  removeItem: name => sessionStorageAvailable
     ? window.sessionStorage.removeItem(name)
     : undefined
 }
