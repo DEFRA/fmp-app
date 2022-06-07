@@ -153,6 +153,25 @@ lab.experiment('flood-zone-results-explained', () => {
     })
   })
 
+  const floodZones = ['FZ1', 'FZ2', 'FZ3', 'FZ3a']
+  floodZones.forEach((floodZone) => {
+    lab.test(`flood-zone-results-explained for zone: ${floodZone} should say at time of publication rather than printing`, async () => {
+      const url = urlByPoint.replace('FZ3', floodZone)
+      const options = { method: 'GET', url }
+      psoContactDetails.getPsoContacts = () => ({
+        EmailAddress: 'psoContact@example.com',
+        AreaName: 'Yorkshire',
+        LocalAuthorities: 'Ryedale',
+        useAutomatedService: true
+      })
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      const { payload } = response
+      await payloadMatchTest(payload, /and is correct at the time of printing/g, 0) // SHOULD NOT EXIST
+      await payloadMatchTest(payload, /and is correct at the time of publication/g, 1) // SHOULD EXIST
+    })
+  })
+
   lab.test('get flood-zone-results-explained should throw an error if a library error occurs', async () => {
     const options = { method: 'GET', url: urlByPoint }
     psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'South Oxfordshire' })
