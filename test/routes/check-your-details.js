@@ -280,7 +280,7 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456}' })
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456,"zoneNumber":10}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
   })
