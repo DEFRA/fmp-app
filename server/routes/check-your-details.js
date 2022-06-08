@@ -63,13 +63,13 @@ module.exports = [
           const payload = request.payload || {}
           const applicationReferenceNumber = await getApplicationReferenceNumber()
           const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
-          const { recipientemail, fullName } = payload
+          const { recipientemail, fullName, zoneNumber } = payload
           // Sanitise user inputs
           if (payload.easting && payload.northing) {
             PDFinformationDetailsObject.coordinates.x = payload.easting
             PDFinformationDetailsObject.coordinates.y = payload.northing
-            if (payload.zoneNumber) {
-              PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
+            if (zoneNumber) {
+              PDFinformationDetailsObject.zoneNumber = zoneNumber
             }
             if (payload.polygon) {
               PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
@@ -87,8 +87,8 @@ module.exports = [
           const { x, y } = PDFinformationDetailsObject.coordinates
           const { location, polygon } = PDFinformationDetailsObject
           const name = fullName
-          const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber })
-          await wreck.post(publishToQueueURL, {
+          const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber, zoneNumber })
+          wreck.post(publishToQueueURL, {
             payload: data
           })
 
