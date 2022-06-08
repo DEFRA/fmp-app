@@ -61,6 +61,9 @@
   }())
 
   GOVUK.performance.sendGoogleAnalyticsEvent = function (category, event, label) {
+    if (!document.cookie.match('GA=Accept')) {
+      return // FCRM-3657 ensure we dont send analytics cookies if cookies are not accepted
+    }
     if (window.ga && typeof (window.ga) === 'function') {
       window.ga('send', 'event', category, event, label)
     } else {
