@@ -1,6 +1,4 @@
-const maintenanceRouteHandler = (_request, h) => {
-  return h.view('maintainence')
-}
+const maintenanceRouteHandler = (_request, h) => h.view('maintainence')
 
 module.exports = [
   {
