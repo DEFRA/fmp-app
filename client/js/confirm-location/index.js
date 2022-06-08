@@ -12,7 +12,6 @@ const Fill = require('ol/style/Fill').default
 const Icon = require('ol/style/Icon').default
 const Modify = require('ol/interaction/Modify').default
 const Draw = require('ol/interaction/Draw').default
-const Snap = require('ol/interaction/Snap').default
 
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
@@ -171,10 +170,6 @@ function ConfirmLocationPage (options) {
     style: drawStyle
   })
 
-  const snap = new Snap({
-    source: vectorSource
-  })
-
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [createTileLayer(mapConfig), vectorLayer],
@@ -291,7 +286,6 @@ function ConfirmLocationPage (options) {
 
         // Add the polygon draw interaction to the map
         map.addInteraction(modify)
-        map.addInteraction(snap)
 
         if (polygon) {
           vectorSource.addFeature(polygon)
@@ -310,7 +304,6 @@ function ConfirmLocationPage (options) {
         // Remove the polygon draw interaction to the map
         map.removeInteraction(modify)
         map.removeInteraction(draw)
-        map.removeInteraction(snap)
 
         if (polygon) {
           vectorSource.removeFeature(polygon)
