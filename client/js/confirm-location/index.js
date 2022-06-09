@@ -16,7 +16,7 @@ const Draw = require('ol/interaction/Draw').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer, mapState, getTargetUrl } = require('../map-utils')
+const { createTileLayer, mapState, getTargetUrl, getPolygonNodeIcon } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -71,22 +71,12 @@ function ConfirmLocationPage (options) {
         color: '#B10E1E',
         width: 3
       }),
-      image: new Icon({
-        opacity: 1,
-        size: [32, 32],
-        scale: 0.5,
-        src: '/assets/images/map-draw-cursor-2x.png'
-      })
+      image: getPolygonNodeIcon()
     })
 
     // Complete polygon geometry style
     const drawCompleteGeometryStyle = new Style({
-      image: new Icon({
-        opacity: 1,
-        size: [32, 32],
-        scale: 0.5,
-        src: '/assets/images/map-draw-cursor-2x.png'
-      }),
+      image: getPolygonNodeIcon(),
       // Return the coordinates of the first ring of the polygon
       geometry: function (feature) {
         if (feature.getGeometry().getType() === 'Polygon') {
@@ -134,12 +124,7 @@ function ConfirmLocationPage (options) {
       color: '#005EA5',
       width: 3
     }),
-    image: new Icon({
-      opacity: 1,
-      size: [32, 32],
-      scale: 0.5,
-      src: '/assets/images/map-draw-cursor-2x.png'
-    })
+    image: getPolygonNodeIcon()
   })
 
   // Modify polygon drawing style
@@ -151,12 +136,7 @@ function ConfirmLocationPage (options) {
       color: '#FFBF47',
       width: 3
     }),
-    image: new Icon({
-      opacity: 1,
-      size: [32, 32],
-      scale: 0.5,
-      src: '/assets/images/map-draw-cursor-2x.png'
-    })
+    image: getPolygonNodeIcon()
   })
 
   const modify = new Modify({

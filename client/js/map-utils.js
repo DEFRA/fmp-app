@@ -1,6 +1,7 @@
 const TileLayer = require('ol/layer/Tile').default
 const TileWMS = require('ol/source/TileWMS').default
 const TileGrid = require('ol/tilegrid/TileGrid').default
+const Icon = require('ol/style/Icon').default
 
 const createTileLayer = mapConfig => {
   return new TileLayer({
@@ -82,4 +83,11 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
   return url
 }
 
-module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl }
+const getPolygonNodeIcon = () => new Icon({
+  opacity: 1,
+  size: [32, 32],
+  scale: 0.5,
+  src: '/assets/images/map-draw-cursor-2x.png'
+})
+
+module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon }

@@ -109,4 +109,15 @@ lab.experiment('map-utils', () => {
     const url = mapUtils.getTargetUrl('polygon', undefined, point, 'pickering', 'Joe Bloggs', 'joe@example.com')
     Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484181&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
   })
+
+  lab.test('I can create a polygon point icon with getPolygonNodeIcon', async () => {
+    const { getPolygonNodeIcon } = mapUtils
+    const iconParameters = getPolygonNodeIcon()
+    Code.expect(iconParameters).to.equal({
+      opacity: 1,
+      size: [32, 32],
+      scale: 0.5,
+      src: '/assets/images/map-draw-cursor-2x.png'
+    })
+  })
 })
