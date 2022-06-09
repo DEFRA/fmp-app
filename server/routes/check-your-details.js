@@ -14,7 +14,7 @@ module.exports = [
       handler: async (request, h) => {
         const payload = request.query
         const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
-        const { recipientemail, fullName } = payload
+        const { recipientemail, fullName, areaName, psoEmailAddress } = payload
         if (payload.easting && payload.northing) {
           PDFinformationDetailsObject.coordinates.x = payload.easting
           PDFinformationDetailsObject.coordinates.y = payload.northing
@@ -44,6 +44,12 @@ module.exports = [
         } else {
           return Boom.badImplementation('RecipientEmail is Empty')
         }
+        if (areaName) {
+          PDFinformationDetailsObject.areaName = areaName
+        }
+        if (psoEmailAddress) {
+          PDFinformationDetailsObject.psoEmailAddress = psoEmailAddress
+        }
         const model = new ApplicationReviewSummaryViewModel({
           PDFinformationDetailsObject: PDFinformationDetailsObject,
           contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
@@ -63,7 +69,7 @@ module.exports = [
           const payload = request.payload || {}
           const applicationReferenceNumber = await getApplicationReferenceNumber()
           const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
-          const { recipientemail, fullName, zoneNumber } = payload
+          const { recipientemail, fullName, zoneNumber, areaName = '', psoEmailAddress = '' } = payload
           // Sanitise user inputs
           if (payload.easting && payload.northing) {
             PDFinformationDetailsObject.coordinates.x = payload.easting
@@ -87,7 +93,7 @@ module.exports = [
           const { x, y } = PDFinformationDetailsObject.coordinates
           const { location, polygon } = PDFinformationDetailsObject
           const name = fullName
-          const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber, zoneNumber })
+          const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber, zoneNumber, areaName, psoEmailAddress })
           wreck.post(publishToQueueURL, {
             payload: data
           })

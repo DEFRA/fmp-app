@@ -36,25 +36,33 @@ lab.experiment('contact', () => {
       zoneNumber: 10,
       polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
       cent: [1, 1],
-      location: 'Pickering'
+      location: 'Pickering',
+      areaName: 'Environment Agency team in East Anglia',
+      psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
     },
     {
       zoneNumber: '',
       polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
       cent: [1, 1],
-      location: 'Pickering'
+      location: 'Pickering',
+      areaName: 'Environment Agency team in East Anglia',
+      psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
     },
     {
       zoneNumber: '',
       polygon: '',
       cent: '',
-      location: 'Pickering'
+      location: 'Pickering',
+      areaName: 'Environment Agency team in East Anglia',
+      psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
     },
     {
       zoneNumber: '',
       polygon: '',
       cent: '',
-      location: ''
+      location: '',
+      areaName: '',
+      psoEmailAddress: ''
     }
   ]
   parametersToTest.forEach((parameterSet, parameterSetIndex) => {
@@ -71,7 +79,9 @@ lab.experiment('contact', () => {
           zoneNumber,
           polygon,
           cent,
-          location
+          location,
+          areaName: '',
+          psoEmailAddress: ''
         }
       }
       const expectedPolygon = polygon ? '1,1,1,2,2,2,2,1,1,1' : ''
@@ -80,7 +90,7 @@ lab.experiment('contact', () => {
 
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
-      const expectedUrl = `/check-your-details?easting=360799&northing=388244&polygon=${expectedPolygon}&center=${expectedCenter}&location=${expectedLocation}&zoneNumber=${zoneNumber}&fullName=Joe Bloggs&recipientemail=joe@example.com`
+      const expectedUrl = `/check-your-details?easting=360799&northing=388244&polygon=${expectedPolygon}&center=${expectedCenter}&location=${expectedLocation}&zoneNumber=${zoneNumber}&fullName=Joe Bloggs&recipientemail=joe@example.com&psoEmailAddress=null&areaName=null`
       Code.expect(response.headers.location).to.equal(expectedUrl)
     })
   })

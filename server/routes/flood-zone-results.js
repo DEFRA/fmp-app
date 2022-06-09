@@ -44,7 +44,6 @@ module.exports = [
           }
 
           const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
-
           if (psoResults && psoResults.EmailAddress) {
             psoEmailAddress = psoResults.EmailAddress
           }
