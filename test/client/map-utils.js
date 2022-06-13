@@ -138,11 +138,22 @@ lab.experiment('map-utils', () => {
 
   lab.test('I can create a polygon point icon with getPolygonNodeIcon', async () => {
     const { getPolygonNodeIcon } = mapUtils
-    const iconParameters = getPolygonNodeIcon()
-    Code.expect(iconParameters).to.equal({
+    const icon = getPolygonNodeIcon()
+    Code.expect(icon.config).to.equal({
       opacity: 1,
       size: [32, 32],
       scale: 0.5,
+      src: '/assets/images/map-draw-cursor-2x.png'
+    })
+  })
+
+  lab.test('I can create a polygon point icon with getPolygonNodeIcon zoomed to a specific resolution', async () => {
+    const { getPolygonNodeIcon } = mapUtils
+    const icon = getPolygonNodeIcon(0.5)
+    Code.expect(icon.config).to.equal({
+      opacity: 1,
+      size: [32, 32],
+      scale: 0.2222222222222222,
       src: '/assets/images/map-draw-cursor-2x.png'
     })
   })
