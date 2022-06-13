@@ -67,14 +67,14 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
     const extent = geometry.getExtent()
     const center = getCenterOfExtent(extent)
     const coords = JSON.stringify(coordinates.map(function (item) {
-      return [parseInt(item[0], 10), parseInt(item[1], 10)]
+      return [Math.round(item[0]), Math.round(item[1])]
     }))
     url += '?polygon=' + coords
     url += '&center=' + JSON.stringify(center)
   } else {
     coordinates = point.getGeometry().getCoordinates()
-    url += '?easting=' + parseInt(coordinates[0], 10)
-    url += '&northing=' + parseInt(coordinates[1], 10)
+    url += '?easting=' + Math.round(coordinates[0])
+    url += '&northing=' + Math.round(coordinates[1])
   }
   url += '&location=' + location
   url += '&fullName=' + fullName

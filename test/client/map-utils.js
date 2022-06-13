@@ -84,6 +84,14 @@ lab.experiment('map-utils', () => {
     Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484181&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
   })
 
+  lab.test('getTargetUrl with a point with decimal precision', async () => {
+    const point = {
+      getGeometry: () => ({ getCoordinates: () => ([479922.12345, 484181.67891]) })
+    }
+    const url = mapUtils.getTargetUrl('point', undefined, point, 'pickering', 'Joe Bloggs', 'joe@example.com')
+    Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484182&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
+  })
+
   lab.test('getTargetUrl with a polygon', async () => {
     const polygon = {
       getGeometry: () => ({
@@ -100,6 +108,24 @@ lab.experiment('map-utils', () => {
 
     const url = mapUtils.getTargetUrl('polygon', polygon, undefined, 'pickering', 'Joe Bloggs', 'joe@example.com')
     Code.expect(url).equals('/flood-zone-results?polygon=[[479926,484194],[480082,484297],[480015,484387],[479829,484404],[479816,484204],[479926,484194]]&center=[479949,484299]&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
+  })
+
+  lab.test('getTargetUrl with a polygon with decimal precision', async () => {
+    const polygon = {
+      getGeometry: () => ({
+        getExtent: () => ([479816, 484194, 480082, 484404]),
+        getCoordinates: () => (
+          [[[479926.12345, 484194.12345],
+            [480082.12345, 484297.12345],
+            [480015.12345, 484387.12345],
+            [479829.67890, 484404.67890],
+            [479816.12345, 484204.12345],
+            [479926.12345, 484194.12345]]])
+      })
+    }
+
+    const url = mapUtils.getTargetUrl('polygon', polygon, undefined, 'pickering', 'Joe Bloggs', 'joe@example.com')
+    Code.expect(url).equals('/flood-zone-results?polygon=[[479926,484194],[480082,484297],[480015,484387],[479830,484405],[479816,484204],[479926,484194]]&center=[479949,484299]&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
   })
 
   lab.test('getTargetUrl when featureMode is polygon but a polygon isn\'t yet defined', async () => {
