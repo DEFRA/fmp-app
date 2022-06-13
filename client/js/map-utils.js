@@ -83,11 +83,19 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
   return url
 }
 
-const getPolygonNodeIcon = () => new Icon({
-  opacity: 1,
-  size: [32, 32],
-  scale: 0.5,
-  src: '/assets/images/map-draw-cursor-2x.png'
-})
+const getPolygonNodeIcon = resolution => {
+  const icon = new Icon({
+    opacity: 1,
+    size: [32, 32],
+    scale: 0.5,
+    src: '/assets/images/map-draw-cursor-2x.png'
+  })
+  if (!isNaN(resolution)) {
+    resolution = 1 + parseFloat(resolution, 10)
+    const scale = 0.5 / Math.pow(resolution, 2)
+    icon.setScale(scale)
+  }
+  return icon
+}
 
 module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon }

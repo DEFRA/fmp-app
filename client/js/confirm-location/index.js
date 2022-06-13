@@ -61,7 +61,7 @@ function ConfirmLocationPage (options) {
   })
 
   // Styles for features
-  const vectorStyle = function (feature, _resolution) {
+  const vectorStyle = function (feature, resolution) {
     // Complete polygon drawing style
     const drawCompleteStyle = new Style({
       fill: new Fill({
@@ -71,12 +71,12 @@ function ConfirmLocationPage (options) {
         color: '#B10E1E',
         width: 3
       }),
-      image: getPolygonNodeIcon()
+      image: getPolygonNodeIcon(resolution)
     })
 
     // Complete polygon geometry style
     const drawCompleteGeometryStyle = new Style({
-      image: getPolygonNodeIcon(),
+      image: getPolygonNodeIcon(resolution),
       // Return the coordinates of the first ring of the polygon
       geometry: function (feature) {
         if (feature.getGeometry().getType() === 'Polygon') {
@@ -116,7 +116,7 @@ function ConfirmLocationPage (options) {
   })
 
   // Start polygon drawing style
-  const drawStyle = new Style({
+  const drawStyle = (_feature, resolution) => new Style({
     fill: new Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
@@ -124,11 +124,11 @@ function ConfirmLocationPage (options) {
       color: '#005EA5',
       width: 3
     }),
-    image: getPolygonNodeIcon()
+    image: getPolygonNodeIcon(resolution)
   })
 
   // Modify polygon drawing style
-  const modifyStyle = new Style({
+  const modifyStyle = (_feature, resolution) => new Style({
     fill: new Fill({
       color: 'rgba(255, 255, 255, 0.5)'
     }),
@@ -136,7 +136,7 @@ function ConfirmLocationPage (options) {
       color: '#FFBF47',
       width: 3
     }),
-    image: getPolygonNodeIcon()
+    image: getPolygonNodeIcon(resolution)
   })
 
   const modify = new Modify({
@@ -144,7 +144,7 @@ function ConfirmLocationPage (options) {
     style: modifyStyle
   })
 
-  const draw = new Draw({
+  const drawInteraction = new Draw({
     source: vectorSource,
     type: 'Polygon',
     style: drawStyle
@@ -205,14 +205,14 @@ function ConfirmLocationPage (options) {
       updateTargetUrl()
     })
 
-    draw.on('drawend', function (e) {
+    drawInteraction.on('drawend', function (e) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
       if (coordinates.length >= 4) {
         // Update polygon and targetUrl
         polygon = e.feature
         updateTargetUrl()
         setTimeout(function () {
-          map.removeInteraction(draw)
+          map.removeInteraction(drawInteraction)
         }, 500)
       }
     })
@@ -270,7 +270,7 @@ function ConfirmLocationPage (options) {
         if (polygon) {
           vectorSource.addFeature(polygon)
         } else {
-          map.addInteraction(draw)
+          map.addInteraction(drawInteraction)
         }
 
         // add polygon class to legend to hide point and show polygon icon
@@ -283,7 +283,7 @@ function ConfirmLocationPage (options) {
 
         // Remove the polygon draw interaction to the map
         map.removeInteraction(modify)
-        map.removeInteraction(draw)
+        map.removeInteraction(drawInteraction)
 
         if (polygon) {
           vectorSource.removeFeature(polygon)
