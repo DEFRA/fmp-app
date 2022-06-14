@@ -1,27 +1,23 @@
 const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
-const mock = require('mock-require')
+const { mockOpenLayers } = require('./mock-open-layers')
 
 lab.experiment('map-utils without sessionStorage', () => {
   let mapState
   let restoreStorageAvailable
   let mapUtils
+  let restoreOpenLayers
 
   lab.before(async () => {
-    const defaultMock = function (config) { return config }
-    mock('ol/layer/Tile', { default: defaultMock })
-    mock('ol/source/TileWMS', { default: defaultMock })
-    mock('ol/tilegrid/TileGrid', { default: defaultMock })
+    restoreOpenLayers = mockOpenLayers()
     mapUtils = require('../../client/js/map-utils')
     restoreStorageAvailable = mapUtils._mockSessionStorageAvailable(false)
     mapState = mapUtils.mapState
   })
 
   lab.after(async () => {
-    mock.stop('ol/layer/Tile')
-    mock.stop('ol/source/TileWMS')
-    mock.stop('ol/tilegrid/TileGrid')
+    restoreOpenLayers()
     mapUtils._mockSessionStorageAvailable(restoreStorageAvailable)
   })
 

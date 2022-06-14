@@ -1,6 +1,7 @@
 const TileLayer = require('ol/layer/Tile').default
 const TileWMS = require('ol/source/TileWMS').default
 const TileGrid = require('ol/tilegrid/TileGrid').default
+const Icon = require('ol/style/Icon').default
 
 const createTileLayer = mapConfig => {
   return new TileLayer({
@@ -66,14 +67,14 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
     const extent = geometry.getExtent()
     const center = getCenterOfExtent(extent)
     const coords = JSON.stringify(coordinates.map(function (item) {
-      return [parseInt(item[0], 10), parseInt(item[1], 10)]
+      return [Math.round(item[0]), Math.round(item[1])]
     }))
     url += '?polygon=' + coords
     url += '&center=' + JSON.stringify(center)
   } else {
     coordinates = point.getGeometry().getCoordinates()
-    url += '?easting=' + parseInt(coordinates[0], 10)
-    url += '&northing=' + parseInt(coordinates[1], 10)
+    url += '?easting=' + Math.round(coordinates[0])
+    url += '&northing=' + Math.round(coordinates[1])
   }
   url += '&location=' + location
   url += '&fullName=' + fullName
@@ -82,4 +83,19 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
   return url
 }
 
-module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl }
+const getPolygonNodeIcon = resolution => {
+  const icon = new Icon({
+    opacity: 1,
+    size: [32, 32],
+    scale: 0.5,
+    src: '/assets/images/map-draw-cursor-2x.png'
+  })
+  if (!isNaN(resolution)) {
+    resolution = 1 + parseFloat(resolution, 10)
+    const scale = 0.5 / Math.pow(resolution, 2)
+    icon.setScale(scale)
+  }
+  return icon
+}
+
+module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon }

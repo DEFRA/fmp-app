@@ -2,7 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const mapConfig = require('../../client/js/map-config.json')
-const mock = require('mock-require')
+const { mockOpenLayers } = require('./mock-open-layers')
 
 const sessionStorage = (() => {
   let store = {}
@@ -19,12 +19,10 @@ lab.experiment('map-utils', () => {
   let mapState
   let restoreStorageAvailable
   let mapUtils
+  let restoreOpenLayers
 
   lab.before(async () => {
-    const defaultMock = function (config) { return config }
-    mock('ol/layer/Tile', { default: defaultMock })
-    mock('ol/source/TileWMS', { default: defaultMock })
-    mock('ol/tilegrid/TileGrid', { default: defaultMock })
+    restoreOpenLayers = mockOpenLayers()
     global.window = { sessionStorage }
     mapUtils = require('../../client/js/map-utils')
     restoreStorageAvailable = mapUtils._mockSessionStorageAvailable(true)
@@ -37,9 +35,7 @@ lab.experiment('map-utils', () => {
   })
 
   lab.after(async () => {
-    mock.stop('ol/layer/Tile')
-    mock.stop('ol/source/TileWMS')
-    mock.stop('ol/tilegrid/TileGrid')
+    restoreOpenLayers()
     mapUtils._mockSessionStorageAvailable(restoreStorageAvailable)
   })
 
@@ -88,6 +84,14 @@ lab.experiment('map-utils', () => {
     Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484181&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
   })
 
+  lab.test('getTargetUrl with a point with decimal precision', async () => {
+    const point = {
+      getGeometry: () => ({ getCoordinates: () => ([479922.12345, 484181.67891]) })
+    }
+    const url = mapUtils.getTargetUrl('point', undefined, point, 'pickering', 'Joe Bloggs', 'joe@example.com')
+    Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484182&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
+  })
+
   lab.test('getTargetUrl with a polygon', async () => {
     const polygon = {
       getGeometry: () => ({
@@ -106,11 +110,51 @@ lab.experiment('map-utils', () => {
     Code.expect(url).equals('/flood-zone-results?polygon=[[479926,484194],[480082,484297],[480015,484387],[479829,484404],[479816,484204],[479926,484194]]&center=[479949,484299]&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
   })
 
+  lab.test('getTargetUrl with a polygon with decimal precision', async () => {
+    const polygon = {
+      getGeometry: () => ({
+        getExtent: () => ([479816, 484194, 480082, 484404]),
+        getCoordinates: () => (
+          [[[479926.12345, 484194.12345],
+            [480082.12345, 484297.12345],
+            [480015.12345, 484387.12345],
+            [479829.67890, 484404.67890],
+            [479816.12345, 484204.12345],
+            [479926.12345, 484194.12345]]])
+      })
+    }
+
+    const url = mapUtils.getTargetUrl('polygon', polygon, undefined, 'pickering', 'Joe Bloggs', 'joe@example.com')
+    Code.expect(url).equals('/flood-zone-results?polygon=[[479926,484194],[480082,484297],[480015,484387],[479830,484405],[479816,484204],[479926,484194]]&center=[479949,484299]&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
+  })
+
   lab.test('getTargetUrl when featureMode is polygon but a polygon isn\'t yet defined', async () => {
     const point = {
       getGeometry: () => ({ getCoordinates: () => ([479922, 484181]) })
     }
     const url = mapUtils.getTargetUrl('polygon', undefined, point, 'pickering', 'Joe Bloggs', 'joe@example.com')
     Code.expect(url).equals('/flood-zone-results?easting=479922&northing=484181&location=pickering&fullName=Joe Bloggs&recipientemail=joe@example.com')
+  })
+
+  lab.test('I can create a polygon point icon with getPolygonNodeIcon', async () => {
+    const { getPolygonNodeIcon } = mapUtils
+    const icon = getPolygonNodeIcon()
+    Code.expect(icon.config).to.equal({
+      opacity: 1,
+      size: [32, 32],
+      scale: 0.5,
+      src: '/assets/images/map-draw-cursor-2x.png'
+    })
+  })
+
+  lab.test('I can create a polygon point icon with getPolygonNodeIcon zoomed to a specific resolution', async () => {
+    const { getPolygonNodeIcon } = mapUtils
+    const icon = getPolygonNodeIcon(0.5)
+    Code.expect(icon.config).to.equal({
+      opacity: 1,
+      size: [32, 32],
+      scale: 0.2222222222222222,
+      src: '/assets/images/map-draw-cursor-2x.png'
+    })
   })
 })
