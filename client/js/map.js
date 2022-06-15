@@ -84,9 +84,12 @@ function Map (mapOptions) {
       })
     })
 
-    if (mapOptions.polygon) {
-      map.getView().fit(mapOptions.polygon)
-    }
+    // FCRM-3762 - stop the map zooming in to the extent of the polygon
+    // this fix (ie removing map.getView().fit) was introduced because the
+    // increased zoom levels allowed by FCRM-2575 caused the map to zoom in too much
+    // if (mapOptions.polygon) {
+    //   map.getView().fit(mapOptions.polygon)
+    // }
 
     map.setLayerVisible = function (ref, visible) {
       map.getLayers().forEach(function (layer) {
