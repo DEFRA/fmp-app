@@ -12,6 +12,8 @@ const Fill = require('ol/style/Fill').default
 const Icon = require('ol/style/Icon').default
 const Modify = require('ol/interaction/Modify').default
 const Draw = require('ol/interaction/Draw').default
+const Snap = require('ol/interaction/Snap').default
+const Collection = require('ol/Collection').default
 
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
@@ -150,6 +152,12 @@ function ConfirmLocationPage (options) {
     style: drawStyle
   })
 
+  const snapCollection = new Collection([])
+
+  const snap = new Snap({
+    features: snapCollection
+  })
+
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [createTileLayer(mapConfig), vectorLayer],
@@ -198,10 +206,36 @@ function ConfirmLocationPage (options) {
       updateMode('polygon')
     }
 
+    const roundCoordinates = (valueOrArray) => {
+      if (Array.isArray(valueOrArray)) {
+        return valueOrArray.map((item) => roundCoordinates(item))
+      } else {
+        return Math.round(valueOrArray)
+      }
+    }
+
+    const snapCoordinates = (shape) => {
+      // FCRM-3763 - ensure the coordinates are whole eastings/northings
+      // This is required as we dont snap when the resolution is high, as building the array of points at runtime is
+      // far too slow.
+      // It is possible to zoom in and out while we are digitising so it's possible to have a polygon with some snapped
+      // points and some unsnapped. This call ensures that all points are snapped.
+      // The side effect is a subtle shift in the point that has been clicked when resolution is high,
+      // but the level of detail is such that it is barely noticeable
+      const geometry = shape.getGeometry()
+      const coordinates = geometry.getCoordinates()
+      // TODO - remove these logs once this feature is complete
+      console.log('snapCoordinates coordinates', JSON.stringify(coordinates))
+      const newCoordinates = roundCoordinates(coordinates)
+      console.log('snapCoordinates newCoordinates', JSON.stringify(newCoordinates))
+      geometry.setCoordinates(newCoordinates)
+      return shape
+    }
+
     modify.on('modifyend', function (e) {
       // Update polygon and targetUrl
       const features = e.features.getArray()
-      polygon = features[0]
+      polygon = snapCoordinates(features[0])
       updateTargetUrl()
     })
 
@@ -209,12 +243,44 @@ function ConfirmLocationPage (options) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
       if (coordinates.length >= 4) {
         // Update polygon and targetUrl
-        polygon = e.feature
+        polygon = snapCoordinates(e.feature)
         updateTargetUrl()
         setTimeout(function () {
           map.removeInteraction(drawInteraction)
         }, 500)
       }
+    })
+
+    const view = map.getView()
+
+    view.on('change:resolution', (event) => {
+      // TODO - optimise so that this doesn't always rebuild the full array
+      // eg if we are zooming in, then the points we are snapping to will already be in the snapCollection
+      // Also we could only build the points that have scrolled into view ie dont clear and rebuild,
+      // but build the new points and append to the existing collection
+      // TODO - also handle map scrolling, as this will also require new snap node points
+      snapCollection.clear()
+      const resolution = view.getResolution()
+      // no point in snapping beyond this resolution, it is handled by the snapCoordinates function (which snaps the final geometry instead)
+      if (resolution > 0.25) {
+        return
+      }
+      const center = view.getCenter()
+      const viewportSize = map.getSize()
+      const eastingOffset = viewportSize[0] * resolution * 0.5
+      const northingOffset = viewportSize[1] * resolution * 0.5
+      const topLeft = [Math.floor(center[0] - eastingOffset), Math.floor(center[1] - northingOffset)]
+      const bottomRight = [Math.ceil(center[0] + eastingOffset), Math.ceil(center[1] + northingOffset)]
+      const snapFeatures = []
+      for (let easting = topLeft[0]; easting < bottomRight[0]; easting++) {
+        for (let northing = topLeft[1]; northing < bottomRight[1]; northing++) {
+          const feature = new Feature({
+            geometry: (new Point([easting, northing]))
+          })
+          snapFeatures.push(feature)
+        }
+      }
+      snapCollection.extend(snapFeatures)
     })
 
     $radios.on('click', 'input', function (e) {
@@ -243,7 +309,8 @@ function ConfirmLocationPage (options) {
     // Point movement handler
     map.getLayers().forEach(function (layer) {
       if (layer.getProperties().ref === 'centre') {
-        layer.getSource().getFeatures()[0].on('change', function (e) {
+        const shape = layer.getSource().getFeatures()[0]
+        shape.on('change', function (e) {
           updateTargetUrl()
         })
       }
@@ -297,7 +364,7 @@ function ConfirmLocationPage (options) {
 
         featureMode = 'point'
       }
-
+      map.addInteraction(snap)
       updateTargetUrl()
     }
 
