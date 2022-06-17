@@ -13,8 +13,7 @@ const Icon = require('ol/style/Icon').default
 const Modify = require('ol/interaction/Modify').default
 const Draw = require('ol/interaction/Draw').default
 const Snap = require('ol/interaction/Snap').default
-const Collection = require('ol/Collection').default
-
+const { CartesianSnapCollection } = require('../cartesian-snap-collection')
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
@@ -48,6 +47,7 @@ const addOptionsFromSession = options => {
 
 function ConfirmLocationPage (options) {
   options = addOptionsFromSession(options)
+
   const easting = window.encodeURIComponent(options.easting)
   const northing = window.encodeURIComponent(options.northing)
   const location = window.encodeURIComponent(options.location)
@@ -159,10 +159,10 @@ function ConfirmLocationPage (options) {
     style: drawStyle
   })
 
-  const snapCollection = new Collection([])
+  const cartesianSnapCollection = new CartesianSnapCollection()
 
-  const snap = new Snap({
-    features: snapCollection
+  const snapToCartesianPoints = new Snap({
+    features: cartesianSnapCollection.snapFeatures
   })
 
   const mapOptions = {
@@ -240,20 +240,23 @@ function ConfirmLocationPage (options) {
       // Also we could only build the points that have scrolled into view ie dont clear and rebuild,
       // but build the new points and append to the existing collection
       // TODO - also handle map scrolling, as this will also require new snap node points
-      snapCollection.clear()
+      // openLayersSnapCollection.clear()
       const [topLeft, bottomRight] = getCartesianViewExtents(map)
       if (topLeft && bottomRight) {
-        const snapFeatures = []
-        for (let easting = topLeft[0]; easting < bottomRight[0]; easting++) {
-          for (let northing = topLeft[1]; northing < bottomRight[1]; northing++) {
-            const feature = new Feature({
-              geometry: (new Point([easting, northing]))
-            })
-            snapFeatures.push(feature)
-          }
-        }
-        snapCollection.extend(snapFeatures)
+        cartesianSnapCollection.setExtents(topLeft, bottomRight)
       }
+      // if (topLeft && bottomRight) {
+      //   const snapFeatures = []
+      //   for (let easting = topLeft[0]; easting < bottomRight[0]; easting++) {
+      //     for (let northing = topLeft[1]; northing < bottomRight[1]; northing++) {
+      //       const feature = new Feature({
+      //         geometry: (new Point([easting, northing]))
+      //       })
+      //       snapFeatures.push(feature)
+      //     }
+      //   }
+      //   openLayersSnapCollection.extend(snapFeatures)
+      // }
     })
 
     $radios.on('click', 'input', function (e) {
@@ -337,7 +340,7 @@ function ConfirmLocationPage (options) {
 
         featureMode = 'point'
       }
-      map.addInteraction(snap)
+      map.addInteraction(snapToCartesianPoints)
       updateTargetUrl()
     }
 

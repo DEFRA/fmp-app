@@ -43,17 +43,34 @@ const MockView = (center, resolution) => ({
   getResolution: () => resolution
 })
 
+class MockCollection extends Array {
+  constructor (_val) { // Collection constructor expects an array param, but Array doesn't
+    super()
+  }
+
+  extend (val) {
+    return this.concat(val)
+  }
+}
+
 const mockOpenLayers = () => {
   const defaultMock = function (config) { return config }
   mock('ol/layer/Tile', { default: defaultMock })
   mock('ol/source/TileWMS', { default: defaultMock })
   mock('ol/tilegrid/TileGrid', { default: defaultMock })
   mock('ol/style/Icon', { default: MockIcon })
+  mock('ol/Feature', { default: defaultMock })
+  mock('ol/geom/Point', { default: defaultMock })
+  mock('ol/Collection', { default: MockCollection })
+
   return () => {
     mock.stop('ol/layer/Tile')
     mock.stop('ol/source/TileWMS')
     mock.stop('ol/tilegrid/TileGrid')
     mock.stop('ol/style/Icon')
+    mock.stop('ol/Feature')
+    mock.stop('ol/geom/Point')
+    mock.stop('ol/Collection')
   }
 }
 
