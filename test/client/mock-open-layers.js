@@ -33,6 +33,15 @@ class MockShape { // Shape could be a Point or a Polygon
     return this.geometry
   }
 }
+const MockMapExtents = (size, center, resolution) => ({
+  getView: () => MockView(center, resolution),
+  getSize: () => size
+})
+
+const MockView = (center, resolution) => ({
+  getCenter: () => center,
+  getResolution: () => resolution
+})
 
 const mockOpenLayers = () => {
   const defaultMock = function (config) { return config }
@@ -48,4 +57,4 @@ const mockOpenLayers = () => {
   }
 }
 
-module.exports = { mockOpenLayers, MockShape }
+module.exports = { mockOpenLayers, MockShape, MockView, MockMapExtents }

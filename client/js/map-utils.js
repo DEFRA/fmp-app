@@ -98,7 +98,7 @@ const getPolygonNodeIcon = resolution => {
   return icon
 }
 
-const roundCoordinates = (valueOrArray) => {
+const roundCoordinates = valueOrArray => {
   if (Array.isArray(valueOrArray)) {
     return valueOrArray.map((item) => roundCoordinates(item))
   } else {
@@ -106,7 +106,7 @@ const roundCoordinates = (valueOrArray) => {
   }
 }
 
-const snapCoordinates = (shape) => {
+const snapCoordinates = shape => {
   // FCRM-3763 - ensure the coordinates are whole eastings/northings
   // This is required as we dont snap when the resolution is high, as building the array of points at runtime is
   // far too slow.
@@ -124,4 +124,29 @@ const snapCoordinates = (shape) => {
   return shape
 }
 
-module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon, roundCoordinates, snapCoordinates }
+const getCartesianViewExtents = (map) => {
+  const view = map.getView()
+  const resolution = view.getResolution()
+  // no point in snapping beyond this resolution, it is handled by the snapCoordinates function (which snaps the final geometry instead)
+  if (resolution > 0.25) {
+    return [undefined, undefined]
+  }
+  const center = view.getCenter()
+  const viewportSize = map.getSize()
+  const eastingOffset = viewportSize[0] * resolution * 0.5
+  const northingOffset = viewportSize[1] * resolution * 0.5
+  const topLeft = [Math.floor(center[0] - eastingOffset), Math.floor(center[1] - northingOffset)]
+  const bottomRight = [Math.ceil(center[0] + eastingOffset), Math.ceil(center[1] + northingOffset)]
+  return [topLeft, bottomRight]
+}
+
+module.exports = {
+  createTileLayer,
+  mapState,
+  _mockSessionStorageAvailable,
+  getTargetUrl,
+  getPolygonNodeIcon,
+  roundCoordinates,
+  snapCoordinates,
+  getCartesianViewExtents
+}
