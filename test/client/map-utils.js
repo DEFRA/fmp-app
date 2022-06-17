@@ -157,4 +157,22 @@ lab.experiment('map-utils', () => {
       src: '/assets/images/map-draw-cursor-2x.png'
     })
   })
+
+  const roundCoordinateValues = [
+    [0, 0],
+    [1, 1],
+    [1.1, 1],
+    [1.5, 2],
+    ['0', 0],
+    ['1', 1],
+    ['1.1', 1],
+    ['1.5', 2],
+    [['1.5', '1.1'], [2, 1]],
+    [[['1.5', '1.1'], [473212.23557, 493717.83557], [473212.23557, 493717.83557]], [[2, 1], [473212, 493718], [473212, 493718]]]
+  ]
+  roundCoordinateValues.forEach(([value, expectedResult]) => {
+    lab.test(`round coordinates should return rounded values ${JSON.stringify(expectedResult)} when passed value ${JSON.stringify(value)}`, async () => {
+      Code.expect(mapUtils.roundCoordinates(value)).to.equal(expectedResult)
+    })
+  })
 })

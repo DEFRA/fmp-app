@@ -98,4 +98,12 @@ const getPolygonNodeIcon = resolution => {
   return icon
 }
 
-module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon }
+const roundCoordinates = (valueOrArray) => {
+  if (Array.isArray(valueOrArray)) {
+    return valueOrArray.map((item) => roundCoordinates(item))
+  } else {
+    return Math.round(valueOrArray)
+  }
+}
+
+module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon, roundCoordinates }

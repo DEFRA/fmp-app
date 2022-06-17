@@ -18,7 +18,7 @@ const Collection = require('ol/Collection').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer, mapState, getTargetUrl, getPolygonNodeIcon } = require('../map-utils')
+const { createTileLayer, mapState, getTargetUrl, getPolygonNodeIcon, roundCoordinates } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -204,14 +204,6 @@ function ConfirmLocationPage (options) {
         geometry: new Polygon([options.polygon])
       })
       updateMode('polygon')
-    }
-
-    const roundCoordinates = (valueOrArray) => {
-      if (Array.isArray(valueOrArray)) {
-        return valueOrArray.map((item) => roundCoordinates(item))
-      } else {
-        return Math.round(valueOrArray)
-      }
     }
 
     const snapCoordinates = (shape) => {
