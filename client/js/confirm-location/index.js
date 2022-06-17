@@ -18,7 +18,13 @@ const Collection = require('ol/Collection').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer, mapState, getTargetUrl, getPolygonNodeIcon, roundCoordinates } = require('../map-utils')
+const {
+  createTileLayer,
+  mapState,
+  getTargetUrl,
+  getPolygonNodeIcon,
+  snapCoordinates
+} = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -204,24 +210,6 @@ function ConfirmLocationPage (options) {
         geometry: new Polygon([options.polygon])
       })
       updateMode('polygon')
-    }
-
-    const snapCoordinates = (shape) => {
-      // FCRM-3763 - ensure the coordinates are whole eastings/northings
-      // This is required as we dont snap when the resolution is high, as building the array of points at runtime is
-      // far too slow.
-      // It is possible to zoom in and out while we are digitising so it's possible to have a polygon with some snapped
-      // points and some unsnapped. This call ensures that all points are snapped.
-      // The side effect is a subtle shift in the point that has been clicked when resolution is high,
-      // but the level of detail is such that it is barely noticeable
-      const geometry = shape.getGeometry()
-      const coordinates = geometry.getCoordinates()
-      // TODO - remove these logs once this feature is complete
-      console.log('snapCoordinates coordinates', JSON.stringify(coordinates))
-      const newCoordinates = roundCoordinates(coordinates)
-      console.log('snapCoordinates newCoordinates', JSON.stringify(newCoordinates))
-      geometry.setCoordinates(newCoordinates)
-      return shape
     }
 
     modify.on('modifyend', function (e) {

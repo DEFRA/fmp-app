@@ -10,6 +10,30 @@ class MockIcon {
   }
 }
 
+class MockGeometry { // Shape could be a Point or a Polygon
+  constructor (coordinates) {
+    this.coordinates = coordinates
+  }
+
+  getCoordinates () {
+    return this.coordinates
+  }
+
+  setCoordinates (coordinates) {
+    this.coordinates = coordinates
+  }
+}
+
+class MockShape { // Shape could be a Point or a Polygon
+  constructor (coordinates) {
+    this.geometry = new MockGeometry(coordinates)
+  }
+
+  getGeometry () {
+    return this.geometry
+  }
+}
+
 const mockOpenLayers = () => {
   const defaultMock = function (config) { return config }
   mock('ol/layer/Tile', { default: defaultMock })
@@ -24,4 +48,4 @@ const mockOpenLayers = () => {
   }
 }
 
-module.exports = { mockOpenLayers }
+module.exports = { mockOpenLayers, MockShape }

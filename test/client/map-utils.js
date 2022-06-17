@@ -2,7 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const mapConfig = require('../../client/js/map-config.json')
-const { mockOpenLayers } = require('./mock-open-layers')
+const { mockOpenLayers, MockShape } = require('./mock-open-layers')
 
 const sessionStorage = (() => {
   let store = {}
@@ -168,11 +168,13 @@ lab.experiment('map-utils', () => {
     ['1.1', 1],
     ['1.5', 2],
     [['1.5', '1.1'], [2, 1]],
-    [[['1.5', '1.1'], [473212.23557, 493717.83557], [473212.23557, 493717.83557]], [[2, 1], [473212, 493718], [473212, 493718]]]
+    [[['1.5', '1.1'], [473212.23557, 493717.83557], [473212.23557, 493717.83557]], // A nested array like this
+      [[2, 1], [473212, 493718], [473212, 493718]]] // Should return a rounded nested array like this
   ]
   roundCoordinateValues.forEach(([value, expectedResult]) => {
     lab.test(`round coordinates should return rounded values ${JSON.stringify(expectedResult)} when passed value ${JSON.stringify(value)}`, async () => {
-      Code.expect(mapUtils.roundCoordinates(value)).to.equal(expectedResult)
+      const shape = new MockShape(value)
+      Code.expect(mapUtils.snapCoordinates(shape).getGeometry().getCoordinates()).to.equal(expectedResult)
     })
   })
 })
