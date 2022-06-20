@@ -98,4 +98,48 @@ const getPolygonNodeIcon = resolution => {
   return icon
 }
 
-module.exports = { createTileLayer, mapState, _mockSessionStorageAvailable, getTargetUrl, getPolygonNodeIcon }
+const roundCoordinates = valueOrArray => {
+  if (Array.isArray(valueOrArray)) {
+    return valueOrArray.map(item => roundCoordinates(item))
+  } else {
+    return Math.round(valueOrArray)
+  }
+}
+
+const snapCoordinates = shape => {
+  // FCRM-3763 - ensure the coordinates are whole eastings/northings
+  // This is required as we dont snap when the resolution is high, as building the array of points at runtime is
+  // far too slow.
+  // It is possible to zoom in and out while we are digitising so it's possible to have a polygon with some snapped
+  // points and some unsnapped. This call ensures that all points are snapped.
+  // The side effect is a subtle shift in the point that has been clicked when resolution is high,
+  // but the level of detail is such that it is barely noticeable
+  const geometry = shape.getGeometry()
+  const coordinates = geometry.getCoordinates()
+  const newCoordinates = roundCoordinates(coordinates)
+  geometry.setCoordinates(newCoordinates)
+  return shape
+}
+
+const getCartesianViewExtents = map => {
+  const view = map.getView()
+  const resolution = view.getResolution()
+  if (resolution > 0.25) {
+    return [undefined, undefined]
+  }
+  const extent = map.getView().calculateExtent(map.getSize())
+  const topLeft = extent.slice(0, 2).map(value => Math.floor(value))
+  const bottomRight = extent.slice(2, 4).map(value => Math.ceil(value))
+  return [topLeft, bottomRight]
+}
+
+module.exports = {
+  createTileLayer,
+  mapState,
+  _mockSessionStorageAvailable,
+  getTargetUrl,
+  getPolygonNodeIcon,
+  roundCoordinates,
+  snapCoordinates,
+  getCartesianViewExtents
+}

@@ -12,11 +12,19 @@ const Fill = require('ol/style/Fill').default
 const Icon = require('ol/style/Icon').default
 const Modify = require('ol/interaction/Modify').default
 const Draw = require('ol/interaction/Draw').default
-
+const Snap = require('ol/interaction/Snap').default
+const { CartesianSnapCollection } = require('../cartesian-snap-collection')
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const { createTileLayer, mapState, getTargetUrl, getPolygonNodeIcon } = require('../map-utils')
+const {
+  createTileLayer,
+  mapState,
+  getTargetUrl,
+  getPolygonNodeIcon,
+  snapCoordinates,
+  getCartesianViewExtents
+} = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
 const dialog = require('../dialog')
@@ -39,6 +47,7 @@ const addOptionsFromSession = options => {
 
 function ConfirmLocationPage (options) {
   options = addOptionsFromSession(options)
+
   const easting = window.encodeURIComponent(options.easting)
   const northing = window.encodeURIComponent(options.northing)
   const location = window.encodeURIComponent(options.location)
@@ -150,6 +159,12 @@ function ConfirmLocationPage (options) {
     style: drawStyle
   })
 
+  const cartesianSnapCollection = new CartesianSnapCollection()
+
+  const snapToCartesianPoints = new Snap({
+    features: cartesianSnapCollection.snapFeatures
+  })
+
   const mapOptions = {
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [createTileLayer(mapConfig), vectorLayer],
@@ -201,7 +216,7 @@ function ConfirmLocationPage (options) {
     modify.on('modifyend', function (e) {
       // Update polygon and targetUrl
       const features = e.features.getArray()
-      polygon = features[0]
+      polygon = snapCoordinates(features[0])
       updateTargetUrl()
     })
 
@@ -209,13 +224,25 @@ function ConfirmLocationPage (options) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
       if (coordinates.length >= 4) {
         // Update polygon and targetUrl
-        polygon = e.feature
+        polygon = snapCoordinates(e.feature)
         updateTargetUrl()
         setTimeout(function () {
           map.removeInteraction(drawInteraction)
         }, 500)
       }
     })
+
+    const view = map.getView()
+
+    const moveOrScrollEventHandler = _event => {
+      const [topLeft, bottomRight] = getCartesianViewExtents(map)
+      if (topLeft && bottomRight) {
+        cartesianSnapCollection.setExtents(topLeft, bottomRight)
+      }
+    }
+
+    map.on('moveend', moveOrScrollEventHandler)
+    view.on('change:resolution', moveOrScrollEventHandler)
 
     $radios.on('click', 'input', function (e) {
       updateMode(e.target.getAttribute('id'))
@@ -243,9 +270,8 @@ function ConfirmLocationPage (options) {
     // Point movement handler
     map.getLayers().forEach(function (layer) {
       if (layer.getProperties().ref === 'centre') {
-        layer.getSource().getFeatures()[0].on('change', function (e) {
-          updateTargetUrl()
-        })
+        const shape = layer.getSource().getFeatures()[0]
+        shape.on('change', updateTargetUrl)
       }
     })
 
@@ -297,7 +323,7 @@ function ConfirmLocationPage (options) {
 
         featureMode = 'point'
       }
-
+      map.addInteraction(snapToCartesianPoints)
       updateTargetUrl()
     }
 

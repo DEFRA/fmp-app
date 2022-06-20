@@ -2,7 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const mapConfig = require('../../client/js/map-config.json')
-const { mockOpenLayers } = require('./mock-open-layers')
+const { mockOpenLayers, MockShape, MockMapExtents } = require('./mock-open-layers')
 
 const sessionStorage = (() => {
   let store = {}
@@ -155,6 +155,67 @@ lab.experiment('map-utils', () => {
       size: [32, 32],
       scale: 0.2222222222222222,
       src: '/assets/images/map-draw-cursor-2x.png'
+    })
+  })
+
+  const roundCoordinateValues = [
+    [0, 0],
+    [1, 1],
+    [1.1, 1],
+    [1.5, 2],
+    ['0', 0],
+    ['1', 1],
+    ['1.1', 1],
+    ['1.5', 2],
+    [['1.5', '1.1'], [2, 1]],
+    [[['1.5', '1.1'], [473212.23557, 493717.83557], [473212.23557, 493717.83557]], // A nested array like this
+      [[2, 1], [473212, 493718], [473212, 493718]]] // Should return a rounded nested array like this
+  ]
+  roundCoordinateValues.forEach(([value, expectedResult]) => {
+    lab.test(`round coordinates should return rounded values ${JSON.stringify(expectedResult)} when passed value ${JSON.stringify(value)}`, async () => {
+      const shape = new MockShape(value)
+      Code.expect(mapUtils.snapCoordinates(shape).getGeometry().getCoordinates()).to.equal(expectedResult)
+    })
+  })
+
+  const mapSizes = {
+    zero: [0, 0],
+    small: [100, 100],
+    medium: [200, 250],
+    large: [400, 500]
+  }
+
+  const mapCenters = {
+    zero: [0, 0],
+    defined: [480, 490]
+  }
+
+  const mapResolutions = {
+    zero: 0,
+    small: 0.2,
+    large: 0.5
+  }
+  const undefinedExtents = [undefined, undefined]
+  const zeroExtents = [[0, 0], [0, 0]]
+  const mapSizeCenterResolutions = [
+    [mapSizes.zero, mapCenters.zero, mapResolutions.zero, zeroExtents], // Zero Resolution expects zeroExtents
+    [mapSizes.zero, mapCenters.zero, mapResolutions.small, zeroExtents], // Zero Center also expects zeroExtents
+    [mapSizes.zero, mapCenters.zero, mapResolutions.large, undefinedExtents], // large resolution expects undefinedExtents
+    [mapSizes.small, mapCenters.defined, mapResolutions.zero, [mapCenters.defined, mapCenters.defined]], // Zero Resolution expects mapCenters
+    [mapSizes.small, mapCenters.defined, mapResolutions.small, [[470, 480], [490, 500]]], // small resolution expects +-10 ie (0.2 * 100 /2)
+    [mapSizes.small, mapCenters.defined, mapResolutions.large, undefinedExtents], // large resolution expects undefinedExtents
+    [mapSizes.medium, mapCenters.defined, mapResolutions.zero, [mapCenters.defined, mapCenters.defined]], // Zero Resolution expects mapCenters
+    [mapSizes.medium, mapCenters.defined, mapResolutions.small, [[460, 465], [500, 515]]], // small resolution expects +-20, 25 ie (0.2 * 200/2, 0.2 * 250/2)
+    [mapSizes.medium, mapCenters.defined, mapResolutions.large, undefinedExtents], // large resolution expects undefinedExtents
+    [mapSizes.large, mapCenters.defined, mapResolutions.zero, [mapCenters.defined, mapCenters.defined]], // Zero Resolution expects mapCenters
+    [mapSizes.large, mapCenters.defined, mapResolutions.small, [[440, 440], [520, 540]]], // small resolution expects +-40, 50 ie (0.2 * 400/2, 0.2 * 500/2)
+    [mapSizes.large, mapCenters.defined, mapResolutions.large, undefinedExtents] // large resolution expects undefinedExtents
+  ]
+  mapSizeCenterResolutions.forEach(([size, center, resolution, [expectedTopLeft, expectedBottomRight]]) => {
+    lab.test(`getCartesianViewExtents should return ${JSON.stringify([expectedTopLeft, expectedBottomRight])} when passed a map with size ${JSON.stringify(size)}`, async () => {
+      const map = MockMapExtents(size, center, resolution)
+      const extents = mapUtils.getCartesianViewExtents(map)
+      Code.expect(extents).to.equal([expectedTopLeft, expectedBottomRight])
     })
   })
 })
