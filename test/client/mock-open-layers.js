@@ -34,13 +34,23 @@ class MockShape { // Shape could be a Point or a Polygon
   }
 }
 const MockMapExtents = (size, center, resolution) => ({
-  getView: () => MockView(center, resolution),
+  getView: () => MockView(center, resolution, size),
   getSize: () => size
 })
 
-const MockView = (center, resolution) => ({
+const MockView = (center, resolution, size) => ({
   getCenter: () => center,
-  getResolution: () => resolution
+  getResolution: () => resolution,
+  calculateExtent: () => {
+    const eastingOffset = size[0] * resolution * 0.5
+    const northingOffset = size[1] * resolution * 0.5
+    return [
+      Math.floor(center[0] - eastingOffset),
+      Math.floor(center[1] - northingOffset),
+      Math.ceil(center[0] + eastingOffset),
+      Math.ceil(center[1] + northingOffset)
+    ]
+  }
 })
 
 class MockCollection extends Array {

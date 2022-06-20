@@ -214,7 +214,8 @@ lab.experiment('map-utils', () => {
   mapSizeCenterResolutions.forEach(([size, center, resolution, [expectedTopLeft, expectedBottomRight]]) => {
     lab.test(`getCartesianViewExtents should return ${JSON.stringify([expectedTopLeft, expectedBottomRight])} when passed a map with size ${JSON.stringify(size)}`, async () => {
       const map = MockMapExtents(size, center, resolution)
-      Code.expect(mapUtils.getCartesianViewExtents(map)).to.equal([expectedTopLeft, expectedBottomRight])
+      const extents = mapUtils.getCartesianViewExtents(map)
+      Code.expect(extents).to.equal([expectedTopLeft, expectedBottomRight])
     })
   })
 })

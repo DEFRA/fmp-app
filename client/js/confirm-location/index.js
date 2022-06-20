@@ -234,30 +234,16 @@ function ConfirmLocationPage (options) {
 
     const view = map.getView()
 
-    view.on('change:resolution', _event => {
-      // TODO - optimise so that this doesn't always rebuild the full array
-      // eg if we are zooming in, then the points we are snapping to will already be in the snapCollection
-      // Also we could only build the points that have scrolled into view ie dont clear and rebuild,
-      // but build the new points and append to the existing collection
+    const moveOrScrollEventHandler = _event => {
       // TODO - also handle map scrolling, as this will also require new snap node points
-      // openLayersSnapCollection.clear()
       const [topLeft, bottomRight] = getCartesianViewExtents(map)
       if (topLeft && bottomRight) {
         cartesianSnapCollection.setExtents(topLeft, bottomRight)
       }
-      // if (topLeft && bottomRight) {
-      //   const snapFeatures = []
-      //   for (let easting = topLeft[0]; easting < bottomRight[0]; easting++) {
-      //     for (let northing = topLeft[1]; northing < bottomRight[1]; northing++) {
-      //       const feature = new Feature({
-      //         geometry: (new Point([easting, northing]))
-      //       })
-      //       snapFeatures.push(feature)
-      //     }
-      //   }
-      //   openLayersSnapCollection.extend(snapFeatures)
-      // }
-    })
+    }
+
+    map.on('moveend', moveOrScrollEventHandler)
+    view.on('change:resolution', moveOrScrollEventHandler)
 
     $radios.on('click', 'input', function (e) {
       updateMode(e.target.getAttribute('id'))

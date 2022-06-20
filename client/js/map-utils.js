@@ -116,10 +116,7 @@ const snapCoordinates = shape => {
   // but the level of detail is such that it is barely noticeable
   const geometry = shape.getGeometry()
   const coordinates = geometry.getCoordinates()
-  // TODO - remove these logs once this feature is complete
-  console.log('snapCoordinates coordinates', JSON.stringify(coordinates))
   const newCoordinates = roundCoordinates(coordinates)
-  console.log('snapCoordinates newCoordinates', JSON.stringify(newCoordinates))
   geometry.setCoordinates(newCoordinates)
   return shape
 }
@@ -127,16 +124,12 @@ const snapCoordinates = shape => {
 const getCartesianViewExtents = (map) => {
   const view = map.getView()
   const resolution = view.getResolution()
-  // no point in snapping beyond this resolution, it is handled by the snapCoordinates function (which snaps the final geometry instead)
   if (resolution > 0.25) {
     return [undefined, undefined]
   }
-  const center = view.getCenter()
-  const viewportSize = map.getSize()
-  const eastingOffset = viewportSize[0] * resolution * 0.5
-  const northingOffset = viewportSize[1] * resolution * 0.5
-  const topLeft = [Math.floor(center[0] - eastingOffset), Math.floor(center[1] - northingOffset)]
-  const bottomRight = [Math.ceil(center[0] + eastingOffset), Math.ceil(center[1] + northingOffset)]
+  const extent = map.getView().calculateExtent(map.getSize())
+  const topLeft = extent.slice(0, 2).map((value) => Math.floor(value))
+  const bottomRight = extent.slice(2, 4).map((value) => Math.ceil(value))
   return [topLeft, bottomRight]
 }
 
