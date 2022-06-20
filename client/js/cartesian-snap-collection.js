@@ -23,7 +23,7 @@ class CartesianSnapCollection {
   }
 
   hasRange (topLeft, bottomRight) {
-    return Boolean(this.addedRanges.find((range) => range.containsRange(topLeft, bottomRight)))
+    return Boolean(this.addedRanges.find(range => range.containsRange(topLeft, bottomRight)))
   }
 
   setExtents (topLeft, bottomRight) {

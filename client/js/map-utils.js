@@ -100,7 +100,7 @@ const getPolygonNodeIcon = resolution => {
 
 const roundCoordinates = valueOrArray => {
   if (Array.isArray(valueOrArray)) {
-    return valueOrArray.map((item) => roundCoordinates(item))
+    return valueOrArray.map(item => roundCoordinates(item))
   } else {
     return Math.round(valueOrArray)
   }
@@ -121,15 +121,15 @@ const snapCoordinates = shape => {
   return shape
 }
 
-const getCartesianViewExtents = (map) => {
+const getCartesianViewExtents = map => {
   const view = map.getView()
   const resolution = view.getResolution()
   if (resolution > 0.25) {
     return [undefined, undefined]
   }
   const extent = map.getView().calculateExtent(map.getSize())
-  const topLeft = extent.slice(0, 2).map((value) => Math.floor(value))
-  const bottomRight = extent.slice(2, 4).map((value) => Math.ceil(value))
+  const topLeft = extent.slice(0, 2).map(value => Math.floor(value))
+  const bottomRight = extent.slice(2, 4).map(value => Math.ceil(value))
   return [topLeft, bottomRight]
 }
 

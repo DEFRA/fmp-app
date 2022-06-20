@@ -235,7 +235,6 @@ function ConfirmLocationPage (options) {
     const view = map.getView()
 
     const moveOrScrollEventHandler = _event => {
-      // TODO - also handle map scrolling, as this will also require new snap node points
       const [topLeft, bottomRight] = getCartesianViewExtents(map)
       if (topLeft && bottomRight) {
         cartesianSnapCollection.setExtents(topLeft, bottomRight)
@@ -272,9 +271,7 @@ function ConfirmLocationPage (options) {
     map.getLayers().forEach(function (layer) {
       if (layer.getProperties().ref === 'centre') {
         const shape = layer.getSource().getFeatures()[0]
-        shape.on('change', function (e) {
-          updateTargetUrl()
-        })
+        shape.on('change', updateTargetUrl)
       }
     })
 
