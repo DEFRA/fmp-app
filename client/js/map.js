@@ -69,9 +69,6 @@ function Map (mapOptions) {
       }).extend([
         new ScaleLine({
           units: 'metric',
-          bar: true,
-          steps: 4,
-          text: 'mmm',
           minWidth: 50
         }), new FullScreen({ source: 'map--result' })
       ]),
