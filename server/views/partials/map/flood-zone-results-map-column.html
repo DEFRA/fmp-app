@@ -1,11 +1,41 @@
-<div class="govuk-grid-column-full">
+<div class="govuk-grid-column-one-third">
+  <h2 id="dialog-heading" class="dialog-heading">Download report</h2>
+  <span class="govuk-hint govuk-hint--block" id="dialog-content">
+    To download your report: enter a reference name (optional), select a scale, then click download.
+  </span>
   <div class="pdf-download">
-    <button href="#"
-      class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1 govuk-button--pdf-download"
-      data-module="govuk-button" draggable="false" data-toggle="dialog" data-target="report"
-      data-journey-click="FMFP:Summary:DownloadReport">Download printable map (PDF)</button>
+    <form class="form" method="POST" action="pdf">
+      <input name="id" type="hidden" value="12345">
+      <input name="polygon" type="hidden" value="{{polygon}}">
+      <input name="center" type="hidden" value="[{{easting}},{{northing}}]">
+      <div class="form-group">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--m" for="reference">Your reference</label>
+          <div id="reference-hint" class="govuk-hint">This is chosen by you to help you find the report later and should be less than 25 characters</div>
+          <input class="govuk-input" id="reference" name="reference" type="text" aria-describedby="reference-hint" maxlength="25" data-com.bitwarden.browser.user-edited="yes">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="govuk-form-group"><label class="govuk-label govuk-label--m" for="scale">Scale</label>
+          <div id="scale-hint" class="govuk-hint">Select the scale of the map shown in the report</div>
+          <select class="govuk-select govuk-label--m" id="scale" name="scale" aria-describedby="scale-hint">
+            <option value="2500" selected="">1:2500</option>
+            <option value="10000">1:10000</option>
+            <option value="25000">1:25000</option>
+            <option value="50000">1:50000</option>
+          </select>      
+        </div>
+      </div>     
+      <button href="#"
+        class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1 govuk-button--pdf-download"
+        data-module="govuk-button" draggable="false" data-toggle="dialog" data-target="report"
+        data-journey-click="FMFP:Summary:DownloadReport">Download printable map (PDF)
+      </button>
+    </form>
   </div>
-  <figure class="map-container flood-zone-results-map govuk-!-margin-bottom-6" role="application">
+</div>
+<div class="govuk-grid-column-full">
+<figure class="map-container flood-zone-results-map govuk-!-margin-bottom-6" role="application">
     <figcaption class="govuk-visually-hidden" aria-hidden="false">
       A map showing the flood risk for the location you have provided
     </figcaption>
