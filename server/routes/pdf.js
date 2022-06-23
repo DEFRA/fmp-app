@@ -14,8 +14,6 @@ module.exports = {
   options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
-      console.log('\n\nPDF Route Handler')
-
       const id = request.payload.id
       let zone = request.payload.zone
       const scale = request.payload.scale
@@ -283,10 +281,8 @@ module.exports = {
       }
 
       try {
-        console.log('\n\nFetching PDF', printUrl, options)
         const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()
-        console.log('\n\nPDF Response', result.payload)
         return h.response(result.payload)
           .encoding('binary')
           .type('application/pdf')
@@ -294,7 +290,6 @@ module.exports = {
           .header('X-XSS-Protection', '1; mode=block')
           .state('pdf-download', id.toString())
       } catch (err) {
-        console.log('\n\nPDF Error', err)
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
       }
     },
