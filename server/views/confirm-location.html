@@ -45,23 +45,6 @@ Confirm location - Flood map for planning - GOV.UK
         <div id="map--result" class="map--result-confirm">
           <div class="govuk-form-group markerRadiosContainer top-of-buttons">
             <fieldset class="govuk-fieldset">
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
-                Choose how to confirm your location
-              </legend>
-              <div class="govuk-radios govuk-radios--inline govuk-radios--small">
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point" data-journey-click="FMFP:map:moveMarker" checked>
-                  <label class="govuk-label govuk-radios__label" for="marker">
-                    Move marker
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
-                  <label class="govuk-label govuk-radios__label" for="polygon">
-                    Draw boundary
-                  </label>
-                </div>
-              </div>
               <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
                   Delete boundary
                 </button>
@@ -87,7 +70,7 @@ Confirm location - Flood map for planning - GOV.UK
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
           <span class="govuk-warning-text__assistive">Warning</span>
-          Check your location is correct before continuing.
+          Check your entire site is outlined before continuing.
         </strong>
       </div>
       <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
