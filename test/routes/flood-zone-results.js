@@ -15,7 +15,6 @@ lab.experiment('flood-zone-results', () => {
   let restoreIsEnglandService
   let restoreIgnoreUseAutomatedService
 
-  // const urlByPoint = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
   const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
 
   lab.before(async () => {
@@ -143,22 +142,17 @@ lab.experiment('flood-zone-results', () => {
     })
   })
 
-  const urls = [urlByPolygon]
-  urls.forEach((url) => {
-    lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
-      const options = { method: 'GET', url }
-      psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
-      riskService.getByPolygon = () => ({ in_england: false })
-      riskService.getByPoint = () => ({ point_in_england: false })
+  lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
+    const options = { method: 'GET', url: urlByPolygon }
+    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    riskService.getByPolygon = () => ({ in_england: false })
+    riskService.getByPoint = () => ({ point_in_england: false })
 
-      const response = await server.inject(options)
-      Code.expect(response.statusCode).to.equal(302)
-      const { headers } = response
-      const expectedRedirectUrl = url === urlByPolygon
-        ? '/england-only?centroid=true&easting=479472&northing=484194'
-        : '/england-only?easting=479472&northing=484194'
-      Code.expect(headers.location).to.equal(expectedRedirectUrl)
-    })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    const expectedRedirectUrl = '/england-only?centroid=true&easting=479472&northing=484194'
+    Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 
   lab.test('get flood-zone-results should error if a library error occurs', async () => {
@@ -182,6 +176,17 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
     const expectedRedirectUrl = '/england-only?center=%5B341638%2C352001%5D&location=Caldecott%2520Green&fullName=Mark&recipientemail=mark%40example.com&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D'
+    Code.expect(headers.location).to.equal(expectedRedirectUrl)
+  })
+
+  lab.test('a flood-zone-results without a polygon should redirect back to /confirm-location', async () => {
+    const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
+    const options = { method: 'GET', url }
+    isEnglandService.get = async () => ({ is_england: true })
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    const { headers } = response
+    const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 })

@@ -25,7 +25,6 @@ module.exports = [
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
           const center = request.query.center ? JSON.parse(request.query.center) : undefined
-
           if (polygon) {
             easting = encodeURIComponent(center[0])
             northing = encodeURIComponent(center[1])
@@ -34,10 +33,14 @@ module.exports = [
             northing = encodeURIComponent(request.query.northing)
           }
           const result = await isEnglandService.get(easting, northing)
-
           if (!result) {
             throw new Error('No Result from England service')
           }
+          if (!polygon) {
+            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&recipientemail=${recipientemail}&polygonMissing=true`
+            return h.redirect('/confirm-location?' + queryString)
+          }
+
           if (!result.is_england) {
             // redirect to the not England page with the search params in the query
             const queryString = new URLSearchParams(request.query).toString()
@@ -84,13 +87,19 @@ module.exports = [
         }
       },
       validate: {
-        query: Joi.object().keys({
+        query: Joi.alternatives().required().try(Joi.object().keys({
+          easting: Joi.number().max(700000).positive().required(),
+          northing: Joi.number().max(1300000).positive().required(),
+          location: Joi.string().required(),
+          fullName: Joi.string(),
+          recipientemail: Joi.string().allow('')
+        }), Joi.object().keys({
           polygon: Joi.string().required(),
           center: Joi.string().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
           recipientemail: Joi.string().allow('')
-        })
+        }))
       }
     }
   }]

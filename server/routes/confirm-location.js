@@ -90,7 +90,8 @@ module.exports = [{
         nationalGridReference: Joi.string(),
         recipientemail: Joi.string(),
         fullName: Joi.string(),
-        locationDetails: Joi.string()
+        locationDetails: Joi.string(),
+        polygonMissing: Joi.boolean()
       })
     }
   }
