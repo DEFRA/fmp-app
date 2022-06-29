@@ -2,6 +2,7 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
+const psoContactDetails = require('../services/pso-contact')
 
 module.exports = [{
   method: 'GET',
@@ -31,6 +32,8 @@ module.exports = [{
           const queryString = new URLSearchParams(request.query).toString()
           return h.redirect('/england-only?' + queryString)
         }
+        // getPsoContacts will throw an error if not in england, so this call must be after the is-england redirect
+        const contactDetails = await psoContactDetails.getPsoContacts(point.easting, point.northing)
 
         let location = ''
         if (request.query.placeOrPostcode || request.query.nationalGridReference) {
@@ -59,8 +62,18 @@ module.exports = [{
             .replace(/, England$/, '')
             .replace((new RegExp(`^${point.placeOrPostcode}, `, 'i')), '')
         }
-
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, polygon, location, point.placeOrPostcode, recipientemail, fullName, locationDetails)
+        const model = new ConfirmLocationViewModel(
+          {
+            easting: point.easting,
+            northing: point.northing,
+            polygon,
+            location,
+            placeOrPostcode: point.placeOrPostcode,
+            recipientemail,
+            fullName,
+            locationDetails,
+            contactDetails
+          })
 
         return h.view('confirm-location', model)
       } catch (err) {

@@ -3,16 +3,25 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
+const psoContactDetails = require('../../server/services/pso-contact')
 const createServer = require('../../server')
 
 lab.experiment('confirm-location', () => {
   let server
   let restoreIsEnglandService
+  let restoreGetPsoContacts
 
   lab.before(async () => {
     server = await createServer()
     await server.initialize()
     restoreIsEnglandService = isEnglandService.get
+    restoreGetPsoContacts = psoContactDetails.getPsoContacts
+    psoContactDetails.getPsoContacts = () => ({
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      useAutomatedService: true
+    })
+
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }
@@ -21,6 +30,7 @@ lab.experiment('confirm-location', () => {
   lab.after(async () => {
     await server.stop()
     isEnglandService.get = restoreIsEnglandService
+    psoContactDetails.getPsoContacts = restoreGetPsoContacts
   })
 
   lab.test('confirm-location with easting & northing', async () => {
