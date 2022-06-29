@@ -34,6 +34,7 @@ module.exports = [
             northing = encodeURIComponent(request.query.northing)
           }
           const result = await isEnglandService.get(easting, northing)
+
           if (!result) {
             throw new Error('No Result from England service')
           }
@@ -83,19 +84,13 @@ module.exports = [
         }
       },
       validate: {
-        query: Joi.alternatives().required().try(Joi.object().keys({
-          easting: Joi.number().max(700000).positive().required(),
-          northing: Joi.number().max(1300000).positive().required(),
-          location: Joi.string().required(),
-          fullName: Joi.string(),
-          recipientemail: Joi.string().allow('')
-        }), Joi.object().keys({
+        query: Joi.object().keys({
           polygon: Joi.string().required(),
           center: Joi.string().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
           recipientemail: Joi.string().allow('')
-        }))
+        })
       }
     }
   }]
