@@ -62,7 +62,7 @@ module.exports = [{
             .replace(/, England$/, '')
             .replace((new RegExp(`^${point.placeOrPostcode}, `, 'i')), '')
         }
-        const model = new ConfirmLocationViewModel(point.easting, point.northing, polygon, location, point.placeOrPostcode, recipientemail, fullName, locationDetails, contactDetails)
+        const model = new ConfirmLocationViewModel({ easting: point.easting, northing: point.northing, polygon, location, placeOrPostcode: point.placeOrPostcode, recipientemail, fullName, locationDetails, contactDetails })
 
         return h.view('confirm-location', model)
       } catch (err) {
