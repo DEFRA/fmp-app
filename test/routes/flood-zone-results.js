@@ -53,7 +53,7 @@ lab.experiment('flood-zone-results', () => {
   lab.test('get flood-zone-results with valid easting & northing parameters should succeed', async () => {
     const options = {
       method: 'GET',
-      url: urlByPoint
+      url: urlByPolygon
     }
     const response = await server.inject(options)
     const { payload } = response
@@ -78,7 +78,7 @@ lab.experiment('flood-zone-results', () => {
   }
 
   lab.test('get flood-zone-results request data button should be hidden if useAutomated is false', async () => {
-    const options = { method: 'GET', url: urlByPoint }
+    const options = { method: 'GET', url: urlByPolygon }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
@@ -92,7 +92,7 @@ lab.experiment('flood-zone-results', () => {
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is true', async () => {
-    const options = { method: 'GET', url: urlByPoint }
+    const options = { method: 'GET', url: urlByPolygon }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
@@ -105,7 +105,7 @@ lab.experiment('flood-zone-results', () => {
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is false and config.ignoreUseAutomatedService is true', async () => {
-    const options = { method: 'GET', url: urlByPoint }
+    const options = { method: 'GET', url: urlByPolygon }
     psoContactDetails.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
