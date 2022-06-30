@@ -320,6 +320,9 @@ function ConfirmLocationPage (options) {
 
     function updateTargetUrl () {
       const url = getTargetUrl(featureMode, polygon, point, location, fullName, recipientemail)
+      if (!polygon) {
+        mapState.removeItem('polygon')
+      }
       $continueBtn.attr('href', url)
     }
   })

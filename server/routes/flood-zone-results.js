@@ -25,7 +25,6 @@ module.exports = [
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
           const center = request.query.center ? JSON.parse(request.query.center) : undefined
-
           if (polygon) {
             easting = encodeURIComponent(center[0])
             northing = encodeURIComponent(center[1])
@@ -37,6 +36,11 @@ module.exports = [
           if (!result) {
             throw new Error('No Result from England service')
           }
+          if (!polygon) {
+            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&recipientemail=${recipientemail}&polygonMissing=true`
+            return h.redirect('/confirm-location?' + queryString)
+          }
+
           if (!result.is_england) {
             // redirect to the not England page with the search params in the query
             const queryString = new URLSearchParams(request.query).toString()

@@ -62,6 +62,7 @@ module.exports = [{
             .replace(/, England$/, '')
             .replace((new RegExp(`^${point.placeOrPostcode}, `, 'i')), '')
         }
+        const polygonMissing = Boolean(request.query.polygonMissing)
         const model = new ConfirmLocationViewModel(
           {
             easting: point.easting,
@@ -72,7 +73,8 @@ module.exports = [{
             recipientemail,
             fullName,
             locationDetails,
-            contactDetails
+            contactDetails,
+            polygonMissing
           })
 
         return h.view('confirm-location', model)
@@ -90,7 +92,8 @@ module.exports = [{
         nationalGridReference: Joi.string(),
         recipientemail: Joi.string(),
         fullName: Joi.string(),
-        locationDetails: Joi.string()
+        locationDetails: Joi.string(),
+        polygonMissing: Joi.boolean()
       })
     }
   }
