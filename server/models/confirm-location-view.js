@@ -1,4 +1,15 @@
-function ConfirmLocationViewModel ({ easting, northing, polygon, location, placeOrPostcode, recipientemail, fullName, locationDetails, contactDetails = {} }) {
+function ConfirmLocationViewModel ({
+  easting,
+  northing,
+  polygon,
+  location,
+  placeOrPostcode,
+  recipientemail,
+  fullName,
+  locationDetails,
+  contactDetails = {},
+  polygonMissing = false
+}) {
   const { AreaName, EmailAddress } = contactDetails
   this.easting = encodeURIComponent(easting)
   this.northing = encodeURIComponent(northing)
@@ -11,6 +22,7 @@ function ConfirmLocationViewModel ({ easting, northing, polygon, location, place
   this.placeOrPostcodeUnencoded = placeOrPostcode
   this.areaName = AreaName
   this.psoEmailAddress = EmailAddress
+  this.polygonMissing = polygonMissing
 }
 
 module.exports = ConfirmLocationViewModel
