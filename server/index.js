@@ -1,5 +1,7 @@
 const hapi = require('@hapi/hapi')
 const config = require('./../config')
+const CatboxMemory = require('@hapi/catbox-memory')
+const { getPsoContacts } = require('./services/pso-contact')
 
 async function createServer () {
   // Create the hapi server
@@ -11,7 +13,22 @@ async function createServer () {
           abortEarly: false
         }
       }
-    }
+    },
+    cache: [{
+      name: 'FMFP',
+      provider: {
+        constructor: CatboxMemory.Engine,
+        options: {
+          maxByteSize: 10000,
+          minCleanupIntervalMsec: 1000,
+          cloneBuffersOnGet: false
+        }
+      }
+    }]
+  })
+
+  server.method('getPsoContacts', getPsoContacts, {
+    cache: { cache: 'FMFP', expiresIn: 20000, staleIn: 18000, generateTimeout: 5000, staleTimeout: 1000 }
   })
 
   // Register the plugins
