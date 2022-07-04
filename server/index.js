@@ -1,8 +1,6 @@
 const hapi = require('@hapi/hapi')
 const config = require('./../config')
 const CatboxMemory = require('@hapi/catbox-memory')
-const { getPsoContacts } = require('./services/pso-contact')
-const { ignoreUseAutomatedService } = require('./services/use-automated')
 
 async function createServer () {
   // Create the hapi server
@@ -28,11 +26,8 @@ async function createServer () {
     }]
   })
 
-  server.method('getPsoContacts', getPsoContacts, {
-    cache: { cache: 'FMFP', expiresIn: 20000, staleIn: 18000, generateTimeout: 5000, staleTimeout: 1000 }
-  })
-
-  server.method('ignoreUseAutomatedService', ignoreUseAutomatedService)
+  await server.method(require('./services/pso-contact'))
+  await server.method(require('./services/use-automated'))
 
   // Register the plugins
   await server.register(require('@hapi/inert'))

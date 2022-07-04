@@ -4,4 +4,7 @@ const config = require('../../config')
 // to download P4s even if turned off for the specific authority
 const ignoreUseAutomatedService = () => Boolean(config.ignoreUseAutomatedService)
 
-module.exports = { ignoreUseAutomatedService }
+module.exports = {
+  name: 'ignoreUseAutomatedService',
+  method: ignoreUseAutomatedService
+}
