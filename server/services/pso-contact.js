@@ -16,9 +16,17 @@ async function getPsoContacts (easting, northing) {
     throw new Error('Fetching Pso contacts failed: ', error)
   }
 }
+const expiresIn = 600000 // 10 minutes
+const staleIn = 540000 // 9 minutes
+const generateTimeout = 10000 // 10 seconds
+const staleTimeout = 59000 // 59 seconds
 
-// This can be set to true (used on pre-prod) to force the ability
-// to download P4s even if turned off for the specific authority
-const ignoreUseAutomatedService = () => Boolean(config.ignoreUseAutomatedService)
-
-module.exports = { getPsoContacts, ignoreUseAutomatedService }
+module.exports = {
+  name: 'getPsoContacts',
+  method: getPsoContacts,
+  options: {
+    cache: {
+      cache: 'FMFP', expiresIn, staleIn, generateTimeout, staleTimeout
+    }
+  }
+}

@@ -3,7 +3,6 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 const emailConfirm = require('../../server/services/email-confirmation')
-const psoContactDetails = require('../../server/services/pso-contact')
 const { payloadMatchTest } = require('../utils')
 
 const Wreck = require('@hapi/wreck')
@@ -18,15 +17,15 @@ lab.experiment('confirmation', () => {
   lab.before(async () => {
     restoreEmailConfirmation = emailConfirm.emailConfirmation
     restoreWreckPost = Wreck.post
-    restoreGetPsoContacts = psoContactDetails.getPsoContacts
     server = await createServer()
     await server.initialize()
+    restoreGetPsoContacts = server.methods.getPsoContacts
   })
 
   lab.after(async () => {
     emailConfirm.emailConfirmation = restoreEmailConfirmation
     Wreck.post = restoreWreckPost
-    psoContactDetails.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContacts = restoreGetPsoContacts
     await server.stop()
   })
 
@@ -62,7 +61,7 @@ lab.experiment('confirmation', () => {
     ]
     urls.forEach((url) => {
       lab.test(`confirmation with a valid query should show the confirmation view and ${psoContactDescription}`, async () => {
-        psoContactDetails.getPsoContacts = () => psoContactResponse
+        server.methods.getPsoContacts = () => psoContactResponse
         let emailConfirmationUrl
         Wreck.post = async (url, data) => {
           emailConfirmationUrl = url
@@ -79,14 +78,14 @@ lab.experiment('confirmation', () => {
   })
 
   lab.test('confirmation should return internalServerError if an error is thrown', async () => {
-    psoContactDetails.getPsoContacts = () => { throw new Error('test error') }
+    server.methods.getPsoContacts = () => { throw new Error('test error') }
     const options = { method: 'GET', url: '/confirmation?x=12345&y=67890&fullName=Joe%20Bloggs&recipientemail=joe@example.com&applicationReferenceNumber=12345&location=Pickering&zoneNumber=10' }
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(500)
   })
 
   lab.test('confirmation with a polygon should contain a url to flood-zone-results with that polygon', async () => {
-    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
     const url = '/confirmation?fullName=JoeBloggs&polygon=%5B%5B479536%2C484410%5D%2C%5B479425%2C484191%5D%2C%5B479785%2C484020%5D%2C%5B479861%2C484314%5D%2C%5B479536%2C484410%5D%5D&recipientemail=Mark.Fee%40defra.gov.uk&applicationReferenceNumber=VNEFM46GF1CA&x=479643&y=484215&location=pickering&zoneNumber=3&cent=%5B479643%2C484215%5D'
 
     let emailConfirmationUrl
@@ -119,7 +118,7 @@ lab.experiment('confirmation', () => {
   }
 
   lab.test('confirmation page in zone 1 should show specific zone 1 text', async () => {
-    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
 
     const options = {
       method: 'GET',
@@ -132,7 +131,7 @@ lab.experiment('confirmation', () => {
   const zoneNumbers = [undefined, '2', '3', '3 in an area benefitting from flood defences', 'not available']
   zoneNumbers.forEach((zoneNumber) => {
     lab.test(`confirmation page NOT in zone 1 (zone ${zoneNumber}) should NOT show specific zone 1 text`, async () => {
-      psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+      server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
 
       const options = {
         method: 'GET',

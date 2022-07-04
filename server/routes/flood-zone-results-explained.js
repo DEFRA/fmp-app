@@ -1,5 +1,4 @@
 const FloodRiskExpandedViewModel = require('../models/flood-risk-expanded-view')
-const psoContactDetails = require('../services/pso-contact')
 
 module.exports = [{
   method: 'GET',
@@ -20,7 +19,7 @@ module.exports = [{
       let areaName = ''
       let localAuthorities = ''
 
-      const result = await psoContactDetails.getPsoContacts(easting, northing)
+      const result = await request.server.methods.getPsoContacts(easting, northing)
       if (result) {
         const { LocalAuthorities, EmailAddress, AreaName } = result
         if (LocalAuthorities !== undefined && LocalAuthorities !== 0) {
@@ -32,7 +31,7 @@ module.exports = [{
         if (AreaName) {
           areaName = AreaName
         }
-        if (result.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
+        if (result.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
           useAutomatedService = result.useAutomatedService
         }
       }

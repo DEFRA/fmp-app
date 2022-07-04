@@ -3,7 +3,6 @@ const Code = require('code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
-const psoContactDetails = require('../../server/services/pso-contact')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 
@@ -16,8 +15,8 @@ lab.experiment('confirm-location', () => {
     server = await createServer()
     await server.initialize()
     restoreIsEnglandService = isEnglandService.get
-    restoreGetPsoContacts = psoContactDetails.getPsoContacts
-    psoContactDetails.getPsoContacts = () => ({
+    restoreGetPsoContacts = server.methods.getPsoContacts
+    server.methods.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
       useAutomatedService: true
@@ -31,7 +30,7 @@ lab.experiment('confirm-location', () => {
   lab.after(async () => {
     await server.stop()
     isEnglandService.get = restoreIsEnglandService
-    psoContactDetails.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContacts = restoreGetPsoContacts
   })
 
   lab.test('confirm-location with easting & northing', async () => {

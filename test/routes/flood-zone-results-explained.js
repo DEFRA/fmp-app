@@ -2,7 +2,6 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const psoContactDetails = require('../../server/services/pso-contact')
 const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
 const isEnglandService = require('../../server/services/is-england')
@@ -19,16 +18,8 @@ lab.experiment('flood-zone-results-explained', () => {
   const urlByPolygon = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
 
   lab.before(async () => {
-    restoreGetPsoContacts = psoContactDetails.getPsoContacts
     restoreGetByPolygon = riskService.getByPolygon
     restoreGetByPoint = riskService.getByPoint
-    restoreIgnoreUseAutomatedService = psoContactDetails.ignoreUseAutomatedService
-    psoContactDetails.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: 'South Oxfordshire',
-      useAutomatedService: true
-    })
     riskService.getByPolygon = () => ({ in_england: true })
     riskService.getByPoint = () => ({ point_in_england: true })
 
@@ -39,14 +30,22 @@ lab.experiment('flood-zone-results-explained', () => {
 
     server = await createServer()
     await server.initialize()
+    restoreGetPsoContacts = server.methods.getPsoContacts
+    server.methods.getPsoContacts = () => ({
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      LocalAuthorities: 'South Oxfordshire',
+      useAutomatedService: true
+    })
+    restoreIgnoreUseAutomatedService = server.methods.ignoreUseAutomatedService
   })
 
   lab.after(async () => {
-    psoContactDetails.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContacts = restoreGetPsoContacts
     riskService.getByPolygon = restoreGetByPolygon
     riskService.getByPoint = restoreGetByPoint
     isEnglandService.get = restoreIsEnglandService
-    psoContactDetails.ignoreUseAutomatedService = restoreIgnoreUseAutomatedService
+    server.methods.ignoreUseAutomatedService = restoreIgnoreUseAutomatedService
     await server.stop()
   })
 
@@ -75,16 +74,16 @@ lab.experiment('flood-zone-results-explained', () => {
 
   lab.test('get flood-zone-results-explained request data button should be hidden if useAutomated is false and config.ignoreUseAutomatedService is false', async () => {
     const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({
+    server.methods.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
       LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: false
     })
-    psoContactDetails.ignoreUseAutomatedService = () => false
+    server.methods.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
+    Code.expect(server.methods.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
     await payloadMatchTest(payload, /<ul>the address<\/ul>/g, 0)
     await payloadMatchTest(payload, /<li>the address<\/li>/g, 1)
@@ -92,24 +91,24 @@ lab.experiment('flood-zone-results-explained', () => {
 
   lab.test('return undefined when getPsoContacts is undefined ', async () => {
     const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => undefined
+    server.methods.getPsoContacts = () => undefined
     const { payload } = await server.inject(options)
-    Code.expect(psoContactDetails.getPsoContacts()).to.be.equals(undefined)
+    Code.expect(server.methods.getPsoContacts()).to.be.equals(undefined)
     await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span>/g, 2)
   })
 
   lab.test('get flood-zone-results-explained request data button should not shown be if useAutomated is undefined  and config.ignoreUseAutomatedService is false', async () => {
     const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({
+    server.methods.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
       LocalAuthorities: 'South Oxfordshire',
       useAutomatedService: undefined
     })
-    psoContactDetails.ignoreUseAutomatedService = () => false
+    server.methods.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(psoContactDetails.ignoreUseAutomatedService()).to.be.false()
+    Code.expect(server.methods.ignoreUseAutomatedService()).to.be.false()
     const { payload } = response
     await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold">South Oxfordshire<\/span>/g, 2)
     testIfP4DownloadButtonExists(payload, undefined)
@@ -121,13 +120,13 @@ lab.experiment('flood-zone-results-explained', () => {
     useAutomatedServiceValues.forEach((useAutomatedService) => {
       lab.test(`get flood-zone-results-explained request data button should be present if useAutomated is ${useAutomatedService}  and config.ignoreUseAutomatedService is ${ignoreUseAutomatedService}`, async () => {
         const options = { method: 'GET', url: urlByPoint }
-        psoContactDetails.getPsoContacts = () => ({
+        server.methods.getPsoContacts = () => ({
           EmailAddress: 'psoContact@example.com',
           AreaName: 'Yorkshire',
           LocalAuthorities: 'South Oxfordshire',
           useAutomatedService
         })
-        psoContactDetails.ignoreUseAutomatedService = () => ignoreUseAutomatedService
+        server.methods.ignoreUseAutomatedService = () => ignoreUseAutomatedService
         const response = await server.inject(options)
         Code.expect(response.statusCode).to.equal(200)
         const { payload } = response
@@ -140,7 +139,7 @@ lab.experiment('flood-zone-results-explained', () => {
   localAuthorities.forEach((localAuthority) => {
     lab.test('get flood-zone-results-explained request localAuthority should be empty when localAuthorithy is undefined ', async () => {
       const options = { method: 'GET', url: urlByPoint }
-      psoContactDetails.getPsoContacts = () => ({
+      server.methods.getPsoContacts = () => ({
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities: localAuthority,
@@ -158,7 +157,7 @@ lab.experiment('flood-zone-results-explained', () => {
     lab.test(`flood-zone-results-explained for zone: ${floodZone} should say at time of publication rather than printing`, async () => {
       const url = urlByPoint.replace('FZ3', floodZone)
       const options = { method: 'GET', url }
-      psoContactDetails.getPsoContacts = () => ({
+      server.methods.getPsoContacts = () => ({
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities: 'Ryedale',
@@ -174,7 +173,7 @@ lab.experiment('flood-zone-results-explained', () => {
 
   lab.test('get flood-zone-results-explained should throw an error if a library error occurs', async () => {
     const options = { method: 'GET', url: urlByPoint }
-    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'South Oxfordshire' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'South Oxfordshire' })
     riskService.getByPoint = () => { throw new Error('Deliberate Testing Error ') }
 
     const response = await server.inject(options)
@@ -183,7 +182,7 @@ lab.experiment('flood-zone-results-explained', () => {
 
   lab.test('get flood-zone-results-explained page should be success when url by polygon is called', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    psoContactDetails.getPsoContacts = () => ({ Location: 'thames' })
+    server.methods.getPsoContacts = () => ({ Location: 'thames' })
     riskService.getByPolygon = () => { throw new Error('Deliberate Testing Error ') }
 
     const response = await server.inject(options)
@@ -194,7 +193,7 @@ lab.experiment('flood-zone-results-explained', () => {
     const url = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
 
     const options = { method: 'POST', url: url }
-    psoContactDetails.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', Location: 'thames' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', Location: 'thames' })
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)

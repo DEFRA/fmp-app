@@ -27,6 +27,8 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/boom": "^9.1.4",
+    "@hapi/catbox": "^12.0.0",
+    "@hapi/catbox-memory": "^6.0.0",
     "@hapi/cookie": "^11.0.2",
     "@hapi/good": "^9.0.1",
     "@hapi/good-console": "^9.0.1",
