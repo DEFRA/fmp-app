@@ -3,7 +3,6 @@ const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskViewModel = require('../models/flood-risk-view')
-const psoContactDetails = require('../services/pso-contact')
 const isEnglandService = require('../services/is-england')
 
 module.exports = [
@@ -47,14 +46,14 @@ module.exports = [
             return h.redirect('/england-only?' + queryString)
           }
 
-          const psoResults = await psoContactDetails.getPsoContacts(easting, northing)
+          const psoResults = await request.server.methods.getPsoContacts(easting, northing)
           if (psoResults && psoResults.EmailAddress) {
             psoEmailAddress = psoResults.EmailAddress
           }
           if (psoResults && psoResults.AreaName) {
             areaName = psoResults.AreaName
           }
-          if (psoResults && psoResults.useAutomatedService !== undefined && !psoContactDetails.ignoreUseAutomatedService()) {
+          if (psoResults && psoResults.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
             useAutomatedService = psoResults.useAutomatedService
           }
 
