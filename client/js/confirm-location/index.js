@@ -166,6 +166,7 @@ function ConfirmLocationPage (options) {
 
   const mapOptions = {
     allowFullScreen: false,
+    limitZoom: false,
     point: [parseInt(easting, 10), parseInt(northing, 10)],
     layers: [createTileLayer(mapConfig), vectorLayer],
     // Add vector drag to map interactions
