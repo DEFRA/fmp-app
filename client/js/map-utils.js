@@ -2,6 +2,8 @@ const TileLayer = require('ol/layer/Tile').default
 const TileWMS = require('ol/source/TileWMS').default
 const TileGrid = require('ol/tilegrid/TileGrid').default
 const Icon = require('ol/style/Icon').default
+const ScaleLine = require('ol/control/ScaleLine').default
+const FullScreen = require('ol/control/FullScreen').default
 
 const createTileLayer = mapConfig => {
   return new TileLayer({
@@ -133,6 +135,11 @@ const getCartesianViewExtents = map => {
   return [topLeft, bottomRight]
 }
 
+const extendMapControls = (allowFullScreen) => {
+  const scaleLine = new ScaleLine({ units: 'metric', minWidth: 50 })
+  return allowFullScreen ? [scaleLine, new FullScreen({ source: 'map--result' })] : [scaleLine]
+}
+
 module.exports = {
   createTileLayer,
   mapState,
@@ -141,5 +148,6 @@ module.exports = {
   getPolygonNodeIcon,
   roundCoordinates,
   snapCoordinates,
-  getCartesianViewExtents
+  getCartesianViewExtents,
+  extendMapControls
 }
