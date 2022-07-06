@@ -23,7 +23,7 @@ function Map (mapOptions) {
   // add the projection to Window.proj4
   proj4.defs(config.projection.ref, config.projection.proj4)
   register(proj4)
-  const { allowFullScreen = true } = mapOptions
+  const { allowFullScreen = true, limitZoom = true } = mapOptions
 
   // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
@@ -58,7 +58,7 @@ function Map (mapOptions) {
     const layers = Array.prototype.concat([layer], mapOptions.layers)
 
     // Prevent map from zooming in too far
-    const resolutions = source.tileGrid.getResolutions()
+    const resolutions = limitZoom ? source.tileGrid.getResolutions().slice(0, 10) : source.tileGrid.getResolutions()
 
     map = new OLMap({
       interactions: mapOptions.interactions || InteractionDefaults({
