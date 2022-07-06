@@ -8,13 +8,13 @@ const WMTS = require('ol/source/WMTS').default
 const Proj = require('ol/proj')
 const TileLayer = require('ol/layer/Tile').default
 const OLMap = require('ol/Map').default
-const ScaleLine = require('ol/control/ScaleLine').default
 const View = require('ol/View').default
 const { register } = require('ol/proj/proj4')
 const { optionsFromCapabilities } = require('ol/source/WMTS')
 const { defaults: InteractionDefaults } = require('ol/interaction')
-const { defaults: ControlDefaults, FullScreen } = require('ol/control')
+const { defaults: ControlDefaults } = require('ol/control')
 const parser = new WMTSCapabilities()
+const { extendMapControls } = require('./map-utils')
 
 const config = require('./map-config.json')
 let map, callback
@@ -23,6 +23,7 @@ function Map (mapOptions) {
   // add the projection to Window.proj4
   proj4.defs(config.projection.ref, config.projection.proj4)
   register(proj4)
+  const { allowFullScreen = true } = mapOptions
 
   // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
@@ -66,12 +67,7 @@ function Map (mapOptions) {
       }),
       controls: ControlDefaults({
         rotate: false
-      }).extend([
-        new ScaleLine({
-          units: 'metric',
-          minWidth: 50
-        }), new FullScreen({ source: 'map--result' })
-      ]),
+      }).extend(extendMapControls(allowFullScreen)),
       layers: layers,
       pixelRatio: 1,
       target: 'map',

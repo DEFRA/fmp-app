@@ -72,6 +72,8 @@ const mockOpenLayers = () => {
   mock('ol/Feature', { default: defaultMock })
   mock('ol/geom/Point', { default: defaultMock })
   mock('ol/Collection', { default: MockCollection })
+  mock('ol/control/ScaleLine', { default: defaultMock })
+  mock('ol/control/FullScreen', { default: defaultMock })
 
   return () => {
     mock.stop('ol/layer/Tile')
@@ -81,6 +83,8 @@ const mockOpenLayers = () => {
     mock.stop('ol/Feature')
     mock.stop('ol/geom/Point')
     mock.stop('ol/Collection')
+    mock.stop('ol/control/ScaleLine')
+    mock.stop('ol/control/FullScreen')
   }
 }
 
