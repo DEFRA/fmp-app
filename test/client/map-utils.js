@@ -218,4 +218,19 @@ lab.experiment('map-utils', () => {
       Code.expect(extents).to.equal([expectedTopLeft, expectedBottomRight])
     })
   })
+
+  lab.test('extendMapControls will not include fullscreen controls if false is passed', async () => {
+    const controls = mapUtils.extendMapControls(false)
+    Code.expect(controls).to.equal([
+      { units: 'metric', minWidth: 50 }
+    ])
+  })
+
+  lab.test('extendMapControls will include fullscreen controls if true is passed', async () => {
+    const controls = mapUtils.extendMapControls(true)
+    Code.expect(controls).to.equal([
+      { units: 'metric', minWidth: 50 },
+      { source: 'map--result' }
+    ])
+  })
 })
