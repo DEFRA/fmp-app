@@ -135,7 +135,7 @@ const getCartesianViewExtents = map => {
   return [topLeft, bottomRight]
 }
 
-const extendMapControls = (allowFullScreen) => {
+const extendMapControls = allowFullScreen => {
   const scaleLine = new ScaleLine({ units: 'metric', minWidth: 50 })
   return allowFullScreen ? [scaleLine, new FullScreen({ source: 'map--result' })] : [scaleLine]
 }
