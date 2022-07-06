@@ -94,7 +94,7 @@ const getPolygonNodeIcon = resolution => {
   })
   if (!isNaN(resolution)) {
     resolution = 1 + parseFloat(resolution, 10)
-    const scale = 0.5 / Math.pow(resolution, 2)
+    const scale = 0.5 / resolution
     icon.setScale(scale)
   }
   return icon
