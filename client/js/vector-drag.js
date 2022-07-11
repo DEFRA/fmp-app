@@ -4,7 +4,7 @@ class VectorDrag extends Pointer {
   constructor () {
     super()
     this.coordinate = null
-    this.cursor = 'pointer'
+    this.cursor = 'crosshair'
     this.feature = null
     this.previouscursor = null
 
@@ -14,7 +14,6 @@ class VectorDrag extends Pointer {
 
   handleDownEvent (evt) {
     const map = evt.map
-
     const features = []
 
     const feature = map.forEachFeatureAtPixel(evt.pixel,
@@ -63,6 +62,13 @@ class VectorDrag extends Pointer {
           return feature
         })
       const element = evt.map.getTargetElement()
+      if (evt.dragging) {
+        this.cursor = 'grabbing'
+        element.style.cursor = 'grabbing'
+      } else {
+        this.cursor = 'crosshair'
+        element.style.cursor = 'pointer'
+      }
       const geometry = feature ? feature.getGeometry() : undefined
       if (feature && geometry.getType() !== 'Polygon') { // FCRM-3665 stop the icon changing implying polygons can be dragged
         if (element.style.cursor !== this.cursor) {
