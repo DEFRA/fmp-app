@@ -153,7 +153,7 @@ lab.experiment('map-utils', () => {
     Code.expect(icon.config).to.equal({
       opacity: 1,
       size: [32, 32],
-      scale: 0.2222222222222222,
+      scale: 0.3333333333333333,
       src: '/assets/images/map-draw-cursor-2x.png'
     })
   })
