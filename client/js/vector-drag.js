@@ -67,7 +67,7 @@ class VectorDrag extends Pointer {
         element.style.cursor = 'grabbing'
       } else {
         this.cursor = 'crosshair'
-        element.style.cursor = 'pointer'
+        element.style.cursor = 'crosshair'
       }
       const geometry = feature ? feature.getGeometry() : undefined
       if (feature && geometry.getType() !== 'Polygon') { // FCRM-3665 stop the icon changing implying polygons can be dragged
