@@ -13,6 +13,8 @@
       <p class="govuk-body">
         Climate change will increase flood risk in future. This means the level of protection existing flood defences currently provide, will reduce over time. The site may also be at risk from other sources of flooding.
       </p>
+    {% elif (zone == 'FZ2') or (zone == 'FZ2a') %}
+      <p class="govuk-body">Because your selected location is in flood zone {{zoneNumber}}, it has a medium probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
     {% else %}
       <p class="govuk-body">Because your selected location is in flood zone {{zoneNumber}}, it has a high probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
     {% endif %}
