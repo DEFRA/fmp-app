@@ -93,7 +93,19 @@ module.exports = [
           const { x, y } = PDFinformationDetailsObject.coordinates
           const { location, polygon } = PDFinformationDetailsObject
           const name = fullName
-          const data = JSON.stringify({ name, recipientemail, x, y, polygon, location, applicationReferenceNumber, zoneNumber, areaName, psoEmailAddress })
+          const data = JSON.stringify({
+            name,
+            recipientemail,
+            x,
+            y,
+            polygon,
+            location,
+            applicationReferenceNumber,
+            zoneNumber,
+            areaName,
+            psoEmailAddress,
+            task: 'LOG_REQUEST'
+          })
           wreck.post(publishToQueueURL, {
             payload: data
           })
