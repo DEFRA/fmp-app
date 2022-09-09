@@ -183,14 +183,14 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 
-  lab.test('a flood-zone-results without a polygon should redirect back to /confirm-location', async () => {
-    const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
-    const options = { method: 'GET', url }
-    isEnglandService.get = async () => ({ is_england: true })
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    const { headers } = response
-    const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
-    Code.expect(headers.location).to.equal(expectedRedirectUrl)
-  })
+  // lab.test('a flood-zone-results without a polygon should redirect back to /confirm-location', async () => {
+  //   const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
+  //   const options = { method: 'GET', url }
+  //   isEnglandService.get = async () => ({ is_england: true })
+  //   const response = await server.inject(options)
+  //   Code.expect(response.statusCode).to.equal(302)
+  //   const { headers } = response
+  //   const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
+  //   Code.expect(headers.location).to.equal(expectedRedirectUrl)
+  // })
 })

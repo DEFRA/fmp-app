@@ -5,7 +5,7 @@
 @import '../dialog';
 @import '../os-branding';
 
-.map-container-column {
+.govuk-grid-column-one-half {
   #map:not(:fullscreen) {
     position: relative;
     height: 500px;
