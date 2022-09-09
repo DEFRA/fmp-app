@@ -19,7 +19,7 @@ module.exports = {
     invalidEastingAndNorthing: '<span class="error-message">You need to give an easting and northing</span>'
   },
   'confirm-location': {
-    standard: '<h1 class="govuk-heading-xl">Draw the boundary of your site</h1>'
+    standard: '<h1 class="govuk-heading-xl">Confirm the location</h1>'
   },
   summary: {
     standard: '<h1 class="heading-xlarge">Likelihood of flooding in this area</h1>',

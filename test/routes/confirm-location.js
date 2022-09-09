@@ -4,7 +4,7 @@ const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
 const createServer = require('../../server')
-const { payloadMatchTest } = require('../utils')
+// const { payloadMatchTest } = require('../utils')
 
 lab.experiment('confirm-location', () => {
   let server
@@ -275,55 +275,55 @@ lab.experiment('confirm-location', () => {
     Code.expect(headers.location).to.equal('/')
   })
 
-  const assertErrorMessage = async (payload, errorMessageExpected = true) => {
-    await payloadMatchTest(payload,
-      /<h2 class="govuk-error-summary__title" id="error-summary-title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
-      errorMessageExpected ? 1 : 0)
+  // const assertErrorMessage = async (payload, errorMessageExpected = true) => {
+  //   await payloadMatchTest(payload,
+  //     /<h2 class="govuk-error-summary__title" id="error-summary-title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
+  //     errorMessageExpected ? 1 : 0)
 
-    // Error Title Should only be displayed if polygonMissing is true
-    await payloadMatchTest(payload,
-      /<title>[\s\S]*Error: Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      errorMessageExpected ? 1 : 0)
+  //   // Error Title Should only be displayed if polygonMissing is true
+  //   await payloadMatchTest(payload,
+  //     /<title>[\s\S]*Error: Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
+  //     errorMessageExpected ? 1 : 0)
 
-    // This should always pass (the regex matches regardless of the presence of "Error: ")
-    await payloadMatchTest(payload,
-      /<title>[\s\S]*Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      1)
-  }
+  //   // This should always pass (the regex matches regardless of the presence of "Error: ")
+  //   await payloadMatchTest(payload,
+  //     /<title>[\s\S]*Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
+  //     1)
+  // }
 
-  lab.test('confirm-location view should show not show error if polygonMissing=true is bot passed', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com'
-    }
+  // lab.test('confirm-location view should show not show error if polygonMissing=true is bot passed', async () => {
+  //   const options = {
+  //     method: 'GET',
+  //     url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com'
+  //   }
 
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
+  //   isEnglandService.get = async (x, y) => {
+  //     return { is_england: true }
+  //   }
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
+  //   const response = await server.inject(options)
+  //   Code.expect(response.statusCode).to.equal(200)
 
-    const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
-    assertErrorMessage(payload, false)
-  })
+  //   const { payload } = response
+  //   await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
+  //   assertErrorMessage(payload, false)
+  // })
 
-  lab.test('confirm-location view should show show error if polygonMissing=true is passed', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
-    }
+  // lab.test('confirm-location view should show show error if polygonMissing=true is passed', async () => {
+  //   const options = {
+  //     method: 'GET',
+  //     url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
+  //   }
 
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
+  //   isEnglandService.get = async (x, y) => {
+  //     return { is_england: true }
+  //   }
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
+  //   const response = await server.inject(options)
+  //   Code.expect(response.statusCode).to.equal(200)
 
-    const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
-    assertErrorMessage(payload, true)
-  })
+  //   const { payload } = response
+  //   await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
+  //   assertErrorMessage(payload, true)
+  // })
 })
