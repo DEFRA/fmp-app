@@ -70,4 +70,9 @@ module.exports = window.onload = function () {
     cookieBanner.classList.remove('govuk-visually-hidden')
     questionBanner.removeAttribute('hidden')
   }
+
+  // Remove the js-only class from any element that has it.
+  // .js-only elements are hidden in the css so this effectively shows the .js-only (by removing the class)
+  // but only if js is enabled (as this wont run if it isn't).
+  Array.from(document.getElementsByClassName('js-only')).forEach(element => element.classList.remove('js-only'))
 }

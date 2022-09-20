@@ -123,16 +123,18 @@ Cookies - Flood map for planning - GOV.UK
             </tr>
           </tbody>
         </table>
-        <div class="cookie-settings__no-js">
-          <h2 class="govuk-heading-s govuk-!-margin-top-6">Do you want to accept analytics cookies?</h2>
-          <p class="govuk-body">We use Javascript to set our analytics cookies. Unfortunately Javascript is not running
-            on your browser, so you cannot change your settings. You can try:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>reloading the page</li>
-            <li>turning on Javascript in your browser</li>
-          </ul>
-        </div>
-        <div class="cookie-settings__form-wrapper">
+        <noscript>
+          <div class="cookie-settings__no-js">
+            <h2 class="govuk-heading-s govuk-!-margin-top-6">Do you want to accept analytics cookies?</h2>
+              <p class="govuk-body">We cannot change your cookie settings at the moment because JavaScript is not running 
+                in your browser. To fix this, try:</p>
+              <ul class="govuk-list govuk-list--bullet">
+              <li>turning on JavaScript in your browser settings</li>
+              <li>reloading the page</li>
+            </ul>
+          </div>
+        </noscript>
+        <div class="cookie-settings__form-wrapper js-only">
           <div class="govuk-form-group govuk-!-margin-top-6">
             {{ govukRadios({
               classes: "govuk-radios--inline",
