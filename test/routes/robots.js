@@ -25,6 +25,6 @@ lab.experiment('robots.txt', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include('User-agent: *\nDisallow: /\n')
+    Code.expect(response.payload).to.include('User-agent: *\nAllow: /$\nDisallow: /\n')
   })
 })
