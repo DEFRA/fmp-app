@@ -17,6 +17,7 @@
     "build:css": "bin/build-css",
     "build": "bin/build",
     "lint": "standard",
+    "eslint": "eslint --cache --ext .js .",
     "unit-test": "lab --verbose -l -c -r console -o stdout -r lcov -o lcov.info",
     "unit-test-quiet": "lab -l -s",
     "test": "npm run lint && npm run unit-test",
