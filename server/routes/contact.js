@@ -42,7 +42,7 @@ module.exports = [
           PDFinformationDetailsObject.fullName = request.query.fullName
           PDFinformationDetailsObject.recipientemail = request.query.recipientemail
           const model = new ContactViewModel({
-            PDFinformationDetailsObject: PDFinformationDetailsObject
+            PDFinformationDetailsObject
           })
           return h.view('contact', model)
         } catch (err) { // I can't think of a way to cause an error in this try catch block so this catch may be unrequired and is not covered by tests

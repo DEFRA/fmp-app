@@ -89,6 +89,6 @@ $(function init () {
 })
 
 module.exports = {
-  openDialog: openDialog,
-  closeDialog: closeDialog
+  openDialog,
+  closeDialog
 }

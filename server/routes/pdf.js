@@ -85,9 +85,9 @@ module.exports = {
           units: 'meters',
           geodetic: true,
           outputFormat: 'pdf',
-          reference: reference,
+          reference,
           easting: parseInt(center[0]),
-          scale: scale,
+          scale,
           northing: parseInt(center[1]),
           timestamp: moment().tz('Europe/London').format('D MMM YYYY H:mm'),
           pdfSummaryTemplate: `summary-template-${zone}.pdf`,
@@ -270,8 +270,8 @@ module.exports = {
             }, vector],
           pages: [
             {
-              center: center,
-              scale: scale,
+              center,
+              scale,
               dpi: 300,
               geodetic: false,
               strictEpsg4326: false
