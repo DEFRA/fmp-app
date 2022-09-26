@@ -52,7 +52,7 @@ function Map (mapOptions) {
 
     const layer = new TileLayer({
       ref: config.OSLayer,
-      source: source
+      source
     })
 
     const layers = Array.prototype.concat([layer], mapOptions.layers)
@@ -68,12 +68,12 @@ function Map (mapOptions) {
       controls: ControlDefaults({
         rotate: false
       }).extend(extendMapControls(allowFullScreen)),
-      layers: layers,
+      layers,
       pixelRatio: 1,
       target: 'map',
       view: new View({
-        resolutions: resolutions,
-        projection: projection,
+        resolutions,
+        projection,
         center: mapOptions.point || [440000, 310000],
         zoom: mapOptions.point ? 9 : 0,
         extent: config.projection.extent

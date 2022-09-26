@@ -55,8 +55,8 @@
     }
 
     return {
-      setup: setup,
-      setupForGoogleAnalytics: setupForGoogleAnalytics
+      setup,
+      setupForGoogleAnalytics
     }
   }())
 

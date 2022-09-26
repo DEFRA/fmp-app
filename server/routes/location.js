@@ -61,7 +61,7 @@ module.exports = [{
                 placeOrPostcodeSelected: true,
                 eastingNorthingSelected: false,
                 nationalGridReferenceSelected: false,
-                placeOrPostcode: placeOrPostcode,
+                placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
                 placeOrPostcodeError: { text: 'No address found for that place or postcode' }
               })
@@ -78,7 +78,7 @@ module.exports = [{
               placeOrPostcodeSelected: true,
               eastingNorthingSelected: false,
               nationalGridReferenceSelected: false,
-              placeOrPostcode: placeOrPostcode,
+              placeOrPostcode,
               nationalGridReference: payload.nationalGridReference,
               placeOrPostcodeError: { text: 'Enter a real place name or postcode' }
             })
@@ -96,7 +96,7 @@ module.exports = [{
               placeOrPostcodeSelected: false,
               eastingNorthingSelected: false,
               nationalGridReferenceSelected: true,
-              placeOrPostcode: placeOrPostcode,
+              placeOrPostcode,
               nationalGridReference: payload.nationalGridReference,
               nationalGridReferenceError: { text: 'Enter a real National Grid Reference (NGR)' }
             })
@@ -123,7 +123,7 @@ module.exports = [{
                 nationalGridReferenceSelected: false,
                 easting: payload.easting,
                 northing: payload.northing,
-                placeOrPostcode: placeOrPostcode,
+                placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
                 eastingError: { text: eastingNorthingResponse.eastingError },
                 northingError: { text: eastingNorthingResponse.northingError }
@@ -137,7 +137,7 @@ module.exports = [{
                 nationalGridReferenceSelected: false,
                 easting: payload.easting,
                 northing: payload.northing,
-                placeOrPostcode: placeOrPostcode,
+                placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
                 northingError: { text: eastingNorthingResponse.northingError }
               })
@@ -149,7 +149,7 @@ module.exports = [{
                 nationalGridReferenceSelected: false,
                 easting: payload.easting,
                 northing: payload.northing,
-                placeOrPostcode: placeOrPostcode,
+                placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
                 eastingError: { text: eastingNorthingResponse.eastingError }
               })

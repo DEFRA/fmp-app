@@ -9,14 +9,14 @@ async function emailConfirmation (model) {
       throw new Error('No point provided')
     }
     const emailObj = {
-      fullname: fullname,
-      referencenumber: referencenumber,
-      areaname: areaname,
-      psoemailaddress: psoemailaddress,
-      recipientemail: recipientemail,
-      location: location,
-      search: search,
-      zoneNumber: zoneNumber
+      fullname,
+      referencenumber,
+      areaname,
+      psoemailaddress,
+      recipientemail,
+      location,
+      search,
+      zoneNumber
     }
     const data = JSON.stringify(emailObj)
     await Wreck.post(url, {
