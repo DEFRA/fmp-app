@@ -1,0 +1,8 @@
+**/*.min.js
+/server/public/static/javascripts/ol.js
+/server/public/static/javascripts/components/maps/live.js
+/server/public/static/javascripts/components/a11y-dialog.js
+/server/public/static/javascripts/core.js
+/server/public/assets/javascripts/govuk-template.js
+/server/public/assets/javascripts/
+/server/public/build/javascripts/
