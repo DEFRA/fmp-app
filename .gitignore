@@ -9,3 +9,4 @@ server/views/layout.html
 lcov.info
 .vscode
 jsconfig.json
+.eslintcache
