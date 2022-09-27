@@ -2,7 +2,7 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
-const FloodRiskView = require('../../server/models/flood-risk-view')
+const FloodRiskView = require('../models/flood-risk-view')
 const isEnglandService = require('../services/is-england')
 const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
 
@@ -59,31 +59,31 @@ module.exports = [
             useAutomatedService = psoResults.useAutomatedService
           }
 
-          if (polygon) {
-            const geoJson = util.convertToGeoJson(polygon)
+          // if (polygon) {
+          const geoJson = util.convertToGeoJson(polygon)
 
-            const risk = await riskService.getByPolygon(geoJson)
+          const risk = await riskService.getByPolygon(geoJson)
 
-            if (!risk.in_england) {
-              return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
-            } else {
-              const plotSize = getAreaInHectares(polygonString)
-              const floodZoneResultsData = new FloodRiskView.Model({
-                psoEmailAddress,
-                areaName,
-                risk,
-                center,
-                polygon,
-                location,
-                placeOrPostcode,
-                recipientemail,
-                fullName,
-                useAutomatedService,
-                plotSize
-              })
-              return h.view('flood-zone-results', floodZoneResultsData)
-                .unstate('pdf-download')
-            }
+          if (!risk.in_england) {
+            return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
+          } else {
+            const plotSize = getAreaInHectares(polygonString)
+            const floodZoneResultsData = new FloodRiskView.Model({
+              psoEmailAddress,
+              areaName,
+              risk,
+              center,
+              polygon,
+              location,
+              placeOrPostcode,
+              recipientemail,
+              fullName,
+              useAutomatedService,
+              plotSize
+            })
+            return h.view('flood-zone-results', floodZoneResultsData)
+              .unstate('pdf-download')
+          // }
           // TODO remove old point CODE like this else block
           // } else {
           //   const riskResult = await riskService.getByPoint(easting, northing)
