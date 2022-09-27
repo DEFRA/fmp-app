@@ -36,8 +36,7 @@ class VectorDrag extends Pointer {
     if (features.length > 0) {
       this.features = features
     }
-
-    return !!feature
+    return Boolean(features.length)
   }
 
   handleDragEvent (evt) {
