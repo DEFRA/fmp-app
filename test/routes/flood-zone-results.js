@@ -5,6 +5,8 @@ const createServer = require('../../server')
 const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
 const isEnglandService = require('../../server/services/is-england')
+const FloodRiskView = require('../../server/models/flood-risk-view')
+const sinon = require('sinon')
 
 lab.experiment('flood-zone-results', () => {
   let server
@@ -48,11 +50,12 @@ lab.experiment('flood-zone-results', () => {
     await server.stop()
   })
 
-  lab.test('get flood-zone-results with valid easting & northing parameters should succeed', async () => {
+  lab.test('get flood-zone-results with a valid polygon should succeed', async () => {
     const options = {
       method: 'GET',
       url: urlByPolygon
     }
+
     server.methods.getPsoContacts = () => ({
       EmailAddress: 'psoContact@example.com',
       AreaName: 'Yorkshire',
@@ -69,6 +72,35 @@ lab.experiment('flood-zone-results', () => {
     await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
     await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
     await payloadMatchTest(payload, /We recommend that you check the relevant local planning authority's strategic flood risk assessment \(SFRA\)/g)
+  })
+
+  lab.test('get flood-zone-results with a valid polygon should call buildFloodZoneResultsData', async () => {
+    const options = {
+      method: 'GET',
+      url: urlByPolygon
+    }
+    const FloodRiskViewModelSpy = sinon.spy(FloodRiskView, 'Model')
+
+    server.methods.getPsoContacts = () => ({
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      useAutomatedService: true
+    })
+    await server.inject(options)
+
+    Code.expect(FloodRiskViewModelSpy.callCount).to.equal(1)
+    Code.expect(FloodRiskViewModelSpy.args[0][0]).to.equal({
+      areaName: 'Yorkshire',
+      center: [479472, 484194],
+      fullName: 'Joe Bloggs',
+      location: 'Pickering',
+      placeOrPostcode: undefined,
+      polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
+      psoEmailAddress: 'psoContact@example.com',
+      recipientemail: 'joe@example.com',
+      risk: { in_england: true },
+      useAutomatedService: true
+    })
   })
 
   const testIfP4DownloadButtonExists = async (payload, shouldExist = true) => {
