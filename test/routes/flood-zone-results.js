@@ -99,7 +99,8 @@ lab.experiment('flood-zone-results', () => {
       psoEmailAddress: 'psoContact@example.com',
       recipientemail: 'joe@example.com',
       risk: { in_england: true },
-      useAutomatedService: true
+      useAutomatedService: true,
+      plotSize: '3.49'
     })
   })
 

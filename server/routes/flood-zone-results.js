@@ -4,7 +4,8 @@ const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskView = require('../../server/models/flood-risk-view')
 const isEnglandService = require('../services/is-england')
-const { polygonStringToArray } = require('../services/shape-utils')
+const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
+
 module.exports = [
   {
     method: 'GET',
@@ -66,6 +67,7 @@ module.exports = [
             if (!risk.in_england) {
               return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
             } else {
+              const plotSize = getAreaInHectares(polygonString)
               const floodZoneResultsData = new FloodRiskView.Model({
                 psoEmailAddress,
                 areaName,
@@ -76,7 +78,8 @@ module.exports = [
                 placeOrPostcode,
                 recipientemail,
                 fullName,
-                useAutomatedService
+                useAutomatedService,
+                plotSize
               })
               return h.view('flood-zone-results', floodZoneResultsData)
                 .unstate('pdf-download')

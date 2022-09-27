@@ -1,7 +1,19 @@
 const FloodZone = require('./flood-zone')
 
 function Model (data) {
-  const { psoEmailAddress, areaName, risk, center, polygon, location, placeOrPostcode, recipientemail, fullName, useAutomatedService } = data
+  const {
+    psoEmailAddress,
+    areaName,
+    risk,
+    center,
+    polygon,
+    location,
+    placeOrPostcode,
+    recipientemail,
+    fullName,
+    useAutomatedService,
+    plotSize
+  } = data
 
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
@@ -47,6 +59,8 @@ function Model (data) {
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
+
+  this.plotSize = plotSize
 }
 
 module.exports = { Model }
