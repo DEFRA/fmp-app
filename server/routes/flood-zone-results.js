@@ -35,10 +35,10 @@ module.exports = [
           if (!result) {
             throw new Error('No Result from England service')
           }
-          // if (!polygon) {
-          //   const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&recipientemail=${recipientemail}&polygonMissing=true`
-          //   return h.redirect('/confirm-location?' + queryString)
-          // }
+          if (!polygon) {
+            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&recipientemail=${recipientemail}&polygonMissing=true`
+            return h.redirect('/confirm-location?' + queryString)
+          }
 
           if (!result.is_england) {
             // redirect to the not England page with the search params in the query

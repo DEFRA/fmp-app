@@ -16,19 +16,26 @@
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
   <div id="confirm-location-page" class="govuk-grid-row">
 
-    <div class="govuk-grid-column-one-half">
-      <h1 class="govuk-heading-xl">Confirm the location</h1>
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
       {% if locationDetails %} 
       <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}</p>
       {% endif %}
-      <h2 class="govuk-heading-m">For developments larger than a single residential property</h2>
+      {% if polygonMissing %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: 'Please provide a boundary', href: '#map--result' }],
+          classes: "govuk-grid-column-full"
+        }) 
+      }}
+      {% endif %}
 
-      <p class="govuk-body">To get accurate information you should draw the boundary of your site.</p>
+      <p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.</p>
       
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
-            Instructions on how to draw a boundary
+            How to draw a boundary
           </span>
         </summary>
         <div class="govuk-details__text">
@@ -43,12 +50,9 @@
           </ol>
         </div>
       </details>
-
-      <h2 class="govuk-heading-m govuk-!-margin-top-7">For single residential properties and extensions</h2>
-      <p class="govuk-body">Check the marker is on your property. If it isn’t, move it to the right location.</p>
     </div>
 
-    <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-column-full map-container-column">
       <figure class="map-container confirm-location-map" role="application">
         <figcaption class="visually-hidden" aria-hidden="false">
           Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw boundary' map tools.
@@ -57,22 +61,8 @@
           <div class="govuk-form-group markerRadiosContainer top-of-buttons">
             <fieldset class="govuk-fieldset">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
-                Choose how to confirm your location
-              </legend>
-              <div class="govuk-radios govuk-radios--inline govuk-radios--small">
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="marker" name="type" type="radio" value="point" data-journey-click="FMFP:map:moveMarker" checked>
-                  <label class="govuk-label govuk-radios__label" for="marker">
-                    Move marker
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="polygon" name="type" type="radio" value="polygon" data-journey-click="FMFP:map:DrawShape">
-                  <label class="govuk-label govuk-radios__label" for="polygon">
-                    Draw boundary
-                  </label>
-                </div>
-              </div>
+                Click to delete the boundary for your location
+              </legend>              
               <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
                   Delete boundary
                 </button>
@@ -98,12 +88,29 @@
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
           <span class="govuk-warning-text__assistive">Warning</span>
-          Check your location is correct before continuing.
+          Check your entire site is outlined before continuing.
         </strong>
       </div>
       <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
         Continue
       </a>
+      <h2 class="govuk-heading-m">If you need help drawing a boundary</h2>
+      <p class="govuk-body">Contact the {{areaName}} at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a></p>
+      <p class="govuk-body">Or contact the Environment Agency:</p>
+      <ul class="govuk-list">
+        <li>
+          <span>Environment Agency</span>
+        </li>
+        <li>
+          <span>Telephone: 03708 506 506</span>
+        </li>
+        <li>
+          <span>Monday to Friday, 8am to 6pm</span>
+        </li>
+        <li>
+          <a href="https://www.gov.uk/call-charges">Find out about call charges</a>
+        </li>
+      </ul>      
     </div>
   </div>
 
