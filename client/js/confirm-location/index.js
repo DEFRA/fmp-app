@@ -55,7 +55,6 @@ function ConfirmLocationPage (options) {
   const recipientemail = window.encodeURIComponent(options.recipientemail)
 
   const $page = $('#confirm-location-page')
-  const $radios = $('.top-of-buttons', $page)
   const $continueBtn = $('a.govuk-button--start', $page)
   const $deleteButton = $('#deletePolygon')
 
@@ -181,7 +180,7 @@ function ConfirmLocationPage (options) {
 
   this.map.onReady(function (map) {
     let polygon
-    let featureMode = 'point'
+    let featureMode = 'polygon'
 
     let id, cookieTimer, cookiePattern
     const cookieName = 'pdf-download'
@@ -212,8 +211,8 @@ function ConfirmLocationPage (options) {
       polygon = new Feature({
         geometry: new Polygon([options.polygon])
       })
-      updateMode('polygon')
     }
+    updateMode('polygon')
 
     modify.on('modifyend', function (e) {
       // Update polygon and targetUrl
@@ -246,10 +245,6 @@ function ConfirmLocationPage (options) {
     map.on('moveend', moveOrScrollEventHandler)
     view.on('change:resolution', moveOrScrollEventHandler)
 
-    $radios.on('click', 'input', function (e) {
-      updateMode(e.target.getAttribute('id'))
-    })
-
     $deleteButton.on('click', function (e) {
       if (polygon) {
         vectorSource.removeFeature(polygon)
@@ -273,7 +268,9 @@ function ConfirmLocationPage (options) {
     map.getLayers().forEach(function (layer) {
       if (layer.getProperties().ref === 'centre') {
         const shape = layer.getSource().getFeatures()[0]
-        shape.on('change', updateTargetUrl)
+        if (shape) {
+          shape.on('change', updateTargetUrl)
+        }
       }
     })
 
@@ -301,9 +298,6 @@ function ConfirmLocationPage (options) {
           map.addInteraction(drawInteraction)
         }
 
-        // add polygon class to legend to hide point and show polygon icon
-        $radios.addClass('polygon')
-
         featureMode = 'polygon'
       } else {
         // disabling the Delete shape button
@@ -319,9 +313,6 @@ function ConfirmLocationPage (options) {
 
         // Add the point feature
         vectorSource.addFeature(point)
-
-        // add polygon class to legend to hide point and show polygon icon
-        $radios.removeClass('polygon')
 
         featureMode = 'point'
       }
