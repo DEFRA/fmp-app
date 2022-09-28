@@ -1,7 +1,20 @@
 const FloodZone = require('./flood-zone')
 
-function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, location, variables) {
-  const { placeOrPostcode, recipientemail, fullName, useAutomatedService } = variables
+function Model (data) {
+  const {
+    psoEmailAddress,
+    areaName,
+    risk,
+    center,
+    polygon,
+    location,
+    placeOrPostcode,
+    recipientemail,
+    fullName,
+    useAutomatedService,
+    plotSize
+  } = data
+
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
   }
@@ -46,5 +59,8 @@ function FloodRiskViewModel (psoEmailAddress, areaName, risk, center, polygon, l
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
+
+  this.plotSize = plotSize
 }
-module.exports = FloodRiskViewModel
+
+module.exports = { Model }

@@ -44,6 +44,7 @@
     "@turf/polygon-smooth": "^6.5.0",
     "@turf/turf": "^6.5.0",
     "accessible-autocomplete": "2.0.4",
+    "area-polygon": "^1.0.1",
     "bcrypt": "^5.0.1",
     "classlist-polyfill": "1.2.0",
     "geojson": "0.5.0",

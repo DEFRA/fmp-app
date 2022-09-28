@@ -2,8 +2,9 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
-const FloodRiskViewModel = require('../models/flood-risk-view')
+const FloodRiskView = require('../models/flood-risk-view')
 const isEnglandService = require('../services/is-england')
+const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
 
 module.exports = [
   {
@@ -22,7 +23,8 @@ module.exports = [
 
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
-          const polygon = request.query.polygon ? JSON.parse(request.query.polygon) : undefined
+          const polygonString = request.query.polygon
+          const polygon = polygonStringToArray(polygonString)
           const center = request.query.center ? JSON.parse(request.query.center) : undefined
           if (polygon) {
             easting = encodeURIComponent(center[0])
@@ -57,29 +59,40 @@ module.exports = [
             useAutomatedService = psoResults.useAutomatedService
           }
 
-          const variables = {
-            placeOrPostcode, recipientemail, fullName, useAutomatedService
-          }
+          // if (polygon) {
+          const geoJson = util.convertToGeoJson(polygon)
 
-          if (polygon) {
-            const geoJson = util.convertToGeoJson(polygon)
+          const risk = await riskService.getByPolygon(geoJson)
 
-            const riskResult = await riskService.getByPolygon(geoJson)
-
-            if (!riskResult.in_england) {
-              return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
-            } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, center, polygon, location, variables))
-                .unstate('pdf-download')
-            }
+          if (!risk.in_england) {
+            return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
           } else {
-            const riskResult = await riskService.getByPoint(easting, northing)
-            if (!riskResult.point_in_england) {
-              return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
-            } else {
-              return h.view('flood-zone-results', new FloodRiskViewModel(psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, variables))
-                .unstate('pdf-download')
-            }
+            const plotSize = getAreaInHectares(polygonString)
+            const floodZoneResultsData = new FloodRiskView.Model({
+              psoEmailAddress,
+              areaName,
+              risk,
+              center,
+              polygon,
+              location,
+              placeOrPostcode,
+              recipientemail,
+              fullName,
+              useAutomatedService,
+              plotSize
+            })
+            return h.view('flood-zone-results', floodZoneResultsData)
+              .unstate('pdf-download')
+          // }
+          // TODO remove old point CODE like this else block
+          // } else {
+          //   const riskResult = await riskService.getByPoint(easting, northing)
+          //   if (!riskResult.point_in_england) {
+          //     return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
+          //   } else {
+          //     return h.view('flood-zone-results', new FloodRiskView.Model({ psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, variables }))
+          //       .unstate('pdf-download')
+          //   }
           }
         } catch (err) {
           return Boom.badImplementation(err.message, err)
