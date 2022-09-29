@@ -12,6 +12,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 {% from "button/macro.njk" import govukButton %}
 
 <div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">This location is in flood zone {{zoneNumber}}</h1>
+  </div>  
 
   {% if floodZone.isZone1 %}
     {% include "./partials/zone1.html" %}

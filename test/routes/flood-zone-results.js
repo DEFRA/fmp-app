@@ -7,8 +7,9 @@ const { payloadMatchTest } = require('../utils')
 const isEnglandService = require('../../server/services/is-england')
 const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
+const { JSDOM } = require('jsdom')
 
-lab.experiment('flood-zone-results', () => {
+lab.experiment.only('flood-zone-results', () => {
   let server
   let restoreGetPsoContacts
   let restoreGetByPolygon
@@ -17,6 +18,35 @@ lab.experiment('flood-zone-results', () => {
   let restoreIgnoreUseAutomatedService
 
   const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
+
+  const zone1GetByPolygonResponse = {
+    in_england: true,
+    england_error: false,
+    floodzone_3: false,
+    floodzone_3_error: false,
+    areas_benefiting: false,
+    fz3_ab_coverage: 0,
+    areas_benefiting_error: false,
+    floodzone_2: false,
+    floodzone_2_error: false
+  }
+
+  const zone2GetByPolygonResponse = Object.assign({},
+    zone1GetByPolygonResponse, {
+      floodzone_2: true
+    })
+
+  const zone3GetByPolygonResponse = Object.assign({},
+    zone1GetByPolygonResponse, {
+      floodzone_3: true,
+      floodzone_2: true
+    })
+
+  const zone3WithDefenceGetByPolygonResponse = Object.assign({},
+    zone3GetByPolygonResponse, {
+      areas_benefiting: true,
+      fz3_ab_coverage: 100
+    })
 
   lab.before(async () => {
     restoreGetByPolygon = riskService.getByPolygon
@@ -203,7 +233,6 @@ lab.experiment('flood-zone-results', () => {
 
   lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
     const url = '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&fullName=Mark&recipientemail=mark@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
-    console.log('url', url)
     const options = { method: 'GET', url }
     server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
     riskService.getByPolygon = () => ({ in_england: true })
@@ -225,5 +254,26 @@ lab.experiment('flood-zone-results', () => {
     const { headers } = response
     const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
+  })
+
+  const getByPolygonResponses = [
+    [zone1GetByPolygonResponse, 1],
+    [zone2GetByPolygonResponse, 2],
+    [zone3GetByPolygonResponse, 3],
+    [zone3WithDefenceGetByPolygonResponse, 3]
+  ]
+
+  getByPolygonResponses.forEach(([getByPolygonResponse, expectedFloodZone]) => {
+    lab.test(`flood-zone-results heading should state This location is in Flood Zone ${expectedFloodZone}`, async () => {
+      const options = { method: 'GET', url: urlByPolygon }
+      isEnglandService.get = async () => ({ is_england: true })
+      riskService.getByPolygon = () => getByPolygonResponse
+      const response = await server.inject(options)
+      const { payload } = response
+      const { window: { document: doc } } = await new JSDOM(payload)
+      const headingElement = doc.querySelectorAll('h1.govuk-heading-xl')
+      Code.expect(headingElement.length).to.equal(1)
+      Code.expect(headingElement[0].textContent).to.equal(`This location is in flood zone ${expectedFloodZone}`)
+    })
   })
 })
