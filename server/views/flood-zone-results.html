@@ -16,6 +16,24 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <h1 class="govuk-heading-xl">This location is in flood zone {{zoneNumber}}</h1>
   </div>  
 
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      <a href="flood-zones-explained">More information about flood zones</a>
+    </p>
+
+    <p class="govuk-body">The map shows:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li> the flood zone your development is in </li>
+      <li> the areas in the location that could be affected by flooding from rivers or the sea </li>
+      <li> flood defences </li>
+    </ul>
+
+    <p class="govuk-body">
+      The data used to create this map is not specific to your development. It is for the location you chose.
+    </p>
+  </div>
+
   {% if floodZone.isZone1 %}
     {% include "./partials/zone1.html" %}
   {% endif %}

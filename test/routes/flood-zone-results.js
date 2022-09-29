@@ -17,6 +17,18 @@ lab.experiment.only('flood-zone-results', () => {
   let restoreIsEnglandService
   let restoreIgnoreUseAutomatedService
 
+  const optInPSOContactResponse = {
+    EmailAddress: 'psoContact@example.com',
+    AreaName: 'Yorkshire',
+    useAutomatedService: true
+  }
+
+  const optOutPSOContactResponse = {
+    EmailAddress: 'psoContact@example.com',
+    AreaName: 'Yorkshire',
+    useAutomatedService: false
+  }
+
   const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
 
   const zone1GetByPolygonResponse = {
@@ -64,11 +76,7 @@ lab.experiment.only('flood-zone-results', () => {
     await server.initialize()
     restoreIgnoreUseAutomatedService = server.methods.ignoreUseAutomatedService
     restoreGetPsoContacts = server.methods.getPsoContacts
-    server.methods.getPsoContacts.getPsoContacts = async () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: true
-    })
+    server.methods.getPsoContacts = async () => optInPSOContactResponse
   })
 
   lab.after(async () => {
@@ -86,11 +94,7 @@ lab.experiment.only('flood-zone-results', () => {
       url: urlByPolygon
     }
 
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: true
-    })
+    server.methods.getPsoContacts = async () => optInPSOContactResponse
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
@@ -111,11 +115,8 @@ lab.experiment.only('flood-zone-results', () => {
     }
     const FloodRiskViewModelSpy = sinon.spy(FloodRiskView, 'Model')
 
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: true
-    })
+    server.methods.getPsoContacts = async () => optInPSOContactResponse
+    riskService.getByPolygon = () => zone1GetByPolygonResponse
     await server.inject(options)
 
     Code.expect(FloodRiskViewModelSpy.callCount).to.equal(1)
@@ -128,7 +129,7 @@ lab.experiment.only('flood-zone-results', () => {
       polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
       psoEmailAddress: 'psoContact@example.com',
       recipientemail: 'joe@example.com',
-      risk: { in_england: true },
+      risk: zone1GetByPolygonResponse,
       useAutomatedService: true,
       plotSize: '3.49'
     })
@@ -145,11 +146,7 @@ lab.experiment.only('flood-zone-results', () => {
 
   lab.test('get flood-zone-results request data button should be hidden if useAutomated is false', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: false
-    })
+    server.methods.getPsoContacts = async () => optOutPSOContactResponse
     server.methods.ignoreUseAutomatedService = () => false
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
@@ -159,11 +156,7 @@ lab.experiment.only('flood-zone-results', () => {
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is true', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: true
-    })
+    server.methods.getPsoContacts = async () => optInPSOContactResponse
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
@@ -172,11 +165,7 @@ lab.experiment.only('flood-zone-results', () => {
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is false and config.ignoreUseAutomatedService is true', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: false
-    })
+    server.methods.getPsoContacts = async () => optOutPSOContactResponse
     server.methods.ignoreUseAutomatedService = () => true
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
@@ -197,7 +186,7 @@ lab.experiment.only('flood-zone-results', () => {
         method: 'GET',
         url: urlByPolygon
       }
-      server.methods.getPsoContacts = () => psoContactResponse
+      server.methods.getPsoContacts = async () => psoContactResponse
 
       const response = await server.inject(options)
       const { payload } = response
@@ -211,7 +200,7 @@ lab.experiment.only('flood-zone-results', () => {
 
   lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    server.methods.getPsoContacts = async () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
     riskService.getByPolygon = () => ({ in_england: false })
     riskService.getByPoint = () => ({ point_in_england: false })
 
@@ -224,7 +213,7 @@ lab.experiment.only('flood-zone-results', () => {
 
   lab.test('get flood-zone-results should error if a library error occurs', async () => {
     const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    server.methods.getPsoContacts = async () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
     riskService.getByPolygon = () => { throw new Error('Deliberate Testing Error ') }
 
     const response = await server.inject(options)
@@ -234,7 +223,7 @@ lab.experiment.only('flood-zone-results', () => {
   lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
     const url = '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&fullName=Mark&recipientemail=mark@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
     const options = { method: 'GET', url }
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' })
+    server.methods.getPsoContacts = async () => optInPSOContactResponse
     riskService.getByPolygon = () => ({ in_england: true })
     riskService.getByPoint = () => ({ point_in_england: true })
     isEnglandService.get = async () => ({ is_england: false })
@@ -263,17 +252,38 @@ lab.experiment.only('flood-zone-results', () => {
     [zone3WithDefenceGetByPolygonResponse, 3]
   ]
 
-  getByPolygonResponses.forEach(([getByPolygonResponse, expectedFloodZone]) => {
-    lab.test(`flood-zone-results heading should state This location is in Flood Zone ${expectedFloodZone}`, async () => {
+  getByPolygonResponses.forEach(async ([getByPolygonResponse, expectedFloodZone]) => {
+    const getDocument = async () => {
       const options = { method: 'GET', url: urlByPolygon }
       isEnglandService.get = async () => ({ is_england: true })
       riskService.getByPolygon = () => getByPolygonResponse
+      server.methods.getPsoContacts = async () => optInPSOContactResponse
       const response = await server.inject(options)
       const { payload } = response
       const { window: { document: doc } } = await new JSDOM(payload)
-      const headingElement = doc.querySelectorAll('h1.govuk-heading-xl')
+      return doc
+    }
+    lab.test(`flood-zone-results heading should state This location is in Flood Zone ${expectedFloodZone}`, async () => {
+      const doc = await getDocument()
+      const headingElement = doc.querySelectorAll('#main-content h1.govuk-heading-xl')
       Code.expect(headingElement.length).to.equal(1)
       Code.expect(headingElement[0].textContent).to.equal(`This location is in flood zone ${expectedFloodZone}`)
+    })
+
+    lab.test('flood-zone-results should contain common text for all flood zones', async () => {
+      const doc = await getDocument()
+
+      const div = doc.querySelector('#main-content div.govuk-grid-column-two-thirds')
+      const paragraphs = div.querySelectorAll('p.govuk-body')
+      Code.expect(paragraphs.length).to.equal(3)
+      Code.expect(paragraphs[0].textContent).to.contain('More information about flood zones')
+      Code.expect(paragraphs[1].textContent).to.contain('The map shows:')
+      Code.expect(paragraphs[2].textContent).to.contain('The data used to create this map is not specific to your development. It is for the location you chose.')
+      const listItems = div.querySelectorAll('li')
+      Code.expect(listItems.length).to.equal(3)
+      Code.expect(listItems[0].textContent).to.contain('the flood zone your development is in')
+      Code.expect(listItems[1].textContent).to.contain('the areas in the location that could be affected by flooding from rivers or the sea')
+      Code.expect(listItems[2].textContent).to.contain('flood defences')
     })
   })
 })
