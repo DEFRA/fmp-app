@@ -265,6 +265,7 @@ lab.experiment.only('flood-zone-results', () => {
     }
     lab.test(`flood-zone-results heading should state This location is in Flood Zone ${expectedFloodZone}`, async () => {
       const doc = await getDocument()
+
       const headingElement = doc.querySelectorAll('#main-content h1.govuk-heading-xl')
       Code.expect(headingElement.length).to.equal(1)
       Code.expect(headingElement[0].textContent).to.equal(`This location is in flood zone ${expectedFloodZone}`)
@@ -284,6 +285,9 @@ lab.experiment.only('flood-zone-results', () => {
       Code.expect(listItems[0].textContent).to.contain('the flood zone your development is in')
       Code.expect(listItems[1].textContent).to.contain('the areas in the location that could be affected by flooding from rivers or the sea')
       Code.expect(listItems[2].textContent).to.contain('flood defences')
+    })
+
+    lab.test('flood-zone-results should contain common text for all flood zones', async () => {
     })
   })
 })
