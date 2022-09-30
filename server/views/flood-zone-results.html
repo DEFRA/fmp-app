@@ -107,35 +107,31 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <li> in a water storage area </li>
     </ul>
 
-    <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Add a reference to the flood map and set the scale
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <form class="form" method="POST" action="pdf">
-          <input name="id" type="hidden">
-          <input name="zone" type="hidden" value="FZ1">
-          <input name="polygon" type="hidden" value="">
-          <input name="center" type="hidden" value="[362105,387218]">
+    <form class="form" method="POST" action="pdf">
+      <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add a reference to the flood map and set the scale
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <input name="polygon" type="hidden" value="{{polygon}}">
+          <input name="center" type="hidden" value="[{{easting}},{{northing}}]">
 
           <div class="govuk-form-group">
             <h3 class="govuk-label-wrapper">
-              <label class="govuk-label--m" for="reference">
-                Add a reference
-              </label>
-              <span class="govuk-hint govuk-hint--block">
-               Optional. This is chosen by you to help you find the report later and should be less than 25 characters.
-              </span>
+              <label class="govuk-label--m" for="reference"> Add a reference </label>
+              <div class="govuk-hint">
+                Optional. This is chosen by you to help you find the report later and should be less than 25 characters.
+              </div>
             </h3>
             <input 
-              class="govuk-input form-control govuk-input--width-20" 
-              id="reference" 
-              name="reference" 
-              type="text" 
-              maxlength="13"
-            >
+                class="govuk-input form-control govuk-input--width-20" 
+                id="reference" 
+                name="reference" 
+                type="text" 
+                maxlength="13"
+              >
           </div>
 
           <div class="govuk-form-group">
@@ -143,9 +139,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               <label class="govuk-label--m" for="scale">
                 Scale
               </label>
-              <span class="govuk-hint govuk-hint--block">
+              <div class="govuk-hint">
                 Select the scale of the map shown in the report
-              </span>
+              </div>
             </h3>
             <select class="govuk-select" id="scale" name="scale">
               <option value="2500">1:2500</option>
@@ -154,13 +150,17 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               <option value="50000">1:50000</option>
             </select>
           </div>
-      </form></div>
-    </details>
+        </div>
+      </details>
 
-    <button href="#" type="button" draggable="false" class="govuk-button govuk-button--secondary">
-      Download a PDF of this flood map
-    </button>
-
+      <button href="#"
+        type="submit"
+        class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1 govuk-button--pdf-download"
+        data-module="govuk-button" draggable="false" data-toggle="dialog" data-target="report"
+        data-journey-click="FMFP:Summary:DownloadReport"
+      > Download a PDF of this flood map </button>
+    </form>
+  
     <h3 class="govuk-heading-s govuk-!-margin-top-3">
       Order flood risk data for rivers and the sea
     </h3>
@@ -207,7 +207,4 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 </script>
 {% endif %}
 
-{% endblock %}
-{% block bodyEnd %}
-  {% include "./partials/printDialog.html" %}
 {% endblock %}

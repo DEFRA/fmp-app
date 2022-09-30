@@ -288,14 +288,12 @@ module.exports = {
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
           .header('X-XSS-Protection', '1; mode=block')
-          .state('pdf-download', id.toString())
       } catch (err) {
         return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
       }
     },
     validate: {
       payload: Joi.object().keys({
-        id: Joi.number().required(),
         reference: Joi.string().allow('').max(25).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
