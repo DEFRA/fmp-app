@@ -173,9 +173,39 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       Flood risk data should normally be emailed to you within 20 working days.
     </p>
 
-    <a href="contact" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" data-module="govuk-button">
-      Order flood risk data
-    </a>
+    <div class="nojs-hide ie-hide">
+      {% if useAutomatedService %}
+        <a 
+          href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}&amp;psoEmailAddress={{psoEmailAddress}}&amp;areaName={{areaName}}"
+          role="button" 
+          draggable="false" 
+          class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+          data-module="govuk-button"
+          > Order flood risk data
+        </a>
+      {% else %}
+        <p class="govuk-body">
+          We recommend that you check the relevant local planning authority's strategic flood risk 
+          assessment (SFRA) as part of your work to prepare a flood risk assessment.
+        </p>
+        <p class="govuk-body">
+          <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
+          <p class="govuk-body">To request flood risk assessment data for this location, contact the {{areaName}} at 
+            <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
+          </p>
+          <p class="govuk-body">Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include: </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>the address</li>
+            <li>a map showing the site boundary</li>
+          </ul>
+        </p>
+        {% if floodZone.isZone1 %}
+          <p class="govuk-body">
+            As your selected location is in Flood Zone 1, it is likely that there will be no extra data available.
+          </p>
+        {% endif %}
+      {% endif %}
+    </div>    
 
     <h2 class="govuk-heading-s">
        Get help deciding what flood risk information you need
