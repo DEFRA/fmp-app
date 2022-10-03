@@ -14,7 +14,6 @@ module.exports = {
   options: {
     description: 'Generate PDF',
     handler: async (request, h) => {
-      const id = request.payload.id
       let zone = request.payload.zone
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
