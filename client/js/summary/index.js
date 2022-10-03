@@ -12,7 +12,6 @@ const Icon = require('ol/style/Icon').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const dialog = require('../dialog')
 const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
 const { createTileLayer, mapState } = require('../map-utils')
@@ -92,28 +91,6 @@ function Summary (options) {
   // set start height
   sizeColumn()
   $(window).on('resize', sizeColumn)
-  this.map.onReady(function () {
-    let id, cookieTimer, cookiePattern
-    const cookieName = 'pdf-download'
-    function checkCookies () {
-      // If the local cookies have been updated, clear the timer
-      if (document.cookie.search(cookiePattern) >= 0) {
-        clearInterval(cookieTimer)
-        dialog.closeDialog()
-      }
-    }
-    $('#report form').submit(function () {
-      // Create the `id` variable. This is echoed back as
-      // the cookie value to notify the download is complete
-      id = (new Date()).getTime()
-      $('input[name=id][type=hidden]', this).val(id)
-      cookiePattern = new RegExp(cookieName + '=' + id, 'i')
-      dialog.closeDialog()
-      dialog.openDialog('#report-downloading')
-      cookieTimer = window.setInterval(checkCookies, 500)
-      $('body').removeClass('modal-open')
-    })
-    fixMapTabOrder()
-  })
+  this.map.onReady(fixMapTabOrder)
 }
 module.exports = Summary

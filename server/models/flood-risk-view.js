@@ -12,8 +12,10 @@ function Model (data) {
     recipientemail,
     fullName,
     useAutomatedService,
-    plotSize
+    plotSize,
+    localAuthorities
   } = data
+  this.localAuthorities = localAuthorities
 
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress

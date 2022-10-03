@@ -27,7 +27,6 @@ const {
 } = require('../map-utils')
 const mapConfig = require('../map-config.json')
 const VectorDrag = require('../vector-drag')
-const dialog = require('../dialog')
 
 const vectorDragInteraction = new VectorDrag()
 
@@ -181,30 +180,6 @@ function ConfirmLocationPage (options) {
   this.map.onReady(function (map) {
     let polygon
     let featureMode = 'polygon'
-
-    let id, cookieTimer, cookiePattern
-    const cookieName = 'pdf-download'
-
-    function checkCookies () {
-      // If the local cookies have been updated, clear the timer
-      if (document.cookie.search(cookiePattern) >= 0) {
-        clearInterval(cookieTimer)
-        dialog.closeDialog()
-      }
-    }
-
-    $('#report form').submit(function () {
-      // Create the `id` variable. This is echoed back as
-      // the cookie value to notify the download is complete
-      id = (new Date()).getTime()
-      $('input[name=id][type=hidden]', this).val(id)
-      cookiePattern = new RegExp(cookieName + '=' + id, 'i')
-
-      dialog.closeDialog()
-      dialog.openDialog('#report-downloading')
-
-      cookieTimer = window.setInterval(checkCookies, 500)
-    })
 
     if (options.polygon) {
       // Load polygon from saved state

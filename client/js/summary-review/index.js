@@ -1,6 +1,4 @@
 /* global $ */
-require('../dialog')
-
 const VectorLayer = require('ol/layer/Vector').default
 const VectorSource = require('ol/source/Vector').default
 const Polygon = require('ol/geom/Polygon').default
