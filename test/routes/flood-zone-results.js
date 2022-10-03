@@ -9,7 +9,7 @@ const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
 const { JSDOM } = require('jsdom')
 
-lab.experiment.only('flood-zone-results', () => {
+lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContacts
   let restoreGetByPolygon
@@ -98,14 +98,11 @@ lab.experiment.only('flood-zone-results', () => {
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
+    await payloadMatchTest(payload, /Email the Yorkshire at/g)
     // FCRM 3594
     await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
-    await payloadMatchTest(payload, /<h3 class="govuk-heading-s">More help and advice<\/h3>/g, 0)
-    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 1)
-    await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 0)
-    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 1)
-    await payloadMatchTest(payload, /We recommend that you check the relevant local planning authority's strategic flood risk assessment \(SFRA\)/g)
+    await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 1)
+    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">Change location<\/h2>/g, 0)
   })
 
   lab.test('get flood-zone-results with a valid polygon should call buildFloodZoneResultsData', async () => {
@@ -124,6 +121,7 @@ lab.experiment.only('flood-zone-results', () => {
       areaName: 'Yorkshire',
       center: [479472, 484194],
       fullName: 'Joe Bloggs',
+      localAuthorities: '',
       location: 'Pickering',
       placeOrPostcode: undefined,
       polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
@@ -137,11 +135,11 @@ lab.experiment.only('flood-zone-results', () => {
 
   const testIfP4DownloadButtonExists = async (payload, shouldExist = true) => {
     // Test that the Request flood risk assessment data heading is present
-    await payloadMatchTest(payload, /<h2 class="govuk-heading-m">Request flood risk assessment data<\/h2>/g, shouldExist ? 0 : 1)
+    await payloadMatchTest(payload, /Order flood risk data for rivers and the sea/g, shouldExist ? 1 : 1)
     await payloadMatchTest(payload, /<p class="govuk-heading-m">Request flood risk assessment data<\/p>/g, 0) // should never exist
 
     // Test that the 'Request your flood risk assessment data' button is present
-    await payloadMatchTest(payload, /Request your flood risk assessment data/g, shouldExist ? 1 : 0)
+    await payloadMatchTest(payload, /Order flood risk data/g, shouldExist ? 2 : 1)
   }
 
   lab.test('get flood-zone-results request data button should be hidden if useAutomated is false', async () => {
@@ -177,8 +175,7 @@ lab.experiment.only('flood-zone-results', () => {
   const psoContactResponses = [
     ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' }],
     ['areaName only in psoContactResponse', { AreaName: 'Yorkshire' }],
-    ['emailAddress only in psoContactResponse', { EmailAddress: 'psoContact@example.com' }],
-    ['an undefined psoContactResponse', undefined]
+    ['emailAddress only in psoContactResponse', { EmailAddress: 'psoContact@example.com' }]
   ]
   psoContactResponses.forEach(([psoContactDescription, psoContactResponse]) => {
     lab.test(`get flood-zone-results with valid polygon parameters and ${psoContactDescription} should succeed`, async () => {
@@ -190,11 +187,11 @@ lab.experiment.only('flood-zone-results', () => {
 
       const response = await server.inject(options)
       const { payload } = response
-
+      const { window: { document: doc } } = await new JSDOM(payload)
+      const div = doc.querySelector('#main-content')
       Code.expect(response.statusCode).to.equal(200)
       const { AreaName = '' } = (psoContactResponse || {})
-      const regex = new RegExp(String.raw`<p class="govuk-body">Contact the ${AreaName} at <a`)
-      await payloadMatchTest(payload, regex)
+      Code.expect(div.textContent).to.contain(`Email the ${AreaName} at`)
     })
   })
 
@@ -265,29 +262,26 @@ lab.experiment.only('flood-zone-results', () => {
     }
     lab.test(`flood-zone-results heading should state This location is in Flood Zone ${expectedFloodZone}`, async () => {
       const doc = await getDocument()
-
       const headingElement = doc.querySelectorAll('#main-content h1.govuk-heading-xl')
       Code.expect(headingElement.length).to.equal(1)
       Code.expect(headingElement[0].textContent).to.equal(`This location is in flood zone ${expectedFloodZone}`)
     })
 
-    lab.test('flood-zone-results should contain common text for all flood zones', async () => {
+    lab.test(`flood-zone-results should contain common text for all flood zones - Zone - ${expectedFloodZone}`, async () => {
       const doc = await getDocument()
-
       const div = doc.querySelector('#main-content div.govuk-grid-column-two-thirds')
-      const paragraphs = div.querySelectorAll('p.govuk-body')
-      Code.expect(paragraphs.length).to.equal(3)
-      Code.expect(paragraphs[0].textContent).to.contain('More information about flood zones')
-      Code.expect(paragraphs[1].textContent).to.contain('The map shows:')
-      Code.expect(paragraphs[2].textContent).to.contain('The data used to create this map is not specific to your development. It is for the location you chose.')
-      const listItems = div.querySelectorAll('li')
-      Code.expect(listItems.length).to.equal(3)
-      Code.expect(listItems[0].textContent).to.contain('the flood zone your development is in')
-      Code.expect(listItems[1].textContent).to.contain('the areas in the location that could be affected by flooding from rivers or the sea')
-      Code.expect(listItems[2].textContent).to.contain('flood defences')
+      Code.expect(div.textContent).to.contain('More information about flood zones')
+      Code.expect(div.textContent).to.contain('The map shows:')
+      Code.expect(div.textContent).to.contain(' The map data is for the 10 km area around the boundary you chose. It is not for a specific development.')
+      Code.expect(div.textContent).to.contain('the flood zone your development is in')
+      Code.expect(div.textContent).to.contain('the areas in the location that could be affected by flooding from rivers or the sea')
+      Code.expect(div.textContent).to.contain('flood defences')
     })
 
-    lab.test('flood-zone-results should contain common text for all flood zones', async () => {
+    lab.test('flood-zone-results should contain Decide what you need for your planning application', async () => {
+      const doc = await getDocument()
+      const div = doc.querySelectorAll('#main-content div.govuk-grid-column-two-thirds')[1]
+      Code.expect(div.textContent).to.contain('Decide what you need for your planning application')
     })
   })
 })
