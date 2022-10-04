@@ -2,202 +2,139 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const riskService = require('../../server/services/risk')
-const { payloadMatchTest } = require('../utils')
-const isEnglandService = require('../../server/services/is-england')
+const { JSDOM } = require('jsdom')
 
 lab.experiment('flood-zone-results-explained', () => {
   let server
-  let restoreGetPsoContacts
-  let restoreGetByPolygon
-  let restoreGetByPoint
-  let restoreIsEnglandService
-  let restoreIgnoreUseAutomatedService
-  // const urlByPoint = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
-  const urlByPoint = '/flood-zone-results-explained?easting=358584&northing=172691&zone=FZ3&polygon=&center&location=358584%20172691&zoneNumber=3&fullName=%20&recipientemail='
-  const urlByPolygon = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
+  const baseUrl = '/flood-zone-results-explained'
 
   lab.before(async () => {
-    restoreGetByPolygon = riskService.getByPolygon
-    restoreGetByPoint = riskService.getByPoint
-    riskService.getByPolygon = () => ({ in_england: true })
-    riskService.getByPoint = () => ({ point_in_england: true })
-
-    restoreIsEnglandService = isEnglandService.get
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
-
     server = await createServer()
     await server.initialize()
-    restoreGetPsoContacts = server.methods.getPsoContacts
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: 'South Oxfordshire',
-      useAutomatedService: true
-    })
-    restoreIgnoreUseAutomatedService = server.methods.ignoreUseAutomatedService
   })
 
   lab.after(async () => {
-    server.methods.getPsoContacts = restoreGetPsoContacts
-    riskService.getByPolygon = restoreGetByPolygon
-    riskService.getByPoint = restoreGetByPoint
-    isEnglandService.get = restoreIsEnglandService
-    server.methods.ignoreUseAutomatedService = restoreIgnoreUseAutomatedService
     await server.stop()
   })
 
-  lab.test('get flood-zone-results-explained with valid easting & northing parameters should succeed', async () => {
-    const options = {
-      method: 'GET',
-      url: urlByPoint
-    }
+  const getDocument = async (zone) => {
+    const url = zone ? `${baseUrl}?zone=${zone}` : baseUrl
+    const options = { method: 'GET', url }
     const response = await server.inject(options)
     const { payload } = response
-    Code.expect(response.statusCode).to.equal(200)
-    // await payloadMatchTest(payload, /<p class="govuk-body">Contact the Yorkshire at <a/g)
-    // FCRM 3594
-    await payloadMatchTest(payload, /<h1 class="govuk-heading-xl">Your results explained<\/h1>/g, 1)
-    await payloadMatchTest(payload, /<h2 class="govuk-heading-s">More help and advice<\/h2>/g, 0)
-  })
-
-  const testIfP4DownloadButtonExists = async (payload, shouldExist = true) => {
-    // Test that the Request flood risk assessment data heading is present
-    await payloadMatchTest(payload, /<p class="govuk-body">Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include:\s<\/p>/g, shouldExist ? 0 : 1)
-    await payloadMatchTest(payload, /<p class="govuk-heading-m">Getting a flood risk assessment<\/p>/g, 0) // should never exist
-
-    // Test that the 'Request your flood risk assessment data' button is present
-    await payloadMatchTest(payload, /Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include: /g, shouldExist ? 0 : 1)
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const documentBody = doc.querySelector('#flood-zone-results-explained > .govuk-grid-column-two-thirds')
+    return { response, documentBody }
   }
 
-  lab.test('get flood-zone-results-explained request data button should be hidden if useAutomated is false and config.ignoreUseAutomatedService is false', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: 'South Oxfordshire',
-      useAutomatedService: false
-    })
-    server.methods.ignoreUseAutomatedService = () => false
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(server.methods.ignoreUseAutomatedService()).to.be.false()
-    const { payload } = response
-    await payloadMatchTest(payload, /<ul>the address<\/ul>/g, 0)
-    await payloadMatchTest(payload, /<li>the address<\/li>/g, 1)
-  })
-
-  lab.test('return undefined when getPsoContacts is undefined ', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    server.methods.getPsoContacts = () => undefined
-    const { payload } = await server.inject(options)
-    Code.expect(server.methods.getPsoContacts()).to.be.equals(undefined)
-    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span>/g, 2)
-  })
-
-  lab.test('get flood-zone-results-explained request data button should not shown be if useAutomated is undefined  and config.ignoreUseAutomatedService is false', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      LocalAuthorities: 'South Oxfordshire',
-      useAutomatedService: undefined
-    })
-    server.methods.ignoreUseAutomatedService = () => false
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(server.methods.ignoreUseAutomatedService()).to.be.false()
-    const { payload } = response
-    await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold">South Oxfordshire<\/span>/g, 2)
-    testIfP4DownloadButtonExists(payload, undefined)
-  })
-
-  const useAutomatedServiceValues = [true, false]
-  const ignoreUseAutomatedServiceValues = [undefined, true]
-  ignoreUseAutomatedServiceValues.forEach((ignoreUseAutomatedService) => {
-    useAutomatedServiceValues.forEach((useAutomatedService) => {
-      lab.test(`get flood-zone-results-explained request data button should be present if useAutomated is ${useAutomatedService}  and config.ignoreUseAutomatedService is ${ignoreUseAutomatedService}`, async () => {
-        const options = { method: 'GET', url: urlByPoint }
-        server.methods.getPsoContacts = () => ({
-          EmailAddress: 'psoContact@example.com',
-          AreaName: 'Yorkshire',
-          LocalAuthorities: 'South Oxfordshire',
-          useAutomatedService
-        })
-        server.methods.ignoreUseAutomatedService = () => ignoreUseAutomatedService
-        const response = await server.inject(options)
-        Code.expect(response.statusCode).to.equal(200)
-        const { payload } = response
-        testIfP4DownloadButtonExists(payload, true)
-      })
-    })
-  })
-
-  const localAuthorities = [undefined, 0]
-  localAuthorities.forEach((localAuthority) => {
-    lab.test('get flood-zone-results-explained request localAuthority should be empty when localAuthorithy is undefined ', async () => {
-      const options = { method: 'GET', url: urlByPoint }
-      server.methods.getPsoContacts = () => ({
-        EmailAddress: 'psoContact@example.com',
-        AreaName: 'Yorkshire',
-        LocalAuthorities: localAuthority,
-        useAutomatedService: true
-      })
-      const response = await server.inject(options)
+  const zoneValues = [undefined, 'FZ1', 'FZ2', 'FZ2a', 'FZ3', 'FZ3a']
+  zoneValues.forEach(async (zone) => {
+    lab.test(`get flood-zone-results-explained should contain a single h1 - ${zone}`, async () => {
+      const { response, documentBody } = await getDocument(zone)
       Code.expect(response.statusCode).to.equal(200)
-      const { payload } = response
-      await payloadMatchTest(payload, /<span class="govuk-!-font-weight-bold"><\/span>/g, 2)
+      Code.expect(documentBody.querySelector('h1').textContent).to.contain('Flood zones explained')
+    })
+
+    lab.test(`get flood-zone-results-explained should contain a heading for each zone ${zone} (3 or 4 with defences) `, async () => {
+      const { documentBody } = await getDocument(zone)
+      const heading2Array = documentBody.querySelectorAll('h2')
+
+      // There should be 3 headings (4 with defences)
+      const expectDefencesMarkup = (zone === 'FZ2a' || zone === 'FZ3a')
+      Code.expect(heading2Array.length).to.equal(expectDefencesMarkup ? 4 : 3)
+      Code.expect(heading2Array[0].textContent).to.contain('Flood zone 1')
+      Code.expect(heading2Array[1].textContent).to.contain('Flood zone 2')
+      Code.expect(heading2Array[2].textContent).to.contain('Flood zone 3')
+      if (expectDefencesMarkup) {
+        Code.expect(heading2Array[3].textContent).to.contain('Flood defences')
+      }
+    })
+
+    lab.test(`get flood-zone-results-explained should contain a paragraph for each zone ${zone} (3 or 4 with defences) `, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+
+      // There should be 4 paragraphs (6 with defences)
+      const expectDefencesMarkup = (zone === 'FZ2a' || zone === 'FZ3a')
+      Code.expect(paragraphArray.length).to.equal(expectDefencesMarkup ? 6 : 4)
+    })
+
+    lab.test(`get flood-zone-results-explained for all zones should contain an overview explanation - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+
+      // Paragraph 0
+      Code.expect(paragraphArray[0].textContent).to.contain(
+        'Flood zones are based on how likely it is that a location will flood from rivers and the sea. They do not take into account:'
+      )
+    })
+
+    lab.test(`get flood-zone-results-explained for all zones should contain a zone 1 explanation - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+      // Paragraph 1
+      Code.expect(paragraphArray[1].textContent).to.contain(
+        'Locations have a low probability of flooding, some locations will need a flood risk assessment. Find out'
+      )
+      Code.expect(paragraphArray[1].textContent).to.contain(
+        'when you need a flood risk assessment for development in flood zone 1'
+      )
+    })
+
+    lab.test(`get flood-zone-results-explained for all zones should contain a zone 2 explanation - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+      // Paragraph 2
+      Code.expect(paragraphArray[2].textContent).to.contain(
+        'Locations have a medium probability of flooding. Developments will need a flood risk assessment.'
+      )
+    })
+
+    lab.test(`get flood-zone-results-explained for all zones should contain a zone 3 explanation - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+      // Paragraph 3
+      Code.expect(paragraphArray[3].textContent).to.contain(
+        'Locations have a high probability of flooding. Developments will need a flood risk assessment.'
+      )
     })
   })
-
-  const floodZones = ['FZ1', 'FZ2', 'FZ3', 'FZ3a']
-  floodZones.forEach((floodZone) => {
-    lab.test(`flood-zone-results-explained for zone: ${floodZone} should say at time of publication rather than printing`, async () => {
-      const url = urlByPoint.replace('FZ3', floodZone)
-      const options = { method: 'GET', url }
-      server.methods.getPsoContacts = () => ({
-        EmailAddress: 'psoContact@example.com',
-        AreaName: 'Yorkshire',
-        LocalAuthorities: 'Ryedale',
-        useAutomatedService: true
-      })
-      const response = await server.inject(options)
-      Code.expect(response.statusCode).to.equal(200)
-      const { payload } = response
-      await payloadMatchTest(payload, /and is correct at the time of printing/g, 0) // SHOULD NOT EXIST
-      await payloadMatchTest(payload, /and is correct at the time of publication/g, 1) // SHOULD EXIST
+  const zonesWithDefencesValues = ['FZ2a', 'FZ3a']
+  zonesWithDefencesValues.forEach(async (zone) => {
+    lab.test(`get flood-zone-results-explained for FZ2a and FZ3a should contain a defences statement - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+      // Paragraph 4
+      Code.expect(paragraphArray[4].textContent).to.contain(
+        'There are flood defences in part or all of the location you selected.'
+      )
     })
-  })
 
-  lab.test('get flood-zone-results-explained should throw an error if a library error occurs', async () => {
-    const options = { method: 'GET', url: urlByPoint }
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'South Oxfordshire' })
-    riskService.getByPoint = () => { throw new Error('Deliberate Testing Error ') }
+    lab.test(`get flood-zone-results-explained for FZ2a and FZ3a should contain a defences explanation header - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const paragraphArray = documentBody.querySelectorAll('p.govuk-body')
+      // Paragraph 5
+      Code.expect(paragraphArray[5].textContent).to.contain(
+        'Flood defences:'
+      )
+    })
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-  })
-
-  lab.test('get flood-zone-results-explained page should be success when url by polygon is called', async () => {
-    const options = { method: 'GET', url: urlByPolygon }
-    server.methods.getPsoContacts = () => ({ Location: 'thames' })
-    riskService.getByPolygon = () => { throw new Error('Deliberate Testing Error ') }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-  })
-
-  lab.test('get flood-zone-results-explained should redirect to contact page', async () => {
-    const url = '/flood-zone-results-explained?easting=476277&northing=182771&zone=FZ3&polygon=[[476236,182791],[476308,182809],[476318,182734],[476254,182739],[476236,182791]]&center[476277,182771]&location=thames&zoneNumber=3&fullName=%20&recipientemail=%20'
-
-    const options = { method: 'POST', url }
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', Location: 'thames' })
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/contact')
+    lab.test(`get flood-zone-results-explained for FZ2a and FZ3a should contain a defences explanation header - zone ${zone}`, async () => {
+      const { documentBody } = await getDocument(zone)
+      const listArray = documentBody.querySelectorAll('ul.govuk-list.govuk-list--bullet')
+      // Paragraph 5
+      Code.expect(listArray[1].textContent).to.contain(
+        'reduce the probability of flooding from a specific source (a river or the sea), but do not completely remove the risk'
+      )
+      Code.expect(listArray[1].textContent).to.contain(
+        'do not reduce the probability of flooding from other sources'
+      )
+      Code.expect(listArray[1].textContent).to.contain(
+        'can fail or a flood that is bigger than the one the defence is designed to protect against could happen'
+      )
+      Code.expect(listArray[1].textContent).to.contain(
+        'will provide reduced protection over time because of climate change increasing flood risk in the future'
+      )
+    })
   })
 })
