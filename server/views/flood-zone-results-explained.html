@@ -1,135 +1,57 @@
 {% extends 'layout.html' %}
-  {% block pageTitle %}
-Your results explained - Flood map for planning - GOV.UK
+{% block pageTitle %}
+  Your results explained - Flood map for planning - GOV.UK
 {% endblock %}
 {% block content %}
   {{ super() }}
 
-  
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
   <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
 
-  <div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
-    {% if zone == 'FZ1'%}
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Your results explained</h1>
-        <p class="govuk-body">Because your selected location is in flood zone 1, it has a low probability of flooding.</p>
-      </div>
-
-      <div class="govuk-grid-column-full">
-        <details id="results-map" class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">See these results on a map</span>
-          </summary>
-          <figure class="map-container results-explained-map govuk-!-margin-bottom-6" role="application">
-            <figcaption class="visually-hidden" aria-hidden="false">
-              A map showing the flood risk for the location you have provided
-            </figcaption>
-            <div id="map--result" class="map--result">
-              <div id="map" class="map">
-                {% include "./partials/map/no-js.html" %}
-               </div>
-               {% include "./partials/map/summary-legend.html" %}
-            </div>
-            <div class="os-credits__text">
-              <a href="os-terms" class="os-credits__link">
-                OS data &copy; Crown copyright and database rights <script>
-                  var CurrentYear = new Date().getFullYear()
-                  document.write(CurrentYear)
-              </script>
-              </a>
-          </figure>
-        </details>
-      </div>
-     
-
-      <div class="govuk-grid-column-two-thirds">
-       <div>
-      <h2 class="govuk-heading-m">
-        Map data
-      </h2>
-
+  <div id="flood-zone-results-explained" class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl"> Flood zones explained </h1>
       <p class="govuk-body">
-        The flood map for planning shows river and sea flooding data only. It doesn’t include other sources of flooding. It is for use in development planning and flood risk assessments.
+        Flood zones are based on how likely it is that a location will flood from rivers and the sea. They do not take into account:
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>climate change </li>
+        <li>flood defences</li>
+      </ul>
+
+      <h2 class="govuk-heading-m"> Flood zone 1 </h2>
+      <p class="govuk-body">
+        Locations have a low probability of flooding, some locations will need a flood risk assessment. Find out 
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications?#when-you-need-an-assessment">
+          when you need a flood risk assessment for development in flood zone 1
+        </a>.
       </p>
 
+      <h2 class="govuk-heading-m"> Flood zone 2 </h2>
       <p class="govuk-body">
-        The data in the map relates to the selected location and is not specific to any property within it. The map is updated regularly and is correct at the time of publication.
+        Locations have a medium probability of flooding. Developments will need a flood risk assessment.
       </p>
-      </div>
-        <h2 class="govuk-heading-m">When you need a flood risk assessment</h2>
-        <p class="govuk-body">You'll only need to do a flood risk assessment as part of your planning application if your development is <span class="govuk-!-font-weight-bold">any of the following:</span></p>
 
-        {% include "./partials/zone1-reasons-for-fra.html" %}
-
-        <h2 class="govuk-heading-m">Next steps</h2>
-
-        <p class="govuk-body">If you think your development needs a flood risk assessment, you should speak to a flood risk consultant to do this. </p>
-        <p class="govuk-body">If you don’t think your development needs a flood risk assessment, you should download  
-        <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}">
-        your flood map for planning that shows your flood zone
-        </a> and include it in your planning application.</p>
-
-        {% include "./partials/flood-zones-explained-fra.html" %} 
-        <h2 class="govuk-heading-m">Get help</h2>
-
-        <p class="govuk-body">For more advice around flood risk assessments and planning permission you could:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>contact your local authority, <span class="govuk-!-font-weight-bold">{{localAuthorities}}</span>
-          </li>
-          <li>read <a href="https://www.gov.uk/planning-permission-england-wales">guidance on planning permission</a>
-          </li>
-          <li>
-            <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>
-          </li>
-        </ul>
-
-        <h2 class="govuk-heading-m">More flood information</h2>
+      <h2 class="govuk-heading-m"> Flood zone 3 </h2>
+      <p class="govuk-body">
+        Locations have a high probability of flooding. Developments will need a flood risk assessment.
+      </p>
+      {% if (zone == 'FZ2a') or (zone == 'FZ3a') %}
+        <h2 class="govuk-heading-m"> Flood defences </h2>
         <p class="govuk-body">
-          <a 
-          data-journey-click="Flood-Zone-Results-Explained:External-Link:Check-Long-Term-Flood-Risk-FZ1"
-          href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&amp;northing={{northing}}">Check the long term flood risk for this area</a>, for information about the possible causes of flooding.</p>
-      </div>
-    {% endif %}
-
-    {% if zone == 'FZ2'%}
-      {% include "./partials/flood-zone-results-explained-fra.html" %}
-    {% endif %}
-
-    {% if zone == 'FZ3'%}
-      {% include "./partials/flood-zone-results-explained-fra.html" %}
-    {% endif %}
-
-    {% if zone == 'FZ2a'%}
-      {% include "./partials/flood-zone-results-explained-fra.html" %}
-    {% endif %}
-
-    {% if zone == 'FZ3a'%}
-      {% include "./partials/flood-zone-results-explained-fra.html" %}
-    {% endif %}
-
+          There are flood defences in part or all of the location you selected.
+        </p>
+        <p class="govuk-body"> Flood defences: </p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li> reduce the probability of flooding from a specific source (a river or the sea), but do not completely remove the risk </li>
+          <li> do not reduce the probability of flooding from other sources </li>
+          <li> can fail or a flood that is bigger than the one the defence is designed to protect against could happen </li>
+          <li> will provide reduced protection over time because of climate change increasing flood risk in the future </li>
+        </ul>        
+      {% endif %}
+    </div>
   </div>
-
-  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/summary.js" data-statement=" "></script>
-
-  {% if polygon %}
-    <script>
-      $(function () {
-        var page = new FMP.SummaryPage({
-          polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
-        })
-      })
-     </script>
-  {% else %}
-    <script>
-      $(function () {
-        var page = new FMP.SummaryPage({easting: '{{easting}}', northing: '{{northing}}'})
-      })
-    </script>
-  {% endif %}
-
 {% endblock %}
