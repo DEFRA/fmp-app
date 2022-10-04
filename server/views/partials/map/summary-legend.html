@@ -1,40 +1,33 @@
 <div id="legend" class="map-legend {% if polygon %}polygon{% endif %}">
   <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
-  {% if not polygon %}
-      <li class="map-legend-item">
-      <img class="map-legend-image map-legend-image--tall" src="{{assetPath}}/images/iconfinder_marker.png" alt="Map marker icon">
-      Selected location
-    </li>
-    {% else %}    
-      <li class="map-legend-item">
-      <img class="map-legend-image" src="{{assetPath}}/images/polygon.png" alt="Icon showing what flood zone 1 looks like on the map.">
-      Selected area
-
-    </li>
-    {% endif %}
     <li class="map-legend-item">
-      <img class="map-legend-image" src="{{assetPath}}/images/main-river.png" alt="Icon showing what a main river looks like on the map.">
-      Main river
-    </li>
-    <li class="map-legend-item">
-      <img class="map-legend-image" src="{{assetPath}}/images/fz1.png" alt="Icon showing what flood zone 1 looks like on the map.">
-      Flood zone 1
-    </li>
-    <li class="map-legend-item">
-      <img class="map-legend-image map-legend-image-with-border" src="{{assetPath}}/images/fz2.png" alt="Icon showing what flood zone 2 looks like on the map.">
-      Flood zone 2
+      {% if not polygon %}
+        <img class="map-legend-image map-legend-image--tall" src="{{assetPath}}/images/iconfinder_marker.png" alt="Map marker icon">
+        Selected location
+      {% else %}    
+        <img class="map-legend-image" src="{{assetPath}}/images/polygon.png" alt="Icon showing what flood zone 1 looks like on the map.">
+        Your site boundary
+      {% endif %}
     </li>
     <li class="map-legend-item">
       <img class="map-legend-image map-legend-image-with-border" src="{{assetPath}}/images/fz3.png" alt="Icon showing what flood zone 3 looks like on the map.">
       Flood zone 3
     </li>
     <li class="map-legend-item">
+      <img class="map-legend-image map-legend-image-with-border" src="{{assetPath}}/images/fz2.png" alt="Icon showing what flood zone 2 looks like on the map.">
+      Flood zone 2
+    </li>
+    <li class="map-legend-item">
+      <img class="map-legend-image" src="{{assetPath}}/images/fz1.png" alt="Icon showing what flood zone 1 looks like on the map.">
+      Flood zone 1
+    </li>
+    <li class="map-legend-item">
       <img class="map-legend-image map-legend-image--small map-legend-image-with-border" src="{{assetPath}}/images/defence.png" alt="Icon showing what a flood defence looks like on the map.">
       Flood defence
     </li>
     <li class="map-legend-item">
-      <img class="map-legend-image map-legend-image-with-border" src="{{assetPath}}/images/area-benefitting.png" alt="Icon showing what an area benefiting from flood defences looks like on the map.">
-      Areas benefitting from flood defences
+      <img class="map-legend-image" src="{{assetPath}}/images/main-river.png" alt="Icon showing what a main river looks like on the map.">
+      Main river
     </li>
     <li class="map-legend-item">
       <img class="map-legend-image" src="{{assetPath}}/images/flood-holding-area.png" alt="Icon showing what a flood storage area looks like on the map.">
@@ -42,4 +35,3 @@
     </li>
   </ul>
 </div>
-
