@@ -28,7 +28,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       
       probability of flooding from rivers and the sea. 
       
-      {% if this.isAreaBenefiting %}
+      {% if floodZone.isAreaBenefiting %}
         There are flood defences in part or all of this location that reduce the risk from a specific source. 
         They do not completely remove the risk because flood defences can fail.
       {% endif %}
@@ -206,6 +206,12 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       </ul>
       
       <div class="govuk-inset-text">
+        {% if floodZone.isAreaBenefiting %}
+          <p class="govuk-body">
+            You also need to make a separate request for a Flood Defence Breach Hazard Map from the Greater Manchester Merseyside and Cheshire Environment Agency team at <a href="mailto:Inforequests.GMMC@environment-agency.gov.uk">Inforequests.GMMC@environment-agency.gov.uk</a>. This will be available if modelling has been carried out for breach scenarios.
+          </p>
+        {% endif %}
+                
         <p class="govuk-body">
           Some developments are more complex than others and this data isn't always enough to 
           allow you to produce a flood risk assessment. You should check what other 
