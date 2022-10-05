@@ -24,8 +24,7 @@
       {% if polygonMissing %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: [{ text: 'Please provide a boundary', href: '#map--result' }],
-          classes: "govuk-grid-column-full"
+          errorList: [{ text: "You need to draw the boundary of your site on the map. Click 'How to draw a boundary' if you need help.", href: '#boundary-error' }]
         }) 
       }}
       {% endif %}
@@ -54,6 +53,14 @@
 
     <div class="govuk-grid-column-full map-container-column">
       <figure class="map-container confirm-location-map" role="application">
+        {% if polygonMissing %}
+          <p id="boundary-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> 
+            You need to draw the boundary of your site on the map. 
+            Click ‘How to draw a boundary' if you need help.
+          </p>
+        {% endif %}
+
         <figcaption class="visually-hidden" aria-hidden="false">
           Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw boundary' map tools.
         </figcaption>
