@@ -84,16 +84,6 @@ module.exports = [
             })
             return h.view('flood-zone-results', floodZoneResultsData)
               .unstate('pdf-download')
-          // }
-          // TODO remove old point CODE like this else block
-          // } else {
-          //   const riskResult = await riskService.getByPoint(easting, northing)
-          //   if (!riskResult.point_in_england) {
-          //     return h.redirect(`/england-only?easting=${easting}&northing=${northing}`)
-          //   } else {
-          //     return h.view('flood-zone-results', new FloodRiskView.Model({ psoEmailAddress, areaName, riskResult, [easting, northing], undefined, location, variables }))
-          //       .unstate('pdf-download')
-          //   }
           }
         } catch (err) {
           return Boom.badImplementation(err.message, err)
