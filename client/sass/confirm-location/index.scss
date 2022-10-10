@@ -5,15 +5,15 @@
 @import '../os-branding';
 
 .map-container-column {
-  #map:not(:fullscreen) {
+  #map {
     position: relative;
     height: 500px;
     border-top: 1px solid #b1b4b6;
   }
 }
 
-#map--result:fullscreen {
-  #map {
+#map--result:fullscreen{
+    #map {
     height: 100%;
   }
   .markerRadiosContainer {
