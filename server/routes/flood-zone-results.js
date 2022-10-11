@@ -59,7 +59,6 @@ module.exports = [
             useAutomatedService = psoResults.useAutomatedService
           }
 
-          // if (polygon) {
           const geoJson = util.convertToGeoJson(polygon)
 
           const risk = await riskService.getByPolygon(geoJson)
