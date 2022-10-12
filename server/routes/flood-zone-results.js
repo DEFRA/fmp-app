@@ -15,12 +15,9 @@ module.exports = [
       handler: async (request, h) => {
         try {
           let easting, northing
-          let psoEmailAddress = ''
-          let areaName = ''
           let useAutomatedService = true
           const fullName = request.query.fullName
           const recipientemail = request.query.recipientemail
-
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygonString = request.query.polygon
@@ -49,12 +46,6 @@ module.exports = [
           }
 
           const psoResults = await request.server.methods.getPsoContacts(easting, northing)
-          if (psoResults && psoResults.EmailAddress) {
-            psoEmailAddress = psoResults.EmailAddress
-          }
-          if (psoResults && psoResults.AreaName) {
-            areaName = psoResults.AreaName
-          }
           if (psoResults && psoResults.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
             useAutomatedService = psoResults.useAutomatedService
           }
@@ -68,8 +59,8 @@ module.exports = [
           } else {
             const plotSize = getAreaInHectares(polygonString)
             const floodZoneResultsData = new FloodRiskView.Model({
-              psoEmailAddress,
-              areaName,
+              psoEmailAddress: psoResults.EmailAddress || undefined,
+              areaName: psoResults.AreaName || undefined,
               risk,
               center,
               polygon,
