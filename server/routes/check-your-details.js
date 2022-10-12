@@ -4,7 +4,7 @@ const { getApplicationReferenceNumber } = require('../services/application-refer
 const config = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/publish-queue'
-
+const { getAreaInHectares } = require('../services/shape-utils')
 module.exports = [
   {
     method: 'GET',
@@ -92,6 +92,7 @@ module.exports = [
           // Send details to function app
           const { x, y } = PDFinformationDetailsObject.coordinates
           const { location, polygon } = PDFinformationDetailsObject
+          const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
           const data = JSON.stringify({
             name,
@@ -104,6 +105,7 @@ module.exports = [
             zoneNumber,
             areaName,
             psoEmailAddress,
+            plotSize,
             task: 'LOG_REQUEST'
           })
           wreck.post(publishToQueueURL, {
