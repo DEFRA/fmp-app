@@ -6,6 +6,11 @@
 @import '../os-branding';
 
 
+#map--result:-webkit-full-screen {
+  .map{
+    height: 100%;
+  }
+}
 .os-credits__text {
     background-color: rgba(255, 255, 255, 0.75);
     bottom: 0;
