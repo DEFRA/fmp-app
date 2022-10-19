@@ -214,6 +214,22 @@ lab.experiment('flood-zone-results', () => {
     // await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
   })
 
+  const assertContactEnvironmentAgencyText = async (response, AreaName, useAutomated = true) => {
+    const { payload } = response
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
+    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
+    Code.expect(contactEmailDiv[0].textContent).to.contain(`Email the Environment Agency team in ${AreaName} at`)
+    const contactPageLink = doc.querySelectorAll('[data-contact-page-link]')
+    const optedOutParagraph = doc.querySelectorAll('[data-opted-out-contact-details]')
+    Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-pso-contact-email div
+    Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-pso-contact-email div
+    if (useAutomated) {
+      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
+    } else {
+      Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
+    }
+  }
   // Test all iterations of psoContactResponse to get full coverage
   const psoContactResponses = [
     ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities }],

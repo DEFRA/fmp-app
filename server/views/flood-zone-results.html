@@ -231,6 +231,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
           draggable="false" 
           class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
           data-module="govuk-button"
+          data-contact-page-link
           > Order flood risk data
         </a>
       {% else %}
@@ -240,7 +241,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         </p>
         <p class="govuk-body">
           <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
-          <p class="govuk-body">To request flood risk assessment data for this location, contact the {{areaName}} at 
+          <p class="govuk-body" data-opted-out-contact-details>To request flood risk assessment data for this location, contact the {{areaName}} at 
             <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
           </p>
           <p class="govuk-body">Your email should say that you are requesting flood risk assessment data (also known as a Product 4) and include: </p>
@@ -261,8 +262,8 @@ Flood risk information for this location - Flood map for planning - GOV.UK
        Get help deciding what flood risk information you need
     </h2>
 
-    <p class="govuk-body">
-      Email the {{areaName}} at: <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
+    <p class="govuk-body" data-pso-contact-email>
+      Email the Environment Agency team in {{areaName}} at: <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
     </p>
     {% include "./partials/change-location.html" %}
   </div>  
