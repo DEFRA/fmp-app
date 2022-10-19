@@ -2,19 +2,19 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const { method: getPsoContacts } = require('../../server/services/pso-contact')
-const Wreck = require('@hapi/wreck')
 const config = require('../../config')
+const util = require('../../server/util')
 
 lab.experiment('pso-contact', () => {
-  let restoreWreckPost
+  let restoreUtilGetJson
 
   lab.before(async () => {
-    restoreWreckPost = Wreck.post
-    Wreck.post = (url, data) => ({ url, data })
+    restoreUtilGetJson = util.getJson
+    util.getJson = (url) => ({ url })
   })
 
   lab.after(async () => {
-    Wreck.post = restoreWreckPost
+    util.getJson = restoreUtilGetJson
   })
 
   lab.test('getPsoContacts should throw an exception if easting and northing are not set', async () => {
@@ -42,21 +42,30 @@ lab.experiment('pso-contact', () => {
   })
 
   lab.test('getPsoContacts should post to config.functionAppUrl/pso/contacts if data passed is valid', async () => {
-    Wreck.post = (url, data) => {
+    util.getJson = async (url) => {
       try {
-        const { payload } = data
-        Code.expect(url).to.equal(config.functionAppUrl + '/pso/contacts')
-        Code.expect(payload).to.equal('{"x":10000,"y":20000}')
-        return { payload }
+        Code.expect(url).to.equal(config.service + '/get-pso-contacts/10000/20000')
+        return {
+          emailaddress: 'neyorkshire@environment-agency.gov.uk',
+          areaname: 'Environment Agency team in Yorkshire',
+          localauthorities: 'Ryedale',
+          useautomatedservice: true
+        }
       } catch (assertError) {
         console.log('assertError failed', assertError)
         throw assertError
       }
     }
     try {
-      await getPsoContacts(10000, 20000)
+      const psoContactDetails = await getPsoContacts(10000, 20000)
+      Code.expect(psoContactDetails).to.equal({
+        EmailAddress: 'neyorkshire@environment-agency.gov.uk',
+        AreaName: 'Environment Agency team in Yorkshire',
+        LocalAuthorities: [['Ryedale']],
+        useAutomatedService: true
+      })
     } catch (err) {
-      // This is a dummy catch - if any of the asserts in the mocked Wreck.post above fail, then getPsoContacts
+      // This is a dummy catch - if any of the asserts in the mocked util.getJson above fail, then getPsoContacts
       // will throw the error 'Fetching Pso contacts failed: '
       // The console.log in the catch block above should contain the details of the actual assertion failure
       Code.expect(err).to.equal(undefined)

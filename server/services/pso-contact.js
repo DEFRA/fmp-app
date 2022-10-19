@@ -14,7 +14,6 @@ const getPsoContacts = (easting, northing) => {
 
     return util.getJson(url + easting + '/' + northing)
       .then((result) => {
-        console.log('psoContacts result', result)
         const { emailaddress: EmailAddress, areaname: AreaName, localauthorities: LocalAuthorities, useautomatedservice: useAutomatedService } = result
         return {
           EmailAddress,
