@@ -98,7 +98,7 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    await payloadMatchTest(payload, /Email the Yorkshire at/g)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire')
     // FCRM 3594
     await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
     await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 1)
@@ -149,7 +149,8 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
-    testIfP4DownloadButtonExists(payload, false)
+    await testIfP4DownloadButtonExists(payload, false)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire', false)
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is true', async () => {
@@ -158,7 +159,8 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
-    testIfP4DownloadButtonExists(payload, true)
+    await testIfP4DownloadButtonExists(payload, true)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire')
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is false and config.ignoreUseAutomatedService is true', async () => {
@@ -168,9 +170,26 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
-    testIfP4DownloadButtonExists(payload, true)
+    await testIfP4DownloadButtonExists(payload, true)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire')
   })
 
+  const assertContactEnvironmentAgencyText = async (response, AreaName, useAutomated = true) => {
+    const { payload } = response
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
+    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
+    Code.expect(contactEmailDiv[0].textContent).to.contain(`Email the Environment Agency team in ${AreaName} at`)
+    const contactPageLink = doc.querySelectorAll('[data-contact-page-link]')
+    const optedOutParagraph = doc.querySelectorAll('[data-opted-out-contact-details]')
+    Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-pso-contact-email div
+    Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-pso-contact-email div
+    if (useAutomated) {
+      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
+    } else {
+      Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
+    }
+  }
   // Test all iterations of psoContactResponse to get full coverage
   const psoContactResponses = [
     ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire' }],
@@ -184,14 +203,10 @@ lab.experiment('flood-zone-results', () => {
         url: urlByPolygon
       }
       server.methods.getPsoContacts = async () => psoContactResponse
-
-      const response = await server.inject(options)
-      const { payload } = response
-      const { window: { document: doc } } = await new JSDOM(payload)
-      const div = doc.querySelector('#main-content')
-      Code.expect(response.statusCode).to.equal(200)
       const { AreaName = '' } = (psoContactResponse || {})
-      Code.expect(div.textContent).to.contain(`Email the ${AreaName} at`)
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      await assertContactEnvironmentAgencyText(response, AreaName)
     })
   })
 
