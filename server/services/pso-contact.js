@@ -14,7 +14,12 @@ const getPsoContacts = (easting, northing) => {
 
     return util.getJson(url + easting + '/' + northing)
       .then((result) => {
-        const { emailaddress: EmailAddress, areaname: AreaName, localauthorities: LocalAuthorities, useautomatedservice: useAutomatedService } = result
+        const {
+          emailaddress: EmailAddress,
+          areaname: AreaName,
+          localauthority: LocalAuthorities,
+          useautomatedservice: useAutomatedService
+        } = result
         return {
           EmailAddress,
           AreaName,
