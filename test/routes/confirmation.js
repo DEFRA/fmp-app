@@ -4,6 +4,7 @@ const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 const emailConfirm = require('../../server/services/email-confirmation')
 const { payloadMatchTest } = require('../utils')
+const { JSDOM } = require('jsdom')
 
 const Wreck = require('@hapi/wreck')
 const config = require('../../config')
@@ -47,6 +48,14 @@ lab.experiment('confirmation', () => {
     })
   })
 
+  const assertContactEnvironmentAgencyText = async (response, AreaName) => {
+    const { payload } = response
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
+    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
+    Code.expect(contactEmailDiv[0].textContent).to.contain(`Contact the Environment Agency team in ${AreaName} at`)
+  }
+
   // Test all iterations of psoContactResponse to get full coverage
   const psoContactResponses = [
     ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' }],
@@ -73,6 +82,8 @@ lab.experiment('confirmation', () => {
         Code.expect(emailConfirmationUrl).to.equal(config.functionAppUrl + '/email/confirmation')
         Code.expect(response.statusCode).to.equal(200)
         await payloadMatchTest(payload, /<a href="\/flood-zone-results\?easting=12345&northing=67890&location=12345,67890">Go back to your flood information<\/a>/g)
+        const { AreaName = '' } = (psoContactResponse || {})
+        await assertContactEnvironmentAgencyText(response, AreaName)
       })
     })
   })
