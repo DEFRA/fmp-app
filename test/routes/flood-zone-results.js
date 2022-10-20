@@ -123,10 +123,10 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(contactLocalAuthParagraph.length).to.equal(floodZone === 1 ? 1 : 0)
 
     if (floodZone === 1) {
-      Code.expect(contactLocalAuthParagraph[0].textContent).to.contain(`Contact your local planning authority, ${LocalAuthorities}, to check its SRFA.`)
+      Code.expect(contactLocalAuthParagraph[0].textContent).to.contain('Contact your local planning authority, Ryedale, to check its SRFA.')
     } else {
       // Check for "Speak to ... local authority to find what their planning requirements are" (except zone1)
-      Code.expect(speakToLocalAuthListItem[0].textContent).to.contain(`Speak to ${LocalAuthorities}  to find what their planning requirements are`)
+      Code.expect(speakToLocalAuthListItem[0].textContent).to.contain('Speak to Ryedale to find what their planning requirements are')
     }
   }
 
