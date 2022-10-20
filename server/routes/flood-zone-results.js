@@ -70,7 +70,7 @@ module.exports = [
               fullName,
               useAutomatedService,
               plotSize,
-              localAuthorities: psoResults.LocalAuthorities ? psoResults.LocalAuthorities.toString() : ''
+              localAuthorities: psoResults.LocalAuthorities || ''
             })
             return h.view('flood-zone-results', floodZoneResultsData)
               .unstate('pdf-download')

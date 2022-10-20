@@ -15,7 +15,7 @@ lab.experiment('confirmation', () => {
   let restoreWreckPost
   let restoreGetPsoContacts
 
-  const LocalAuthorities = [['Ryedale']]
+  const LocalAuthorities = 'Ryedale'
 
   lab.before(async () => {
     restoreEmailConfirmation = emailConfirm.emailConfirmation

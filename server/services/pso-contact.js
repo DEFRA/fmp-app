@@ -7,10 +7,6 @@ const getPsoContacts = (easting, northing) => {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-    // EmailAddress: 'neyorkshire@environment-agency.gov.uk',
-    // AreaName: 'Environment Agency team in Yorkshire',
-    // LocalAuthorities: [ [ 'Ryedale' ] ],
-    // useAutomatedService: true?
 
     return util.getJson(url + easting + '/' + northing)
       .then((result) => {
@@ -23,7 +19,7 @@ const getPsoContacts = (easting, northing) => {
         return {
           EmailAddress,
           AreaName,
-          LocalAuthorities: [[LocalAuthorities]],
+          LocalAuthorities,
           useAutomatedService
         }
       })

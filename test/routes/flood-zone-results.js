@@ -16,7 +16,7 @@ lab.experiment('flood-zone-results', () => {
   let restoreGetByPoint
   let restoreIsEnglandService
   let restoreIgnoreUseAutomatedService
-  const LocalAuthorities = [['Ryedale']]
+  const LocalAuthorities = 'Ryedale'
 
   const optInPSOContactResponse = {
     EmailAddress: 'psoContact@example.com',
