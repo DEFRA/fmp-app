@@ -21,13 +21,15 @@ lab.experiment('flood-zone-results', () => {
   const optInPSOContactResponse = {
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
-    useAutomatedService: true
+    useAutomatedService: true,
+    LocalAuthorities
   }
 
   const optOutPSOContactResponse = {
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
-    useAutomatedService: false
+    useAutomatedService: false,
+    LocalAuthorities
   }
 
   const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
@@ -161,7 +163,7 @@ lab.experiment('flood-zone-results', () => {
       areaName: 'Yorkshire',
       center: [479472, 484194],
       fullName: 'Joe Bloggs',
-      localAuthorities: '',
+      localAuthorities: 'Ryedale',
       location: 'Pickering',
       placeOrPostcode: undefined,
       polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
@@ -214,22 +216,6 @@ lab.experiment('flood-zone-results', () => {
     // await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
   })
 
-  const assertContactEnvironmentAgencyText = async (response, AreaName, useAutomated = true) => {
-    const { payload } = response
-    const { window: { document: doc } } = await new JSDOM(payload)
-    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
-    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
-    Code.expect(contactEmailDiv[0].textContent).to.contain(`Email the Environment Agency team in ${AreaName} at`)
-    const contactPageLink = doc.querySelectorAll('[data-contact-page-link]')
-    const optedOutParagraph = doc.querySelectorAll('[data-opted-out-contact-details]')
-    Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-pso-contact-email div
-    Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-pso-contact-email div
-    if (useAutomated) {
-      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
-    } else {
-      Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
-    }
-  }
   // Test all iterations of psoContactResponse to get full coverage
   const psoContactResponses = [
     ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities }],
