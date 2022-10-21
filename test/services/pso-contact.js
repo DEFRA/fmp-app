@@ -48,7 +48,7 @@ lab.experiment('pso-contact', () => {
         return {
           emailaddress: 'neyorkshire@environment-agency.gov.uk',
           areaname: 'Environment Agency team in Yorkshire',
-          localauthorities: 'Ryedale',
+          localauthority: 'Ryedale',
           useautomatedservice: true
         }
       } catch (assertError) {
@@ -61,7 +61,7 @@ lab.experiment('pso-contact', () => {
       Code.expect(psoContactDetails).to.equal({
         EmailAddress: 'neyorkshire@environment-agency.gov.uk',
         AreaName: 'Environment Agency team in Yorkshire',
-        LocalAuthorities: [['Ryedale']],
+        LocalAuthorities: 'Ryedale',
         useAutomatedService: true
       })
     } catch (err) {

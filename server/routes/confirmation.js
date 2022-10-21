@@ -14,7 +14,7 @@ module.exports = {
           model.location = request.query.x + ',' + request.query.y
           model.psoEmailAddress = (result && result.EmailAddress) ? result.EmailAddress : undefined
           model.AreaName = (result && result.AreaName) ? result.AreaName : undefined
-          model.LocalAuthorities = (result && result.LocalAuthorities !== undefined && result.LocalAuthorities !== 0) ? result.LocalAuthorities : undefined
+          model.LocalAuthorities = (result && result.LocalAuthorities) ? result.LocalAuthorities : undefined
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
           model.ispolygon = !!(request.query.polygon)
           model.search = request.query.location
