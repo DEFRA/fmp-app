@@ -92,14 +92,14 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         </li>
       </ul>
 
-      <p class="govuk-body">
+      <p class="govuk-body" data-local-authority-zone1>
         Contact your local planning authority, {{localAuthorities}}, to check its SRFA.
       </p>
     {% else %}
       <p class="govuk-body"> You should: </p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li> Speak to {{localAuthorities}} local authority to find what their planning requirements are </li>
+        <li data-local-authority> Speak to {{localAuthorities}} local authority to find what their planning requirements are </li>
         <li> get a flood risk assessment, this is usually done by flood risk consultant </li>
       </ul>
     {% endif %}
