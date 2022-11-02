@@ -7,7 +7,7 @@ const { payloadMatchTest } = require('../utils')
 const isEnglandService = require('../../server/services/is-england')
 const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
-// const { JSDOM } = require('jsdom')
+const { JSDOM } = require('jsdom')
 
 lab.experiment('flood-zone-results', () => {
   let server
@@ -91,44 +91,44 @@ lab.experiment('flood-zone-results', () => {
     await server.stop()
   })
 
-  // const assertContactEnvironmentAgencyText = async (response, AreaName, useAutomated, floodZone) => {
-  //   Code.expect(useAutomated).not.to.be.undefined()
-  //   Code.expect(floodZone).not.to.be.undefined()
+  const assertContactEnvironmentAgencyText = async (response, AreaName, useAutomated, floodZone) => {
+    Code.expect(useAutomated).not.to.be.undefined()
+    Code.expect(floodZone).not.to.be.undefined()
 
-  //   const { payload } = response
-  //   const { window: { document: doc } } = await new JSDOM(payload)
+    const { payload } = response
+    const { window: { document: doc } } = await new JSDOM(payload)
 
-  //   // Check For "Email the Environment Agency team in ..."
-  //   const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
-  //   Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
-  //   Code.expect(contactEmailDiv[0].textContent).to.contain(`Email the Environment Agency team in ${AreaName} at`)
+    // Check For "Email the Environment Agency team in ..."
+    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
+    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
+    Code.expect(contactEmailDiv[0].textContent).to.contain(`Email the Environment Agency team in ${AreaName} at`)
 
-  //   // Check that url to /contact contains AreaName
-  //   const contactPageLink = doc.querySelectorAll('[data-contact-page-link]')
-  //   const optedOutParagraph = doc.querySelectorAll('[data-opted-out-contact-details]')
-  //   Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-contact-page-link div
-  //   Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-opted-out-contact-details div
-  //   if (useAutomated) {
-  //     Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
-  //   } else {
-  //     // Unless useAutomated is off in which case this paragraph should be present
-  //     Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
-  //   }
+    // Check that url to /contact contains AreaName
+    const contactPageLink = doc.querySelectorAll('[data-contact-page-link]')
+    const optedOutParagraph = doc.querySelectorAll('[data-opted-out-contact-details]')
+    Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-contact-page-link div
+    Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-opted-out-contact-details div
+    if (useAutomated) {
+      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
+    } else {
+      // Unless useAutomated is off in which case this paragraph should be present
+      Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
+    }
 
-  //   // check for a single data-local-authority li (not zone1)
-  //   const speakToLocalAuthListItem = doc.querySelectorAll('[data-local-authority]')
-  //   Code.expect(speakToLocalAuthListItem.length).to.equal(floodZone === 1 ? 0 : 1)
-  //   // check for a single data-local-authority-zone1 p (zone1 only)
-  //   const contactLocalAuthParagraph = doc.querySelectorAll('[data-local-authority-zone1]')
-  //   Code.expect(contactLocalAuthParagraph.length).to.equal(floodZone === 1 ? 1 : 0)
+    // check for a single data-local-authority li (not zone1)
+    const speakToLocalAuthListItem = doc.querySelectorAll('[data-local-authority]')
+    Code.expect(speakToLocalAuthListItem.length).to.equal(floodZone === 1 ? 0 : 1)
+    // check for a single data-local-authority-zone1 p (zone1 only)
+    const contactLocalAuthParagraph = doc.querySelectorAll('[data-local-authority-zone1]')
+    Code.expect(contactLocalAuthParagraph.length).to.equal(floodZone === 1 ? 1 : 0)
 
-  //   if (floodZone === 1) {
-  //     Code.expect(contactLocalAuthParagraph[0].textContent).to.contain('Contact your local planning authority, Ryedale, to check its SRFA.')
-  //   } else {
-  //     // Check for "Speak to ... local authority to find what their planning requirements are" (except zone1)
-  //     Code.expect(speakToLocalAuthListItem[0].textContent).to.contain('Speak to Ryedale to find what their planning requirements are')
-  //   }
-  // }
+    if (floodZone === 1) {
+      Code.expect(contactLocalAuthParagraph[0].textContent).to.contain('Contact your local planning authority, Ryedale, to check its SRFA.')
+    } else {
+      // Check for "Speak to ... local authority to find what their planning requirements are" (except zone1)
+      Code.expect(speakToLocalAuthListItem[0].textContent).to.contain('Speak to Ryedale to find what their planning requirements are')
+    }
+  }
 
   lab.test('get flood-zone-results with a valid polygon should succeed', async () => {
     const options = {
@@ -140,7 +140,7 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    // await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
     // FCRM 3594
     await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
     await payloadMatchTest(payload, /<h3 class="govuk-heading-s">Change location<\/h3>/g, 1)
@@ -192,7 +192,7 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
     await testIfP4DownloadButtonExists(payload, false)
-    // await assertContactEnvironmentAgencyText(response, 'Yorkshire', false, 1)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire', false, 1)
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is true', async () => {
@@ -202,7 +202,7 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
     await testIfP4DownloadButtonExists(payload, true)
-    // await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
   })
 
   lab.test('get flood-zone-results request data button should be present if useAutomated is false and config.ignoreUseAutomatedService is true', async () => {
@@ -213,7 +213,7 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(response.statusCode).to.equal(200)
     const { payload } = response
     await testIfP4DownloadButtonExists(payload, true)
-    // await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
+    await assertContactEnvironmentAgencyText(response, 'Yorkshire', true, 1)
   })
 
   // Test all iterations of psoContactResponse to get full coverage
@@ -229,10 +229,10 @@ lab.experiment('flood-zone-results', () => {
         url: urlByPolygon
       }
       server.methods.getPsoContacts = async () => psoContactResponse
-      // const { AreaName = '' } = (psoContactResponse || {})
+      const { AreaName = '' } = (psoContactResponse || {})
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(200)
-      // await assertContactEnvironmentAgencyText(response, AreaName, true, 1)
+      await assertContactEnvironmentAgencyText(response, AreaName, true, 1)
     })
   })
 
