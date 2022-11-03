@@ -2,16 +2,10 @@
     <h1 class="govuk-heading-xl">Your results explained</h1>
     {% if zone == 'FZ3a'%}
       <p class="govuk-body">
-        Your selected location is in flood zone {{zoneNumber}}. It is also in an area that has some protection from flood defences.
+        Your selected location is in flood zone {{zoneNumber}}.
       </p>
       <p class="govuk-body">
         You'll need to do a flood risk assessment as part of your planning application.
-      </p>
-      <p class="govuk-body">
-        Flood defences reduce the probability of flooding from a particular source (a river or the sea) but do not completely remove the risk. They can fail or a flood could happen which is bigger than the one the defence is designed to protect against.
-      </p>
-      <p class="govuk-body">
-        Climate change will increase flood risk in future. This means the level of protection existing flood defences currently provide, will reduce over time. The site may also be at risk from other sources of flooding.
       </p>
     {% elif (zone == 'FZ2') or (zone == 'FZ2a') %}
       <p class="govuk-body">Because your selected location is in flood zone {{zoneNumber}}, it has a medium probability of flooding. This means you’ll need to do a flood risk assessment as part of your planning application.</p>
