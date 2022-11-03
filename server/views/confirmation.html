@@ -44,15 +44,9 @@ Request submitted - Flood map for planning - GOV.UK
       {% endif %}
 
       <h2 class="govuk-heading-m">Help and advice</h2>
-      <p class="govuk-body">
-        Contact the 
-        {% if AreaName %} 
-          {{AreaName}}
-        {% endif %}
-        {% if psoEmailAddress %}
-          at <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a>
-        {% endif %}
-        for:
+      <p class="govuk-body" data-pso-contact-email>
+        Contact the Environment Agency team in {{AreaName}} at 
+        <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:
       </p>
       <ul class="govuk-list govuk-list--bullet">
         <li>{% include "./partials/more-information.html" %}</li>
@@ -60,7 +54,7 @@ Request submitted - Flood map for planning - GOV.UK
       </ul>
       <p>For advice around flood risk assessments and planning permission you can:</p>
       <ul class="govuk-list govuk-list--bullet">
-        <li>speak to your local authority{% if LocalAuthorities %}, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span>{% endif %}</li>
+        <li data-local-authority>speak to your local authority{% if LocalAuthorities %}, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span>{% endif %}</li>
         <li>
           <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">contact the Environment Agency</a>
         </li>

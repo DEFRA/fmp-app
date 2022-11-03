@@ -4,6 +4,7 @@ const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
 const emailConfirm = require('../../server/services/email-confirmation')
 const { payloadMatchTest } = require('../utils')
+const { JSDOM } = require('jsdom')
 
 const Wreck = require('@hapi/wreck')
 const config = require('../../config')
@@ -13,6 +14,8 @@ lab.experiment('confirmation', () => {
   let restoreEmailConfirmation
   let restoreWreckPost
   let restoreGetPsoContacts
+
+  const LocalAuthorities = 'Ryedale'
 
   lab.before(async () => {
     restoreEmailConfirmation = emailConfirm.emailConfirmation
@@ -47,11 +50,24 @@ lab.experiment('confirmation', () => {
     })
   })
 
+  const assertContactEnvironmentAgencyText = async (response, AreaName, LocalAuthority) => {
+    const { payload } = response
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const contactEmailDiv = doc.querySelectorAll('[data-pso-contact-email]')
+    Code.expect(contactEmailDiv.length).to.equal(1) // check for a single data-pso-contact-email div
+    Code.expect(contactEmailDiv[0].textContent).to.contain(`Contact the Environment Agency team in ${AreaName} at`)
+
+    const speakToLocalAuthListItem = doc.querySelectorAll('[data-local-authority]')
+    Code.expect(speakToLocalAuthListItem.length).to.equal(1)
+    const expectedLocalAuthorityText = LocalAuthority ? `, ${LocalAuthority}` : ''
+    Code.expect(speakToLocalAuthListItem[0].textContent).to.contain(`speak to your local authority${expectedLocalAuthorityText}`)
+  }
+
   // Test all iterations of psoContactResponse to get full coverage
   const psoContactResponses = [
-    ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' }],
-    ['areaName only in psoContactResponse', { AreaName: 'Yorkshire' }],
-    ['emailAddress only in psoContactResponse', { EmailAddress: 'psoContact@example.com' }],
+    ['a full psoContactResponse', { EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities }],
+    ['areaName only in psoContactResponse', { AreaName: 'Yorkshire', LocalAuthorities }],
+    ['emailAddress only in psoContactResponse', { EmailAddress: 'psoContact@example.com', LocalAuthorities }],
     ['an undefined psoContactResponse', undefined]
   ]
   psoContactResponses.forEach(([psoContactDescription, psoContactResponse]) => {
@@ -73,6 +89,8 @@ lab.experiment('confirmation', () => {
         Code.expect(emailConfirmationUrl).to.equal(config.functionAppUrl + '/email/confirmation')
         Code.expect(response.statusCode).to.equal(200)
         await payloadMatchTest(payload, /<a href="\/flood-zone-results\?easting=12345&northing=67890&location=12345,67890">Go back to your flood information<\/a>/g)
+        const { AreaName = '', LocalAuthorities } = (psoContactResponse || {})
+        await assertContactEnvironmentAgencyText(response, AreaName, LocalAuthorities)
       })
     })
   })
@@ -85,7 +103,7 @@ lab.experiment('confirmation', () => {
   })
 
   lab.test('confirmation with a polygon should contain a url to flood-zone-results with that polygon', async () => {
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
     const url = '/confirmation?fullName=JoeBloggs&polygon=%5B%5B479536%2C484410%5D%2C%5B479425%2C484191%5D%2C%5B479785%2C484020%5D%2C%5B479861%2C484314%5D%2C%5B479536%2C484410%5D%5D&recipientemail=Mark.Fee%40defra.gov.uk&applicationReferenceNumber=VNEFM46GF1CA&x=479643&y=484215&location=pickering&zoneNumber=3&cent=%5B479643%2C484215%5D'
 
     let emailConfirmationUrl
@@ -118,7 +136,7 @@ lab.experiment('confirmation', () => {
   }
 
   lab.test('confirmation page in zone 1 should show specific zone 1 text', async () => {
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
 
     const options = {
       method: 'GET',
@@ -131,7 +149,7 @@ lab.experiment('confirmation', () => {
   const zoneNumbers = [undefined, '2', '3', '3 in an area benefitting from flood defences', 'not available']
   zoneNumbers.forEach((zoneNumber) => {
     lab.test(`confirmation page NOT in zone 1 (zone ${zoneNumber}) should NOT show specific zone 1 text`, async () => {
-      server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities: 'localAuth' })
+      server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
 
       const options = {
         method: 'GET',

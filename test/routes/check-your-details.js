@@ -102,7 +102,7 @@ lab.experiment('check-your-details', () => {
   lab.test('check-your-details with zoneNumber should render view with zoneNumber', async () => {
     const options = {
       method: 'GET',
-      url: '/check-your-details?easting=360799&northing=388244&fullName=Joe%20Bloggs&recipientemail=joe@example.com&zoneNumber=13&psoEmailAddress=enquiries_eastanglia@environment-agency.gov.uk&areaName=Environment%20Agency%20team%20in%20East%20Anglia'
+      url: '/check-your-details?easting=360799&northing=388244&fullName=Joe%20Bloggs&recipientemail=joe@example.com&zoneNumber=13&psoEmailAddress=enquiries_eastanglia@environment-agency.gov.uk&areaName=East%20Anglia'
     }
 
     const response = await server.inject(options)
@@ -115,7 +115,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(result.match(/input type="hidden" value="Joe Bloggs" name="fullName"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="joe@example.com" name="recipientemail"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="13" name="zoneNumber"/g).length).to.equal(1)
-    Code.expect(result.match(/input type="hidden" value="Environment Agency team in East Anglia" name="areaName"/g).length).to.equal(1)
+    Code.expect(result.match(/input type="hidden" value="East Anglia" name="areaName"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="enquiries_eastanglia@environment-agency.gov.uk" name="psoEmailAddress"/g).length).to.equal(1)
   })
 
@@ -266,7 +266,7 @@ lab.experiment('check-your-details', () => {
         easting: 12345,
         northing: 678910,
         zoneNumber: 10,
-        areaName: 'Environment Agency team in East Anglia',
+        areaName: 'East Anglia',
         psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
       }
     }
@@ -284,7 +284,7 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456,"zoneNumber":10,"areaName":"Environment Agency team in East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456,"zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
   })
@@ -298,7 +298,7 @@ lab.experiment('check-your-details', () => {
         northing: 678910,
         polygon: '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]',
         cent: '[479579,484104]',
-        areaName: 'Environment Agency team in East Anglia',
+        areaName: 'East Anglia',
         psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
       }
     }
@@ -316,7 +316,7 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","applicationReferenceNumber":123456,"areaName":"Environment Agency team in East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","applicationReferenceNumber":123456,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","plotSize":"3.49","task":"LOG_REQUEST"}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
   })
@@ -329,7 +329,7 @@ lab.experiment('check-your-details', () => {
         easting: 12345,
         northing: 678910,
         location: 'Pickering',
-        areaName: 'Environment Agency team in East Anglia',
+        areaName: 'East Anglia',
         psoEmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk'
       }
     }
@@ -349,7 +349,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
 
     // Question - Is this correct - polygon seems to be passed in a variety of ways
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","applicationReferenceNumber":123456,"areaName":"Environment Agency team in East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","applicationReferenceNumber":123456,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
 
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
