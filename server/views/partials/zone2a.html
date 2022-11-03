@@ -8,8 +8,11 @@
       You must carry out a flood risk assessment.
     </strong>
   </div>
-  <p class="govuk-body">Your selected location is in flood zone 2. 
-    It is also in an area benefiting from flood defences.
+  <p class="govuk-body">Your selected location is in flood zone 2. </p>
+  <h2 class="govuk-heading-m"> Flood defences </h2>
+  <p class="govuk-body">
+    This location may have a reduced flood risk because of flood defences on a particular river or sea.
+    The flood defences do not remove the risk completely because they can fail.
   </p>
   <p class="govuk-body"><a
     data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ2-With-Defence"
@@ -21,9 +24,8 @@
 {% include "./map/flood-zone-results-map-column.html" %}
 
 <div class="govuk-grid-column-two-thirds">
-  <p class="govuk-body">To request flood risk assessment data (also known as a 
-    <span class="govuk-!-font-weight-bold">product 4</span>) 
-    you’ll need an email address we can send the information to.
+  <p class="govuk-body">To request flood risk assessment data (also known as a <span 
+      class="govuk-!-font-weight-bold">product 4</span>) you’ll need an email address we can send the information to.
   </p>
   <p class="govuk-body">You should receive your data within 20 working days.</p>
   <p class="govuk-body">Depending on the data that's available, your flood risk assessment data will include: </p>
@@ -34,11 +36,12 @@
     <li>flood defence locations and attributes</li>
   </ul>
 
-  <p class="govuk-body">Contact the {{areaName}} at  <a
+  <p class="govuk-body">Contact the Contact the Environment Agency team in {{areaName}} at  <a
     href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> for:</p>
 
   <p class="govuk-body">
-    You also need to make a separate request for a Flood Defence Breach Hazard Map from the {{areaName}} team at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>. This will be available if modelling has been carried out for breach scenarios.
+    You also need to make a separate request for a Flood Defence Breach Hazard Map from the Environment Agency team in {{areaName}} team at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>. 
+    This will be available if modelling has been carried out for breach scenarios.
   </p>
 
   {% include "./flood-zone-results-footer.html" %}
