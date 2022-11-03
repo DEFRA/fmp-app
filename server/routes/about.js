@@ -1,4 +1,4 @@
-const { version, dataVersion, buildVersion } = require('../../package.json')
+const { version, dataVersion } = require('../../package.json')
 
 module.exports = {
   method: 'GET',
@@ -6,11 +6,11 @@ module.exports = {
   options: {
     description: 'Describe application version number',
     handler: async (_request, h) => {
-      console.log('Package ==> ', version)
+      const shortVersion = version.split('-')[0]
       const data = {
-        version,
+        version: shortVersion,
         dataVersion,
-        buildVersion
+        buildVersion: version
       }
       return h.view('about', data)
     }
