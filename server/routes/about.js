@@ -9,8 +9,8 @@ module.exports = {
       const shortVersion = version.split('-')[0]
       const data = {
         version: shortVersion,
-        dataVersion,
-        buildVersion: version
+        buildVersion: version,
+        dataVersion
       }
       return h.view('about', data)
     }
