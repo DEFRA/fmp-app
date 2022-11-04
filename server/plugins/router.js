@@ -21,7 +21,8 @@ const routes = [].concat(
   require('../routes/terms-and-conditions'),
   require('../routes/check-your-details'),
   require('../routes/maintenance'),
-  require('../routes/404'))
+  require('../routes/404'),
+  require('../routes/about'))
 
 module.exports = {
   plugin: {
