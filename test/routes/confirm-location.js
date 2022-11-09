@@ -296,12 +296,12 @@ lab.experiment('confirm-location', () => {
 
     // Error Title Should only be displayed if polygonMissing is true
     await payloadMatchTest(payload,
-      /<title>[\s\S]*Error: Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
+      /<title>[\s\S]*Error: Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
       errorMessageExpected ? 1 : 0)
 
     // This should always pass (the regex matches regardless of the presence of "Error: ")
     await payloadMatchTest(payload,
-      /<title>[\s\S]*Confirm location - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
+      /<title>[\s\S]*Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
       1)
   }
 
