@@ -319,7 +319,7 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(200)
 
     const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
+    await payloadMatchTest(payload, /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g)
     assertErrorMessage(payload, false)
     await assertContactEnvironmentAgencyText(response)
   })
@@ -338,7 +338,7 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(200)
 
     const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.<\/p>/g)
+    await payloadMatchTest(payload, /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g)
     assertErrorMessage(payload, true)
     await assertContactEnvironmentAgencyText(response)
   })
