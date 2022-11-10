@@ -25,7 +25,14 @@
   
   &.map-figure--error {
     box-shadow: -12px 0 #fff, -20px 0 #d4351c;
-    height: 615px;
+    border: 1px solid #ccc;
+    height: 608px;
+    .govuk-error-message {
+      margin: 10px 10px 0 10px !important;
+    }
+    .map--result, .map--result-confirm {
+      border: none !important;
+    }
   }
   
   .mobile-heading {
