@@ -4,9 +4,9 @@
 
 {% block pageTitle %}
   {% if polygonMissing %}
-    Error: Confirm location - Flood map for planning - GOV.UK
+    Error: Draw the boundary of your site - Flood map for planning - GOV.UK
   {% else %}
-    Confirm location - Flood map for planning - GOV.UK
+    Draw the boundary of your site - Flood map for planning - GOV.UK
   {% endif %}
 {% endblock %}
 
@@ -29,7 +29,7 @@
       }}
       {% endif %}
 
-      <p class="govuk-body">To make sure we provide you with accurate information you need to draw the boundary of your site on the map below.</p>
+      <p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.</p>
       
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -39,14 +39,22 @@
         </summary>
         <div class="govuk-details__text">
           <ol class="govuk-list govuk-list--number">
-            <li>Select 'draw boundary'.</li>
-            <li>Select any point on the site boundary.</li>
-            <li>Select a second point on the boundary - you should see a line drawn between the first two points.</li>
-            <li>Keep adding points until the boundary is defined.</li>
-            <li>Double click or tap when you mark your final point.</li>
-            <li>Edit the finished boundary by dragging the points.</li>
-            <li>Add more points to a boundary by clicking or tapping on a line.</li>
+            <li> Click or tap to place the first point of your boundary. </li>
+            <li> Place a second point on the boundary, you should see a line drawn between the points. </li>
+            <li> Keep adding points until you've fully defined the boundary of the site. </li>
+            <li> When you have finished drawing the boundary double click or tap to mark the final point. </li>
           </ol>
+          <p class="govuk-body">
+            If you need to change the finished boundary you can:
+          </p>
+          <ol class="govuk-list govuk-list--bullet">
+            <li> click and drag the points to adjust them </li>
+            <li> add more points by clicking or tapping on a line </li>
+            <li> delete the boundary you've drawn and start again by clicking or tapping the 'Delete boundary' button </li>
+          </ol>
+          <p class="govuk-body">
+            Click or tap the Continue button to get your flood risk information.
+          </p>
         </div>
       </details>
     </div>
@@ -91,13 +99,6 @@
     </div>
 
     <div class="govuk-grid-column-full">
-      <div class="govuk-warning-text govuk-!-margin-top-7">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-          Check your entire site is outlined before continuing.
-        </strong>
-      </div>
       <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
         Continue
       </a>
