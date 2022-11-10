@@ -23,6 +23,11 @@
     height: 620px;
   }
   
+  &.map-figure--error {
+    box-shadow: -12px 0 #fff, -20px 0 #d4351c;
+    height: 615px;
+  }
+  
   .mobile-heading {
     padding-bottom: 10px;
 
