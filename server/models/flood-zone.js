@@ -1,43 +1,18 @@
-function FloodZoneModel (risk, polygon) {
+function FloodZoneModel (risk) {
   this.isAreaBenefiting = false
   this.isZone3 = false
   this.isZone2 = false
   this.isZone1 = false
   // Set the points flood zone (centroid)
-  if (!polygon) {
-    if (risk.areas_benefiting) {
-      this.isAreaBenefiting = true
-      this.zone = 'FZ3a'
-    } else if (risk.floodzone_3) {
-      this.isZone3 = true
-      this.zone = 'FZ3'
-    } else if (risk.floodzone_2) {
-      this.isZone2 = true
-      this.zone = 'FZ2'
-    } else {
-      this.isZone1 = true
-      this.zone = 'FZ1'
-    }
-  } else { // Set points for flood zone (polygon)
-    if (risk.floodzone_3) {
-      // Check if AB coverage of FZ3 is > 99.9% due to some small spikes on data
-      if (risk.areas_benefiting && risk.fz3_ab_coverage >= 99.9) {
-        this.isAreaBenefiting = true
-        this.zone = 'FZ3a'
-      } else {
-        this.isZone3 = true
-        this.zone = 'FZ3'
-      }
-    } else if (risk.areas_benefiting) {
-      this.isAreaBenefiting = true
-      this.zone = 'FZ3a'
-    } else if (risk.floodzone_2) {
-      this.isZone2 = true
-      this.zone = 'FZ2'
-    } else {
-      this.isZone1 = true
-      this.zone = 'FZ1'
-    }
+  if (risk.reduction_in_rofrs) {
+    this.isAreaBenefiting = true
+  }
+  if (risk.floodzone_3) {
+    this.zone = this.isAreaBenefiting ? 'FZ3a' : 'FZ3'
+  } else if (risk.floodzone_2) {
+    this.zone = this.isAreaBenefiting ? 'FZ2a' : 'FZ2'
+  } else {
+    this.zone = 'FZ1'
   }
 }
 

@@ -44,7 +44,7 @@ function Model (data) {
   this.easting = center[0]
   this.northing = center[1]
 
-  this.floodZone = new FloodZone(risk, !!polygon)
+  this.floodZone = new FloodZone(risk)
   if (this.floodZone.zone === 'FZ1') {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {

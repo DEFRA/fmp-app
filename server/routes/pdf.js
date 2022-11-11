@@ -31,7 +31,7 @@ module.exports = {
       } else {
         zone = await riskService.getByPoint(center[0], center[1])
       }
-      const floodZone = new FloodZone(zone, !!polygon)
+      const floodZone = new FloodZone(zone)
       zone = floodZone.zone
 
       // Prepare point or polygon

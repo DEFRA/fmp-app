@@ -9,7 +9,7 @@ function SummaryView (risk, center, polygon) {
   this.easting = center[0]
   this.northing = center[1]
 
-  this.floodZone = new FloodZone(risk, !!polygon)
+  this.floodZone = new FloodZone(risk)
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
