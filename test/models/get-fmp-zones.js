@@ -32,7 +32,18 @@ module.exports = {
     floodzone_2: true,
     floodzone_2_error: false
   },
-  areaBenefiting: {
+  zone2a: {
+    point_in_england: true,
+    buffer_in_england: true,
+    england_error: false,
+    floodzone_3: false,
+    floodzone_3_error: false,
+    reduction_in_rofrs: true,
+    reduction_in_rofrs_error: false,
+    floodzone_2: true,
+    floodzone_2_error: false
+  },
+  zone3a: {
     point_in_england: true,
     buffer_in_england: true,
     england_error: false,
@@ -84,22 +95,22 @@ module.exports = {
     floodzone_2: true,
     floodzone_2_error: false
   },
-  areaBenefitingPolygon: {
+  zone2aPolygon: {
     point_in_england: true,
     england_error: false,
-    floodzone_3: true,
+    floodzone_3: false,
     floodzone_3_error: false,
     reduction_in_rofrs: true,
     reduction_in_rofrs_error: false,
     floodzone_2: true,
     floodzone_2_error: false
   },
-  zone3PolygonWithAB: {
+  zone3aPolygon: {
     point_in_england: true,
     england_error: false,
     floodzone_3: true,
     floodzone_3_error: false,
-    reduction_in_rofrs: false,
+    reduction_in_rofrs: true,
     reduction_in_rofrs_error: false,
     floodzone_2: true,
     floodzone_2_error: false

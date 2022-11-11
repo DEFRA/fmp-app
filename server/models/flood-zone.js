@@ -8,13 +8,10 @@ function FloodZoneModel (risk, polygon) {
     this.isAreaBenefiting = true
   }
   if (risk.floodzone_3) {
-    this.isZone3 = !this.isAreaBenefiting
     this.zone = this.isAreaBenefiting ? 'FZ3a' : 'FZ3'
   } else if (risk.floodzone_2) {
-    this.isZone2 = !this.isAreaBenefiting
     this.zone = this.isAreaBenefiting ? 'FZ2a' : 'FZ2'
   } else {
-    this.isZone1 = true
     this.zone = 'FZ1'
   }
 }

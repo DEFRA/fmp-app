@@ -13,15 +13,15 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 
 <div id="summary-page" data-test-info="{{riskJSON}}" class="govuk-grid-row">
 
-  {% if floodZone.isZone1 %}
+  {% if floodZone.zone == 'FZ1' %}
     {% include "./partials/zone1.html" %}
   {% endif %}
 
-  {% if floodZone.isZone2 %}
+  {% if floodZone.zone == 'FZ2' %}
     {% include "./partials/zone2.html" %}
   {% endif %}
 
-  {% if floodZone.isZone3 %}
+  {% if floodZone.zone == 'FZ3' %}
     {% include "./partials/zone3.html" %}
   {% endif %}
 
