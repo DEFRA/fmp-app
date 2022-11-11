@@ -1,4 +1,4 @@
-function FloodZoneModel (risk, polygon) {
+function FloodZoneModel (risk) {
   this.isAreaBenefiting = false
   this.isZone3 = false
   this.isZone2 = false
