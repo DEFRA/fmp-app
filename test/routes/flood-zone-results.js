@@ -39,9 +39,8 @@ lab.experiment('flood-zone-results', () => {
     england_error: false,
     floodzone_3: false,
     floodzone_3_error: false,
-    areas_benefiting: false,
-    fz3_ab_coverage: 0,
-    areas_benefiting_error: false,
+    reduction_in_rofrs: false,
+    reduction_in_rofrs_error: false,
     floodzone_2: false,
     floodzone_2_error: false
   }
@@ -59,8 +58,7 @@ lab.experiment('flood-zone-results', () => {
 
   const zone3WithDefenceGetByPolygonResponse = Object.assign({},
     zone3GetByPolygonResponse, {
-      areas_benefiting: true,
-      fz3_ab_coverage: 100
+      reduction_in_rofrs: true
     })
 
   lab.before(async () => {
