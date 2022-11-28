@@ -72,7 +72,7 @@ The data in the map relates to the selected location and is not specific to any 
               We recommend that you work with a flood risk consultant to get your flood risk assessment.
             </div>
       {% if useAutomatedService %} 
-        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;zone={{floodzone.zone}}&amp;polygon={{polygon}}&amp;center{{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
+        <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}&amp;psoEmailAddress={{psoEmailAddress}}&amp;areaName={{areaName}}" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Request your flood risk assessment data</a>
         {% else %}
         {% include "./risk-assessment-fra.html" %}
       {% endif %}
