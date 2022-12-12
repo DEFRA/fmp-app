@@ -107,7 +107,7 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-contact-page-link div
     Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-opted-out-contact-details div
     if (useAutomated) {
-      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
+      Code.expect(contactPageLink[0].href).to.contain('location=Pickering')
     } else {
       // Unless useAutomated is off in which case this paragraph should be present
       Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
