@@ -173,8 +173,6 @@ module.exports = [{
         } else if (selectedOption === 'placeOrPostcode') {
           queryParams.placeOrPostcode = placeOrPostcode
         }
-        queryParams.recipientemail = ' '
-        queryParams.fullName = ' '
         if (locationDetails) {
           queryParams.locationDetails = locationDetails
         }
