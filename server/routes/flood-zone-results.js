@@ -79,11 +79,15 @@ module.exports = [
         query: Joi.alternatives().required().try(Joi.object().keys({
           easting: Joi.number().max(700000).positive().required(),
           northing: Joi.number().max(1300000).positive().required(),
-          location: Joi.string().required()
+          location: Joi.string().required(),
+          fullName: Joi.string(),
+          recipientemail: Joi.string()
         }), Joi.object().keys({
           polygon: Joi.string().required(),
           center: Joi.string().required(),
-          location: Joi.string().required()
+          location: Joi.string().required(),
+          fullName: Joi.string(),
+          recipientemail: Joi.string()
         }))
       }
     }
