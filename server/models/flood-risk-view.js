@@ -9,8 +9,6 @@ function Model (data) {
     polygon,
     location,
     placeOrPostcode,
-    recipientemail,
-    fullName,
     useAutomatedService,
     plotSize,
     localAuthorities
@@ -24,12 +22,6 @@ function Model (data) {
     this.areaName = areaName
   }
 
-  if (recipientemail) {
-    this.recipientemail = recipientemail
-  }
-  if (fullName) {
-    this.fullName = fullName
-  }
   if (polygon) {
     this.polygon = JSON.stringify(polygon)
     this.center = JSON.stringify(center)
