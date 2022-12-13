@@ -99,7 +99,9 @@ module.exports = [
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
 
-            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}`
+            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}` +
+            `&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}` +
+            `&fullName=${fullName}&recipientemail=${recipientemail}`
 
             return h.redirect(`/check-your-details?${params}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {

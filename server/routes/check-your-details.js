@@ -98,9 +98,9 @@ module.exports = [
             location,
             applicationReferenceNumber,
             zoneNumber,
+            plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
-            plotSize,
             task: 'LOG_REQUEST'
           })
           wreck.post(publishToQueueURL, {
