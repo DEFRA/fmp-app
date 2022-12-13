@@ -32,7 +32,7 @@ lab.experiment('flood-zone-results', () => {
     LocalAuthorities
   }
 
-  const urlByPolygon = '/flood-zone-results?location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
+  const urlByPolygon = '/flood-zone-results?location=Pickering&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479472,484194]'
 
   const zone1GetByPolygonResponse = {
     in_england: true,
@@ -107,7 +107,7 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(contactPageLink.length).to.equal(useAutomated ? 1 : 0) // check for a single data-contact-page-link div
     Code.expect(optedOutParagraph.length).to.equal(useAutomated ? 0 : 1) // check for a single data-opted-out-contact-details div
     if (useAutomated) {
-      Code.expect(contactPageLink[0].href).to.contain(`areaName=${AreaName}`)
+      Code.expect(contactPageLink[0].href).to.contain('location=Pickering')
     } else {
       // Unless useAutomated is off in which case this paragraph should be present
       Code.expect(optedOutParagraph[0].textContent).to.contain(`To request flood risk assessment data for this location, contact the ${AreaName} at`)
@@ -160,13 +160,11 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(FloodRiskViewModelSpy.args[0][0]).to.equal({
       areaName: 'Yorkshire',
       center: [479472, 484194],
-      fullName: 'Joe Bloggs',
       localAuthorities: 'Ryedale',
       location: 'Pickering',
       placeOrPostcode: undefined,
       polygon: [[479472, 484194], [479467, 484032], [479678, 484015], [479691, 484176], [479472, 484194]],
       psoEmailAddress: 'psoContact@example.com',
-      recipientemail: 'joe@example.com',
       risk: zone1GetByPolygonResponse,
       useAutomatedService: true,
       plotSize: '3.49'
@@ -257,7 +255,7 @@ lab.experiment('flood-zone-results', () => {
   })
 
   lab.test('get flood-zone-results with a non england result should redirect to /england-only', async () => {
-    const url = '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&fullName=Mark&recipientemail=mark@example.com&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
+    const url = '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
     const options = { method: 'GET', url }
     server.methods.getPsoContacts = async () => optInPSOContactResponse
     riskService.getByPolygon = () => ({ in_england: true })
@@ -266,18 +264,18 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    const expectedRedirectUrl = '/england-only?center=%5B341638%2C352001%5D&location=Caldecott%2520Green&fullName=Mark&recipientemail=mark%40example.com&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D'
+    const expectedRedirectUrl = '/england-only?center=%5B341638%2C352001%5D&location=Caldecott%2520Green&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D'
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 
   lab.test('a flood-zone-results without a polygon should redirect back to /confirm-location', async () => {
-    const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering&fullName=Joe%20Bloggs&recipientemail=joe@example.com'
+    const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering'
     const options = { method: 'GET', url }
     isEnglandService.get = async () => ({ is_england: true })
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'
+    const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&polygonMissing=true'
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 

@@ -39,8 +39,6 @@ module.exports = [
           PDFinformationDetailsObject.cent = request.query.center
           PDFinformationDetailsObject.location = request.query.location
           PDFinformationDetailsObject.zoneNumber = request.query.zoneNumber
-          PDFinformationDetailsObject.fullName = request.query.fullName
-          PDFinformationDetailsObject.recipientemail = request.query.recipientemail
           const model = new ContactViewModel({
             PDFinformationDetailsObject
           })
@@ -61,7 +59,6 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload
-          const searchParam = new URLSearchParams(request.headers.referer)
           const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', polygon: '', center: '', zoneNumber: '' }
 
           let model = {}
@@ -101,9 +98,10 @@ module.exports = [
             queryParams.location = PDFinformationDetailsObject.location
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
-            queryParams.areaName = searchParam.get('areaName')
-            queryParams.psoEmailAddress = searchParam.get('psoEmailAddress')
-            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}&fullName=${fullName}&recipientemail=${recipientemail}&psoEmailAddress=${queryParams.psoEmailAddress}&areaName=${queryParams.areaName}`
+
+            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}` +
+            `&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}` +
+            `&fullName=${fullName}&recipientemail=${recipientemail}`
 
             return h.redirect(`/check-your-details?${params}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {

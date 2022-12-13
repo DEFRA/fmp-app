@@ -16,8 +16,6 @@ module.exports = [
         try {
           let easting, northing
           let useAutomatedService = true
-          const fullName = request.query.fullName
-          const recipientemail = request.query.recipientemail
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygonString = request.query.polygon
@@ -35,7 +33,7 @@ module.exports = [
             throw new Error('No Result from England service')
           }
           if (!polygon) {
-            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&recipientemail=${recipientemail}&polygonMissing=true`
+            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygonMissing=true`
             return h.redirect('/confirm-location?' + queryString)
           }
 
@@ -66,8 +64,6 @@ module.exports = [
               polygon,
               location,
               placeOrPostcode,
-              recipientemail,
-              fullName,
               useAutomatedService,
               plotSize,
               localAuthorities: psoResults.LocalAuthorities || ''
@@ -85,13 +81,13 @@ module.exports = [
           northing: Joi.number().max(1300000).positive().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
-          recipientemail: Joi.string().allow('')
+          recipientemail: Joi.string()
         }), Joi.object().keys({
           polygon: Joi.string().required(),
           center: Joi.string().required(),
           location: Joi.string().required(),
           fullName: Joi.string(),
-          recipientemail: Joi.string().allow('')
+          recipientemail: Joi.string()
         }))
       }
     }
