@@ -10,7 +10,6 @@ const ApplicationReviewSummaryViewModel = require('../../server/models/check-you
 
 lab.experiment('check-your-details', () => {
   let server
-  let restoreWreckGet
   let restoreWreckPost
   let restoreGetPsoContacts
 
@@ -28,21 +27,19 @@ lab.experiment('check-your-details', () => {
     LocalAuthorities: 'Ryedale'
   }
 
+  const orderProductFourResponse = { payload: '{ "applicationReferenceNumber": "123456" }' }
+
   lab.before(async () => {
     server = await createServer()
     await server.initialize()
 
-    // mock Wreck.get for getApplicationReferenceNumber used in POST requests
-    restoreWreckGet = Wreck.get
     restoreWreckPost = Wreck.post
     restoreGetPsoContacts = server.methods.getPsoContacts
     server.methods.getPsoContacts = async () => (yorkshirePsoDetails)
-    Wreck.get = (url) => ({ payload: { toString: () => 123456 } })
-    Wreck.post = (url, data) => ({ url, data })
+    Wreck.post = async (url, data) => ({ url, data })
   })
 
   lab.after(async () => {
-    Wreck.get = restoreWreckGet
     Wreck.post = restoreWreckPost
     server.methods.getPsoContacts = restoreGetPsoContacts
     await server.stop()
@@ -176,7 +173,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(result.match(/input type="hidden" value="" name="zoneNumber"/g).length).to.equal(1)
   })
 
-  lab.test('check-your-details POST should repost to config.functionAppUrl/publish-queue', async () => {
+  lab.test('check-your-details POST should repost to config.functionAppUrl/order-product-four', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details'
@@ -187,18 +184,19 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","applicationReferenceNumber":123456,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com"}' })
   })
 
-  lab.test('check-your-details POST with easting and northing should repost to config.functionAppUrl/publish-queue', async () => {
+  lab.test('check-your-details POST with easting and northing should repost to config.functionAppUrl/order-product-four', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -213,18 +211,19 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com"}' })
   })
 
-  lab.test('check-your-details POST without easting should repost to config.functionAppUrl/publish-queue without location set', async () => {
+  lab.test('check-your-details POST without easting should repost to config.functionAppUrl/order-product-four without location set', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -238,18 +237,19 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","applicationReferenceNumber":123456,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com"}' })
   })
 
-  lab.test('check-your-details POST without northing should repost to config.functionAppUrl/publish-queue without location set', async () => {
+  lab.test('check-your-details POST without northing should repost to config.functionAppUrl/order-product-four without location set', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -263,18 +263,19 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","applicationReferenceNumber":123456,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com"}' })
   })
 
-  lab.test('check-your-details POST with easting, northing and zoneNumber should repost to config.functionAppUrl/publish-queue', async () => {
+  lab.test('check-your-details POST with easting, northing and zoneNumber should repost to config.functionAppUrl/order-product-four', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -292,21 +293,22 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","applicationReferenceNumber":123456,"zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
     server.methods.getPsoContacts = restoreGetPsoContacts
   })
 
-  lab.test('check-your-details POST with easting, northing and polygon should repost to config.functionAppUrl/publish-queue', async () => {
+  lab.test('check-your-details POST with easting, northing and polygon should repost to config.functionAppUrl/order-product-four', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -324,20 +326,21 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","applicationReferenceNumber":123456,"plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
   })
 
-  lab.test('check-your-details POST with easting, northing and location should repost to config.functionAppUrl/publish-queue', async () => {
+  lab.test('check-your-details POST with easting, northing and location should repost to config.functionAppUrl/order-product-four', async () => {
     const options = {
       method: 'POST',
       url: '/check-your-details',
@@ -355,17 +358,18 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = (url, data) => {
+    Wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
+      return orderProductFourResponse
     }
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/publish-queue')
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
 
     // Question - Is this correct - polygon seems to be passed in a variety of ways
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","applicationReferenceNumber":123456,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","task":"LOG_REQUEST"}' })
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
 
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
