@@ -217,49 +217,10 @@ lab.experiment('confirm-location', () => {
     await assertContactEnvironmentAgencyText(response)
   })
 
-  lab.test('confirm-location view should contain recipientemail if it is set', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?recipientemail=joe@example.com&easting=333433&northing=186528'
-    }
-
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-
-    // Check that recipientemail=joe@example.com is included in the flood-zone-results url
-    const { result } = response
-    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*recipientemail=joe%40example.com/g)
-    Code.expect(matchResults.length).to.equal(1)
-    await assertContactEnvironmentAgencyText(response)
-  })
-
-  lab.test('confirm-location view should contain fullName if it is set', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?fullName=joe%20bloggs&easting=333433&northing=186528'
-    }
-
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-
-    const { result } = response
-    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*fullName=joe%20bloggs/g)
-    Code.expect(matchResults.length).to.equal(1)
-    await assertContactEnvironmentAgencyText(response)
-  })
-
   lab.test('confirm-location view should accept polygon', async () => {
     const options = {
       method: 'GET',
-      url: '/confirm-location?fullName=joe%20bloggs&easting=333433&northing=186528&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
+      url: '/confirm-location?easting=333433&northing=186528&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
     }
 
     isEnglandService.get = async (x, y) => {
@@ -270,7 +231,7 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(200)
 
     const { result } = response
-    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*fullName=joe%20bloggs/g)
+    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;.*/g)
     Code.expect(matchResults.length).to.equal(1)
     await assertContactEnvironmentAgencyText(response)
   })

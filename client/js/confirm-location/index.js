@@ -50,8 +50,6 @@ function ConfirmLocationPage (options) {
   const easting = window.encodeURIComponent(options.easting)
   const northing = window.encodeURIComponent(options.northing)
   const location = window.encodeURIComponent(options.location)
-  const fullName = window.encodeURIComponent(options.fullName)
-  const recipientemail = window.encodeURIComponent(options.recipientemail)
 
   const $page = $('#confirm-location-page')
   const $continueBtn = $('a.govuk-button--start', $page)
@@ -296,7 +294,7 @@ function ConfirmLocationPage (options) {
     }
 
     function updateTargetUrl () {
-      const url = getTargetUrl(featureMode, polygon, point, location, fullName, recipientemail)
+      const url = getTargetUrl(featureMode, polygon, point, location)
       if (!polygon) {
         mapState.removeItem('polygon')
       }

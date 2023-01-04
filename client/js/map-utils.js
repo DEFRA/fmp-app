@@ -59,7 +59,7 @@ const getCenterOfExtent = extent => {
   return [parseInt(X, 10), parseInt(Y, 10)]
 }
 
-function getTargetUrl (featureMode, polygon, point, location, fullName, recipientemail) {
+function getTargetUrl (featureMode, polygon, point, location) {
   let coordinates
   let url = '/flood-zone-results'
 
@@ -79,9 +79,6 @@ function getTargetUrl (featureMode, polygon, point, location, fullName, recipien
     url += '&northing=' + Math.round(coordinates[1])
   }
   url += '&location=' + location
-  url += '&fullName=' + fullName
-  url += '&recipientemail=' + recipientemail
-
   return url
 }
 

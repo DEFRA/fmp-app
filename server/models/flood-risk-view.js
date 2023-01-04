@@ -9,8 +9,6 @@ function Model (data) {
     polygon,
     location,
     placeOrPostcode,
-    recipientemail,
-    fullName,
     useAutomatedService,
     plotSize,
     localAuthorities
@@ -24,12 +22,6 @@ function Model (data) {
     this.areaName = areaName
   }
 
-  if (recipientemail) {
-    this.recipientemail = recipientemail
-  }
-  if (fullName) {
-    this.fullName = fullName
-  }
   if (polygon) {
     this.polygon = JSON.stringify(polygon)
     this.center = JSON.stringify(center)
@@ -50,6 +42,8 @@ function Model (data) {
   if (this.floodZone.zone === 'FZ1') {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {
+    this.zoneNumber = '2'
+  } else if (this.floodZone.zone === 'FZ2a') {
     this.zoneNumber = '2'
   } else if (this.floodZone.zone === 'FZ3') {
     this.zoneNumber = '3'

@@ -100,7 +100,7 @@
     </div>
 
     <div class="govuk-grid-column-full">
-      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}&amp;fullName={{fullName}}&amp;recipientemail={{recipientemail}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
         Continue
       </a>
       <h2 class="govuk-heading-m">If you need help drawing a boundary</h2>
@@ -126,7 +126,7 @@
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/confirm-location.js" data-statement=" "></script>
   <script>
-      new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', fullName: '{{fullName}}', recipientemail: '{{recipientemail}}', polygon: ''})
+      new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: ''})
   </script>
 
 {% endblock %}

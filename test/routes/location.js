@@ -453,7 +453,7 @@ lab.experiment('location', () => {
       Code.expect(response.statusCode).to.equal(302)
       const { headers } = response
       const expectedPlaceOrPostcode = new URLSearchParams(`placeOrPostcode=${requestPayload.placeOrPostcode}`).toString()
-      Code.expect(headers.location).to.equal(`/confirm-location?easting=360799&northing=388244&${expectedPlaceOrPostcode}&recipientemail=+&fullName=+`)
+      Code.expect(headers.location).to.equal(`/confirm-location?easting=360799&northing=388244&${expectedPlaceOrPostcode}`)
     })
   })
 
@@ -478,7 +478,7 @@ lab.experiment('location', () => {
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
     Code.expect(headers.location).to.equal(
-      '/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&recipientemail=+&fullName=+&locationDetails=Wigtown%2C+Dumfries+and+Galloway%2C+Scotland'
+      '/confirm-location?easting=360799&northing=388244&placeOrPostcode=Warrington&locationDetails=Wigtown%2C+Dumfries+and+Galloway%2C+Scotland'
     )
   })
 
@@ -583,7 +583,7 @@ lab.experiment('location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&nationalGridReference=TQ2770808448&recipientemail=+&fullName=+')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&nationalGridReference=TQ2770808448')
   })
 
   lab.test('location page with a valid nationalGridReference should redirect to /confirm-location if ngrToBngService.convert returns an empty response', async () => {
@@ -606,7 +606,7 @@ lab.experiment('location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=&northing=&nationalGridReference=TQ2770808448&recipientemail=+&fullName=+')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=&northing=&nationalGridReference=TQ2770808448')
   })
 
   lab.test('location page with a valid eastingNorthing should redirect to /confirm-location', async () => {
@@ -623,7 +623,7 @@ lab.experiment('location', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244&recipientemail=+&fullName=+')
+    Code.expect(headers.location).to.equal('/confirm-location?easting=360799&northing=388244')
   })
 
   lab.test('location page findby eastingNorthing with missing easting and northing should should load /location view with errors', async () => {
