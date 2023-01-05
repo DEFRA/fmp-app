@@ -1,9 +1,8 @@
 const Boom = require('@hapi/boom')
 const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
-const { getApplicationReferenceNumber } = require('../services/application-reference')
 const config = require('../../config')
 const wreck = require('@hapi/wreck')
-const publishToQueueURL = config.functionAppUrl + '/publish-queue'
+const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
 module.exports = [
   {
@@ -61,7 +60,6 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
-          const applicationReferenceNumber = await getApplicationReferenceNumber()
           const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
           const { recipientemail, fullName, zoneNumber } = payload
           // Sanitise user inputs
@@ -80,7 +78,6 @@ module.exports = [
             } else {
               PDFinformationDetailsObject.location = payload.location
             }
-            PDFinformationDetailsObject.applicationReferenceNumber = applicationReferenceNumber
           }
 
           // Send details to function app
@@ -96,16 +93,15 @@ module.exports = [
             y,
             polygon,
             location,
-            applicationReferenceNumber,
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress,
-            task: 'LOG_REQUEST'
+            psoEmailAddress: psoResults.EmailAddress
           })
-          wreck.post(publishToQueueURL, {
+          const result = await wreck.post(publishToQueueURL, {
             payload: data
           })
+          const { applicationReferenceNumber } = JSON.parse(result.payload.toString())
 
           // Forward details to confirmation page
           const queryParams = {}
