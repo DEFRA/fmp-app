@@ -49,12 +49,14 @@ function Model (data) {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {
     this.zoneNumber = '2'
+  } else if (this.floodZone.zone === 'FZ2a') {
+    this.zoneNumber = '2'
   } else if (this.floodZone.zone === 'FZ3') {
     this.zoneNumber = '3'
   } else if (this.floodZone.zone === 'FZ3a') {
     this.zoneNumber = '3'
   } else {
-    this.zoneNumber = 'not available'
+    this.zoneNumber = 'N/A'
   }
 
   // Provide test data for e2e tests
