@@ -1,6 +1,6 @@
 const Boom = require('@hapi/boom')
 const ConfirmationViewModel = require('../models/confirmation-view')
-const emailConfirm = require('../services/email-confirmation')
+
 module.exports = {
   method: 'GET',
   path: '/confirmation',
@@ -18,17 +18,7 @@ module.exports = {
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
           model.ispolygon = !!(request.query.polygon)
           model.search = request.query.location
-          const modelObj = {
-            fullname: request.query.fullName,
-            referencenumber: request.query.applicationReferenceNumber,
-            location: model.location,
-            areaname: model.AreaName,
-            psoemailaddress: model.psoEmailAddress,
-            recipientemail: model.recipientemail,
-            search: model.search,
-            zoneNumber: model.zoneNumber
-          }
-          await emailConfirm.emailConfirmation(modelObj)
+
           return h.view('confirmation', model)
         } else {
           return Boom.badImplementation('Error occured in getting the email address')

@@ -2,32 +2,22 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const emailConfirm = require('../../server/services/email-confirmation')
 const { payloadMatchTest } = require('../utils')
 const { JSDOM } = require('jsdom')
 
-const Wreck = require('@hapi/wreck')
-const config = require('../../config')
-
 lab.experiment('confirmation', () => {
   let server
-  let restoreEmailConfirmation
-  let restoreWreckPost
   let restoreGetPsoContacts
 
   const LocalAuthorities = 'Ryedale'
 
   lab.before(async () => {
-    restoreEmailConfirmation = emailConfirm.emailConfirmation
-    restoreWreckPost = Wreck.post
     server = await createServer()
     await server.initialize()
     restoreGetPsoContacts = server.methods.getPsoContacts
   })
 
   lab.after(async () => {
-    emailConfirm.emailConfirmation = restoreEmailConfirmation
-    Wreck.post = restoreWreckPost
     server.methods.getPsoContacts = restoreGetPsoContacts
     await server.stop()
   })
@@ -78,15 +68,10 @@ lab.experiment('confirmation', () => {
     urls.forEach((url) => {
       lab.test(`confirmation with a valid query should show the confirmation view and ${psoContactDescription}`, async () => {
         server.methods.getPsoContacts = () => psoContactResponse
-        let emailConfirmationUrl
-        Wreck.post = async (url, data) => {
-          emailConfirmationUrl = url
-        }
 
         const options = { method: 'GET', url }
         const response = await server.inject(options)
         const { payload } = response
-        Code.expect(emailConfirmationUrl).to.equal(config.functionAppUrl + '/email/confirmation')
         Code.expect(response.statusCode).to.equal(200)
         await payloadMatchTest(payload, /<a href="\/flood-zone-results\?easting=12345&northing=67890&location=12345,67890">Go back to your flood information<\/a>/g)
         const { AreaName = '', LocalAuthorities } = (psoContactResponse || {})
@@ -106,15 +91,9 @@ lab.experiment('confirmation', () => {
     server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
     const url = '/confirmation?fullName=JoeBloggs&polygon=%5B%5B479536%2C484410%5D%2C%5B479425%2C484191%5D%2C%5B479785%2C484020%5D%2C%5B479861%2C484314%5D%2C%5B479536%2C484410%5D%5D&recipientemail=Mark.Fee%40defra.gov.uk&applicationReferenceNumber=VNEFM46GF1CA&x=479643&y=484215&location=pickering&zoneNumber=3&cent=%5B479643%2C484215%5D'
 
-    let emailConfirmationUrl
-    Wreck.post = async (url, data) => {
-      emailConfirmationUrl = url
-    }
-
     const options = { method: 'GET', url }
     const response = await server.inject(options)
     const { payload } = response
-    Code.expect(emailConfirmationUrl).to.equal(config.functionAppUrl + '/email/confirmation')
     Code.expect(response.statusCode).to.equal(200)
     await payloadMatchTest(payload, /<a href="\/flood-zone-results\?location=479643,484215&polygon=\[\[479536,484410\],\[479425,484191\],\[479785,484020\],\[479861,484314\],\[479536,484410\]\]&center=\[479643,484215\]">Go back to your flood information<\/a>/g)
   })
