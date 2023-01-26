@@ -15,7 +15,8 @@ class ContactViewErrorObject {
         x: payload.easting,
         y: payload.northing
       },
-      location: payload.location
+      location: payload.location,
+      zoneNumber: payload.zoneNumber
     }
     this.recipientemail = recipientemail
     this.errorSummary = errorSummarArray
