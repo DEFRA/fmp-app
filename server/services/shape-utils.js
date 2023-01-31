@@ -1,9 +1,9 @@
-const getAreaPloygon = require('area-polygon')
+const getAreaPolygon = require('area-polygon')
 
 const getArea = polygonString => {
   const polygonArray = polygonStringToArray(polygonString)
   if (polygonArray) {
-    return (polygonArray.length && polygonArray.length > 2) ? getAreaPloygon(polygonArray) : 0
+    return (polygonArray.length && polygonArray.length > 2) ? getAreaPolygon(polygonArray) : 0
   }
   return undefined
 }

@@ -52,7 +52,7 @@ module.exports = [
 
           const risk = await riskService.getByPolygon(geoJson)
 
-          if (!risk.in_england) {
+          if (!risk.in_england && !risk.point_in_england) {
             return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
           } else {
             const plotSize = getAreaInHectares(polygonString)

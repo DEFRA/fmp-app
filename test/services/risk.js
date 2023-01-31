@@ -63,8 +63,16 @@ lab.experiment('risk', () => {
     // Question - unless i am mistaken, calls to zones-by-polygon instigated by
     // fmp-app seem to pass in the polygon as a json object (as per the line below 'const polygon = ...')
     // however the fmp-service test code implies that polygon=[[400000, 600000]] is expected i.e an array of coordinates
-    const polygon = '{"type": "Polygon", "coordinates": [123,456}]}'
+    const polygon = '{"type": "Polygon", "coordinates": [[[123,456],[125,457],[125,456],[123,456]]]}'
     const response = await getByPolygon(polygon)
     Code.expect(response).to.equal(`${config.service}/zones-by-polygon?polygon=${polygon}`)
+  })
+
+  lab.test('getByPolygon with a polygon of zero area should call getByPoint', async () => {
+    // FCRM-3961 - if a call is made to getByPolygon and the polygon has no area (ie the user clicked the same spot 4 times)
+    // then the postgres call fails. To mitigate this, we should treat the polygon as a point in these circumstances.
+    const polygon = '{"type": "Polygon", "coordinates": [[[479826,484054],[479826,484054],[479826,484054],[479826,484054]]]}'
+    const response = await getByPolygon(polygon)
+    Code.expect(response).to.equal(`${config.service}/zones/479826/484054/1`)
   })
 })
