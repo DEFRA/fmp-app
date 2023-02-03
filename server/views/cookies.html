@@ -20,155 +20,156 @@ html: html
 
 {% block content %}
 {{ super() }}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Cookies</h1>
-  </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body summary">
-      Cookies are small files saved on your phone, tablet or computer when you visit a website.
-    </p>
-    <p class="govuk-body govuk-body">We use cookies to make Flood Map for Planning work and collect information about how you
-      use our service.</p>
-
-    <h2 class="govuk-heading-m">Essential cookies</h2>
-    <p class="govuk-body">
-      Essential cookies keep your information secure while you use Flood Map for Planning. We do not need to ask
-      permission to use them.
-    </p>
-    <table class="govuk-table">
-      <caption class="govuk-visually-hidden">Essential cookies</caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Name</th>
-          <th scope="col" class="govuk-table__header">Purpose</th>
-          <th scope="col" class="govuk-table__header">Expires</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"> GA </th>
-          <td class="govuk-table__cell"> Saves your cookie consent settings </td>
-          <td class="govuk-table__cell"> 1 year </td>
-        </tr>
-      </tbody>
-    </table>
-    <h2 class="govuk-heading-m">Analytics cookies (optional)</h2>
-    <p class="govuk-body">
-      With your permission, we use Google Analytics to collect data about how you use Flood Map for Planning. This
-      information helps us to improve our service.
-    </p>
-    <p class="govuk-body">
-      Google is not allowed to use or share our analytics data with anyone.
-    </p>
-    <p class="govuk-body">
-      Google Analytics stores anonymised information about:
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>how you got to Flood Map for Planning</li>
-      <li>the pages you visit on Flood Map for Planning and how long you spend on them</li>
-      <li>any errors you see while using Flood Map for Planning</li>
-    </ul>
-    <table class="govuk-table">
-      <caption class="govuk-visually-hidden">Google Analytics cookies</caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Name</th>
-          <th scope="col" class="govuk-table__header">Purpose</th>
-          <th scope="col" class="govuk-table__header">Expires</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"> _ga </th>
-          <td class="govuk-table__cell">
-            Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-            site.
-          </td>
-          <td class="govuk-table__cell">
-            2 years
-          </td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"> _gid </th>
-          <td class="govuk-table__cell">
-            Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-            site.
-          </td>
-          <td class="govuk-table__cell">
-            24 hours
-          </td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"> _gat </th>
-          <td class="govuk-table__cell">
-            Used to reduce the number of requests made to Google Analytics
-          </td>
-          <td class="govuk-table__cell">
-            1 minute
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <noscript>
-      <div class="cookie-settings__no-js">
-        <h2 class="govuk-heading-s govuk-!-margin-top-6">Change your cookie settings</h2>
-        <p class="govuk-body">We cannot change your cookie settings at the moment because JavaScript is not running
-          in your browser. To fix this, try:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>turning on JavaScript in your browser settings</li>
-          <li>reloading this page</li>
-        </ul>
-      </div>
-    </noscript>
-    <div class="govuk-form-group js-only">
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-          Do you want to accept analytics cookies?
-        </legend>
-        <div class="govuk-radios govuk-radios--inline">
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="cookie_consent" name="cookie_consent" type="radio" value="yes" checked>
-            <label class="govuk-label govuk-radios__label" for="cookie_consent">
-              Yes
-            </label>
-          </div>
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="cookie_consent-2" name="cookie_consent" type="radio" value="no">
-            <label class="govuk-label govuk-radios__label" for="cookie_consent-2">
-              No
-            </label>
-          </div>
-        </div>
-      </fieldset>
-      <button class="govuk-button govuk-!-margin-top-3" onclick=CookieSet()>Save cookie settings</button>
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Cookies</h1>
     </div>
   </div>
-  <div class="govuk-grid-column-one-third">
-    <aside class="app-related-items" role="complementary">
-      <h2 class="govuk-heading-m" id="subsection-title">
-        Related content
-      </h2>
-      <nav role="navigation" aria-labelledby="subsection-title">
-        <ul class="govuk-list govuk-!-font-size-16">
-          <li>
-            <a class="govuk-link" href="privacy-notice">
-              Privacy notice
-            </a>
-          </li>
-          <li>
-            <a class="govuk-link" href="terms-conditions">
-              Terms and conditions
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body summary">
+        Cookies are small files saved on your phone, tablet or computer when you visit a website.
+      </p>
+      <p class="govuk-body govuk-body">We use cookies to make Flood Map for Planning work and collect information about how you
+        use our service.</p>
+
+      <h2 class="govuk-heading-m">Essential cookies</h2>
+      <p class="govuk-body">
+        Essential cookies keep your information secure while you use Flood Map for Planning. We do not need to ask
+        permission to use them.
+      </p>
+      <table class="govuk-table">
+        <caption class="govuk-visually-hidden">Essential cookies</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Name</th>
+            <th scope="col" class="govuk-table__header">Purpose</th>
+            <th scope="col" class="govuk-table__header">Expires</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> GA </th>
+            <td class="govuk-table__cell"> Saves your cookie consent settings </td>
+            <td class="govuk-table__cell"> 1 year </td>
+          </tr>
+        </tbody>
+      </table>
+      <h2 class="govuk-heading-m">Analytics cookies (optional)</h2>
+      <p class="govuk-body">
+        With your permission, we use Google Analytics to collect data about how you use Flood Map for Planning. This
+        information helps us to improve our service.
+      </p>
+      <p class="govuk-body">
+        Google is not allowed to use or share our analytics data with anyone.
+      </p>
+      <p class="govuk-body">
+        Google Analytics stores anonymised information about:
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>how you got to Flood Map for Planning</li>
+        <li>the pages you visit on Flood Map for Planning and how long you spend on them</li>
+        <li>any errors you see while using Flood Map for Planning</li>
+      </ul>
+      <table class="govuk-table">
+        <caption class="govuk-visually-hidden">Google Analytics cookies</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Name</th>
+            <th scope="col" class="govuk-table__header">Purpose</th>
+            <th scope="col" class="govuk-table__header">Expires</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> _ga </th>
+            <td class="govuk-table__cell">
+              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
+              site.
+            </td>
+            <td class="govuk-table__cell">
+              2 years
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> _gid </th>
+            <td class="govuk-table__cell">
+              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
+              site.
+            </td>
+            <td class="govuk-table__cell">
+              24 hours
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> _gat </th>
+            <td class="govuk-table__cell">
+              Used to reduce the number of requests made to Google Analytics
+            </td>
+            <td class="govuk-table__cell">
+              1 minute
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <noscript>
+        <div class="cookie-settings__no-js">
+          <h2 class="govuk-heading-s govuk-!-margin-top-6">Change your cookie settings</h2>
+          <p class="govuk-body">We cannot change your cookie settings at the moment because JavaScript is not running
+            in your browser. To fix this, try:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>turning on JavaScript in your browser settings</li>
+            <li>reloading this page</li>
+          </ul>
+        </div>
+      </noscript>
+      <div class="govuk-form-group js-only">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            Do you want to accept analytics cookies?
+          </legend>
+          <div class="govuk-radios govuk-radios--inline">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="cookie_consent" name="cookie_consent" type="radio" value="yes" checked>
+              <label class="govuk-label govuk-radios__label" for="cookie_consent">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="cookie_consent-2" name="cookie_consent" type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="cookie_consent-2">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <button class="govuk-button govuk-!-margin-top-3" onclick=CookieSet()>Save cookie settings</button>
+      </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <aside class="app-related-items" role="complementary">
+        <h2 class="govuk-heading-m" id="subsection-title">
+          Related content
+        </h2>
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="govuk-list govuk-!-font-size-16">
+            <li>
+              <a class="govuk-link" href="privacy-notice">
+                Privacy notice
+              </a>
+            </li>
+            <li>
+              <a class="govuk-link" href="terms-conditions">
+                Terms and conditions
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
   </div>
 </div>
-
 <script>
   function CookieSet() {
     var selectedValue = document
