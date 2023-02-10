@@ -30,8 +30,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 
     <p class="govuk-body">
       {% if zoneNumber == 1 %}
-        Most developments within flood zone {{zoneNumber}} do not need to carry out a flood risk assessment (FRA) as part
-        of a planning application.
+        Most developments that are less than 1 hectare (ha) in flood zone {{zoneNumber}} 
+        do not need a flood risk assessment (FRA) as part of the planning application. 
+        The site you have drawn is {{plotSize}} ha.
       {% else %}
         You need to carry out a flood risk assessment (FRA) as part of a planning application for this development.
       {% endif %}
@@ -41,25 +42,34 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <p class="govuk-body">
       Find out more about
       <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
+        class="govuk-link"
         href="/flood-zone-results-explained?zone={{floodZone.zone}}">
         flood zones and what they mean
       </a>.
     </p>
 
     <p class="govuk-body">
-      You should also
-      <a class="govuk-link"
-        href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
-        check surface water, groundwater and reservoir flood risk
-      </a>.
+      To find out about other factors that might affect the flood risk of this location, you should also check:
     </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a class="govuk-link"
+          href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+          surface water, groundwater and reservoir flood risk
+        </a>
+      </li>
+      <li>
+        {{localAuthorities}} planning authority's strategic flood risk assessment (SFRA), which includes future flood risk
+      </li>
+    </ul>
 
     <h2 class="govuk-heading-m">
       Flood map showing the flood zone your site is in
     </h2>
 
     <p class="govuk-body">
-      The map data is for the 10 km area around the boundary you drew. It is not for a specific development.
+      The map shows the flood risk to your site and the surrounding area.
     </p>
 
     {% if floodZone.isAreaBenefiting %}
@@ -83,8 +93,8 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <div class="govuk-details__text">
         <p class="govuk-body"> The flood zones in the map show the areas of land at risk of flooding. They: </p>
         <ul class="govuk-list govuk-list--bullet">
-          <li> are based on present day risk and the map shows the zone the site is in now </li>
-          <li> do not include climate change information </li>
+          <li> only show flood risk from rivers and the sea </li>
+          <li> are based on present day flood risk, they do not show how it may change in future because of climate change </li>
           <li> ignore the effect any flood defences shown could have </li>
         </ul>
       </div>
@@ -157,24 +167,20 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <h2 class="govuk-heading-m govuk-!-margin-top-3"> Decide what you need for your planning application </h2>
 
     {% if zoneNumber == 1 %}
-      <p class="govuk-body">Your development has a site area of {{plotSize}} hectares (ha).</p>
-
       <p class="govuk-body">
-        You only need a FRA when a development in flood zone 1:
+        You only need an FRA in flood zone 1 when one or more of these points apply:
       </p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li> has a site area of 1 ha or more </li>
-        <li> is in an area with critical drainage problems </li>
-        <li> where the local planning authority’s (LPA) strategic flood risk assessment (SFRA) shows it will be at
-          increased flood risk in future </li>
-        <li> is at risk from other sources of flooding and its development would increase its vulnerability classification
+        <li> the development has a site area of 1 ha or more </li>
+        <li> it's in an 
+          <a href="https://www.data.gov.uk/dataset/d10fb8e5-f3af-48c1-a489-8c975b0165de/areas-with-critical-drainage-problems" class="govuk-link">
+            area with critical drainage problems 
+          </a>
         </li>
+        <li> the local planning authority's SFRA shows it'll be at increased flood risk in future </li>
+        <li> the site is at risk from other sources of flooding and its development would increase its vulnerability classification </li>
       </ul>
-
-      <p class="govuk-body">
-        Contact your local planning authority, {{localAuthorities}}, to check its SFRA.
-      </p>
     {% else %}
       <p class="govuk-body"> You should: </p>
 
@@ -193,8 +199,8 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 
     {% if zoneNumber == 1 %}
       <p class="govuk-body">
-        Your site is in flood zone 1, so it's unlikely there will be any flood risk data available. But you can place an
-        order and we’ll email you if we do not have any data.
+        Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. But you can place an 
+        order and we'll email you if none is available.
       </p>
 
       <p class="govuk-body">
@@ -253,7 +259,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <h2 class="govuk-heading-m">Request flood risk assessment data</h2>
       <p class="govuk-body" data-opted-out-contact-details>To request flood risk assessment data for this location,
         contact the {{areaName}} at
-        <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
+        <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>
       </p>
       <p class="govuk-body">Your email should say that you are requesting flood risk assessment data (also known as a
         Product 4) and include: </p>
@@ -274,8 +280,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </h2>
 
     <p class="govuk-body">
-      Email the Environment Agency team in {{areaName}} at: <a
-        href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
+      Email the Environment Agency team in {{areaName}} at: <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
     </p>
     {% include "./partials/change-location.html" %}
   </div>
