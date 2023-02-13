@@ -34,7 +34,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         do not need a flood risk assessment (FRA) as part of the planning application. 
         The site you have drawn is {{plotSize}} ha.
       {% else %}
-        You need to carry out a flood risk assessment (FRA) as part of a planning application for this development.
+        You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.
       {% endif %}
     </p>
 
@@ -185,9 +185,8 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <p class="govuk-body"> You should: </p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li data-local-authority> Speak to {{localAuthorities}} local authority to find what their planning requirements
-          are </li>
-        <li> get a flood risk assessment, this is usually done by flood risk consultant </li>
+        <li> contact {{localAuthorities}} local planning authority to check their planning requirements </li>
+        <li> get an FRA, you'll normally need to pay a flood risk specialist to carry it out </li>
       </ul>
     {% endif %}
 
@@ -202,18 +201,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. But you can place an 
         order and we'll email you if none is available.
       </p>
-
-      <p class="govuk-body">
-        We aim to email you the data within 20 working days or sooner if we can.
-      </p>
     {% else %}
       <p class="govuk-body">
-        You can make a request using this service. Flood risk data should normally be emailed to you within 20 working
-        days.
-      </p>
-
-      <p class="govuk-body">
-        Depending on the information that's available, the flood risk data will include:
+        The flood risk data usually includes:
       </p>
 
       <ul class="govuk-list govuk-list--bullet">
@@ -222,8 +212,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         <li> modelled flood levels and extents </li>
         <li> flood defence locations and attributes </li>
       </ul>
-
-      <div class="govuk-inset-text">
+      <!-- <div class="govuk-inset-text">
         {% if floodZone.isAreaBenefiting %}
           <p class="govuk-body">
             You also need to make a separate request for a Flood Defence Breach Hazard Map from the Greater Manchester
@@ -241,15 +230,30 @@ Flood risk information for this location - Flood map for planning - GOV.UK
             information you might need to complete a flood risk assessment
           </a>.
         </p>
-      </div>
+      </div> -->
     {% endif %}
+    <p class="govuk-body">
+      We aim to email you the data within 20 working days or sooner if we can.
+    </p>
 
     <!-- Order Flood Risk Data -->
     {% if useAutomatedService %}
       <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
-        role="button" draggable="false" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-6"
+        role="button" draggable="false" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
         data-module="govuk-button"> Order flood risk data
       </a>
+      {% if floodZone.zone != 'FZ1' %}
+        <div class="govuk-inset-text">
+
+          <p class="govuk-body">
+            For developments in flood zone {{zoneNumber}}, your FRA should include an assessment of all sources of flooding and <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">take into account climate change allowances.</a>
+          </p>
+          <p class="govuk-body">
+            Find out<a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment" class="govuk-link"> how to do an assessment</a>.
+          </p>
+        </div>
+      {% endif %}
+
    {% else %}
       <p class="govuk-body">
         We recommend that you check the relevant local planning authority’s strategic flood risk
