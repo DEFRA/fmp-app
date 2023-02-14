@@ -39,6 +39,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </p>
 
     <!-- More Information -->
+    {% if not floodZone.isAreaBenefiting %}
     <p class="govuk-body">
       Find out more about
       <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
@@ -47,7 +48,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         flood zones and what they mean
       </a>.
     </p>
-
+    {% endif %}
     <p class="govuk-body">
       To find out about other factors that might affect the flood risk of this location, you should also check:
     </p>
@@ -73,10 +74,20 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </p>
 
     {% if floodZone.isAreaBenefiting %}
-    <p class="govuk-body">
-      There are flood defences in part or all of this location that reduce the risk from a specific source.
-      They do not completely remove the risk because flood defences can fail.
-    </p>
+      <h3 class="govuk-heading-s"> Flood defences </h3>
+      
+      <p class="govuk-body">
+        Flood defences have been built to protect against flooding from rivers or the sea (shown as an orange line on the map). 
+        Flood defences reduce, but do not completely stop the chance of flooding because they can be overtopped or fail.
+      </p>
+      <p class="govuk-body">
+        Find out more about
+        <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
+          class="govuk-link"
+          href="/flood-zone-results-explained?zone={{floodZone.zone}}">
+          flood defences, flood zones and what they mean
+        </a>.
+      </p>
     {% endif %}
   </div>
 
@@ -244,7 +255,14 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       </a>
       {% if floodZone.zone != 'FZ1' %}
         <div class="govuk-inset-text">
-
+          {% if floodZone.isAreaBenefiting %}
+            <p class="govuk-body">
+              You also need to make a separate request for a Flood Defence Breach Hazard Map from the 
+              {{areaName}} Environment Agency team at 
+              <a href="mailto:{{psoEmailAddress}}" class="govuk-link"> {{psoEmailAddress}} </a>. 
+              This will be available if modelling has been carried out for breach scenarios.
+            </p>
+          {% endif %}
           <p class="govuk-body">
             For developments in flood zone {{zoneNumber}}, your FRA should include an assessment of all sources of flooding and <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">take into account climate change allowances.</a>
           </p>
