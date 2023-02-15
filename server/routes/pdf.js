@@ -296,7 +296,9 @@ module.exports = {
         reference: Joi.string().allow('').max(25).trim(),
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
-        center: Joi.string().required()
+        center: Joi.string().required(),
+        zone: Joi.string().allow(''),
+        id: Joi.string().allow('')
       })
     }
   }
