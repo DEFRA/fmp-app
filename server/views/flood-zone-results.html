@@ -223,25 +223,6 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         <li> modelled flood levels and extents </li>
         <li> flood defence locations and attributes </li>
       </ul>
-      <!-- <div class="govuk-inset-text">
-        {% if floodZone.isAreaBenefiting %}
-          <p class="govuk-body">
-            You also need to make a separate request for a Flood Defence Breach Hazard Map from the Greater Manchester
-            Merseyside and Cheshire Environment Agency team at <a
-              href="mailto:Inforequests.GMMC@environment-agency.gov.uk">Inforequests.GMMC@environment-agency.gov.uk</a>.
-            This will be available if modelling has been carried out for breach scenarios.
-          </p>
-        {% endif %}
-
-        <p class="govuk-body">
-          Some developments are more complex than others and this data isn't always enough to
-          allow you to produce a flood risk assessment. You should check what other
-          <a
-            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-            information you might need to complete a flood risk assessment
-          </a>.
-        </p>
-      </div> -->
     {% endif %}
     <p class="govuk-body">
       We aim to email you the data within 20 working days or sooner if we can.
@@ -315,7 +296,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 <script>
   $(function () {
     var page = new FMP.SummaryPage({
-      polygon: {{ polygon }} // This needs to be verified as originally {{polygon}}
+      polygon: {{ polygon }}
         })
       })
 </script>
