@@ -56,7 +56,7 @@ function Model (data) {
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
 
-  this.plotSize = plotSize
+  this.plotSize = (plotSize !== '0' && plotSize !== 0) ? plotSize : 'less than 0.1'
 }
 
 module.exports = { Model }
