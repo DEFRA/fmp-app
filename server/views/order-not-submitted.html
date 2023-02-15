@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l"> Sorry, there's a problem with the service </h1>
+
+    <p class="govuk-body"> Your order has not been submitted. Try again later. </p>
+
+    <p class="govuk-body">
+      We've saved your location and boundary details. You'll only need to enter your name and email address again when you order the flood risk data.</p>
+      <a 
+        id="continue-button" 
+        href={{tryAgainURL}} 
+        role="button" 
+        draggable="false" 
+        class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" 
+        data-module="govuk-button"
+      > Try again </a>
+  </div>
+</div>
+{% endblock %}

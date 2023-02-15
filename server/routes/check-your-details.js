@@ -98,17 +98,24 @@ module.exports = [
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress
           })
-          const result = await wreck.post(publishToQueueURL, {
-            payload: data
-          })
-          const { applicationReferenceNumber } = JSON.parse(result.payload.toString())
+          const queryParams = {}
+
+          try {
+            const result = await wreck.post(publishToQueueURL, { payload: data })
+            const response = result.payload.toString()
+            const { applicationReferenceNumber } = JSON.parse(response)
+            queryParams.applicationReferenceNumber = applicationReferenceNumber
+          } catch (error) {
+            console.log('\nFailed to POST these data to the functionsApp /order-product-four:\n', data)
+            console.log(error.output ? error.output : error)
+            const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
+            return h.redirect(redirectURL)
+          }
 
           // Forward details to confirmation page
-          const queryParams = {}
           queryParams.fullName = payload.fullName || ''
           queryParams.polygon = payload.polygon || ''
           queryParams.recipientemail = payload.recipientemail || ''
-          queryParams.applicationReferenceNumber = applicationReferenceNumber
           queryParams.x = PDFinformationDetailsObject.coordinates.x
           queryParams.y = PDFinformationDetailsObject.coordinates.y
           queryParams.location = PDFinformationDetailsObject.location

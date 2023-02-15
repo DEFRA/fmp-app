@@ -304,7 +304,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
     Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
     server.methods.getPsoContacts = restoreGetPsoContacts
   })
 
@@ -337,7 +337,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
     Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
   })
 
   lab.test('check-your-details POST with easting, northing and location should repost to config.functionAppUrl/order-product-four', async () => {
@@ -372,7 +372,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
 
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?fullName=&polygon=&recipientemail=&applicationReferenceNumber=123456&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
   })
 
   lab.test('ApplicationReviewSummaryViewModel with data', async () => {

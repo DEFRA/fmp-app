@@ -22,6 +22,7 @@ const routes = [].concat(
   require('../routes/check-your-details'),
   require('../routes/maintenance'),
   require('../routes/404'),
+  require('../routes/order-not-submitted'),
   require('../routes/about'))
 
 module.exports = {
