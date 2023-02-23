@@ -1,5 +1,6 @@
 const Boom = require('@hapi/boom')
 const ConfirmationViewModel = require('../models/confirmation-view')
+const { punctuateAreaName } = require('../services/punctuateAreaName')
 
 module.exports = {
   method: 'GET',
@@ -13,7 +14,7 @@ module.exports = {
           const model = new ConfirmationViewModel(request.query.recipientemail, request.query.applicationReferenceNumber, '', '', '', '', request.query.x, request.query.y, request.query.polygon, request.query.cent, request.query.location, '')
           model.location = request.query.x + ',' + request.query.y
           model.psoEmailAddress = (result && result.EmailAddress) ? result.EmailAddress : undefined
-          model.AreaName = (result && result.AreaName) ? result.AreaName : undefined
+          model.AreaName = (result && result.AreaName) ? punctuateAreaName(result.AreaName) : undefined
           model.LocalAuthorities = (result && result.LocalAuthorities) ? result.LocalAuthorities : undefined
           model.zoneNumber = (request.query.zoneNumber) ? request.query.zoneNumber : undefined
           model.ispolygon = !!(request.query.polygon)

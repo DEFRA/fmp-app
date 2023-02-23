@@ -1,3 +1,5 @@
+const { punctuateAreaName } = require('../services/punctuateAreaName')
+
 function ConfirmLocationViewModel ({
   easting,
   northing,
@@ -20,7 +22,7 @@ function ConfirmLocationViewModel ({
   this.fullName = encodeURIComponent(fullName)
   this.locationDetails = locationDetails
   this.placeOrPostcodeUnencoded = placeOrPostcode
-  this.areaName = AreaName
+  this.areaName = punctuateAreaName(AreaName)
   this.psoEmailAddress = EmailAddress
   this.polygonMissing = polygonMissing
 }
