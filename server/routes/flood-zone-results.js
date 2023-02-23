@@ -5,6 +5,7 @@ const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
 const isEnglandService = require('../services/is-england')
 const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
+const { punctuateAreaName } = require('../services/punctuateAreaName')
 
 module.exports = [
   {
@@ -58,7 +59,7 @@ module.exports = [
             const plotSize = getAreaInHectares(polygonString)
             const floodZoneResultsData = new FloodRiskView.Model({
               psoEmailAddress: psoResults.EmailAddress || undefined,
-              areaName: psoResults.AreaName || undefined,
+              areaName: punctuateAreaName(psoResults.AreaName) || undefined,
               risk,
               center,
               polygon,
