@@ -4,7 +4,7 @@ const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
 const isEnglandService = require('../services/is-england')
-const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
+const { polygonStringToArray, getAreaInHectares, getArea } = require('../services/shape-utils')
 
 module.exports = [
   {
@@ -32,7 +32,9 @@ module.exports = [
           if (!result) {
             throw new Error('No Result from England service')
           }
-          if (!polygon) {
+          const plotSizeMeters = polygon ? getArea(polygonString) : 0
+
+          if (!polygon || plotSizeMeters === 0 || plotSizeMeters === '0') {
             const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygonMissing=true`
             return h.redirect('/confirm-location?' + queryString)
           }
