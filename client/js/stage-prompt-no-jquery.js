@@ -64,10 +64,11 @@
     if (!document.cookie.match('GA=Accept')) {
       return // FCRM-3657 ensure we dont send analytics cookies if cookies are not accepted
     }
-    if (window.ga && typeof (window.ga) === 'function') {
-      window.ga('send', 'event', category, event, label)
-    } else {
-      global._gaq.push(['_trackEvent', category, event, label, undefined, true])
+    if (window.gtag && typeof (window.gtag) === 'function') {
+      window.gtag('event', event, {
+        event_category: category,
+        event_label: label
+      })
     }
   }
 
