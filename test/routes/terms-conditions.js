@@ -18,7 +18,7 @@ lab.experiment('terms-and-conditions', () => {
     await server.stop()
   })
 
-  lab.test('terms-conditions', async () => {
+  lab.test('terms-and-conditions', async () => {
     const options = {
       method: 'GET',
       url: '/terms-and-conditions'
