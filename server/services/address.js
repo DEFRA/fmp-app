@@ -5,7 +5,7 @@ const fqFilter = 'LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlem
 
 module.exports = {
   findByPlace: async (place) => {
-    const uri = `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`
+    const uri = `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`.replace('maxresults=1&', 'maxresults=10&')
     const payload = await util.getJson(uri)
 
     if (!payload || !payload.results || !payload.results.length) {
@@ -31,9 +31,10 @@ module.exports = {
       return {
         geometry_x: item.GAZETTEER_ENTRY.GEOMETRY_X,
         geometry_y: item.GAZETTEER_ENTRY.GEOMETRY_Y,
-        locationDetails
+        locationDetails,
+        exact: (NAME1 || '').toLowerCase() === place.toLowerCase() ? 1 : 0
       }
-    })
+    }).sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
     return gazetteerEntries
   }
 }

@@ -52,7 +52,7 @@ lab.experiment('address', () => {
       }]
     })
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([{ geometry_x: 123, geometry_y: 456, locationDetails: '' }])
+    Code.expect(places).to.equal([{ exact: 0, geometry_x: 123, geometry_y: 456, locationDetails: '' }])
   })
 
   const apiResults = [
