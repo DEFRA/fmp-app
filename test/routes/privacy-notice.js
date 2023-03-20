@@ -19,7 +19,7 @@ lab.experiment('privacy-notice', () => {
   const assertPrivacyNoticePage = async (response) => {
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    await payloadMatchTest(payload, /<h1 class="heading-xlarge">Privacy notice<\/h1>/g)
+    await payloadMatchTest(payload, /<h1 class="govuk-heading-xl"> Privacy notice <\/h1>/g)
   }
 
   lab.test('privacy-notice', async () => {
