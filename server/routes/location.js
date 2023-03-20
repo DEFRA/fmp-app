@@ -12,7 +12,7 @@ const validatePlaceOrPostcode = (placeOrPostcode = '') => {
   if (placeOrPostcode.length === 2) {
     return /^[a-zA-Z][0-9]$/.test(placeOrPostcode)
   }
-  const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 ]*$/
+  const ngrPlaceOrPostcode = /^[a-zA-Z][a-zA-Z0-9 !\-,]*$/
   return ngrPlaceOrPostcode.test(placeOrPostcode)
 }
 
