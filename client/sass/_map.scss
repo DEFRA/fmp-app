@@ -8,7 +8,7 @@
   display: flex;
   flex-flow: column nowrap;
   margin-bottom: 8px;
-  height: 640px;
+  height: 600px;
 
   @include media(mobile) {
     height: 660px;

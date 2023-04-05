@@ -17,9 +17,8 @@ const { fixMapTabOrder } = require('../map-tab-order')
 const { createTileLayer, mapState } = require('../map-utils')
 
 function Summary (options) {
-  const floodZoneLayer = createTileLayer(mapConfig)
   const mapOptions = {
-    layers: [floodZoneLayer],
+    layers: [createTileLayer(mapConfig)],
     mapInteractions: InteractionDefaults({
       altShiftDragRotate: false,
       pinchRotate: false
@@ -92,14 +91,6 @@ function Summary (options) {
   // set start height
   sizeColumn()
   $(window).on('resize', sizeColumn)
-  this.map.onReady(() => {
-    const showFloodZonesCheckbox = document.querySelector('#show-flood-zones')
-    if (showFloodZonesCheckbox) {
-      showFloodZonesCheckbox.addEventListener('change', (event) => {
-        floodZoneLayer.setVisible(event.target.checked)
-      })
-    }
-    fixMapTabOrder()
-  })
+  this.map.onReady(fixMapTabOrder)
 }
 module.exports = Summary
