@@ -10,7 +10,8 @@ function ConfirmLocationViewModel ({
   fullName,
   locationDetails,
   contactDetails = {},
-  polygonMissing = false
+  polygonMissing = false,
+  locationOptionForAnalytics = ''
 }) {
   const { AreaName, EmailAddress } = contactDetails
   this.easting = encodeURIComponent(easting)
@@ -25,6 +26,7 @@ function ConfirmLocationViewModel ({
   this.areaName = punctuateAreaName(AreaName)
   this.psoEmailAddress = EmailAddress
   this.polygonMissing = polygonMissing
+  this.locationOptionForAnalytics = locationOptionForAnalytics
 }
 
 module.exports = ConfirmLocationViewModel

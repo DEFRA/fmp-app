@@ -18,6 +18,7 @@
 
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
+      <div class="hide" data-journey="Location:{{locationOptionForAnalytics}}"></div>
       {% if locationDetails %} 
       <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
       {% endif %}

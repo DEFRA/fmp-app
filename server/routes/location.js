@@ -42,6 +42,7 @@ module.exports = [{
         let BNG = {}
         let model = {}
         let locationDetails
+        let isPostCode
 
         const payload = request.payload
 
@@ -71,6 +72,7 @@ module.exports = [{
             BNG.easting = addr.geometry_x
             BNG.northing = addr.geometry_y
             locationDetails = addr.locationDetails
+            isPostCode = addr.isPostCode
           } else {
             const errors = [{ text: 'Enter a real place name or postcode', href: '#placeOrPostcode' }]
             model = new LocationViewModel({
@@ -175,6 +177,9 @@ module.exports = [{
         }
         if (locationDetails) {
           queryParams.locationDetails = locationDetails
+        }
+        if (isPostCode !== undefined) {
+          queryParams.isPostCode = isPostCode
         }
 
         const query = new URLSearchParams(queryParams).toString()

@@ -11,9 +11,8 @@ module.exports = {
     if (!payload || !payload.results || !payload.results.length) {
       return []
     }
-
     const gazetteerEntries = payload.results.map(function (item) {
-      const { NAME1, POPULATED_PLACE, DISTRICT_BOROUGH, COUNTY_UNITARY, REGION, COUNTRY } = (item.GAZETTEER_ENTRY || {})
+      const { NAME1, POPULATED_PLACE, DISTRICT_BOROUGH, COUNTY_UNITARY, REGION, COUNTRY, LOCAL_TYPE } = (item.GAZETTEER_ENTRY || {})
       const locationArray = [
         NAME1,
         POPULATED_PLACE,
@@ -32,6 +31,7 @@ module.exports = {
         geometry_x: item.GAZETTEER_ENTRY.GEOMETRY_X,
         geometry_y: item.GAZETTEER_ENTRY.GEOMETRY_Y,
         locationDetails,
+        isPostCode: LOCAL_TYPE === 'Postcode',
         exact: (NAME1 || '').toLowerCase() === place.toLowerCase() ? 1 : 0
       }
     }).sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
