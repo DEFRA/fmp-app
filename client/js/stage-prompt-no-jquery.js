@@ -39,8 +39,10 @@
 
     const setup = function (analyticsCallback, element = document) {
       // Send an analytics event for all elements with the data-journey attrib
-      element.querySelectorAll('[data-journey]').forEach(journeyElement =>
-        analyticsCallback.apply(null, splitAction(journeyElement.dataset.journey)))
+      element.querySelectorAll('[data-journey]').forEach(journeyElement => {
+        const analyticsObject = JSON.parse(journeyElement.dataset.journey)
+        analyticsCallback(analyticsObject)
+      })
 
       // Add a click handler to all elements with the data-journey-click attrib
       element.querySelectorAll('[data-journey-click]').forEach(journeyHelper =>
@@ -65,10 +67,15 @@
       return // FCRM-3657 ensure we dont send analytics cookies if cookies are not accepted
     }
     if (window.gtag && typeof (window.gtag) === 'function') {
-      window.gtag('event', event, {
-        event_category: category,
-        event_label: label
-      })
+      if (category && category.event) { // IF this is a data-journey object, this will pass
+        const { event, parameters = {} } = category
+        window.gtag('event', event, parameters)
+      } else {
+        window.gtag('event', event, {
+          event_category: category,
+          event_label: label
+        })
+      }
     }
   }
 

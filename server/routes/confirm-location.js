@@ -3,14 +3,21 @@ const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
-const getLocationOptionForAnalytics = (query) => {
-  return query.isPostCode
-    ? 'POSTCODE_SEARCH'
+const getLocationOptionForAnalytics = query => {
+  const TYPE = query.isPostCode
+    ? 'POSTCODE'
     : query.placeOrPostcode
-      ? 'PLACENAME_SEARCH'
+      ? 'PLACENAME'
       : query.nationalGridReference
-        ? 'NGR_SEARCH'
-        : 'EASTINGSNORTHINGS_SEARCH'
+        ? 'NGR'
+        : 'EASTINGS'
+  return {
+    event: 'SEARCH',
+    parameters: {
+      TYPE,
+      ERROR: false
+    }
+  }
 }
 
 module.exports = [{
