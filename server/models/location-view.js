@@ -13,7 +13,7 @@ function LocationViewModel (data) {
     this.northing = data.northing
     this.easting = data.easting
     if (data.errorSummary.length) {
-      this.locationOptionForAnalytics = {
+      this.locationOptionForAnalytics = JSON.stringify({
         event: 'SEARCH',
         parameters: {
           ERROR: true,
@@ -28,7 +28,7 @@ function LocationViewModel (data) {
               ? 'NGR'
               : 'EASTINGS'
         }
-      }
+      })
     }
   } else {
     this.errors = {}
