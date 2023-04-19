@@ -17,20 +17,12 @@
   <form autocomplete="off" id='location-form' class="form" method="post" action="/location" novalidate>
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
-        titleText: "There is a problem",
-        errorList: errorSummary,
-        classes: "govuk-grid-column-two-thirds"
-      }) 
-    }}
-      {% if placeOrPostcodeError %}
-        <div class="hide" data-journey="Location:PLACENAME_ERROR:{{placeOrPostcode}}"></div> 
-      {% endif %}
-      {% if nationalGridReferenceError %}
-        <div class="hide" data-journey="Location:NGR_ERROR:{{nationalGridReference}}"></div> 
-      {% endif %}
-      {% if eastingError or northingError %}
-        <div class="hide" data-journey="Location:EASTINGSNORTHINGS_ERROR:{{easting}}_{{northing}}"></div> 
-      {% endif %}
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          classes: "govuk-grid-column-two-thirds"
+        }) 
+      }}
+      <div class="hide" data-journey="{{locationOptionForAnalytics}}"></div>
     {% endif %}
 
     {% set placeOrPostcodeHtml %}

@@ -12,6 +12,24 @@ function LocationViewModel (data) {
     this.nationalGridReference = data.nationalGridReference
     this.northing = data.northing
     this.easting = data.easting
+    if (data.errorSummary.length) {
+      this.locationOptionForAnalytics = {
+        event: 'SEARCH',
+        parameters: {
+          ERROR: true,
+          VALUE: this.placeOrPostcodeSelected
+            ? this.placeOrPostcode
+            : this.nationalGridReferenceSelected
+              ? this.nationalGridReference
+              : `${this.easting}_${this.northing}`,
+          TYPE: this.placeOrPostcodeSelected
+            ? 'PLACENAME'
+            : this.nationalGridReferenceSelected
+              ? 'NGR'
+              : 'EASTINGS'
+        }
+      }
+    }
   } else {
     this.errors = {}
     this.errorSummary = this.errors
