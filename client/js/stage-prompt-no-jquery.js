@@ -44,6 +44,14 @@
         analyticsCallback(analyticsObject)
       })
 
+      // Add a click handler to all elements with the data-analytics-click attrib
+      element.querySelectorAll('[data-analytics-click]').forEach(journeyHelper =>
+        journeyHelper.addEventListener('click', () => {
+          const analyticsObject = JSON.parse(journeyHelper.dataset.analyticsClick)
+          analyticsCallback(analyticsObject)
+        })
+      )
+
       // Add a click handler to all elements with the data-journey-click attrib
       element.querySelectorAll('[data-journey-click]').forEach(journeyHelper =>
         journeyHelper.addEventListener('click', () =>
