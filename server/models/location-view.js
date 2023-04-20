@@ -13,7 +13,7 @@ function LocationViewModel (data) {
     this.northing = data.northing
     this.easting = data.easting
     if (data.errorSummary.length) {
-      this.locationOptionForAnalytics = JSON.stringify({
+      this.analyticsPageEvent = JSON.stringify({
         event: 'SEARCH',
         parameters: {
           ERROR: true,

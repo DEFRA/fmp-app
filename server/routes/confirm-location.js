@@ -3,7 +3,7 @@ const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
-const getLocationOptionForAnalytics = query => {
+const getAnalyticsPageEvent = query => {
   const TYPE = query.isPostCode
     ? 'POSTCODE'
     : query.placeOrPostcode
@@ -91,7 +91,7 @@ module.exports = [{
             locationDetails,
             contactDetails,
             polygonMissing,
-            locationOptionForAnalytics: getLocationOptionForAnalytics(request.query)
+            analyticsPageEvent: getAnalyticsPageEvent(request.query)
           })
 
         return h.view('confirm-location', model)
