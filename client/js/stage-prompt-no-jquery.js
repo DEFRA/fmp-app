@@ -70,18 +70,18 @@
     }
   }())
 
-  GOVUK.performance.sendGoogleAnalyticsEvent = function (category, event, label) {
+  GOVUK.performance.sendGoogleAnalyticsEvent = function (pageName, event, destination) {
     if (!document.cookie.match('GA=Accept')) {
       return // FCRM-3657 ensure we dont send analytics cookies if cookies are not accepted
     }
     if (window.gtag && typeof (window.gtag) === 'function') {
-      if (category && category.event) { // IF this is a data-journey object, this will pass
-        const { event, parameters = {} } = category
+      if (pageName && pageName.event) { // IF this is a data-journey or data-analytics-click object, this will pass
+        const { event, parameters = {} } = pageName
         window.gtag('event', event, parameters)
-      } else {
+      } else { // This is a data-journey-click
         window.gtag('event', event, {
-          event_category: category,
-          event_label: label
+          PAGE_NAME: pageName,
+          DESTINATION: destination
         })
       }
     }
