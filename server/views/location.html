@@ -17,11 +17,12 @@
   <form autocomplete="off" id='location-form' class="form" method="post" action="/location" novalidate>
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
-        titleText: "There is a problem",
-        errorList: errorSummary,
-        classes: "govuk-grid-column-two-thirds"
-      }) 
-    }}
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          classes: "govuk-grid-column-two-thirds"
+        }) 
+      }}
+      <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
     {% endif %}
 
     {% set placeOrPostcodeHtml %}

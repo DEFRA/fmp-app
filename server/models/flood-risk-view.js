@@ -55,6 +55,15 @@ function Model (data) {
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
+  // Add a requestP1 event object
+  // <div class="hide" data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
+  this.analyticsRequestProduct1Event = JSON.stringify({
+    event: 'REQUEST_P1',
+    parameters: {
+      ZONE: this.zoneNumber,
+      AREA: this.areaName
+    }
+  })
 
   this.plotSize = (plotSize !== '0' && plotSize !== 0) ? plotSize : 'less than 0.1'
 }

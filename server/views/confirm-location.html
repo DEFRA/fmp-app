@@ -18,6 +18,7 @@
 
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
+      <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
       {% if locationDetails %} 
       <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
       {% endif %}
@@ -31,7 +32,7 @@
 
       <p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.</p>
       
-      <details class="govuk-details" data-module="govuk-details" data-journey-click="Confirm-Location:Internal-Link:How-to-draw-Boundary"> 
+      <details class="govuk-details" data-module="govuk-details" data-journey-click="Confirm-Location:DETAIL-CLICK:How-to-draw-Boundary"> 
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
             How to draw a boundary
@@ -79,7 +80,7 @@
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
                 Click to delete the boundary for your location
               </legend>              
-              <button disabled class="govuk-button govuk-button--secondary" data-journey-click="FMFP:map:Delete" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
+              <button disabled class="govuk-button govuk-button--secondary" data-journey-click="Confirm-Location:DELETE_BOUNDARY" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
                   Delete boundary
                 </button>
             </fieldset>

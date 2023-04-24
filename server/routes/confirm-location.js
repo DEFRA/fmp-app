@@ -3,6 +3,23 @@ const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
 
+const getAnalyticsPageEvent = query => {
+  const TYPE = query.isPostCode
+    ? 'POSTCODE'
+    : query.placeOrPostcode
+      ? 'PLACENAME'
+      : query.nationalGridReference
+        ? 'NGR'
+        : 'EASTINGS'
+  return {
+    event: 'SEARCH',
+    parameters: {
+      TYPE,
+      ERROR: false
+    }
+  }
+}
+
 module.exports = [{
   method: 'GET',
   path: '/confirm-location',
@@ -73,7 +90,8 @@ module.exports = [{
             fullName,
             locationDetails,
             contactDetails,
-            polygonMissing
+            polygonMissing,
+            analyticsPageEvent: getAnalyticsPageEvent(request.query)
           })
 
         return h.view('confirm-location', model)
@@ -92,7 +110,8 @@ module.exports = [{
         recipientemail: Joi.string(),
         fullName: Joi.string(),
         locationDetails: Joi.string(),
-        polygonMissing: Joi.boolean()
+        polygonMissing: Joi.boolean(),
+        isPostCode: Joi.boolean()
       })
     }
   }
