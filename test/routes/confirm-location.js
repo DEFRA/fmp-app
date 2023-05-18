@@ -11,18 +11,38 @@ lab.experiment('confirm-location', () => {
   let server
   let restoreIsEnglandService
   let restoreGetPsoContacts
-
+  let restoreGetPsoContactsByPolygon
+  const validPsoContactReponse = {
+    EmailAddress: 'psoContact@example.com',
+    AreaName: 'Yorkshire',
+    LocalAuthorities: 'Ryedale',
+    useAutomatedService: true
+  }
+  const inValidPsoContactReponse = [{
+    EmailAddress: null,
+    AreaName: 'Yorkshire',
+    LocalAuthorities: 'Ryedale',
+    useAutomatedService: true
+  }, {
+    EmailAddress: 'psoContact@example.com',
+    AreaName: null,
+    LocalAuthorities: 'Ryedale',
+    useAutomatedService: true
+  }, {
+    EmailAddress: 'psoContact@example.com',
+    AreaName: 'Yorkshire',
+    LocalAuthorities: null,
+    useAutomatedService: true
+  }
+  ]
   lab.before(async () => {
     server = await createServer()
     await server.initialize()
     restoreIsEnglandService = isEnglandService.get
     restoreGetPsoContacts = server.methods.getPsoContacts
-    server.methods.getPsoContacts = () => ({
-      EmailAddress: 'psoContact@example.com',
-      AreaName: 'Yorkshire',
-      useAutomatedService: true
-    })
-
+    restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+    server.methods.getPsoContacts = () => validPsoContactReponse
+    server.methods.getPsoContactsByPolygon = server.methods.getPsoContacts
     isEnglandService.get = async (x, y) => {
       return { is_england: true }
     }
@@ -32,6 +52,7 @@ lab.experiment('confirm-location', () => {
     await server.stop()
     isEnglandService.get = restoreIsEnglandService
     server.methods.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
   })
 
   const assertContactEnvironmentAgencyText = async response => {
@@ -138,6 +159,21 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(response.headers.location).to.equal('/england-only?nationalGridReference=ST180772&easting=31800&northing=177200')
   })
+  inValidPsoContactReponse.forEach((invalidResponse) => {
+    lab.test('an invalid psoContactResponse should redirect to england-only', async () => {
+      const polygon = '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
+      const options = {
+        method: 'GET',
+        url: `/confirm-location?easting=333433&northing=186528&polygon=${polygon}`
+      }
+      const restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+      server.methods.getPsoContactsByPolygon = () => invalidResponse
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(response.headers.location).to.equal(`/england-only?easting=333433&northing=186528&polygon=${encodeURIComponent(polygon)}`)
+      server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
+    })
+  })
 
   lab.test('isEngland Errors', async () => {
     const options = {
@@ -151,17 +187,6 @@ lab.experiment('confirm-location', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(500)
-  })
-
-  lab.test('confirm-location with legacy place parameter redirects to homepage', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?place=co10+0nn'
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/?place=co10%200nn')
   })
 
   lab.test('confirm-location should throw an exception if isEnglandService returns false', async () => {
@@ -266,7 +291,7 @@ lab.experiment('confirm-location', () => {
       1)
   }
 
-  lab.test('confirm-location view should show not show error if polygonMissing=true is bot passed', async () => {
+  lab.test('confirm-location view should not show an error if polygonMissing=true is not passed', async () => {
     const options = {
       method: 'GET',
       url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com'
@@ -285,7 +310,7 @@ lab.experiment('confirm-location', () => {
     await assertContactEnvironmentAgencyText(response)
   })
 
-  lab.test('confirm-location view should show show error if polygonMissing=true is passed', async () => {
+  lab.test('confirm-location view should show an error if polygonMissing=true is passed', async () => {
     const options = {
       method: 'GET',
       url: '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&recipientemail=joe@example.com&polygonMissing=true'

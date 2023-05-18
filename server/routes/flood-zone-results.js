@@ -3,7 +3,6 @@ const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
-const isEnglandService = require('../services/is-england')
 const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
 
@@ -29,22 +28,16 @@ module.exports = [
             easting = encodeURIComponent(request.query.easting)
             northing = encodeURIComponent(request.query.northing)
           }
-          const result = await isEnglandService.get(easting, northing)
-          if (!result) {
-            throw new Error('No Result from England service')
-          }
           if (!polygon) {
             const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygonMissing=true`
             return h.redirect('/confirm-location?' + queryString)
           }
 
-          if (!result.is_england) {
-            // redirect to the not England page with the search params in the query
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+          if (!psoResults.EmailAddress || !psoResults.AreaName || !psoResults.LocalAuthorities) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           }
-
-          const psoResults = await request.server.methods.getPsoContacts(easting, northing)
           if (psoResults && psoResults.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
             useAutomatedService = psoResults.useAutomatedService
           }
@@ -54,7 +47,8 @@ module.exports = [
           const risk = await riskService.getByPolygon(geoJson)
 
           if (!risk.in_england && !risk.point_in_england) {
-            return h.redirect(`/england-only?centroid=true&easting=${center[0]}&northing=${center[1]}`)
+            const queryString = new URLSearchParams(request.query).toString()
+            return h.redirect('/england-only?' + queryString)
           } else {
             const plotSize = getAreaInHectares(polygonString)
             const floodZoneResultsData = new FloodRiskView.Model({

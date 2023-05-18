@@ -11,7 +11,7 @@ const ApplicationReviewSummaryViewModel = require('../../server/models/check-you
 lab.experiment('check-your-details', () => {
   let server
   let restoreWreckPost
-  let restoreGetPsoContacts
+  let restoreGetPsoContactsByPolygon
 
   const eastAngliaPsoDetails = {
     EmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk',
@@ -34,14 +34,14 @@ lab.experiment('check-your-details', () => {
     await server.initialize()
 
     restoreWreckPost = Wreck.post
-    restoreGetPsoContacts = server.methods.getPsoContacts
-    server.methods.getPsoContacts = async () => (yorkshirePsoDetails)
+    restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+    server.methods.getPsoContactsByPolygon = async () => (yorkshirePsoDetails)
     Wreck.post = async (url, data) => ({ url, data })
   })
 
   lab.after(async () => {
     Wreck.post = restoreWreckPost
-    server.methods.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
     await server.stop()
   })
 
@@ -285,8 +285,8 @@ lab.experiment('check-your-details', () => {
         zoneNumber: 10
       }
     }
-    const restoreGetPsoContacts = server.methods.getPsoContacts
-    server.methods.getPsoContacts = async () => (eastAngliaPsoDetails)
+    const restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
 
     const postParams = {
       url: undefined,
@@ -305,7 +305,7 @@ lab.experiment('check-your-details', () => {
     Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
-    server.methods.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
   })
 
   lab.test('check-your-details POST with easting, northing and polygon should repost to config.functionAppUrl/order-product-four', async () => {
@@ -320,7 +320,7 @@ lab.experiment('check-your-details', () => {
       }
     }
 
-    server.methods.getPsoContacts = async () => (eastAngliaPsoDetails)
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
     const postParams = {
       url: undefined,
       data: undefined
@@ -351,7 +351,7 @@ lab.experiment('check-your-details', () => {
       }
     }
 
-    server.methods.getPsoContacts = async () => (eastAngliaPsoDetails)
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
 
     const postParams = {
       url: undefined,

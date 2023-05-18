@@ -85,7 +85,7 @@ module.exports = [
           const { location, polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
-          const psoResults = await request.server.methods.getPsoContacts(x, y)
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
           const data = JSON.stringify({
             name,
             recipientemail,

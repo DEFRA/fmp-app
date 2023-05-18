@@ -14,11 +14,11 @@ lab.experiment('confirmation', () => {
   lab.before(async () => {
     server = await createServer()
     await server.initialize()
-    restoreGetPsoContacts = server.methods.getPsoContacts
+    restoreGetPsoContacts = server.methods.getPsoContactsByPolygon
   })
 
   lab.after(async () => {
-    server.methods.getPsoContacts = restoreGetPsoContacts
+    server.methods.getPsoContactsByPolygon = restoreGetPsoContacts
     await server.stop()
   })
 
@@ -67,7 +67,7 @@ lab.experiment('confirmation', () => {
     ]
     urls.forEach((url) => {
       lab.test(`confirmation with a valid query should show the confirmation view and ${psoContactDescription}`, async () => {
-        server.methods.getPsoContacts = () => psoContactResponse
+        server.methods.getPsoContactsByPolygon = () => psoContactResponse
 
         const options = { method: 'GET', url }
         const response = await server.inject(options)
@@ -81,14 +81,14 @@ lab.experiment('confirmation', () => {
   })
 
   lab.test('confirmation should return internalServerError if an error is thrown', async () => {
-    server.methods.getPsoContacts = () => { throw new Error('test error') }
+    server.methods.getPsoContactsByPolygon = () => { throw new Error('test error') }
     const options = { method: 'GET', url: '/confirmation?x=12345&y=67890&fullName=Joe%20Bloggs&recipientemail=joe@example.com&applicationReferenceNumber=12345&location=Pickering&zoneNumber=10' }
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(500)
   })
 
   lab.test('confirmation with a polygon should contain a url to flood-zone-results with that polygon', async () => {
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
+    server.methods.getPsoContactsByPolygon = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
     const url = '/confirmation?fullName=JoeBloggs&polygon=%5B%5B479536%2C484410%5D%2C%5B479425%2C484191%5D%2C%5B479785%2C484020%5D%2C%5B479861%2C484314%5D%2C%5B479536%2C484410%5D%5D&recipientemail=Mark.Fee%40defra.gov.uk&applicationReferenceNumber=VNEFM46GF1CA&x=479643&y=484215&location=pickering&zoneNumber=3&cent=%5B479643%2C484215%5D'
 
     const options = { method: 'GET', url }
@@ -115,7 +115,7 @@ lab.experiment('confirmation', () => {
   }
 
   lab.test('confirmation page in zone 1 should show specific zone 1 text', async () => {
-    server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
+    server.methods.getPsoContactsByPolygon = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
 
     const options = {
       method: 'GET',
@@ -128,7 +128,7 @@ lab.experiment('confirmation', () => {
   const zoneNumbers = [undefined, '2', '3', '3 in an area benefitting from flood defences', 'not available']
   zoneNumbers.forEach((zoneNumber) => {
     lab.test(`confirmation page NOT in zone 1 (zone ${zoneNumber}) should NOT show specific zone 1 text`, async () => {
-      server.methods.getPsoContacts = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
+      server.methods.getPsoContactsByPolygon = () => ({ EmailAddress: 'psoContact@example.com', AreaName: 'Yorkshire', LocalAuthorities })
 
       const options = {
         method: 'GET',
