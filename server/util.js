@@ -30,7 +30,8 @@ function request (method, url, options, ext = false) {
 }
 
 function convertToGeoJson (coordinates) {
-  return '{"type": "Polygon", "coordinates": [' + JSON.stringify(coordinates) + ']}'
+  coordinates = Array.isArray(coordinates) ? JSON.stringify(coordinates) : coordinates
+  return '{"type": "Polygon", "coordinates": [' + coordinates + ']}'
 }
 
 function get (url, options, ext = false) {
