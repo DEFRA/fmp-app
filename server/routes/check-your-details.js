@@ -4,6 +4,25 @@ const config = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
+
+const functionAppRequests = {}
+
+const getFunctionAppResponse = async (referer, data) => {
+  if (referer && functionAppRequests[referer]) {
+    console.log('\n\nReposted data to check-your-details, returning cached response', referer)
+    return functionAppRequests[referer]
+  }
+  const functionAppResponse = wreck.post(publishToQueueURL, { payload: data })
+  if (!referer) {
+    return functionAppResponse
+  }
+  functionAppRequests[referer] = functionAppResponse
+  setTimeout(() => { // delete the saved response after 60 seconds
+    delete functionAppRequests[referer]
+  }, 60000)
+  return functionAppRequests[referer]
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -101,7 +120,8 @@ module.exports = [
           const queryParams = {}
 
           try {
-            const result = await wreck.post(publishToQueueURL, { payload: data })
+            const referer = request.headers ? request.headers.referer : undefined
+            const result = await getFunctionAppResponse(referer, data)
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)
             queryParams.applicationReferenceNumber = applicationReferenceNumber

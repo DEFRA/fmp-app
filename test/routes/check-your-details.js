@@ -2,10 +2,10 @@ const Lab = require('@hapi/lab')
 const Code = require('code')
 const lab = exports.lab = Lab.script()
 const createServer = require('../../server')
-const Wreck = require('@hapi/wreck')
+const wreck = require('@hapi/wreck')
 const config = require('../../config')
 const { payloadMatchTest } = require('../utils')
-
+const sinon = require('sinon')
 const ApplicationReviewSummaryViewModel = require('../../server/models/check-your-details')
 
 lab.experiment('check-your-details', () => {
@@ -33,14 +33,14 @@ lab.experiment('check-your-details', () => {
     server = await createServer()
     await server.initialize()
 
-    restoreWreckPost = Wreck.post
+    restoreWreckPost = wreck.post
     restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
     server.methods.getPsoContactsByPolygon = async () => (yorkshirePsoDetails)
-    Wreck.post = async (url, data) => ({ url, data })
+    wreck.post = async (url, data) => ({ url, data })
   })
 
   lab.after(async () => {
-    Wreck.post = restoreWreckPost
+    wreck.post = restoreWreckPost
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
     await server.stop()
   })
@@ -184,7 +184,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -211,7 +211,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -237,7 +237,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -263,7 +263,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -293,7 +293,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -326,7 +326,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -358,7 +358,7 @@ lab.experiment('check-your-details', () => {
       data: undefined
     }
 
-    Wreck.post = async (url, data) => {
+    wreck.post = async (url, data) => {
       postParams.url = url
       postParams.data = data
       return orderProductFourResponse
@@ -373,6 +373,98 @@ lab.experiment('check-your-details', () => {
 
     const { headers } = response
     Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
+  })
+
+  const postOptionsWithReferer = {
+    method: 'POST',
+    url: '/check-your-details',
+    payload: {
+      easting: 12345,
+      northing: 678910,
+      polygon: '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]',
+      cent: '[479579,484104]'
+    },
+    headers: {
+      referer: '/check-your-details?easting=479579&northing=484104&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479579,484104]&location=Pickering&zoneNumber=3&fullName=Mark%20Fee&recipientemail=Mark.Fee@defra.gov.uk'
+    }
+  }
+
+  lab.test('multiple Posts to check-your-details from the same referer should only call functionsApp once', async () => {
+    const options = postOptionsWithReferer
+
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
+    const postParams = {}
+    wreck.post = async (url, data) => {
+      postParams.url = url
+      postParams.data = data
+      return orderProductFourResponse
+    }
+    const postSpy = sinon.spy(wreck, 'post')
+    // Simulate clicking POST multiple times
+    await server.inject(options)
+    await server.inject(options)
+    await server.inject(options)
+    await server.inject(options)
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
+    Code.expect(postSpy.callCount).to.equal(1)
+  })
+
+  lab.test('multiple Posts to check-your-details from different referers should call functionsApp multipleTimes', async () => {
+    const options = postOptionsWithReferer
+
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
+    const postParams = {}
+    wreck.post = async (url, data) => {
+      postParams.url = url
+      postParams.data = data
+      return orderProductFourResponse
+    }
+    const postSpy = sinon.spy(wreck, 'post')
+    // Simulate clicking POST multiple times
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl1' } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl2' } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl3' } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl4' } }))
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
+    Code.expect(postSpy.callCount).to.equal(4)
+  })
+
+  lab.test('multiple Posts to check-your-details with no referer should call functionsApp multipleTimes', async () => {
+    // This ought not to happen in the real world, but if it does (such as if the hapi response data ever changed)
+    // then we should ensure that the code will still operate correctly, although the old multiple post bug would
+    // re-surface if this did happen
+    const options = postOptionsWithReferer
+
+    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
+    const postParams = {}
+    wreck.post = async (url, data) => {
+      postParams.url = url
+      postParams.data = data
+      return orderProductFourResponse
+    }
+    const postSpy = sinon.spy(wreck, 'post')
+    // Simulate clicking POST multiple times
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
+    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
+    const response = await server.inject(options)
+    Code.expect(response.statusCode).to.equal(302)
+    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk"}' })
+    const { headers } = response
+    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
+    Code.expect(postSpy.callCount).to.equal(4)
   })
 
   lab.test('ApplicationReviewSummaryViewModel with data', async () => {
