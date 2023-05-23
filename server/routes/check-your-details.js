@@ -9,7 +9,6 @@ const functionAppRequests = {}
 
 const getFunctionAppResponse = async (referer, data) => {
   if (referer && functionAppRequests[referer]) {
-    console.log('\n\nReposted data to check-your-details, returning cached response', referer)
     return functionAppRequests[referer]
   }
   const functionAppResponse = wreck.post(publishToQueueURL, { payload: data })
