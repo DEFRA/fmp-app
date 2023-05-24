@@ -6,6 +6,24 @@ const FloodRiskView = require('../models/flood-risk-view')
 const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
 
+const missingPolygonRedirect = (request, h, easting, northing, location) => {
+  try {
+    const referer = request.headers ? request.headers.referer : undefined
+    if (referer) {
+      const url = new URL(referer)
+      if (url.pathname === '/confirm-location') {
+        url.searchParams.append('polygonMissing', true)
+        return h.redirect(`${url.pathname}${url.search}`)
+      }
+    }
+  } catch (e) {
+    // unused catch is deliberate to ensure that any issues with inferring the redirect
+    // from the referer will revert to the old way of redirecting (below)
+  }
+  const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygonMissing=true`
+  return h.redirect('/confirm-location?' + queryString)
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -29,8 +47,7 @@ module.exports = [
             northing = encodeURIComponent(request.query.northing)
           }
           if (!polygon) {
-            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygonMissing=true`
-            return h.redirect('/confirm-location?' + queryString)
+            return missingPolygonRedirect(request, h, easting, northing, location)
           }
 
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)

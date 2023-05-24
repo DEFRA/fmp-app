@@ -214,14 +214,74 @@ lab.experiment('flood-zone-results', () => {
     Code.expect(headers.location).to.equal(expectedRedirectUrl)
   })
 
-  lab.test('a flood-zone-results without a polygon should redirect back to /confirm-location', async () => {
-    const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering'
-    const options = { method: 'GET', url }
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    const { headers } = response
-    const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&polygonMissing=true'
-    Code.expect(headers.location).to.equal(expectedRedirectUrl)
+  // The bestGuessRedirectTests test the old method of redirection, which was to infer the confirm-location
+  // url from the fzr url. It covers fzr requests that dont come from /confirm-location as well as
+  // requests that dont have a referer, or have an invalid referer
+  const bestGuessRedirectTests = [
+    {
+      testName: 'a flood-zone-results without a polygon or header'
+    },
+    {
+      testName: 'a flood-zone-results without a polygon or referer',
+      requestHeaders: {}
+    },
+    {
+      testName: 'a flood-zone-results without a polygon or referer other than /confirm-location',
+      requestHeaders: {
+        referer: 'http://localhost:3000/some-other-page?with=some&random=parameters'
+      }
+    },
+    {
+      testName: 'a flood-zone-results without a polygon and an invalid referer',
+      requestHeaders: {
+        referer: '/some-other-page?with=some&random=parameters'
+      }
+    }
+  ]
+  bestGuessRedirectTests.forEach(({ testName, requestHeaders }) => {
+    lab.test(`${testName} should redirect to /confirm-location with best guess url`, async () => {
+      const url = '/flood-zone-results?easting=479472&northing=484194&location=Pickering'
+      const options = { method: 'GET', url, headers: requestHeaders }
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      const { headers } = response
+      const expectedRedirectUrl = '/confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&polygonMissing=true'
+      Code.expect(headers.location).to.equal(expectedRedirectUrl)
+    })
+  })
+
+  const validRefererRedirectTests = [
+    {
+      testName: 'placeOrPostcode',
+      url: '/flood-zone-results?easting=479673&northing=484079&location=Pickering',
+      referer: '/confirm-location?easting=479673&northing=484079&placeOrPostcode=pickering&locationDetails=Pickering%2C+Ryedale%2C+North+Yorkshire%2C+Yorkshire+and+the+Humber%2C+England&isPostCode=false'
+    },
+    {
+      testName: 'easting / northing',
+      url: '/flood-zone-results?easting=386321&northing=397947&location=386321%2520397947',
+      referer: '/confirm-location?easting=386321&northing=397947'
+    },
+    {
+      testName: 'National Grid Reference',
+      url: '/flood-zone-results?easting=386321&northing=397947&location=SJ8632197947',
+      referer: '/confirm-location?easting=386321&northing=397947&nationalGridReference=SJ8632197947'
+    }
+  ]
+  validRefererRedirectTests.forEach(({ testName, url, referer }) => {
+    lab.test(`a flood-zone-results without a polygon should redirect to the the referer - ${testName}`, async () => {
+      const options = {
+        method: 'GET',
+        url,
+        headers: {
+          referer: `http://localhost:3000${referer}`
+        }
+      }
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      const { headers } = response
+      const expectedRedirectUrl = `${referer}&polygonMissing=true`
+      Code.expect(headers.location).to.equal(expectedRedirectUrl)
+    })
   })
 
   const getByPolygonResponses = [
