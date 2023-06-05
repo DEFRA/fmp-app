@@ -3,7 +3,7 @@ const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
-const { polygonStringToArray, getAreaInHectares } = require('../services/shape-utils')
+const { polygonToArray, getAreaInHectares, getArea, buffPolygon } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
@@ -24,6 +24,13 @@ const missingPolygonRedirect = (request, h, easting, northing, location) => {
   return h.redirect('/confirm-location?' + queryString)
 }
 
+const zeroAreaPolygonRedirect = (request, h, polygon, center, location) => {
+  polygon = JSON.stringify(buffPolygon(polygon))
+  center = JSON.stringify(center)
+  const queryString = `/flood-zone-results?polygon=${polygon}&center=${center}&location=${location}`
+  return h.redirect(queryString)
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -36,8 +43,7 @@ module.exports = [
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
-          const polygonString = request.query.polygon
-          const polygon = polygonStringToArray(polygonString)
+          const polygon = polygonToArray(request.query.polygon)
           const center = request.query.center ? JSON.parse(request.query.center) : undefined
           if (polygon) {
             easting = encodeURIComponent(center[0])
@@ -48,6 +54,10 @@ module.exports = [
           }
           if (!polygon) {
             return missingPolygonRedirect(request, h, easting, northing, location)
+          }
+          const plotSizeMeters = getArea(polygon)
+          if (plotSizeMeters === 0) {
+            return zeroAreaPolygonRedirect(request, h, polygon, center, location)
           }
 
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
@@ -67,7 +77,7 @@ module.exports = [
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           } else {
-            const plotSize = getAreaInHectares(polygonString)
+            const plotSize = getAreaInHectares(polygon)
             const floodZoneResultsData = new FloodRiskView.Model({
               psoEmailAddress: psoResults.EmailAddress || undefined,
               areaName: punctuateAreaName(psoResults.AreaName) || undefined,

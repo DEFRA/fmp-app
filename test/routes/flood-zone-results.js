@@ -7,6 +7,7 @@ const { payloadMatchTest } = require('../utils')
 const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
 const { JSDOM } = require('jsdom')
+const zeroAreaPolygons = require('../services/zeroAreaPolygons')
 
 lab.experiment('flood-zone-results', () => {
   let server
@@ -315,5 +316,38 @@ lab.experiment('flood-zone-results', () => {
       Code.expect(redrawElement[0].textContent).to.contain('Redraw the boundary of your site')
       Code.expect(redrawElement[0].href).to.equal(`confirm-location?easting=479472&northing=484194&placeOrPostcode=Pickering&polygon=${fzrUrlPolygon}`)
     })
+  })
+
+  let zeroAreaPolygonsTestCount = 0
+  zeroAreaPolygons.forEach(([zeroAreaPolygon, expectedBuffedPolygon, expectedMinMaxXY]) => {
+    const polygonString = JSON.stringify(zeroAreaPolygon)
+    const expectedPolygonString = JSON.stringify(expectedBuffedPolygon)
+    const center = JSON.stringify(expectedMinMaxXY[0])
+    const fzrZeroAreaPolygonUrl = `/flood-zone-results?polygon=${polygonString}&center=${center}&location=Pickering`
+    const fzrBuffedZeroAreaPolygonUrl = `/flood-zone-results?polygon=${expectedPolygonString}&center=${center}&location=Pickering`
+
+    lab.test(`a flood zone request for ${polygonString} should redirect to  ${expectedPolygonString}`, async () => {
+      riskService.getByPolygon = () => zone1GetByPolygonResponse
+      server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+      const options = { method: 'GET', url: fzrZeroAreaPolygonUrl }
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      const { headers } = response
+      Code.expect(headers.location).to.equal(fzrBuffedZeroAreaPolygonUrl)
+      zeroAreaPolygonsTestCount++
+    })
+
+    lab.test(`a flood zone request for ${expectedPolygonString} should not redirect`, async () => {
+      riskService.getByPolygon = () => zone1GetByPolygonResponse
+      server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+      const options = { method: 'GET', url: fzrBuffedZeroAreaPolygonUrl }
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      zeroAreaPolygonsTestCount++
+    })
+  })
+
+  lab.test('zeroAreaPolygonsTestCount should equal 20', async () => {
+    Code.expect(zeroAreaPolygonsTestCount).to.equal(20)
   })
 })
