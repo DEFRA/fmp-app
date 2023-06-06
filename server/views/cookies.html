@@ -131,13 +131,27 @@ html: html
           </legend>
           <div class="govuk-radios govuk-radios--inline">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="cookie_consent" name="cookie_consent" type="radio" value="yes" checked>
+              <input
+                class="govuk-radios__input"
+                id="cookie_consent"
+                name="cookie_consent"
+                type="radio"
+                value="yes"
+                {% if isYesChecked %} checked {% endif %}
+              >
               <label class="govuk-label govuk-radios__label" for="cookie_consent">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="cookie_consent-2" name="cookie_consent" type="radio" value="no">
+              <input
+                class="govuk-radios__input"
+                id="cookie_consent-2"
+                name="cookie_consent"
+                type="radio"
+                value="no"
+                {% if isNoChecked %} checked {% endif %}
+              >
               <label class="govuk-label govuk-radios__label" for="cookie_consent-2">
                 No
               </label>
@@ -190,6 +204,9 @@ html: html
       date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
       const expires = "expires=" + date.toUTCString();
       document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+      if (window && window.FMfP && window.FMfP.deleteGaCookies) {
+        window.FMfP.deleteGaCookies('{{analyticsAccount}}')
+      }
     } else { }
     location.reload();
     return false;
