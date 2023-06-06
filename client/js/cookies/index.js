@@ -34,6 +34,16 @@ module.exports = window.onload = function () {
     return acc
   }
 
+  const deleteGaCookies = () => {
+    const cookies = document.cookie.split(';')
+    cookies.forEach((cookie, index) => {
+      const [name = ''] = cookie.split('=')
+      if (name.match('_gid|_ga')) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+      }
+    })
+  }
+
   function getCookie (key) {
     // Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring
     const cookies = document.cookie
@@ -53,6 +63,8 @@ module.exports = window.onload = function () {
   const rejectFn = function () {
     setCookie(cookieName, 'Reject', 365)
     questionBanner.setAttribute('hidden', true)
+    // Now we also need to delete any analytics cookies
+    deleteGaCookies()
     showBanner(rejectedBanner)
   }
 
