@@ -34,12 +34,28 @@ module.exports = window.onload = function () {
     return acc
   }
 
+  // inferGaCookieDomain is required as GA inconsistently sets the cookies domain
+  // for the main PROD site it is .flood-map-for-planning.service.gov.uk
+  // but for the dev, tst, pre it is just .defra.cloud
+  // and for localhost it is not required
+  // without this, cookie deletion wont work
+  const inferGaCookieDomain = () => {
+    const domain = document.domain
+    if (domain.match('flood-map-for-planning.service.gov.uk')) {
+      return 'domain=.flood-map-for-planning.service.gov.uk;'
+    }
+    if (domain.match('.defra.cloud')) {
+      return 'domain=.defra.cloud;'
+    }
+    return ''
+  }
+
   const deleteGaCookies = () => {
     const cookies = document.cookie.split(';')
     cookies.forEach((cookie, index) => {
       const [name = ''] = cookie.split('=')
       if (name.match('_gid|_ga')) {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;${inferGaCookieDomain()}`
       }
     })
   }
