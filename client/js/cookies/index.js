@@ -50,7 +50,7 @@ module.exports = window.onload = function () {
     return ''
   }
 
-  const deleteGaCookies = () => {
+  const deleteGaCookies = (analyticsAccount) => {
     const cookies = document.cookie.split(';')
     cookies.forEach((cookie, index) => {
       const [name = ''] = cookie.split('=')
@@ -58,6 +58,15 @@ module.exports = window.onload = function () {
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;${inferGaCookieDomain()}`
       }
     })
+    if (analyticsAccount) {
+      // This is also required, as without it analytics makes one last call,
+      // which reinstates one of the GA cookies, that we just deleted
+      window[`ga-disable-${analyticsAccount}`] = true
+    }
+  }
+
+  window.FMfP = {
+    deleteGaCookies
   }
 
   function getCookie (key) {
