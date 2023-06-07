@@ -24,7 +24,7 @@ const missingPolygonRedirect = (request, h, easting, northing, location) => {
   return h.redirect('/confirm-location?' + queryString)
 }
 
-const zeroAreaPolygonRedirect = (request, h, polygon, center, location) => {
+const zeroAreaPolygonRedirect = (h, polygon, center, location) => {
   polygon = JSON.stringify(buffPolygon(polygon))
   center = JSON.stringify(center)
   const queryString = `/flood-zone-results?polygon=${polygon}&center=${center}&location=${location}`
@@ -39,25 +39,22 @@ module.exports = [
       description: 'Displays flood zone results page',
       handler: async (request, h) => {
         try {
-          let easting, northing
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = polygonToArray(request.query.polygon)
           const center = request.query.center ? JSON.parse(request.query.center) : undefined
-          if (polygon) {
-            easting = encodeURIComponent(center[0])
-            northing = encodeURIComponent(center[1])
-          } else {
-            easting = encodeURIComponent(request.query.easting)
-            northing = encodeURIComponent(request.query.northing)
-          }
           if (!polygon) {
-            return missingPolygonRedirect(request, h, easting, northing, location)
+            return missingPolygonRedirect(
+              request,
+              h,
+              encodeURIComponent(request.query.easting),
+              encodeURIComponent(request.query.northing),
+              location)
           }
           const plotSizeMeters = getArea(polygon)
           if (plotSizeMeters === 0) {
-            return zeroAreaPolygonRedirect(request, h, polygon, center, location)
+            return zeroAreaPolygonRedirect(h, polygon, center, location)
           }
 
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)

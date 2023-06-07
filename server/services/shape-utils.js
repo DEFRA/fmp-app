@@ -15,7 +15,10 @@ const getAreaInHectares = polygon => {
 }
 
 const polygonToArray = polygon => {
-  return Array.isArray(polygon) ? polygon : polygon ? JSON.parse(polygon) : undefined
+  if (!polygon) {
+    return undefined
+  }
+  return (Array.isArray(polygon)) ? polygon : JSON.parse(polygon)
 }
 
 // NB polygonStartEnd is only applicable if the polygon is a line or a single point
@@ -26,9 +29,8 @@ const polygonStartEnd = polygon => {
 }
 
 const _isPoint = minMax => minMax[0][0] === minMax[1][0] && minMax[0][1] === minMax[1][1]
-const _isYBuff = ([[minX, minY], [maxX, maxY]]) => {
-  return (Math.abs(maxX - minX) >= Math.abs(maxY - minY))
-}
+const _isYBuff = ([[minX, minY], [maxX, maxY]]) =>
+  (Math.abs(maxX - minX) >= Math.abs(maxY - minY))
 
 const buffPolygon = polygon => {
   const minMax = polygonStartEnd(polygon)
