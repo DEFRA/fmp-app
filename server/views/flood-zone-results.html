@@ -37,6 +37,60 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.
       {% endif %}
     </p>
+    <table  class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header" colspan="4">
+            Risk of surface water flooding within this site
+          </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header" colspan="4"> Amount  of site at risk level: </th>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"></td>
+          <th scope="row" class="govuk-table__header"> Low </th>
+          <td class="govuk-table__cell" colspan="2"> {{surfaceWaterResults.lowRatio}}% </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"></td>
+          <th scope="row" class="govuk-table__header"> Medium </th>
+          <td class="govuk-table__cell" colspan="2"> {{surfaceWaterResults.mediumRatio}}% </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"></td>
+          <th scope="row" class="govuk-table__header"> High </th>
+          <td class="govuk-table__cell" colspan="2"> {{surfaceWaterResults.highRatio}}% </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header" colspan="3"> Highest Risk</th>
+          <td class="govuk-table__cell" > {{surfaceWaterResults.maximumRisk}}</td>
+        </tr>  
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header" colspan="3"> Suitability </th>
+          <td class="govuk-table__cell" > {{surfaceWaterResults.suitability}}</td>
+        </tr>
+      </tbody>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header" colspan="4"> Extra Info </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% if surfaceWaterResults.extraInfo %}
+          {% for column in surfaceWaterResults.extraInfo %}
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header" colspan="3">{{column.info}} ({{column.apply}})</th>
+              <td class="govuk-table__cell"> 
+                {{column.riskoverride}}
+              </td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
 
     <!-- More Information -->
     {% if not floodZone.isAreaBenefiting %}

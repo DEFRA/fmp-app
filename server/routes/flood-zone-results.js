@@ -65,6 +65,7 @@ module.exports = [
           if (psoResults && psoResults.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
             useAutomatedService = psoResults.useAutomatedService
           }
+          const surfaceWaterResults = await request.server.methods.getSurfaceWaterByPolygon(polygon)
 
           const geoJson = util.convertToGeoJson(polygon)
 
@@ -85,7 +86,8 @@ module.exports = [
               placeOrPostcode,
               useAutomatedService,
               plotSize,
-              localAuthorities: psoResults.LocalAuthorities || ''
+              localAuthorities: psoResults.LocalAuthorities || '',
+              surfaceWaterResults
             })
             return h.view('flood-zone-results', floodZoneResultsData)
               .unstate('pdf-download')

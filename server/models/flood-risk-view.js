@@ -11,9 +11,11 @@ function Model (data) {
     placeOrPostcode,
     useAutomatedService,
     plotSize,
-    localAuthorities
+    localAuthorities,
+    surfaceWaterResults
   } = data
   this.localAuthorities = localAuthorities
+  this.surfaceWaterResults = surfaceWaterResults
 
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress

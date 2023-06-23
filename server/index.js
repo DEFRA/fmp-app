@@ -28,6 +28,7 @@ async function createServer () {
 
   await server.method(require('./services/pso-contact'))
   await server.method(require('./services/pso-contact-by-polygon'))
+  await server.method(require('./services/surface-water-by-polygon'))
   await server.method(require('./services/use-automated'))
 
   // Register the plugins
