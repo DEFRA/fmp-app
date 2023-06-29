@@ -15,8 +15,8 @@ const url = config.service + '/surface-water-by-polygon?polygon='
 const ratioToPercent = (val = 0) => Math.round(val * 1000) / 10
 
 const transformSurfaceWater = async (response) => {
-  console.log(response)
   return {
+    surfaceWaterResponse: true,
     lowRatio: ratioToPercent(response.low_surface_water_ratio),
     mediumRatio: ratioToPercent(response.medium_surface_water_ratio),
     highRatio: ratioToPercent(response.high_surface_water_ratio),
@@ -30,9 +30,14 @@ const getSurfaceWaterByPolygon = polygon => {
   try {
     const geoJsonPolygon = util.convertToGeoJson(polygon)
     const myurl = url + geoJsonPolygon
-    return util.getJson(myurl).then(transformSurfaceWater)
+    return util.getJson(myurl)
+      .then(transformSurfaceWater)
+      .catch((error) => {
+        console.log('\n\ngetSurfaceWaterByPolygon ERROR 1 \n', error)
+        return { surfaceWaterResponse: false }
+      })
   } catch (error) {
-    throw new Error('Fetching Pso contacts by polygon failed: ', error)
+    throw new Error('getSurfaceWaterByPolygon failed: ', error)
   }
 }
 
