@@ -1,4 +1,4 @@
-const Code = require('code')
+const Code = require('@hapi/code')
 
 module.exports = {
   payloadMatchTest: async (payload, regex, expectedMatchCount = 1) => {

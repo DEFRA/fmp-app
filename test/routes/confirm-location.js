@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')

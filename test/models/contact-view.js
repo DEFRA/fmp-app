@@ -1,6 +1,6 @@
 
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const contactviewmodel = require('./../../server/models/contact-view')
 lab.experiment('contact view model test', () => {

@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const { getArea, getAreaInHectares, polygonToArray, buffPolygon, polygonStartEnd } = require('../../server/services/shape-utils')
 const zeroAreaPolygons = require('./zeroAreaPolygons')

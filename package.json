@@ -75,7 +75,6 @@
     "babelify": "^8.0.0",
     "blipp": "^4.0.2",
     "browserify": "^17.0.0",
-    "code": "5.2.4",
     "eslint": "^8.23.1",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",

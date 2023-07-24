@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const lab = exports.lab = Lab.script()
-const Code = require('code')
+const Code = require('@hapi/code')
 const SummaryViewModel = require('../../server/models/summary-view')
 // Test data objects
 
