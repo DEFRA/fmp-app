@@ -1,3 +1,0 @@
-#!/bin/bash
-
-wisk ./bin/wisk.js
