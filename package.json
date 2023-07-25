@@ -80,7 +80,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.1",
-    "eslint-plugin-standard": "^5.0.0",
     "esmify": "^2.1.1",
     "exorcist": "2.0.0",
     "govuk_template_mustache": "0.26.0",
