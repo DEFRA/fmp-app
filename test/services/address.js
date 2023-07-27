@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const { findByPlace } = require('../../server/services/address')
 const util = require('../../server/util')

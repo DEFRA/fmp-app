@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const { fixMapTabOrder, setTabActions } = require('../../client/js/map-tab-order')
 const sinon = require('sinon')

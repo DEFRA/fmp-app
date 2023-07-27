@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const ngrToBngService = require('../../server/services/ngr-to-bng')
 const addressService = require('../../server/services/address')

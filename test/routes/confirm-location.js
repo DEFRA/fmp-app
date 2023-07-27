@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
@@ -277,7 +277,7 @@ lab.experiment('confirm-location', () => {
 
   const assertErrorMessage = async (payload, errorMessageExpected = true) => {
     await payloadMatchTest(payload,
-      /<h2 class="govuk-error-summary__title" id="error-summary-title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
+      /<h2 class="govuk-error-summary__title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
       errorMessageExpected ? 1 : 0)
 
     // Error Title Should only be displayed if polygonMissing is true

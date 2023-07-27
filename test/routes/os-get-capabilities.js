@@ -1,6 +1,6 @@
 // const   Lab = require('@hapi/lab')
 // const   lab = exports.lab = Lab.script()
-// const   Code = require('code')
+// const   Code = require('@hapi/code')
 // const   server = require('../../index.js')
 
 // lab.experiment('os-get-capabilities', function () {

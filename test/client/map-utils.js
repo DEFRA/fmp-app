@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const Code = require('code')
+const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
 const mapConfig = require('../../client/js/map-config.json')
 const { mockOpenLayers, MockShape, MockMapExtents } = require('./mock-open-layers')
