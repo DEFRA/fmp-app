@@ -18,6 +18,11 @@
   <meta property="keywords" content="{{metaKeywords}}"/>
   <meta property="description" content="{{metaDescription}}"/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
+  {% if allowRobots %}
+    <meta name="robots" content="all"/>
+  {% else %}
+    <meta name="robots" content="noindex"/>
+  {% endif %}
   <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet"/>
   {# For Internet Explorer 8, you need to compile specific stylesheet #}
   {# see https://github.com/alphagov/govuk-frontend/blob/master/docs/installation/supporting-internet-explorer-8.md #}
