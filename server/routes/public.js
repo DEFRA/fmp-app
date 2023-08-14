@@ -1,13 +1,5 @@
 module.exports = [{
   method: 'GET',
-  path: '/robots.txt',
-  options: {
-    handler: {
-      file: 'server/public/static/robots.txt'
-    }
-  }
-}, {
-  method: 'GET',
   path: '/assets/all.js',
   options: {
     handler: {

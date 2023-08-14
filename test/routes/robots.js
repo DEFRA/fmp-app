@@ -17,14 +17,14 @@ lab.experiment('robots.txt', () => {
     await server.stop()
   })
 
-  lab.test('robots.txt returns 200', async () => {
+  lab.test('FCRM-4376 robots.txt should not exist returns 404', async () => {
     const options = {
       method: 'GET',
       url: '/robots.txt'
     }
 
     const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include('User-agent: *\nAllow: /$\nDisallow: /\n')
+    Code.expect(response.statusCode).to.equal(404)
+    Code.expect(response.payload).to.include('Page not found')
   })
 })
