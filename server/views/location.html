@@ -13,8 +13,12 @@
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
-  
-  <form autocomplete="off" id='location-form' class="form" method="post" action="/location" novalidate>
+
+  <div class="govuk-width-container">
+    <div class="govuk-main-wrapper">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"> 
+  <form autocomplete="off" id='location-form' method="post" action="/location" novalidate>
     {% if errorSummary.length > 0 %}
       {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -33,12 +37,13 @@
       classes: "govuk-!-width-one-third",                          
       value: placeOrPostcode,                     
       errorMessage: placeOrPostcodeError,
+      spellcheck: false,
       hint: {
         text: "For example, Bakewell or WA4 1AB"
       },
       label: {
-        text: 'Place or Postcode',
-        classes: 'govuk-label visually-hidden',
+        text: 'Place or postcode',
+        classes: 'visually-hidden',
         for: "placeOrPostcode",
         isPageHeading: false
       }
@@ -57,8 +62,8 @@
         text: "For example, SJ8632197947 (10 or 12 digits)"
       },
       label: {
-        text: 'National Grid Reference',
-        classes: 'govuk-label visually-hidden',
+        text: 'National Grid Reference (NGR)',
+        classes: 'visually-hidden',
         for: "nationalGridReference",
         isPageHeading: false
       }
@@ -66,7 +71,7 @@
     {% endset -%}
 
     {% set eastingNorthingHtml %}
-    <div id="event-name-hint" class="govuk-hint">
+    <div id="eastings-northings-hint" class="govuk-hint">
       Eastings and northings should only include numbers.  For example: 123456
     </div>
     {{ govukInput({
@@ -78,7 +83,6 @@
         errorMessage: eastingError,
         label: {
           text: 'Easting',
-          classes: 'govuk-label',
           for: "easting",
           isPageHeading: false
         }
@@ -92,8 +96,8 @@
       errorMessage: northingError,
       label: {
         text: 'Northing',
-        classes: 'govuk-label',
         for: "northing",
+        classes: "govuk-!-margin-top-3",
         isPageHeading: false
       }
     })}}
@@ -105,7 +109,7 @@
         legend: {
           text: "Find the location",
           isPageHeading: true,
-          classes: "govuk-fieldset__legend--l"
+          classes: "govuk-fieldset__legend--xl"
         }
       },
       items: [
@@ -143,13 +147,19 @@
       preventDoubleClick: true
     })}}
   </form>
-  <script>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
     // FCRM-3619 - Now checks the Radio for PostCode by default (to avoid errors when JS is disabled)
     // This script unchecks the radio, when JS is enabled so the UX is the same (nothing is checked by default)
     document.addEventListener("DOMContentLoaded", () => {
-      const radio = document.getElementById("findby")
-      if (radio) {
-        radio.checked = false
+      if (!"{{placeOrPostcodeError.text}}") {
+        const radio = document.getElementById("findby")
+        if (radio) {
+          radio.checked = false
+        }
       }
     })
     const form = document.getElementById('location-form')
