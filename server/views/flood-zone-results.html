@@ -70,8 +70,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       Flood map showing the flood zone your site is in
     </h2>
 
-    <p class="govuk-body">
+    <p class="govuk-body govuk-!-margin-bottom-1">
       The map shows the flood risk to your site and the surrounding area.
+      <div>
+        <a href="/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}">Preview the map with Nafra2 layers</a>
+      </div>
     </p>
 
     {% if floodZone.isAreaBenefiting %}

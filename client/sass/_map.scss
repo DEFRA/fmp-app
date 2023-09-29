@@ -95,43 +95,43 @@
         height: auto;
       }
   
-    .map-legend-item {
-      margin-top: 10px;
-      margin-left: 5px;
-      margin-right: 5px;
-      width: auto;
-      @include media(mobile) {
-        max-width: 70px;
-      }
-    }
-  
-    .map-legend-image {
-      display: block;
-      margin-bottom: 3px;
-      width: 60px;
-
-      &--tall {
-        max-height: 30px;
+      .map-legend-item {
+        margin-top: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
         width: auto;
-      }
-      @include media(mobile) {
-        // centres the images
-        margin-left: auto;
-        margin-right: auto;
-        
-        &--tall {
-          margin-left: auto;
-          margin-right: auto;
+        @include media(mobile) {
+          max-width: 70px;
         }
       }
-    }
-    .map-legend-image-with-border {
-      border: 2px solid black;
-      // The box shadow is there to mask a gap between the image and the border
-      box-shadow: inset 0px 0px 0px 1px black;
+    
+      .map-legend-image {
+        display: block;
+        margin-bottom: 3px;
+        width: 60px;
+
+        &--tall {
+          max-height: 30px;
+          width: auto;
+        }
+        @include media(mobile) {
+          // centres the images
+          margin-left: auto;
+          margin-right: auto;
+          
+          &--tall {
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+      .map-legend-image-with-border {
+        border: 2px solid black;
+        // The box shadow is there to mask a gap between the image and the border
+        box-shadow: inset 0px 0px 0px 1px black;
+      }
     }
   }
-}
 }
 
 #map--result:fullscreen {
@@ -154,4 +154,75 @@
 
 .ol-scale-line {
   left: 115px;
+}
+
+.full-page-map-html {
+  height: 100vh;
+}
+
+.full-page-map-body {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.full-page-map,
+.full-page-map .map-container,
+.full-page-map .map-container .map--result,
+.full-page-map .map-container .map {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+}
+
+.full-page-map {
+  z-index: 999;
+  padding-right: 290px;
+  background-color: #b1c7ee;
+  
+  .map-container {
+    .ol-viewport {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .map-legend {
+    position: absolute;
+    right: 0;
+    top: 0; 
+    width: 290px;
+  }
+
+  .defra-map__back {
+    position: fixed;
+    text-indent: 2em;
+    width: 120px;
+    top: 0.5em;
+    left: 0.5em;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background-color: white;
+    font-size: 16px;
+    line-height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M4.828,11L12.314,18.485L10.899,19.899L1,10L10.899,0.101L12.314,1.515L4.828,9L19,9L19,11L4.828,11Z' style='fill:%230b0c0c;stroke:%230b0c0c;stroke-width:0.1px'/%3E%3C/svg%3E");
+    background-size: 20px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+  }
+
+  .ol-zoom {
+    top: auto;
+    left: auto;
+    bottom: 100px;
+    right: calc(290px + 2em);
+  }  
 }
