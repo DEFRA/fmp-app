@@ -1,6 +1,6 @@
 {
   "name": "fmfp",
-  "version": "2.6.0-pre.18",
+  "version": "2.6.0-sandbox.1",
   "dataVersion": "2.5.1",
   "description": "Flood map for planning",
   "main": "index.js",
@@ -22,7 +22,8 @@
     "unit-test-quiet": "lab -l -s",
     "test": "npm run lint && npm run unit-test",
     "postinstall": "npm run build",
-    "kill": "sudo kill -9 $(sudo lsof -t -i:3000)"
+    "kill": "sudo kill -9 $(sudo lsof -t -i:3000)",
+    "increment-version": "npm version prerelease --preid=sandbox -m \"Set Version to %s\""
   },
   "author": "defra",
   "license": "ISC",
