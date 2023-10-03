@@ -2,6 +2,8 @@
 node_modules
 logs
 server.json
+server.snd.json
+server.dev.json
 server/public/assets
 server/public/build
 npm-debug.log

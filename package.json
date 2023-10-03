@@ -22,7 +22,9 @@
     "unit-test-quiet": "lab -l -s",
     "test": "npm run lint && npm run unit-test",
     "postinstall": "npm run build",
-    "kill": "sudo kill -9 $(sudo lsof -t -i:3000)"
+    "kill": "sudo kill -9 $(sudo lsof -t -i:3000)",
+    "increment-version": "npm version prerelease --preid=pre -m \"Set Version to %s\"",
+    "set-config": "run(){  cp ./config/server.$1.json ./config/server.json; }; run"
   },
   "author": "defra",
   "license": "ISC",
