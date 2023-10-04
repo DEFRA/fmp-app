@@ -27,6 +27,36 @@ const createTileLayer = mapConfig => {
   })
 }
 
+const createNafra2Layer = mapConfig => {
+  return new TileLayer({
+    ref: '1in1000',
+    opacity: 0.7,
+    zIndex: 0,
+    source: new TileWMS({
+      url: mapConfig.tileProxy,
+      serverType: 'geoserver',
+      params: {
+        LAYERS: 'fmp:1in1000',
+        TILED: true,
+        VERSION: '1.1.1'
+      },
+      tileGrid: new TileGrid({
+        extent: mapConfig.tileExtent,
+        resolutions: mapConfig.tileResolutions,
+        tileSize: mapConfig.tileSize
+      })
+    })
+  })
+}
+
+const getMapLayers = (mapConfig, options) => {
+  console.log('getMapLayers options', options)
+  if (options.nafra2Layers) {
+    return [createTileLayer(mapConfig), createNafra2Layer(mapConfig)]
+  }
+  return [createTileLayer(mapConfig)]
+}
+
 let sessionStorageAvailable = true
 try {
   sessionStorageAvailable = Boolean(window.sessionStorage)
@@ -139,6 +169,7 @@ const extendMapControls = allowFullScreen => {
 
 module.exports = {
   createTileLayer,
+  getMapLayers,
   mapState,
   _mockSessionStorageAvailable,
   getTargetUrl,
