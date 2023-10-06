@@ -6,7 +6,7 @@
 {% from "back-link/macro.njk" import govukBackLink %}
 
 {% set metaTitle = (pageTitle or model.pageTitle or 'Flood map for planning') + ' - GOV.UK' %}
-{% set metaDescription = model.metadata.description | default('Flood map for planning Service : Flood map for planning') %}
+{% set metaDescription = model.metadata.description | default('Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data.') %}
 {% set metaKeywords = model.metadata.keywords | default('flood,mapfor,planning,service,gov,uk') %}
 
 {% block head %}
