@@ -56,23 +56,23 @@ const createNafra2Layer = (mapConfig, LAYERS, ref, name, probability) => {
 
 let nafra2Layers = []
 
-/*
-  Nafra2Layer: {
-    layer: {},
-    name: "STRING",
-    probability: "STRING",
-    ref: "STRING",
-  }
-*/
-
 const getMapLayers = (mapConfig, options) => {
   if (options.nafra2Layers) {
     nafra2Layers = [
+      createNafra2Layer(mapConfig, 'fmp:fmp', 'fmp', 'Legacy Flood Zones 1 & 2', 'Not stated'),
       createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'flood_zone_river_sea_present_day', 'Rivers and sea', 'Not stated'),
       createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'flood_zone_surface_water_present_day', 'Surface Water', 'Not stated'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'flood_map_defended_1in30_river_sea_present_day', 'Depth defended rivers and sea', 'Not stated')
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_surface_water_present_day', 'flood_map_defended_1in30_surface_water_present_day', 'Depth defended surface Water', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'flood_map_defended_1in30_river_sea_present_day', 'Depth defended rivers and sea', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in30_present_day', 'flood_map_with_depth_defended_river_1in30_present_day', 'Depth defended rivers 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in100_present_day', 'flood_map_with_depth_defended_river_1in100_present_day', 'Depth defended rivers 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in1000_present_day', 'flood_map_with_depth_defended_river_1in1000_present_day', 'Depth defended rivers 1/1000', '1 in 1000'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in100_present_day', 'flood_map_with_depth_undefended_river_1in100_present_day', 'Depth undefended rivers 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in1000_present_day', 'flood_map_with_depth_undefended_river_1in1000_present_day', 'Depth defended rivers 1/1000', '1 in 1000'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in30_present_day', 'flood_map_with_depth_drained_surface_water_1in30_present_day', 'Depth drained surface water 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in100_present_day', 'flood_map_with_depth_drained_surface_water_1in100_present_day', 'Depth drained surface water 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in1000_present_day', 'flood_map_with_depth_drained_surface_water_1in1000_present_day', 'Depth drained surface water 1/1000', '1 in 1000')
     ]
-    console.log('getMapLayers CREATED: \n', nafra2Layers)
     return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
   }
   return [createTileLayer(mapConfig)]
