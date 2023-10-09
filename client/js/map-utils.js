@@ -74,9 +74,30 @@ const getMapLayers = (mapConfig, options) => {
     ]
     console.log('getMapLayers CREATED: \n', nafra2Layers)
     return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
-    // return [createTileLayer(mapConfig), createNafra2Layer(mapConfig)]
   }
   return [createTileLayer(mapConfig)]
+}
+
+const populateMapLayerList = () => {
+  const ulElement = document.querySelector('#legend ul')
+  if (ulElement && nafra2Layers.length > 0) {
+    const fragment = document.createDocumentFragment()
+    nafra2Layers.forEach((nafra2Layer) => {
+      const li = fragment.appendChild(document.createElement('li'))
+      const input = li.appendChild(document.createElement('input'))
+      input.setAttribute('type', 'checkbox')
+      input.setAttribute('id', nafra2Layer.ref)
+      input.setAttribute('name', nafra2Layer.ref)
+      input.checked = true
+      input.addEventListener('change', (event) => {
+        nafra2Layer.layer.setVisible(event.target.checked)
+      })
+      const label = li.appendChild(document.createElement('label'))
+      label.setAttribute('for', nafra2Layer.ref)
+      label.textContent = nafra2Layer.name
+    })
+    ulElement.appendChild(fragment)
+  }
 }
 
 let sessionStorageAvailable = true
@@ -192,6 +213,7 @@ const extendMapControls = allowFullScreen => {
 module.exports = {
   createTileLayer,
   getMapLayers,
+  populateMapLayerList,
   mapState,
   _mockSessionStorageAvailable,
   getTargetUrl,

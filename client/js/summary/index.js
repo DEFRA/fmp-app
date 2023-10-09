@@ -14,7 +14,7 @@ const { defaults: InteractionDefaults } = require('ol/interaction')
 const FMPMap = require('../map')
 const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
-const { getMapLayers, mapState } = require('../map-utils')
+const { getMapLayers, populateMapLayerList, mapState } = require('../map-utils')
 
 function Summary (options) {
   const mapOptions = {
@@ -91,6 +91,9 @@ function Summary (options) {
   // set start height
   sizeColumn()
   $(window).on('resize', sizeColumn)
-  this.map.onReady(fixMapTabOrder)
+  this.map.onReady(() => {
+    populateMapLayerList()
+    fixMapTabOrder()
+  })
 }
 module.exports = Summary
