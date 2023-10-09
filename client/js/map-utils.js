@@ -27,32 +27,54 @@ const createTileLayer = mapConfig => {
   })
 }
 
-const createNafra2Layer = mapConfig => {
-  return new TileLayer({
-    ref: '1in1000',
-    opacity: 0.7,
-    zIndex: 0,
-    source: new TileWMS({
-      url: mapConfig.tileProxy,
-      serverType: 'geoserver',
-      params: {
-        LAYERS: 'fmp:1in1000',
-        TILED: true,
-        VERSION: '1.1.1'
-      },
-      tileGrid: new TileGrid({
-        extent: mapConfig.tileExtent,
-        resolutions: mapConfig.tileResolutions,
-        tileSize: mapConfig.tileSize
+const createNafra2Layer = (mapConfig, LAYERS, ref, name, probability) => {
+  return {
+    ref,
+    name,
+    probability,
+    layer: new TileLayer({
+      ref,
+      opacity: 0.7,
+      zIndex: 0,
+      source: new TileWMS({
+        url: mapConfig.tileProxy,
+        serverType: 'geoserver',
+        params: {
+          LAYERS,
+          TILED: true,
+          VERSION: '1.1.1'
+        },
+        tileGrid: new TileGrid({
+          extent: mapConfig.tileExtent,
+          resolutions: mapConfig.tileResolutions,
+          tileSize: mapConfig.tileSize
+        })
       })
     })
-  })
+  }
 }
 
+let nafra2Layers = []
+
+/*
+  Nafra2Layer: {
+    layer: {},
+    name: "STRING",
+    probability: "STRING",
+    ref: "STRING",
+  }
+*/
+
 const getMapLayers = (mapConfig, options) => {
-  console.log('getMapLayers options', options)
   if (options.nafra2Layers) {
-    return [createTileLayer(mapConfig), createNafra2Layer(mapConfig)]
+    nafra2Layers = [
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'flood_zone_river_sea_present_day', 'Rivers and sea', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'flood_zone_surface_water_present_day', 'Surface Water', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'flood_map_defended_1in30_river_sea_present_day', 'Depth defended rivers and sea', 'Not stated')
+    ]
+    console.log('getMapLayers CREATED: \n', nafra2Layers)
+    return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
+    // return [createTileLayer(mapConfig), createNafra2Layer(mapConfig)]
   }
   return [createTileLayer(mapConfig)]
 }
