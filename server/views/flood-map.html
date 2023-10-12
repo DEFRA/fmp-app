@@ -19,10 +19,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 {% if polygon %}
 <script>
   $(function () {
-    var page = new FMP.SummaryPage({
-      polygon: {{ polygon }}
-        })
-      })
+    var page = new FMP.SummaryPage({ polygon: {{ polygon }}, nafra2Layers: true }) })
 </script>
 {% else %}
 <script>
@@ -49,7 +46,12 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         <div id="map" class="map">
           {% include "./partials/map/no-js.html" %}
         </div>
-        {% include "./partials/map/summary-legend.html" %}
+        <!-- {% include "./partials/map/summary-legend.html" %} -->
+        <div id="legend" class="map-legend {% if polygon %}polygon{% endif %}">
+          <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
+          </ul>
+        </div>
+                
         <button onclick="history.back()" class="defra-map__back">Exit map</button>
       </div>
     </figure>

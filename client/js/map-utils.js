@@ -27,6 +27,81 @@ const createTileLayer = mapConfig => {
   })
 }
 
+const createNafra2Layer = (mapConfig, LAYERS, name, probability) => {
+  const ref = LAYERS.split(':')[1]
+  return {
+    ref,
+    name,
+    probability,
+    layer: new TileLayer({
+      ref,
+      opacity: 0.7,
+      zIndex: 0,
+      visible: false,
+      source: new TileWMS({
+        url: mapConfig.tileProxy,
+        serverType: 'geoserver',
+        params: {
+          LAYERS,
+          TILED: true,
+          VERSION: '1.1.1'
+        },
+        tileGrid: new TileGrid({
+          extent: mapConfig.tileExtent,
+          resolutions: mapConfig.tileResolutions,
+          tileSize: mapConfig.tileSize
+        })
+      })
+    })
+  }
+}
+
+let nafra2Layers = []
+
+const getMapLayers = (mapConfig, options) => {
+  if (options.nafra2Layers) {
+    nafra2Layers = [
+      createNafra2Layer(mapConfig, 'fmp:fmp', 'Legacy Flood Zones 1 & 2', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'Rivers and sea', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'Surface Water', 'Not stated'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_surface_water_present_day', 'Defended surface Water 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'Defended rivers and sea 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in30_present_day', 'Depth defended rivers 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in100_present_day', 'Depth defended rivers 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in1000_present_day', 'Depth defended rivers 1/1000', '1 in 1000'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in100_present_day', 'Depth undefended rivers 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in1000_present_day', 'Depth undefended rivers 1/1000', '1 in 1000'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in30_present_day', 'Depth drained surface water 1/30', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in100_present_day', 'Depth drained surface water 1/100', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in1000_present_day', 'Depth drained surface water 1/1000', '1 in 1000')
+    ]
+    return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
+  }
+  return [createTileLayer(mapConfig)]
+}
+
+const populateMapLayerList = () => {
+  const ulElement = document.querySelector('#legend ul')
+  if (ulElement && nafra2Layers.length > 0) {
+    const fragment = document.createDocumentFragment()
+    nafra2Layers.forEach((nafra2Layer) => {
+      const li = fragment.appendChild(document.createElement('li'))
+      const input = li.appendChild(document.createElement('input'))
+      input.setAttribute('type', 'checkbox')
+      input.setAttribute('id', nafra2Layer.ref)
+      input.setAttribute('name', nafra2Layer.ref)
+      input.checked = false
+      input.addEventListener('change', (event) => {
+        nafra2Layer.layer.setVisible(event.target.checked)
+      })
+      const label = li.appendChild(document.createElement('label'))
+      label.setAttribute('for', nafra2Layer.ref)
+      label.textContent = nafra2Layer.name
+    })
+    ulElement.appendChild(fragment)
+  }
+}
+
 let sessionStorageAvailable = true
 try {
   sessionStorageAvailable = Boolean(window.sessionStorage)
@@ -139,6 +214,8 @@ const extendMapControls = allowFullScreen => {
 
 module.exports = {
   createTileLayer,
+  getMapLayers,
+  populateMapLayerList,
   mapState,
   _mockSessionStorageAvailable,
   getTargetUrl,
