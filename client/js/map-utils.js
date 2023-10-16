@@ -27,8 +27,19 @@ const createTileLayer = mapConfig => {
   })
 }
 
+let visibleProbabilityLayer = '1 in 30'
+let visibleZoneLayer = 'zone2and3'
+const visibleLayers = {}
+const visibleZoneLayers = {}
+
 const createNafra2Layer = (mapConfig, LAYERS, name, probability) => {
   const ref = LAYERS.split(':')[1]
+  if (probability.match('1')) {
+    visibleLayers[name] = false
+  } else {
+    visibleZoneLayers[name] = false
+  }
+
   return {
     ref,
     name,
@@ -61,45 +72,87 @@ let nafra2Layers = []
 const getMapLayers = (mapConfig, options) => {
   if (options.nafra2Layers) {
     nafra2Layers = [
-      createNafra2Layer(mapConfig, 'fmp:fmp', 'Legacy Flood Zones 1 & 2', 'Not stated'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'Rivers and sea', 'Not stated'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'Surface Water', 'Not stated'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_surface_water_present_day', 'Defended surface Water 1/30', '1 in 30'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'Defended rivers and sea 1/30', '1 in 30'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in30_present_day', 'Depth defended rivers 1/30', '1 in 30'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in100_present_day', 'Depth defended rivers 1/100', '1 in 100'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in1000_present_day', 'Depth defended rivers 1/1000', '1 in 1000'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in100_present_day', 'Depth undefended rivers 1/100', '1 in 100'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in1000_present_day', 'Depth undefended rivers 1/1000', '1 in 1000'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in30_present_day', 'Depth drained surface water 1/30', '1 in 30'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in100_present_day', 'Depth drained surface water 1/100', '1 in 100'),
-      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in1000_present_day', 'Depth drained surface water 1/1000', '1 in 1000')
+      createNafra2Layer(mapConfig, 'fmp:fmp', 'Legacy Flood Zones 2 & 3', ''),
+
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'Rivers and sea', 'zone2and3'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_river_sea_present_day', 'Rivers and sea', 'zone3b'),
+
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'Surface Water', 'zone2and3'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_defended_1in30_surface_water_present_day', 'Surface Water', 'zone3b'),
+
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in30_present_day', 'Depth defended rivers', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in100_present_day', 'Depth defended rivers', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_defended_river_1in1000_present_day', 'Depth defended rivers', '1 in 1000'),
+
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in100_present_day', 'Depth undefended rivers (no 1 in 30)', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_undefended_river_1in1000_present_day', 'Depth undefended rivers (no 1 in 30)', '1 in 1000'),
+
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in30_present_day', 'Depth drained surface water', '1 in 30'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in100_present_day', 'Depth drained surface water', '1 in 100'),
+      createNafra2Layer(mapConfig, 'fmp:flood_map_with_depth_drained_surface_water_1in1000_present_day', 'Depth drained surface water', '1 in 1000')
     ]
     return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
   }
   return [createTileLayer(mapConfig)]
 }
 
+const buildLayerFragment = (fragment, layerSet, layerName) => {
+  const div = fragment.appendChild(document.createElement('div'))
+  const input = div.appendChild(document.createElement('input'))
+  input.setAttribute('type', 'checkbox')
+  input.setAttribute('id', layerName)
+  input.setAttribute('name', layerName)
+  input.checked = false
+  input.addEventListener('change', (event) => {
+    visibleLayers[layerName] = event.target.checked
+    showHideLayers()
+  })
+  const label = div.appendChild(document.createElement('label'))
+  label.setAttribute('for', layerName)
+  label.textContent = layerName
+}
+
+const addRadioClickEvents = (elementName) => {
+  const radios = document.getElementsByName(elementName)
+  Array.from(radios).forEach((radio) => {
+    radio.onclick = (event) => {
+      if (elementName === 'probability') {
+        visibleProbabilityLayer = event.target.value
+      } else {
+        visibleZoneLayer = event.target.value
+      }
+      showHideLayers()
+    }
+  })
+}
+
 const populateMapLayerList = () => {
-  const ulElement = document.querySelector('#legend ul')
-  if (ulElement && nafra2Layers.length > 0) {
-    const fragment = document.createDocumentFragment()
-    nafra2Layers.forEach((nafra2Layer) => {
-      const li = fragment.appendChild(document.createElement('li'))
-      const input = li.appendChild(document.createElement('input'))
-      input.setAttribute('type', 'checkbox')
-      input.setAttribute('id', nafra2Layer.ref)
-      input.setAttribute('name', nafra2Layer.ref)
-      input.checked = false
-      input.addEventListener('change', (event) => {
-        nafra2Layer.layer.setVisible(event.target.checked)
-      })
-      const label = li.appendChild(document.createElement('label'))
-      label.setAttribute('for', nafra2Layer.ref)
-      label.textContent = nafra2Layer.name
-    })
-    ulElement.appendChild(fragment)
-  }
+  addRadioClickEvents('zone')
+  addRadioClickEvents('probability')
+
+  const zoneFragment = document.createDocumentFragment()
+  const visibleZoneLayerNames = Object.keys(visibleZoneLayers)
+  visibleZoneLayerNames.forEach((visibleLayer) => buildLayerFragment(zoneFragment, visibleZoneLayers, visibleLayer))
+  document.querySelector('#zone-layers').appendChild(zoneFragment)
+
+  const otherFragment = document.createDocumentFragment()
+  const visibleLayerNames = Object.keys(visibleLayers)
+  visibleLayerNames.forEach((visibleLayer) => buildLayerFragment(otherFragment, visibleLayers, visibleLayer))
+  document.querySelector('#probability-layers').appendChild(otherFragment)
+}
+
+const showHideLayers = () => {
+  nafra2Layers.forEach((nafra2Layer) => {
+    // const showLayer = visibleLayers[nafra2Layer.name] & ((nafra2Layer.probability === '' & visibleProbabilityLayer !== '1 in 30') || nafra2Layer.probability === visibleProbabilityLayer)
+    const showLayer =
+      visibleLayers[nafra2Layer.name] &
+      (
+        nafra2Layer.probability === '' ||
+        nafra2Layer.probability === visibleProbabilityLayer ||
+        nafra2Layer.probability === visibleZoneLayer
+      )
+    nafra2Layer.layer.setVisible(showLayer)
+  })
 }
 
 let sessionStorageAvailable = true
