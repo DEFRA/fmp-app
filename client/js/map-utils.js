@@ -99,6 +99,7 @@ const getMapLayers = (mapConfig, options) => {
 
 const buildLayerFragment = (fragment, layerSet, layerName) => {
   const div = fragment.appendChild(document.createElement('div'))
+  div.className = 'layer-toggle-container'
   const input = div.appendChild(document.createElement('input'))
   input.setAttribute('type', 'checkbox')
   input.setAttribute('id', layerName)
