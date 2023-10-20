@@ -128,9 +128,19 @@ const buildLayerFragment = (fragment, layerSet, layerName) => {
 //   })
 // }
 
-const populateMapLayerList = () => {
+const addBaseMapRadioClickEvents = (map, elementName) => {
+  const radios = document.getElementsByName(elementName)
+  Array.from(radios).forEach((radio) => {
+    radio.onclick = (event) => {
+      map.setVisibleBaseMapLayer(event.target.value)
+    }
+  })
+}
+
+const populateMapLayerList = (map) => {
   // addRadioClickEvents('zone')
   // addRadioClickEvents('probability')
+  addBaseMapRadioClickEvents(map, 'base-map')
 
   const riversAndSeaFragment = document.createDocumentFragment()
   Object.keys(riversAndSeaLayers).forEach((layerName) => buildLayerFragment(riversAndSeaFragment, riversAndSeaLayers, layerName))

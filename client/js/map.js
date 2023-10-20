@@ -19,11 +19,44 @@ const { extendMapControls } = require('./map-utils')
 const config = require('./map-config.json')
 let map, callback
 
+const getBaseMapLayersAndResolutions = (wmtsCapabilities, config, mapOptions) => {
+  let resolutions
+  let visible = true
+  const { limitZoom = true, nafra2Layers = false } = mapOptions
+  const baseMapLayersToShow = nafra2Layers ? ['Outdoor_27700', 'Leisure_27700', 'Road_27700'] : [config.OSLayer]
+
+  const baseMapLayers = baseMapLayersToShow.map((layerName) => {
+    const wmtsOptions = optionsFromCapabilities(wmtsCapabilities, {
+      layer: layerName,
+      matrixSet: config.OSMatrixSet
+    })
+
+    wmtsOptions.attributions = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
+
+    const baseMapSource = new WMTS(wmtsOptions)
+    baseMapSource.setUrls([config.OSWMTS])
+    // Prevent map from zooming in too far if limitZoom is true
+    if (!resolutions) {
+      resolutions = limitZoom ? baseMapSource.tileGrid.getResolutions().slice(0, 10) : baseMapSource.tileGrid.getResolutions()
+    }
+
+    const baseMapLayer = new TileLayer({
+      visible,
+      ref: layerName,
+      source: baseMapSource
+    })
+    visible = false // only the first baseMap layer should be visible
+    return baseMapLayer
+  })
+
+  return { baseMapLayers, resolutions }
+}
+
 function Map (mapOptions) {
   // add the projection to Window.proj4
   proj4.defs(config.projection.ref, config.projection.proj4)
   register(proj4)
-  const { allowFullScreen = true, limitZoom = true } = mapOptions
+  const { allowFullScreen = true } = mapOptions
 
   // ie9 requires polyfill for window.requestAnimationFrame and classlist
   raf.polyfill()
@@ -38,27 +71,9 @@ function Map (mapOptions) {
     // therefore sizes is set to undefined array, which sets fullTileRanges_
     // to an array of undefineds thus breaking the map      return
 
-    const result = parser.read(OS)
-
-    const wmtsOptions = optionsFromCapabilities(result, {
-      layer: config.OSLayer,
-      matrixSet: config.OSMatrixSet
-    })
-
-    wmtsOptions.attributions = config.OSAttribution.replace('{{year}}', new Date().getFullYear())
-
-    const source = new WMTS(wmtsOptions)
-    source.setUrls([config.OSWMTS])
-
-    const layer = new TileLayer({
-      ref: config.OSLayer,
-      source
-    })
-
-    const layers = Array.prototype.concat([layer], mapOptions.layers)
-
-    // Prevent map from zooming in too far
-    const resolutions = limitZoom ? source.tileGrid.getResolutions().slice(0, 10) : source.tileGrid.getResolutions()
+    const wmtsCapabilities = parser.read(OS)
+    const { baseMapLayers, resolutions } = getBaseMapLayersAndResolutions(wmtsCapabilities, config, mapOptions)
+    const layers = Array.prototype.concat(baseMapLayers, mapOptions.layers)
 
     map = new OLMap({
       interactions: mapOptions.interactions || InteractionDefaults({
@@ -92,6 +107,12 @@ function Map (mapOptions) {
         if (layer.get('ref') === ref) {
           layer.setVisible(visible)
         }
+      })
+    }
+
+    map.setVisibleBaseMapLayer = function (ref) {
+      baseMapLayers.forEach(function (layer) {
+        layer.setVisible(layer.get('ref') === ref)
       })
     }
 

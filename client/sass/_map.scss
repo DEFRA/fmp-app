@@ -233,16 +233,34 @@
     .map-legend-list {
       justify-content: flex-start;
     }
+    #base-map-options {
+      padding-bottom: 8px;
+      div {
+        display: flex;
+        align-items: center;
+        height: 25px;
+      }
+      input[type="radio"] {
+        // color: #000;
+        //filter: invert(10%) hue-rotate(18deg) brightness(1.7);
+        width:20px;
+        height:20px;
+        // border: 2px black solid;
+        margin-top: 0;
+        margin-left: 0;
+        margin-right: 8px;
+      }      
+    }
     .layer-toggle-container {
       height: 39px;
       display: flex;
       align-items: center;
       input[type="checkbox"] {
-        color: #000;
+        // color: #000;
         //filter: invert(10%) hue-rotate(18deg) brightness(1.7);
         width:20px;
         height:20px;
-        border: 2px black solid;
+        // border: 2px black solid;
         margin-left: 0;
         margin-right: 8px;
       }

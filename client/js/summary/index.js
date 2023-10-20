@@ -17,7 +17,10 @@ const { fixMapTabOrder } = require('../map-tab-order')
 const { getMapLayers, populateMapLayerList, mapState } = require('../map-utils')
 
 function Summary (options) {
+  console.log('Summary options', options)
   const mapOptions = {
+    nafra2Layers: options.nafra2Layers === true,
+    limitZoom: !options.nafra2Layers, // allow unlimitedZoom when showing nafra2Layers
     layers: getMapLayers(mapConfig, options),
     mapInteractions: InteractionDefaults({
       altShiftDragRotate: false,
@@ -91,8 +94,10 @@ function Summary (options) {
   // set start height
   sizeColumn()
   $(window).on('resize', sizeColumn)
-  this.map.onReady(() => {
-    populateMapLayerList()
+  this.map.onReady((map) => {
+    if (options.nafra2Layers) {
+      populateMapLayerList(map)
+    }
     fixMapTabOrder()
   })
 }
