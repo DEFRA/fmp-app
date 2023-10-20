@@ -23,7 +23,7 @@ const getBaseMapLayersAndResolutions = (wmtsCapabilities, config, mapOptions) =>
   let resolutions
   let visible = true
   const { limitZoom = true, nafra2Layers = false } = mapOptions
-  const baseMapLayersToShow = nafra2Layers ? ['Outdoor_27700', 'Leisure_27700', 'Road_27700'] : [config.OSLayer]
+  const baseMapLayersToShow = nafra2Layers ? ['Outdoor_27700', 'Leisure_27700', 'Road_27700', 'Light_27700'] : [config.OSLayer]
 
   const baseMapLayers = baseMapLayersToShow.map((layerName) => {
     const wmtsOptions = optionsFromCapabilities(wmtsCapabilities, {

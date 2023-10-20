@@ -17,7 +17,6 @@ const { fixMapTabOrder } = require('../map-tab-order')
 const { getMapLayers, populateMapLayerList, mapState } = require('../map-utils')
 
 function Summary (options) {
-  console.log('Summary options', options)
   const mapOptions = {
     nafra2Layers: options.nafra2Layers === true,
     limitZoom: !options.nafra2Layers, // allow unlimitedZoom when showing nafra2Layers
