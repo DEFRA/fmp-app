@@ -226,3 +226,45 @@
     right: calc(290px + 2em);
   }  
 }
+
+#flood-map {
+  // This is the full page map, added for the Nafra2 POC
+  #legend {
+    .map-legend-list {
+      justify-content: flex-start;
+    }
+    .layer-toggle-container {
+      height: 39px;
+      display: flex;
+      align-items: center;
+      input[type="checkbox"] {
+        color: #000;
+        //filter: invert(10%) hue-rotate(18deg) brightness(1.7);
+        width:20px;
+        height:20px;
+        border: 2px black solid;
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+    
+    .defra-map-key__title {
+      display: block;
+      padding:0;
+      margin:0;
+      font-size: 1.5rem;
+      line-height: 2.125;
+      font-family: "GDS Transport",arial,sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 700;
+
+    }
+    h3.heading-small {
+      font-size: 1rem;
+      padding-top: 10px;
+      margin-top: 0;
+      border-top: 1px solid #b1b4b6;
+    }
+  }
+}
