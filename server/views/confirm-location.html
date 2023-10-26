@@ -17,7 +17,12 @@
   <div id="confirm-location-page" class="govuk-grid-row">
 
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
+      <h1 class="govuk-heading-xl">
+        Draw the boundary of your site
+      </h1>
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
       <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
       {% if locationDetails %} 
       <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
@@ -32,7 +37,7 @@
 
       <p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.</p>
       
-      <details class="govuk-details" data-module="govuk-details" data-journey-click="Confirm-Location:DETAIL-CLICK:How-to-draw-Boundary"> 
+      <details class="govuk-details  govuk-!-margin-top-4" data-module="govuk-details" data-journey-click="Confirm-Location:DETAIL-CLICK:How-to-draw-Boundary"> 
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
             How to draw a boundary
@@ -48,11 +53,11 @@
           <p class="govuk-body">
             If you need to change the finished boundary you can:
           </p>
-          <ol class="govuk-list govuk-list--bullet">
+          <ul class="govuk-list govuk-list--bullet">
             <li> click and drag the points to adjust them </li>
             <li> add more points by clicking or tapping on a line </li>
             <li> delete the boundary you've drawn and start again by clicking or tapping the 'Delete boundary' button </li>
-          </ol>
+          </ul>
           <p class="govuk-body">
             Click or tap the Continue button to get your flood risk information.
           </p>
@@ -100,27 +105,18 @@
       </figure>
     </div>
 
-    <div class="govuk-grid-column-full">
-      <a href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+    <div class="govuk-grid-column-two-thirds">
+      <a id="continue-button" href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
         Continue
       </a>
       <h2 class="govuk-heading-m">If you need help drawing a boundary</h2>
-      <p class="govuk-body" data-pso-contact-email>Contact the Environment Agency team in {{areaName}} at <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a></p>
+      <p class="govuk-body" data-pso-contact-email>Contact the Environment Agency team in {{areaName}} at <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>.</p>
       <p class="govuk-body">Or contact the Environment Agency:</p>
-      <ul class="govuk-list">
-        <li>
-          <span>Environment Agency</span>
-        </li>
-        <li>
-          <span>Telephone: 03708 506 506</span>
-        </li>
-        <li>
-          <span>Monday to Friday, 8am to 6pm</span>
-        </li>
-        <li>
-          <a href="https://www.gov.uk/call-charges">Find out about call charges</a>
-        </li>
-      </ul>      
+      <p class="govuk-body">Environment Agency<br>
+        Telephone: 03708 506 506 <br>
+        Monday to Friday, 8am to 6pm <br>
+        <a href="https://www.gov.uk/call-charges">Find out about call charges</a>
+      </p>
     </div>
   </div>
 

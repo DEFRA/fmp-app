@@ -87,7 +87,6 @@ module.exports = [{
         let { locationDetails = '' } = request.query
         if (locationDetails) {
           locationDetails = locationDetails
-            .replace(/, England$/, '')
             .replace((new RegExp(`^${placeOrPostcode}, `, 'i')), '')
         }
         const model = new ConfirmLocationViewModel(
