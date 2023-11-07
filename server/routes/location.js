@@ -16,6 +16,15 @@ const validatePlaceOrPostcode = (placeOrPostcode = '') => {
   return ngrPlaceOrPostcode.test(placeOrPostcode)
 }
 
+let randomServerIdentifier
+
+const getRandomServerIdentifier = () => {
+  if (!randomServerIdentifier) {
+    randomServerIdentifier = Math.round(Math.random() * 1000)
+  }
+  return `\n\nServer-${randomServerIdentifier}\n\n`
+}
+
 module.exports = [{
   method: 'GET',
   path: '/location',
@@ -23,11 +32,13 @@ module.exports = [{
     description: 'Get location for a postcode, national grid reference, easting or northing'
   },
   handler: async (request, h) => {
+    const serverId = getRandomServerIdentifier()
     const errors = []
     const model = new LocationViewModel({
       placeOrPostcodeSelected: true,
       errorSummary: errors
     })
+    model.randomServerIdentifier = serverId
     return h.view('location', model)
   }
 },
