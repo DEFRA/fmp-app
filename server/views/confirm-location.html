@@ -17,15 +17,13 @@
   <div id="confirm-location-page" class="govuk-grid-row">
 
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        Draw the boundary of your site
-      </h1>
+      <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
     </div>
 
     <div class="govuk-grid-column-two-thirds">
       <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
       {% if locationDetails %} 
-      <p class="govuk-body">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
+      <p class="govuk-body your-search-details">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
       {% endif %}
       {% if polygonMissing %}
         {{ govukErrorSummary({
