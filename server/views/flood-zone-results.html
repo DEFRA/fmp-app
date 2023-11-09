@@ -37,12 +37,6 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </div>    
   </div>
 </div>
-<p class="govuk-body govuk-!-margin-bottom-1">
-  The map shows the flood risk to your site and the surrounding area.
-  <div>
-    <a href="/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}">Preview the map with Nafra2 layers</a>
-  </div>
-</p>
 
 <!-- Start of cards -->  
 <div class="govuk-grid-row">
@@ -52,9 +46,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       <div class="govuk-summary-card__title-wrapper vlow">
         <h2 class="govuk-summary-card__title">Rivers and sea Flood zone 3</h2>
         <ul class="govuk-summary-card__actions">
-          <li class="govuk-summary-card__action"> <a class="govuk-link" href="see-your-risk-map-ros.html?&results=rivers-sea?marker=true&scenario=17">
-            See this risk on a map<span class="govuk-visually-hidden">from rivers and the sea</span> 
+          <li class="govuk-summary-card__action"> 
+            <a href="/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}">
+              See this risk on a map<span class="govuk-visually-hidden">from rivers and the sea</span> 
             </a>
+            
           </li>
         </ul>
       </div>
