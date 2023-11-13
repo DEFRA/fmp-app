@@ -25,11 +25,7 @@ module.exports = {
       let vector
 
       // Always get Flood zone as flood zone is provided in the request if not provided.
-      if (polygon) {
-        zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
-      } else {
-        zone = await riskService.getByPoint(center[0], center[1])
-      }
+      zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
       const floodZone = new FloodZone(zone)
       zone = floodZone.zone
 
