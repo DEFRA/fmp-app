@@ -33,7 +33,11 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const AWSALBAPP0 = request.state['AWSALBAPP-0']
-    const fmpSession = request.state.FMP_SESSION || AWSALBAPP0 // request.state.FMP_SESSION || `${Math.random()}`
+    const AWSALBAPP1 = request.state['AWSALBAPP-1']
+    const AWSALBAPP2 = request.state['AWSALBAPP-2']
+    const AWSALBAPP3 = request.state['AWSALBAPP-3']
+    // const fmpSession = request.state.FMP_SESSION || AWSALBAPP0 // request.state.FMP_SESSION || `${Math.random()}`
+    const fmpSession = request.state.FMP_SESSION || `${Math.random()}`
     const serverId = getRandomServerIdentifier()
     const errors = []
     const model = new LocationViewModel({
@@ -42,8 +46,11 @@ module.exports = [{
     })
     model.randomServerIdentifier = serverId
     return h.view('location', model)
-    // .state('FMP_SESSION', fmpSession)
+      .state('FMP_SESSION', fmpSession)
     // .state('AWSALBAPP-0', AWSALBAPP0)
+    // .state('AWSALBAPP-1', AWSALBAPP1)
+    // .state('AWSALBAPP-2', AWSALBAPP2)
+    // .state('AWSALBAPP-3', AWSALBAPP3)
   }
 },
 {
