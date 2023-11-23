@@ -20,7 +20,7 @@ let randomServerIdentifier
 
 const getRandomServerIdentifier = () => {
   if (!randomServerIdentifier) {
-    randomServerIdentifier = Math.round(Math.random() * 1000)
+    randomServerIdentifier = Math.round(Math.random() * 10000)
   }
   return `\n\nServer-${randomServerIdentifier}\n\n`
 }
@@ -32,6 +32,7 @@ module.exports = [{
     description: 'Get location for a postcode, national grid reference, easting or northing'
   },
   handler: async (request, h) => {
+    const fmpSession = request.state.FMP_SESSION || `${Math.random()}`
     const serverId = getRandomServerIdentifier()
     const errors = []
     const model = new LocationViewModel({
@@ -39,7 +40,7 @@ module.exports = [{
       errorSummary: errors
     })
     model.randomServerIdentifier = serverId
-    return h.view('location', model)
+    return h.view('location', model).state('FMP_SESSION', fmpSession)
   }
 },
 {
