@@ -33,7 +33,7 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const AWSALBAPP0 = request.state['AWSALBAPP-0']
-    const fmpSession = AWSALBAPP0 // request.state.FMP_SESSION || `${Math.random()}`
+    const fmpSession = request.state.FMP_SESSION || AWSALBAPP0 // request.state.FMP_SESSION || `${Math.random()}`
     const serverId = getRandomServerIdentifier()
     const errors = []
     const model = new LocationViewModel({
