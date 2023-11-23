@@ -32,7 +32,8 @@ module.exports = [{
     description: 'Get location for a postcode, national grid reference, easting or northing'
   },
   handler: async (request, h) => {
-    const fmpSession = request.state.FMP_SESSION || `${Math.random()}`
+    const AWSALBAPP0 = request.state['AWSALBAPP-0']
+    const fmpSession = AWSALBAPP0 // request.state.FMP_SESSION || `${Math.random()}`
     const serverId = getRandomServerIdentifier()
     const errors = []
     const model = new LocationViewModel({
