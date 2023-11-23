@@ -19,7 +19,8 @@ module.exports = [{
           headers: encodeURIComponent(headers),
           fmpSession: encodeURIComponent(fmpSession),
           serverCookies: encodeURIComponent(serverCookies)
-        }).state('FMP_SESSION', fmpSession)
+        })
+        // .state('FMP_SESSION', fmpSession)
       } else {
         const errMess = request.yar.get('displayError')
         request.yar.set('displayError', {})

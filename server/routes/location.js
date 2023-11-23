@@ -42,8 +42,8 @@ module.exports = [{
     })
     model.randomServerIdentifier = serverId
     return h.view('location', model)
-      .state('FMP_SESSION', fmpSession)
-      .state('AWSALBAPP-0', AWSALBAPP0)
+    // .state('FMP_SESSION', fmpSession)
+    // .state('AWSALBAPP-0', AWSALBAPP0)
   }
 },
 {
