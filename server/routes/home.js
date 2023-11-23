@@ -7,10 +7,11 @@ module.exports = [{
     handler: async (request, h) => {
       if (typeof request.yar === 'undefined' || typeof request.yar.get('displayError') === 'undefined') {
         // return h.view('home', { allowRobots: true, headers: JSON.stringify(request.headers) })
+        const fmpSession = request.state.FMP_SESSION
         const headers = JSON.stringify(request.headers)
         // console.log('\nhome\ Request.headers', request.headers)
         // console.log('\nhome\ Request.headers Stringified', headers)
-        return h.view('home', { allowRobots: true, headers: encodeURIComponent(headers) })
+        return h.view('home', { allowRobots: true, headers: encodeURIComponent(headers), fmpSession: encodeURIComponent(fmpSession) })
       } else {
         const errMess = request.yar.get('displayError')
         request.yar.set('displayError', {})
