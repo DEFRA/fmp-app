@@ -135,5 +135,10 @@ Flood map for planning - GOV.UK
 
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("decodeURIComponent - headers\n", JSON.parse(decodeURIComponent("{{headers}}")))
+  })
+</script>
 
 {% endblock %}

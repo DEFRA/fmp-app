@@ -54,6 +54,13 @@ async function createServer () {
     })
   }
 
+  server.ext('onRequest', (request, h) => {
+    // console.log('\nonRequest.headers', request.headers)
+    // console.log('\nonRequest.response', request.response)
+
+    return h.continue
+  })
+
   server.ext('onPreResponse', async (request, h) => {
     request.response.header('cache-control', 'no-cache')
     request.response.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
