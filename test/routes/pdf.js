@@ -9,12 +9,10 @@ const config = require('../../config')
 lab.experiment('PDF', () => {
   let server
   let restoreGetByPolygon
-  let restoreGetByPoint
   let restoreWreckPost
 
   lab.before(async () => {
     restoreGetByPolygon = riskService.getByPolygon
-    restoreGetByPoint = riskService.getByPoint
 
     riskService.getByPolygon = () => ({ in_england: true })
     riskService.getByPoint = () => ({ point_in_england: true })
@@ -26,7 +24,6 @@ lab.experiment('PDF', () => {
 
   lab.after(async () => {
     riskService.getByPolygon = restoreGetByPolygon
-    riskService.getByPoint = restoreGetByPoint
     Wreck.post = restoreWreckPost
     await server.stop()
   })

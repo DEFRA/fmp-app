@@ -1,7 +1,7 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
-const { getByPoint, getByPolygon } = require('../../server/services/risk')
+const { getByPolygon } = require('../../server/services/risk')
 const util = require('../../server/util')
 const config = require('../../config')
 
@@ -15,39 +15,6 @@ lab.experiment('risk', () => {
 
   lab.after(async () => {
     util.getJson = restoreGetJson
-  })
-
-  lab.test('getByPoint without easting or northing should throw "No Point provided"', async () => {
-    const point = {}
-    try {
-      await getByPoint(point.easting, point.northing)
-    } catch (err) {
-      Code.expect(getByPoint).to.throw(Error, 'No Point provided')
-    }
-  })
-
-  lab.test('getByPoint without easting should throw "No Point provided"', async () => {
-    const point = { northing: 388244 }
-    try {
-      await getByPoint(point.easting, point.northing)
-    } catch (err) {
-      Code.expect(getByPoint).to.throw(Error, 'No Point provided')
-    }
-  })
-
-  lab.test('getByPoint without northing should throw "No Point provided"', async () => {
-    const point = { easting: 388244 }
-    try {
-      await getByPoint(point.easting, point.northing)
-    } catch (err) {
-      Code.expect(getByPoint).to.throw(Error, 'No Point provided')
-    }
-  })
-
-  lab.test('getByPoint with northing and easting should call util.getJson"', async () => {
-    const point = { easting: 123456, northing: 78910 }
-    const response = await getByPoint(point.easting, point.northing)
-    Code.expect(response).to.equal(`${config.service}/zones/123456/78910/1`)
   })
 
   lab.test('getByPolygon without polygon should throw "No Polygon provided"', async () => {
@@ -66,13 +33,5 @@ lab.experiment('risk', () => {
     const polygon = '{"type": "Polygon", "coordinates": [[[123,456],[125,457],[125,456],[123,456]]]}'
     const response = await getByPolygon(polygon)
     Code.expect(response).to.equal(`${config.service}/zones-by-polygon?polygon=${polygon}`)
-  })
-
-  lab.test('getByPolygon with a polygon of zero area should call getByPoint', async () => {
-    // FCRM-3961 - if a call is made to getByPolygon and the polygon has no area (ie the user clicked the same spot 4 times)
-    // then the postgres call fails. To mitigate this, we should treat the polygon as a point in these circumstances.
-    const polygon = '{"type": "Polygon", "coordinates": [[[479826,484054],[479826,484054],[479826,484054],[479826,484054]]]}'
-    const response = await getByPolygon(polygon)
-    Code.expect(response).to.equal(`${config.service}/zones/479826/484054/1`)
   })
 })

@@ -145,8 +145,9 @@ Check your details - Flood map for planning - GOV.UK
         </div>
 
         {{ govukButton({
-        text: "Request your flood risk assessment data",
-        preventDoubleClick: true
+          text: "Request your flood risk assessment data",
+          preventDoubleClick: true,
+          classes: "order-product-four"
         })
         }}
  </form>
@@ -159,6 +160,17 @@ Check your details - Flood map for planning - GOV.UK
   {% if PDFinformationDetailsObject.polygon %}
   <script>
     $(function () {
+      const form = document.getElementsByTagName('form')[0]
+      const submitButton = document.querySelector('.order-product-four')
+      // FCRM-4556 - Prevent a 2nd Submission
+      form.addEventListener("submit", function(evt) {
+        if (submitButton.classList.contains('govuk-button--disabled')) {
+          evt.preventDefault()
+        } else {
+          submitButton.classList.add('govuk-button--disabled')
+        }
+      })
+
       var page = new FMP.ApplicationSummaryReviewPage({
         polygon: {{ PDFinformationDetailsObject.polygon }} // This needs to be verified as originally {{polygon}}
           })
