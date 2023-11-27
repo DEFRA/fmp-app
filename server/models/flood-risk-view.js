@@ -1,5 +1,21 @@
 const FloodZone = require('./flood-zone')
 
+const holdingCommentText = {
+  'Climate Change': 'This area may be affected by climate change... (TODO) ',
+  'Flood report': 'This area may be affected by a more recent flood report... (TODO)',
+  default: 'TODO - provide a description for this'
+}
+
+const populateHoldingCommentDetails = (holdingComments) => {
+  if (!holdingComments) {
+    return null
+  }
+  return holdingComments.map((comment) => {
+    comment.details = holdingCommentText[comment.info] || holdingCommentText.default
+    return comment
+  })
+}
+
 function Model (data) {
   const {
     psoEmailAddress,
@@ -39,6 +55,7 @@ function Model (data) {
   this.northing = center[1]
 
   this.floodZone = new FloodZone(risk)
+  this.holdingComments = populateHoldingCommentDetails(risk.extra_info)
   if (this.floodZone.zone === 'FZ1') {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {

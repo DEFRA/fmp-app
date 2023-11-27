@@ -34,13 +34,43 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     </ul>
     <div class="govuk-inset-text override-inset">
       Review the flood risks for your location then complete the next steps for your planning application.
-    </div>    
+    </div>
   </div>
 </div>
+
 
 <!-- Start of cards -->  
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+
+    <!-- Start of HOLDING COMMENTS -->
+    {%if holdingComments %}
+      <div class="govuk-summary-card" id="holding-comments">
+        <div class="govuk-summary-card__title-wrapper vlow">
+          <h2 class="govuk-summary-card__title">TODO: Holding Comments Heading</h2>
+          <!-- ACTIONS COULD GO HERE -->
+        </div>
+
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                TODO: Holding Comments Sub heading
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--bullet">
+                  {% for comment in holdingComments %}
+                    <li> <b class="bold">{{comment.info}}:</b> {{comment.details}} </li>
+                  {% endfor %}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    {% endif %}
+    <!-- End of HOLDING COMMENTS -->
+
     <!-- Rivers -->
     <div class="govuk-summary-card" id="rivers-sea">
       <div class="govuk-summary-card__title-wrapper vlow">
@@ -56,7 +86,6 @@ Flood risk information for this location - Flood map for planning - GOV.UK
       </div>
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
-          
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               What flood zone {{zoneNumber}} means
@@ -89,6 +118,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               
             </dd>
           </div>
+        </dl>
       </div>
     </div>    
 
