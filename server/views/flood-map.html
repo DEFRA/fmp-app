@@ -55,9 +55,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
           </h2>
 
           <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
-            <li>
-              <h3 class="heading-small">Base map</h3>
-            </li>
+            <li> <h3 class="heading-small">Base map</h3> </li>
             <li id="base-map-options">
               <div>
                 <input type="radio" name="base-map" id="outdoor-27700" value="Outdoor_27700" checked="checked"/>
@@ -76,35 +74,32 @@ Flood risk information for this location - Flood map for planning - GOV.UK
                 <label for="light-27700">Light</label>
               </div>
             </li>
+
+            <li> <h3 class="heading-small">Climate Change Scenarios</h3> </li>
+            <li id="climate-change-options">
+              <div>
+                <input type="radio" name="climate-change" id="present-day" value="Outdoor_27700" checked="checked"/>
+                <label for="present-day">Present Day</label>
+              </div>
+              <div>
+                <input type="radio" name="climate-change" id="cc-1" value="Leisure_27700"/>
+                <label for="cc-1">Climate Change 1</label>
+              </div>
+              <div>
+                <input type="radio" name="climate-change" id="cc-2" value="Road_27700"/>
+                <label for="cc-2">Climate Change 2</label>
+              </div>
+            </li>
+
             <li>
               <h3 class="heading-small">Flood map for planning</h3>
             </li>
             <li id="rivers-and-sea-layers">
-              <!-- <div>
-                <input type="radio" name="zone" id="2and3" value="zone2and3" checked="checked"/>
-                <label for="2and3">1 in 100 (rivers), 1 in 200 (sea) and 1 in 1000</label>
-              </div>
-              <div>
-                <input type="radio" name="zone" id="3b" value="zone3b"/>
-                <label for="1in30">1 in 30 - defended</label>
-              </div> -->
             </li>
             <li>
               <h3 class="heading-small">Surface water flooding</h3>
             </li>
             <li id="surface-water-layers">
-              <!-- <div>
-                <input type="radio" name="probability" id="1in1000" value="1 in 1000" checked="checked"/>
-                <label for="1in1000">1 in 1000</label>
-              </div>
-              <div>
-                <input type="radio" name="probability" id="1i 100" value="1 in 100"/>
-                <label for="1in100">1 in 100 (rivers) 1 in 200 (sea)</label>
-              </div>
-              <div>
-                <input type="radio" name="probability" id="1in30" value="1 in 30"/>
-                <label for="1in30">1 in 30</label>
-              </div> -->
             </li>
           </ul>
         </div>
