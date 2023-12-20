@@ -54,9 +54,9 @@ Flood risk information for this location - Flood map for planning - GOV.UK
             </span>
           </h2>
 
-          <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
-            <li> <h3 class="heading-small">Base map</h3> </li>
+          <ul class="map-legend-list map-options govuk-body-s govuk-!-font-size-14">
             <li id="base-map-options">
+              <h3 class="heading-small">Base map</h3>
               <div>
                 <input type="radio" name="base-map" id="outdoor-27700" value="Outdoor_27700" checked="checked"/>
                 <label for="outdoor-27700">Outdoor</label>
@@ -75,21 +75,24 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               </div>
             </li>
 
-            <li> <h3 class="heading-small">Climate Change Scenarios</h3> </li>
             <li id="climate-change-options">
+              <h3 class="heading-small">Climate Change</h3>
               <div>
-                <input type="radio" name="climate-change" id="present-day" value="Outdoor_27700" checked="checked"/>
+                <input type="radio" name="climate-change" id="present-day" value="present-day" checked="checked"/>
                 <label for="present-day">Present Day</label>
               </div>
               <div>
-                <input type="radio" name="climate-change" id="cc-1" value="Leisure_27700"/>
-                <label for="cc-1">Climate Change 1</label>
+                <input type="radio" name="climate-change" id="ccp-1" value="ccp-1"/>
+                <label for="ccp-1">Climate Change 1</label>
               </div>
               <div>
-                <input type="radio" name="climate-change" id="cc-2" value="Road_27700"/>
-                <label for="cc-2">Climate Change 2</label>
+                <input type="radio" name="climate-change" id="ccp-2" value="ccp-2"/>
+                <label for="ccp-2">Climate Change 2</label>
               </div>
-            </li>
+              </li>
+          </ul>
+
+          <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
 
             <li>
               <h3 class="heading-small">Flood map for planning</h3>

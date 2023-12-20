@@ -69,60 +69,58 @@ const createNafra2Layer = (mapConfig, LAYERS, name, probability, type) => {
 }
 
 let nafra2Layers = []
+let climateChangeScenario = 'present-day'
 
 const getMapLayers = (mapConfig, options) => {
   if (options.nafra2Layers) {
     nafra2Layers = [
-      // createNafra2Layer(mapConfig, 'fmp:fmp', 'Legacy Flood Zones 2 & 3', ''),
-      // Rivers and Sea
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea', 'Rivers and sea - flood zones 2 and 3', 'zone2and3', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp1', 'Rivers and sea - flood zones 2 and 3 CC1', 'zone2and3', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp2', 'Rivers and sea - flood zones 2 and 3 CC2', 'zone2and3', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_river_sea_present_day', 'Rivers and sea - present day', 'zone2and3', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea', 'Rivers and sea - flood zones 2 and 3', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp1', 'Rivers and sea - flood zones 2 and 3', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp2', 'Rivers and sea - flood zones 2 and 3', 'delete', 'RS'),
 
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth', 'RS - 1 in 1000 defended depth', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp1', 'RS - 1 in 1000 defended depth CC1', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp2', 'RS - 1 in 1000 defended depth CC2', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth', 'RS - 1 in 1000 undefended depth', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth_ccp1', 'RS - 1 in 1000 undefended depth CC1', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth', 'Rivers and sea - 1 in 1000 defended depth', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp1', 'Rivers and sea - 1 in 1000 defended depth', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp2', 'Rivers and sea - 1 in 1000 defended depth', 'delete', 'RS'),
 
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth', 'RS - 1 in 1000 undefended depth CC2', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth', 'Rivers and sea - 1 in 1000 undefended depth', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth_ccp1', 'Rivers and sea - 1 in 1000 undefended depth', 'delete', 'RS'),
+
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth', 'rivers 1 in 100, sea 1 in 200 defended depth', 'delete', 'RS'),
       createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth_ccp1', 'rivers 1 in 100, sea 1 in 200 defended depth', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth_ccp2', 'rivers 1 in 100, sea 1 in 200 defended depth CC1', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth_ccp2', 'rivers 1 in 100, sea 1 in 200 defended depth', 'delete', 'RS'),
 
       createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth', 'rivers 1 in 100, sea 1 in 200 undefended depth', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp1', 'rivers 1 in 100, sea 1 in 200 undefended depth CC1', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp2', 'rivers 1 in 100, sea 1 in 200 undefended depth CC2', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp1', 'rivers 1 in 100, sea 1 in 200 undefended depth', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp2', 'rivers 1 in 100, sea 1 in 200 undefended depth', 'delete', 'RS'),
 
       createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended', 'rivers and sea 1 in 30 defended', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp1', 'rivers and sea 1 in 30 defended CC1', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp2', 'rivers and sea 1 in 30 defended CC2', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp1', 'rivers and sea 1 in 30 defended', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp2', 'rivers and sea 1 in 30 defended', 'delete', 'RS'),
 
       createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth', 'rivers and sea 1 in 30 defended depth', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp1', 'rivers and sea 1 in 30 defended depth CC1', 'delete', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp2', 'rivers and sea 1 in 30 defended depth CC2', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp1', 'rivers and sea 1 in 30 defended depth', 'delete', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp2', 'rivers and sea 1 in 30 defended depth', 'delete', 'RS'),
 
       // Surface Water
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_surface_water_present_day', 'Surface water - present day ', 'delete', 'RS'),
       createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth', 'Surface water - 1 in 1000 depth', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp1', 'Surface water - 1 in 1000 depth CC1', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp2', 'Surface water - 1 in 1000 depth CC2', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp1', 'Surface water - 1 in 1000 depth', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp2', 'Surface water - 1 in 1000 depth', 'delete', 'SW'),
 
       createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000', 'Surface water - 1 in 100 river 1 in 1000 sea', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp1', 'Surface water - 1 in 100 river 1 in 1000 sea CC1', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp2', 'Surface water - 1 in 100 river 1 in 1000 sea CC2', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp1', 'Surface water - 1 in 100 river 1 in 1000 sea', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp2', 'Surface water - 1 in 100 river 1 in 1000 sea', 'delete', 'SW'),
 
       createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth', 'Surface water - 1 in 100 depth', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp1', 'Surface water - 1 in 100 depth CC1', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp2', 'Surface water - 1 in 100 depth CC2', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp1', 'Surface water - 1 in 100 depth', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp2', 'Surface water - 1 in 100 depth', 'delete', 'SW'),
 
       createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30', 'Surface water - 1 in 30', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp1', 'Surface water - 1 in 30 CC1', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp2', 'Surface water - 1 in 30 CC2', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp1', 'Surface water - 1 in 30', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp2', 'Surface water - 1 in 30', 'delete', 'SW'),
 
       createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth', 'Surface water - 1 in 30 depth', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp1', 'Surface water - 1 in 30 depth CC1', 'delete', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp2', 'Surface water - 1 in 30 depth CC2', 'delete', 'SW')
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp1', 'Surface water - 1 in 30 depth', 'delete', 'SW'),
+      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp2', 'Surface water - 1 in 30 depth', 'delete', 'SW')
     ]
     return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
   }
@@ -169,10 +167,22 @@ const addBaseMapRadioClickEvents = (map, elementName) => {
   })
 }
 
+const addClimateChangeClickEvents = (map, elementName) => {
+  const radios = document.getElementsByName(elementName)
+  Array.from(radios).forEach((radio) => {
+    radio.onclick = (event) => {
+      climateChangeScenario = event.target.value
+      showHideLayers()
+      // map.setVisibleBaseMapLayer(event.target.value)
+    }
+  })
+}
+
 const populateMapLayerList = (map) => {
   // addRadioClickEvents('zone')
   // addRadioClickEvents('probability')
   addBaseMapRadioClickEvents(map, 'base-map')
+  addClimateChangeClickEvents(map, 'climate-change')
 
   const riversAndSeaFragment = document.createDocumentFragment()
   Object.keys(riversAndSeaLayers).forEach((layerName) => buildLayerFragment(riversAndSeaFragment, riversAndSeaLayers, layerName))
@@ -184,8 +194,21 @@ const populateMapLayerList = (map) => {
 }
 
 const showHideLayers = () => {
+  console.log('\nshowHideLayers - climateChangeScenario', climateChangeScenario)
   nafra2Layers.forEach((nafra2Layer) => {
-    const showLayer = nafra2Layer.type === 'SW' ? surfaceWaterLayers[nafra2Layer.name] : riversAndSeaLayers[nafra2Layer.name]
+    const isCCP1 = nafra2Layer.ref.match('ccp1')
+    const isCCP2 = nafra2Layer.ref.match('ccp2')
+    const isCurrent = !(isCCP1 || isCCP2)
+    const climateChangeCheck =
+      (climateChangeScenario === 'present-day' && isCurrent) ||
+      (climateChangeScenario === 'ccp-1' && isCCP1) ||
+      (climateChangeScenario === 'ccp-2' && isCCP2)
+
+    const showLayer = climateChangeCheck && (nafra2Layer.type === 'SW' ? surfaceWaterLayers[nafra2Layer.name] : riversAndSeaLayers[nafra2Layer.name])
+    if (showLayer) {
+      console.log('showLayer', nafra2Layer.ref)
+    }
+
     // This is the logic to reinstate if we decide to return to a radio button for the probability
     // &(
     //   nafra2Layer.probability === '' ||

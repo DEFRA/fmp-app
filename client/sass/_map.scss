@@ -232,7 +232,17 @@
   #legend {
     .map-legend-list {
       justify-content: flex-start;
+      height: auto;
     }
+    .map-options {
+      display: flex;
+      flex-direction: row;
+      li {
+        flex-basis: 1;
+        flex-grow: 1;
+      }
+    }
+
     #base-map-options, #climate-change-options {
       padding-bottom: 8px;
       div {
