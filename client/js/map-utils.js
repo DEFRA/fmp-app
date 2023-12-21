@@ -73,6 +73,10 @@ let climateChangeScenario = 'present-day'
 const getMapLayers = (mapConfig, options) => {
   if (options.nafra2Layers) {
     nafra2Layers = [
+      createNafra2Layer(mapConfig, 'fmp:defences', 'Flood defences', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:main_rivers_10k', 'Main rivers', 'RS'),
+      createNafra2Layer(mapConfig, 'fmp:flood_storage_areas', 'Flood storage areas', 'RS'),
+
       // Rivers and Sea - no depth
       createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea', 'Rivers and sea - flood zones 2 and 3', 'RS'),
       createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp1', 'Rivers and sea - flood zones 2 and 3', 'RS'),
@@ -189,7 +193,8 @@ const showHideLayers = () => {
     const isCCP1 = nafra2Layer.ref.match('ccp1')
     const isCCP2 = nafra2Layer.ref.match('ccp2')
     const isCurrent = !(isCCP1 || isCCP2)
-    const climateChangeCheck =
+    const notApplicableForClimateChange = nafra2Layer.ref.match(/\bdefences\b|\bmain_rivers_10k\b|\bflood_storage_areas\b/)
+    const climateChangeCheck = notApplicableForClimateChange ||
       (climateChangeScenario === 'present-day' && isCurrent) ||
       (climateChangeScenario === 'ccp-1' && isCCP1) ||
       (climateChangeScenario === 'ccp-2' && isCCP2)
