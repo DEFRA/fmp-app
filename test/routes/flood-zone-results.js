@@ -89,8 +89,10 @@ lab.experiment('flood-zone-results', () => {
     const response = await server.inject(options)
     const { payload } = response
     Code.expect(response.statusCode).to.equal(200)
-    // FCRM 3594
-    await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g, 1)
+    const { window: { document: doc } } = await new JSDOM(payload)
+    const reviewFloodRiskElement = doc.querySelectorAll('.govuk-inset-text.override-inset')
+    Code.expect(reviewFloodRiskElement.length).to.equal(1)
+    Code.expect(reviewFloodRiskElement[0].textContent).to.contain('Review the flood risks for your location then complete the next steps for your planning application.')
   })
 
   lab.test('get flood-zone-results with a valid polygon should call buildFloodZoneResultsData', async () => {
