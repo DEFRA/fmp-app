@@ -154,28 +154,17 @@ const buildLayerFragment = (fragment, layerSet, layerName) => {
   label.textContent = layerName
 }
 
-const addBaseMapRadioClickEvents = (map, elementName) => {
-  const radios = document.getElementsByName(elementName)
-  Array.from(radios).forEach((radio) => {
-    radio.onclick = (event) => {
-      map.setVisibleBaseMapLayer(event.target.value)
-    }
-  })
-}
-
 const addClimateChangeClickEvents = (map, elementName) => {
   const radios = document.getElementsByName(elementName)
   Array.from(radios).forEach((radio) => {
     radio.onclick = (event) => {
       climateChangeScenario = event.target.value
       showHideLayers()
-      // map.setVisibleBaseMapLayer(event.target.value)
     }
   })
 }
 
 const populateMapLayerList = (map) => {
-  addBaseMapRadioClickEvents(map, 'base-map')
   addClimateChangeClickEvents(map, 'climate-change')
 
   const riversAndSeaFragment = document.createDocumentFragment()

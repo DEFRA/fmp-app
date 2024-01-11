@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const { polygonToArray } = require('../services/shape-utils')
+const floodMapView = require('./flood-map-view')
 module.exports = [{
   method: 'GET',
   path: '/flood-map',
@@ -9,7 +10,8 @@ module.exports = [{
       const location = request.query.location
       const polygon = polygonToArray(request.query.polygon)
       const center = request.query.center ? JSON.parse(request.query.center) : []
-      return h.view('flood-map', {
+
+      return floodMapView.floodMapView(h, {
         location,
         easting: center[0],
         northing: center[1],

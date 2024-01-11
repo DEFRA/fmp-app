@@ -15,6 +15,7 @@ const FMPMap = require('../map')
 const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
 const { getMapLayers, populateMapLayerList, mapState } = require('../map-utils')
+const { MapController } = require('../map-controller')
 
 function Summary (options) {
   const mapOptions = {
@@ -92,9 +93,14 @@ function Summary (options) {
   }
   // set start height
   sizeColumn()
+
+  let mapController
+
   $(window).on('resize', sizeColumn)
   this.map.onReady((map) => {
     if (options.nafra2Layers) {
+      mapController = new MapController(map)
+      mapController.initialise()
       populateMapLayerList(map)
     }
     fixMapTabOrder()

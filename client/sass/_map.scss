@@ -230,6 +230,7 @@
 #flood-map {
   // This is the full page map, added for the Nafra2 POC
   #legend {
+    overflow-y: scroll;
     .map-legend-list {
       justify-content: flex-start;
       height: auto;
