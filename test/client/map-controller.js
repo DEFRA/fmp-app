@@ -50,8 +50,17 @@ lab.experiment('MapController', () => {
     sinon.assert.calledWith(map.setVisibleBaseMapLayer, 'Leisure_27700')
   })
 
-  /*
+  // Get and Set ClimateChangeScenario
+  lab.test('mapController.climateChangeScenario should be present-day', async () => {
+    Code.expect(mapController.climateChangeScenario).to.equal('present-day')
+  })
 
+  lab.test('I can set a mapController climateChangeScenario', async () => {
+    mapController.climateChangeScenario = 'ccp-1'
+    Code.expect(mapController.climateChangeScenario).to.equal('ccp-1')
+  })
+
+  /*
   Set Climate Change Scenario:
     present-day, ccp-1, ccp-2
   show/hide FMfP and Surface Water layers

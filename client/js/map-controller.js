@@ -6,10 +6,11 @@ class MapController {
   constructor (map) {
     this.map = map
     this._baseMap = 'Outdoor_27700'
+    // present-day, ccp-1, ccp-2
+    this._climateChangeScenario = 'present-day'
   }
 
   initialise () {
-    console.log('Initialising MapController')
     this.addBaseMapRadioClickEvents('base-map')
   }
 
@@ -20,6 +21,14 @@ class MapController {
   set baseMap (baseMap) {
     this._baseMap = baseMap
     this.map.setVisibleBaseMapLayer(this._baseMap)
+  }
+
+  get climateChangeScenario () {
+    return this._climateChangeScenario
+  }
+
+  set climateChangeScenario (climateChangeScenario) {
+    this._climateChangeScenario = climateChangeScenario
   }
 
   addBaseMapRadioClickEvents (elementName) {
