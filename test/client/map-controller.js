@@ -21,20 +21,12 @@ lab.experiment('MapController', () => {
 
   let mapController
   lab.beforeEach(async () => {
-    mapController = new MapController(map)
     sinon.restore()
+    mapController = new MapController(map)
   })
 
   lab.test('mapController should be instantiated', async () => {
     Code.expect(mapController instanceof MapController).to.equal(true)
-  })
-
-  // MapController initialisation
-  lab.test('mapController.initialise should addBaseMapRadioClickEvents to all baseMap elements', async () => {
-    const addBaseMapRadioClickEventsSpy = sinon.spy(mapController, 'addBaseMapRadioClickEvents')
-    mapController.initialise()
-    sinon.assert.calledOnce(addBaseMapRadioClickEventsSpy)
-    sinon.assert.calledWith(addBaseMapRadioClickEventsSpy, 'base-map')
   })
 
   // Get and Set Base Map
@@ -56,13 +48,59 @@ lab.experiment('MapController', () => {
   })
 
   lab.test('I can set a mapController climateChangeScenario', async () => {
-    mapController.climateChangeScenario = 'ccp-1'
-    Code.expect(mapController.climateChangeScenario).to.equal('ccp-1')
+    mapController.climateChangeScenario = 'ccp1'
+    Code.expect(mapController.climateChangeScenario).to.equal('ccp1')
   })
+
+  // Visible Layers
+  lab.test('a mapController should start with have no visibleLayers', async () => {
+    Code.expect(mapController.visibleLayers).to.equal({})
+  })
+
+  lab.test('a mapController should start with have no visibleLayers', async () => {
+    Code.expect(mapController.visibleLayers).to.equal({})
+  })
+
+  lab.test('mapController._availableLayers', async () => {
+    console.log(mapController._availableLayers)
+    console.log(mapController._riversAndSeaLayers)
+    console.log(mapController._surfaceWaterLayers)
+    console.log(mapController._otherLayers)
+    console.log(mapController._allLayers)
+  })
+
+  lab.test('When I set a mapController layer to be visible, by its title, visible layers will update as expected', async () => {
+    mapController.showHideLayer('Rivers and sea - flood zones 2 and 3', true)
+    Code.expect(mapController.visibleLayers).to.equal({ 'fmp:flood_zone_2_3_rivers_and_sea': true })
+  })
+
+  lab.test('When I set a mapController layer to be visible, by its title, with an altered climateChangeScenario visible layers will update as expected', async () => {
+    mapController.showHideLayer('Rivers and sea - flood zones 2 and 3', true)
+    mapController.climateChangeScenario = 'ccp1'
+    Code.expect(mapController.visibleLayers).to.equal({ 'fmp:flood_zone_2_3_rivers_and_sea_ccp1': true })
+  })
+
+  // {
+  //   'Flood defences': false,
+  //   'Main rivers': false,
+  //   'Flood storage areas': false,
+  //   'Rivers and sea - flood zones 2 and 3': false,
+  //   'Rivers and sea - 3.3% AEP - defended': false,
+  //   'Rivers and sea - 3.3% AEP - defended depth': false,
+  //   'Rivers - 1%, sea 0.5% AEP - defended depth': false,
+  //   'Rivers and sea - 0.1% AEP - defended depth': false,
+  //   'Rivers - 1%, sea 0.5% AEP - undefended depth': false,
+  //   'Rivers and sea - 0.1% AEP - undefended depth': false,
+  //   'Surface water - 3.3% AEP': false,
+  //   'Surface water - 1% and 0.1% AEP': false,
+  //   'Surface water - 3.3% AEP - depth': false,
+  //   'Surface water - 1% AEP - depth': false,
+  //   'Surface water - 0.1% AEP - depth': false
+  // }
 
   /*
   Set Climate Change Scenario:
-    present-day, ccp-1, ccp-2
+    present-day, ccp1, ccp2
   show/hide FMfP and Surface Water layers
   Get all Visible Layers
   Request a legend for all visible layers

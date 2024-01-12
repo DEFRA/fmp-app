@@ -185,8 +185,8 @@ const showHideLayers = () => {
     const notApplicableForClimateChange = nafra2Layer.ref.match(/\bdefences\b|\bmain_rivers_10k\b|\bflood_storage_areas\b/)
     const climateChangeCheck = notApplicableForClimateChange ||
       (climateChangeScenario === 'present-day' && isCurrent) ||
-      (climateChangeScenario === 'ccp-1' && isCCP1) ||
-      (climateChangeScenario === 'ccp-2' && isCCP2)
+      (climateChangeScenario === 'ccp1' && isCCP1) ||
+      (climateChangeScenario === 'ccp2' && isCCP2)
 
     const showLayer = climateChangeCheck && (nafra2Layer.type === 'SW' ? surfaceWaterLayers[nafra2Layer.name] : riversAndSeaLayers[nafra2Layer.name])
     if (showLayer) {

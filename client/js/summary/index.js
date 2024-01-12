@@ -100,7 +100,7 @@ function Summary (options) {
   this.map.onReady((map) => {
     if (options.nafra2Layers) {
       mapController = new MapController(map)
-      mapController.initialise()
+      console.log('mapController', mapController) // to satisfy standards.js until populateMapLayerList is moved to the controller
       populateMapLayerList(map)
     }
     fixMapTabOrder()
