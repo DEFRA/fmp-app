@@ -40,7 +40,7 @@ lab.experiment('map-utils', () => {
   })
 
   lab.test('createTileLayer', async () => {
-    const tileLayer = createTileLayer(mapConfig)
+    const tileLayer = createTileLayer(mapConfig).config
     Code.expect(tileLayer).to.equal({
       ref: 'fmp',
       opacity: 0.7,

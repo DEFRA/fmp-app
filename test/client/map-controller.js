@@ -1,7 +1,8 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = exports.lab = Lab.script()
-const { MapController } = require('../../client/js/map-controller')
+const { mockOpenLayers } = require('./mock-open-layers')
+
 const sinon = require('sinon')
 
 const map = {
@@ -9,6 +10,17 @@ const map = {
 }
 
 lab.experiment('MapController', () => {
+  let restoreOpenLayers
+  let MapController
+  lab.before(async () => {
+    restoreOpenLayers = mockOpenLayers()
+    MapController = require('../../client/js/map-controller').MapController
+  })
+
+  lab.after(async () => {
+    restoreOpenLayers()
+  })
+
   const radioOutdoor = sinon.stub()
   const radioLeisure = sinon.stub()
   const radioRoad = sinon.stub()
@@ -22,7 +34,8 @@ lab.experiment('MapController', () => {
   let mapController
   lab.beforeEach(async () => {
     sinon.restore()
-    mapController = new MapController(map)
+    mapController = new MapController()
+    mapController.map = map
   })
 
   lab.test('mapController should be instantiated', async () => {

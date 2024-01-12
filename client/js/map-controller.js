@@ -1,22 +1,33 @@
 // FZ2 is equivalent to 0.1% AEP (i in 1000)
 // FZ3 is equivalent to 1% AEP (i in 100)
 // FZ3b (not specified by name) is equivalent to 3.3% AEP (i in 30)
+const mapConfig = require('./map-config.json')
+const TileLayer = require('ol/layer/Tile').default
+const TileWMS = require('ol/source/TileWMS').default
+const TileGrid = require('ol/tilegrid/TileGrid').default
 
 class MapController {
-  constructor (map) {
-    this.map = map
+  constructor () {
     this._baseMap = 'Outdoor_27700' // can be 'Outdoor_27700', 'Leisure_27700', 'Road_27700', 'Light_27700'
     this._climateChangeScenario = 'present-day' // can be present-day, ccp1, ccp2
     this._visibleLayers = {}
-    this.addBaseMapRadioClickEvents('base-map')
     this.initialiseAvailableLayers()
   }
 
+  get map () {
+    return this._map
+  }
+
+  set map (map) {
+    this._map = map
+  }
+
   initialiseAvailableLayers () {
-    this._riversAndSeaLayers = {}
-    this._surfaceWaterLayers = {}
-    this._otherLayers = {}
-    this._allLayers = {}
+    this._riversAndSeaLayersByTitle = {}
+    this._surfaceWaterLayersByTitle = {}
+    this._otherLayersByTitle = {}
+    this._allLayersByTitle = {}
+    this._mapLayers = []
     this._availableLayers = [
       ['fmp:defences', 'Flood defences', 'other'],
       ['fmp:main_rivers_10k', 'Main rivers', 'other'],
@@ -71,17 +82,19 @@ class MapController {
       ['fmp:surface_water_spatial_planning_1in1000_depth_ccp2', 'Surface water - 0.1% AEP - depth', 'SW']
     ].reduce((availableLayers, [layerKey, layerTitle, layerType]) => {
       if (layerType === 'RS') {
-        this._riversAndSeaLayers[layerTitle] = false // Boolean to toggle for visibility
+        this._riversAndSeaLayersByTitle[layerTitle] = false // Boolean to toggle for visibility
       } else if (layerType === 'SW') {
-        this._surfaceWaterLayers[layerTitle] = false
+        this._surfaceWaterLayersByTitle[layerTitle] = false
       } else if (layerType === 'other') {
-        this._otherLayers[layerTitle] = false
+        this._otherLayersByTitle[layerTitle] = false
       }
-      this._allLayers[layerTitle] = false
+      this._allLayersByTitle[layerTitle] = false
       const climateChangeKey = layerType === 'other' ? 'other' : layerKey.match('ccp1') ? 'ccp1' : layerKey.match('ccp2') ? 'ccp2' : 'present-day'
 
       const layerDetails = availableLayers[layerTitle] || {}
       layerDetails[climateChangeKey] = { layerKey, layerTitle, layerType }
+
+      this._mapLayers.push(this.createNafra2Layer(layerKey, layerTitle, layerType))
 
       return Object.assign(availableLayers, { [layerTitle]: layerDetails })
     }, {})
@@ -90,13 +103,17 @@ class MapController {
     this._availableLayers['Rivers and sea - 0.1% AEP - undefended depth'].ccp2 = this._availableLayers['Rivers and sea - 0.1% AEP - undefended depth'].ccp1
   }
 
+  get mapLayers () {
+    return this._mapLayers.map((mapLayer) => mapLayer.layer)
+  }
+
   get baseMap () {
     return this._baseMap
   }
 
   set baseMap (baseMap) {
     this._baseMap = baseMap
-    this.map.setVisibleBaseMapLayer(this._baseMap)
+    this._map.setVisibleBaseMapLayer(this._baseMap)
   }
 
   get climateChangeScenario () {
@@ -113,27 +130,101 @@ class MapController {
   }
 
   showHideLayer (layerTitle, show) {
-    this._allLayers[layerTitle] = show
+    this._allLayersByTitle[layerTitle] = show
     this.updateVisibleLayers()
   }
 
   updateVisibleLayers () {
     this._visibleLayers = {}
-    Object.entries(this._allLayers).forEach(([layerTitle, visible]) => {
+    Object.entries(this._allLayersByTitle).forEach(([layerTitle, visible]) => {
       if (visible) {
         const layer = this._availableLayers[layerTitle][this._climateChangeScenario] || this._availableLayers[layerTitle].other
         this._visibleLayers[layer.layerKey] = true
       }
     })
+
+    this._mapLayers.forEach(mapLayer => {
+      mapLayer.layer.setVisible(this._visibleLayers[mapLayer.ref])
+    })
   }
 
-  addBaseMapRadioClickEvents (elementName) {
+  // Map Layer functions
+  createNafra2Layer (layerKey, layerTitle, type) {
+    const ref = layerKey
+
+    return {
+      ref,
+      name: layerTitle,
+      type,
+      layer: new TileLayer({
+        ref,
+        opacity: 0.7,
+        zIndex: 0,
+        visible: false,
+        source: new TileWMS({
+          url: mapConfig.tileProxy,
+          serverType: 'geoserver',
+          params: {
+            LAYERS: layerKey,
+            TILED: false,
+            VERSION: '1.1.1'
+          },
+          tileGrid: new TileGrid({
+            extent: mapConfig.tileExtent,
+            resolutions: mapConfig.tileResolutions,
+            tileSize: mapConfig.tileSize
+          })
+        })
+      })
+    }
+  }
+
+  // DOM interaction functions
+  initialiseDom () {
+    this.addBaseMapRadioClickEvents()
+    this.addClimateChangeClickEvents()
+    this.populateMapLayerList()
+  }
+
+  addBaseMapRadioClickEvents (elementName = 'base-map') {
     const radios = document.getElementsByName(elementName)
-    Array.from(radios).forEach((radio) => {
-      radio.onclick = (event) => {
-        this.baseMap = event.target.value
-      }
+    Array.from(radios).forEach(radio => {
+      radio.onclick = event => (this.baseMap = event.target.value)
     })
+  }
+
+  addClimateChangeClickEvents (elementName = 'climate-change') {
+    const radios = document.getElementsByName(elementName)
+    Array.from(radios).forEach(radio => {
+      radio.onclick = event => (this.climateChangeScenario = event.target.value)
+    })
+  }
+
+  populateMapLayerList () {
+    const riversAndSeaLayers = Object.assign({}, this._riversAndSeaLayersByTitle, this._otherLayersByTitle)
+    const riversAndSeaFragment = document.createDocumentFragment()
+    Object.keys(riversAndSeaLayers).forEach((layerName) => this.buildLayerFragment(riversAndSeaFragment, layerName))
+    document.querySelector('#rivers-and-sea-layers').appendChild(riversAndSeaFragment)
+
+    const surfaceWaterFragment = document.createDocumentFragment()
+    Object.keys(this._surfaceWaterLayersByTitle).forEach((layerName) => this.buildLayerFragment(surfaceWaterFragment, layerName))
+    document.querySelector('#surface-water-layers').appendChild(surfaceWaterFragment)
+  }
+
+  buildLayerFragment (fragment, layerName) {
+    const div = fragment.appendChild(document.createElement('div'))
+    div.className = 'layer-toggle-container'
+    const input = div.appendChild(document.createElement('input'))
+    input.setAttribute('type', 'checkbox')
+    input.setAttribute('id', layerName)
+    input.setAttribute('name', layerName)
+    input.checked = false
+    input.addEventListener('change', event => {
+      this.showHideLayer(layerName, event.target.checked)
+    })
+    const label = div.appendChild(document.createElement('label'))
+    label.setAttribute('for', layerName)
+    label.textContent = layerName
   }
 }
 
