@@ -184,6 +184,7 @@ class MapController {
     this.addBaseMapRadioClickEvents()
     this.addClimateChangeClickEvents()
     this.populateMapLayerList()
+    this.addKeyLegendClickEvents()
   }
 
   addBaseMapRadioClickEvents (elementName = 'base-map') {
@@ -197,6 +198,23 @@ class MapController {
     const radios = document.getElementsByName(elementName)
     Array.from(radios).forEach(radio => {
       radio.onclick = event => (this.climateChangeScenario = event.target.value)
+    })
+  }
+
+  addKeyLegendClickEvents (elementName = 'climate-change') {
+    const tabs = document.querySelectorAll('#mapKeyLabel span')
+    Array.from(tabs).forEach(tab => {
+      tab.onclick = event => {
+        const show = tab.getAttribute('data-show')
+        const hide = tab.getAttribute('data-hide')
+        document.querySelector(show).classList.remove('hidden')
+        document.querySelector(hide).classList.add('hidden')
+        Array.from(tabs).forEach(tabForRemove => tabForRemove.classList.remove('active'))
+        Array.from(tabs).forEach(tabForRemove => tabForRemove.classList.add('inactive'))
+        tab.classList.add('active')
+        tab.classList.remove('inactive')
+        // tab.classList.remove(active ? 'inactive' : 'active')
+      }
     })
   }
 

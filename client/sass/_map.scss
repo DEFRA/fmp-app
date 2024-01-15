@@ -231,6 +231,9 @@
   // This is the full page map, added for the Nafra2 POC
   #legend {
     overflow-y: scroll;
+    .hidden {
+      display: none;
+    }
     .map-legend-list {
       justify-content: flex-start;
       height: auto;
@@ -276,9 +279,9 @@
         margin-right: 8px;
       }
     }
-    
     .defra-map-key__title {
-      display: block;
+      display: flex;
+      flex-direction: row;
       padding:0;
       margin:0;
       font-size: 1.5rem;
@@ -287,7 +290,23 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       font-weight: 700;
-
+      > span {
+        background-color: #fff;
+        border: 1px solid #000;
+        cursor: pointer;
+        padding: 0 4px;
+      }
+      
+      .active {
+        font-weight: 700;
+        background-color: #aaa;
+      }
+      .inactive {
+        font-weight: 100;
+        &:hover {
+          background-color: #ddd;
+        }
+      }
     }
     h3.heading-small {
       font-size: 1rem;
