@@ -2,6 +2,7 @@ const routes = [].concat(
   require('../routes/home'),
   require('../routes/flood-zone-results'),
   require('../routes/flood-map'),
+  require('../routes/flood-map-legend'),
   require('../routes/flood-zone-results-explained'),
   require('../routes/location'),
   require('../routes/confirm-location'),

@@ -220,14 +220,29 @@ class MapController {
     })
   }
 
-  legendClickCount = 0
   buildDynamicLegend () {
-    this.legendClickCount++
-    const legendElement = document.querySelector('.map-legend-legend')
-    const legendText = Object.keys(this._visibleLayers).reduce((legendText, legendKey) => {
-      return legendText + `<div>${legendKey}</div>`
-    }, '')
-    legendElement.innerHTML = legendText
+    // TODO - Hard Code the 'other' layers
+    const layersToFetch = Object.assign({}, this._visibleLayers)
+    delete layersToFetch['fmp:defences']
+    delete layersToFetch['fmp:main_rivers_10k']
+    delete layersToFetch['fmp:flood_storage_areas']
+
+    global.fetch('/flood-map-legend', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(layersToFetch)
+    })
+      .then(response => response.json())
+      .then(legendResponse => {
+        console.log('fetch response', legendResponse)
+        const legendElement = document.querySelector('.map-legend-legend')
+        const legendText = Object.keys(legendResponse).reduce((legendText, legendKey) => {
+          return legendText + `<div>${legendKey}</div>`
+        }, '')
+        legendElement.innerHTML = legendText
+      })
   }
 
   populateMapLayerList () {
