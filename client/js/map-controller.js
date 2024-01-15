@@ -213,9 +213,21 @@ class MapController {
         Array.from(tabs).forEach(tabForRemove => tabForRemove.classList.add('inactive'))
         tab.classList.add('active')
         tab.classList.remove('inactive')
-        // tab.classList.remove(active ? 'inactive' : 'active')
+        if (show === '.map-legend-legend') {
+          this.buildDynamicLegend()
+        }
       }
     })
+  }
+
+  legendClickCount = 0
+  buildDynamicLegend () {
+    this.legendClickCount++
+    const legendElement = document.querySelector('.map-legend-legend')
+    const legendText = Object.keys(this._visibleLayers).reduce((legendText, legendKey) => {
+      return legendText + `<div>${legendKey}</div>`
+    }, '')
+    legendElement.innerHTML = legendText
   }
 
   populateMapLayerList () {
