@@ -93,35 +93,30 @@ lab.experiment('MapController', () => {
     Code.expect(mapController.visibleLayers).to.equal({ 'fmp:flood_zone_2_3_rivers_and_sea_ccp1': true })
   })
 
-  // {
-  //   'Flood defences': false,
-  //   'Main rivers': false,
-  //   'Flood storage areas': false,
-  //   'Rivers and sea - flood zones 2 and 3': false,
-  //   'Rivers and sea - 3.3% AEP - defended': false,
-  //   'Rivers and sea - 3.3% AEP - defended depth': false,
-  //   'Rivers - 1%, sea 0.5% AEP - defended depth': false,
-  //   'Rivers and sea - 0.1% AEP - defended depth': false,
-  //   'Rivers - 1%, sea 0.5% AEP - undefended depth': false,
-  //   'Rivers and sea - 0.1% AEP - undefended depth': false,
-  //   'Surface water - 3.3% AEP': false,
-  //   'Surface water - 1% and 0.1% AEP': false,
-  //   'Surface water - 3.3% AEP - depth': false,
-  //   'Surface water - 1% AEP - depth': false,
-  //   'Surface water - 0.1% AEP - depth': false
-  // }
+  lab.test('When I set a few mapController layers to be visible, visible layers will update as expected', async () => {
+    mapController.showHideLayer('Rivers - 1%, sea 0.5% AEP - defended depth', true)
+    mapController.showHideLayer('Rivers and sea - 0.1% AEP - undefended depth', true)
+    mapController.showHideLayer('Surface water - 3.3% AEP - depth', true)
+    mapController.showHideLayer('Main rivers', true)
+    Code.expect(mapController.visibleLayers).to.equal({
+      'fmp:rivers_1in100_sea_1in200_defended_depth': true,
+      'fmp:rivers_1in1000_sea_1in1000_undefended_depth': true,
+      'fmp:surface_water_spatial_planning_1in30_depth': true,
+      'fmp:main_rivers_10k': true
+    })
+  })
 
   /*
   Set Climate Change Scenario:
-    present-day, ccp1, ccp2
-  show/hide FMfP and Surface Water layers
-  Get all Visible Layers
+    present-day, ccp1, ccp2 - done
+  show/hide FMfP and Surface Water layers  - done
+  Get all Visible Layers  - done
   Request a legend for all visible layers
     - Should expect an array of layer names
     - eg ['flood_zone_2_3_rivers_and_sea', 'rivers_1in30_sea_1in30_defended', ... etc]
     - Should return the html (or possibly json with client side code to display html)
   Show Key or Legend as tabbed pickers
-  Scroll When there is too much to show on the screen
+  Scroll When there is too much to show on the screen  - done
   Work on Mobile Devices
 
   The floodMapController should handle all of the above

@@ -201,7 +201,7 @@ class MapController {
   }
 
   populateMapLayerList () {
-    const riversAndSeaLayers = Object.assign({}, this._riversAndSeaLayersByTitle, this._otherLayersByTitle)
+    const riversAndSeaLayers = Object.assign({}, this._otherLayersByTitle, this._riversAndSeaLayersByTitle)
     const riversAndSeaFragment = document.createDocumentFragment()
     Object.keys(riversAndSeaLayers).forEach((layerName) => this.buildLayerFragment(riversAndSeaFragment, layerName))
     document.querySelector('#rivers-and-sea-layers').appendChild(riversAndSeaFragment)
