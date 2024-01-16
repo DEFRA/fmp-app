@@ -290,6 +290,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       font-weight: 700;
+
       > span {
         background-color: #fff;
         border: 1px solid #000;
@@ -308,6 +309,20 @@
         }
       }
     }
+    .map-legend-legend {
+
+      .legend-item {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .color-box {
+        width: 40px;
+        height: 20px;
+        display: inline-block;
+        background-color: #ccc;
+      }      
+    }    
     h3.heading-small {
       font-size: 1rem;
       padding-top: 10px;

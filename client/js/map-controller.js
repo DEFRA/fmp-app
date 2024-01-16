@@ -26,6 +26,7 @@ class MapController {
     this._riversAndSeaLayersByTitle = {}
     this._surfaceWaterLayersByTitle = {}
     this._otherLayersByTitle = {}
+    this._allLayersByKey = {}
     this._allLayersByTitle = {}
     this._mapLayers = []
     this._availableLayers = [
@@ -88,6 +89,7 @@ class MapController {
       } else if (layerType === 'other') {
         this._otherLayersByTitle[layerTitle] = false
       }
+      this._allLayersByKey[layerKey] = layerTitle
       this._allLayersByTitle[layerTitle] = false
       const climateChangeKey = layerType === 'other' ? 'other' : layerKey.match('ccp1') ? 'ccp1' : layerKey.match('ccp2') ? 'ccp2' : 'present-day'
 
@@ -238,8 +240,31 @@ class MapController {
       .then(legendResponse => {
         console.log('fetch response', legendResponse)
         const legendElement = document.querySelector('.map-legend-legend')
-        const legendText = Object.keys(legendResponse).reduce((legendText, legendKey) => {
-          return legendText + `<div>${legendKey}</div>`
+        const legendText = legendResponse.reduce((legendText, { key, rules }) => {
+          const title = this._allLayersByKey[key]
+          legendText += '<div>'
+          legendText += `<h1>${title}</h1>`
+          legendText += rules
+            .sort(({ name: nameA }, { name: nameB }) => {
+              if (nameA.startsWith('<') || nameB.startsWith('>')) {
+                return -1
+              }
+              const intA = parseInt(nameA, 10)
+              const intB = parseInt(nameB, 10)
+              if (isNaN(intA) || isNaN(intB)) {
+                return 0
+              }
+              return intA - intB
+            })
+            .reduce((rulesText, { name, fill }) => {
+              const colourBox = `<div class="color-box" style="background-color: ${fill};"></div>`
+              rulesText += `<div class='legend-item'>
+            <span>${name}:</span>${colourBox}
+            </div>`
+              return rulesText
+            }, '')
+          legendText += '</div>'
+          return legendText
         }, '')
         legendElement.innerHTML = legendText
       })
