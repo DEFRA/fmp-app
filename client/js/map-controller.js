@@ -242,8 +242,8 @@ class MapController {
         const legendElement = document.querySelector('.map-legend-legend')
         const legendText = legendResponse.reduce((legendText, { key, rules }) => {
           const title = this._allLayersByKey[key]
-          legendText += '<div>'
-          legendText += `<h1>${title}</h1>`
+          legendText += '<div class="govuk-body-s govuk-!-font-size-14">'
+          legendText += `<h3 class="heading-small">${title}</h3>`
           legendText += rules
             .sort(({ name: nameA }, { name: nameB }) => {
               if (nameA.startsWith('<') || nameB.startsWith('>')) {
@@ -259,7 +259,7 @@ class MapController {
             .reduce((rulesText, { name, fill }) => {
               const colourBox = `<div class="color-box" style="background-color: ${fill};"></div>`
               rulesText += `<div class='legend-item'>
-            <span>${name}:</span>${colourBox}
+            <label>${name}:</label>${colourBox}
             </div>`
               return rulesText
             }, '')

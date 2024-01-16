@@ -314,6 +314,12 @@
       .legend-item {
         display: flex;
         flex-direction: row;
+        line-height: 24px;
+        label {
+          flex-grow: 0;
+          flex-shrink: 0;
+          flex-basis: 50%;
+        }
       }
 
       .color-box {
