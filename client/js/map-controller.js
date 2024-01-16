@@ -222,6 +222,17 @@ class MapController {
     })
   }
 
+  transformLayerName (name) {
+    const nameMap = {
+      FZ2: 'Flood Zone 2 (0.1% AEP)',
+      FZ3: 'Flood Zone 3 (1% AEP)',
+      '1 in 30': '3.3% AEP',
+      '1 in 100': '1% AEP',
+      '1 in 1000': '0.1% AEP'
+    }
+    return nameMap[name] || name
+  }
+
   buildDynamicLegend () {
     // TODO - Hard Code the 'other' layers
     const layersToFetch = Object.assign({}, this._visibleLayers)
@@ -259,7 +270,7 @@ class MapController {
             .reduce((rulesText, { name, fill }) => {
               const colourBox = `<div class="color-box" style="background-color: ${fill};"></div>`
               rulesText += `<div class='legend-item'>
-            <label>${name}:</label>${colourBox}
+            <label>${this.transformLayerName(name)}</label>${colourBox}
             </div>`
               return rulesText
             }, '')
