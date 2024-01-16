@@ -9,6 +9,7 @@ const Proj = require('ol/proj')
 const TileLayer = require('ol/layer/Tile').default
 const OLMap = require('ol/Map').default
 const View = require('ol/View').default
+const OSM = require('ol/source/OSM.js').default
 const { register } = require('ol/proj/proj4')
 const { optionsFromCapabilities } = require('ol/source/WMTS')
 const { defaults: InteractionDefaults } = require('ol/interaction')
@@ -48,6 +49,12 @@ const getBaseMapLayersAndResolutions = (wmtsCapabilities, config, mapOptions) =>
     visible = false // only the first baseMap layer should be visible
     return baseMapLayer
   })
+
+  baseMapLayers.push(new TileLayer({
+    source: new OSM(),
+    ref: 'OpenStreetMap',
+    visible: false
+  }))
 
   return { baseMapLayers, resolutions }
 }
