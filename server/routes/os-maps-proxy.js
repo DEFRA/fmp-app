@@ -8,6 +8,7 @@ const wreck = require('@hapi/wreck').defaults({
 module.exports = {
   method: 'GET',
   path: '/os-maps-proxy',
+  config: { auth: false },
   handler: async (request, h) => {
     try {
       const url = `${osMapsUrl}${request.url.search}&key=${osMapsKey}`

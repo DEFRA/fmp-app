@@ -15,5 +15,13 @@ exports.plugin = {
       clearInvalid: true,
       strictHeader: true
     })
+    server.state('snd', {
+      ttl: null,
+      isSecure: config.siteUrl.startsWith('https'),
+      isHttpOnly: false,
+      encoding: 'none',
+      clearInvalid: false,
+      strictHeader: true
+    })
   }
 }

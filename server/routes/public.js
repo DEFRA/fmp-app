@@ -4,7 +4,8 @@ module.exports = [{
   options: {
     handler: {
       file: 'node_modules/govuk-frontend/govuk/all.js'
-    }
+    },
+    auth: false
   }
 }, {
   method: 'GET',
@@ -22,6 +23,7 @@ module.exports = [{
           'node_modules/nunjucks/browser'
         ]
       }
-    }
+    },
+    auth: false
   }
 }]

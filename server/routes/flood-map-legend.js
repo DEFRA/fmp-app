@@ -40,6 +40,7 @@ module.exports = [{
         })
       })
       return legends
-    }
+    },
+    auth: false
   }
 }]
