@@ -17,8 +17,10 @@ module.exports = [
     handler: async (request, h) => {
       const { sndPassword, url = '/' } = request.payload
       const isValid = await passwordService.validate(sndPassword)
+      const encryptedPassword = await passwordService.encrypt(sndPassword)
+
       if (isValid) {
-        return h.redirect(url).state('snd', sndPassword)
+        return h.redirect(url).state('snd', encryptedPassword)
       } else {
         return h.redirect(`/login?error=incorrectPassword&url=${encodeURIComponent(url)}`)
       }

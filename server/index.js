@@ -66,7 +66,8 @@ async function createServer () {
     authenticate: async (request, h) => {
       const cookie = request.state
       if (cookie && cookie.snd) {
-        const sndPassword = cookie.snd
+        const encryptedPassword = cookie.snd
+        const sndPassword = await passwordService.decrypt(encryptedPassword)
         const isValid = await passwordService.validate(sndPassword)
         if (isValid) {
           return h.authenticated({ credentials: {} })
