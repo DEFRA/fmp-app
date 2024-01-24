@@ -53,6 +53,14 @@ const MockView = (center, resolution, size) => ({
   }
 })
 
+class MockTileLayer {
+  constructor (config) {
+    this.config = config
+  }
+
+  setVisible () {}
+}
+
 class MockCollection extends Array {
   constructor (_val) { // Collection constructor expects an array param, but Array doesn't
     super()
@@ -65,7 +73,7 @@ class MockCollection extends Array {
 
 const mockOpenLayers = () => {
   const defaultMock = function (config) { return config }
-  mock('ol/layer/Tile', { default: defaultMock })
+  mock('ol/layer/Tile', { default: MockTileLayer })
   mock('ol/source/TileWMS', { default: defaultMock })
   mock('ol/tilegrid/TileGrid', { default: defaultMock })
   mock('ol/style/Icon', { default: MockIcon })

@@ -49,62 +49,74 @@ Flood risk information for this location - Flood map for planning - GOV.UK
         <!-- {% include "./partials/map/summary-legend.html" %} -->
         <div id="legend" class="map-legend {% if polygon %}polygon{% endif %}">
           <h2 id="mapKeyLabel" class="defra-map-key__title">
-            <span role="text">Key 
+            <span role="text" class='active' data-show='.map-legend-key' data-hide='.map-legend-legend'>Key 
               <span class="govuk-visually-hidden">for map features</span>
             </span>
+            <span role="text" class='inactive' data-show='.map-legend-legend' data-hide='.map-legend-key'>Legend 
+              <span class="govuk-visually-hidden">for map legend</span>
+            </span>
           </h2>
-
-          <ul class="map-legend-list map-options govuk-body-s govuk-!-font-size-14">
-            <li id="base-map-options">
-              <h3 class="heading-small">Base map</h3>
-              <div>
-                <input type="radio" name="base-map" id="outdoor-27700" value="Outdoor_27700" checked="checked"/>
-                <label for="outdoor-27700">Outdoor</label>
-              </div>
-              <div>
-                <input type="radio" name="base-map" id="leisure-27700" value="Leisure_27700"/>
-                <label for="leisure-27700">Leisure</label>
-              </div>
-              <div>
-                <input type="radio" name="base-map" id="road-27700" value="Road_27700"/>
-                <label for="road-27700">Road</label>
-              </div>
-              <div>
-                <input type="radio" name="base-map" id="light-27700" value="Light_27700"/>
-                <label for="light-27700">Light</label>
-              </div>
-            </li>
-
-            <li id="climate-change-options">
-              <h3 class="heading-small">Climate Change</h3>
-              <div>
-                <input type="radio" name="climate-change" id="present-day" value="present-day" checked="checked"/>
-                <label for="present-day">Present Day</label>
-              </div>
-              <div>
-                <input type="radio" name="climate-change" id="ccp-1" value="ccp-1"/>
-                <label for="ccp-1">Climate Change 1</label>
-              </div>
-              <div>
-                <input type="radio" name="climate-change" id="ccp-2" value="ccp-2"/>
-                <label for="ccp-2">Climate Change 2</label>
-              </div>
+          <div class='map-legend-key'>
+            <ul class="map-legend-list map-options govuk-body-s govuk-!-font-size-14">
+              <li id="base-map-options">
+                <h3 class="heading-small">Base map</h3>
+                <div>
+                  <input type="radio" name="base-map" id="outdoor-27700" value="Outdoor_27700" checked="checked"/>
+                  <label for="outdoor-27700">Outdoor</label>
+                </div>
+                <div>
+                  <input type="radio" name="base-map" id="leisure-27700" value="Leisure_27700"/>
+                  <label for="leisure-27700">Leisure</label>
+                </div>
+                <div>
+                  <input type="radio" name="base-map" id="road-27700" value="Road_27700"/>
+                  <label for="road-27700">Road</label>
+                </div>
+                <div>
+                  <input type="radio" name="base-map" id="light-27700" value="Light_27700"/>
+                  <label for="light-27700">Light</label>
+                </div>
+                <div>
+                  <input type="radio" name="base-map" id="OpenStreetMap" value="OpenStreetMap"/>
+                  <label for="OpenStreetMap">Open Street Map</label>
+                </div>
+                
               </li>
-          </ul>
 
-          <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
+              <li id="climate-change-options">
+                <h3 class="heading-small">Climate Change</h3>
+                <div>
+                  <input type="radio" name="climate-change" id="present-day" value="present-day" checked="checked"/>
+                  <label for="present-day">Present Day</label>
+                </div>
+                <div>
+                  <input type="radio" name="climate-change" id="ccp1" value="ccp1"/>
+                  <label for="ccp1">Climate Change 1</label>
+                </div>
+                <div>
+                  <input type="radio" name="climate-change" id="ccp2" value="ccp2"/>
+                  <label for="ccp2">Climate Change 2</label>
+                </div>
+                </li>
+            </ul>
 
-            <li>
-              <h3 class="heading-small">Flood map for planning</h3>
-            </li>
-            <li id="rivers-and-sea-layers">
-            </li>
-            <li>
-              <h3 class="heading-small">Surface water flooding</h3>
-            </li>
-            <li id="surface-water-layers">
-            </li>
-          </ul>
+            <ul class="map-legend-list govuk-body-s govuk-!-font-size-14">
+
+              <li>
+                <h3 class="heading-small">Flood map for planning</h3>
+              </li>
+              <li id="rivers-and-sea-layers">
+              </li>
+              <li>
+                <h3 class="heading-small">Surface water flooding</h3>
+              </li>
+              <li id="surface-water-layers">
+              </li>
+            </ul>
+          </div>
+          <div class='map-legend-legend hidden'>
+            Legend Goes HERE :)
+          </div>
         </div>
                 
         <button onclick="history.back()" class="defra-map__back">Exit map</button>

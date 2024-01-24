@@ -444,13 +444,15 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               </div>
               
             </div>
-            <div class="govuk-button-group">
-              <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
-                role="button" draggable="false" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
-                data-module="govuk-button"> 
-                Order flood risk data
-              </a>                          
-            </div>
+             {% if useAutomatedService %}
+              <div class="govuk-button-group">
+                <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
+                  role="button" draggable="false" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
+                  data-module="govuk-button"> 
+                  Order flood risk data
+                </a>                          
+              </div>
+            {% endif%}
   </div>
 </div>
 

@@ -12,15 +12,17 @@ const Icon = require('ol/style/Icon').default
 const { defaults: InteractionDefaults } = require('ol/interaction')
 
 const FMPMap = require('../map')
-const mapConfig = require('../map-config.json')
 const { fixMapTabOrder } = require('../map-tab-order')
-const { getMapLayers, populateMapLayerList, mapState } = require('../map-utils')
+const { createTileLayer, mapState } = require('../map-utils')
+const { MapController } = require('../map-controller')
 
 function Summary (options) {
+  const mapController = options.nafra2Layers ? new MapController() : undefined
+  const layers = mapController ? mapController.mapLayers : createTileLayer()
   const mapOptions = {
     nafra2Layers: options.nafra2Layers === true,
     limitZoom: !options.nafra2Layers, // allow unlimitedZoom when showing nafra2Layers
-    layers: getMapLayers(mapConfig, options),
+    layers,
     mapInteractions: InteractionDefaults({
       altShiftDragRotate: false,
       pinchRotate: false
@@ -92,10 +94,12 @@ function Summary (options) {
   }
   // set start height
   sizeColumn()
+
   $(window).on('resize', sizeColumn)
   this.map.onReady((map) => {
-    if (options.nafra2Layers) {
-      populateMapLayerList(map)
+    if (mapController) {
+      mapController.map = map
+      mapController.initialiseDom()
     }
     fixMapTabOrder()
   })

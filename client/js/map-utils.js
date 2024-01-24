@@ -4,8 +4,9 @@ const TileGrid = require('ol/tilegrid/TileGrid').default
 const Icon = require('ol/style/Icon').default
 const ScaleLine = require('ol/control/ScaleLine').default
 const FullScreen = require('ol/control/FullScreen').default
+const mapConfig = require('./map-config.json')
 
-const createTileLayer = mapConfig => {
+const createTileLayer = () => {
   return new TileLayer({
     ref: 'fmp',
     opacity: 0.7,
@@ -27,185 +28,8 @@ const createTileLayer = mapConfig => {
   })
 }
 
-// let visibleProbabilityLayer = '1 in 30'
-// let visibleZoneLayer = 'zone2and3'
-const surfaceWaterLayers = {}
-const riversAndSeaLayers = {}
-
-const createNafra2Layer = (mapConfig, LAYERS, name, type) => {
-  const ref = LAYERS.split(':')[1]
-  if (type === 'SW') {
-    surfaceWaterLayers[name] = false
-  } else {
-    riversAndSeaLayers[name] = false
-  }
-
-  return {
-    ref,
-    name,
-    type,
-    layer: new TileLayer({
-      ref,
-      opacity: 0.7,
-      zIndex: 0,
-      visible: false,
-      source: new TileWMS({
-        url: mapConfig.tileProxy,
-        serverType: 'geoserver',
-        params: {
-          LAYERS,
-          TILED: false,
-          VERSION: '1.1.1'
-        },
-        tileGrid: new TileGrid({
-          extent: mapConfig.tileExtent,
-          resolutions: mapConfig.tileResolutions,
-          tileSize: mapConfig.tileSize
-        })
-      })
-    })
-  }
-}
-
-let nafra2Layers = []
-let climateChangeScenario = 'present-day'
-
-const getMapLayers = (mapConfig, options) => {
-  if (options.nafra2Layers) {
-    nafra2Layers = [
-      createNafra2Layer(mapConfig, 'fmp:defences', 'Flood defences', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:main_rivers_10k', 'Main rivers', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_storage_areas', 'Flood storage areas', 'RS'),
-
-      // Rivers and Sea - no depth
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea', 'Rivers and sea - flood zones 2 and 3', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp1', 'Rivers and sea - flood zones 2 and 3', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:flood_zone_2_3_rivers_and_sea_ccp2', 'Rivers and sea - flood zones 2 and 3', 'RS'),
-
-      // Rivers and Sea defended - no depth
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended', 'Rivers and sea - 3.3% AEP - defended', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp1', 'Rivers and sea - 3.3% AEP - defended', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_ccp2', 'Rivers and sea - 3.3% AEP - defended', 'RS'),
-
-      // Rivers and Sea defended - depth
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth', 'Rivers and sea - 3.3% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp1', 'Rivers and sea - 3.3% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in30_sea_1in30_defended_depth_ccp2', 'Rivers and sea - 3.3% AEP - defended depth', 'RS'),
-
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth', 'Rivers - 1%, sea 0.5% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth_ccp1', 'Rivers - 1%, sea 0.5% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_defended_depth_ccp2', 'Rivers - 1%, sea 0.5% AEP - defended depth', 'RS'),
-
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth', 'Rivers and sea - 0.1% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp1', 'Rivers and sea - 0.1% AEP - defended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_defended_depth_ccp2', 'Rivers and sea - 0.1% AEP - defended depth', 'RS'),
-
-      // Rivers and Sea undefended - depth
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth', 'Rivers - 1%, sea 0.5% AEP - undefended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp1', 'Rivers - 1%, sea 0.5% AEP - undefended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in100_sea_1in200_undefended_depth_ccp2', 'Rivers - 1%, sea 0.5% AEP - undefended depth', 'RS'),
-
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth', 'Rivers and sea - 0.1% AEP - undefended depth', 'RS'),
-      createNafra2Layer(mapConfig, 'fmp:rivers_1in1000_sea_1in1000_undefended_depth_ccp1', 'Rivers and sea - 0.1% AEP - undefended depth', 'RS'),
-
-      /** *********************************************** Surface Water *******************************************************************/
-      // Surface Water - no depth
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30', 'Surface water - 3.3% AEP', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp1', 'Surface water - 3.3% AEP', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_ccp2', 'Surface water - 3.3% AEP', 'SW'),
-
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000', 'Surface water - 1% and 0.1% AEP', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp1', 'Surface water - 1% and 0.1% AEP', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_1in1000_ccp2', 'Surface water - 1% and 0.1% AEP', 'SW'),
-
-      // Surface Water - depth
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth', 'Surface water - 3.3% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp1', 'Surface water - 3.3% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in30_depth_ccp2', 'Surface water - 3.3% AEP - depth', 'SW'),
-
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth', 'Surface water - 1% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp1', 'Surface water - 1% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in100_depth_ccp2', 'Surface water - 1% AEP - depth', 'SW'),
-
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth', 'Surface water - 0.1% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp1', 'Surface water - 0.1% AEP - depth', 'SW'),
-      createNafra2Layer(mapConfig, 'fmp:surface_water_spatial_planning_1in1000_depth_ccp2', 'Surface water - 0.1% AEP - depth', 'SW')
-
-    ]
-    return nafra2Layers.map((nafra2Layer) => nafra2Layer.layer)
-  }
-  return [createTileLayer(mapConfig)]
-}
-
-const buildLayerFragment = (fragment, layerSet, layerName) => {
-  const div = fragment.appendChild(document.createElement('div'))
-  div.className = 'layer-toggle-container'
-  const input = div.appendChild(document.createElement('input'))
-  input.setAttribute('type', 'checkbox')
-  input.setAttribute('id', layerName)
-  input.setAttribute('name', layerName)
-  input.checked = false
-  input.addEventListener('change', (event) => {
-    layerSet[layerName] = event.target.checked
-    showHideLayers()
-  })
-  const label = div.appendChild(document.createElement('label'))
-  label.setAttribute('for', layerName)
-  label.textContent = layerName
-}
-
-const addBaseMapRadioClickEvents = (map, elementName) => {
-  const radios = document.getElementsByName(elementName)
-  Array.from(radios).forEach((radio) => {
-    radio.onclick = (event) => {
-      map.setVisibleBaseMapLayer(event.target.value)
-    }
-  })
-}
-
-const addClimateChangeClickEvents = (map, elementName) => {
-  const radios = document.getElementsByName(elementName)
-  Array.from(radios).forEach((radio) => {
-    radio.onclick = (event) => {
-      climateChangeScenario = event.target.value
-      showHideLayers()
-      // map.setVisibleBaseMapLayer(event.target.value)
-    }
-  })
-}
-
-const populateMapLayerList = (map) => {
-  addBaseMapRadioClickEvents(map, 'base-map')
-  addClimateChangeClickEvents(map, 'climate-change')
-
-  const riversAndSeaFragment = document.createDocumentFragment()
-  Object.keys(riversAndSeaLayers).forEach((layerName) => buildLayerFragment(riversAndSeaFragment, riversAndSeaLayers, layerName))
-  document.querySelector('#rivers-and-sea-layers').appendChild(riversAndSeaFragment)
-
-  const surfaceWaterFragment = document.createDocumentFragment()
-  Object.keys(surfaceWaterLayers).forEach((layerName) => buildLayerFragment(surfaceWaterFragment, surfaceWaterLayers, layerName))
-  document.querySelector('#surface-water-layers').appendChild(surfaceWaterFragment)
-}
-
-const showHideLayers = () => {
-  console.log('\nshowHideLayers - climateChangeScenario', climateChangeScenario)
-  nafra2Layers.forEach((nafra2Layer) => {
-    const isCCP1 = nafra2Layer.ref.match('ccp1')
-    const isCCP2 = nafra2Layer.ref.match('ccp2')
-    const isCurrent = !(isCCP1 || isCCP2)
-    const notApplicableForClimateChange = nafra2Layer.ref.match(/\bdefences\b|\bmain_rivers_10k\b|\bflood_storage_areas\b/)
-    const climateChangeCheck = notApplicableForClimateChange ||
-      (climateChangeScenario === 'present-day' && isCurrent) ||
-      (climateChangeScenario === 'ccp-1' && isCCP1) ||
-      (climateChangeScenario === 'ccp-2' && isCCP2)
-
-    const showLayer = climateChangeCheck && (nafra2Layer.type === 'SW' ? surfaceWaterLayers[nafra2Layer.name] : riversAndSeaLayers[nafra2Layer.name])
-    if (showLayer) {
-      console.log('showLayer', nafra2Layer.ref)
-    }
-
-    nafra2Layer.layer.setVisible(showLayer)
-  })
+const getMapLayers = () => {
+  return [createTileLayer()]
 }
 
 let sessionStorageAvailable = true
@@ -321,7 +145,6 @@ const extendMapControls = allowFullScreen => {
 module.exports = {
   createTileLayer,
   getMapLayers,
-  populateMapLayerList,
   mapState,
   _mockSessionStorageAvailable,
   getTargetUrl,
