@@ -4,7 +4,6 @@ const uri = config.geoserver + '/geoserver/gwc/service/wms'
 module.exports = {
   method: 'GET',
   path: '/gwc-proxy',
-  config: { auth: false },
   handler: {
     proxy: {
       mapUri: (request) => {

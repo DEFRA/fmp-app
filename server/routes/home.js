@@ -12,7 +12,8 @@ module.exports = [{
         request.yar.set('displayError', {})
         return h.view('home', errMess)
       }
-    }
+    },
+    auth: false
   }
 }, {
   method: 'POST',
