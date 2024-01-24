@@ -39,5 +39,10 @@ module.exports = Joi.object({
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
   functionAppUrl: Joi.string().required(),
-  ignoreUseAutomatedService: Joi.boolean()
+  ignoreUseAutomatedService: Joi.boolean(),
+  sndPasswordEncryption: Joi.object().required().keys({
+    key: Joi.string().required(),
+    iv: Joi.string().required(),
+    method: Joi.string().required()
+  })
 })

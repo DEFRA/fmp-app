@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Flood map for planning - GOV.UK
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% if error %} {{ 
+          govukErrorSummary({
+            titleText: "The password you have entered is incorrect.",
+            errorList: [{ text: "Please enter the correct password." }]
+          }) 
+      }} {% endif %}
+
+      <h3 class="govuk-heading-m">Please enter the password you have been given for this session before proceeding</h3>
+
+      <form action="/login" method="post">
+        <div class="govuk-form-group">
+          <div class="govuk-grid-column-one-third">
+            <label class="govuk-label" for="sndPassword">
+              Password
+            </label>
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+            <input class="govuk-input" id="sndPassword" name="sndPassword" type="text" value="{{sndPassword}}"/>
+          </div>
+
+          <div class="govuk-grid-column-full">
+            <input class="govuk-input" id="url" name="url" type="hidden" value="{{url}}"/>
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+            <h4 class="govuk-label-wrapper">
+              <button class="govuk-button" data-module="govuk-button">
+                Submit
+              </button>
+            </h4>
+          </div>
+
+
+        </div>
+      </form>
+    </div>
+  {% endblock %}

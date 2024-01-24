@@ -1,6 +1,7 @@
 const hapi = require('@hapi/hapi')
 const config = require('./../config')
 const CatboxMemory = require('@hapi/catbox-memory')
+const passwordService = require('./services/snd-password')
 
 async function createServer () {
   // Create the hapi server
@@ -60,6 +61,27 @@ async function createServer () {
     request.response.header('Content-Security-Policy')
     return h.continue
   })
+
+  server.auth.scheme('sndCookie', () => ({
+    authenticate: async (request, h) => {
+      const cookie = request.state
+      if (cookie && cookie.snd) {
+        const encryptedPassword = cookie.snd
+        const sndPassword = await passwordService.decrypt(encryptedPassword)
+        const isValid = await passwordService.validate(sndPassword)
+        if (isValid) {
+          return h.authenticated({ credentials: {} })
+        }
+      }
+      const { pathname = '/', search = '' } = request.url
+      const url = encodeURIComponent(pathname + search)
+      return h.redirect(`/login?url=${url}`).takeover()
+    }
+
+  }))
+
+  server.auth.strategy('snd', 'sndCookie')
+  server.auth.default('snd')
 
   return server
 }
