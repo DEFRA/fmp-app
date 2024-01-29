@@ -1,114 +1,115 @@
 {% extends 'layout.html' %}
 {% block pageTitle %}
-  Flood risk information for this location - Flood map for planning - GOV.UK
+Flood risk information for this location - Flood map for planning - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
 
-  <a href="confirm-location?easting={{easting}}&amp;northing={{northing}}&amp;placeOrPostcode={{location}}&amp;polygon={{polygon}}" class="govuk-back-link" style="top: 0px">
-    Redraw the boundary of your site
-  </a>
+<a href="confirm-location?easting={{easting}}&amp;northing={{northing}}&amp;placeOrPostcode={{location}}&amp;polygon={{polygon}}"
+  class="govuk-back-link" style="top: 0px">
+  Redraw the boundary of your site
+</a>
 
-  <a href="location" class="search-link-right-v2">Search for a different location</a>
+<a href="location" class="search-link-right-v2">Search for a different location</a>
 {% endblock %}
 
 {% block content %}
-  {{ super() }}
+{{ super() }}
 
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css">
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
 
-  {% from "button/macro.njk" import govukButton %}
+{% from "button/macro.njk" import govukButton %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">This location is in flood zone
-        {{zoneNumber}}</h1>
-      <h4 class="govuk-heading-s">Flooding risk for this location includes:</h4>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          rivers and the sea
-        </li>
-        <li>
-          surface water
-        </li>
-      </ul>
-      <div class="govuk-inset-text override-inset">
-        Review the flood risks for your location then complete the next steps for your planning application.
-      </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">This location is in flood zone
+      {{zoneNumber}}</h1>
+    <h4 class="govuk-heading-s">Flooding risk for this location includes:</h4>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        rivers and the sea
+      </li>
+      <li>
+        surface water
+      </li>
+    </ul>
+    <div class="govuk-inset-text override-inset">
+      Review the flood risks for your location then complete the next steps for your planning application.
     </div>
   </div>
+</div>
 
-  <!-- Start of cards -->
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+<!-- Start of cards -->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
 
-      <!-- Start of HOLDING COMMENTS -->
-      {%if holdingComments %}
-        <div class="govuk-summary-card" id="holding-comments">
-          <div class="govuk-summary-card__title-wrapper vlow">
-            <h2 class="govuk-summary-card__title">TODO: Holding Comments Heading</h2>
-            <!-- ACTIONS COULD GO HERE -->
+    <!-- Start of HOLDING COMMENTS -->
+    {%if holdingComments %}
+    <div class="govuk-summary-card" id="holding-comments">
+      <div class="govuk-summary-card__title-wrapper vlow">
+        <h2 class="govuk-summary-card__title">TODO: Holding Comments Heading</h2>
+        <!-- ACTIONS COULD GO HERE -->
+      </div>
+
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              TODO: Holding Comments Sub heading
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <ul class="govuk-list govuk-list--bullet">
+                {% for comment in holdingComments %}
+                <li>
+                  <b class="bold">{{comment.info}}:</b>
+                  {{comment.details}}
+                </li>
+                {% endfor %}
+              </ul>
+            </dd>
           </div>
+        </dl>
+      </div>
+    </div>
+    {% endif %}
+    <!-- End of HOLDING COMMENTS -->
 
-          <div class="govuk-summary-card__content">
-            <dl class="govuk-summary-list">
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  TODO: Holding Comments Sub heading
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  <ul class="govuk-list govuk-list--bullet">
-                    {% for comment in holdingComments %}
-                      <li>
-                        <b class="bold">{{comment.info}}:</b>
-                        {{comment.details}}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      {% endif %}
-      <!-- End of HOLDING COMMENTS -->
+    <!-- Macros -->
+    {% macro action(href, content, hiddenContent, injectedMarkup) %}
+    <li class="govuk-summary-card__action">
+      <a href="{{ href }}">
+        {{ content }}
+        {%if hiddenContent %}
+        <span class="govuk-visually-hidden">{{ hiddenContent }}</span>
+        {% endif %}
+      </a>
+      {{ injectedMarkup }}
+    </li>
+    {% endmacro %}
 
-      <!-- Macros -->
-      {% macro action(href, content, hiddenContent, injectedMarkup) %}
-        <li class="govuk-summary-card__action">
-          <a href="{{ href }}">
-            {{ content }}
-            {%if hiddenContent %}
-              <span class="govuk-visually-hidden">{{ hiddenContent }}</span>
-            {% endif %}
-          </a>
-          {{ injectedMarkup }}
-        </li>
-      {% endmacro %}
-
-      {% macro actions(actionsList) %}
-        <ul class="govuk-summary-card__actions">
-          {% for actionContent in actionsList %}
-            {{ actionContent }}
-          {% endfor %}
-      </ul>
+    {% macro actions(actionsList) %}
+    <ul class="govuk-summary-card__actions">
+      {% for actionContent in actionsList %}
+        {{ actionContent }}
+      {% endfor %}
+    </ul>
     {% endmacro %}
 
     {% macro summaryCardHeader(title, actionsList) %}
-      <div class="govuk-summary-card__title-wrapper vlow">
-        <h2 class="govuk-summary-card__title">{{ title }}</h2>
-        {{ actions(actionsList)}}
-      </div>
+    <div class="govuk-summary-card__title-wrapper vlow">
+      <h2 class="govuk-summary-card__title">{{ title }}</h2>
+      {{ actions(actionsList)}}
+    </div>
     {% endmacro %}
 
     {% macro findOutMoreclimateChangeAllowances() %}
-      <p class="govuk-body">
-        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
-          Find out more about climate change allowances
-        </a>
-      </p>
+    <p class="govuk-body">
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
+        Find out more about climate change allowances
+      </a>
+    </p>
     {% endmacro %}
 
     <!-- End of Macros -->
@@ -116,10 +117,10 @@
     <!-- Rivers -->
     <div class="govuk-summary-card" id="rivers-sea">
       {{ summaryCardHeader( ["Rivers and sea - Flood zone ", zoneNumber] | join,
-        [action(
-          href='"/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}"', 
-          content='See this risk on a map',
-          hiddenContent='See the risk from rivers and the sea on a map'
+      [action(
+      href=["/flood-map?location=", location, "&polygon=", polygon, "&center=", center] | join,
+      content='See this risk on a map',
+      hiddenContent='See the risk from rivers and the sea on a map'
       )]) }}
 
       <div class="govuk-summary-card__content">
@@ -136,25 +137,27 @@
                 {{zoneNumber}}
                 has a
                 {% if zoneNumber == 1 %}
-                  low
+                low
                 {% endif %}
                 {% if zoneNumber == 2 %}
-                  medium
+                medium
                 {% endif %}
                 {% if zoneNumber == 3 %}
-                  high
+                high
                 {% endif %}
                 probability of flooding from rivers and the sea.
               </p>
               <p class="govuk-body">
                 {% if zoneNumber == 1 %}
-                  Most developments that are less than 1 hectare (ha) in flood zone
-                  {{zoneNumber}}
-                  do not need a flood risk assessment (FRA) as part of the planning application. The site you have drawn is
-                  {{plotSize}}
-                  ha.
+                Most developments that are less than 1 hectare (ha) in flood zone
+                {{zoneNumber}}
+                do not need a flood risk assessment (FRA) as part of the planning application. The site you have drawn
+                is
+                {{plotSize}}
+                ha.
                 {% else %}
-                  You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.
+                You need to carry out a flood risk assessment (FRA) as part of the planning application for this
+                development.
                 {% endif %}
               </p>
               <p class="govuk-body">
@@ -175,11 +178,6 @@
                 By 2125, if this location flooded, the water could be up to 60cm deep.
               </p>
               {{ findOutMoreclimateChangeAllowances() }}
-              <p class="govuk-body">
-                <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
-                  Find out more about climate change allowances
-                </a>
-              </p>
             </dd>
           </div>
 
@@ -201,10 +199,10 @@
     <!-- Floodplain -->
     <div class="govuk-summary-card" id="floodplain">
       {{ summaryCardHeader( "Functional floodplain",
-        [action(
-          href='https://www.gov.uk/guidance/flood-risk-and-coastal-change#para79', 
-          content='More details',
-          hiddenContent='of the risk of functional floodplain'
+      [action(
+      href='https://www.gov.uk/guidance/flood-risk-and-coastal-change#para79',
+      content='More details',
+      hiddenContent='of the risk of functional floodplain'
       )]) }}
 
       <div class="govuk-summary-card__content">
@@ -232,11 +230,11 @@
               </p>
               <p class="govuk-body">
                 This location is only suitable for:
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>water compatible developments
-                  </li>
-                  <li>essential infrastructure that has passed the Exception Test</li>
-                </ul>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>water compatible developments
+                </li>
+                <li>essential infrastructure that has passed the Exception Test</li>
+              </ul>
               </p>
             </dd>
           </div>
@@ -285,8 +283,8 @@
               Predicted likelihood of flooding by the year 2061
             </dt>
             <dd class="govuk-summary-list__value">
-              By 2061, the chance of surface water flooding at this location is more than 3.3% each year. 
-              If this location flooded, the water could be up to 60cm deep.
+              By 2061, the chance of surface water flooding at this location is more than 3.3% each year. If this
+              location flooded, the water could be up to 60cm deep.
             </dd>
           </div>
 
@@ -295,8 +293,8 @@
               Current likelihood of flooding
             </dt>
             <dd class="govuk-summary-list__value">
-              High risk of surface water (or flash) flooding. 
-              The chance of surface water (or flash) flooding at this location is more than 3.3% each year.
+              High risk of surface water (or flash) flooding. The chance of surface water (or flash) flooding at this
+              location is more than 3.3% each year.
             </dd>
           </div>
 
@@ -317,299 +315,222 @@
               If this location flooded now, the velocity could be less than 0.5 metre per second
             </dd>
           </div>
-          
-        </div>
+        </dl>
       </div>
-      <!-- Reservoirs -->
-      <div class="govuk-summary-card" id="reservoirs">
-        <div class="govuk-summary-card__title-wrapper vlow">
-          <h2 class="govuk-summary-card__title">Reservoirs</h2>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="results-full-sw.html">
-                More details<span class="govuk-visually-hidden">of the risk of flooding from reservoirs</span>
-              </a>
-            </li>
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="see-your-risk-map-sw.html?&results=surface-water?marker=true&scenario=4">
-                See this risk on a map<span class="govuk-visually-hidden">of reservoir flooding</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                How likely a flood is
-              </dt>
-              <dd class="govuk-summary-list__value">
-                There is a risk of flooding from reservoirs in this location. If you are considering development in an area of reservoir flood risk, you should contact the reservoir owner(s) to help you understand:
+    </div>
 
-                <ul class="govuk-list--bullet">
-                  <li>the flood risk in more detail</li>
-                  <li>if the development could affect the reservoir’s risk designation, it’s design category or how it is operated</li>
-                </ul>
-
-              </dd>
-            </div>
-
-          </dl>
-        </div>
+    <!-- Next steps-->
+    <div class="govuk-summary-card govuk-!-margin-top-3" id="next-steps">
+      <div class="govuk-summary-card__title-wrapper vlow">
+        <h2 class="govuk-summary-card__title">Next steps for your planning application
+        </h2>
       </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
 
-      <!-- Climate change -->
-      <div class="govuk-summary-card" id="climate-change">
-        <div class="govuk-summary-card__title-wrapper vlow">
-          <h2 class="govuk-summary-card__title">Climate change<span class="chance-content gw-context">Climate change is increasing the risk of flooding</span></h2>
-          <ul class="govuk-summary-card__actions">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Decide what you need for your planning application
+            </dt>
 
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="see-your-risk-map-sw.html?&results=surface-water?marker=true&scenario=4">
-                See this risk on a map<span class="govuk-visually-hidden">of flooding risk with climate change allowances</span>
-              </a>
-            </li>
+            <dd class="govuk-summary-list__value">
+              <p>Contact your local planning authority to check their planning requirements.</p>
+              <p>Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it
+                out.</p>
+              <p>
+                For developments in flood zone
+                {{zoneNumber}}
+                your FRA should include and assessment of all sources of flooding and
+                <a href="#">take into account climate change allowances</a>.
+              </p>
+              <p>Find out
+                <a href="#">how to do an assessment</a>.
+              </p>
 
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                How likely a flood is
-              </dt>
-              <dd class="govuk-summary-list__value">
-                With climate change allowances this location has a 1% chance of flooding from rivers and the sea and a 0.1% chance of flooding from surface water.
-                <br/>
-                <br/>
-                <a href="#" class="govuk-link">Find out more about climate change allowances</a>.
-              </dd>
-            </div>
+              <p>
+                To find out about other factors that might affect the flood risk of this location, you should also
+                check:
+              </p>
 
-          </dl>
-        </div>
-      </div>
+              <ul class="govuk-list--bullet">
+                <li>
+                  <a href="#" class="govuk-link">surface water, groundwater and reservoir flood risk</a>
+                </li>
+                <li>Warrington planning authority's strategic flood risk assessment (SFRA), which includes future flood
+                  risk
+                </li>
+              </ul>
 
-      <!--coastal erosion-->
-      <div class="govuk-summary-card govuk-!-margin-top-3" id="coastal-erosion">
-        <div class="govuk-summary-card__title-wrapper vlow">
-          <h2 class="govuk-summary-card__title">Coastal erosion</h2>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="results-full-other-flood.html">
-                More details<span class="govuk-visually-hidden">of the risk of coastal erosion</span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          <dl class="govuk-summary-list">
-
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                How likely is coastal erosion
-              </dt>
-              <dd class="govuk-summary-list__value">
-                There is a risk of coastal erosion in this location.
-                <br/>
-                <br/>
-                For more information see the
-                <a href="#" class="govuk-link">National Coastal Erosion Risk Map (NCERM2) on the Shoreline Management Explorer</a>.
-                <br><br>
-
-              </dd>
-
-            </div>
-
+            </dd>
           </div>
 
-        </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Other data you may need
+            </dt>
 
-        <!-- Next steps-->
-        <div class="govuk-summary-card govuk-!-margin-top-3" id="next-steps">
-          <div class="govuk-summary-card__title-wrapper vlow">
-            <h2 class="govuk-summary-card__title">Next steps for your planning application
-            </h2>
+            <dd class="govuk-summary-list__value">
 
+              <p class="govuk-body">
+                You will also need to assess
+                <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
+                  data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
+                  residual risk
+                </a>
+                from flood defence breach in this location. If available, we will provide breach hazard mapping data to
+                help you do this.
+              </p>
+            </dd>
           </div>
-          <div class="govuk-summary-card__content">
-            <dl class="govuk-summary-list">
 
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Decide what you need for your planning application
-                </dt>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Get help
+            </dt>
 
-                <dd class="govuk-summary-list__value">
-                  <p>Contact your local planning authority to check their planning requirements.</p>
-                  <p>Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it out.</p>
-                  <p>
-                    For developments in flood zone
-                    {{zoneNumber}}
-                    your FRA should include and assessment of all sources of flooding and
-                    <a href="#">take into account climate change allowances</a>.
-                  </p>
-                  <p>Find out
-                    <a href="#">how to do an assessment</a>.
-                  </p>
+            <dd class="govuk-summary-list__value">
+              <p>For help in deciding what flood risk information you need, email the Environment Agency team in
+                Yorkshire at neyorkshire@environment-agency.gov.uk
+              </p>
+            </dd>
+          </div>
 
-                  <p>
-                    To find out about other factors that might affect the flood risk of this location, you should also check:
-                  </p>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Order flood risk data for rivers and the sea
+            </dt>
+            <dd class="govuk-summary-list__value">
 
-                  <ul class="govuk-list--bullet">
-                    <li>
-                      <a href="#" class="govuk-link">surface water, groundwater and reservoir flood risk</a>
-                    </li>
-                    <li>Warrington planning authority's strategic flood risk assessment (SFRA), which includes future flood risk
-                    </li>
-                  </ul>
+              <p class="govuk-body">
+                The flood risk data usually includes:
+              </p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>
+                  detailed flood data
+                </li>
+                <li>
+                  historic flood event data
+                </li>
+                <li>
+                  modelled flood levels and extents
+                </li>
+                <li>
+                  flood defence locations and attributes
+                </li>
+              </ul>
+              <p class="govuk-body">
+                We aim to email you the data within 20 working days or sooner.
+              </p>
+            </dd>
+          </div>
 
-                </dd>
-              </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Download rivers and sea flood map for this location
+            </dt>
+            <dd class="govuk-summary-list__value">
 
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Get help
-                </dt>
+              <p class="govuk-body">
+                The flood map is suitable for a local planning authority to use when checking a planning application to
+                see if a development is:
+              </p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>
+                  in flood zone 1, 2 or 3
+                </li>
+                <li>
+                  within 20 meters of a main river or a flood defence
+                </li>
+                <li>
+                  in a water storage area
+                </li>
+              </ul>
 
-                <dd class="govuk-summary-list__value">
-                  <p>For help in deciding what flood risk information you need, email the Environment Agency team in Yorkshire at neyorkshire@environment-agency.gov.uk
-                  </p>
-                </dd>
-              </div>
+              <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">
+                    Add a reference to the flood map and set the scale
+                  </span>
+                </summary>
+                <div class="govuk-details__text">
+                  <form class="form" method="POST" action="pdf">
+                    <input name="id" type="hidden">
+                    <input name="zone" type="hidden" value="FZ1">
+                    <input name="polygon" type="hidden" value="">
+                    <input name="center" type="hidden" value="[362105,387218]">
 
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Order flood risk data for rivers and the sea
-                </dt>
-                <dd class="govuk-summary-list__value">
-
-                  <p class="govuk-body">
-                    The flood risk data usually includes:
-                  </p>
-                  <ul class="govuk-list govuk-list--bullet">
-                    <li>
-                      detailed flood data
-                    </li>
-                    <li>
-                      historic flood event data
-                    </li>
-                    <li>
-                      modelled flood levels and extents
-                    </li>
-                    <li>
-                      flood defence locations and attributes
-                    </li>
-                  </ul>
-                  <p class="govuk-body">
-                    We aim to email you the data within 20 working days or sooner.
-                  </p>
-
-                </dd>
-              </div>
-
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Download rivers and sea flood map for this location
-                </dt>
-                <dd class="govuk-summary-list__value">
-
-                  <p class="govuk-body">
-                    The flood map is suitable for a local planning authority to use when checking a planning application to see if a development is:
-                  </p>
-                  <ul class="govuk-list govuk-list--bullet">
-                    <li>
-                      in flood zone 1, 2 or 3
-                    </li>
-                    <li>
-                      within 20 meters of a main river or a flood defence
-                    </li>
-                    <li>
-                      in a water storage area
-                    </li>
-                  </ul>
-
-                  <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details">
-                    <summary class="govuk-details__summary">
-                      <span class="govuk-details__summary-text">
-                        Add a reference to the flood map and set the scale
-                      </span>
-                    </summary>
-                    <div class="govuk-details__text">
-                      <form class="form" method="POST" action="pdf">
-                        <input name="id" type="hidden">
-                        <input name="zone" type="hidden" value="FZ1">
-                        <input name="polygon" type="hidden" value="">
-                        <input name="center" type="hidden" value="[362105,387218]">
-
-                        <div class="govuk-form-group">
-                          <h3 class="govuk-label-wrapper">
-                            <label class="govuk-label--m" for="reference">
-                              Add a reference
-                            </label>
-                            <span class="govuk-hint govuk-hint--block">
-                              Optional. This is chosen by you to help you find the report later and should be less than 25 characters.
-                            </span>
-                          </h3>
-                          <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="13">
-                        </div>
-
-                        <div class="govuk-form-group">
-                          <h3 class="govuk-label-wrapper">
-                            <label class="govuk-label--m" for="scale">
-                              Scale
-                            </label>
-                            <span class="govuk-hint govuk-hint--block">
-                              Select the scale of the map shown in the report
-                            </span>
-                          </h3>
-                          <select class="govuk-select" id="scale" name="scale">
-                            <option value="2500">1:2500</option>
-                            <option value="10000">1:10000</option>
-                            <option value="25000">1:25000</option>
-                            <option value="50000">1:50000</option>
-                          </select>
-                        </div>
-                      </form>
+                    <div class="govuk-form-group">
+                      <h3 class="govuk-label-wrapper">
+                        <label class="govuk-label--m" for="reference">
+                          Add a reference
+                        </label>
+                        <span class="govuk-hint govuk-hint--block">
+                          Optional. This is chosen by you to help you find the report later and should be less than 25
+                          characters.
+                        </span>
+                      </h3>
+                      <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference"
+                        type="text" maxlength="13">
                     </div>
-                  </details>
-                  <br/>
-                  <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                    Download flood map for this location (PDF)
-                  </button>
-                </dd>
-              </div>
 
-            </div>
-
+                    <div class="govuk-form-group">
+                      <h3 class="govuk-label-wrapper">
+                        <label class="govuk-label--m" for="scale">
+                          Scale
+                        </label>
+                        <span class="govuk-hint govuk-hint--block">
+                          Select the scale of the map shown in the report
+                        </span>
+                      </h3>
+                      <select class="govuk-select" id="scale" name="scale">
+                        <option value="2500">1:2500</option>
+                        <option value="10000">1:10000</option>
+                        <option value="25000">1:25000</option>
+                        <option value="50000">1:50000</option>
+                      </select>
+                    </div>
+                  </form>
+                </div>
+              </details>
+              <br />
+              <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Download flood map for this location (PDF)
+              </button>
+            </dd>
           </div>
-          {% if useAutomatedService %}
-            <div class="govuk-button-group">
-              <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}" data-module="govuk-button">
-                Order flood risk data
-              </a>
-            </div>
-            {% endif%}
-          </div>
-        </div>
 
-        <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-        <script src="{{assetPath}}/javascripts/summary.js"></script>
+      </div>
+    </div>
 
-        {% if polygon %}
-          <script>
-            $(function () {
-              var page = new FMP.SummaryPage({polygon: {{ polygon }}})
-            })
-          </script>
-        {% else %}
-          <script>
-            $(function () {
-              var page = new FMP.SummaryPage({easting: '{{easting}}', northing: '{{northing}}'})
-            })
-          </script>
-        {% endif %}
+  </div>
+  {% if useAutomatedService %}
+  <div class="govuk-button-group">
+    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
+      role="button" draggable="false"
+      class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
+      data-module="govuk-button">
+      Order flood risk data
+    </a>
+  </div>
+  {% endif%}
+  {% include "./partials/change-location.html" %}
+</div>
 
-      {% endblock %}
+<script src="{{assetPath}}/javascripts/jquery.min.js"></script>
+<script src="{{assetPath}}/javascripts/summary.js"></script>
+
+{% if polygon %}
+<script>
+  $(function () {
+    var page = new FMP.SummaryPage({ polygon: {{ polygon }}})
+        })
+</script>
+{% else %}
+<script>
+  $(function () {
+    var page = new FMP.SummaryPage({ easting: '{{easting}}', northing: '{{northing}}' })
+  })
+</script>
+{% endif %}
+
+{% endblock %}
