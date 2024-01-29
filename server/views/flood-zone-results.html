@@ -12,7 +12,6 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 <a href="location" class="search-link-right-v2">Search for a different location</a>
 {% endblock %}
 
-
 {% block content %}
 {{ super() }}
 
@@ -29,15 +28,12 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     <ul class="govuk-list govuk-list--bullet">
       <li> rivers and the sea </li>
       <li> surface water </li>
-      <li> reservoirs </li>
-      <li> coastal erosion </li>
     </ul>
     <div class="govuk-inset-text override-inset">
       Review the flood risks for your location then complete the next steps for your planning application.
     </div>
   </div>
 </div>
-
 
 <!-- Start of cards -->  
 <div class="govuk-grid-row">
@@ -71,53 +67,97 @@ Flood risk information for this location - Flood map for planning - GOV.UK
     {% endif %}
     <!-- End of HOLDING COMMENTS -->
 
-    <!-- Rivers -->
-    <div class="govuk-summary-card" id="rivers-sea">
-      <div class="govuk-summary-card__title-wrapper vlow">
-        <h2 class="govuk-summary-card__title">Rivers and sea Flood zone 3</h2>
-        <ul class="govuk-summary-card__actions">
-          <li class="govuk-summary-card__action"> 
-            <a href="/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}">
-              See this risk on a map<span class="govuk-visually-hidden">from rivers and the sea</span> 
+    <!-- Macros -->
+      {% macro action(href, content, hiddenContent, injectedMarkup) %}
+        <li class="govuk-summary-card__action"> 
+            <a href="{{ href }}">
+              {{ content }}
+              {%if hiddenContent %}
+                <span class="govuk-visually-hidden">{{ hiddenContent }}</span> 
+              {% endif %}
             </a>
-            
+            {{ injectedMarkup }}
           </li>
+      {% endmacro %}
+
+      {% macro actions(actionsList) %}
+        <ul class="govuk-summary-card__actions">
+          {% for actionContent in actionsList %}
+            {{ actionContent }}
+          {% endfor %}
         </ul>
-      </div>
+      {% endmacro %}
+
+      {% macro summaryCardHeader(title, actionsList) %}
+          <div class="govuk-summary-card__title-wrapper vlow">
+            <h2 class="govuk-summary-card__title">{{ title }}</h2>
+            {{ actions(actionsList)}}            
+          </div>
+      {% endmacro %}
+
+    <!-- End of Macros -->
+
+    <!-- Rivers -->
+    <div class="govuk-summary-card" id="rivers-sea">{{
+      summaryCardHeader( ["Rivers and sea - Flood zone ", zoneNumber] | join,
+        [action(
+          href='"/flood-map?location={{location}}&polygon={{polygon}}&center={{center}}"', 
+          content='See this risk on a map',
+          hiddenContent='See the risk from rivers and the sea on a map'
+      )]) }}
+
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              What flood zone {{zoneNumber}} means
-            </dt>
+            <dt class="govuk-summary-list__key"> What flood zone {{zoneNumber}} means </dt>
             <dd class="govuk-summary-list__value">
-              Land within flood zone {{zoneNumber}} has a
-              {% if zoneNumber == 1 %} low {% endif %}
-              {% if zoneNumber == 2 %} medium {% endif %}
-              {% if zoneNumber == 3 %} high {% endif %}
-              probability of flooding from rivers and the sea.
-              <br/><br/>
-              
-              {% if zoneNumber == 1 %}
-                Most developments that are less than 1 hectare (ha) in flood zone {{zoneNumber}} 
-                do not need a flood risk assessment (FRA) as part of the planning application. 
-                The site you have drawn is {{plotSize}} ha.
-              {% else %}
-                You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.
-              {% endif %}
-
-              <br/><br/>
-              <a href="#" class="govuk-link">Find out more about flood zones and what they mean</a>.
-              <br/><br/>
-              To find out about other factors that might affect the flood risk of this location, you should also check:
-              
-             <ul class="govuk-list--bullet">
-                <li><a href="#" class="govuk-link">surface water, groundwater and reservoir flood risk</a></li>
-                <li>Warrington planning authority's strategic flood risk assessment (SFRA), which includes future flood risk</li>
-             </ul> 
-              
+              <p class="govuk-body">
+                Land within flood zone {{zoneNumber}} has a
+                {% if zoneNumber == 1 %} low {% endif %}
+                {% if zoneNumber == 2 %} medium {% endif %}
+                {% if zoneNumber == 3 %} high {% endif %}
+                probability of flooding from rivers and the sea.
+              </p>
+              <p class="govuk-body">              
+                {% if zoneNumber == 1 %}
+                  Most developments that are less than 1 hectare (ha) in flood zone {{zoneNumber}} 
+                  do not need a flood risk assessment (FRA) as part of the planning application. 
+                  The site you have drawn is {{plotSize}} ha.
+                {% else %}
+                  You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.
+                {% endif %}
+              </p>
+              <p class="govuk-body">
+                Find out more about 
+                <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para77" class="govuk-link">
+                  flood zones </a>and what they mean.
+              </p>
             </dd>
           </div>
+
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key"> Predicted likelihood of flooding by the year 2125 </dt>
+            <dd class="govuk-summary-list__value">
+              <p class="govuk-body">
+                By 2125, if this location flooded, the water could be up to 60cm deep.
+              </p>
+              <p class="govuk-body">
+                <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
+                  Find out more about climate change allowances
+                </a>
+              </p>
+            </dd>
+          </div>
+
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key"> Current depth of flooding </dt>
+            <dd class="govuk-summary-list__value">
+              <p class="govuk-body">
+                If this location flooded now, the water could be up to 30cm deep.
+              </p>
+            </dd>
+          </div>
+
         </dl>
       </div>
     </div>    
@@ -321,12 +361,26 @@ Flood risk information for this location - Flood map for planning - GOV.UK
                     </dt>
                   
                     <dd class="govuk-summary-list__value">
-                      <p>Contact York local planning authority to check their planning requirements.</p>
-                      <p>Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it out.  </p>            
-                     
-                      <p>For developments is flood zone 3 your FRA should include and assessment of all sources of flooding and <a href="#">take into account climate change allowances</a>. </p>
-                    
+                      <p>Contact your local planning authority to check their planning requirements.</p>
+                      <p>Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it out.</p>
+                      <p>
+                        For developments in flood zone {{zoneNumber}} your FRA should include and assessment of all sources of flooding 
+                        and <a href="#">take into account climate change allowances</a>. 
+                      </p>
                       <p>Find out <a href="#">how to do an assessment</a>. </p>
+
+                      <p>
+                        To find out about other factors that might affect the flood risk of this location, 
+                        you should also check:
+                      </p>
+                      
+                      <ul class="govuk-list--bullet">
+                        <li><a href="#" class="govuk-link">surface water, groundwater and reservoir flood risk</a></li>
+                        <li>Warrington planning authority's strategic flood risk assessment (SFRA), 
+                            which includes future flood risk
+                        </li>
+                      </ul> 
+
                     </dd>
                   </div>
                    
