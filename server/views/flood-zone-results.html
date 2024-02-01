@@ -116,7 +116,7 @@ Flood risk information for this location - Flood map for planning - GOV.UK
 
     <!-- Rivers -->
     <div class="govuk-summary-card" id="rivers-sea">
-      {{ summaryCardHeader( ["Rivers and sea - Flood zone ", zoneNumber] | join,
+      {{ summaryCardHeader( ["Rivers and the sea - Flood zone ", zoneNumber] | join,
       [action(
       href=["/flood-map?location=", location, "&polygon=", polygon, "&center=", center] | join,
       content='See this risk on a map',
@@ -283,8 +283,11 @@ Flood risk information for this location - Flood map for planning - GOV.UK
               Predicted likelihood of flooding by the year 2061
             </dt>
             <dd class="govuk-summary-list__value">
-              By 2061, the chance of surface water flooding at this location is more than 3.3% each year. If this
-              location flooded, the water could be up to 60cm deep.
+              <p class="govuk-body">
+                By 2061, the chance of surface water flooding at this location is more than 3.3% each year. If this
+                location flooded, the water could be up to 60cm deep.
+              </p>
+              {{ findOutMoreclimateChangeAllowances() }}
             </dd>
           </div>
 
