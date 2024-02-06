@@ -1,6 +1,6 @@
 {
   "name": "fmfp",
-  "version": "2.6.4",
+  "version": "2.7.0-pre.5",
   "dataVersion": "2.5.1",
   "description": "Flood map for planning",
   "main": "index.js",
@@ -50,7 +50,7 @@
     "bcrypt": "^5.0.1",
     "classlist-polyfill": "1.2.0",
     "geojson": "0.5.0",
-    "govuk-frontend": "^4.0.1",
+    "govuk-frontend": "^4.8.0",
     "handlebars": "^4.7.7",
     "https-proxy-agent": "^5.0.0",
     "joi": "^17.6.0",
