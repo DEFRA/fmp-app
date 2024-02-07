@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+
 {% block pageTitle %}
 Flood risk information for this location - Flood map for planning - GOV.UK
 {% endblock %}
@@ -15,6 +16,23 @@ Flood risk information for this location - Flood map for planning - GOV.UK
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">This location is in flood zone {{zoneNumber}}</h1>
   </div>
+
+  {% if holdingComments %}
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
+        <h3 class="govuk-heading-s govuk-warning-text__text">
+          Our understanding of flood risk from rivers and the sea has changed since 
+          this information was published.
+        </h3>
+        <p class="govuk-warning-text__text">
+          Contact 
+          <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a> 
+          for further information.
+        </p>
+      </div>    
+    </div>
+  {% endif %}
 
   <div class="govuk-grid-column-two-thirds">
     <!-- Flood Zone Meaning -->

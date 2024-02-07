@@ -53,6 +53,8 @@ function Model (data) {
     this.zoneNumber = 'not available'
   }
 
+  this.holdingComments = Boolean(risk.extra_info)
+
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(risk)
   // Add a requestP1 event object
