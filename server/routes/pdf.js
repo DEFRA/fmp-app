@@ -17,6 +17,7 @@ module.exports = {
       let zone = request.payload.zone
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
+      const holdingComments = (request.payload.holdingComments === 'true')
       const siteUrl = config.siteUrl
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
@@ -72,6 +73,8 @@ module.exports = {
           }
         }
       }
+
+      const pdfSummaryTemplate = holdingComments ? `summary-template-${zone}-risk-changed.pdf` : `summary-template-${zone}.pdf`
       // Prepare the PDF generate options
       const options = {
         payload: {
@@ -85,7 +88,7 @@ module.exports = {
           scale,
           northing: parseInt(center[1]),
           timestamp: moment().tz('Europe/London').format('D MMM YYYY H:mm'),
-          pdfSummaryTemplate: `summary-template-${zone}.pdf`,
+          pdfSummaryTemplate,
           pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
           layers: [
             {
@@ -294,6 +297,7 @@ module.exports = {
         polygon: Joi.string().required().allow(''),
         center: Joi.string().required(),
         zone: Joi.string().allow(''),
+        holdingComments: Joi.string().allow(''),
         id: Joi.string().allow('')
       })
     }
