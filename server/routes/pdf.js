@@ -296,7 +296,7 @@ module.exports = {
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
         center: Joi.string().required(),
-        zone: Joi.string().allow(''),
+        zone: Joi.string().valid('FZ1', 'FZ2', 'FZ2a', 'FZ3', 'FZ3a').default('FZ3'),
         holdingComments: Joi.string().allow(''),
         id: Joi.string().allow('')
       })
