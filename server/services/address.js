@@ -8,12 +8,12 @@ const fqFilter = 'LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlem
 // as it is a place in it's own right (although the OS Place Names returns a village in Cornwall as the top result).
 // This is a less than ideal workaround, that hard codes specific results, if any more are found they need to be added to this list.
 const shortNames = {
-  Brighton: 'Brighton and Hove',
-  Newcastle: 'Newcastle upon Tyne',
-  Stockton: 'Stockton-on-Tees'
+  brighton: 'Brighton and Hove',
+  newcastle: 'Newcastle upon Tyne',
+  stockton: 'Stockton-on-Tees'
 }
 
-const replaceCommonSearchTerms = place => shortNames[place] || place
+const replaceCommonSearchTerms = place => shortNames[place?.toLowerCase()] || place
 
 module.exports = {
   findByPlace: async (place) => {
