@@ -114,7 +114,8 @@ module.exports = [
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress
+            psoEmailAddress: psoResults.EmailAddress,
+            llfa: psoResults.LocalAuthorities || ''
           })
           const queryParams = {}
 
