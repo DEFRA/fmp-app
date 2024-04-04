@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const wreck = require('@hapi/wreck')
 const config = require('../../config')
@@ -27,7 +27,9 @@ lab.experiment('check-your-details', () => {
     LocalAuthorities: 'Ryedale'
   }
 
-  const orderProductFourResponse = { payload: '{ "applicationReferenceNumber": "123456" }' }
+  const orderProductFourResponse = {
+    payload: '{ "applicationReferenceNumber": "123456" }'
+  }
 
   lab.before(async () => {
     server = await createServer()
@@ -35,7 +37,7 @@ lab.experiment('check-your-details', () => {
 
     restoreWreckPost = wreck.post
     restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
-    server.methods.getPsoContactsByPolygon = async () => (yorkshirePsoDetails)
+    server.methods.getPsoContactsByPolygon = async () => yorkshirePsoDetails
     wreck.post = async (url, data) => ({ url, data })
   })
 
@@ -48,7 +50,9 @@ lab.experiment('check-your-details', () => {
   const confirmErrorRedirect = (response) => {
     const { result } = response
     Code.expect(response.statusCode).to.equal(500)
-    Code.expect(result.match(/<h1 class="govuk-heading-xl">Sorry, there is a problem with the page you requested<\/h1>/g).length).to.equal(1)
+    Code.expect(
+      result.match(/<h1 class="govuk-heading-xl">Sorry, there is a problem with the page you requested<\/h1>/g).length
+    ).to.equal(1)
   }
 
   lab.test('check-your-details with no query parameters should redirect to an error page', async () => {
@@ -111,7 +115,11 @@ lab.experiment('check-your-details', () => {
     Code.expect(result.match(/input type="hidden" value="Joe Bloggs" name="fullName"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="joe@example.com" name="recipientemail"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="" name="zoneNumber"/g).length).to.equal(1)
-    await payloadMatchTest(payload, /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}An image of a map showing the site you have provided for the location for assessment[\s\S]*<\/figcaption>/g, 1)
+    await payloadMatchTest(
+      payload,
+      /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}An image of a map showing the site you have provided for the location for assessment[\s\S]*<\/figcaption>/g,
+      1
+    )
   })
 
   lab.test('check-your-details with zoneNumber should render view with zoneNumber', async () => {
@@ -144,7 +152,11 @@ lab.experiment('check-your-details', () => {
     const { result } = response
     Code.expect(result.match(/input type="hidden" value="360799" name="easting"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="388244" name="northing"/g).length).to.equal(1)
-    Code.expect(result.match(/input type="hidden" value="\[\[479472,484194\],\[479467,484032\],\[479678,484015\],\[479691,484176\],\[479472,484194\]\]" name="polygon"/g).length).to.equal(1)
+    Code.expect(
+      result.match(
+        /input type="hidden" value="\[\[479472,484194\],\[479467,484032\],\[479678,484015\],\[479691,484176\],\[479472,484194\]\]" name="polygon"/g
+      ).length
+    ).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="\[479579,484104\]" name="cent"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="joe@example.com" name="recipientemail"/g).length).to.equal(1)
     Code.expect(result.match(/input type="hidden" value="Joe Bloggs" name="fullName"/g).length).to.equal(1)
@@ -193,187 +205,234 @@ lab.experiment('check-your-details', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}' })
+    Code.expect(postParams.data).to.equal({
+      payload:
+        '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+    })
   })
 
-  lab.test('check-your-details POST with easting and northing should repost to config.functionAppUrl/order-product-four', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        easting: 12345,
-        northing: 678910
+  lab.test(
+    'check-your-details POST with easting and northing should repost to config.functionAppUrl/order-product-four',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          easting: 12345,
+          northing: 678910,
+          location: 'Pickering',
+          polygon: '[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]'
+        }
       }
-    }
 
-    const postParams = {
-      url: undefined,
-      data: undefined
-    }
-
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}' })
-  })
-
-  lab.test('check-your-details POST without easting should repost to config.functionAppUrl/order-product-four without location set', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        northing: 678910
+      const postParams = {
+        url: undefined,
+        data: undefined
       }
-    }
 
-    const postParams = {
-      url: undefined,
-      data: undefined
-    }
-
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}' })
-  })
-
-  lab.test('check-your-details POST without northing should repost to config.functionAppUrl/order-product-four without location set', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        easting: 678910
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
       }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"[[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]]","location":"Pickering","plotSize":"0.35","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+      })
     }
+  )
 
-    const postParams = {
-      url: undefined,
-      data: undefined
-    }
-
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}' })
-  })
-
-  lab.test('check-your-details POST with easting, northing and zoneNumber should repost to config.functionAppUrl/order-product-four', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        easting: 12345,
-        northing: 678910,
-        zoneNumber: 10
+  lab.test(
+    'check-your-details POST without easting should repost to config.functionAppUrl/order-product-four without location set',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          northing: 678910
+        }
       }
-    }
-    const restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
 
-    const postParams = {
-      url: undefined,
-      data: undefined
-    }
-
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent=')
-    server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
-  })
-
-  lab.test('check-your-details POST with easting, northing and polygon should repost to config.functionAppUrl/order-product-four', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        easting: 12345,
-        northing: 678910,
-        polygon: '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]',
-        cent: '[479579,484104]'
+      const postParams = {
+        url: undefined,
+        data: undefined
       }
-    }
 
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
-    const postParams = {
-      url: undefined,
-      data: undefined
-    }
-
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
-  })
-
-  lab.test('check-your-details POST with easting, northing and location should repost to config.functionAppUrl/order-product-four', async () => {
-    const options = {
-      method: 'POST',
-      url: '/check-your-details',
-      payload: {
-        easting: 12345,
-        northing: 678910,
-        location: 'Pickering'
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
       }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+      })
     }
+  )
 
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
+  lab.test(
+    'check-your-details POST without northing should repost to config.functionAppUrl/order-product-four without location set',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          easting: 678910
+        }
+      }
 
-    const postParams = {
-      url: undefined,
-      data: undefined
+      const postParams = {
+        url: undefined,
+        data: undefined
+      }
+
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+      })
     }
+  )
 
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
+  lab.test(
+    'check-your-details POST with easting, northing and zoneNumber should repost to config.functionAppUrl/order-product-four',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          easting: 12345,
+          northing: 678910,
+          zoneNumber: 10
+        }
+      }
+      const restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+      server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
+
+      const postParams = {
+        url: undefined,
+        data: undefined
+      }
+
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"","location":"12345,678910","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+      })
+      const { headers } = response
+      Code.expect(headers.location).to.equal(
+        '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=10&cent='
+      )
+      server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
     }
+  )
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+  lab.test(
+    'check-your-details POST with easting, northing and polygon should repost to config.functionAppUrl/order-product-four',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          easting: 12345,
+          northing: 678910,
+          polygon: '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]',
+          cent: '[479579,484104]'
+        }
+      }
 
-    // Question - Is this correct - polygon seems to be passed in a variety of ways
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"","location":"Pickering","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
+      server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
+      const postParams = {
+        url: undefined,
+        data: undefined
+      }
 
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=Pickering&zoneNumber=&cent=')
-  })
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+      })
+      const { headers } = response
+      Code.expect(headers.location).to.equal(
+        '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
+      )
+    }
+  )
+
+  lab.test(
+    'check-your-details POST with easting, northing and location should repost to config.functionAppUrl/order-product-four',
+    async () => {
+      const options = {
+        method: 'POST',
+        url: '/check-your-details',
+        payload: {
+          easting: 12345,
+          northing: 678910,
+          location: 'Pickering'
+        }
+      }
+
+      server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
+
+      const postParams = {
+        url: undefined,
+        data: undefined
+      }
+
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+
+      // Question - Is this correct - polygon seems to be passed in a variety of ways
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"","location":"Pickering","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+      })
+
+      const { headers } = response
+      Code.expect(headers.location).to.equal(
+        '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=&recipientemail=&x=12345&y=678910&location=Pickering&zoneNumber=&cent='
+      )
+    }
+  )
 
   const postOptionsWithReferer = {
     method: 'POST',
@@ -385,59 +444,92 @@ lab.experiment('check-your-details', () => {
       cent: '[479579,484104]'
     },
     headers: {
-      referer: '/check-your-details?easting=479579&northing=484104&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479579,484104]&location=Pickering&zoneNumber=3&fullName=Mark%20Fee&recipientemail=Mark.Fee@defra.gov.uk'
+      referer:
+        '/check-your-details?easting=479579&northing=484104&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]&center=[479579,484104]&location=Pickering&zoneNumber=3&fullName=Mark%20Fee&recipientemail=Mark.Fee@defra.gov.uk'
     }
   }
 
-  lab.test('multiple Posts to check-your-details from the same referer should only call functionsApp once', async () => {
-    const options = postOptionsWithReferer
+  lab.test(
+    'multiple Posts to check-your-details from the same referer should only call functionsApp once',
+    async () => {
+      const options = postOptionsWithReferer
 
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
-    const postParams = {}
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
+      server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
+      const postParams = {}
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+      const postSpy = sinon.spy(wreck, 'post')
+      // Simulate clicking POST multiple times
+      await server.inject(options)
+      await server.inject(options)
+      await server.inject(options)
+      await server.inject(options)
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+      })
+      const { headers } = response
+      Code.expect(headers.location).to.equal(
+        '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
+      )
+      Code.expect(postSpy.callCount).to.equal(1)
     }
-    const postSpy = sinon.spy(wreck, 'post')
-    // Simulate clicking POST multiple times
-    await server.inject(options)
-    await server.inject(options)
-    await server.inject(options)
-    await server.inject(options)
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
-    Code.expect(postSpy.callCount).to.equal(1)
-  })
+  )
 
-  lab.test('multiple Posts to check-your-details from different referers should call functionsApp multipleTimes', async () => {
-    const options = postOptionsWithReferer
+  lab.test(
+    'multiple Posts to check-your-details from different referers should call functionsApp multipleTimes',
+    async () => {
+      const options = postOptionsWithReferer
 
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
-    const postParams = {}
-    wreck.post = async (url, data) => {
-      postParams.url = url
-      postParams.data = data
-      return orderProductFourResponse
+      server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
+      const postParams = {}
+      wreck.post = async (url, data) => {
+        postParams.url = url
+        postParams.data = data
+        return orderProductFourResponse
+      }
+      const postSpy = sinon.spy(wreck, 'post')
+      // Simulate clicking POST multiple times
+      await server.inject(
+        Object.assign({}, postOptionsWithReferer, {
+          headers: { referer: 'testUrl1' }
+        })
+      )
+      await server.inject(
+        Object.assign({}, postOptionsWithReferer, {
+          headers: { referer: 'testUrl2' }
+        })
+      )
+      await server.inject(
+        Object.assign({}, postOptionsWithReferer, {
+          headers: { referer: 'testUrl3' }
+        })
+      )
+      await server.inject(
+        Object.assign({}, postOptionsWithReferer, {
+          headers: { referer: 'testUrl4' }
+        })
+      )
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(302)
+      Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
+      Code.expect(postParams.data).to.equal({
+        payload:
+          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+      })
+      const { headers } = response
+      Code.expect(headers.location).to.equal(
+        '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
+      )
+      Code.expect(postSpy.callCount).to.equal(4)
     }
-    const postSpy = sinon.spy(wreck, 'post')
-    // Simulate clicking POST multiple times
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl1' } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl2' } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl3' } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: 'testUrl4' } }))
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(302)
-    Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
-    const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
-    Code.expect(postSpy.callCount).to.equal(4)
-  })
+  )
 
   lab.test('multiple Posts to check-your-details with no referer should call functionsApp multipleTimes', async () => {
     // This ought not to happen in the real world, but if it does (such as if the hapi response data ever changed)
@@ -445,7 +537,7 @@ lab.experiment('check-your-details', () => {
     // re-surface if this did happen
     const options = postOptionsWithReferer
 
-    server.methods.getPsoContactsByPolygon = async () => (eastAngliaPsoDetails)
+    server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
     const postParams = {}
     wreck.post = async (url, data) => {
       postParams.url = url
@@ -454,16 +546,37 @@ lab.experiment('check-your-details', () => {
     }
     const postSpy = sinon.spy(wreck, 'post')
     // Simulate clicking POST multiple times
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
-    await server.inject(Object.assign({}, postOptionsWithReferer, { headers: { referer: undefined } }))
+    await server.inject(
+      Object.assign({}, postOptionsWithReferer, {
+        headers: { referer: undefined }
+      })
+    )
+    await server.inject(
+      Object.assign({}, postOptionsWithReferer, {
+        headers: { referer: undefined }
+      })
+    )
+    await server.inject(
+      Object.assign({}, postOptionsWithReferer, {
+        headers: { referer: undefined }
+      })
+    )
+    await server.inject(
+      Object.assign({}, postOptionsWithReferer, {
+        headers: { referer: undefined }
+      })
+    )
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
     Code.expect(postParams.url).to.equal(config.functionAppUrl + '/order-product-four')
-    Code.expect(postParams.data).to.equal({ payload: '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}' })
+    Code.expect(postParams.data).to.equal({
+      payload:
+        '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+    })
     const { headers } = response
-    Code.expect(headers.location).to.equal('/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D')
+    Code.expect(headers.location).to.equal(
+      '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
+    )
     Code.expect(postSpy.callCount).to.equal(4)
   })
 
@@ -471,7 +584,11 @@ lab.experiment('check-your-details', () => {
     const PDFinformationDetailsObject = { value: 'test' }
     const contacturl = 'http://example.com/contact'
     const confirmlocationurl = 'http://example.com/confirm'
-    const data = { PDFinformationDetailsObject, contacturl, confirmlocationurl }
+    const data = {
+      PDFinformationDetailsObject,
+      contacturl,
+      confirmlocationurl
+    }
     const applicationReviewSummaryViewModel = new ApplicationReviewSummaryViewModel(data)
     Code.expect(applicationReviewSummaryViewModel).to.equal(data)
   })

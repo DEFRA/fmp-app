@@ -67,7 +67,7 @@ function Model (data) {
     }
   })
 
-  this.plotSize = (plotSize !== '0' && plotSize !== 0) ? plotSize : 'less than 0.1'
+  this.plotSize = plotSize !== '0' && plotSize !== 0 ? plotSize : 'less than 0.1'
 }
 
 module.exports = { Model }

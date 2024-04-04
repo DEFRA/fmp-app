@@ -1,4 +1,5 @@
-const description = 'The Environment Agency collects information or data about you when you use this service. This notice explains how we handle this information.'
+const description =
+  'The Environment Agency collects information or data about you when you use this service. This notice explains how we handle this information.'
 
 module.exports = {
   method: 'GET',

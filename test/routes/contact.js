@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
 
@@ -34,13 +34,25 @@ lab.experiment('contact', () => {
   const parametersToTest = [
     {
       zoneNumber: 10,
-      polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
+      polygon: [
+        [1, 1],
+        [1, 2],
+        [2, 2],
+        [2, 1],
+        [1, 1]
+      ],
       cent: [1, 1],
       location: 'Pickering'
     },
     {
       zoneNumber: '',
-      polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
+      polygon: [
+        [1, 1],
+        [1, 2],
+        [2, 2],
+        [2, 1],
+        [1, 1]
+      ],
       cent: [1, 1],
       location: 'Pickering'
     },
@@ -99,7 +111,13 @@ lab.experiment('contact', () => {
           easting: '360799',
           northing: '388244',
           zoneNumber: 10,
-          polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
+          polygon: [
+            [1, 1],
+            [1, 2],
+            [2, 2],
+            [2, 1],
+            [1, 1]
+          ],
           cent: [1, 1],
           location: 'Pickering'
         }
@@ -127,7 +145,13 @@ lab.experiment('contact', () => {
           easting: '360799',
           northing: '388244',
           zoneNumber: 10,
-          polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
+          polygon: [
+            [1, 1],
+            [1, 2],
+            [2, 2],
+            [2, 1],
+            [1, 1]
+          ],
           cent: [1, 1],
           location: 'Pickering'
         }
@@ -138,39 +162,60 @@ lab.experiment('contact', () => {
       const { request, payload } = response
       const { path } = request
       Code.expect(path).to.equal('/contact')
-      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
+      await payloadMatchTest(
+        payload,
+        /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g
+      )
+      await payloadMatchTest(
+        payload,
+        /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g
+      )
       await titleTest(payload, 'Error: Request flood risk assessment data - Flood map for planning - GOV.UK')
     })
   })
 
   fullNames.forEach((fullName) => {
-    lab.test('a contact POST with an invalid recipientemail and fullname should load contact view with errors', async () => {
-      const options = {
-        method: 'POST',
-        url: '/contact',
-        payload: {
-          recipientemail: '',
-          fullName,
-          easting: '360799',
-          northing: '388244',
-          zoneNumber: 10,
-          polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
-          cent: [1, 1],
-          location: 'Pickering'
+    lab.test(
+      'a contact POST with an invalid recipientemail and fullname should load contact view with errors',
+      async () => {
+        const options = {
+          method: 'POST',
+          url: '/contact',
+          payload: {
+            recipientemail: '',
+            fullName,
+            easting: '360799',
+            northing: '388244',
+            zoneNumber: 10,
+            polygon: [
+              [1, 1],
+              [1, 2],
+              [2, 2],
+              [2, 1],
+              [1, 1]
+            ],
+            cent: [1, 1],
+            location: 'Pickering'
+          }
         }
-      }
 
-      const response = await server.inject(options)
-      Code.expect(response.statusCode).to.equal(200)
-      const { request, payload } = response
-      const { path } = request
-      Code.expect(path).to.equal('/contact')
-      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g)
-      await payloadMatchTest(payload, /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g)
-      await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
-      await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
-    })
+        const response = await server.inject(options)
+        Code.expect(response.statusCode).to.equal(200)
+        const { request, payload } = response
+        const { path } = request
+        Code.expect(path).to.equal('/contact')
+        await payloadMatchTest(
+          payload,
+          /<span class="govuk-visually-hidden">Error:<\/span> Enter an email address in the correct format, like name@example.com/g
+        )
+        await payloadMatchTest(
+          payload,
+          /<a href="#recipientemail">Enter an email address in the correct format, like name@example.com<\/a>/g
+        )
+        await payloadMatchTest(payload, /<span class="govuk-visually-hidden">Error:<\/span> Enter your full name/g)
+        await payloadMatchTest(payload, /<a href="#fullName">Enter your full name<\/a>/g)
+      }
+    )
   })
 
   const eastingNorthingValues = [{ easting: '360799' }, { northing: '388244' }]
@@ -185,7 +230,13 @@ lab.experiment('contact', () => {
           easting: eastingNorthingValues.easting,
           northing: eastingNorthingValues.northing,
           zoneNumber: 10,
-          polygon: [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
+          polygon: [
+            [1, 1],
+            [1, 2],
+            [2, 2],
+            [2, 1],
+            [1, 1]
+          ],
           cent: [1, 1],
           location: 'Pickering'
         }

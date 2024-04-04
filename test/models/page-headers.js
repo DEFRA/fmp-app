@@ -13,7 +13,8 @@ module.exports = {
   location: {
     standard: '<h1 class="heading-large">Find the location</h1>',
     invalidPlaceOrPostcode: '<span class="error-message">You need to give a place or postcode</span>',
-    invalidNationalGridReference: '<span\n              class="error-message">You need to give a National Grid Reference (NGR)</span>\n ',
+    invalidNationalGridReference:
+      '<span\n              class="error-message">You need to give a National Grid Reference (NGR)</span>\n ',
     invalidEasting: '<span class="error-message">You need to give an easting</span>',
     invalidNorthing: '<span class="error-message">You need to give a northing</span>',
     invalidEastingAndNorthing: '<span class="error-message">You need to give an easting and northing</span>'

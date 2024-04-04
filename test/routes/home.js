@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const addressService = require('../../server/services/address')
 const createServer = require('../../server')
@@ -15,10 +15,12 @@ lab.experiment('home', () => {
     await server.initialize()
 
     addressService.findByPlace = async (place) => {
-      return [{
-        geometry_x: 300000,
-        geometry_y: 400000
-      }]
+      return [
+        {
+          geometry_x: 300000,
+          geometry_y: 400000
+        }
+      ]
     }
   })
 
@@ -48,16 +50,19 @@ lab.experiment('home', () => {
     Code.expect(response.statusCode).to.equal(404)
   })
 
-  lab.test('home page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
-    const options = {
-      method: 'GET',
-      url: '/?place=co10 onn'
-    }
+  lab.test(
+    'home page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location',
+    async () => {
+      const options = {
+        method: 'GET',
+        url: '/?place=co10 onn'
+      }
 
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-    Code.expect(response.payload).to.include(headers.home.standard)
-  })
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+      Code.expect(response.payload).to.include(headers.home.standard)
+    }
+  )
 
   lab.test('home page footer should contain OS link titled Ordance Survey (OS)', async () => {
     const options = { method: 'GET', url: '/' }
@@ -67,7 +72,10 @@ lab.experiment('home', () => {
 
     await payloadMatchTest(payload, /<a href = "https:\/\/www.ordnancesurvey.co.uk\/">Ordnance Survey\(OS\)<\/a>/g)
     await payloadMatchTest(payload, /<a href="os-terms">Ordnance Survey terms and conditions<\/a>/g)
-    await payloadMatchTest(payload, /<li>download a printable flood map for planning \(PDF\) showing your flood zone \(also known as a product 1\)<\/li>/g)
+    await payloadMatchTest(
+      payload,
+      /<li>download a printable flood map for planning \(PDF\) showing your flood zone \(also known as a product 1\)<\/li>/g
+    )
     await payloadMatchTest(payload, /<li>request flood risk assessment data \(also known as a product 4\)<\/li>/g)
   })
 })

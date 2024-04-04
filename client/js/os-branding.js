@@ -6,8 +6,8 @@ const os = window.os || {}
 
 os.Branding = {
   /**
-  * Default configuration options.
-  */
+   * Default configuration options.
+   */
   options: {
     div: 'map',
     logo: 'os-logo-maps', // os-logo-maps | os-logo-maps-white
@@ -17,8 +17,8 @@ os.Branding = {
   },
 
   /**
-  * Add the API logo and copyright statement.
-  */
+   * Add the API logo and copyright statement.
+   */
   init: function (obj) {
     this.options.div = scriptTag.getAttribute('data-div') || this.options.div
     this.options.logo = scriptTag.getAttribute('data-logo') || this.options.logo
@@ -26,7 +26,7 @@ os.Branding = {
     this.options.prefix = scriptTag.getAttribute('data-prefix') || this.options.prefix
     this.options.suffix = scriptTag.getAttribute('data-suffix') || this.options.suffix
 
-    obj = (typeof obj !== 'undefined') ? obj : {}
+    obj = typeof obj !== 'undefined' ? obj : {}
     Object.assign(this.options, obj)
 
     const elem = document.getElementById(this.options.div)
@@ -47,7 +47,7 @@ os.Branding = {
       copyrightStatement = copyrightStatement + '<span>|</span>' + this.options.suffix
     }
 
-    document.querySelectorAll('#' + this.options.div + ' .os-api-branding').forEach(el => el.remove())
+    document.querySelectorAll('#' + this.options.div + ' .os-api-branding').forEach((el) => el.remove())
 
     // Append the API logo.
     const div1 = document.createElement('div')

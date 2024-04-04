@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { JSDOM } = require('jsdom')
 
@@ -22,7 +22,9 @@ lab.experiment('flood-zone-results-explained', () => {
     const options = { method: 'GET', url }
     const response = await server.inject(options)
     const { payload } = response
-    const { window: { document: doc } } = await new JSDOM(payload)
+    const {
+      window: { document: doc }
+    } = await new JSDOM(payload)
     const documentBody = doc.querySelector('#flood-zone-results-explained > .govuk-grid-column-two-thirds')
     return { response, documentBody }
   }

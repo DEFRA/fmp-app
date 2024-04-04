@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const { findByPlace } = require('../../server/services/address')
 const util = require('../../server/util')
 const config = require('../../config')
@@ -18,7 +18,9 @@ lab.experiment('address', () => {
 
   lab.test('findByPlace should call the os api with a filter applied', async () => {
     util.getJson = (url) => {
-      const expectedUrl = config.ordnanceSurvey.osNamesUrl.replace('maxresults=1&', 'maxresults=10&') + `/pickering&key=${config.ordnanceSurvey.osSearchKey}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village`
+      const expectedUrl =
+        config.ordnanceSurvey.osNamesUrl.replace('maxresults=1&', 'maxresults=10&') +
+        `/pickering&key=${config.ordnanceSurvey.osSearchKey}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village`
 
       Code.expect(url).to.equal(expectedUrl)
     }
@@ -45,14 +47,19 @@ lab.experiment('address', () => {
 
   lab.test('findByPlace should return an array of geometry items if payload.results is valid', async () => {
     util.getJson = () => ({
-      results: [{
-        GAZETTEER_ENTRY: {
-          GEOMETRY_X: 123, GEOMETRY_Y: 456
+      results: [
+        {
+          GAZETTEER_ENTRY: {
+            GEOMETRY_X: 123,
+            GEOMETRY_Y: 456
+          }
         }
-      }]
+      ]
     })
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([{ exact: 0, geometry_x: 123, geometry_y: 456, isPostCode: false, locationDetails: '' }])
+    Code.expect(places).to.equal([
+      { exact: 0, geometry_x: 123, geometry_y: 456, isPostCode: false, locationDetails: '' }
+    ])
   })
 
   const apiResults = [
@@ -113,6 +120,7 @@ lab.experiment('address', () => {
     })
     const places = await findByPlace('/pickering')
     places.forEach(({ locationDetails }, index) =>
-      Code.expect(locationDetails).to.equal(apiResults[index].expectedLocationDetails))
+      Code.expect(locationDetails).to.equal(apiResults[index].expectedLocationDetails)
+    )
   })
 })

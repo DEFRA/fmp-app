@@ -39,13 +39,13 @@
 
     const setup = function (analyticsCallback, element = document) {
       // Send an analytics event for all elements with the data-journey attrib
-      element.querySelectorAll('[data-journey]').forEach(journeyElement => {
+      element.querySelectorAll('[data-journey]').forEach((journeyElement) => {
         const analyticsObject = JSON.parse(journeyElement.dataset.journey)
         analyticsCallback(analyticsObject)
       })
 
       // Add a click handler to all elements with the data-analytics-click attrib
-      element.querySelectorAll('[data-analytics-click]').forEach(journeyHelper =>
+      element.querySelectorAll('[data-analytics-click]').forEach((journeyHelper) =>
         journeyHelper.addEventListener('click', () => {
           const analyticsObject = JSON.parse(journeyHelper.dataset.analyticsClick)
           analyticsCallback(analyticsObject)
@@ -53,11 +53,13 @@
       )
 
       // Add a click handler to all elements with the data-journey-click attrib
-      element.querySelectorAll('[data-journey-click]').forEach(journeyHelper =>
-        journeyHelper.addEventListener('click', () =>
-          analyticsCallback.apply(null, splitAction(journeyHelper.dataset.journeyClick))
+      element
+        .querySelectorAll('[data-journey-click]')
+        .forEach((journeyHelper) =>
+          journeyHelper.addEventListener('click', () =>
+            analyticsCallback.apply(null, splitAction(journeyHelper.dataset.journeyClick))
+          )
         )
-      )
     }
 
     const setupForGoogleAnalytics = function (element = document) {
@@ -68,17 +70,19 @@
       setup,
       setupForGoogleAnalytics
     }
-  }())
+  })()
 
   GOVUK.performance.sendGoogleAnalyticsEvent = function (pageName, event, destination) {
     if (!document.cookie.match('GA=Accept')) {
       return // FCRM-3657 ensure we dont send analytics cookies if cookies are not accepted
     }
-    if (window.gtag && typeof (window.gtag) === 'function') {
-      if (pageName && pageName.event) { // IF this is a data-journey or data-analytics-click object, this will pass
+    if (window.gtag && typeof window.gtag === 'function') {
+      if (pageName && pageName.event) {
+        // IF this is a data-journey or data-analytics-click object, this will pass
         const { event, parameters = {} } = pageName
         window.gtag('event', event, parameters)
-      } else { // This is a data-journey-click
+      } else {
+        // This is a data-journey-click
         window.gtag('event', event, {
           PAGE_NAME: pageName,
           DESTINATION: destination

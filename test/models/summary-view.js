@@ -1,5 +1,5 @@
 const Lab = require('@hapi/lab')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const Code = require('@hapi/code')
 const SummaryViewModel = require('../../server/models/summary-view')
 // Test data objects
@@ -54,7 +54,17 @@ lab.experiment('summary-view view model tests', () => {
 
   // // TODO do some tests with a polygon
   lab.test('polygon zone1', () => {
-    const summaryViewModel = new SummaryViewModel(testObjects.zone1Polygon, [361930, 387463], [[361767, 387591], [361795, 387325], [362086, 387310], [362094, 387616], [361767, 387591]])
+    const summaryViewModel = new SummaryViewModel(
+      testObjects.zone1Polygon,
+      [361930, 387463],
+      [
+        [361767, 387591],
+        [361795, 387325],
+        [362086, 387310],
+        [362094, 387616],
+        [361767, 387591]
+      ]
+    )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ1')
     Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
@@ -63,7 +73,17 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('polygon zone2', () => {
-    const summaryViewModel = new SummaryViewModel(testObjects.zone2Polygon, [361930, 387463], [[361767, 387591], [361795, 387325], [362086, 387310], [362094, 387616], [361767, 387591]])
+    const summaryViewModel = new SummaryViewModel(
+      testObjects.zone2Polygon,
+      [361930, 387463],
+      [
+        [361767, 387591],
+        [361795, 387325],
+        [362086, 387310],
+        [362094, 387616],
+        [361767, 387591]
+      ]
+    )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2')
     Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
@@ -72,7 +92,17 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('polygon zone3', () => {
-    const summaryViewModel = new SummaryViewModel(testObjects.zone3Polygon, [361930, 387463], [[361767, 387591], [361795, 387325], [362086, 387310], [362094, 387616], [361767, 387591]])
+    const summaryViewModel = new SummaryViewModel(
+      testObjects.zone3Polygon,
+      [361930, 387463],
+      [
+        [361767, 387591],
+        [361795, 387325],
+        [362086, 387310],
+        [362094, 387616],
+        [361767, 387591]
+      ]
+    )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3')
     Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
@@ -81,7 +111,17 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('polygon zone2a', () => {
-    const summaryViewModel = new SummaryViewModel(testObjects.zone2aPolygon, [361930, 387463], [[361767, 387591], [361795, 387325], [362086, 387310], [362094, 387616], [361767, 387591]])
+    const summaryViewModel = new SummaryViewModel(
+      testObjects.zone2aPolygon,
+      [361930, 387463],
+      [
+        [361767, 387591],
+        [361795, 387325],
+        [362086, 387310],
+        [362094, 387616],
+        [361767, 387591]
+      ]
+    )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2a')
     Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()
@@ -90,7 +130,17 @@ lab.experiment('summary-view view model tests', () => {
   })
 
   lab.test('polygon zone3a', () => {
-    const summaryViewModel = new SummaryViewModel(testObjects.zone3aPolygon, [361930, 387463], [[361767, 387591], [361795, 387325], [362086, 387310], [362094, 387616], [361767, 387591]])
+    const summaryViewModel = new SummaryViewModel(
+      testObjects.zone3aPolygon,
+      [361930, 387463],
+      [
+        [361767, 387591],
+        [361795, 387325],
+        [362086, 387310],
+        [362094, 387616],
+        [361767, 387591]
+      ]
+    )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3a')
     Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()

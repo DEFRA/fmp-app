@@ -1,4 +1,17 @@
-function ConfirmationViewModel (recipientemail, applicationReferenceNumber, psoEmailAddress, AreaName, LocalAuthorities, zoneNumber, easting, northing, polygon, cent, location, search) {
+function ConfirmationViewModel (
+  recipientemail,
+  applicationReferenceNumber,
+  psoEmailAddress,
+  AreaName,
+  LocalAuthorities,
+  zoneNumber,
+  easting,
+  northing,
+  polygon,
+  cent,
+  location,
+  search
+) {
   if (recipientemail) {
     this.recipientemail = recipientemail
     this.psoEmailAddress = psoEmailAddress

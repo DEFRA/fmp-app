@@ -30,7 +30,7 @@ const VectorDrag = require('../vector-drag')
 
 const vectorDragInteraction = new VectorDrag()
 
-const addOptionsFromSession = options => {
+const addOptionsFromSession = (options) => {
   const polygonFromSession = mapState.getItem('polygon')
   let pointFromSession = mapState.getItem('point')
   if (polygonFromSession) {
@@ -60,9 +60,7 @@ function ConfirmLocationPage (options) {
   })
 
   const vectorSource = new VectorSource({
-    features: [
-      point
-    ]
+    features: [point]
   })
 
   // Styles for features
@@ -121,28 +119,30 @@ function ConfirmLocationPage (options) {
   })
 
   // Start polygon drawing style
-  const drawStyle = (_feature, resolution) => new Style({
-    fill: new Fill({
-      color: 'rgba(255, 255, 255, 0.5)'
-    }),
-    stroke: new Stroke({
-      color: '#005EA5',
-      width: 3
-    }),
-    image: getPolygonNodeIcon(resolution)
-  })
+  const drawStyle = (_feature, resolution) =>
+    new Style({
+      fill: new Fill({
+        color: 'rgba(255, 255, 255, 0.5)'
+      }),
+      stroke: new Stroke({
+        color: '#005EA5',
+        width: 3
+      }),
+      image: getPolygonNodeIcon(resolution)
+    })
 
   // Modify polygon drawing style
-  const modifyStyle = (_feature, resolution) => new Style({
-    fill: new Fill({
-      color: 'rgba(255, 255, 255, 0.5)'
-    }),
-    stroke: new Stroke({
-      color: '#FFBF47',
-      width: 3
-    }),
-    image: getPolygonNodeIcon(resolution)
-  })
+  const modifyStyle = (_feature, resolution) =>
+    new Style({
+      fill: new Fill({
+        color: 'rgba(255, 255, 255, 0.5)'
+      }),
+      stroke: new Stroke({
+        color: '#FFBF47',
+        width: 3
+      }),
+      image: getPolygonNodeIcon(resolution)
+    })
 
   const modify = new Modify({
     source: vectorSource,
@@ -208,7 +208,7 @@ function ConfirmLocationPage (options) {
 
     const view = map.getView()
 
-    const moveOrScrollEventHandler = _event => {
+    const moveOrScrollEventHandler = (_event) => {
       const [topLeft, bottomRight] = getCartesianViewExtents(map)
       if (topLeft && bottomRight) {
         cartesianSnapCollection.setExtents(topLeft, bottomRight)

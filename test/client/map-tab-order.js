@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const { fixMapTabOrder, setTabActions } = require('../../client/js/map-tab-order')
 const sinon = require('sinon')
 
@@ -29,7 +29,9 @@ lab.experiment('setTabActions', () => {
     previousElement = { focus: previousElementFocus }
   })
 
-  lab.afterEach(async () => { sinon.restore() })
+  lab.afterEach(async () => {
+    sinon.restore()
+  })
 
   lab.test('setTabActions should call nextElement.focus when tab is pressed', async () => {
     const element = new ElementConstructor()
@@ -61,15 +63,18 @@ lab.experiment('setTabActions', () => {
     Code.expect(preventDefault.callCount, 'preventDefault.callCount').to.equal(0)
   })
 
-  lab.test('setTabActions should not call anything when shift+tab is pressed and previousElement is not defined', async () => {
-    const element = new ElementConstructor()
+  lab.test(
+    'setTabActions should not call anything when shift+tab is pressed and previousElement is not defined',
+    async () => {
+      const element = new ElementConstructor()
 
-    setTabActions(element, nextElement, undefined)
-    element.listeners.keydown({ which: 9, shiftKey: true, preventDefault })
-    Code.expect(nextElementFocus.callCount, 'nextElementFocus.callCount').to.equal(0)
-    Code.expect(previousElementFocus.callCount, 'previousElementFocus.callCount').to.equal(0)
-    Code.expect(preventDefault.callCount, 'preventDefault.callCount').to.equal(0)
-  })
+      setTabActions(element, nextElement, undefined)
+      element.listeners.keydown({ which: 9, shiftKey: true, preventDefault })
+      Code.expect(nextElementFocus.callCount, 'nextElementFocus.callCount').to.equal(0)
+      Code.expect(previousElementFocus.callCount, 'previousElementFocus.callCount').to.equal(0)
+      Code.expect(preventDefault.callCount, 'preventDefault.callCount').to.equal(0)
+    }
+  )
 
   lab.test('setTabActions should not call anything when tab is pressed and nextElement is not defined', async () => {
     const element = new ElementConstructor()
@@ -104,7 +109,7 @@ lab.experiment('fixMapTabOrder', () => {
   let documentElements
 
   lab.beforeEach(async () => {
-  // ElementConstructor (hasAttributeResult = false, getAttributeResult = false, closestResult = false) {
+    // ElementConstructor (hasAttributeResult = false, getAttributeResult = false, closestResult = false) {
     elementBeforeFigure1 = new ElementConstructor(false, false, false)
     elementBeforeFigure2 = new ElementConstructor(false, false, false)
     hiddenElement = new ElementConstructor(false, true, false)
@@ -145,7 +150,9 @@ lab.experiment('fixMapTabOrder', () => {
     figureElement.addEventListener = addEventListener
   })
 
-  lab.afterEach(async () => { sinon.restore() })
+  lab.afterEach(async () => {
+    sinon.restore()
+  })
 
   lab.test('fixMapTabOrder should call querySelectorAll on document ', async () => {
     querySelector.returns({ querySelector, querySelectorAll, addEventListener, hasAttribute, getAttribute })
@@ -173,16 +180,19 @@ lab.experiment('fixMapTabOrder', () => {
     sinon.restore()
   })
 
-  lab.test('fixMapTabOrder should not set tabIndex to -1 on osTermsElement and attributionsElement if figure is missing', async () => {
-    querySelectorAll.returns(documentElements)
-    querySelector.returns(undefined)
+  lab.test(
+    'fixMapTabOrder should not set tabIndex to -1 on osTermsElement and attributionsElement if figure is missing',
+    async () => {
+      querySelectorAll.returns(documentElements)
+      querySelector.returns(undefined)
 
-    const mockDocument = { querySelector, querySelectorAll }
-    fixMapTabOrder(mockDocument)
-    Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(1)
-    Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
-    Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
-    Code.expect(fullScreenElement.tabIndex, 'fullScreenElement.tabIndex should be undefined').to.equal(undefined)
-    sinon.restore()
-  })
+      const mockDocument = { querySelector, querySelectorAll }
+      fixMapTabOrder(mockDocument)
+      Code.expect(querySelector.callCount, 'querySelector should be called once').to.equal(1)
+      Code.expect(querySelectorAll.callCount, 'querySelectorAll should be called once').to.equal(1)
+      Code.expect(osTermsElement.tabIndex, 'osTermsElement.tabIndex should be undefined').to.equal(undefined)
+      Code.expect(fullScreenElement.tabIndex, 'fullScreenElement.tabIndex should be undefined').to.equal(undefined)
+      sinon.restore()
+    }
+  )
 })

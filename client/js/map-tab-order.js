@@ -1,12 +1,13 @@
-const getKeyboardFocusableElements = (element = document) => [...element.querySelectorAll(
-  'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
-)].filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'))
+const getKeyboardFocusableElements = (element = document) =>
+  [
+    ...element.querySelectorAll('a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])')
+  ].filter((el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'))
 
 const setTabActions = (element, nextElement, previousElement) => {
   if (!element) {
     return
   }
-  element.addEventListener('keydown', event => {
+  element.addEventListener('keydown', (event) => {
     if (event.which === 9) {
       if (event.shiftKey && previousElement) {
         previousElement.focus()
@@ -28,7 +29,7 @@ const fixMapTabOrder = (container = document) => {
   const fullScreenElement = figureElement ? figureElement.querySelector('.ol-full-screen-false') : undefined
 
   let figureFound = false
-  const nextFocussableElement = getKeyboardFocusableElements(container).find(element => {
+  const nextFocussableElement = getKeyboardFocusableElements(container).find((element) => {
     if (figureFound === false && element.closest(figureSelector)) {
       figureFound = true
     }

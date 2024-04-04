@@ -5,7 +5,7 @@ const Icon = require('ol/style/Icon').default
 const ScaleLine = require('ol/control/ScaleLine').default
 const FullScreen = require('ol/control/FullScreen').default
 
-const createTileLayer = mapConfig => {
+const createTileLayer = (mapConfig) => {
   return new TileLayer({
     ref: 'fmp',
     opacity: 0.7,
@@ -35,25 +35,19 @@ try {
   sessionStorageAvailable = false
 }
 
-const _mockSessionStorageAvailable = value => {
+const _mockSessionStorageAvailable = (value) => {
   const currentValue = sessionStorageAvailable
   sessionStorageAvailable = value
   return currentValue
 }
 
 const mapState = {
-  getItem: name => sessionStorageAvailable
-    ? window.sessionStorage.getItem(name)
-    : undefined,
-  setItem: (name, value) => sessionStorageAvailable
-    ? window.sessionStorage.setItem(name, value)
-    : undefined,
-  removeItem: name => sessionStorageAvailable
-    ? window.sessionStorage.removeItem(name)
-    : undefined
+  getItem: (name) => (sessionStorageAvailable ? window.sessionStorage.getItem(name) : undefined),
+  setItem: (name, value) => (sessionStorageAvailable ? window.sessionStorage.setItem(name, value) : undefined),
+  removeItem: (name) => (sessionStorageAvailable ? window.sessionStorage.removeItem(name) : undefined)
 }
 
-const getCenterOfExtent = extent => {
+const getCenterOfExtent = (extent) => {
   const X = extent[0] + (extent[2] - extent[0]) / 2
   const Y = extent[1] + (extent[3] - extent[1]) / 2
   return [parseInt(X, 10), parseInt(Y, 10)]
@@ -68,9 +62,11 @@ function getTargetUrl (featureMode, polygon, point, location) {
     coordinates = geometry.getCoordinates()[0]
     const extent = geometry.getExtent()
     const center = getCenterOfExtent(extent)
-    const coords = JSON.stringify(coordinates.map(function (item) {
-      return [Math.round(item[0]), Math.round(item[1])]
-    }))
+    const coords = JSON.stringify(
+      coordinates.map(function (item) {
+        return [Math.round(item[0]), Math.round(item[1])]
+      })
+    )
     url += '?polygon=' + coords
     url += '&center=' + JSON.stringify(center)
   } else {
@@ -82,7 +78,7 @@ function getTargetUrl (featureMode, polygon, point, location) {
   return url
 }
 
-const getPolygonNodeIcon = resolution => {
+const getPolygonNodeIcon = (resolution) => {
   const icon = new Icon({
     opacity: 1,
     size: [32, 32],
@@ -97,15 +93,15 @@ const getPolygonNodeIcon = resolution => {
   return icon
 }
 
-const roundCoordinates = valueOrArray => {
+const roundCoordinates = (valueOrArray) => {
   if (Array.isArray(valueOrArray)) {
-    return valueOrArray.map(item => roundCoordinates(item))
+    return valueOrArray.map((item) => roundCoordinates(item))
   } else {
     return Math.round(valueOrArray)
   }
 }
 
-const snapCoordinates = shape => {
+const snapCoordinates = (shape) => {
   // FCRM-3763 - ensure the coordinates are whole eastings/northings
   // This is required as we dont snap when the resolution is high, as building the array of points at runtime is
   // far too slow.
@@ -120,19 +116,19 @@ const snapCoordinates = shape => {
   return shape
 }
 
-const getCartesianViewExtents = map => {
+const getCartesianViewExtents = (map) => {
   const view = map.getView()
   const resolution = view.getResolution()
   if (resolution > 0.25) {
     return [undefined, undefined]
   }
   const extent = map.getView().calculateExtent(map.getSize())
-  const topLeft = extent.slice(0, 2).map(value => Math.floor(value))
-  const bottomRight = extent.slice(2, 4).map(value => Math.ceil(value))
+  const topLeft = extent.slice(0, 2).map((value) => Math.floor(value))
+  const bottomRight = extent.slice(2, 4).map((value) => Math.ceil(value))
   return [topLeft, bottomRight]
 }
 
-const extendMapControls = allowFullScreen => {
+const extendMapControls = (allowFullScreen) => {
   const scaleLine = new ScaleLine({ units: 'metric', minWidth: 50 })
   return allowFullScreen ? [scaleLine, new FullScreen({ source: 'map--result' })] : [scaleLine]
 }

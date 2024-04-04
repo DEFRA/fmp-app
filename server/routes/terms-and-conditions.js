@@ -9,7 +9,8 @@ module.exports = {
         context: {
           pageTitle: 'Terms and conditions - Flood map for planning - GOV.UK',
           feedback: false,
-          metaDescription: 'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.'
+          metaDescription:
+            'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.'
         }
       }
     }
