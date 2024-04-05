@@ -2,6 +2,6 @@
   "extends": "standard",
   "plugins": ["prettier"],
   "rules": {
-    "semi": 0
+    "semi": 2
   }
 }
