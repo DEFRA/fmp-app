@@ -16,7 +16,8 @@ const getFunctionAppResponse = async (referer, data) => {
     return functionAppResponse
   }
   functionAppRequests[referer] = functionAppResponse
-  setTimeout(() => { // delete the saved response after 60 seconds
+  setTimeout(() => {
+    // delete the saved response after 60 seconds
     delete functionAppRequests[referer]
   }, 60000)
   return functionAppRequests[referer]
@@ -30,7 +31,17 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const payload = request.query
-        const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '', fullName: '', recipientemail: '', contacturl: '' }
+        const PDFinformationDetailsObject = {
+          coordinates: { x: 0, y: 0 },
+          applicationReferenceNumber: '',
+          location: '',
+          polygon: '',
+          center: '',
+          zoneNumber: '',
+          fullName: '',
+          recipientemail: '',
+          contacturl: ''
+        }
         const { recipientemail, fullName } = payload
         if (payload.easting && payload.northing) {
           PDFinformationDetailsObject.coordinates.x = payload.easting
@@ -78,7 +89,14 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
-          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, applicationReferenceNumber: '', location: '', polygon: '', center: '', zoneNumber: '' }
+          const PDFinformationDetailsObject = {
+            coordinates: { x: 0, y: 0 },
+            applicationReferenceNumber: '',
+            location: '',
+            polygon: '',
+            center: '',
+            zoneNumber: ''
+          }
           const { recipientemail, fullName, zoneNumber } = payload
           // Sanitise user inputs
           if (payload.easting && payload.northing) {
@@ -114,7 +132,8 @@ module.exports = [
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress
+            psoEmailAddress: psoResults.EmailAddress,
+            llfa: psoResults.LocalAuthorities || ''
           })
           const queryParams = {}
 
@@ -144,8 +163,8 @@ module.exports = [
           // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
           const query = new URLSearchParams(queryParams).toString()
           return h.redirect(`/confirmation?${query}`)
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     }
-  }]
+  }
+]

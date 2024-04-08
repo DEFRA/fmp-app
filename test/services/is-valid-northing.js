@@ -1,7 +1,6 @@
-
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const isValidNorthingService = require('../../server/services/is-valid-northing')
 
 lab.experiment('is-valid-northing', () => {

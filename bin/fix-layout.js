@@ -2,7 +2,8 @@
 
 /* eslint-disable no-multi-str */
 const exec = require('child_process').exec
-const content = '\
+const content =
+  '\
 <div id="content" class="wrapper">\
 \r\t\t\t{{> beforeContent }}\
 \r\t\t\t\t{{{content}}}\

@@ -17,7 +17,7 @@ module.exports = {
       let zone = request.payload.zone
       const scale = request.payload.scale
       const reference = request.payload.reference || '<Unspecified>'
-      const holdingComments = (request.payload.holdingComments === 'true')
+      const holdingComments = request.payload.holdingComments === 'true'
       const siteUrl = config.siteUrl
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
@@ -74,7 +74,9 @@ module.exports = {
         }
       }
 
-      const pdfSummaryTemplate = holdingComments ? `summary-template-${zone}-risk-changed.pdf` : `summary-template-${zone}.pdf`
+      const pdfSummaryTemplate = holdingComments
+        ? `summary-template-${zone}-risk-changed.pdf`
+        : `summary-template-${zone}.pdf`
       // Prepare the PDF generate options
       const options = {
         payload: {
@@ -104,92 +106,108 @@ module.exports = {
               opacity: 1,
               style: 'default',
               matrixSet: `EPSG:27700&key=${osMapsKey}`,
-              matrixIds: [{
-                identifier: 'EPSG:27700:0',
-                matrixSize: [5, 7],
-                resolution: 896,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:1',
-                matrixSize: [10, 13],
-                resolution: 448,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:2',
-                matrixSize: [20, 25],
-                resolution: 224,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:3',
-                matrixSize: [40, 49],
-                resolution: 112,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:4',
-                matrixSize: [80, 98],
-                resolution: 56,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:5',
-                matrixSize: [159, 195],
-                resolution: 28,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:6',
-                matrixSize: [318, 390],
-                resolution: 14,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:7',
-                matrixSize: [636, 779],
-                resolution: 7,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:8',
-                matrixSize: [1271, 1558],
-                resolution: 3.5,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:9',
-                matrixSize: [2542, 3116],
-                resolution: 1.75,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:10',
-                matrixSize: [5083, 6232],
-                resolution: 0.875,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:11',
-                matrixSize: [10165, 12463],
-                resolution: 0.4375,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:12',
-                matrixSize: [20329, 24925],
-                resolution: 0.21875,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }, {
-                identifier: 'EPSG:27700:13',
-                matrixSize: [40657, 49849],
-                resolution: 0.109375,
-                tileSize: [256, 256],
-                topLeftCorner: [-238375.0, 1376256.0]
-              }]
-            }, {
+              matrixIds: [
+                {
+                  identifier: 'EPSG:27700:0',
+                  matrixSize: [5, 7],
+                  resolution: 896,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:1',
+                  matrixSize: [10, 13],
+                  resolution: 448,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:2',
+                  matrixSize: [20, 25],
+                  resolution: 224,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:3',
+                  matrixSize: [40, 49],
+                  resolution: 112,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:4',
+                  matrixSize: [80, 98],
+                  resolution: 56,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:5',
+                  matrixSize: [159, 195],
+                  resolution: 28,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:6',
+                  matrixSize: [318, 390],
+                  resolution: 14,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:7',
+                  matrixSize: [636, 779],
+                  resolution: 7,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:8',
+                  matrixSize: [1271, 1558],
+                  resolution: 3.5,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:9',
+                  matrixSize: [2542, 3116],
+                  resolution: 1.75,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:10',
+                  matrixSize: [5083, 6232],
+                  resolution: 0.875,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:11',
+                  matrixSize: [10165, 12463],
+                  resolution: 0.4375,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:12',
+                  matrixSize: [20329, 24925],
+                  resolution: 0.21875,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                },
+                {
+                  identifier: 'EPSG:27700:13',
+                  matrixSize: [40657, 49849],
+                  resolution: 0.109375,
+                  tileSize: [256, 256],
+                  topLeftCorner: [-238375.0, 1376256.0]
+                }
+              ]
+            },
+            {
               type: 'WMTS',
               baseURL: geoserverUrl + '/geoserver/gwc/service/wmts',
               layer: 'fmp:fmp',
@@ -198,74 +216,88 @@ module.exports = {
               format: 'image/png',
               opacity: 0.7,
               matrixSet: 'EPSG:27700',
-              matrixIds: [{
-                identifier: '00',
-                matrixSize: [5, 5],
-                resolution: 896,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1120000]
-              }, {
-                identifier: '01',
-                matrixSize: [9, 9],
-                resolution: 448,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1008000]
-              }, {
-                identifier: '02',
-                matrixSize: [18, 18],
-                resolution: 224,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1008000]
-              }, {
-                identifier: '03',
-                matrixSize: [36, 36],
-                resolution: 112,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1008000]
-              }, {
-                identifier: '04',
-                matrixSize: [72, 72],
-                resolution: 56,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1008000]
-              }, {
-                identifier: '05',
-                matrixSize: [143, 143],
-                resolution: 28,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1001000]
-              }, {
-                identifier: '06',
-                matrixSize: [286, 286],
-                resolution: 14,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1001000]
-              }, {
-                identifier: '07',
-                matrixSize: [572, 572],
-                resolution: 7,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1001000]
-              }, {
-                identifier: '08',
-                matrixSize: [1143, 1143],
-                resolution: 3.5,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1000125]
-              }, {
-                identifier: '09',
-                matrixSize: [2286, 2286],
-                resolution: 1.75,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1000125]
-              }, {
-                identifier: '10',
-                matrixSize: [4572, 4572],
-                resolution: 0.875,
-                tileSize: [250, 250],
-                topLeftCorner: [0, 1000125]
-              }]
-            }, vector],
+              matrixIds: [
+                {
+                  identifier: '00',
+                  matrixSize: [5, 5],
+                  resolution: 896,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1120000]
+                },
+                {
+                  identifier: '01',
+                  matrixSize: [9, 9],
+                  resolution: 448,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1008000]
+                },
+                {
+                  identifier: '02',
+                  matrixSize: [18, 18],
+                  resolution: 224,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1008000]
+                },
+                {
+                  identifier: '03',
+                  matrixSize: [36, 36],
+                  resolution: 112,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1008000]
+                },
+                {
+                  identifier: '04',
+                  matrixSize: [72, 72],
+                  resolution: 56,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1008000]
+                },
+                {
+                  identifier: '05',
+                  matrixSize: [143, 143],
+                  resolution: 28,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1001000]
+                },
+                {
+                  identifier: '06',
+                  matrixSize: [286, 286],
+                  resolution: 14,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1001000]
+                },
+                {
+                  identifier: '07',
+                  matrixSize: [572, 572],
+                  resolution: 7,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1001000]
+                },
+                {
+                  identifier: '08',
+                  matrixSize: [1143, 1143],
+                  resolution: 3.5,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1000125]
+                },
+                {
+                  identifier: '09',
+                  matrixSize: [2286, 2286],
+                  resolution: 1.75,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1000125]
+                },
+                {
+                  identifier: '10',
+                  matrixSize: [4572, 4572],
+                  resolution: 0.875,
+                  tileSize: [250, 250],
+                  topLeftCorner: [0, 1000125]
+                }
+              ]
+            },
+            vector
+          ],
           pages: [
             {
               center,
@@ -281,7 +313,8 @@ module.exports = {
       try {
         const result = await Wreck.post(printUrl, options)
         const date = new Date().toISOString()
-        return h.response(result.payload)
+        return h
+          .response(result.payload)
           .encoding('binary')
           .type('application/pdf')
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)

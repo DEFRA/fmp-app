@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 
 lab.experiment('is-valid-ngr', () => {

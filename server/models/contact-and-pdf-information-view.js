@@ -9,13 +9,13 @@ function ContactAndPDFInformationObjectViewModel (data, errors) {
     this.errors = {}
 
     // Full Name
-    const fullNameErrors = errors.find(e => e.path[0] === 'fullName')
+    const fullNameErrors = errors.find((e) => e.path[0] === 'fullName')
     if (fullNameErrors) {
       this.errors.fullName = 'You need to provide a full Name'
     }
 
     // Email
-    const emailErrors = errors.find(e => e.path[0] === 'recipientemail')
+    const emailErrors = errors.find((e) => e.path[0] === 'recipientemail')
     if (emailErrors) {
       this.errors.recipientemail = 'You need to provide an email address'
     }

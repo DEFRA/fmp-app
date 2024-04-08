@@ -37,7 +37,8 @@ function Summary (options) {
           features: [
             new Feature({
               geometry: polygon
-            })]
+            })
+          ]
         }),
         style: new Style({
           stroke: new Stroke({
@@ -48,7 +49,8 @@ function Summary (options) {
             color: 'rgba(178, 17, 34, 0.1)'
           })
         })
-      }))
+      })
+    )
     mapState.setItem('polygon', JSON.stringify(options.polygon))
     mapState.removeItem('point')
   } else {
@@ -64,7 +66,8 @@ function Summary (options) {
           features: [
             new Feature({
               geometry: new Point([parseInt(easting, 10), parseInt(northing, 10)])
-            })]
+            })
+          ]
         }),
         style: new Style({
           image: new Icon({
@@ -74,7 +77,8 @@ function Summary (options) {
             src: '/assets/images/iconfinder_marker.png'
           })
         })
-      }))
+      })
+    )
     mapState.setItem('point', JSON.stringify(mapOptions.point))
     mapState.removeItem('polygon')
   }

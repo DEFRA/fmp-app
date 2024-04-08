@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
 const createServer = require('../../server')
@@ -18,22 +18,25 @@ lab.experiment('confirm-location', () => {
     LocalAuthorities: 'Ryedale',
     useAutomatedService: true
   }
-  const inValidPsoContactReponse = [{
-    EmailAddress: null,
-    AreaName: 'Yorkshire',
-    LocalAuthorities: 'Ryedale',
-    useAutomatedService: true
-  }, {
-    EmailAddress: 'psoContact@example.com',
-    AreaName: null,
-    LocalAuthorities: 'Ryedale',
-    useAutomatedService: true
-  }, {
-    EmailAddress: 'psoContact@example.com',
-    AreaName: 'Yorkshire',
-    LocalAuthorities: null,
-    useAutomatedService: true
-  }
+  const inValidPsoContactReponse = [
+    {
+      EmailAddress: null,
+      AreaName: 'Yorkshire',
+      LocalAuthorities: 'Ryedale',
+      useAutomatedService: true
+    },
+    {
+      EmailAddress: 'psoContact@example.com',
+      AreaName: null,
+      LocalAuthorities: 'Ryedale',
+      useAutomatedService: true
+    },
+    {
+      EmailAddress: 'psoContact@example.com',
+      AreaName: 'Yorkshire',
+      LocalAuthorities: null,
+      useAutomatedService: true
+    }
   ]
   lab.before(async () => {
     server = await createServer()
@@ -55,9 +58,11 @@ lab.experiment('confirm-location', () => {
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
   })
 
-  const assertContactEnvironmentAgencyText = async response => {
+  const assertContactEnvironmentAgencyText = async (response) => {
     const { payload } = response
-    const { window: { document: doc } } = await new JSDOM(payload)
+    const {
+      window: { document: doc }
+    } = await new JSDOM(payload)
     const div = doc.querySelectorAll('[data-pso-contact-email]')
     Code.expect(div.length).to.equal(1) // check for a single data-pso-contact-email div
     Code.expect(div[0].textContent).to.contain('Contact the Environment Agency team in Yorkshire at')
@@ -142,7 +147,9 @@ lab.experiment('confirm-location', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/england-only?placeOrPostcode=Newport&easting=333433&northing=186528')
+    Code.expect(response.headers.location).to.equal(
+      '/england-only?placeOrPostcode=Newport&easting=333433&northing=186528'
+    )
   })
 
   lab.test('confirm-location returns not in england with NGR ST180772', async () => {
@@ -157,7 +164,9 @@ lab.experiment('confirm-location', () => {
 
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(302)
-    Code.expect(response.headers.location).to.equal('/england-only?nationalGridReference=ST180772&easting=31800&northing=177200')
+    Code.expect(response.headers.location).to.equal(
+      '/england-only?nationalGridReference=ST180772&easting=31800&northing=177200'
+    )
   })
   inValidPsoContactReponse.forEach((invalidResponse) => {
     lab.test('an invalid psoContactResponse should redirect to england-only', async () => {
@@ -170,7 +179,9 @@ lab.experiment('confirm-location', () => {
       server.methods.getPsoContactsByPolygon = () => invalidResponse
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
-      Code.expect(response.headers.location).to.equal(`/england-only?easting=333433&northing=186528&polygon=${encodeURIComponent(polygon)}`)
+      Code.expect(response.headers.location).to.equal(
+        `/england-only?easting=333433&northing=186528&polygon=${encodeURIComponent(polygon)}`
+      )
       server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
     })
   })
@@ -222,25 +233,30 @@ lab.experiment('confirm-location', () => {
     Code.expect(matchResults.length).to.equal(1)
   })
 
-  lab.test('confirm-location view should contain location=nationalGridReference if nationalGridReference is set', async () => {
-    const options = {
-      method: 'GET',
-      url: '/confirm-location?nationalGridReference=ST180772&easting=333433&northing=186528'
+  lab.test(
+    'confirm-location view should contain location=nationalGridReference if nationalGridReference is set',
+    async () => {
+      const options = {
+        method: 'GET',
+        url: '/confirm-location?nationalGridReference=ST180772&easting=333433&northing=186528'
+      }
+
+      isEnglandService.get = async (x, y) => {
+        return { is_england: true }
+      }
+
+      const response = await server.inject(options)
+      Code.expect(response.statusCode).to.equal(200)
+
+      // Check that location=ST180772 is included in the flood-zone-results url
+      const { result } = response
+      const matchResults = result.match(
+        /flood-zone-results\?easting=333433&amp;northing=186528&amp;location=ST180772/g
+      )
+      Code.expect(matchResults.length).to.equal(1)
+      await assertContactEnvironmentAgencyText(response)
     }
-
-    isEnglandService.get = async (x, y) => {
-      return { is_england: true }
-    }
-
-    const response = await server.inject(options)
-    Code.expect(response.statusCode).to.equal(200)
-
-    // Check that location=ST180772 is included in the flood-zone-results url
-    const { result } = response
-    const matchResults = result.match(/flood-zone-results\?easting=333433&amp;northing=186528&amp;location=ST180772/g)
-    Code.expect(matchResults.length).to.equal(1)
-    await assertContactEnvironmentAgencyText(response)
-  })
+  )
 
   lab.test('confirm-location view should accept polygon', async () => {
     const options = {
@@ -276,19 +292,25 @@ lab.experiment('confirm-location', () => {
   })
 
   const assertErrorMessage = async (payload, errorMessageExpected = true) => {
-    await payloadMatchTest(payload,
+    await payloadMatchTest(
+      payload,
       /<h2 class="govuk-error-summary__title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
-      errorMessageExpected ? 1 : 0)
+      errorMessageExpected ? 1 : 0
+    )
 
     // Error Title Should only be displayed if polygonMissing is true
-    await payloadMatchTest(payload,
+    await payloadMatchTest(
+      payload,
       /<title>[\s\S]*Error: Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      errorMessageExpected ? 1 : 0)
+      errorMessageExpected ? 1 : 0
+    )
 
     // This should always pass (the regex matches regardless of the presence of "Error: ")
-    await payloadMatchTest(payload,
+    await payloadMatchTest(
+      payload,
       /<title>[\s\S]*Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      1)
+      1
+    )
   }
 
   lab.test('confirm-location view should not show an error if polygonMissing=true is not passed', async () => {
@@ -305,7 +327,10 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(200)
 
     const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g)
+    await payloadMatchTest(
+      payload,
+      /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g
+    )
     assertErrorMessage(payload, false)
     await assertContactEnvironmentAgencyText(response)
   })
@@ -324,7 +349,10 @@ lab.experiment('confirm-location', () => {
     Code.expect(response.statusCode).to.equal(200)
 
     const { payload } = response
-    await payloadMatchTest(payload, /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g)
+    await payloadMatchTest(
+      payload,
+      /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g
+    )
     assertErrorMessage(payload, true)
     await assertContactEnvironmentAgencyText(response)
   })

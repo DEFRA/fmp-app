@@ -13,17 +13,19 @@ async function createServer () {
         }
       }
     },
-    cache: [{
-      name: 'FMFP',
-      provider: {
-        constructor: CatboxMemory.Engine,
-        options: {
-          maxByteSize: 10000,
-          minCleanupIntervalMsec: 1000,
-          cloneBuffersOnGet: false
+    cache: [
+      {
+        name: 'FMFP',
+        provider: {
+          constructor: CatboxMemory.Engine,
+          options: {
+            maxByteSize: 10000,
+            minCleanupIntervalMsec: 1000,
+            cloneBuffersOnGet: false
+          }
         }
       }
-    }]
+    ]
   })
 
   await server.method(require('./services/pso-contact'))

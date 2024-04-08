@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const { mockOpenLayers } = require('./mock-open-layers')
 
 lab.experiment('map-utils without sessionStorage', () => {

@@ -1,6 +1,7 @@
 const Boom = require('@hapi/boom')
 const ContactViewModel = require('../models/contact-view')
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
 
 class ContactViewErrorObject {
@@ -22,7 +23,10 @@ class ContactViewErrorObject {
     this.errorSummary = errorSummarArray
   }
 }
-const emailErrorMessage = { text: 'Enter an email address in the correct format, like name@example.com', href: '#recipientemail' }
+const emailErrorMessage = {
+  text: 'Enter an email address in the correct format, like name@example.com',
+  href: '#recipientemail'
+}
 const fullNameErrorMessage = { text: 'Enter your full name', href: '#fullName' }
 
 module.exports = [
@@ -33,7 +37,13 @@ module.exports = [
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
         try {
-          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', zoneNumber: '', polygon: '', cent: '' }
+          const PDFinformationDetailsObject = {
+            coordinates: { x: 0, y: 0 },
+            location: '',
+            zoneNumber: '',
+            polygon: '',
+            cent: ''
+          }
           PDFinformationDetailsObject.coordinates.x = request.query.easting
           PDFinformationDetailsObject.coordinates.y = request.query.northing
           PDFinformationDetailsObject.polygon = request.query.polygon
@@ -44,12 +54,12 @@ module.exports = [
             PDFinformationDetailsObject
           })
           return h.view('contact', model)
-        } catch (err) { // I can't think of a way to cause an error in this try catch block so this catch may be unrequired and is not covered by tests
+        } catch (err) {
+          // I can't think of a way to cause an error in this try catch block so this catch may be unrequired and is not covered by tests
           return Boom.badImplementation(err.message, err)
         }
       },
-      validate: {
-      }
+      validate: {}
     }
   },
   {
@@ -60,7 +70,13 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload
-          const PDFinformationDetailsObject = { coordinates: { x: 0, y: 0 }, location: '', polygon: '', center: '', zoneNumber: '' }
+          const PDFinformationDetailsObject = {
+            coordinates: { x: 0, y: 0 },
+            location: '',
+            polygon: '',
+            center: '',
+            zoneNumber: ''
+          }
 
           let model = {}
           const { recipientemail, fullName } = request.payload
@@ -100,28 +116,36 @@ module.exports = [
             queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
             queryParams.cent = payload.cent
 
-            const params = `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}` +
-            `&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}` +
-            `&fullName=${fullName}&recipientemail=${recipientemail}`
+            const params =
+              `easting=${queryParams.x}&northing=${queryParams.y}&polygon=${queryParams.polygon}` +
+              `&center=${queryParams.cent}&location=${queryParams.location}&zoneNumber=${queryParams.zoneNumber}` +
+              `&fullName=${fullName}&recipientemail=${recipientemail}`
 
             return h.redirect(`/check-your-details?${params}`)
           } else if (recipientemail && recipientemail.trim() !== '' && isEmailFormatValid) {
-            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage])
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [
+              fullNameErrorMessage
+            ])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
           } else if (fullName && fullName.trim() !== '' && isNameFormatValid) {
-            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [emailErrorMessage])
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [
+              emailErrorMessage
+            ])
             contactViewErrorObject.emailError = emailErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
           } else {
-            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [fullNameErrorMessage, emailErrorMessage])
+            const contactViewErrorObject = new ContactViewErrorObject(fullName, recipientemail, payload, [
+              fullNameErrorMessage,
+              emailErrorMessage
+            ])
             contactViewErrorObject.fullnameError = fullNameErrorMessage
             contactViewErrorObject.emailError = emailErrorMessage
             model = new ContactViewModel(contactViewErrorObject)
           }
           return h.view('contact', model)
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     }
-  }]
+  }
+]

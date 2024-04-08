@@ -6,7 +6,7 @@ const ConfirmLocationViewModel = require('../models/confirm-location-view')
 class NotEnglandError extends Error {}
 class BadRequestError extends Error {}
 
-const getAnalyticsPageEvent = query => {
+const getAnalyticsPageEvent = (query) => {
   const TYPE = query.isPostCode
     ? 'POSTCODE'
     : query.placeOrPostcode
@@ -57,40 +57,39 @@ const getPsoContactDetails = async (request, polygon, easting, northing) => {
   }
 }
 
-module.exports = [{
-  method: 'GET',
-  path: '/confirm-location',
-  options: {
-    description: 'Get confirm location page search results',
-    handler: async (request, h) => {
-      try {
-        const {
-          easting,
-          northing,
-          placeOrPostcode,
-          nationalGridReference,
-          polygonMissing,
-          recipientemail = ' ',
-          fullName = ' '
-        } = request.query
+module.exports = [
+  {
+    method: 'GET',
+    path: '/confirm-location',
+    options: {
+      description: 'Get confirm location page search results',
+      handler: async (request, h) => {
+        try {
+          const {
+            easting,
+            northing,
+            placeOrPostcode,
+            nationalGridReference,
+            polygonMissing,
+            recipientemail = ' ',
+            fullName = ' '
+          } = request.query
 
-        const polygon = parsePolygon(request.query)
-        const contactDetails = await getPsoContactDetails(request, polygon, easting, northing)
+          const polygon = parsePolygon(request.query)
+          const contactDetails = await getPsoContactDetails(request, polygon, easting, northing)
 
-        let location = ''
-        if (placeOrPostcode || nationalGridReference) {
-          location = placeOrPostcode || nationalGridReference
-        } else {
-          location = `${easting} ${northing}`
-        }
+          let location = ''
+          if (placeOrPostcode || nationalGridReference) {
+            location = placeOrPostcode || nationalGridReference
+          } else {
+            location = `${easting} ${northing}`
+          }
 
-        let { locationDetails = '' } = request.query
-        if (locationDetails) {
-          locationDetails = locationDetails
-            .replace((new RegExp(`^${placeOrPostcode}, `, 'i')), '')
-        }
-        const model = new ConfirmLocationViewModel(
-          {
+          let { locationDetails = '' } = request.query
+          if (locationDetails) {
+            locationDetails = locationDetails.replace(new RegExp(`^${placeOrPostcode}, `, 'i'), '')
+          }
+          const model = new ConfirmLocationViewModel({
             easting,
             northing,
             polygon,
@@ -104,32 +103,33 @@ module.exports = [{
             analyticsPageEvent: getAnalyticsPageEvent(request.query)
           })
 
-        return h.view('confirm-location', model)
-      } catch (err) {
-        if (err instanceof NotEnglandError) {
-          const queryString = new URLSearchParams(request.query).toString()
-          return h.redirect('/england-only?' + queryString)
+          return h.view('confirm-location', model)
+        } catch (err) {
+          if (err instanceof NotEnglandError) {
+            const queryString = new URLSearchParams(request.query).toString()
+            return h.redirect('/england-only?' + queryString)
+          }
+          if (err instanceof BadRequestError) {
+            return Boom.badRequest(err.message)
+          }
+          return Boom.badImplementation(err.message, err)
         }
-        if (err instanceof BadRequestError) {
-          return Boom.badRequest(err.message)
-        }
-        return Boom.badImplementation(err.message, err)
+      },
+      validate: {
+        query: Joi.object().keys({
+          easting: Joi.number().max(700000).positive(),
+          northing: Joi.number().max(1300000).positive(),
+          polygon: Joi.string(),
+          place: Joi.string(),
+          placeOrPostcode: Joi.string(),
+          nationalGridReference: Joi.string(),
+          recipientemail: Joi.string(),
+          fullName: Joi.string(),
+          locationDetails: Joi.string(),
+          polygonMissing: Joi.boolean(),
+          isPostCode: Joi.boolean()
+        })
       }
-    },
-    validate: {
-      query: Joi.object().keys({
-        easting: Joi.number().max(700000).positive(),
-        northing: Joi.number().max(1300000).positive(),
-        polygon: Joi.string(),
-        place: Joi.string(),
-        placeOrPostcode: Joi.string(),
-        nationalGridReference: Joi.string(),
-        recipientemail: Joi.string(),
-        fullName: Joi.string(),
-        locationDetails: Joi.string(),
-        polygonMissing: Joi.boolean(),
-        isPostCode: Joi.boolean()
-      })
     }
   }
-}]
+]

@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 
@@ -30,6 +30,10 @@ lab.experiment('terms-and-conditions', () => {
     // This should not exist (FCRM-3669)
     await payloadMatchTest(payload, /<h2 class="heading-medium">Linking to the flood information service<\/h2>/g, 0)
     // It shpuld now be this
-    await payloadMatchTest(payload, /<h2 class="govuk-heading-m">Linking to the flood map for planning service<\/h2>/g, 1)
+    await payloadMatchTest(
+      payload,
+      /<h2 class="govuk-heading-m">Linking to the flood map for planning service<\/h2>/g,
+      1
+    )
   })
 })

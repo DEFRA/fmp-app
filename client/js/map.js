@@ -61,10 +61,12 @@ function Map (mapOptions) {
     const resolutions = limitZoom ? source.tileGrid.getResolutions().slice(0, 10) : source.tileGrid.getResolutions()
 
     map = new OLMap({
-      interactions: mapOptions.interactions || InteractionDefaults({
-        altShiftDragRotate: false,
-        pinchRotate: false
-      }),
+      interactions:
+        mapOptions.interactions ||
+        InteractionDefaults({
+          altShiftDragRotate: false,
+          pinchRotate: false
+        }),
       controls: ControlDefaults({
         rotate: false
       }).extend(extendMapControls(allowFullScreen)),

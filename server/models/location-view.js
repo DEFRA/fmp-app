@@ -22,11 +22,7 @@ function LocationViewModel (data) {
             : this.nationalGridReferenceSelected
               ? this.nationalGridReference
               : `${this.easting}_${this.northing}`,
-          TYPE: this.placeOrPostcodeSelected
-            ? 'PLACENAME'
-            : this.nationalGridReferenceSelected
-              ? 'NGR'
-              : 'EASTINGS'
+          TYPE: this.placeOrPostcodeSelected ? 'PLACENAME' : this.nationalGridReferenceSelected ? 'NGR' : 'EASTINGS'
         }
       })
     }

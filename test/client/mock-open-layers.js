@@ -10,7 +10,8 @@ class MockIcon {
   }
 }
 
-class MockGeometry { // Shape could be a Point or a Polygon
+class MockGeometry {
+  // Shape could be a Point or a Polygon
   constructor (coordinates) {
     this.coordinates = coordinates
   }
@@ -24,7 +25,8 @@ class MockGeometry { // Shape could be a Point or a Polygon
   }
 }
 
-class MockShape { // Shape could be a Point or a Polygon
+class MockShape {
+  // Shape could be a Point or a Polygon
   constructor (coordinates) {
     this.geometry = new MockGeometry(coordinates)
   }
@@ -54,7 +56,8 @@ const MockView = (center, resolution, size) => ({
 })
 
 class MockCollection extends Array {
-  constructor (_val) { // Collection constructor expects an array param, but Array doesn't
+  constructor (_val) {
+    // Collection constructor expects an array param, but Array doesn't
     super()
   }
 
@@ -64,7 +67,9 @@ class MockCollection extends Array {
 }
 
 const mockOpenLayers = () => {
-  const defaultMock = function (config) { return config }
+  const defaultMock = function (config) {
+    return config
+  }
   mock('ol/layer/Tile', { default: defaultMock })
   mock('ol/source/TileWMS', { default: defaultMock })
   mock('ol/tilegrid/TileGrid', { default: defaultMock })
