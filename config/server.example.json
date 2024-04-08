@@ -57,5 +57,8 @@
   },
   "siteUrl": "http://localhost:3000",
   "LogAuditTrial": false,
-  "functionAppUrl": "http://dummyuri"
+  "functionAppUrl": "http://dummyuri",
+  "placeApi": {
+    "url": "https://dummy/nearest"
+  }
 }

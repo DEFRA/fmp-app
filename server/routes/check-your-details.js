@@ -4,14 +4,26 @@ const config = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
+const util = require('../util')
 
 const functionAppRequests = {}
+
+const getPostcodeFromEastingorNorthing = async (easting, northing) => {
+  const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
+  const payload = await util.getJson(uri)
+  return payload?.results[0]?.DPA?.POSTCODE
+}
 
 const getFunctionAppResponse = async (referer, data) => {
   if (referer && functionAppRequests[referer]) {
     return functionAppRequests[referer]
   }
-  const functionAppResponse = wreck.post(publishToQueueURL, { payload: data })
+  const payload = JSON.parse(data)
+  const postcode = await getPostcodeFromEastingorNorthing(payload.x, payload.y)
+  payload.postcode = postcode
+  const functionAppResponse = wreck.post(publishToQueueURL, {
+    payload: JSON.stringify(payload)
+  })
   if (!referer) {
     return functionAppResponse
   }
@@ -54,7 +66,8 @@ module.exports = [
             PDFinformationDetailsObject.cent = payload.center
           }
           if (!payload.location) {
-            PDFinformationDetailsObject.location = payload.easting + ',' + payload.northing
+            PDFinformationDetailsObject.location =
+              payload.easting + ',' + payload.northing
           } else {
             PDFinformationDetailsObject.location = payload.location
           }
@@ -110,7 +123,8 @@ module.exports = [
               PDFinformationDetailsObject.cent = payload.cent
             }
             if (!payload.location) {
-              PDFinformationDetailsObject.location = payload.easting + ',' + payload.northing
+              PDFinformationDetailsObject.location =
+                payload.easting + ',' + payload.northing
             } else {
               PDFinformationDetailsObject.location = payload.location
             }
@@ -121,7 +135,10 @@ module.exports = [
           const { location, polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
+          const psoResults =
+            await request.server.methods.getPsoContactsByPolygon(
+              payload.polygon
+            )
           const data = JSON.stringify({
             name,
             recipientemail,
@@ -138,13 +155,18 @@ module.exports = [
           const queryParams = {}
 
           try {
-            const referer = request.headers ? request.headers.referer : undefined
+            const referer = request.headers
+              ? request.headers.referer
+              : undefined
             const result = await getFunctionAppResponse(referer, data)
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)
             queryParams.applicationReferenceNumber = applicationReferenceNumber
           } catch (error) {
-            console.log('\nFailed to POST these data to the functionsApp /order-product-four:\n', data)
+            console.log(
+              '\nFailed to POST these data to the functionsApp /order-product-four:\n',
+              data
+            )
             console.log(error.output ? error.output : error)
             const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
             return h.redirect(redirectURL)
