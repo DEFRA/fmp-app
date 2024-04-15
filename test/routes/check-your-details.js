@@ -17,14 +17,18 @@ lab.experiment('check-your-details', () => {
     EmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk',
     AreaName: 'East Anglia',
     useAutomatedService: true,
-    LocalAuthorities: 'Norfolk'
+    LocalAuthorities: 'Norfolk',
+    x: 12345,
+    y: 678910
   }
 
   const yorkshirePsoDetails = {
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
     useAutomatedService: true,
-    LocalAuthorities: 'Ryedale'
+    LocalAuthorities: 'Ryedale',
+    x: 360799,
+    y: 388244
   }
 
   const orderProductFourResponse = {
@@ -310,7 +314,7 @@ lab.experiment('check-your-details', () => {
       }
 
       const postParams = {
-        url: undefined,
+        url: config.functionAppUrl + '/order-product-four',
         data: undefined
       }
 
@@ -327,7 +331,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"JE2 3YU"}'
       })
     }
   )
@@ -440,7 +444,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale"}'
+          '{"x":0,"y":0,"polygon":"","location":"","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"JE2 3YU"}'
       })
     }
   )
@@ -463,7 +467,7 @@ lab.experiment('check-your-details', () => {
 
       const postParams = {
         url: undefined,
-        data: undefined
+        data: config.functionAppUrl + '/order-product-four'
       }
 
       wreck.post = async (url, data) => {
@@ -548,7 +552,7 @@ lab.experiment('check-your-details', () => {
       server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
 
       const postParams = {
-        url: undefined,
+        url: config.functionAppUrl + '/order-product-four',
         data: undefined
       }
 
@@ -636,7 +640,7 @@ lab.experiment('check-your-details', () => {
       server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
       const postParams = {}
       wreck.post = async (url, data) => {
-        postParams.url = url
+        postParams.url = config.functionAppUrl + '/order-product-four'
         postParams.data = data
         return orderProductFourResponse
       }
@@ -690,7 +694,7 @@ lab.experiment('check-your-details', () => {
       server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
       const postParams = {}
       wreck.post = async (url, data) => {
-        postParams.url = url
+        postParams.url = config.functionAppUrl + '/order-product-four'
         postParams.data = data
         return orderProductFourResponse
       }
