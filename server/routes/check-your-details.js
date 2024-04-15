@@ -11,6 +11,7 @@ const functionAppRequests = {}
 const getPostcodeFromEastingorNorthing = async (easting, northing) => {
   const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
   const payload = await util.getJson(uri)
+  console.log('payload' + payload)
   return payload?.results && payload?.results.length > 0
     ? payload?.results[0]?.DPA?.POSTCODE
     : undefined
