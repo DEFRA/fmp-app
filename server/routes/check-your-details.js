@@ -22,8 +22,8 @@ const getFunctionAppResponse = async (referer, data) => {
     return functionAppRequests[referer]
   }
   const payload = JSON.parse(data)
-  const postcode = await getPostcodeFromEastingorNorthing(payload.x, payload.y)
-  payload.postcode = postcode
+  // const postcode = await getPostcodeFromEastingorNorthing(payload.x, payload.y)
+  // payload.postcode = postcode
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
   })
@@ -152,8 +152,7 @@ module.exports = [
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress,
-            llfa: psoResults.LocalAuthorities || ''
+            psoEmailAddress: psoResults.EmailAddress
           })
           const queryParams = {}
 
