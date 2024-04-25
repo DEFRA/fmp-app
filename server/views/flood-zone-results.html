@@ -470,8 +470,9 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <li>flood defence locations and attributes</li>
     </ul>
 
-    <div class="govuk-inset-text">
+    
       {% if floodZone.isAreaBenefiting %}
+      <div class="govuk-inset-text"></div>
       <p class="govuk-body">
         You also need to make a separate request for a Flood Defence Breach
         Hazard Map from the {{areaName}} Environment Agency team at
@@ -501,18 +502,8 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
           how to do an assessment </a
         >.
       </p>
-      {% else %}
-      <p class="govuk-body">
-        You should also
-        <a
-          href="https://flood-warning-information.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater"
-        >
-          check the risk from surface water and other sources of flooding
-        </a>
-        when doing a flood risk assessment.
-      </p>
-      {% endif %}
     </div>
+    {% endif %}
 
     <p class="govuk-body">
       We recommend that you check the relevant local planning authority's
