@@ -22,7 +22,7 @@ const getFunctionAppResponse = async (referer, data) => {
     return functionAppRequests[referer]
   }
   const payload = JSON.parse(data)
-  // const postcode = await getPostcodeFromEastingorNorthing(payload.x, payload.y)
+  await getPostcodeFromEastingorNorthing(payload.x, payload.y)
   // payload.postcode = postcode
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
