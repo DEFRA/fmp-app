@@ -12,6 +12,7 @@ const zeroAreaPolygons = require('../services/zeroAreaPolygons')
 lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContactsByPolygon
+  let restoreGetFloodZonesByPolygon
   let restoreGetByPolygon
   let restoreIgnoreUseAutomatedService
   const LocalAuthorities = 'Ryedale'
@@ -43,6 +44,20 @@ lab.experiment('flood-zone-results', () => {
     reduction_in_rofrs_error: false,
     floodzone_2: false,
     floodzone_2_error: false
+  }
+
+  const surfaceWaterResults = {
+    in_england: true,
+    england_error: false,
+    floodzone_3: true,
+    floodzone_3_error: false,
+    reduction_in_rofrs: false,
+    reduction_in_rofrs_error: false,
+    floodzone_2: true,
+    floodzone_2_error: false,
+    surface_water: true,
+    surface_water_error: false,
+    extra_info: null
   }
 
   const zone2GetByPolygonResponse = Object.assign(
@@ -79,11 +94,13 @@ lab.experiment('flood-zone-results', () => {
     await server.initialize()
     restoreIgnoreUseAutomatedService = server.methods.ignoreUseAutomatedService
     restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+    restoreGetFloodZonesByPolygon = server.methods.getFloodZonesByPolygon
     server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
   })
 
   lab.after(async () => {
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
+    server.methods.getFloodZonesByPolygon = restoreGetFloodZonesByPolygon
     riskService.getByPolygon = restoreGetByPolygon
     server.methods.ignoreUseAutomatedService = restoreIgnoreUseAutomatedService
     await server.stop()
@@ -99,6 +116,8 @@ lab.experiment('flood-zone-results', () => {
 
       server.methods.getPsoContactsByPolygon = async () =>
         optInPSOContactResponse
+      server.methods.getFloodZonesByPolygon = async () =>
+        surfaceWaterResults
       const response = await server.inject(options)
       const { payload } = response
       Code.expect(response.statusCode).to.equal(200)
