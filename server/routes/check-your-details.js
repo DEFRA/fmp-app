@@ -4,26 +4,13 @@ const config = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
-const util = require('../util')
 
 const functionAppRequests = {}
-
-const getPostcodeFromEastingorNorthing = async (easting, northing) => {
-  const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
-  const payload = await util.getJson(uri)
-  console.log('payload' + payload)
-  return payload?.results && payload?.results.length > 0
-    ? payload?.results[0]?.DPA?.POSTCODE
-    : undefined
-}
-
 const getFunctionAppResponse = async (referer, data) => {
   if (referer && functionAppRequests[referer]) {
     return functionAppRequests[referer]
   }
   const payload = JSON.parse(data)
-  await getPostcodeFromEastingorNorthing(payload.x, payload.y)
-  // payload.postcode = postcode
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
   })
