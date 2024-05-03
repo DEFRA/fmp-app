@@ -1,7 +1,7 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
-const { findByPlace } = require('../../server/services/address')
+const { findByPlace, getPostcodeFromEastingorNorthing } = require('../../server/services/address')
 const util = require('../../server/util')
 const config = require('../../config')
 
@@ -122,5 +122,25 @@ lab.experiment('address', () => {
     places.forEach(({ locationDetails }, index) =>
       Code.expect(locationDetails).to.equal(apiResults[index].expectedLocationDetails)
     )
+  })
+
+  lab.test('getPostcodeFromEastingorNorthing should return undefined if payload does not exist', async () => {
+    util.getJson = () => undefined
+    const postcode = await getPostcodeFromEastingorNorthing(12345, 678910)
+    Code.expect(postcode).to.equal(undefined)
+  })
+
+  lab.test('getPostcodeFromEastingorNorthing should return postcode if payload exists', async () => {
+    util.getJson = () => ({
+      results: [
+        {
+          DPA: {
+            POSTCODE: 'WA1 2NN'
+          }
+        }
+      ]
+    })
+    const postcode = await getPostcodeFromEastingorNorthing(360799, 388244)
+    Code.expect(postcode).to.equal('WA1 2NN')
   })
 })
