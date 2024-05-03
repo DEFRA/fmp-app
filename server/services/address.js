@@ -49,5 +49,12 @@ module.exports = {
       })
       .sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
     return gazetteerEntries
+  },
+  getPostcodeFromEastingorNorthing: async (easting, northing) => {
+    const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
+    const payload = await util.getJson(uri)
+    return payload?.results && payload?.results.length > 0
+      ? payload?.results[0]?.DPA?.POSTCODE
+      : undefined
   }
 }
