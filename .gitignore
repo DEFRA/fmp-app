@@ -12,3 +12,4 @@ lcov.info
 .vscode
 jsconfig.json
 .eslintcache
+.idea/
