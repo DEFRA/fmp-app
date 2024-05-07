@@ -9,3 +9,11 @@ addressService.findByPlace = async (place) => {
     return result
   }
 }
+
+addressService.getPostcodeFromEastingorNorthing = async (easting, northing) => {
+  if (easting === 12345 && northing === 678910) {
+    return undefined
+  } else {
+    return 'WA1 2NN'
+  }
+}
