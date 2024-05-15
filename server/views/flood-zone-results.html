@@ -29,7 +29,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <span
         class="govuk-warning-text__icon flood-risk-changed-icon"
         aria-hidden="true"
-        >!</span
+      >!</span
       >
       <h3 class="govuk-heading-s govuk-warning-text__text">
         Our understanding of flood risk from rivers and the sea has changed
@@ -38,7 +38,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <p class="govuk-warning-text__text">
         Contact
         <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
-          >{{psoEmailAddress}}</a
+        >{{psoEmailAddress}}</a
         >
         for further information.
       </p>
@@ -427,7 +427,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       To request flood risk assessment data for this site, contact the
       Environment Agency team in {{areaName}} at
       <a href="mailto:{{psoEmailAddress}}" class="govuk-link"
-        >{{psoEmailAddress}}</a
+      >{{psoEmailAddress}}</a
       >
     </p>
 
@@ -470,64 +470,67 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <li>flood defence locations and attributes</li>
     </ul>
 
-    
-      {% if floodZone.isAreaBenefiting %}
-      <div class="govuk-inset-text"></div>
-      <p class="govuk-body">
-        You also need to make a separate request for a Flood Defence Breach
-        Hazard Map from the {{areaName}} Environment Agency team at
-        <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
-          >{{psoEmailAddress}}</a
-        >. This will be available if modelling has been carried out for breach
-        scenarios.
-      </p>
 
-      <p class="govuk-body">
-        For developments in flood zone {{zoneNumber}}, your FRA should include
-        an assessment of all sources of flooding and
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
-          class="govuk-link"
-        >
-          take into account climate change allowances.
-        </a>
-      </p>
-
-      <p class="govuk-body">
-        Find out
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-          class="govuk-link"
-        >
-          how to do an assessment </a
-        >.
-      </p>
-    </div>
-    {% endif %}
-
+    {% if floodZone.isAreaBenefiting %}
+    <div class="govuk-inset-text"></div>
     <p class="govuk-body">
-      We recommend that you check the relevant local planning authority's
-      strategic flood risk assessment (SFRA) as part of your work to prepare a
-      flood risk assessment.
+      You will also need to assess
+      <a
+        href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
+        data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk"
+        class="govuk-link"
+      >
+        residual risk
+      </a>
+      from flood defence breach in this location. If available, we will
+      provide breach hazard mapping data to help you do this.
+    </p>
+    <p class="govuk-body">
+      For developments in flood zone {{zoneNumber}}, your FRA should include
+      an assessment of all sources of flooding and
+      <a
+        href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
+        class="govuk-link"
+      >
+        take into account climate change allowances.
+      </a>
     </p>
 
-    <p>
-      {% endif %} {% endif %}
-      <!-- End of Opted Out Section -->
-    </p>
-
-    <h2 class="govuk-heading-s">
-      Get help deciding what flood risk information you need
-    </h2>
-
     <p class="govuk-body">
-      Email the Environment Agency team in {{areaName}} at:
-      <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
-        >{{psoEmailAddress}}</a
+      Find out
+      <a
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
+        class="govuk-link"
+      >
+        how to do an assessment </a
       >.
     </p>
-    {% include "./partials/change-location.html" %}
   </div>
+  {% endif %}
+
+  <p class="govuk-body">
+    We recommend that you check the relevant local planning authority's
+    strategic flood risk assessment (SFRA) as part of your work to prepare a
+    flood risk assessment.
+  </p>
+
+  <p>
+    {% endif %} {% endif %}
+    <!-- End of Opted Out Section -->
+  </p>
+
+  <h2 class="govuk-heading-s">
+    Get help deciding what flood risk information you need
+  </h2>
+
+  <p class="govuk-body">
+    Email the Environment Agency team in {{areaName}} at:
+    <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
+    >{{psoEmailAddress}}</a
+    >.
+  </p>
+  {% include "./partials/change-location.html" %}
+</div>
 </div>
 
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
@@ -537,9 +540,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 <script>
   $(function () {
     var page = new FMP.SummaryPage({
-      polygon: {{ polygon }}
-        })
-      })
+      polygon: {
+    { polygon }
+  }
+  })
+  })
 </script>
 {% else %}
 <script>
