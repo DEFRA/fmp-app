@@ -40,8 +40,13 @@ const getPsoContactDetails = async (request, polygon, easting, northing) => {
     // is clicked. In this scenario, it is possible that the centre point is
     // outside of England (typically when near the coast), so we use the polygon
     // response rather than the isEngland response
-    const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
-    if (!psoResults.EmailAddress || !psoResults.AreaName || !psoResults.LocalAuthorities) {
+    const psoResults =
+      await request.server.methods.getPsoContactsByPolygon(polygon)
+    if (
+      !psoResults.EmailAddress ||
+      !psoResults.AreaName ||
+      !psoResults.LocalAuthorities
+    ) {
       throw new NotEnglandError()
     }
     return psoResults
@@ -74,9 +79,13 @@ module.exports = [
             recipientemail = ' ',
             fullName = ' '
           } = request.query
-
           const polygon = parsePolygon(request.query)
-          const contactDetails = await getPsoContactDetails(request, polygon, easting, northing)
+          const contactDetails = await getPsoContactDetails(
+            request,
+            polygon,
+            easting,
+            northing
+          )
 
           let location = ''
           if (placeOrPostcode || nationalGridReference) {
@@ -87,7 +96,10 @@ module.exports = [
 
           let { locationDetails = '' } = request.query
           if (locationDetails) {
-            locationDetails = locationDetails.replace(new RegExp(`^${placeOrPostcode}, `, 'i'), '')
+            locationDetails = locationDetails.replace(
+              new RegExp(`^${placeOrPostcode}, `, 'i'),
+              ''
+            )
           }
           const model = new ConfirmLocationViewModel({
             easting,
@@ -105,6 +117,7 @@ module.exports = [
 
           return h.view('confirm-location', model)
         } catch (err) {
+          console.error(JSON.stringify(err))
           if (err instanceof NotEnglandError) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
