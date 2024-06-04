@@ -171,10 +171,11 @@ module.exports = [
               'Remember if the postcode is part of the previous log, then it sent it to the fmp-api'
             )
             console.log(error.output ? error.output : JSON.stringify(error))
+            const data2 = {
+              error2: JSON.stringify(error)
+            }
             // const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
-            return h.view('order-not-submitted', {
-              error: JSON.stringify(error)
-            })
+            return h.view('order-not-submitted', data2)
             // return h.redirect(redirectURL)
           }
 
