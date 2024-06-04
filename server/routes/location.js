@@ -21,7 +21,8 @@ module.exports = [
     method: 'GET',
     path: '/location',
     options: {
-      description: 'Get location for a postcode, national grid reference, easting or northing'
+      description:
+        'Get location for a postcode, national grid reference, easting or northing'
     },
     handler: async (request, h) => {
       const errors = []
@@ -36,7 +37,8 @@ module.exports = [
     method: 'POST',
     path: '/location',
     options: {
-      description: 'Get location for a postcode, national grid reference, easting or northing',
+      description:
+        'Get location for a postcode, national grid reference, easting or northing',
       handler: async (request, h) => {
         try {
           const queryParams = {}
@@ -49,15 +51,35 @@ module.exports = [
 
           // Find the Selected Option
           const selectedOption = payload.findby
-          const placeOrPostcode = payload.placeOrPostcode ? payload.placeOrPostcode.trim() : undefined
+          const placeOrPostcode = payload.placeOrPostcode
+            ? payload.placeOrPostcode.trim()
+            : undefined
 
           // If its Place or Postcode
           if (selectedOption === 'placeOrPostcode') {
-            const validPlaceOrPostcode = validatePlaceOrPostcode(placeOrPostcode)
-            if (placeOrPostcode && placeOrPostcode.trim() && validPlaceOrPostcode) {
+            const validPlaceOrPostcode =
+              validatePlaceOrPostcode(placeOrPostcode)
+            console.log('valid place or postcode', validPlaceOrPostcode)
+            if (
+              placeOrPostcode &&
+              placeOrPostcode.trim() &&
+              validPlaceOrPostcode
+            ) {
               const address = await addressService.findByPlace(placeOrPostcode)
-              if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
-                const errors = [{ text: 'Enter a real place name or postcode', href: '#placeOrPostcode' }]
+              console.log('find by place', address)
+
+              if (
+                !address ||
+                !address.length ||
+                !address[0].geometry_x ||
+                !address[0].geometry_y
+              ) {
+                const errors = [
+                  {
+                    text: 'Enter a real place name or postcode',
+                    href: '#placeOrPostcode'
+                  }
+                ]
                 model = new LocationViewModel({
                   errorSummary: errors,
                   placeOrPostcodeSelected: true,
@@ -65,7 +87,9 @@ module.exports = [
                   nationalGridReferenceSelected: false,
                   placeOrPostcode,
                   nationalGridReference: payload.nationalGridReference,
-                  placeOrPostcodeError: { text: 'No address found for that place or postcode' }
+                  placeOrPostcodeError: {
+                    text: 'No address found for that place or postcode'
+                  }
                 })
                 return h.view('location', model)
               }
@@ -75,7 +99,12 @@ module.exports = [
               locationDetails = addr.locationDetails
               isPostCode = addr.isPostCode
             } else {
-              const errors = [{ text: 'Enter a real place name or postcode', href: '#placeOrPostcode' }]
+              const errors = [
+                {
+                  text: 'Enter a real place name or postcode',
+                  href: '#placeOrPostcode'
+                }
+              ]
               model = new LocationViewModel({
                 errorSummary: errors,
                 placeOrPostcodeSelected: true,
@@ -83,16 +112,25 @@ module.exports = [
                 nationalGridReferenceSelected: false,
                 placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
-                placeOrPostcodeError: { text: 'Enter a real place name or postcode' }
+                placeOrPostcodeError: {
+                  text: 'Enter a real place name or postcode'
+                }
               })
               return h.view('location', model)
             }
           } else if (selectedOption === 'nationalGridReference') {
-            const isNGrValid = await isValidNgrService.get(payload.nationalGridReference)
+            const isNGrValid = await isValidNgrService.get(
+              payload.nationalGridReference
+            )
             if (isNGrValid.isValid) {
               BNG = ngrToBng.convert(payload.nationalGridReference)
             } else {
-              const errors = [{ text: 'Enter a real National Grid Reference (NGR)', href: '#nationalGridReference' }]
+              const errors = [
+                {
+                  text: 'Enter a real National Grid Reference (NGR)',
+                  href: '#nationalGridReference'
+                }
+              ]
               model = {}
               model = new LocationViewModel({
                 errorSummary: errors,
@@ -101,26 +139,42 @@ module.exports = [
                 nationalGridReferenceSelected: true,
                 placeOrPostcode,
                 nationalGridReference: payload.nationalGridReference,
-                nationalGridReferenceError: { text: 'Enter a real National Grid Reference (NGR)' }
+                nationalGridReferenceError: {
+                  text: 'Enter a real National Grid Reference (NGR)'
+                }
               })
               return h.view('location', model)
             }
           } else if (selectedOption === 'eastingNorthing') {
-            const formattedEasting = payload.easting ? payload.easting.trim().replace(/\s+/g, '') : ''
-            const formattedNorthing = payload.northing ? payload.northing.trim().replace(/\s+/g, '') : ''
-            const eastingNorthingResponse = await isValidEastingNorthingService.get(
-              formattedEasting,
-              formattedNorthing
-            )
+            const formattedEasting = payload.easting
+              ? payload.easting.trim().replace(/\s+/g, '')
+              : ''
+            const formattedNorthing = payload.northing
+              ? payload.northing.trim().replace(/\s+/g, '')
+              : ''
+            const eastingNorthingResponse =
+              await isValidEastingNorthingService.get(
+                formattedEasting,
+                formattedNorthing
+              )
             if (eastingNorthingResponse.isValid) {
               BNG.easting = formattedEasting
               BNG.northing = formattedNorthing
             } else {
               const errors = [
-                { text: eastingNorthingResponse.eastingError, href: '#easting' },
-                { text: eastingNorthingResponse.northingError, href: '#northing' }
+                {
+                  text: eastingNorthingResponse.eastingError,
+                  href: '#easting'
+                },
+                {
+                  text: eastingNorthingResponse.northingError,
+                  href: '#northing'
+                }
               ]
-              if (!eastingNorthingResponse.northing.isValid && !eastingNorthingResponse.easting.isValid) {
+              if (
+                !eastingNorthingResponse.northing.isValid &&
+                !eastingNorthingResponse.easting.isValid
+              ) {
                 model = {}
                 model = new LocationViewModel({
                   errorSummary: errors,
