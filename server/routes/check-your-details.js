@@ -175,7 +175,7 @@ module.exports = [
               error2: JSON.stringify(error)
             }
             // const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
-            return h.view('order-not-submitted', data2)
+            return h.view('check-your-details', data2)
             // return h.redirect(redirectURL)
           }
 
