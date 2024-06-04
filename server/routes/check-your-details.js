@@ -167,6 +167,7 @@ module.exports = [
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
               data
             )
+            console.log('Remember if the postcode is part of the previous log, then it sent it to the fmp-api')
             console.log(error.output ? error.output : JSON.stringify(error))
             const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
             return h.redirect(redirectURL)
