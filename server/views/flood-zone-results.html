@@ -56,7 +56,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <p class="govuk-body">
       Find out more about
       <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
-        class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
+         class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
         flood zones and what they mean </a>.
     </p>
     {% endif %} {% if surfaceWaterResults.surface_water %}
@@ -68,13 +68,13 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-          href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+           href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
           the surface water map on the check your long term flood risk service
         </a>
       </li>
       <li>
         <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Risk-Flooding-Surface-Water"
-          href="https://environment.data.gov.uk/dataset/51a5c4e7-10d3-4f34-bb0e-558835ab8c85">
+           href="https://environment.data.gov.uk/dataset/51a5c4e7-10d3-4f34-bb0e-558835ab8c85">
           the risk of flooding from surface water dataset on the data services
           platform
         </a>
@@ -88,7 +88,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-          href="https://check-long-term-flood-risk.service.gov.uk">
+           href="https://check-long-term-flood-risk.service.gov.uk">
           groundwater and reservoir flood risk
         </a>
       </li>
@@ -106,7 +106,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-          href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+           href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
           surface water, groundwater and reservoir flood risk
         </a>
       </li>
@@ -137,7 +137,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <p class="govuk-body">
       Find out more about
       <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
-        class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
+         class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
         flood defences, flood zones and what they mean </a>.
     </p>
     {% endif %}
@@ -149,7 +149,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
   <div class="govuk-grid-column-two-thirds">
     <!-- What the flood map shows -->
     <details class="govuk-details" data-module="govuk-details"
-      data-journey-click="Flood-Zone-Results:DETAIL-CLICK:What-Flood-Map-Shows">
+             data-journey-click="Flood-Zone-Results:DETAIL-CLICK:What-Flood-Map-Shows">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
           What the flood map shows
@@ -192,7 +192,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <!-- Download a Product 1 -->
     <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
-      data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
+             data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
           Add a reference to the flood map and set the scale
@@ -217,7 +217,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
               </span>
             </h3>
             <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
-              maxlength="13" />
+                   maxlength="13" />
           </div>
 
           <div class="govuk-form-group">
@@ -238,7 +238,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       </div>
     </details>
     <button href="#" form="product-1-form" type="submit" class="govuk-button govuk-button--secondary" draggable="false"
-      data-analytics-click="{{analyticsRequestProduct1Event}}">
+            data-analytics-click="{{analyticsRequestProduct1Event}}">
       Download this flood map (PDF)
     </button>
 
@@ -257,7 +257,8 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <li>the development has a site area of 1 ha or more</li>
       <li>
         it's in an
-        <a href="https://www.data.gov.uk/dataset/d10fb8e5-f3af-48c1-a489-8c975b0165de/areas-with-critical-drainage-problems"
+        <a
+          href="https://www.data.gov.uk/dataset/d10fb8e5-f3af-48c1-a489-8c975b0165de/areas-with-critical-drainage-problems"
           class="govuk-link">
           area with critical drainage problems
         </a>
@@ -291,11 +292,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <h3 class="govuk-heading-s govuk-!-margin-top-3">
       Order flood risk data for rivers and the sea
     </h3>
-
-    {% if useAutomatedService %} {% if zoneNumber == 1 %}
+    {% if useAutomatedService %}
+    {% if zoneNumber == 1 %}
     <p class="govuk-body">
-      Your site is in flood zone 1, so it's unlikely we'll have any flood risk
-      data for it. But you can place an order and we'll email you if none is
+      Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. But you can place an order
+      and we'll email you if none is
       available.
     </p>
     {% else %}
@@ -326,7 +327,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <p class="govuk-body">
         You will also need to assess
         <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-          data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
+           data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
           residual risk
         </a>
         from flood defence breach in this location. If available, we will
@@ -337,22 +338,22 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         For developments in flood zone {{zoneNumber}}, your FRA should include
         an assessment of all sources of flooding and
         <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
-          data-journey-click="Flood-Zone-Results:External-Link:Climate-Change-Allowances" class="govuk-link">
+           data-journey-click="Flood-Zone-Results:External-Link:Climate-Change-Allowances" class="govuk-link">
           take into account climate change allowances.
         </a>
       </p>
       <p class="govuk-body">
         Find out
         <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-          data-journey-click="Flood-Zone-Results:External-Link:How-To-Do-Assessment" class="govuk-link">
+           data-journey-click="Flood-Zone-Results:External-Link:How-To-Do-Assessment" class="govuk-link">
           how to do an assessment </a>.
       </p>
     </div>
-    {% endif %} 
+    {% endif %}
     {% else %}
     <!--  Opted Out Section -->
     <p class="govuk-body">
-      To request flood risk assessment data for this site, contact the
+      To order flood risk data for this site, contact the
       Environment Agency team in {{areaName}} at
       <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>
     </p>
@@ -360,8 +361,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <p></p>
 
     <p class="govuk-body">
-      Your email should say that you are requesting flood risk assessment data
-      (also known as a product 4) and include:
+      Your email should say that you are ordering flood risk data and include:
     </p>
 
     <p></p>
@@ -373,14 +373,14 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     {% if floodZone.zone == 'FZ1' %}
     <p class="govuk-body">
-      As your selected location is in Flood Zone 1, it is likely that there will
-      be no extra data available.
+      Your site is in flood zone 1, so it is unlikely we’ll have any flood risk data for it. You can place an order, and
+      we will email you if none is available.
     </p>
 
     <p>{% else %}</p>
 
     <p class="govuk-body">
-      You should recieve your data within 20 working days.
+      We aim to email you the data within 20 working days.
     </p>
 
     <p class="govuk-body">
@@ -402,7 +402,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <p class="govuk-body">
       You will also need to assess
       <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-        data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
+         data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
         residual risk
       </a>
       from flood defence breach in this location. If available, we will
@@ -419,7 +419,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <p class="govuk-body">
       Find out
       <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-        class="govuk-link">
+         class="govuk-link">
         how to do an assessment </a>.
     </p>
   </div>
@@ -432,7 +432,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
   </p>
 
   <p>
-    {% endif %} 
+    {% endif %}
     {% endif %}
     <!-- End of Opted Out Section -->
   </p>
@@ -456,9 +456,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 <script>
   $(function () {
     var page = new FMP.SummaryPage({
-      polygon: {{ polygon }}
-        })
-      })
+      polygon: {
+    { polygon }
+  }
+  })
+  })
 </script>
 {% else %}
 <script>
