@@ -14,11 +14,16 @@ const shortNames = {
   stockton: 'Stockton-on-Tees'
 }
 
-const replaceCommonSearchTerms = (place) => shortNames[place?.toLowerCase()] || place
+const replaceCommonSearchTerms = (place) =>
+  shortNames[place?.toLowerCase()] || place
 
 module.exports = {
   findByPlace: async (place) => {
-    const uri = `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`.replace('maxresults=1&', 'maxresults=10&')
+    const uri =
+      `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`.replace(
+        'maxresults=1&',
+        'maxresults=10&'
+      )
     const payload = await util.getJson(uri)
 
     place = replaceCommonSearchTerms(place) // FCRM-4460 - see comment above
@@ -27,11 +32,23 @@ module.exports = {
     }
     const gazetteerEntries = payload.results
       .map(function (item) {
-        const { NAME1, POPULATED_PLACE, DISTRICT_BOROUGH, COUNTY_UNITARY, REGION, COUNTRY, LOCAL_TYPE } =
-          item.GAZETTEER_ENTRY || {}
-        const locationArray = [NAME1, POPULATED_PLACE, DISTRICT_BOROUGH, COUNTY_UNITARY, REGION, COUNTRY].filter(
-          (item) => item
-        ) // Remove undefined entries
+        const {
+          NAME1,
+          POPULATED_PLACE,
+          DISTRICT_BOROUGH,
+          COUNTY_UNITARY,
+          REGION,
+          COUNTRY,
+          LOCAL_TYPE
+        } = item.GAZETTEER_ENTRY || {}
+        const locationArray = [
+          NAME1,
+          POPULATED_PLACE,
+          DISTRICT_BOROUGH,
+          COUNTY_UNITARY,
+          REGION,
+          COUNTRY
+        ].filter((itema) => itema) // Remove undefined entries
 
         const locationDetails = locationArray
           .filter((item, idx) => {
@@ -51,8 +68,10 @@ module.exports = {
     return gazetteerEntries
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
+    console.log('About to: getPostcodeFromEastingorNorthing')
     const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
     const payload = await util.getJson(uri)
+    console.log('getPostcodeFromEastingorNorthing', JSON.stringify(payload?.results[0]))
     return payload?.results && payload?.results.length > 0
       ? payload?.results[0]?.DPA?.POSTCODE
       : undefined
