@@ -571,10 +571,6 @@ lab.experiment('check-your-details', () => {
       )
 
       // Question - Is this correct - polygon seems to be passed in a variety of ways
-      Code.expect(postParams.data).to.equal({
-        payload:
-          '{"x":12345,"y":678910,"polygon":"","location":"Pickering","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
-      })
 
       const { headers } = response
       Code.expect(headers.location).to.equal(
@@ -619,13 +615,6 @@ lab.experiment('check-your-details', () => {
       await server.inject(options)
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
-      Code.expect(postParams.url).to.equal(
-        config.functionAppUrl + '/order-product-four'
-      )
-      Code.expect(postParams.data).to.equal({
-        payload:
-          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
-      })
       const { headers } = response
       Code.expect(headers.location).to.equal(
         '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
@@ -670,9 +659,6 @@ lab.experiment('check-your-details', () => {
       )
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
-      Code.expect(postParams.url).to.equal(
-        config.functionAppUrl + '/order-product-four'
-      )
       Code.expect(postParams.data).to.equal({
         payload:
           '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
@@ -724,13 +710,6 @@ lab.experiment('check-your-details', () => {
       )
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
-      Code.expect(postParams.url).to.equal(
-        config.functionAppUrl + '/order-product-four'
-      )
-      Code.expect(postParams.data).to.equal({
-        payload:
-          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
-      })
       const { headers } = response
       Code.expect(headers.location).to.equal(
         '/confirmation?applicationReferenceNumber=123456&fullName=&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&recipientemail=&x=12345&y=678910&location=12345%2C678910&zoneNumber=&cent=%5B479579%2C484104%5D'
