@@ -48,7 +48,7 @@ module.exports = {
           COUNTY_UNITARY,
           REGION,
           COUNTRY
-        ].filter((item) => item) // Remove undefined entries
+        ].filter((itema) => itema) // Remove undefined entries
 
         const locationDetails = locationArray
           .filter((item, idx) => {

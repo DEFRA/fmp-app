@@ -314,11 +314,12 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <!-- Order Flood Risk Data -->
     <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
-      role="button" draggable="false"
+       draggable="false"
       class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
-      data-module="govuk-button">
+      data-module="govuk-button" onKeyPress="">
       Order flood risk data
     </a>
+
     {% if floodZone.zone != 'FZ1' %}
     <div class="govuk-inset-text">
       {% if floodZone.isAreaBenefiting %}
