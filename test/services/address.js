@@ -125,7 +125,7 @@ lab.experiment('address', () => {
   })
 
   lab.test('getPostcodeFromEastingorNorthing should return undefined if payload does not exist', async () => {
-    util.getJson = () => undefined
+    util.getJson = () => ''
     const postcode = await getPostcodeFromEastingorNorthing(12345, 678910)
     Code.expect(postcode).to.equal(undefined)
   })
