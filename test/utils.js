@@ -3,7 +3,9 @@ const Code = require('@hapi/code')
 module.exports = {
   payloadMatchTest: async (payload, regex, expectedMatchCount = 1) => {
     const errorMatch = payload.match(regex) || []
-    Code.expect(errorMatch.length, `\nFailed Regex match: ${regex}\n`).to.equal(expectedMatchCount)
+    Code.expect(errorMatch.length, `\nFailed Regex match: ${regex}\n`).to.equal(
+      expectedMatchCount
+    )
   },
   titleTest: async (payload, expectedTitle) => {
     const titleMatch = payload.match(/<title>([\s\S]*)<\/title>/)

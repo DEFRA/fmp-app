@@ -1,76 +1,81 @@
-{% extends "layout.html" %}  
+{% extends "layout.html" %}
 {% block pageTitle %}
 Request submitted - Flood map for planning - GOV.UK
 {% endblock %}
 
 
-
 {% block content %}
-  {{ super() }}
-  <link rel="stylesheet" type="text/css" property="stylesheet" href="{{assetPath}}/stylesheets/confirmation/index.css">
+{{ super() }}
+<link rel="stylesheet" type="text/css" property="stylesheet" href="{{assetPath}}/stylesheets/confirmation/index.css">
 
-  <div id="confirmation-page" class="govuk-grid-row">
-    <div class="hide" data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
-    <div class="govuk-grid-column-two-thirds">
-      <div class="govuk-panel govuk-panel--confirmation">
-        <h1 class="govuk-panel__title">
-          Request submitted
-        </h1>
-        <div class="govuk-panel__body">
-          Your reference number<br>
-          <bold>{{applicationReferenceNumber}}</bold>
-        </div>
+<div id="confirmation-page" class="govuk-grid-row">
+  <div class="hide"
+       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title">
+        Request submitted
+      </h1>
+      <div class="govuk-panel__body">
+        Your reference number<br>
+        <bold>{{applicationReferenceNumber}}</bold>
       </div>
-      {% if zoneNumber === '1' %}
-        <h2 class="govuk-heading-m">What happens next</h2>
-        <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}, stating that you have made a request for flood risk assessment data, which we are currently processing.</p>
-        <p class="govuk-body">However, as your selected location is in flood zone 1, it's unlikely there will be any data available.</p>
-        <p class="govuk-body">Due to this potential lack of data, you may shortly receive an email stating that the report you requested is not available.</p>
-        <p class="govuk-body">Otherwise, you should recieve your data within 20 working days.</p>
-      {% else %}
-        <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}</p>
-        <h2 class="govuk-heading-m">What happens next</h2>
-        <p class="govuk-body">We’re processing your request for flood risk assessment data</p>
-        <p class="govuk-body">You should receive your data within 20 working days.</p>
-      {% endif %}
-
-      {% if zoneNumber !== '1' %}
-        <p class="govuk-body">Depending on the data that's available, this information will include:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>a flood zone map (flood map for planning)</li>
-          <li>historic flood outlines</li>
-          <li>relevant modelled flood levels and extents</li>
-          <li>flood defence locations and attributes</li>
-        </ul>
-      {% endif %}
-
-      <h2 class="govuk-heading-m">Help and advice</h2>
-      <p class="govuk-body" data-pso-contact-email>
-        Contact the Environment Agency team in {{AreaName}} at 
-        <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>{% include "./partials/more-information.html" %}</li>
-        <li>general help and advice about the site you're requesting data for</li>
-      </ul>
-      <p>For advice around flood risk assessments and planning permission you can:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li data-local-authority>speak to your local authority{% if LocalAuthorities %}, <span class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span>{% endif %}</li>
-        <li>
-          <a 
-            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact"
-            data-journey-click="Confirmation:External-Link:Contact-Environment-Agency"
-          >contact the Environment Agency</a>
-        </li>
-      </ul>
-
-      <p>
-        {%if ispolygon  === true %}
-          <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood information</a>
-        {% else %}
-          <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your flood information</a>
-        {% endif %}
-      </p>
     </div>
+    {% if zoneNumber === '1' %}
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}, stating that you have made a request
+      for flood risk assessment data, which we are currently processing.</p>
+    <p class="govuk-body">However, as your selected location is in flood zone 1, it's unlikely there will be any data
+      available.</p>
+    <p class="govuk-body">Due to this potential lack of data, you may shortly receive an email stating that the report
+      you requested is not available.</p>
+    <p class="govuk-body">Otherwise, you should recieve your data within 20 working days.</p>
+    {% else %}
+    <p class="govuk-body">We have sent a confirmation email to {{recipientemail}}</p>
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <p class="govuk-body">We’re processing your request for flood risk data</p>
+    <p class="govuk-body">You should receive your data within 20 working days.</p>
+    <p class="govuk-body">If data is available for your location, it will include:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a flood zone map (flood map for planning)</li>
+      <li>historic flood outlines</li>
+      <li>modelled flood levels and extents</li>
+      <li>flood defence locations and attributes</li>
+    </ul>
+    {% endif %}
+
+
+    <h2 class="govuk-heading-m">Help and advice</h2>
+    <p class="govuk-body" data-pso-contact-email>
+      Contact the Environment Agency team in {{AreaName}} at
+      <a href="mailto:{{psoemailaddress}}">{{psoEmailAddress}}</a> for:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{% include "./partials/more-information.html" %}</li>
+      <li>for general help and advice about the site you're requesting data for</li>
+    </ul>
+    <p>For advice around flood risk assessments and planning permission you can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li data-local-authority>speak to your local authority{% if LocalAuthorities %}, <span
+        class="govuk-!-font-weight-bold">{{LocalAuthorities}}</span>{% endif %}
+      </li>
+      <li>
+        <a
+          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact"
+          data-journey-click="Confirmation:External-Link:Contact-Environment-Agency"
+        >contact the Environment Agency</a>
+      </li>
+    </ul>
+
+    <p>
+      {%if ispolygon === true %}
+      <a href="/flood-zone-results?location={{location}}&polygon={{polygon}}&center={{cent}}">Go back to your flood
+        information summary page</a>
+      {% else %}
+      <a href="/flood-zone-results?easting={{easting}}&northing={{northing}}&location={{location}}">Go back to your
+        flood information summary page</a>
+      {% endif %}
+    </p>
   </div>
+</div>
 {% endblock %}
