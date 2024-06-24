@@ -456,11 +456,9 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 <script>
   $(function () {
     var page = new FMP.SummaryPage({
-      polygon: {
-    { polygon }
-  }
-  })
-  })
+      polygon: {{ polygon }}
+        })
+      })
 </script>
 {% else %}
 <script>
