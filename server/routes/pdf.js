@@ -21,8 +21,12 @@ module.exports = {
       const siteUrl = config.siteUrl
       const geoserverUrl = config.geoserver
       const printUrl = geoserverUrl + '/geoserver/pdf/print.pdf'
-      const polygon = request.payload.polygon ? JSON.parse(request.payload.polygon) : undefined
-      const center = request.payload.center ? JSON.parse(request.payload.center) : undefined
+      const polygon = request.payload.polygon
+        ? JSON.parse(request.payload.polygon)
+        : undefined
+      const center = request.payload.center
+        ? JSON.parse(request.payload.center)
+        : undefined
       let vector
 
       // Always get Flood zone as flood zone is provided in the request if not provided.
@@ -91,7 +95,9 @@ module.exports = {
           northing: parseInt(center[1]),
           timestamp: moment().tz('Europe/London').format('D MMM YYYY H:mm'),
           pdfSummaryTemplate,
-          pdfMapTemplate: polygon ? 'map-template-polygon.pdf' : 'map-template.pdf',
+          pdfMapTemplate: polygon
+            ? 'map-template-polygon.pdf'
+            : 'map-template.pdf',
           layers: [
             {
               type: 'WMTS',
@@ -317,10 +323,16 @@ module.exports = {
           .response(result.payload)
           .encoding('binary')
           .type('application/pdf')
-          .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
+          .header(
+            'content-disposition',
+            `attachment; filename=flood-map-planning-${date}.pdf;`
+          )
           .header('X-XSS-Protection', '1; mode=block')
       } catch (err) {
-        return Boom.badImplementation((err && err.message) || 'An error occured during PDF generation', err)
+        return Boom.badImplementation(
+          (err && err.message) || 'An error occured during PDF generation',
+          err
+        )
       }
     },
     validate: {
@@ -329,7 +341,9 @@ module.exports = {
         scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
         polygon: Joi.string().required().allow(''),
         center: Joi.string().required(),
-        zone: Joi.string().valid('FZ1', 'FZ2', 'FZ2a', 'FZ3', 'FZ3a').default('FZ3'),
+        zone: Joi.string()
+          .valid('FZ1', 'FZ2', 'FZ2a', 'FZ3', 'FZ3a')
+          .default('FZ3'),
         holdingComments: Joi.string().allow(''),
         id: Joi.string().allow('')
       })
