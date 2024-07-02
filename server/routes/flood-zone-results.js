@@ -45,15 +45,18 @@ module.exports = [
       description: 'Displays flood zone results page',
       handler: async (request, h) => {
         try {
+          if (config.mockAddressService) {
+            request.query = {
+              polygon:
+                '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]',
+              center: '[479692,484217]',
+              location: 'Pickering'
+            }
+          }
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
-          let polygon = polygonToArray(request.query.polygon)
-          if (config.mockAddressService) {
-            polygon =
-              '[[479661,484249],[479660,484249],[479740,484252],[479661,484249]]'
-          }
-          console.log('======polygon========', request.query)
+          const polygon = polygonToArray(request.query.polygon)
           const center = request.query.center
             ? JSON.parse(request.query.center)
             : undefined
