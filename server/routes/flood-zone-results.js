@@ -10,6 +10,7 @@ const {
   buffPolygon
 } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
+const config = require('../../config')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
   try {
@@ -47,7 +48,12 @@ module.exports = [
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
-          const polygon = polygonToArray(request.query.polygon)
+          let polygon = polygonToArray(request.query.polygon)
+          if (config.mockAddressService) {
+            polygon =
+              '[[479661,484249],[479660,484249],[479740,484252],[479661,484249]]'
+          }
+          console.log('======polygon========', request.query)
           const center = request.query.center
             ? JSON.parse(request.query.center)
             : undefined
@@ -67,6 +73,8 @@ module.exports = [
 
           const psoResults =
             await request.server.methods.getPsoContactsByPolygon(polygon)
+
+          console.log('=======psoresults====', psoResults)
           if (
             !psoResults.EmailAddress ||
             !psoResults.AreaName ||
