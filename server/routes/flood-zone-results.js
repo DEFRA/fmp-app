@@ -46,7 +46,9 @@ module.exports = [
       handler: async (request, h) => {
         try {
           if (config.mockAddressService) {
+            const { query } = request
             request.query = {
+              ...query,
               polygon:
                 '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]',
               center: '[479692,484217]',
@@ -77,7 +79,6 @@ module.exports = [
           const psoResults =
             await request.server.methods.getPsoContactsByPolygon(polygon)
 
-          console.log('=======psoresults====', psoResults)
           if (
             !psoResults.EmailAddress ||
             !psoResults.AreaName ||
@@ -99,7 +100,6 @@ module.exports = [
           const geoJson = util.convertToGeoJson(polygon)
 
           const risk = await riskService.getByPolygon(geoJson)
-
           if (!risk.in_england && !risk.point_in_england) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)

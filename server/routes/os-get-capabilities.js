@@ -13,15 +13,12 @@ module.exports = {
     try {
       let payload = {}
       if (config.mockAddressService) {
+        console.log('enter os mock capabilities')
         payload.payload = mockData.osCapabilitiesPayload
       } else {
         const url = `${osMapsUrl}?key=${osMapsKey}&${osGetCapabilitiesUrl}`
         payload = await wreck.get(url)
       }
-
-      console.log('==============osGetCapabilities======================')
-      console.log(JSON.stringify(payload.payload))
-      console.log('===================================')
 
       // replace secret key in capabilities
       const regex = new RegExp(osMapsKey, 'g')
