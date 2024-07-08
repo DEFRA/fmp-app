@@ -2,8 +2,11 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
+const config = require('../../config')
+const mockData = require('../mock/address/find-by-place/PICKERING.json')
 
 class NotEnglandError extends Error {}
+
 class BadRequestError extends Error {}
 
 const getAnalyticsPageEvent = (query) => {
@@ -70,6 +73,9 @@ module.exports = [
       description: 'Get confirm location page search results',
       handler: async (request, h) => {
         try {
+          if (config.mockAddressService) {
+            request.query = mockData.confirmLocationModelData
+          }
           const {
             easting,
             northing,
@@ -80,13 +86,22 @@ module.exports = [
             fullName = ' '
           } = request.query
           const polygon = parsePolygon(request.query)
+          console.log(
+            '===========CONFIRM LOCATION REQUEST========================='
+          )
+          console.log(request.query)
+          console.log('====================================')
           const contactDetails = await getPsoContactDetails(
             request,
             polygon,
             easting,
             northing
           )
-
+          console.log(
+            '============Got Pso contact detail========================'
+          )
+          console.log(JSON.stringify(contactDetails))
+          console.log('====================================')
           let location = ''
           if (placeOrPostcode || nationalGridReference) {
             location = placeOrPostcode || nationalGridReference

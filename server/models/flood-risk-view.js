@@ -14,6 +14,8 @@ function Model (data) {
     localAuthorities,
     surfaceWaterResults
   } = data
+
+  console.log('====data===', data)
   this.localAuthorities = localAuthorities
   this.surfaceWaterResults = surfaceWaterResults
 
@@ -69,7 +71,8 @@ function Model (data) {
     }
   })
 
-  this.plotSize = plotSize !== '0' && plotSize !== 0 ? plotSize : 'less than 0.1'
+  this.plotSize =
+    plotSize !== '0' && plotSize !== 0 ? plotSize : 'less than 0.1'
 }
 
 module.exports = { Model }

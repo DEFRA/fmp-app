@@ -8,5 +8,6 @@ module.exports = {
   SY232HN: require('./SY232HN.json'),
   WA41AG: require('./WA41AG.json'),
   WA41HT: require('./WA41HT.json'),
-  WA51DG: require('./WA51DG.json')
+  WA51DG: require('./WA51DG.json'),
+  Pickering: require('./PICKERING.json')
 }

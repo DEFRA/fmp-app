@@ -10,6 +10,7 @@ const {
   buffPolygon
 } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
+const config = require('../../config')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
   try {
@@ -36,6 +37,17 @@ const zeroAreaPolygonRedirect = (h, polygon, center, location) => {
   return h.redirect(queryString)
 }
 
+const getMockRequestQuery = (request) => {
+  const { query } = request
+  return {
+    ...query,
+    polygon:
+      '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]',
+    center: '[479692,484217]',
+    location: 'Pickering'
+  }
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -44,6 +56,9 @@ module.exports = [
       description: 'Displays flood zone results page',
       handler: async (request, h) => {
         try {
+          if (config.mockAddressService) {
+            request.query = getMockRequestQuery(request)
+          }
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
@@ -67,6 +82,7 @@ module.exports = [
 
           const psoResults =
             await request.server.methods.getPsoContactsByPolygon(polygon)
+
           if (
             !psoResults.EmailAddress ||
             !psoResults.AreaName ||
@@ -88,7 +104,6 @@ module.exports = [
           const geoJson = util.convertToGeoJson(polygon)
 
           const risk = await riskService.getByPolygon(geoJson)
-
           if (!risk.in_england && !risk.point_in_england) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)

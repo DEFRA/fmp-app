@@ -26,11 +26,16 @@ module.exports = {
       )
     const payload = await util.getJson(uri)
 
+    console.log(
+      `====findbyPlace OS===========place searched ${place}==================`
+    )
+    console.log(JSON.stringify(payload?.results))
+
     place = replaceCommonSearchTerms(place) // FCRM-4460 - see comment above
-    if (!payload || !payload.results || !payload.results.length) {
+    if (!payload?.results?.length) {
       return []
     }
-    const gazetteerEntries = payload.results
+    const gazetteerEntries = payload?.results
       .map(function (item) {
         const {
           NAME1,
@@ -41,6 +46,7 @@ module.exports = {
           COUNTRY,
           LOCAL_TYPE
         } = item.GAZETTEER_ENTRY || {}
+
         const locationArray = [
           NAME1,
           POPULATED_PLACE,
@@ -51,8 +57,8 @@ module.exports = {
         ].filter((itema) => itema) // Remove undefined entries
 
         const locationDetails = locationArray
-          .filter((item, idx) => {
-            return locationArray[idx - 1] !== item
+          .filter((itemad, idx) => {
+            return locationArray[idx - 1] !== itemad
           })
           .join(', ') // Remove duplicate entries
 
@@ -76,7 +82,9 @@ module.exports = {
         console.error(
           `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
         )
-      } else console.log('postcode retrieved', JSON.stringify(payload?.results[0]))
+      } else {
+        console.log('postcode retrieved', JSON.stringify(payload?.results[0]))
+      }
       return payload?.results && payload?.results.length > 0
         ? payload?.results[0]?.DPA?.POSTCODE
         : ''

@@ -13,15 +13,17 @@ const getFunctionAppResponse = async (referer, data) => {
     return functionAppRequests[referer]
   }
   const payload = JSON.parse(data)
+  console.log(
+    '=============Payload to send to get postcode======================='
+  )
+  console.log(payload)
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
     payload?.x,
     payload?.y
   )
   payload.postcode = postcode
   if (payload?.postcode) {
-    console.log('====================================')
     console.log('successfully retrieved the postcode', payload)
-    console.log('====================================')
   }
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
