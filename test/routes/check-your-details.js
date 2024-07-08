@@ -332,7 +332,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","zoneNumber":13,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","zoneNumber":13,"areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"YO18 2NN"}'
       })
     }
   )
@@ -373,7 +373,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"[[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]]","location":"Pickering","plotSize":"0.35","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"[[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]]","location":"Pickering","plotSize":"0.35","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"YO18 2NN"}'
       })
     }
   )
@@ -411,7 +411,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"[[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]]","location":"Pickering","plotSize":"0.35","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"[[[479614,484143],[479614,484143],[479692,484115],[479621,484081],[479583,484070],[479614,484143]]]","location":"Pickering","plotSize":"0.35","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"YO18 2NN"}'
       })
     }
   )
@@ -446,7 +446,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","areaName":"Yorkshire","psoEmailAddress":"psoContact@example.com","llfa":"Ryedale","postcode":"YO18 2NN"}'
       })
     }
   )
@@ -485,7 +485,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"","location":"360799,388244","zoneNumber":10,"areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk","postcode":"YO18 2NN"}'
       })
       const { headers } = response
       Code.expect(headers.location).to.equal(
@@ -529,7 +529,7 @@ lab.experiment('check-your-details', () => {
       )
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":360799,"y":388244,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"360799,388244","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk","postcode":"WA1 2NN"}'
+          '{"x":360799,"y":388244,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"360799,388244","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk","postcode":"YO18 2NN"}'
       })
       const { headers } = response
       Code.expect(headers.location).to.equal(
@@ -661,7 +661,7 @@ lab.experiment('check-your-details', () => {
       Code.expect(response.statusCode).to.equal(302)
       Code.expect(postParams.data).to.equal({
         payload:
-          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk"}'
+          '{"x":12345,"y":678910,"polygon":"[[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]]","location":"12345,678910","plotSize":"3.49","areaName":"East Anglia","psoEmailAddress":"enquiries_eastanglia@environment-agency.gov.uk","llfa":"Norfolk","postcode":"YO18 2NN"}'
       })
       const { headers } = response
       Code.expect(headers.location).to.equal(

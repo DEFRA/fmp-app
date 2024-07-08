@@ -330,7 +330,7 @@ module.exports = {
           .header('X-XSS-Protection', '1; mode=block')
       } catch (err) {
         return Boom.badImplementation(
-          (err && err.message) || 'An error occured during PDF generation',
+          err?.message || 'An error occured during PDF generation',
           err
         )
       }

@@ -13,6 +13,11 @@ const getFunctionAppResponse = async (referer, data) => {
     return functionAppRequests[referer]
   }
   const payload = JSON.parse(data)
+  console.log(
+    '=============Payload to send to get postcode======================='
+  )
+  console.log(payload)
+  console.log('====================================')
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
     payload?.x,
     payload?.y
