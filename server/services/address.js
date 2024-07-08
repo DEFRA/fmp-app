@@ -30,10 +30,9 @@ module.exports = {
       `====findbyPlace OS===========place searched ${place}==================`
     )
     console.log(JSON.stringify(payload?.results))
-    console.log('====================================')
 
     place = replaceCommonSearchTerms(place) // FCRM-4460 - see comment above
-    if (!payload || !payload?.results || !payload.results?.length) {
+    if (!payload?.results?.length) {
       return []
     }
     const gazetteerEntries = payload?.results

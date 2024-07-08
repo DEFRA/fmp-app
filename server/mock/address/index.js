@@ -27,8 +27,8 @@ addressService.findByPlace = async (place) => {
       ].filter((itema) => itema) // Remove undefined entries
 
       const locationDetails = locationArray
-        .filter((item, idx) => {
-          return locationArray[idx - 1] !== item
+        .filter((itemad, idx) => {
+          return locationArray[idx - 1] !== itemad
         })
         .join(', ') // Remove duplicate entries
 
