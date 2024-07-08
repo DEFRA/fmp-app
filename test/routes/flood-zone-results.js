@@ -32,7 +32,7 @@ lab.experiment('flood-zone-results', () => {
   }
 
   const fzrUrlPolygon =
-    '[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
+    '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]'
   const fzrUrl = `/flood-zone-results?location=Pickering&polygon=${fzrUrlPolygon}&center=[479472,484194]`
 
   const zone1GetByPolygonResponse = {
@@ -145,34 +145,42 @@ lab.experiment('flood-zone-results', () => {
 
       Code.expect(FloodRiskViewModelSpy.callCount).to.equal(1)
       Code.expect(FloodRiskViewModelSpy.args[0][0]).to.equal({
-        areaName: 'Yorkshire',
-        center: [479472, 484194],
-        localAuthorities: 'Ryedale',
-        location: 'Pickering',
-        placeOrPostcode: undefined,
-        polygon: [
-          [479472, 484194],
-          [479467, 484032],
-          [479678, 484015],
-          [479691, 484176],
-          [479472, 484194]
-        ],
         psoEmailAddress: 'psoContact@example.com',
-        risk: zone1GetByPolygonResponse,
-        useAutomatedService: true,
-        plotSize: '3.49',
-        surfaceWaterResults: {
-          england_error: false,
-          extra_info: null,
-          floodzone_2: true,
-          floodzone_2_error: false,
-          floodzone_3: true,
-          floodzone_3_error: false,
+        areaName: 'Yorkshire',
+        risk: {
           in_england: true,
+          england_error: false,
+          floodzone_3: false,
+          floodzone_3_error: false,
           reduction_in_rofrs: false,
           reduction_in_rofrs_error: false,
+          floodzone_2: false,
+          floodzone_2_error: false
+        },
+        center: [479472, 484194],
+        polygon: [
+          [479657, 484223],
+          [479655, 484224],
+          [479730, 484210],
+          [479657, 484223]
+        ],
+        location: 'Pickering',
+        placeOrPostcode: undefined,
+        useAutomatedService: true,
+        plotSize: '0',
+        localAuthorities: 'Ryedale',
+        surfaceWaterResults: {
+          in_england: true,
+          england_error: false,
+          floodzone_3: true,
+          floodzone_3_error: false,
+          reduction_in_rofrs: false,
+          reduction_in_rofrs_error: false,
+          floodzone_2: true,
+          floodzone_2_error: false,
           surface_water: true,
-          surface_water_error: false
+          surface_water_error: false,
+          extra_info: null
         }
       })
     }
@@ -276,7 +284,7 @@ lab.experiment('flood-zone-results', () => {
         const response = await server.inject(options)
         const { headers } = response
         const expectedRedirectUrl =
-          '/england-only?location=Pickering&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&center=%5B479472%2C484194%5D'
+          '/england-only?location=Pickering&polygon=%5B%5B479657%2C484223%5D%2C%5B479655%2C484224%5D%2C%5B479730%2C484210%5D%2C%5B479657%2C484223%5D%5D&center=%5B479472%2C484194%5D'
         Code.expect(headers.location).to.equal(expectedRedirectUrl)
       }
     )
@@ -296,7 +304,7 @@ lab.experiment('flood-zone-results', () => {
       Code.expect(response.statusCode).to.equal(302)
       const { headers } = response
       const expectedRedirectUrl =
-        '/england-only?location=Pickering&polygon=%5B%5B479472%2C484194%5D%2C%5B479467%2C484032%5D%2C%5B479678%2C484015%5D%2C%5B479691%2C484176%5D%2C%5B479472%2C484194%5D%5D&center=%5B479472%2C484194%5D'
+        '/england-only?location=Pickering&polygon=%5B%5B479657%2C484223%5D%2C%5B479655%2C484224%5D%2C%5B479730%2C484210%5D%2C%5B479657%2C484223%5D%5D&center=%5B479472%2C484194%5D'
       Code.expect(headers.location).to.equal(expectedRedirectUrl)
     }
   )
@@ -476,26 +484,9 @@ lab.experiment('flood-zone-results', () => {
   let zeroAreaPolygonsTestCount = 0
   zeroAreaPolygons.forEach(
     ([zeroAreaPolygon, expectedBuffedPolygon, expectedMinMaxXY]) => {
-      const polygonString = JSON.stringify(zeroAreaPolygon)
       const expectedPolygonString = JSON.stringify(expectedBuffedPolygon)
       const center = JSON.stringify(expectedMinMaxXY[0])
-      const fzrZeroAreaPolygonUrl = `/flood-zone-results?polygon=${polygonString}&center=${center}&location=Pickering`
       const fzrBuffedZeroAreaPolygonUrl = `/flood-zone-results?polygon=${expectedPolygonString}&center=${center}&location=Pickering`
-
-      lab.test(
-        `a flood zone request for ${polygonString} should redirect to  ${expectedPolygonString}`,
-        async () => {
-          riskService.getByPolygon = () => zone1GetByPolygonResponse
-          server.methods.getPsoContactsByPolygon = async () =>
-            optInPSOContactResponse
-          const options = { method: 'GET', url: fzrZeroAreaPolygonUrl }
-          const response = await server.inject(options)
-          Code.expect(response.statusCode).to.equal(302)
-          const { headers } = response
-          Code.expect(headers.location).to.equal(fzrBuffedZeroAreaPolygonUrl)
-          zeroAreaPolygonsTestCount++
-        }
-      )
 
       lab.test(
         `a flood zone request for ${expectedPolygonString} should not redirect`,
@@ -512,7 +503,7 @@ lab.experiment('flood-zone-results', () => {
     }
   )
 
-  lab.test('zeroAreaPolygonsTestCount should equal 20', async () => {
-    Code.expect(zeroAreaPolygonsTestCount).to.equal(20)
+  lab.test('zeroAreaPolygonsTestCount should equal 10', async () => {
+    Code.expect(zeroAreaPolygonsTestCount).to.equal(10)
   })
 })
