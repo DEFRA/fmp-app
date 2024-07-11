@@ -59,7 +59,8 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
          class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
         flood zones and what they mean </a>.
     </p>
-    {% endif %} {% if surfaceWaterResults.surface_water %}
+    {% endif %}
+    {% if surfaceWaterResults.surface_water %}
     <p class="govuk-body">
       There is a risk of flooding from surface water at this site. You should
       check one of the following:
@@ -314,8 +315,9 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     </p>
 
     <!-- Order Flood Risk Data -->
-    <a href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
-       draggable="false"
+    <a
+      href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
+      draggable="false"
       class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
       data-module="govuk-button" onKeyPress="">
       Order flood risk data
@@ -351,20 +353,16 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     </div>
     {% endif %}
     {% else %}
-    <!--  Opted Out Section -->
+    <!--  Opted Out Section if not using automated -->
     <p class="govuk-body">
       To order flood risk data for this site, contact the
       Environment Agency team in {{areaName}} at
       <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>
     </p>
 
-    <p></p>
-
     <p class="govuk-body">
       Your email should say that you are ordering flood risk data and include:
     </p>
-
-    <p></p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>the address</li>
@@ -377,8 +375,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       we will email you if none is available.
     </p>
 
-    <p>{% else %}</p>
-
+    {% else %}
     <p class="govuk-body">
       We aim to email you the data within 20 working days.
     </p>
@@ -387,7 +384,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       Depending on the information that's available, your flood risk assessment
       data could include:
     </p>
-    <p></p>
+    <br />
 
     <ul class="govuk-list govuk-list--bullet">
       <li>a flood zone map (flood map for planning)</li>
@@ -398,55 +395,54 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
 
     {% if floodZone.isAreaBenefiting %}
-    <div class="govuk-inset-text"></div>
-    <p class="govuk-body">
-      You will also need to assess
-      <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-         data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
-        residual risk
-      </a>
-      from flood defence breach in this location. If available, we will
-      provide breach hazard mapping data to help you do this.
-    </p>
-    <p class="govuk-body">
-      For developments in flood zone {{zoneNumber}}, your FRA should include
-      an assessment of all sources of flooding and
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
-        take into account climate change allowances.
-      </a>
-    </p>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        You will also need to assess
+        <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
+           data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
+          residual risk
+        </a>
+        from flood defence breach in this location. If available, we will
+        provide breach hazard mapping data to help you do this.
+      </p>
+      <p class="govuk-body">
+        For developments in flood zone {{zoneNumber}}, your FRA should include
+        an assessment of all sources of flooding and
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
+          take into account climate change allowances.
+        </a>
+      </p>
 
-    <p class="govuk-body">
-      Find out
-      <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-         class="govuk-link">
-        how to do an assessment </a>.
-    </p>
-  </div>
-  {% endif %}
-
-  <p class="govuk-body">
-    We recommend that you check the relevant local planning authority's
-    strategic flood risk assessment (SFRA) as part of your work to prepare a
-    flood risk assessment.
-  </p>
-
-  <p>
+      <p class="govuk-body">
+        Find out
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
+           class="govuk-link">
+          how to do an assessment </a>.
+      </p>
+    </div>
+    {% endif %}
+    <div>
+      <p class="govuk-body">
+        We recommend that you check the relevant local planning authority's
+        strategic flood risk assessment (SFRA) as part of your work to prepare a
+        flood risk assessment.
+      </p>
+    </div>
     {% endif %}
     {% endif %}
     <!-- End of Opted Out Section -->
-  </p>
 
-  <h2 class="govuk-heading-s">
-    Get help deciding what flood risk information you need
-  </h2>
 
-  <p class="govuk-body">
-    Email the Environment Agency team in {{areaName}} at:
-    <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
-  </p>
-  {% include "./partials/change-location.html" %}
-</div>
+    <h2 class="govuk-heading-s">
+      Get help deciding what flood risk information you need
+    </h2>
+
+    <p class="govuk-body">
+      Email the Environment Agency team in {{areaName}} at:
+      <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
+    </p>
+    {% include "./partials/change-location.html" %}
+  </div>
 </div>
 
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
