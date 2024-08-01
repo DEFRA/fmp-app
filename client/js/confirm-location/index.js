@@ -44,7 +44,7 @@ const addOptionsFromSession = (options) => {
   return options
 }
 
-function ConfirmLocationPage(options) {
+function ConfirmLocationPage (options) {
   options = addOptionsFromSession(options)
 
   const easting = window.encodeURIComponent(options.easting)
@@ -247,7 +247,7 @@ function ConfirmLocationPage(options) {
       }
     })
 
-    function updateMode(mode) {
+    function updateMode (mode) {
       const radio = document.getElementById(mode)
       if (radio) {
         radio.checked = true
@@ -293,7 +293,7 @@ function ConfirmLocationPage(options) {
       updateTargetUrl()
     }
 
-    function updateTargetUrl() {
+    function updateTargetUrl () {
       const url = getTargetUrl(featureMode, polygon, point, location)
       if (!polygon) {
         mapState.removeItem('polygon')
