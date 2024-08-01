@@ -1,91 +1,128 @@
-{% extends "layout.html" %}
-{% from "button/macro.njk" import govukButton %}
-{% from "error-summary/macro.njk" import govukErrorSummary %}
-
-{% block pageTitle %}
-  {% if polygonMissing %}
-    Error: Draw the boundary of your site - Flood map for planning - GOV.UK
-  {% else %}
-    Draw the boundary of your site - Flood map for planning - GOV.UK
-  {% endif %}
-{% endblock %}
-
-{% block content %}
-  {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/confirm-location/index.css">
+{% extends "layout.html" %} {% from "button/macro.njk" import govukButton %} {%
+  from "error-summary/macro.njk" import govukErrorSummary %} {% block pageTitle %}
+  {% if polygonMissing %} Error: Draw the boundary of your site - Flood map for
+  planning - GOV.UK {% else %} Draw the boundary of your site - Flood map for
+  planning - GOV.UK {% endif %} {% endblock %} {% block content %} {{ super() }}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{assetPath}}/stylesheets/ol.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{assetPath}}/stylesheets/confirm-location/index.css"
+  />
   <div id="confirm-location-page" class="govuk-grid-row">
-
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Draw the boundary of your site</h1>
     </div>
-
+  
     <div class="govuk-grid-column-two-thirds">
       <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
-      {% if locationDetails %} 
-      <p class="govuk-body your-search-details">Your search for '{{placeOrPostcodeUnencoded}}' has been placed in {{locationDetails}}.</p>
-      {% endif %}
-      {% if polygonMissing %}
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: [{ text: "You need to draw the boundary of your site on the map. Click 'How to draw a boundary' if you need help.", href: '#boundary-error' }]
-        }) 
-      }}
-      {% endif %}
-
-      <p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.</p>
-      
-      <details class="govuk-details  govuk-!-margin-top-4" data-module="govuk-details" data-journey-click="Confirm-Location:DETAIL-CLICK:How-to-draw-Boundary"> 
+      {% if locationDetails %}
+      <p class="govuk-body your-search-details">
+        Your search for '{{placeOrPostcodeUnencoded}}' has been placed in
+        {{locationDetails}}.
+      </p>
+      {% endif %} {% if polygonMissing %} {{ govukErrorSummary({ titleText: "There
+      is a problem", errorList: [{ text: "You need to draw the boundary of your
+      site on the map. Click 'How to draw a boundary' if you need help.", href:
+      '#boundary-error' }] }) }} {% endif %}
+  
+      <p class="govuk-body">
+        You need to draw the boundary of your site on the map below so we can give
+        you accurate flood risk information.
+      </p>
+      <p class="govuk-body">
+        Make sure you include access to your site in the boundary, including all
+        entry and exit points.
+      </p>
+  
+      <details
+        class="govuk-details govuk-!-margin-top-4"
+        data-module="govuk-details"
+        data-journey-click="Confirm-Location:DETAIL-CLICK:How-to-draw-Boundary"
+      >
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
             How to draw a boundary
           </span>
         </summary>
         <div class="govuk-details__text">
-          <ol class="govuk-list govuk-list--number">
-            <li> Click or tap to place the first point of your boundary. </li>
-            <li> Place a second point on the boundary, you should see a line drawn between the points. </li>
-            <li> Keep adding points until you've fully defined the boundary of the site. </li>
-            <li> When you have finished drawing the boundary double click or tap to mark the final point. </li>
-          </ol>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              click or tap the screen to place the first point (or node) of your
+              boundary, do not try to drag or swipe to draw a line, as that will
+              move the map
+            </li>
+            <li>
+              click or tap the screen again to place the second point of your
+              boundary, you should see a blue line drawn between the points
+            </li>
+            <li>
+              keep adding points until you have finished the boundary of your site
+            </li>
+            <li>
+              to finish your boundary, double click or double tap the screen.
+            </li>
+            <li>the boundary is finished when the lines turn red</li>
+          </ul>
           <p class="govuk-body">
             If you need to change the finished boundary you can:
           </p>
           <ul class="govuk-list govuk-list--bullet">
-            <li> click and drag the points to adjust them </li>
-            <li> add more points by clicking or tapping on a line </li>
-            <li> delete the boundary you've drawn and start again by clicking or tapping the 'Delete boundary' button </li>
+            <li>drag points to change their position</li>
+            <li>add more points by clicking or tapping on a line</li>
+            <li>
+              delete the boundary you've drawn and start again by clicking or
+              tapping the 'Delete boundary' button
+            </li>
           </ul>
           <p class="govuk-body">
-            Click or tap the Continue button to get your flood risk information.
+            Click or tap the 'Continue' button to get your flood risk information.
           </p>
         </div>
       </details>
     </div>
-
+  
     <div class="govuk-grid-column-full map-container-column">
-      <figure 
-        class="map-container confirm-location-map{% if polygonMissing %} map-figure--error{% endif %}" role="application">
+      <figure
+        class="map-container confirm-location-map{% if polygonMissing %} map-figure--error{% endif %}"
+        role="application"
+      >
         {% if polygonMissing %}
-          <p id="boundary-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> 
-            You need to draw the boundary of your site on the map. 
-            Click ‘How to draw a boundary' if you need help.
-          </p>
+        <p id="boundary-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span>
+          You need to draw the boundary of your site on the map. Click ‘How to
+          draw a boundary' if you need help.
+        </p>
         {% endif %}
-
+  
         <figcaption class="visually-hidden" aria-hidden="false">
-          Use this map to confirm that the location is correct. If the location needs amending you can use the 'move marker' or 'draw boundary' map tools.
+          Use this map to confirm that the location is correct. If the location
+          needs amending you can use the 'move marker' or 'draw boundary' map
+          tools.
         </figcaption>
         <div id="map--result" class="map--result-confirm">
           <div class="govuk-form-group markerRadiosContainer top-of-buttons">
             <fieldset class="govuk-fieldset">
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
+              <legend
+                class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden"
+              >
                 Click to delete the boundary for your location
-              </legend>              
-              <button disabled class="govuk-button govuk-button--secondary" data-journey-click="Confirm-Location:DELETE_BOUNDARY" data-module="govuk-button" name="type" value="deletePolygon" id="deletePolygon">
-                  Delete boundary
-                </button>
+              </legend>
+              <button
+                disabled
+                class="govuk-button govuk-button--secondary"
+                data-journey-click="Confirm-Location:DELETE_BOUNDARY"
+                data-module="govuk-button"
+                name="type"
+                value="deletePolygon"
+                id="deletePolygon"
+              >
+                Delete boundary
+              </button>
             </fieldset>
           </div>
           <div id="map" class="map">
@@ -93,35 +130,59 @@
           </div>
           <div class="os-credits__text">
             <a href="os-terms" class="os-credits__link">
-              OS data &copy; Crown copyright and database rights <script>
+              OS data &copy; Crown copyright and database rights
+              <script>
                 var CurrentYear = new Date().getFullYear()
                 document.write(CurrentYear)
-            </script>
+              </script>
             </a>
           </div>
         </div>
       </figure>
     </div>
-
+  
     <div class="govuk-grid-column-two-thirds">
-      <a id="continue-button" href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+      <a
+        id="continue-button"
+        href="/flood-zone-results?easting={{easting}}&amp;northing={{northing}}&amp;location={{location}}"
+        role="button"
+        draggable="false"
+        class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start"
+        data-module="govuk-button"
+      >
         Continue
       </a>
-      <h2 class="govuk-heading-m">If you need help drawing a boundary</h2>
-      <p class="govuk-body" data-pso-contact-email>Contact the Environment Agency team in {{areaName}} at <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>.</p>
+      <h2 class="govuk-heading-m">Alternative formats</h2>
+      <p class="govuk-body" data-pso-contact-email>
+        If you are unable to use the map and need to order flood risk information
+        in a different way contact the Environment Agency team in {{areaName}} at
+        <a href="mailto:{{psoEmailAddress}}" class="govuk-link"
+          >{{psoEmailAddress}}</a
+        >.
+      </p>
       <p class="govuk-body">Or contact the Environment Agency:</p>
-      <p class="govuk-body">Environment Agency<br>
-        Telephone: 03708 506 506 <br>
-        Monday to Friday, 8am to 6pm <br>
+      <p class="govuk-body">
+        Environment Agency<br />
+        Telephone: 03708 506 506 <br />
+        Monday to Friday, 8am to 6pm <br />
         <a href="https://www.gov.uk/call-charges">Find out about call charges</a>
       </p>
     </div>
   </div>
-
+  
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/confirm-location.js" data-statement=" "></script>
+  <script
+    src="{{assetPath}}/javascripts/confirm-location.js"
+    data-statement=" "
+  ></script>
   <script>
-      new FMP.ConfirmLocationPage({easting: '{{easting}}', northing: '{{northing}}', location: '{{location}}', polygon: ''})
+    new FMP.ConfirmLocationPage({
+      easting: '{{easting}}',
+      northing: '{{northing}}',
+      location: '{{location}}',
+      polygon: ''
+    })
   </script>
-
-{% endblock %}
+  
+  {% endblock %}
+  

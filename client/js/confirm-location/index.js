@@ -196,7 +196,7 @@ function ConfirmLocationPage (options) {
 
     drawInteraction.on('drawend', function (e) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
-      if (coordinates.length >= 4) {
+      if (coordinates.length >= 3) {
         // Update polygon and targetUrl
         polygon = snapCoordinates(e.feature)
         updateTargetUrl()
@@ -300,6 +300,19 @@ function ConfirmLocationPage (options) {
       }
       $continueBtn.attr('href', url)
     }
+
+    // Add event listener for the continue button
+    $continueBtn.on('click', function (e) {
+      drawInteraction.finishDrawing()
+      // Prevent the default anchor click behavior
+      e.preventDefault()
+
+      // Navigate to the URL set in the href attribute
+      const targetUrl = $continueBtn.attr('href')
+      if (targetUrl) {
+        window.location.href = targetUrl
+      }
+    })
   })
 }
 
