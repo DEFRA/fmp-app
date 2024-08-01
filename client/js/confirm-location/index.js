@@ -44,7 +44,7 @@ const addOptionsFromSession = (options) => {
   return options
 }
 
-function ConfirmLocationPage (options) {
+function ConfirmLocationPage(options) {
   options = addOptionsFromSession(options)
 
   const easting = window.encodeURIComponent(options.easting)
@@ -196,7 +196,7 @@ function ConfirmLocationPage (options) {
 
     drawInteraction.on('drawend', function (e) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
-      if (coordinates.length >= 4) {
+      if (coordinates.length >= 3) {
         // Update polygon and targetUrl
         polygon = snapCoordinates(e.feature)
         updateTargetUrl()
@@ -247,7 +247,7 @@ function ConfirmLocationPage (options) {
       }
     })
 
-    function updateMode (mode) {
+    function updateMode(mode) {
       const radio = document.getElementById(mode)
       if (radio) {
         radio.checked = true
@@ -293,13 +293,26 @@ function ConfirmLocationPage (options) {
       updateTargetUrl()
     }
 
-    function updateTargetUrl () {
+    function updateTargetUrl() {
       const url = getTargetUrl(featureMode, polygon, point, location)
       if (!polygon) {
         mapState.removeItem('polygon')
       }
       $continueBtn.attr('href', url)
     }
+
+    // Add event listener for the continue button
+    $continueBtn.on('click', function (e) {
+      drawInteraction.finishDrawing()
+      // Prevent the default anchor click behavior
+      e.preventDefault()
+
+      // Navigate to the URL set in the href attribute
+      const targetUrl = $continueBtn.attr('href')
+      if (targetUrl) {
+        window.location.href = targetUrl
+      }
+    })
   })
 }
 
