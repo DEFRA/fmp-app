@@ -3,11 +3,21 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 %} {{ super() }}
 
 <link rel="stylesheet" type="text/css" href="{{assetPath}}/fonts/style.css" />
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css" />
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{assetPath}}/stylesheets/ol.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{assetPath}}/stylesheets/summary/index.css"
+/>
 
-{% from "button/macro.njk" import govukButton %}
+{% from "button/macro.njk" import govukButton %} 
 
+<!-- Flood zone 1 -->
+{% if floodZone.zone == 'FZ1' %}
 <div id="summary-page" class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">
@@ -18,14 +28,20 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
   {% if holdingComments %}
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
+      <span
+        class="govuk-warning-text__icon flood-risk-changed-icon"
+        aria-hidden="true"
+        >!</span
+      >
       <h3 class="govuk-heading-s govuk-warning-text__text">
         Our understanding of flood risk from rivers and the sea has changed
         since this information was published.
       </h3>
       <p class="govuk-warning-text__text">
         Contact
-        <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
+        <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
+          >{{psoEmailAddress}}</a
+        >
         for further information.
       </p>
     </div>
@@ -37,29 +53,31 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <h2 class="govuk-heading-m">What flood zone {{zoneNumber}} means</h2>
 
     <p class="govuk-body">
-      Land within flood zone {{zoneNumber}} has a {% if zoneNumber == 1 %} low
-      {% endif %} {% if zoneNumber == 2 %} medium {% endif %} {% if zoneNumber
-      == 3 %} high {% endif %} probability of flooding from rivers and the sea.
+      Land within flood zone {{zoneNumber}} has a low probability of flooding
+      from rivers and the sea.
     </p>
 
     <p class="govuk-body">
-      {% if zoneNumber == 1 %} Most developments that are less than 1 hectare
-      (ha) in flood zone {{zoneNumber}} do not need a flood risk assessment
-      (FRA) as part of the planning application. The site you have drawn is
-      {{plotSize}} ha. {% else %} You need to carry out a flood risk assessment
-      (FRA) as part of the planning application for this development. {% endif
-      %}
+      Most developments that are less than 1 hectare (ha) in flood zone
+      {{zoneNumber}} do not need a flood risk assessment (FRA) as part of the
+      planning application. The site you have drawn is {{plotSize}} ha.
     </p>
 
     <!-- More Information -->
     {% if not floodZone.isAreaBenefiting %}
     <p class="govuk-body">
       Find out more about
-      <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
-         class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
-        flood zones and what they mean </a>.
+      <a
+        data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
+        class="govuk-link"
+        href="/flood-zone-results-explained?zone={{floodZone.zone}}"
+      >
+        flood zones and what they mean </a
+      >.
     </p>
     {% endif %}
+
+    <!-- Surface Water -->
     {% if surfaceWaterResults.surface_water %}
     <p class="govuk-body">
       There is a risk of flooding from surface water at this site. You should
@@ -68,14 +86,20 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-           href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+        <a
+          class="govuk-link"
+          data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
+          href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater"
+        >
           the surface water map on the check your long term flood risk service
         </a>
       </li>
       <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Risk-Flooding-Surface-Water"
-           href="https://environment.data.gov.uk/dataset/51a5c4e7-10d3-4f34-bb0e-558835ab8c85">
+        <a
+          class="govuk-link"
+          data-journey-click="Flood-Zone-Results:External-Link:Risk-Flooding-Surface-Water"
+          href="https://environment.data.gov.uk/dataset/51a5c4e7-10d3-4f34-bb0e-558835ab8c85"
+        >
           the risk of flooding from surface water dataset on the data services
           platform
         </a>
@@ -88,8 +112,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-           href="https://check-long-term-flood-risk.service.gov.uk">
+        <a
+          class="govuk-link"
+          data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
+          href="https://check-long-term-flood-risk.service.gov.uk"
+        >
           groundwater and reservoir flood risk
         </a>
       </li>
@@ -106,8 +133,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-           href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+        <a
+          class="govuk-link"
+          data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
+          href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater"
+        >
           surface water, groundwater and reservoir flood risk
         </a>
       </li>
@@ -137,9 +167,13 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     </p>
     <p class="govuk-body">
       Find out more about
-      <a data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
-         class="govuk-link" href="/flood-zone-results-explained?zone={{floodZone.zone}}">
-        flood defences, flood zones and what they mean </a>.
+      <a
+        data-journey-click="Flood-Zone-Results:Internal-Link:More-Information-About-Your-Results-FZ1"
+        class="govuk-link"
+        href="/flood-zone-results-explained?zone={{floodZone.zone}}"
+      >
+        flood defences, flood zones and what they mean </a
+      >.
     </p>
     {% endif %}
   </div>
@@ -149,8 +183,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
   <div class="govuk-grid-column-two-thirds">
     <!-- What the flood map shows -->
-    <details class="govuk-details" data-module="govuk-details"
-             data-journey-click="Flood-Zone-Results:DETAIL-CLICK:What-Flood-Map-Shows">
+    <details
+      class="govuk-details"
+      data-module="govuk-details"
+      data-journey-click="Flood-Zone-Results:DETAIL-CLICK:What-Flood-Map-Shows"
+    >
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
           What the flood map shows
@@ -192,8 +229,11 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     </ul>
 
     <!-- Download a Product 1 -->
-    <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
-             data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
+    <details
+      class="govuk-details govuk-!-margin-bottom-1"
+      data-module="govuk-details"
+      data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference"
+    >
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
           Add a reference to the flood map and set the scale
@@ -204,8 +244,16 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
           <input name="id" type="hidden" />
           <input name="zone" type="hidden" value="FZ1" />
           <input name="polygon" type="hidden" value="{{polygon}}" />
-          <input name="center" type="hidden" value="[{{easting}},{{northing}}]" />
-          <input name="holdingComments" type="hidden" value="{{holdingComments}}" />
+          <input
+            name="center"
+            type="hidden"
+            value="[{{easting}},{{northing}}]"
+          />
+          <input
+            name="holdingComments"
+            type="hidden"
+            value="{{holdingComments}}"
+          />
 
           <div class="govuk-form-group">
             <h3 class="govuk-label-wrapper">
@@ -217,8 +265,13 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
                 later and should be less than 25 characters.
               </span>
             </h3>
-            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
-                   maxlength="13" />
+            <input
+              class="govuk-input form-control govuk-input--width-20"
+              id="reference"
+              name="reference"
+              type="text"
+              maxlength="13"
+            />
           </div>
 
           <div class="govuk-form-group">
@@ -238,8 +291,14 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         </form>
       </div>
     </details>
-    <button href="#" form="product-1-form" type="submit" class="govuk-button govuk-button--secondary" draggable="false"
-            data-analytics-click="{{analyticsRequestProduct1Event}}">
+    <button
+      href="#"
+      form="product-1-form"
+      type="submit"
+      class="govuk-button govuk-button--secondary"
+      draggable="false"
+      data-analytics-click="{{analyticsRequestProduct1Event}}"
+    >
       Download this flood map (PDF)
     </button>
 
@@ -248,7 +307,6 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       Decide what you need for your planning application
     </h2>
 
-    {% if zoneNumber == 1 %}
     <p class="govuk-body">
       You only need an FRA in flood zone 1 when one or more of these points
       apply:
@@ -260,7 +318,8 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         it's in an
         <a
           href="https://www.data.gov.uk/dataset/d10fb8e5-f3af-48c1-a489-8c975b0165de/areas-with-critical-drainage-problems"
-          class="govuk-link">
+          class="govuk-link"
+        >
           area with critical drainage problems
         </a>
       </li>
@@ -273,43 +332,19 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         would increase its vulnerability classification
       </li>
     </ul>
-    {% else %}
-    <p class="govuk-body">You should:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        contact {{localAuthorities}} local planning authority to check their
-        planning requirements
-      </li>
-      <li>
-        get an FRA, you'll normally need to pay a flood risk specialist to carry
-        it out
-      </li>
-    </ul>
-    {% endif %}
 
     <!-- Download a Product 4 -->
 
     <h3 class="govuk-heading-s govuk-!-margin-top-3">
       Order flood risk data for rivers and the sea
     </h3>
+
     {% if useAutomatedService %}
-    {% if zoneNumber == 1 %}
     <p class="govuk-body">
-      Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. But you can place an order
-      and we'll email you if none is
+      Your site is in flood zone 1, so it's unlikely we'll have any flood risk
+      data for it. But you can place an order and we'll email you if none is
       available.
     </p>
-    {% else %}
-    <p class="govuk-body">The flood risk data usually includes:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>detailed flood data</li>
-      <li>historic flood event data</li>
-      <li>modelled flood levels and extents</li>
-      <li>flood defence locations and attributes</li>
-    </ul>
-    {% endif %}
     <p class="govuk-body">
       We aim to email you the data within 20 working days or sooner if we can.
     </p>
@@ -319,45 +354,20 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       href="/contact?easting={{easting}}&amp;northing={{northing}}&amp;polygon={{polygon}}&amp;center={{center}}&amp;location={{location}}&amp;zoneNumber={{zoneNumber}}"
       draggable="false"
       class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-{% if zoneNumber == 1 %}6{% else %}3{% endif %}"
-      data-module="govuk-button" onKeyPress="">
+      data-module="govuk-button"
+      onKeyPress=""
+    >
       Order flood risk data
     </a>
 
-    {% if floodZone.zone != 'FZ1' %}
-    <div class="govuk-inset-text">
-      {% if floodZone.isAreaBenefiting %}
-      <p class="govuk-body">
-        You will also need to assess
-        <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-           data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
-          residual risk
-        </a>
-        from flood defence breach in this location. If available, we will
-        provide breach hazard mapping data to help you do this.
-      </p>
-      {% endif %}
-      <p class="govuk-body">
-        For developments in flood zone {{zoneNumber}}, your FRA should include
-        an assessment of all sources of flooding and
-        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
-           data-journey-click="Flood-Zone-Results:External-Link:Climate-Change-Allowances" class="govuk-link">
-          take into account climate change allowances.
-        </a>
-      </p>
-      <p class="govuk-body">
-        Find out
-        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-           data-journey-click="Flood-Zone-Results:External-Link:How-To-Do-Assessment" class="govuk-link">
-          how to do an assessment </a>.
-      </p>
-    </div>
-    {% endif %}
     {% else %}
     <!--  Opted Out Section if not using automated -->
     <p class="govuk-body">
-      To order flood risk data for this site, contact the
-      Environment Agency team in {{areaName}} at
-      <a href="mailto:{{psoEmailAddress}}" class="govuk-link">{{psoEmailAddress}}</a>
+      To order flood risk data for this site, contact the Environment Agency
+      team in {{areaName}} at
+      <a href="mailto:{{psoEmailAddress}}" class="govuk-link"
+        >{{psoEmailAddress}}</a
+      >
     </p>
 
     <p class="govuk-body">
@@ -369,37 +379,20 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <li>a map showing the site boundary</li>
     </ul>
 
-    {% if floodZone.zone == 'FZ1' %}
     <p class="govuk-body">
-      Your site is in flood zone 1, so it is unlikely we’ll have any flood risk data for it. You can place an order, and
-      we will email you if none is available.
+      Your site is in flood zone 1, so it is unlikely we’ll have any flood risk
+      data for it. You can place an order, and we will email you if none is
+      available.
     </p>
-
-    {% else %}
-    <p class="govuk-body">
-      We aim to email you the data within 20 working days.
-    </p>
-
-    <p class="govuk-body">
-      Depending on the information that's available, your flood risk assessment
-      data could include:
-    </p>
-    <br />
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>a flood zone map (flood map for planning)</li>
-      <li>historic flood outlines</li>
-      <li>relevant modelled flood levels and extents</li>
-      <li>flood defence locations and attributes</li>
-    </ul>
-
-
-    {% if floodZone.isAreaBenefiting %}
+    {% endif %} {% if floodZone.isAreaBenefiting %}
     <div class="govuk-inset-text">
       <p class="govuk-body">
         You will also need to assess
-        <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-           data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk" class="govuk-link">
+        <a
+          href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
+          data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk"
+          class="govuk-link"
+        >
           residual risk
         </a>
         from flood defence breach in this location. If available, we will
@@ -408,30 +401,27 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <p class="govuk-body">
         For developments in flood zone {{zoneNumber}}, your FRA should include
         an assessment of all sources of flooding and
-        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" class="govuk-link">
+        <a
+          href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
+          class="govuk-link"
+        >
           take into account climate change allowances.
         </a>
       </p>
 
       <p class="govuk-body">
         Find out
-        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-           class="govuk-link">
-          how to do an assessment </a>.
+        <a
+          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
+          class="govuk-link"
+        >
+          how to do an assessment </a
+        >.
       </p>
     </div>
     {% endif %}
-    <div>
-      <p class="govuk-body">
-        We recommend that you check the relevant local planning authority's
-        strategic flood risk assessment (SFRA) as part of your work to prepare a
-        flood risk assessment.
-      </p>
-    </div>
-    {% endif %}
-    {% endif %}
-    <!-- End of Opted Out Section -->
 
+    <!-- End of Opted Out Section -->
 
     <h2 class="govuk-heading-s">
       Get help deciding what flood risk information you need
@@ -439,11 +429,14 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
 
     <p class="govuk-body">
       Email the Environment Agency team in {{areaName}} at:
-      <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>.
+      <a class="govuk-link" href="mailto:{{psoEmailAddress}}"
+        >{{psoEmailAddress}}</a
+      >.
     </p>
     {% include "./partials/change-location.html" %}
   </div>
 </div>
+{% endif %}
 
 <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
 <script src="{{assetPath}}/javascripts/summary.js"></script>
