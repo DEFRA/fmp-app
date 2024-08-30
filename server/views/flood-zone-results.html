@@ -473,7 +473,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     <h2 class="govuk-heading-m">What flood zone {{zoneNumber}} means</h2>
 
     <p class="govuk-body">
-      Land within flood zone {{zoneNumber}} has a medium probability of flooding
+      Land within flood zone {{zoneNumber}} has a high probability of flooding
       from rivers and the sea.
     </p>
 
@@ -1232,44 +1232,6 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     >
       Order flood risk data
     </a>
-
-    <div class="govuk-inset-text">
-      {% if floodZone.isAreaBenefiting %}
-      <p class="govuk-body">
-        You will also need to assess
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
-          data-journey-click="Flood-Zone-Results:External-Link:Residual-Breach-Risk"
-          class="govuk-link"
-        >
-          residual risk
-        </a>
-        from flood defence breach in this location. If available, we will
-        provide breach hazard mapping data to help you do this.
-      </p>
-      {% endif %}
-      <p class="govuk-body">
-        For developments in flood zone {{zoneNumber}}, your FRA should include
-        an assessment of all sources of flooding and
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
-          data-journey-click="Flood-Zone-Results:External-Link:Climate-Change-Allowances"
-          class="govuk-link"
-        >
-          take into account climate change allowances.
-        </a>
-      </p>
-      <p class="govuk-body">
-        Find out
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
-          data-journey-click="Flood-Zone-Results:External-Link:How-To-Do-Assessment"
-          class="govuk-link"
-        >
-          how to do an assessment </a
-        >.
-      </p>
-    </div>
     {% else %}
     <!--  Opted Out Section if not using automated -->
     <p class="govuk-body">
@@ -1306,6 +1268,9 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       <li>flood defence locations and attributes</li>
     </ul>
 
+    {% endif %}
+
+    <!-- Residual Risk -->
     {% if floodZone.isAreaBenefiting %}
     <div class="govuk-inset-text">
       <p class="govuk-body">
@@ -1325,29 +1290,21 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         an assessment of all sources of flooding and
         <a
           href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances"
+          data-journey-click="Flood-Zone-Results:External-Link:Climate-Change-Allowances"
           class="govuk-link"
         >
           take into account climate change allowances.
         </a>
       </p>
-
       <p class="govuk-body">
         Find out
         <a
           href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#how-to-do-an-assessment"
+          data-journey-click="Flood-Zone-Results:External-Link:How-To-Do-Assessment"
           class="govuk-link"
         >
           how to do an assessment </a
         >.
-      </p>
-    </div>
-    {% endif %}
-
-    <div>
-      <p class="govuk-body">
-        We recommend that you check the relevant local planning authority's
-        strategic flood risk assessment (SFRA) as part of your work to prepare a
-        flood risk assessment.
       </p>
     </div>
     {% endif %}
