@@ -21,23 +21,15 @@ COPY --chown=root:root ./index.js .
 COPY --chown=root:root ./client ./client
 COPY --chown=root:root ./server ./server
 COPY --chown=root:root ./bin ./bin
+COPY --chown=root:root ./config ./config
 
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall"
 RUN npm i --include dev
 RUN npm run build
 
-# RUN npm run build
-# RUN sh ./bin/clean-public
-# RUN sh ./bin/copy-gov
-# RUN node ./bin/fix-layout.js
-# RUN sh ./bin/copy-assets
-# RUN npm rebuild node-sass
-# RUN sh ./bin/build-css
-# RUN sh ./bin/build-js
-
 USER node
 
-EXPOSE ${PORT} 3000 3000
+EXPOSE ${PORT}/tcp
 
 CMD [ "node", "index.js" ]
