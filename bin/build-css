@@ -2,7 +2,7 @@
 
 sass \
    --style=expanded \
-   --load-path=/node_modules/govuk_template_mustache/assets/stylesheets \
-   --load-path=/node_modules/govuk_frontend_toolkit/stylesheets \
-   --load-path=/node_modules/govuk-elements-sass/public/sass \
+   --load-path=./node_modules/govuk_template_mustache/assets/stylesheets \
+   --load-path=./node_modules/govuk_frontend_toolkit/stylesheets \
+   --load-path=./node_modules/govuk-elements-sass/public/sass \
    client/sass:server/public/build/stylesheets
