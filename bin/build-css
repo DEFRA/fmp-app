@@ -1,9 +1,8 @@
 #!/bin/bash
 
-node-sass \
-   --output-style=expanded \
-   --include-path=node_modules/govuk_template_mustache/assets/stylesheets \
-   --include-path=node_modules/govuk_frontend_toolkit/stylesheets \
-   --include-path=node_modules/govuk-elements-sass/public/sass \
-   --output=server/public/build/stylesheets \
-   client/sass
+sass \
+   --style=expanded \
+   --load-path=./node_modules/govuk_template_mustache/assets/stylesheets \
+   --load-path=./node_modules/govuk_frontend_toolkit/stylesheets \
+   --load-path=./node_modules/govuk-elements-sass/public/sass \
+   client/sass:server/public/build/stylesheets
