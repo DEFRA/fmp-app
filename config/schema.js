@@ -45,5 +45,8 @@ module.exports = Joi.object({
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().required(),
   functionAppUrl: Joi.string().required(),
-  ignoreUseAutomatedService: Joi.boolean()
+  ignoreUseAutomatedService: Joi.boolean(),
+  placeApi: Joi.object().required().keys({
+    url: Joi.string().uri().required()
+  })
 })
