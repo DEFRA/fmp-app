@@ -8,21 +8,20 @@ const getPsoContacts = (easting, northing) => {
       throw new Error('No point provided')
     }
 
-    return util.getJson(url + easting + '/' + northing)
-      .then((result) => {
-        const {
-          emailaddress: EmailAddress,
-          areaname: AreaName,
-          localauthority: LocalAuthorities,
-          useautomatedservice: useAutomatedService
-        } = result
-        return {
-          EmailAddress,
-          AreaName,
-          LocalAuthorities,
-          useAutomatedService
-        }
-      })
+    return util.getJson(url + easting + '/' + northing).then((result) => {
+      const {
+        emailaddress: EmailAddress,
+        areaname: AreaName,
+        localauthority: LocalAuthorities,
+        useautomatedservice: useAutomatedService
+      } = result
+      return {
+        EmailAddress,
+        AreaName,
+        LocalAuthorities,
+        useAutomatedService
+      }
+    })
   } catch (error) {
     throw new Error('Fetching Pso contacts failed: ', error)
   }
@@ -38,7 +37,11 @@ module.exports = {
   method: getPsoContacts,
   options: {
     cache: {
-      cache: 'FMFP', expiresIn, staleIn, generateTimeout, staleTimeout
+      cache: 'FMFP',
+      expiresIn,
+      staleIn,
+      generateTimeout,
+      staleTimeout
     }
   }
 }

@@ -9,7 +9,7 @@ const appName = pkg.name
 const defaultContext = {
   globalHeaderText: 'GOV.UK',
   pageTitle: 'Flood map for planning - GOV.UK',
-  ogDescription: 'Learn about a site location\'s flood probability as part of development planning',
+  ogDescription: "Learn about a site location's flood probability as part of development planning",
   skipLinkMessage: 'Skip to main content',
   homepageUrl: 'https://www.gov.uk/',
   logoLinkTitle: 'Go to the GOV.UK homepage',

@@ -36,7 +36,8 @@ function ApplicationSummaryReviewPage (options) {
           features: [
             new Feature({
               geometry: polygon
-            })]
+            })
+          ]
         }),
         style: new Style({
           stroke: new Stroke({
@@ -47,7 +48,8 @@ function ApplicationSummaryReviewPage (options) {
             color: 'rgba(178, 17, 34, 0.1)'
           })
         })
-      }))
+      })
+    )
   } else {
     const easting = window.encodeURIComponent(options.easting)
     const northing = window.encodeURIComponent(options.northing)
@@ -62,7 +64,8 @@ function ApplicationSummaryReviewPage (options) {
           features: [
             new Feature({
               geometry: new Point([parseInt(easting, 10), parseInt(northing, 10)])
-            })]
+            })
+          ]
         }),
         style: new Style({
           image: new Icon({
@@ -72,7 +75,8 @@ function ApplicationSummaryReviewPage (options) {
             src: '/assets/images/iconfinder_marker.png'
           })
         })
-      }))
+      })
+    )
   }
 
   const $summaryColumn = $('.summary-column')

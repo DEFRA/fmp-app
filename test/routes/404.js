@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 
@@ -22,7 +22,7 @@ lab.experiment('404', () => {
     await payloadMatchTest(payload, /<h1 class="govuk-heading-xl">Page not found<\/h1>/g)
   }
   const urls = ['/home', '/jksdf', '/jksdf']
-  urls.forEach(url => {
+  urls.forEach((url) => {
     lab.test(`${url} should serve the 404 page`, async () => {
       const options = { method: 'GET', url }
       const response = await server.inject(options)

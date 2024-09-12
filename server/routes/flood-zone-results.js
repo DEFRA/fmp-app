@@ -50,7 +50,8 @@ module.exports = [
               h,
               encodeURIComponent(request.query.easting),
               encodeURIComponent(request.query.northing),
-              location)
+              location
+            )
           }
           const plotSizeMeters = getArea(polygon)
           if (plotSizeMeters === 0) {
@@ -62,7 +63,11 @@ module.exports = [
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           }
-          if (psoResults && psoResults.useAutomatedService !== undefined && !request.server.methods.ignoreUseAutomatedService()) {
+          if (
+            psoResults &&
+            psoResults.useAutomatedService !== undefined &&
+            !request.server.methods.ignoreUseAutomatedService()
+          ) {
             useAutomatedService = psoResults.useAutomatedService
           }
 
@@ -87,27 +92,32 @@ module.exports = [
               plotSize,
               localAuthorities: psoResults.LocalAuthorities || ''
             })
-            return h.view('flood-zone-results', floodZoneResultsData)
-              .unstate('pdf-download')
+            return h.view('flood-zone-results', floodZoneResultsData).unstate('pdf-download')
           }
         } catch (err) {
           return Boom.badImplementation(err.message, err)
         }
       },
       validate: {
-        query: Joi.alternatives().required().try(Joi.object().keys({
-          easting: Joi.number().max(700000).positive().required(),
-          northing: Joi.number().max(1300000).positive().required(),
-          location: Joi.string().required(),
-          fullName: Joi.string(),
-          recipientemail: Joi.string()
-        }), Joi.object().keys({
-          polygon: Joi.string().required(),
-          center: Joi.string().required(),
-          location: Joi.string().required(),
-          fullName: Joi.string(),
-          recipientemail: Joi.string()
-        }))
+        query: Joi.alternatives()
+          .required()
+          .try(
+            Joi.object().keys({
+              easting: Joi.number().max(700000).positive().required(),
+              northing: Joi.number().max(1300000).positive().required(),
+              location: Joi.string().required(),
+              fullName: Joi.string(),
+              recipientemail: Joi.string()
+            }),
+            Joi.object().keys({
+              polygon: Joi.string().required(),
+              center: Joi.string().required(),
+              location: Joi.string().required(),
+              fullName: Joi.string(),
+              recipientemail: Joi.string()
+            })
+          )
       }
     }
-  }]
+  }
+]

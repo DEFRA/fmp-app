@@ -17,7 +17,7 @@ const areaNameMap = {
   // 'West Midlands': 'West Midlands'
 }
 
-const punctuateAreaName = areaName => {
+const punctuateAreaName = (areaName) => {
   return areaNameMap[areaName] || areaName
 }
 

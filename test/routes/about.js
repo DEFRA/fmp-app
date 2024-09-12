@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { JSDOM } = require('jsdom')
 const mock = require('mock-require')
@@ -29,7 +29,9 @@ lab.experiment('About Page', () => {
       dataVersion: '2.2.4'
     })
     const { payload } = await server.inject(options)
-    const { window: { document: doc } } = await new JSDOM(payload)
+    const {
+      window: { document: doc }
+    } = await new JSDOM(payload)
     const div = doc.querySelectorAll('#contact-page')
     Code.expect(div[0].textContent).to.contain('Release: 2.4.0')
     Code.expect(div[0].textContent).to.contain('Build number: 2.4.0-pre.11')
@@ -43,7 +45,9 @@ lab.experiment('About Page', () => {
       dataVersion: '2.9'
     })
     const { payload } = await server.inject(options)
-    const { window: { document: doc } } = await new JSDOM(payload)
+    const {
+      window: { document: doc }
+    } = await new JSDOM(payload)
     const div = doc.querySelectorAll('#contact-page')
     Code.expect(div[0].textContent).to.contain('Release: 2.4.0')
     Code.expect(div[0].textContent).to.contain('Build number: 2.4.0-11')

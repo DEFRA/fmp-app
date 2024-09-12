@@ -16,19 +16,21 @@ class VectorDrag extends Pointer {
     const map = evt.map
     const features = []
 
-    const feature = map.forEachFeatureAtPixel(evt.pixel,
-      function (feature) {
-        return feature
-      })
+    const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+      return feature
+    })
 
     if (feature) {
       this.coordinate = evt.coordinate
       this.feature = feature
       map.getLayers().forEach(function (layer) {
         if (layer.getProperties().ref === 'centre') {
-          layer.getSource().getFeatures().forEach(function (feature) {
-            features.push(feature)
-          })
+          layer
+            .getSource()
+            .getFeatures()
+            .forEach(function (feature) {
+              features.push(feature)
+            })
         }
       })
     }
@@ -45,7 +47,8 @@ class VectorDrag extends Pointer {
 
     this.features.forEach(function (feature) {
       const geometry = feature.getGeometry()
-      if (geometry.getType() !== 'Polygon') { // FCRM-3665 disable dragging polygons
+      if (geometry.getType() !== 'Polygon') {
+        // FCRM-3665 disable dragging polygons
         geometry.translate(deltaX, deltaY)
       }
     })
@@ -57,10 +60,9 @@ class VectorDrag extends Pointer {
   handleMoveEvent (evt) {
     if (this.cursor) {
       const map = evt.map
-      const feature = map.forEachFeatureAtPixel(evt.pixel,
-        function (feature) {
-          return feature
-        })
+      const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+        return feature
+      })
       const element = evt.map.getTargetElement()
       if (evt.dragging) {
         this.cursor = 'grabbing'
@@ -70,7 +72,8 @@ class VectorDrag extends Pointer {
         element.style.cursor = 'crosshair'
       }
       const geometry = feature ? feature.getGeometry() : undefined
-      if (feature && geometry.getType() !== 'Polygon') { // FCRM-3665 stop the icon changing implying polygons can be dragged
+      if (feature && geometry.getType() !== 'Polygon') {
+        // FCRM-3665 stop the icon changing implying polygons can be dragged
         if (element.style.cursor !== this.cursor) {
           this.previouscursor = element.style.cursor
           element.style.cursor = this.cursor

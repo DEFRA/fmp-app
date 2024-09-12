@@ -1,7 +1,6 @@
-
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const isValidEastingService = require('../../server/services/is-valid-easting')
 const isValidNorthingService = require('../../server/services/is-valid-northing')
 const isValidEastingNorthingService = require('../../server/services/is-valid-easting-northing')
@@ -25,7 +24,11 @@ lab.experiment('is-valid-easting-northing', () => {
     isValidNorthingService.get = () => ({ isValid: true })
 
     const response = await isValidEastingNorthingService.get(10000, 20000)
-    Code.expect(response).to.equal({ isValid: true, easting: { eastingError: '', isValid: true }, northing: { northingError: '', isValid: true } })
+    Code.expect(response).to.equal({
+      isValid: true,
+      easting: { eastingError: '', isValid: true },
+      northing: { northingError: '', isValid: true }
+    })
   })
 
   lab.test('isValidEastingNorthingService.get should not be valid if easting service is not valid', async () => {

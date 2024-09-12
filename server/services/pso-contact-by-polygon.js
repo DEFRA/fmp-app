@@ -2,25 +2,24 @@ const util = require('../util')
 const config = require('../../config')
 const url = config.service + '/pso-contacts-by-polygon?polygon='
 
-const getPsoContactsByPolygon = polygon => {
+const getPsoContactsByPolygon = (polygon) => {
   try {
     const geoJsonPolygon = util.convertToGeoJson(polygon)
     const myurl = url + geoJsonPolygon
-    return util.getJson(myurl)
-      .then(result => {
-        const {
-          emailaddress: EmailAddress,
-          areaname: AreaName,
-          localauthority: LocalAuthorities,
-          useautomatedservice: useAutomatedService
-        } = result
-        return {
-          EmailAddress,
-          AreaName,
-          LocalAuthorities,
-          useAutomatedService
-        }
-      })
+    return util.getJson(myurl).then((result) => {
+      const {
+        emailaddress: EmailAddress,
+        areaname: AreaName,
+        localauthority: LocalAuthorities,
+        useautomatedservice: useAutomatedService
+      } = result
+      return {
+        EmailAddress,
+        AreaName,
+        LocalAuthorities,
+        useAutomatedService
+      }
+    })
   } catch (error) {
     throw new Error('Fetching Pso contacts by polygon failed: ', error)
   }
@@ -36,8 +35,12 @@ module.exports = {
   method: getPsoContactsByPolygon,
   options: {
     cache: {
-      cache: 'FMFP', expiresIn, staleIn, generateTimeout, staleTimeout
+      cache: 'FMFP',
+      expiresIn,
+      staleIn,
+      generateTimeout,
+      staleTimeout
     },
-    generateKey: polygon => JSON.stringify(polygon)
+    generateKey: (polygon) => JSON.stringify(polygon)
   }
 }

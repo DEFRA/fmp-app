@@ -9,10 +9,12 @@ class CartesianRange {
   }
 
   containsRange (topLeft, bottomRight) {
-    return ((this.topLeft[0] <= topLeft[0] &&
-      this.topLeft[1] <= topLeft[1]) &&
-      (this.bottomRight[0] >= bottomRight[0] &&
-        this.bottomRight[1] >= bottomRight[1]))
+    return (
+      this.topLeft[0] <= topLeft[0] &&
+      this.topLeft[1] <= topLeft[1] &&
+      this.bottomRight[0] >= bottomRight[0] &&
+      this.bottomRight[1] >= bottomRight[1]
+    )
   }
 }
 
@@ -23,7 +25,7 @@ class CartesianSnapCollection {
   }
 
   hasRange (topLeft, bottomRight) {
-    return Boolean(this.addedRanges.find(range => range.containsRange(topLeft, bottomRight)))
+    return Boolean(this.addedRanges.find((range) => range.containsRange(topLeft, bottomRight)))
   }
 
   setExtents (topLeft, bottomRight) {
@@ -46,7 +48,7 @@ class CartesianSnapCollection {
 
   add (x, y) {
     return new Feature({
-      geometry: (new Point([x, y]))
+      geometry: new Point([x, y])
     })
   }
 }

@@ -14,9 +14,9 @@ const inferGaCookieDomain = () => {
   return ''
 }
 
-const deleteGaCookies = analyticsAccount => {
+const deleteGaCookies = (analyticsAccount) => {
   const cookies = document.cookie.split(';')
-  cookies.forEach(cookie => {
+  cookies.forEach((cookie) => {
     const [name = ''] = cookie.split('=')
     if (name.match('_gid|_ga')) {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;${inferGaCookieDomain()}`
@@ -49,7 +49,7 @@ module.exports = window.onload = function () {
 
   function setCookie (cName, cValue, expDays) {
     const date = new Date()
-    date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000))
+    date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000)
     const expires = 'expires=' + date.toUTCString()
     document.cookie = cName + '=' + cValue + '; ' + expires + '; path=/'
   }
@@ -71,10 +71,7 @@ module.exports = window.onload = function () {
 
   function getCookie (key) {
     // Internet Explorer v.<=11 does not support arrow functions, string literals, object destructuring
-    const cookies = document.cookie
-      .split(';')
-      .map(splitCookies)
-      .reduce(cookieReducerFn, {})
+    const cookies = document.cookie.split(';').map(splitCookies).reduce(cookieReducerFn, {})
     return cookies[key]
   }
   const cookieName = 'GA'
@@ -111,5 +108,5 @@ module.exports = window.onload = function () {
   // Remove the js-only class from any element that has it.
   // .js-only elements are hidden in the css so this effectively shows the .js-only (by removing the class)
   // but only if js is enabled (as this wont run if it isn't).
-  Array.from(document.getElementsByClassName('js-only')).forEach(element => element.classList.remove('js-only'))
+  Array.from(document.getElementsByClassName('js-only')).forEach((element) => element.classList.remove('js-only'))
 }

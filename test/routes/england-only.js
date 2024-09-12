@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
@@ -105,7 +105,10 @@ lab.experiment('england-only', () => {
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include(headers['england-only'].standard)
     const { payload } = response
-    await payloadMatchTest(payload, /<p>Your search for 'Wigtown' has been placed in Dumfries and Galloway, Scotland<\/p>/g)
+    await payloadMatchTest(
+      payload,
+      /<p>Your search for 'Wigtown' has been placed in Dumfries and Galloway, Scotland<\/p>/g
+    )
   })
 
   lab.test('england-only without locationDetails in url should not show the location details paragraph ', async () => {

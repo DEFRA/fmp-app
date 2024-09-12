@@ -1,6 +1,6 @@
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = exports.lab = Lab.script()
+const lab = (exports.lab = Lab.script())
 const { method: getPsoContacts } = require('../../server/services/pso-contact')
 const config = require('../../config')
 const util = require('../../server/util')
