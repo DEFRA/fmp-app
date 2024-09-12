@@ -39,7 +39,7 @@
   "fbAppId": "replace_this",
   "httpTimeoutMs": 10000,
   "mockAddressService": true,
-  "maintainence":false,
+  "maintainence": false,
   "ordnanceSurvey": {
     "osGetCapabilitiesUrl": "http://dummyuri",
     "osMapsUrl": "http://dummyuri",
@@ -49,16 +49,17 @@
   },
   "errbit": {
     "postErrors": false,
-    "options":{
-    "env": "development",
-    "key": "replace_this",
-    "host": "http://dummyuri"
+    "options": {
+      "env": "development",
+      "key": "replace_this",
+      "host": "http://dummyuri"
     }
   },
-  "siteUrl": "http://localhost:3000",
+  "siteUrl": "http://127.0.0.1:3000",
   "LogAuditTrial": false,
-  "functionAppUrl": "http://dummyuri",
+  "functionAppUrl": "http://127.0.0.1:3002",
   "placeApi": {
     "url": "https://dummy/nearest"
-  }
+  },
+  "ignoreUseAutomatedService": false
 }

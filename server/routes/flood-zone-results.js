@@ -3,7 +3,12 @@ const Joi = require('joi')
 const riskService = require('../services/risk')
 const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
-const { polygonToArray, getAreaInHectares, getArea, buffPolygon } = require('../services/shape-utils')
+const {
+  polygonToArray,
+  getAreaInHectares,
+  getArea,
+  buffPolygon
+} = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
@@ -43,7 +48,9 @@ module.exports = [
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = polygonToArray(request.query.polygon)
-          const center = request.query.center ? JSON.parse(request.query.center) : undefined
+          const center = request.query.center
+            ? JSON.parse(request.query.center)
+            : undefined
           if (!polygon) {
             return missingPolygonRedirect(
               request,
@@ -58,8 +65,13 @@ module.exports = [
             return zeroAreaPolygonRedirect(h, polygon, center, location)
           }
 
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
-          if (!psoResults.EmailAddress || !psoResults.AreaName || !psoResults.LocalAuthorities) {
+          const psoResults =
+            await request.server.methods.getPsoContactsByPolygon(polygon)
+          if (
+            !psoResults.EmailAddress ||
+            !psoResults.AreaName ||
+            !psoResults.LocalAuthorities
+          ) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           }
@@ -70,6 +82,8 @@ module.exports = [
           ) {
             useAutomatedService = psoResults.useAutomatedService
           }
+          const surfaceWaterResults =
+            await request.server.methods.getFloodZonesByPolygon(polygon)
 
           const geoJson = util.convertToGeoJson(polygon)
 
@@ -90,9 +104,12 @@ module.exports = [
               placeOrPostcode,
               useAutomatedService,
               plotSize,
-              localAuthorities: psoResults.LocalAuthorities || ''
+              localAuthorities: psoResults.LocalAuthorities || '',
+              surfaceWaterResults
             })
-            return h.view('flood-zone-results', floodZoneResultsData).unstate('pdf-download')
+            return h
+              .view('flood-zone-results', floodZoneResultsData)
+              .unstate('pdf-download')
           }
         } catch (err) {
           return Boom.badImplementation(err.message, err)
