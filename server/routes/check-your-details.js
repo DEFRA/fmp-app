@@ -14,13 +14,15 @@ const getFunctionAppResponse = async (referer, data) => {
   }
   const payload = JSON.parse(data)
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
-    payload.x,
-    payload.y
+    payload?.x,
+    payload?.y
   )
   payload.postcode = postcode
-  console.log('====================================')
-  console.log('successfully retrieved the postcode', payload)
-  console.log('====================================')
+  if (payload?.postcode) {
+    console.log('====================================')
+    console.log('successfully retrieved the postcode', payload)
+    console.log('====================================')
+  }
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
   })
@@ -170,8 +172,8 @@ module.exports = [
             console.log(
               'Remember if the postcode is part of the previous log, then it sent it to the fmp-api'
             )
-            console.log(error.output ? error.output : JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload.polygon}&center=[${payload.easting},${payload.northing}]&location=${PDFinformationDetailsObject.location}`
+            console.log('This is the previous error', JSON.stringify(error))
+            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]&location=${PDFinformationDetailsObject?.location}`
             return h.redirect(redirectURL)
           }
 

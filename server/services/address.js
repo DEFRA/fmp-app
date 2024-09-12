@@ -68,12 +68,23 @@ module.exports = {
     return gazetteerEntries
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
-    console.log('About to: getPostcodeFromEastingorNorthing')
-    const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
-    const payload = await util.getJson(uri)
-    console.log('getPostcodeFromEastingorNorthing', JSON.stringify(payload?.results[0]))
-    return payload?.results && payload?.results.length > 0
-      ? payload?.results[0]?.DPA?.POSTCODE
-      : undefined
+    try {
+      console.log('About to: getPostcodeFromEastingorNorthing')
+      const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
+      const payload = await util.getJson(uri)
+      if (!payload || !payload?.results[0]) {
+        console.error(
+          `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
+        )
+      } else console.log('postcode retrieved', JSON.stringify(payload?.results[0]))
+      return payload?.results && payload?.results.length > 0
+        ? payload?.results[0]?.DPA?.POSTCODE
+        : ''
+    } catch (error) {
+      console.error(
+        `unable to get postcode for easting :${easting} and northing: ${northing}`,
+        JSON.stringify(error)
+      )
+    }
   }
 }
