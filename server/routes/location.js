@@ -59,14 +59,12 @@ module.exports = [
           if (selectedOption === 'placeOrPostcode') {
             const validPlaceOrPostcode =
               validatePlaceOrPostcode(placeOrPostcode)
-            console.log('valid place or postcode', validPlaceOrPostcode)
             if (
               placeOrPostcode &&
               placeOrPostcode.trim() &&
               validPlaceOrPostcode
             ) {
               const address = await addressService.findByPlace(placeOrPostcode)
-              console.log('find by place', address)
 
               if (
                 !address ||

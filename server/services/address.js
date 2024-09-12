@@ -76,7 +76,7 @@ module.exports = {
         console.error(
           `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
         )
-      } else console.log('postcode retrieved', JSON.stringify(payload?.results[0]))
+      } else { console.log('postcode retrieved', JSON.stringify(payload?.results[0])) }
       return payload?.results && payload?.results.length > 0
         ? payload?.results[0]?.DPA?.POSTCODE
         : ''
