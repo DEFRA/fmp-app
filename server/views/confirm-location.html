@@ -1,8 +1,15 @@
-{% extends "layout.html" %} {% from "button/macro.njk" import govukButton %} {%
-  from "error-summary/macro.njk" import govukErrorSummary %} {% block pageTitle %}
-  {% if polygonMissing %} Error: Draw the boundary of your site - Flood map for
-  planning - GOV.UK {% else %} Draw the boundary of your site - Flood map for
-  planning - GOV.UK {% endif %} {% endblock %} {% block content %} {{ super() }}
+{% extends "layout.html" %} 
+  {% from "button/macro.njk" import govukButton %} 
+  {% from "error-summary/macro.njk" import govukErrorSummary %} 
+  {% block pageTitle %}
+    {% if polygonMissing %} 
+      Error: Draw the boundary of your site - Flood map for planning - GOV.UK 
+    {% else %} 
+      Draw the boundary of your site - Flood map for planning - GOV.UK 
+    {% endif %} 
+  {% endblock %} 
+  {% block content %} 
+  {{ super() }}
   <link
     rel="stylesheet"
     type="text/css"
@@ -25,14 +32,20 @@
         Your search for '{{placeOrPostcodeUnencoded}}' has been placed in
         {{locationDetails}}.
       </p>
-      {% endif %} {% if polygonMissing %} {{ govukErrorSummary({ titleText: "There
-      is a problem", errorList: [{ text: "You need to draw the boundary of your
-      site on the map. Click 'How to draw a boundary' if you need help.", href:
-      '#boundary-error' }] }) }} {% endif %}
+      {% endif %} 
+        {% if polygonMissing %} {{ 
+          govukErrorSummary({ 
+            titleText: "There is a problem", 
+            errorList: [{ text: 
+              "You need to draw the boundary of your site on the map. 
+              Click 'How to draw a boundary' if you need help.", 
+            href: '#boundary-error' }] 
+          }) 
+        }} 
+        {% endif %}
   
-      <p class="govuk-body">
-        You need to draw the boundary of your site on the map below so we can give
-        you accurate flood risk information.
+      <p class="govuk-body" data-needs-boundary>
+        You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.
       </p>
       <p class="govuk-body">
         Make sure you include access to your site in the boundary, including all

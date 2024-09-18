@@ -4,7 +4,6 @@ const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
 const createServer = require('../../server')
-const { payloadMatchTest } = require('../utils')
 const { JSDOM } = require('jsdom')
 
 lab.experiment('confirm-location', () => {
@@ -58,17 +57,20 @@ lab.experiment('confirm-location', () => {
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
   })
 
-  const assertContactEnvironmentAgencyText = async (response) => {
+  const assertSelectorContainsText = async (response, selector, content) => {
     const { payload } = response
     const {
       window: { document: doc }
     } = await new JSDOM(payload)
-    const div = doc.querySelectorAll('[data-pso-contact-email]')
-    Code.expect(div.length).to.equal(1) // check for a single data-pso-contact-email div
-    Code.expect(div[0].textContent).to.contain(
-      'Contact the Environment Agency team in Yorkshire at'
-    )
+    const div = doc.querySelectorAll(selector)
+    Code.expect(div.length).to.equal(content ? 1 : 0) // check for a single result if content is passed, otherwise expect nothing
+    if (content) {
+      Code.expect(div[0].textContent).to.contain(content)
+    }
   }
+
+  const assertContactEnvironmentAgencyText = async (response) =>
+    assertSelectorContainsText(response, '[data-pso-contact-email]', 'contact the Environment Agency team in Yorkshire at')
 
   lab.test('confirm-location with easting & northing', async () => {
     const options = {
@@ -327,26 +329,18 @@ lab.experiment('confirm-location', () => {
     }
   )
 
-  const assertErrorMessage = async (payload, errorMessageExpected = true) => {
-    await payloadMatchTest(
-      payload,
-      /<h2 class="govuk-error-summary__title">[\s\S]*There is a problem[\s\S]*<\/h2>/g,
-      errorMessageExpected ? 1 : 0
+  const assertErrorMessage = async (response, errorMessageExpected = true) => {
+    assertSelectorContainsText(
+      response,
+      '.govuk-error-summary__title',
+      errorMessageExpected ? 'There is a problem' : undefined
     )
 
-    // Error Title Should only be displayed if polygonMissing is true
-    await payloadMatchTest(
-      payload,
-      /<title>[\s\S]*Error: Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      errorMessageExpected ? 1 : 0
-    )
-
-    // This should always pass (the regex matches regardless of the presence of "Error: ")
-    await payloadMatchTest(
-      payload,
-      /<title>[\s\S]*Draw the boundary of your site - Flood map for planning - GOV.UK[\s\S]*<\/title>/g,
-      1
-    )
+    const expectedTitle =
+      errorMessageExpected
+        ? 'Error: Draw the boundary of your site - Flood map for planning - GOV.UK'
+        : 'Draw the boundary of your site - Flood map for planning - GOV.UK'
+    assertSelectorContainsText(response, 'title', expectedTitle)
   }
 
   lab.test(
@@ -364,12 +358,13 @@ lab.experiment('confirm-location', () => {
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(200)
 
-      const { payload } = response
-      await payloadMatchTest(
-        payload,
-        /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g
+      await assertSelectorContainsText(
+        response,
+        '[data-needs-boundary]',
+        'You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.'
       )
-      assertErrorMessage(payload, false)
+      assertErrorMessage(response, false)
+      await assertSelectorContainsText(response, '#confirm-location-page', 'contact the Environment Agency team in Yorkshire at')
       await assertContactEnvironmentAgencyText(response)
     }
   )
@@ -389,12 +384,13 @@ lab.experiment('confirm-location', () => {
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(200)
 
-      const { payload } = response
-      await payloadMatchTest(
-        payload,
-        /<p class="govuk-body">You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.<\/p>/g
+      await assertSelectorContainsText(
+        response,
+        '[data-needs-boundary]',
+        'You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.'
       )
-      assertErrorMessage(payload, true)
+      assertErrorMessage(response, true)
+      await assertSelectorContainsText(response, '#confirm-location-page', 'contact the Environment Agency team in Yorkshire at')
       await assertContactEnvironmentAgencyText(response)
     }
   )
