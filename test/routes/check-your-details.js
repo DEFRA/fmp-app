@@ -7,11 +7,13 @@ const config = require('../../config')
 const { payloadMatchTest } = require('../utils')
 const sinon = require('sinon')
 const ApplicationReviewSummaryViewModel = require('../../server/models/check-your-details')
+const addressService = require('../../server/services/address')
 
 lab.experiment('check-your-details', () => {
   let server
   let restoreWreckPost
   let restoreGetPsoContactsByPolygon
+  let restoreGetPostcodeFromEastingorNorthing
 
   const eastAngliaPsoDetails = {
     EmailAddress: 'enquiries_eastanglia@environment-agency.gov.uk',
@@ -41,6 +43,7 @@ lab.experiment('check-your-details', () => {
 
     restoreWreckPost = wreck.post
     restoreGetPsoContactsByPolygon = server.methods.getPsoContactsByPolygon
+    restoreGetPostcodeFromEastingorNorthing = addressService.getPostcodeFromEastingorNorthing
     server.methods.getPsoContactsByPolygon = async () => yorkshirePsoDetails
     wreck.post = async (url, data) => ({ url, data })
   })
@@ -48,6 +51,7 @@ lab.experiment('check-your-details', () => {
   lab.after(async () => {
     wreck.post = restoreWreckPost
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
+    addressService.getPostcodeFromEastingorNorthing = restoreGetPostcodeFromEastingorNorthing
     await server.stop()
   })
 
@@ -319,6 +323,7 @@ lab.experiment('check-your-details', () => {
         data: undefined
       }
 
+      addressService.getPostcodeFromEastingorNorthing = async (easting, northing) => 'WA1 2NN'
       wreck.post = async (url, data) => {
         postParams.url = url
         postParams.data = data
@@ -630,6 +635,7 @@ lab.experiment('check-your-details', () => {
 
       server.methods.getPsoContactsByPolygon = async () => eastAngliaPsoDetails
       const postParams = {}
+      addressService.getPostcodeFromEastingorNorthing = async (easting, northing) => undefined
       wreck.post = async (url, data) => {
         postParams.url = config.functionAppUrl + '/order-product-four'
         postParams.data = data
