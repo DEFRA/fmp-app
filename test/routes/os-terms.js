@@ -26,5 +26,7 @@ lab.experiment('os-terms', () => {
     const response = await server.inject(options)
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.payload).to.include('Ordnance Survey terms and conditions')
+    Code.expect(response.payload).to.not.include('100024198') // Old Os Number
+    Code.expect(response.payload).to.include('AC0000807064') // New Os Number
   })
 })

@@ -77,5 +77,7 @@ lab.experiment('home', () => {
       /<li>download a printable flood map for planning \(PDF\) showing your flood zone \(also known as a product 1\)<\/li>/g
     )
     await payloadMatchTest(payload, /<li>request flood risk assessment data \(also known as a product 4\)<\/li>/g)
+    Code.expect(payload).to.not.include('100024198') // Old Os Number
+    Code.expect(payload).to.include('AC0000807064') // New Os Number
   })
 })
