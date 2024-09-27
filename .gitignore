@@ -2,6 +2,7 @@
 node_modules
 logs
 server.json
+server.local.json
 server.snd.json
 server.dev.json
 server/public/assets
