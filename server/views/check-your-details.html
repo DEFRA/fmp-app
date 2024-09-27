@@ -23,15 +23,19 @@ Check your details - Flood map for planning - GOV.UK
     
     {{ govukFieldset({
         legend: {
-        text: "Check your details before requesting your data",
+        text: "Check your details before ordering your data",
         classes: "govuk-fieldset__legend--l",
         isPageHeading: true
         }
         }) }}
 
-           <p>After you have submitted your request you will not be able to change it. Make sure the site location is accurate.</p>
+        <p class="govuk-body">
+          After you have ordered your flood risk data you will not be able to change your details. Make sure the site location is accurate.
+        </p>
 
-        <p>You should receive your data within 20 working days.</p>
+        <p class="govuk-body">
+          You should receive your data within 20 working days.
+        </p>
 
         {{ govukSummaryList({
   rows: [
@@ -144,8 +148,12 @@ Check your details - Flood map for planning - GOV.UK
           <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
         </div>
 
+        <p class="govuk-body">
+          You are ordering detailed flood risk data to be used for a flood risk assessment as part of a planning application. 
+        </p>
+
         {{ govukButton({
-          text: "Request your flood risk assessment data",
+          text: "Order your flood risk data",
           preventDoubleClick: true,
           classes: "order-product-four"
         })
