@@ -324,8 +324,8 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
     </a>
 
     {% if floodZone.zone != 'FZ1' %}
+    {% if floodZone.isAreaBenefiting %}
     <div class="govuk-inset-text">
-      {% if floodZone.isAreaBenefiting %}
       <p class="govuk-body">
         You will also need to assess
         <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41"
@@ -335,7 +335,6 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         from flood defence breach in this location. If available, we will
         provide breach hazard mapping data to help you do this.
       </p>
-      {% endif %}
       <p class="govuk-body">
         For developments in flood zone {{zoneNumber}}, your FRA should include
         an assessment of all sources of flooding and
@@ -351,6 +350,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
           how to do an assessment </a>.
       </p>
     </div>
+    {% endif %}
     {% endif %}
     {% else %}
     <!--  Opted Out Section if not using automated -->
