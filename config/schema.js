@@ -8,7 +8,7 @@ const serverSchema = Joi.object()
     labels: Joi.string()
   })
 
-module.exports = Joi.object({
+const schema = Joi.object({
   server: serverSchema,
   service: Joi.string().uri().required(),
   geoserver: Joi.string().uri().required(),
@@ -50,3 +50,15 @@ module.exports = Joi.object({
     url: Joi.string().uri().required()
   })
 })
+
+const validateSchema = (config) => {
+  const { value, error } = schema.validate(config, { abortEarly: false })
+
+  if (error) {
+    throw new Error(`The server config is invalid. ${error.message}`)
+  }
+
+  return value
+}
+
+module.exports = { validateSchema }

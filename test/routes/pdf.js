@@ -4,7 +4,7 @@ const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const riskService = require('../../server/services/risk')
 const Wreck = require('@hapi/wreck')
-const config = require('../../config')
+const { config } = require('../../config')
 
 lab.experiment('PDF', () => {
   let server

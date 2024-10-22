@@ -1,5 +1,5 @@
 const Boom = require('@hapi/boom')
-const config = require('../../config')
+const { config } = require('../../config')
 const { osMapsUrl, osMapsKey, osGetCapabilitiesUrl } = config.ordnanceSurvey
 const mockData = require('../mock/address/find-by-place/PICKERING.json')
 const wreck = require('@hapi/wreck').defaults({

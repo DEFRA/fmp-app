@@ -1,6 +1,6 @@
 const handlebars = require('handlebars')
 const moment = require('moment-timezone')
-const config = require('../config')
+const { config } = require('../config')
 const pkg = require('../package.json')
 const analyticsAccount = config.analyticsAccount
 const appVersion = pkg.version

@@ -1,6 +1,6 @@
 const Boom = require('@hapi/boom')
 const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
-const config = require('../../config')
+const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')

@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks')
 const util = require('../util')
-const config = require('../../config')
+const { config } = require('../../config')
 const pkg = require('../../package.json')
 const { gaAccId, fbAppId, analyticsAccount } = config
 

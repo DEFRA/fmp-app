@@ -1,13 +1,45 @@
-const schema = require('./schema')
-const config = require('./server.json')
+const { validateSchema } = require('./schema')
 
-// Validate config
-const result = schema.validate(config, { abortEarly: false })
-
-// Throw if config is invalid
-if (result.error) {
-  throw new Error('The server config is invalid. ' + result.error.message)
+const config = {
+   env: process.env.ENV,
+   server: {
+      host: process.env.HOST,
+      port: process.env.PORT,
+      labels: process.env.LABELS
+   },
+   service: process.env.service,
+   geoserver: process.env.geoserver,
+   views: {
+    isCashed: process.env.viewsIsCached,
+   },
+   analyticsAccount: process.env.analyticsAccount,
+   googleVerification: process.env.googleVerification,
+   fbAppId: process.env.fbAppId,
+   httpTimeoutMs: process.env.httpTimeoutMs,
+   mockAddressService: process.env.mockAddressService,
+   maintainence: process.env.maintainence,
+   ordnanceSurvey: {
+    osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
+    osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
+    osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
+    osSearchKey: process.env.ordnanceSurveyOsSearchKey,
+    osMapsKey: process.env.ordnanceSurveyOsMapsKey
+   },
+   errbit: {
+    postErrors: process.env.ERRBIT_POST_ERRORS,
+    env: process.env.NODE_ENV,
+    key: process.env.ERRBIT_KEY,
+    host: process.env.ERRBIT_HOST
+  },
+  siteUrl: process.env.siteUrl,
+  LogAuditTrial: process.env.LogAuditTrial,
+  functionAppUrl: process.env.functionAppUrl,
+  ignoreUseAutomatedService: process.env.ignoreUseAutomatedService,
+  placeApi: {
+    url: process.env.placeApiUrl
+  }
 }
 
-// Return the config
-module.exports = result.value
+validateConfig(config);
+
+module.exports = { config }

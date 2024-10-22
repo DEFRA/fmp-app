@@ -3,7 +3,7 @@ const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const { getByPolygon } = require('../../server/services/risk')
 const util = require('../../server/util')
-const config = require('../../config')
+const { config } = require('../../config')
 
 lab.experiment('risk', () => {
   let restoreGetJson

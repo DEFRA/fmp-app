@@ -2,7 +2,7 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const isEnglandService = require('../services/is-england')
 const ConfirmLocationViewModel = require('../models/confirm-location-view')
-const config = require('../../config')
+const { config } = require('../../config')
 const mockData = require('../mock/address/find-by-place/PICKERING.json')
 
 class NotEnglandError extends Error {}
