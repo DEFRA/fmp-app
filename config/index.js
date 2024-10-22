@@ -1,31 +1,31 @@
 const { validateSchema } = require('./schema')
 
 const config = {
-   env: process.env.ENV,
-   server: {
-      host: process.env.HOST,
-      port: process.env.PORT,
-      labels: process.env.LABELS
-   },
-   service: process.env.service,
-   geoserver: process.env.geoserver,
-   views: {
-    isCashed: process.env.viewsIsCached,
-   },
-   analyticsAccount: process.env.analyticsAccount,
-   googleVerification: process.env.googleVerification,
-   fbAppId: process.env.fbAppId,
-   httpTimeoutMs: process.env.httpTimeoutMs,
-   mockAddressService: process.env.mockAddressService,
-   maintainence: process.env.maintainence,
-   ordnanceSurvey: {
+  env: process.env.ENV,
+  server: {
+    host: process.env.HOST,
+    port: process.env.PORT,
+    labels: process.env.LABELS
+  },
+  service: process.env.service,
+  geoserver: process.env.geoserver,
+  views: {
+    isCashed: process.env.viewsIsCached
+  },
+  analyticsAccount: process.env.analyticsAccount,
+  googleVerification: process.env.googleVerification,
+  fbAppId: process.env.fbAppId,
+  httpTimeoutMs: process.env.httpTimeoutMs,
+  mockAddressService: process.env.mockAddressService,
+  maintainence: process.env.maintainence,
+  ordnanceSurvey: {
     osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
     osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
     osSearchKey: process.env.ordnanceSurveyOsSearchKey,
     osMapsKey: process.env.ordnanceSurveyOsMapsKey
-   },
-   errbit: {
+  },
+  errbit: {
     postErrors: process.env.ERRBIT_POST_ERRORS,
     env: process.env.NODE_ENV,
     key: process.env.ERRBIT_KEY,
@@ -40,6 +40,6 @@ const config = {
   }
 }
 
-validateConfig(config);
+validateSchema(config)
 
 module.exports = { config }
