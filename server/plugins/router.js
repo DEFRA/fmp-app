@@ -23,6 +23,7 @@ const routes = [].concat(
   require('../routes/maintenance'),
   require('../routes/404'),
   require('../routes/order-not-submitted'),
+  require('../routes/health-check'),
   require('../routes/about')
 )
 
