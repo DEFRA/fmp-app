@@ -3,7 +3,6 @@ const defaultport = 3000
 const serverSchema = Joi.object()
   .required()
   .keys({
-    host: Joi.string().hostname(),
     port: Joi.number().required().default(defaultport),
     labels: Joi.string()
   })
