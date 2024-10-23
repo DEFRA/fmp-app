@@ -15,14 +15,14 @@ const schema = Joi.object({
   geoserver: Joi.string().uri().required(),
   logging: Joi.object(),
   views: Joi.object().required().keys({
-    isCached: Joi.boolean().required()
+    isCached: Joi.boolean().strict().required()
   }),
   analyticsAccount: Joi.string().required().allow(''),
   googleVerification: Joi.string().required().allow(''),
   fbAppId: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
-  mockAddressService: Joi.boolean().required(),
-  maintainence: Joi.boolean().required(),
+  mockAddressService: Joi.boolean().strict().required(),
+  maintainence: Joi.boolean().strict().required(),
   ordnanceSurvey: Joi.object()
     .required()
     .keys({
@@ -35,7 +35,7 @@ const schema = Joi.object({
   errbit: Joi.object()
     .required()
     .keys({
-      postErrors: Joi.boolean().required(),
+      postErrors: Joi.boolean().strict().required(),
       options: {
         env: Joi.string().required(),
         key: Joi.string().required(),
@@ -44,9 +44,9 @@ const schema = Joi.object({
       }
     }),
   siteUrl: Joi.string().uri().required(),
-  LogAuditTrial: Joi.boolean().required(),
+  LogAuditTrial: Joi.boolean().strict().required(),
   functionAppUrl: Joi.string().required(),
-  ignoreUseAutomatedService: Joi.boolean(),
+  ignoreUseAutomatedService: Joi.boolean().strict(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
   })

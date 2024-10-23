@@ -1,6 +1,8 @@
 const { validateSchema } = require('./schema')
 require('dotenv').config()
 
+const toBool = (val) => val === true || val === 'true'
+
 const config = {
   env: process.env.ENV,
   server: {
@@ -11,14 +13,14 @@ const config = {
   service: process.env.service,
   geoserver: process.env.geoserver,
   views: {
-    isCached: process.env.viewsIsCached
+    isCached: toBool(process.env.viewsIsCached)
   },
   analyticsAccount: process.env.analyticsAccount,
   googleVerification: process.env.googleVerification,
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
-  mockAddressService: process.env.mockAddressService,
-  maintainence: process.env.maintainence,
+  mockAddressService: toBool(process.env.mockAddressService),
+  maintainence: toBool(process.env.maintainence),
   ordnanceSurvey: {
     osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
@@ -27,7 +29,7 @@ const config = {
     osMapsKey: process.env.ordnanceSurveyOsMapsKey
   },
   errbit: {
-    postErrors: process.env.ERRBIT_POST_ERRORS,
+    postErrors: toBool(process.env.ERRBIT_POST_ERRORS),
     options: {
       env: process.env.ENV,
       key: process.env.ERRBIT_KEY,
@@ -35,9 +37,9 @@ const config = {
     }
   },
   siteUrl: process.env.siteUrl,
-  LogAuditTrial: process.env.LogAuditTrial,
+  LogAuditTrial: toBool(process.env.LogAuditTrial),
   functionAppUrl: process.env.functionAppUrl,
-  ignoreUseAutomatedService: process.env.ignoreUseAutomatedService,
+  ignoreUseAutomatedService: toBool(process.env.ignoreUseAutomatedService),
   placeApi: {
     url: process.env.placeApiUrl
   }

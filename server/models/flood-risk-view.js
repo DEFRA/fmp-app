@@ -15,7 +15,6 @@ function Model (data) {
     surfaceWaterResults
   } = data
 
-  console.log('====data===', data)
   this.localAuthorities = localAuthorities
   this.surfaceWaterResults = surfaceWaterResults
 
