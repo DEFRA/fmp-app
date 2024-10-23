@@ -2,6 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const isValidNgrService = require('../../server/services/is-valid-ngr')
+require('dotenv').config()
 
 lab.experiment('is-valid-ngr', () => {
   lab.test('isValidNgrService.get should be valid if ngr of length 12 is valid', async () => {

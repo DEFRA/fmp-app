@@ -1,5 +1,5 @@
 const util = require('../util')
-const config = require('../../config')
+const { config } = require('../../config')
 const urlByPolygon = config.service + '/zones-by-polygon'
 
 const getByPolygon = (polygon) => {

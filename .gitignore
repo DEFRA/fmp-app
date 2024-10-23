@@ -14,3 +14,4 @@ lcov.info
 jsconfig.json
 .eslintcache
 .idea/
+.env

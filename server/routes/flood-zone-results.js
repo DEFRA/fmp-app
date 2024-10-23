@@ -10,7 +10,7 @@ const {
   buffPolygon
 } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
-const config = require('../../config')
+const { config } = require('../../config')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
   try {

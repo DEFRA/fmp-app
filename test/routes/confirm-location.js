@@ -5,6 +5,7 @@ const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
 const createServer = require('../../server')
 const { JSDOM } = require('jsdom')
+require('dotenv').config()
 
 lab.experiment('confirm-location', () => {
   let server

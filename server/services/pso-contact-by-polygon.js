@@ -1,5 +1,5 @@
 const util = require('../util')
-const config = require('../../config')
+const { config } = require('../../config')
 const url = config.service + '/pso-contacts-by-polygon?polygon='
 
 const getPsoContactsByPolygon = (polygon) => {

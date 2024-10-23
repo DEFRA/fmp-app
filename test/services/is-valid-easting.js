@@ -2,6 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const isValidEastingService = require('../../server/services/is-valid-easting')
+require('dotenv').config()
 
 lab.experiment('is-valid-easting', () => {
   lab.test('isValidEastingService.get should be valid if easting is between 1 and 700,000', async () => {

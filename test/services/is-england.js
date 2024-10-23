@@ -4,6 +4,7 @@ const lab = (exports.lab = Lab.script())
 const isEnglandService = require('../../server/services/is-england')
 const util = require('../../server/util')
 const createServer = require('../../server')
+require('dotenv').config()
 
 lab.experiment('is-england', () => {
   let server

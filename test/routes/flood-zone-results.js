@@ -8,6 +8,7 @@ const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
 const { JSDOM } = require('jsdom')
 const zeroAreaPolygons = require('../services/zeroAreaPolygons')
+require('dotenv').config()
 
 lab.experiment('flood-zone-results', () => {
   let server

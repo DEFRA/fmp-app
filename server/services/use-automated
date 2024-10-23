@@ -1,4 +1,4 @@
-const config = require('../../config')
+const { config } = require('../../config')
 
 // This can be set to true (used on pre-prod) to force the ability
 // to download P4s even if turned off for the specific authority

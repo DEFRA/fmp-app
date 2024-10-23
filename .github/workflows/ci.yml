@@ -21,7 +21,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          cp ./config/server.example.json ./config/server.json
+          cp ./config/.env-example .env
           npm run test
           sed -i 's/\/home\/runner\/work\/fmp-app\/fmp-app\//\/github\/workspace\//g' lcov.info
       - name: SonarCloud Scan

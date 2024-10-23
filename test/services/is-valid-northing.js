@@ -2,6 +2,7 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const isValidNorthingService = require('../../server/services/is-valid-northing')
+require('dotenv').config()
 
 lab.experiment('is-valid-northing', () => {
   lab.test('isValidNorthingService.get should be valid if northing is between 1 and 1,300,000', async () => {
