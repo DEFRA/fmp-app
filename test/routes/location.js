@@ -6,6 +6,7 @@ const addressService = require('../../server/services/address')
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
+require('dotenv').config()
 
 lab.experiment('location', () => {
   let server

@@ -1,6 +1,7 @@
 const Lab = require('@hapi/lab')
 const lab = (exports.lab = Lab.script())
 const Code = require('@hapi/code')
+require('dotenv').config()
 
 const jsonHelper = require('../../../server/views/helpers/json')
 

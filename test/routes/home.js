@@ -5,6 +5,7 @@ const headers = require('../models/page-headers')
 const addressService = require('../../server/services/address')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
+require('dotenv').config()
 
 lab.experiment('home', () => {
   let server

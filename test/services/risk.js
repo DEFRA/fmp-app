@@ -4,6 +4,7 @@ const lab = (exports.lab = Lab.script())
 const { getByPolygon } = require('../../server/services/risk')
 const util = require('../../server/util')
 const { config } = require('../../config')
+require('dotenv').config()
 
 lab.experiment('risk', () => {
   let restoreGetJson

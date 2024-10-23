@@ -3,6 +3,7 @@ const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
+require('dotenv').config()
 
 lab.experiment('contact', () => {
   let server

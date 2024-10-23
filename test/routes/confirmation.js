@@ -4,6 +4,7 @@ const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
 const { JSDOM } = require('jsdom')
+require('dotenv').config()
 
 lab.experiment('confirmation', () => {
   let server

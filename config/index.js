@@ -1,4 +1,5 @@
 const { validateSchema } = require('./schema')
+require('dotenv').config()
 
 const config = {
   env: process.env.ENV,
@@ -10,7 +11,7 @@ const config = {
   service: process.env.service,
   geoserver: process.env.geoserver,
   views: {
-    isCashed: process.env.viewsIsCached
+    isCached: process.env.viewsIsCached
   },
   analyticsAccount: process.env.analyticsAccount,
   googleVerification: process.env.googleVerification,
@@ -27,9 +28,11 @@ const config = {
   },
   errbit: {
     postErrors: process.env.ERRBIT_POST_ERRORS,
-    env: process.env.NODE_ENV,
-    key: process.env.ERRBIT_KEY,
-    host: process.env.ERRBIT_HOST
+    options: {
+      env: process.env.ENV,
+      key: process.env.ERRBIT_KEY,
+      host: process.env.ERRBIT_HOST
+    }
   },
   siteUrl: process.env.siteUrl,
   LogAuditTrial: process.env.LogAuditTrial,

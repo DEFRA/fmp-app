@@ -9,6 +9,7 @@ const serverSchema = Joi.object()
   })
 
 const schema = Joi.object({
+  env: Joi.string().required(),
   server: serverSchema,
   service: Joi.string().uri().required(),
   geoserver: Joi.string().uri().required(),

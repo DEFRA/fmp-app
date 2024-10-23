@@ -4,6 +4,7 @@ const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { JSDOM } = require('jsdom')
 const mock = require('mock-require')
+require('dotenv').config()
 
 lab.experiment('About Page', () => {
   const options = { method: 'GET', url: '/about' }

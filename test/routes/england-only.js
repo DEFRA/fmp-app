@@ -4,6 +4,7 @@ const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const createServer = require('../../server')
 const { payloadMatchTest } = require('../utils')
+require('dotenv').config()
 
 lab.experiment('england-only', () => {
   let server

@@ -9,6 +9,7 @@ const {
   polygonStartEnd
 } = require('../../server/services/shape-utils')
 const zeroAreaPolygons = require('./zeroAreaPolygons')
+require('dotenv').config()
 
 lab.experiment('shape-utils - polygonToArray', () => {
   lab.test('polygonToArray should return an array for polygon strings "[[0,0],[0,10],[10,10],[10,0]]"', async () => {
