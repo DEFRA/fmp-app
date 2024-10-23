@@ -55,6 +55,10 @@ const validateSchema = (config) => {
   const { value, error } = schema.validate(config, { abortEarly: false })
 
   if (error) {
+    console.log('config.geoserver', config.geoserver)
+    console.log('config.ordnanceSurvey.osMapsUrl', config.ordnanceSurvey.osMapsUrl)
+    console.log('config.ordnanceSurvey.osNamesUrl', config.ordnanceSurvey.osNamesUrl)
+    console.log('config.placeApi.url', config.placeApi.url)
     throw new Error(`The server config is invalid. ${error.message}`)
   }
 
