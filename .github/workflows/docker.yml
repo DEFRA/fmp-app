@@ -3,9 +3,7 @@ name: DOCKER
 on:
   push:
     branches:
-      - main
       - release-3.0
-      - FCRM-5209
   workflow_dispatch:
   
 env:
