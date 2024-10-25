@@ -5,8 +5,12 @@ const { config } = require('../../config')
 const getFmpServiceVersion = async () => {
   const url = config.service + '/health-check'
   try {
-    const { data } = await axios.get(url)
-    return data
+    const { data = {} } = await axios.get(url)
+    const { version = '', revision = '' } = data
+    return {
+      version,
+      revision: revision.substring(0, 7)
+    }
   } catch (error) {
     console.log('error fetching fmp-service health-check', url)
   }
@@ -19,9 +23,12 @@ const getFmpServiceVersion = async () => {
 const getFmpApiVersion = async () => {
   const url = config.functionAppUrl + '/health-check'
   try {
-    const { data = [] } = await axios.get(url)
-    const { version = 'not available', revision = 'not available' } = data
-    return { version, revision }
+    const { data = {} } = await axios.get(url)
+    const { version = '', revision = '' } = data
+    return {
+      version,
+      revision: revision.substring(0, 7)
+    }
   } catch (error) {
     console.log('error fetching fmp-api health-check', url, error)
   }
@@ -46,7 +53,7 @@ module.exports = {
       const data = {
         fmpApp: {
           version: version.substring(0, version.lastIndexOf('-')),
-          revision
+          revision: revision.substring(0, 7)
         },
         fmpService,
         fmpApi
