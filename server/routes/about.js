@@ -23,7 +23,7 @@ const getFmpApiVersion = async () => {
     const { version = 'not available', revision = 'not available' } = data
     return { version, revision }
   } catch (error) {
-    console.log('error fetching fmp-api health-check', url)
+    console.log('error fetching fmp-api health-check', url, error)
   }
   return {
     version: 'not available',
