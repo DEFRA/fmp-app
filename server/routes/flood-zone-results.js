@@ -10,7 +10,6 @@ const {
   buffPolygon
 } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
-const { config } = require('../../config')
 
 const missingPolygonRedirect = (request, h, easting, northing, location) => {
   try {
@@ -45,16 +44,6 @@ module.exports = [
       description: 'Displays flood zone results page',
       handler: async (request, h) => {
         try {
-          if (config.mockAddressService) {
-            const { query } = request
-            request.query = {
-              ...query,
-              polygon:
-                '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]',
-              center: '[479692,484217]',
-              location: 'Pickering'
-            }
-          }
           let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
