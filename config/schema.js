@@ -21,7 +21,6 @@ const schema = Joi.object({
   fbAppId: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
   mockAddressService: Joi.boolean().strict().required(),
-  maintainence: Joi.boolean().strict().required(),
   ordnanceSurvey: Joi.object()
     .required()
     .keys({

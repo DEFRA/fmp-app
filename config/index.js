@@ -19,7 +19,6 @@ const config = {
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
   mockAddressService: toBool(process.env.mockAddressService),
-  maintainence: toBool(process.env.maintainence),
   ordnanceSurvey: {
     osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
