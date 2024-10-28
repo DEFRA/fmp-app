@@ -10,24 +10,7 @@
       "interval": 1000
     },
     "reporters": {
-      "console": [
-        {
-          "module": "good-squeeze",
-          "name": "Squeeze",
-          "args": [
-            {
-              "log": "*",
-              "response": "*",
-              "error": "*",
-              "request": "error"
-            }
-          ]
-        },
-        {
-          "module": "good-console"
-        },
-        "stdout"
-      ]
+      "console": [ "stdout" ]
     }
   },
   "views": {
