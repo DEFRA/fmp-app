@@ -27,14 +27,6 @@ const config = {
     osSearchKey: process.env.ordnanceSurveyOsSearchKey,
     osMapsKey: process.env.ordnanceSurveyOsMapsKey
   },
-  errbit: {
-    postErrors: toBool(process.env.ERRBIT_POST_ERRORS),
-    options: {
-      env: process.env.ENV,
-      key: process.env.ERRBIT_KEY,
-      host: process.env.ERRBIT_HOST
-    }
-  },
   siteUrl: process.env.siteUrl,
   LogAuditTrial: toBool(process.env.LogAuditTrial),
   functionAppUrl: process.env.functionAppUrl,

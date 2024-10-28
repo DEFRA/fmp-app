@@ -46,14 +46,6 @@
     "osSearchKey": "replace_this",
     "osMapsKey": "replace_this"
   },
-  "errbit": {
-    "postErrors": false,
-    "options": {
-      "env": "development",
-      "key": "replace_this",
-      "host": "http://dummyuri"
-    }
-  },
   "siteUrl": "http://127.0.0.1:3000",
   "LogAuditTrial": false,
   "functionAppUrl": "http://127.0.0.1:3002",

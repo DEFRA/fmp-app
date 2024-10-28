@@ -31,17 +31,6 @@ const schema = Joi.object({
       osSearchKey: Joi.string().required().allow(''),
       osMapsKey: Joi.string().required().allow('')
     }),
-  errbit: Joi.object()
-    .required()
-    .keys({
-      postErrors: Joi.boolean().strict().required(),
-      options: {
-        env: Joi.string().required(),
-        key: Joi.string().required(),
-        host: Joi.string().required(),
-        proxy: Joi.string().allow('')
-      }
-    }),
   siteUrl: Joi.string().uri().required(),
   LogAuditTrial: Joi.boolean().strict().required(),
   functionAppUrl: Joi.string().required(),
