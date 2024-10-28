@@ -13,8 +13,10 @@ lab.experiment('Ensure config is correct', () => {
 })
 
 lab.experiment('toBool function', () => {
-  lab.test('toBool true should be true', () => Code.expect(toBool(true)).to.equal(true))
-  lab.test('toBool "true" should be true', () => Code.expect(toBool('true')).to.equal(true))
-  lab.test('toBool false should be false', () => Code.expect(toBool(false)).to.equal(false))
-  lab.test('toBool "false" should be false', () => Code.expect(toBool('false')).to.equal(false))
+  lab.test('toBool(true) should be true', () => Code.expect(toBool(true)).to.equal(true))
+  lab.test('toBool("true") should be true', () => Code.expect(toBool('true')).to.equal(true))
+  lab.test('toBool(false) should be false', () => Code.expect(toBool(false)).to.equal(false))
+  lab.test('toBool("false") should be false', () => Code.expect(toBool('false')).to.equal(false))
+  lab.test('toBool(undefined) should be undefined', () => Code.expect(toBool(undefined)).to.equal(undefined))
+  lab.test('toBool("other") should be undefined', () => Code.expect(toBool('other')).to.equal(undefined))
 })
