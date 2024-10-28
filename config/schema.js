@@ -3,8 +3,7 @@ const defaultport = 3000
 const serverSchema = Joi.object()
   .required()
   .keys({
-    port: Joi.number().required().default(defaultport),
-    labels: Joi.string()
+    port: Joi.number().required().default(defaultport)
   })
 
 const schema = Joi.object({

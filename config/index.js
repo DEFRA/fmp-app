@@ -6,8 +6,7 @@ const toBool = (val) => val === true || val === 'true'
 const config = {
   env: process.env.ENV,
   server: {
-    port: process.env.PORT,
-    labels: process.env.LABELS
+    port: process.env.PORT
   },
   service: process.env.service,
   geoserver: process.env.geoserver,
