@@ -1,12 +1,6 @@
 const { validateSchema } = require('./schema')
+const { toBool } = require('./toBool')
 require('dotenv').config()
-
-const toBool = (val) =>
-  (val === true || val === 'true')
-    ? true
-    : (val === false || val === 'false')
-        ? false
-        : undefined
 
 const config = {
   env: process.env.ENV,
