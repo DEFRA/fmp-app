@@ -28,7 +28,6 @@ const config = {
     osMapsKey: process.env.ordnanceSurveyOsMapsKey
   },
   siteUrl: process.env.siteUrl,
-  LogAuditTrial: toBool(process.env.LogAuditTrial),
   functionAppUrl: process.env.functionAppUrl,
   ignoreUseAutomatedService: toBool(process.env.ignoreUseAutomatedService),
   placeApi: {

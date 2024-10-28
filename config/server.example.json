@@ -47,7 +47,6 @@
     "osMapsKey": "replace_this"
   },
   "siteUrl": "http://127.0.0.1:3000",
-  "LogAuditTrial": false,
   "functionAppUrl": "http://127.0.0.1:3002",
   "placeApi": {
     "url": "https://dummy/nearest"
