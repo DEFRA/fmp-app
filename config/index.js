@@ -5,8 +5,7 @@ require('dotenv').config()
 const config = {
   env: process.env.ENV,
   server: {
-    port: process.env.PORT,
-    labels: process.env.LABELS
+    port: process.env.PORT
   },
   service: process.env.service,
   geoserver: process.env.geoserver,
@@ -17,7 +16,6 @@ const config = {
   googleVerification: process.env.googleVerification,
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
-  maintainence: toBool(process.env.maintainence),
   ordnanceSurvey: {
     osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
@@ -25,16 +23,7 @@ const config = {
     osSearchKey: process.env.ordnanceSurveyOsSearchKey,
     osMapsKey: process.env.ordnanceSurveyOsMapsKey
   },
-  errbit: {
-    postErrors: toBool(process.env.ERRBIT_POST_ERRORS),
-    options: {
-      env: process.env.ENV,
-      key: process.env.ERRBIT_KEY,
-      host: process.env.ERRBIT_HOST
-    }
-  },
   siteUrl: process.env.siteUrl,
-  LogAuditTrial: toBool(process.env.LogAuditTrial),
   functionAppUrl: process.env.functionAppUrl,
   ignoreUseAutomatedService: toBool(process.env.ignoreUseAutomatedService),
   placeApi: {

@@ -3,8 +3,7 @@ const defaultport = 3000
 const serverSchema = Joi.object()
   .required()
   .keys({
-    port: Joi.number().required().default(defaultport),
-    labels: Joi.string()
+    port: Joi.number().required().default(defaultport)
   })
 
 const schema = Joi.object({
@@ -20,7 +19,6 @@ const schema = Joi.object({
   googleVerification: Joi.string().required().allow(''),
   fbAppId: Joi.string().required().allow(''),
   httpTimeoutMs: Joi.number().required().min(0).max(30000),
-  maintainence: Joi.boolean().strict().required(),
   ordnanceSurvey: Joi.object()
     .required()
     .keys({
@@ -30,19 +28,7 @@ const schema = Joi.object({
       osSearchKey: Joi.string().required().allow(''),
       osMapsKey: Joi.string().required().allow('')
     }),
-  errbit: Joi.object()
-    .required()
-    .keys({
-      postErrors: Joi.boolean().strict().required(),
-      options: {
-        env: Joi.string().required(),
-        key: Joi.string().required(),
-        host: Joi.string().required(),
-        proxy: Joi.string().allow('')
-      }
-    }),
   siteUrl: Joi.string().uri().required(),
-  LogAuditTrial: Joi.boolean().strict().required(),
   functionAppUrl: Joi.string().required(),
   ignoreUseAutomatedService: Joi.boolean().strict(),
   placeApi: Joi.object().required().keys({

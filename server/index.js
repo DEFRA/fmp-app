@@ -5,7 +5,7 @@ const CatboxMemory = require('@hapi/catbox-memory')
 async function createServer () {
   // Create the hapi server
   const server = hapi.server({
-    port: 3000,
+    port: config.server.port,
     routes: {
       validate: {
         options: {
@@ -43,13 +43,6 @@ async function createServer () {
   await server.register(require('./plugins/error-pages'))
   await server.register(require('blipp'))
   await server.register(require('./plugins/full-url'))
-
-  if (config.errbit.postErrors) {
-    await server.register({
-      plugin: require('node-hapi-airbrake'),
-      options: config.errbit.options
-    })
-  }
 
   server.ext('onPreResponse', async (request, h) => {
     request.response.header('cache-control', 'no-cache')
