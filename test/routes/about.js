@@ -1,10 +1,10 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const { JSDOM } = require('jsdom')
 const externalHealthCheck = require('../../server/services/external-health-check')
-require('dotenv').config()
 
 lab.experiment('About Page', () => {
   const options = { method: 'GET', url: '/about' }

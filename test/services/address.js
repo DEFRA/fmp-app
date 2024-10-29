@@ -1,10 +1,10 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const { findByPlace, getPostcodeFromEastingorNorthing } = require('../../server/services/address')
 const util = require('../../server/util')
 const { config } = require('../../config')
-require('dotenv').config()
 
 lab.experiment('address', () => {
   let restoreGetJson

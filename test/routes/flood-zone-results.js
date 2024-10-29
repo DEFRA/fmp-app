@@ -1,3 +1,4 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
@@ -8,7 +9,6 @@ const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
 const { JSDOM } = require('jsdom')
 const zeroAreaPolygons = require('../services/zeroAreaPolygons')
-require('dotenv').config()
 
 lab.experiment('flood-zone-results', () => {
   let server

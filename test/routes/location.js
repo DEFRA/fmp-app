@@ -1,3 +1,4 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
@@ -6,7 +7,6 @@ const addressService = require('../../server/services/address')
 const isValidNgrService = require('../../server/services/is-valid-ngr')
 const createServer = require('../../server')
 const { payloadMatchTest, titleTest } = require('../utils')
-require('dotenv').config()
 
 lab.experiment('location', () => {
   let server

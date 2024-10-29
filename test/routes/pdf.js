@@ -1,3 +1,4 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
@@ -5,7 +6,6 @@ const createServer = require('../../server')
 const riskService = require('../../server/services/risk')
 const Wreck = require('@hapi/wreck')
 const { config } = require('../../config')
-require('dotenv').config()
 
 lab.experiment('PDF', () => {
   let server

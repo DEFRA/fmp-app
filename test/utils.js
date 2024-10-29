@@ -1,5 +1,5 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Code = require('@hapi/code')
-require('dotenv').config()
 
 module.exports = {
   payloadMatchTest: async (payload, regex, expectedMatchCount = 1) => {

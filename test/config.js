@@ -1,8 +1,8 @@
+require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const lab = (exports.lab = Lab.script())
 const Code = require('@hapi/code')
 const { toBool } = require('../config/toBool')
-require('dotenv').config()
 
 lab.experiment('Ensure config is correct', () => {
   lab.test('test config', () => {
