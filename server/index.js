@@ -45,11 +45,6 @@ async function createServer () {
   await server.register(require('./plugins/logging'))
   await server.register(require('./plugins/full-url'))
 
-  if (config.mockAddressService) {
-    require('./mock/address')
-    console.log('mocking')
-  }
-
   if (config.errbit.postErrors) {
     await server.register({
       plugin: require('node-hapi-airbrake'),

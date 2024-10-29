@@ -1,7 +1,6 @@
 const { validateSchema } = require('./schema')
+const { toBool } = require('./toBool')
 require('dotenv').config()
-
-const toBool = (val) => val === true || val === 'true'
 
 const config = {
   env: process.env.ENV,
@@ -18,7 +17,6 @@ const config = {
   googleVerification: process.env.googleVerification,
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
-  mockAddressService: toBool(process.env.mockAddressService),
   maintainence: toBool(process.env.maintainence),
   ordnanceSurvey: {
     osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,

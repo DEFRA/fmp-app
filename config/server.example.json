@@ -37,7 +37,6 @@
   "googleVerification": "replace_this",
   "fbAppId": "replace_this",
   "httpTimeoutMs": 10000,
-  "mockAddressService": false,
   "maintainence": false,
   "ordnanceSurvey": {
     "osGetCapabilitiesUrl": "http://dummyuri",
