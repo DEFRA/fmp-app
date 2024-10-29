@@ -23,6 +23,11 @@ COPY --chown=root:root ./server ./server
 COPY --chown=root:root ./bin ./bin
 COPY --chown=root:root ./config ./config
 
+ARG BUILD_VERSION=v3.0.0-1-g6666666
+ARG GIT_COMMIT=0
+RUN echo -e "module.exports = { version: '$BUILD_VERSION', revision: '$GIT_COMMIT' }" > ./version.js
+
+
 FROM base AS development 
 
 # Temporarily disable the postinstall NPM script

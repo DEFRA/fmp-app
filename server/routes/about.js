@@ -1,17 +1,22 @@
+const { version, revision } = require('../../version')
+const externalHealthCheck = require('../services/external-health-check')
+
 module.exports = {
   method: 'GET',
   path: '/about',
   options: {
     description: 'Describe application version number',
     handler: async (_request, h) => {
-      // package.json must be included rather than at the top so that it can be mocked for testing
-      // otherwise tests would need updating everytime the version changes
-      const { version, dataVersion } = require('../../package.json')
-      const shortVersion = version.split('-')[0]
+      const fmpService = await externalHealthCheck.getFmpServiceVersion()
+      const fmpApi = await externalHealthCheck.getFmpApiVersion()
+
       const data = {
-        version: shortVersion,
-        buildVersion: version,
-        dataVersion
+        fmpApp: {
+          version: version.substring(0, version.lastIndexOf('-')),
+          revision: revision.substring(0, 7)
+        },
+        fmpService,
+        fmpApi
       }
       return h.view('about', data)
     }

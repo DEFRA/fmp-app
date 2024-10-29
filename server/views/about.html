@@ -3,18 +3,23 @@
   About - Flood map for planning - GOV.UK
 {% endblock %}
 {% block content %}
- <div id="contact-page" class="govuk-grid-row">
+ <div id="about-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <header>
         <h1 class="govuk-heading-l" tabindex="0">Flood map for planning</h1>
       </header>
-      <p class="govuk-body">Release: {{version}}</p>
-      <p class="govuk-body">
-        Build number: {{buildVersion}}
-      </p>
-      <p class="govuk-body">
-        Data version: {{dataVersion}}
-      </p>
+
+      <ul class="govuk-list">
+        <li class="govuk-heading-m">Application</li>
+        <li id='fmp-app-version' class="govuk-body govuk-!-padding-left-5">Version: {{fmpApp.version}}</li>
+        <li id='fmp-app-revision' class="govuk-body govuk-!-padding-left-5">Revision: {{fmpApp.revision}}</li>
+        <li class="govuk-heading-m">Service</li>
+        <li id='fmp-service-version'  class="govuk-body govuk-!-padding-left-5">Version: {{fmpService.version}}</li>
+        <li  id='fmp-service-revision' class="govuk-body govuk-!-padding-left-5">Revision: {{fmpService.revision}}</li>
+        <li class="govuk-heading-m">API</li>
+        <li  id='fmp-api-version' class="govuk-body govuk-!-padding-left-5">Version: {{fmpApi.version}}</li>
+        <li  id='fmp-api-revision' class="govuk-body govuk-!-padding-left-5">Revision: {{fmpApi.revision}}</li>
+      </ul>
     </div>
   </div>
 {% endblock %}
