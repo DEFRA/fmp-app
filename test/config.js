@@ -10,6 +10,36 @@ lab.experiment('Ensure config is correct', () => {
       require('../config')
     }).not.to.throw()
   })
+  lab.test('test config values', () => {
+    const { config } = require('../config')
+    const expectedConfig = {
+      env: 'dev',
+      server: { port: '8050' },
+      service: 'http://dummyuri',
+      geoserver: 'http://dummyuri',
+      views: { isCached: false },
+      analyticsAccount: 'replace_this',
+      googleVerification: 'replace_this',
+      fbAppId: 'replace_this',
+      httpTimeoutMs: '3000',
+      ordnanceSurvey: {
+        osGetCapabilitiesUrl: 'http://dummyuri',
+        osMapsUrl: 'http://dummyuri',
+        osNamesUrl: 'http://dummyuri',
+        osSearchKey: 'replace_this',
+        osMapsKey: 'replace_this'
+      },
+      siteUrl: 'http://dummyuri',
+      functionAppUrl: '=http://dummyuri',
+      ignoreUseAutomatedService: true,
+      placeApi: { url: 'http://dummyuri' },
+      agol: {
+        clientId: 'TEST_AGOL_CLIENT_ID',
+        clientSecret: 'TEST_AGOL_CLIENT_SECRET'
+      }
+    }
+    Code.expect(config).to.equal(expectedConfig)
+  })
 })
 
 lab.experiment('toBool function', () => {

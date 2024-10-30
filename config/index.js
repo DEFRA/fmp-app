@@ -28,6 +28,10 @@ const config = {
   ignoreUseAutomatedService: toBool(process.env.ignoreUseAutomatedService),
   placeApi: {
     url: process.env.placeApiUrl
+  },
+  agol: {
+    clientId: process.env.agolClientId,
+    clientSecret: process.env.agolClientSecret
   }
 }
 
