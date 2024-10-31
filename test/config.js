@@ -35,7 +35,11 @@ lab.experiment('Ensure config is correct', () => {
       placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
-        clientSecret: 'TEST_AGOL_CLIENT_SECRET'
+        clientSecret: 'TEST_AGOL_CLIENT_SECRET',
+        serviceUrl: 'http://dummyAgolUrl',
+        customerTeamEndPoint: '0',
+        localAuthorityEndPoint: '1',
+        isEnglandEndPoint: '2'
       }
     }
     Code.expect(config).to.equal(expectedConfig)
