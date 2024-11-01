@@ -25,6 +25,14 @@ const aquireToken = async () => {
 
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })
 
+const makePolygonGeometry = (polygon) => {
+  polygon = Array.isArray(polygon) ? polygon : JSON.parse(polygon)
+  return {
+    rings: [polygon],
+    spatialReference: { wkid: 27700 }
+  }
+}
+
 const esriRequest = async (endPoint, geometry, geometryType) => {
   const esriToken = await aquireToken()
 
@@ -40,4 +48,4 @@ const esriRequest = async (endPoint, geometry, geometryType) => {
   return result.features
 }
 
-module.exports = { esriRequest, makePointGeometry }
+module.exports = { esriRequest, makePointGeometry, makePolygonGeometry }

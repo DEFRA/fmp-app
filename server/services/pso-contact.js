@@ -1,39 +1,11 @@
-const { config } = require('../../config')
-const { esriRequest, makePointGeometry } = require('./agol')
+const { getContacts } = require('./agol/getContacts')
 
 const getPsoContacts = async (easting, northing) => {
   try {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-
-    const _response = {}
-
-    const response = await Promise.all([
-      esriRequest(config.agol.customerTeamEndPoint, makePointGeometry(easting, northing), 'esriGeometryPoint')
-        .then((esriResult) => {
-          if (!esriResult || !Array.isArray(esriResult) || esriResult.length === 0 || !esriResult[0].attributes) {
-            throw new Error('Invalid response from AGOL customerTeam request')
-          }
-          const { attributes } = esriResult[0]
-          Object.assign(_response, {
-            EmailAddress: attributes.contact_email,
-            AreaName: attributes.area_name,
-            useAutomatedService: Boolean(attributes.use_automated_service)
-          })
-        }),
-      esriRequest(config.agol.localAuthorityEndPoint, makePointGeometry(easting, northing), 'esriGeometryPoint')
-        .then((esriResult) => {
-          if (!esriResult || !Array.isArray(esriResult) || esriResult.length === 0 || !esriResult[0].attributes) {
-            throw new Error('Invalid response from AGOL localAuthority request')
-          }
-          const { attributes } = esriResult[0]
-          Object.assign(_response, { LocalAuthorities: attributes.authority_name })
-        })
-    ]).then(() => {
-      return _response
-    })
-    return response
+    return await getContacts({ geometryType: 'esriGeometryPoint', x: easting, y: northing })
   } catch (error) {
     console.log('pso-contact', error.message, '\n', error)
     throw new Error('Fetching Pso contacts failed: ', error)
