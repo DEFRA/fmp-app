@@ -117,7 +117,6 @@ module.exports = [
 
           return h.view('confirm-location', model)
         } catch (err) {
-          console.error(JSON.stringify(err))
           if (err instanceof NotEnglandError) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)

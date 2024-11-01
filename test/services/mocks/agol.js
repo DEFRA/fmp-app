@@ -3,7 +3,8 @@ const restoreEsriRequest = agol.esriRequest
 
 const mockEsriRequest = (result = [{}]) => {
   delete require.cache[require.resolve('../../../server/services/is-england')]
-  agol.esriRequest = agol.esriRequest = async () => ([{}])
+  delete require.cache[require.resolve('../../../server/services/pso-contact')]
+  agol.esriRequest = agol.esriRequest = async () => (result)
 }
 
 const stopMockingEsriRequests = () => {

@@ -2,20 +2,31 @@ require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
-const { method: getPsoContacts } = require('../../server/services/pso-contact')
 const { config } = require('../../config')
 const util = require('../../server/util')
+const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
 
 lab.experiment('pso-contact', () => {
   let restoreUtilGetJson
-
+  let getPsoContacts
   lab.before(async () => {
+    mockEsriRequest([{
+      attributes: {
+        authority_name: 'Ryedale',
+        contact_email: 'neyorkshire@environment-agency.gov.uk',
+        area_name: 'Environment Agency team in Yorkshire',
+        use_automated_service: true
+      }
+    }])
+    const { method: _getPsoContacts } = require('../../server/services/pso-contact')
+    getPsoContacts = _getPsoContacts
     restoreUtilGetJson = util.getJson
     util.getJson = (url) => ({ url })
   })
 
   lab.after(async () => {
     util.getJson = restoreUtilGetJson
+    stopMockingEsriRequests()
   })
 
   lab.test('getPsoContacts should throw an exception if easting and northing are not set', async () => {

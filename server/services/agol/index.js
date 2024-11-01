@@ -26,7 +26,6 @@ const aquireToken = async () => {
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })
 
 const esriRequest = async (endPoint, geometry, geometryType) => {
-  console.log('*****************esriRequest-called***************')
   const esriToken = await aquireToken()
 
   const result = await queryFeatures({
