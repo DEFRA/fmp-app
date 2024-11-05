@@ -1,7 +1,5 @@
 const Boom = require('@hapi/boom')
 const Joi = require('joi')
-const riskService = require('../services/risk')
-const util = require('../util')
 const FloodRiskView = require('../models/flood-risk-view')
 const {
   polygonToArray,
@@ -83,13 +81,9 @@ module.exports = [
           ) {
             useAutomatedService = psoResults.useAutomatedService
           }
-          const surfaceWaterResults =
-            await request.server.methods.getFloodZonesByPolygon(polygon)
+          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
 
-          const geoJson = util.convertToGeoJson(polygon)
-
-          const risk = await riskService.getByPolygon(geoJson)
-          if (!risk.in_england && !risk.point_in_england) {
+          if (!floodZoneResults.in_england && !floodZoneResults.point_in_england) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           } else {
@@ -97,7 +91,6 @@ module.exports = [
             const floodZoneResultsData = new FloodRiskView.Model({
               psoEmailAddress: psoResults.EmailAddress || undefined,
               areaName: punctuateAreaName(psoResults.AreaName) || undefined,
-              risk,
               center,
               polygon,
               location,
@@ -105,7 +98,7 @@ module.exports = [
               useAutomatedService,
               plotSize,
               localAuthorities: psoResults.LocalAuthorities || '',
-              surfaceWaterResults
+              floodZoneResults
             })
             return h
               .view('flood-zone-results', floodZoneResultsData)

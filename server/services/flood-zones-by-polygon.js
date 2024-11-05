@@ -6,7 +6,10 @@ const getFloodZonesByPolygon = (polygon) => {
   try {
     const geoJsonPolygon = util.convertToGeoJson(polygon)
     const myurl = url + geoJsonPolygon
-    return util.getJson(myurl).then((result) => result)
+    return util.getJson(myurl).then((result) => {
+      console.log('getFloodZonesByPolygon result', result)
+      return result
+    })
   } catch (error) {
     throw new Error('Fetching Pso contacts by polygon failed: ', error)
   }

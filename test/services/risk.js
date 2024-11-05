@@ -11,7 +11,7 @@ lab.experiment('risk', () => {
 
   lab.before(async () => {
     restoreGetJson = util.getJson
-    util.getJson = (url) => url
+    util.getJson = async (url) => url
   })
 
   lab.after(async () => {
