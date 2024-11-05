@@ -37,9 +37,10 @@ lab.experiment('Ensure config is correct', () => {
         clientId: 'TEST_AGOL_CLIENT_ID',
         clientSecret: 'TEST_AGOL_CLIENT_SECRET',
         serviceUrl: 'http://dummyAgolUrl',
-        customerTeamEndPoint: '0',
-        localAuthorityEndPoint: '1',
-        isEnglandEndPoint: '2'
+        customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
+        localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
+        isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
+        floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0'
       }
     }
     Code.expect(config).to.equal(expectedConfig)
