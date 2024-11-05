@@ -3,6 +3,9 @@ const { config } = require('../../config')
 const url = config.service + '/flood-zones-by-polygon?polygon='
 
 const getFloodZonesByPolygon = (polygon) => {
+  if (!polygon) {
+    throw new Error('No Polygon provided')
+  }
   try {
     const geoJsonPolygon = util.convertToGeoJson(polygon)
     const myurl = url + geoJsonPolygon

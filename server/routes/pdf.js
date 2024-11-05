@@ -3,9 +3,7 @@ const Boom = require('@hapi/boom')
 const Wreck = require('@hapi/wreck')
 const moment = require('moment-timezone')
 const { config } = require('../../config')
-const riskService = require('../services/risk')
 const FloodZone = require('../models/flood-zone')
-const util = require('../util')
 const { osMapsUrl, osMapsKey } = config.ordnanceSurvey
 
 module.exports = {
@@ -30,7 +28,7 @@ module.exports = {
       let vector
 
       // Always get Flood zone as flood zone is provided in the request if not provided.
-      zone = await riskService.getByPolygon(util.convertToGeoJson(polygon))
+      zone = await request.server.methods.getFloodZonesByPolygon(polygon)
       const floodZone = new FloodZone(zone)
       zone = floodZone.zone
 
