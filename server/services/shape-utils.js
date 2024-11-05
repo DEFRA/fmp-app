@@ -61,4 +61,31 @@ const buffPolygon = (polygon) => {
   ]
 }
 
-module.exports = { getArea, getAreaInHectares, polygonToArray, buffPolygon, polygonStartEnd }
+const getExtents = (polygon) => {
+  polygon = polygonToArray(polygon)
+  if (!polygon || polygon.length === 0) {
+    return {
+      height: undefined,
+      width: undefined
+    }
+  }
+
+  const minmax = polygon.reduce((minmax, [x, y]) => {
+    minmax.x.min = Math.min(minmax.x.min, x)
+    minmax.y.min = Math.min(minmax.y.min, y)
+    minmax.x.max = Math.max(minmax.x.max, x)
+    minmax.y.max = Math.max(minmax.y.max, y)
+    return minmax
+  }, {
+    x: { min: 99999999, max: 0 },
+    y: { min: 99999999, max: 0 }
+  })
+
+  const extents = {
+    height: minmax.y.max - minmax.y.min,
+    width: minmax.x.max - minmax.x.min
+  }
+  return extents
+}
+
+module.exports = { getArea, getAreaInHectares, polygonToArray, buffPolygon, polygonStartEnd, getExtents }
