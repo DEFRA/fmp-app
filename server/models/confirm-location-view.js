@@ -11,6 +11,7 @@ function ConfirmLocationViewModel ({
   locationDetails,
   contactDetails = {},
   polygonMissing = false,
+  polygonTooLarge = false,
   analyticsPageEvent = {}
 }) {
   const { AreaName, EmailAddress } = contactDetails
@@ -26,6 +27,7 @@ function ConfirmLocationViewModel ({
   this.areaName = punctuateAreaName(AreaName)
   this.psoEmailAddress = EmailAddress
   this.polygonMissing = polygonMissing
+  this.polygonTooLarge = polygonTooLarge
   this.analyticsPageEvent = JSON.stringify(analyticsPageEvent)
 }
 

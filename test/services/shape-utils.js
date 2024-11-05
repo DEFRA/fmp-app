@@ -96,7 +96,7 @@ lab.experiment('shape-utils = getExtents', () => {
   polygonsToTest.forEach(([polygonString, _expectedSqMeters, _expectedHectares, expectedExtents]) => {
     // const polygon = polygonString ? JSON.parse(polygonString) : undefined
     const [expectedWidth, expectedHeight] = expectedExtents || [undefined, undefined]
-    lab.test.only(`getExtents(${polygonString}) should return {width: ${expectedWidth}, height: ${expectedHeight}}`,
+    lab.test(`getExtents(${polygonString}) should return {width: ${expectedWidth}, height: ${expectedHeight}}`,
       async () => {
         Code.expect(getExtents(polygonString)).to.equal({ width: expectedWidth, height: expectedHeight })
       }

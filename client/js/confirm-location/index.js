@@ -297,6 +297,10 @@ function ConfirmLocationPage (options) {
       const url = getTargetUrl(featureMode, polygon, point, location)
       if (!polygon) {
         mapState.removeItem('polygon')
+      } else {
+        const geometry = polygon.getGeometry()
+        const polygonString = JSON.stringify(geometry.getCoordinates()[0])
+        mapState.setItem('polygon', polygonString)
       }
       $continueBtn.attr('href', url)
     }

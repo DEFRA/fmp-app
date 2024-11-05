@@ -82,6 +82,7 @@ module.exports = [
             placeOrPostcode,
             nationalGridReference,
             polygonMissing,
+            polygonTooLarge,
             recipientemail = ' ',
             fullName = ' '
           } = request.query
@@ -118,6 +119,7 @@ module.exports = [
             locationDetails,
             contactDetails,
             polygonMissing: Boolean(polygonMissing),
+            polygonTooLarge: Boolean(polygonTooLarge),
             analyticsPageEvent: getAnalyticsPageEvent(request.query)
           })
 
@@ -146,6 +148,7 @@ module.exports = [
           fullName: Joi.string(),
           locationDetails: Joi.string(),
           polygonMissing: Joi.boolean(),
+          polygonTooLarge: Joi.boolean(),
           isPostCode: Joi.boolean()
         })
       }

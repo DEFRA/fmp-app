@@ -7,7 +7,8 @@ const {
   polygonToArray,
   getAreaInHectares,
   getArea,
-  buffPolygon
+  buffPolygon,
+  getExtents
 } = require('../services/shape-utils')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
 const config = require('../../config')
@@ -18,6 +19,9 @@ const missingPolygonRedirect = (request, h, easting, northing, location) => {
     if (referer) {
       const url = new URL(referer)
       if (url.pathname === '/confirm-location') {
+        if (url.searchParams.get('polygonTooLarge')) {
+          url.searchParams.delete('polygonTooLarge')
+        }
         url.searchParams.append('polygonMissing', true)
         return h.redirect(`${url.pathname}${url.search}`)
       }
@@ -59,21 +63,21 @@ module.exports = [
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = polygonToArray(request.query.polygon)
-          const center = request.query.center
-            ? JSON.parse(request.query.center)
-            : undefined
+          const center = request.query.center ? JSON.parse(request.query.center) : undefined
+          const easting = request.query.easting ? encodeURIComponent(request.query.easting) : center[0]
+          const northing = request.query.northing ? encodeURIComponent(request.query.northing) : center[1]
+
           if (!polygon) {
-            return missingPolygonRedirect(
-              request,
-              h,
-              encodeURIComponent(request.query.easting),
-              encodeURIComponent(request.query.northing),
-              location
-            )
+            return missingPolygonRedirect(request, h, easting, northing, location)
           }
           const plotSizeMeters = getArea(polygon)
           if (plotSizeMeters === 0) {
             return zeroAreaPolygonRedirect(h, polygon, center, location)
+          }
+          const { width, height } = getExtents(polygon)
+          if (width > 1750 || height > 2000) {
+            const queryString = `easting=${easting}&northing=${northing}&placeOrPostcode=${location}&polygon=${request.query.polygon}&polygonTooLarge=true`
+            return h.redirect('/confirm-location?' + queryString)
           }
 
           const psoResults =

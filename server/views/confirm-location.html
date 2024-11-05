@@ -2,7 +2,7 @@
   {% from "button/macro.njk" import govukButton %} 
   {% from "error-summary/macro.njk" import govukErrorSummary %} 
   {% block pageTitle %}
-    {% if polygonMissing %} 
+    {% if polygonMissing or polygonTooLarge %}
       Error: Draw the boundary of your site - Flood map for planning - GOV.UK 
     {% else %} 
       Draw the boundary of your site - Flood map for planning - GOV.UK 
@@ -42,6 +42,16 @@
             href: '#boundary-error' }] 
           }) 
         }} 
+        {% endif %}
+        {% if polygonTooLarge %} {{
+          govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [{ text:
+              "The boundary of your site must be less than 1750m wide and 2000m high.
+              Click 'How to draw a boundary' if you need help.",
+            href: '#boundary-error' }]
+          })
+        }}
         {% endif %}
   
       <p class="govuk-body" data-needs-boundary>
@@ -108,6 +118,13 @@
         <p id="boundary-error" class="govuk-error-message">
           <span class="govuk-visually-hidden">Error:</span>
           You need to draw the boundary of your site on the map. Click ‘How to
+          draw a boundary' if you need help.
+        </p>
+        {% endif %}
+        {% if polygonTooLarge %}
+        <p id="boundary-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span>
+          "The boundary of your site must be less than 1750m wide and 2000m high. Click ‘How to
           draw a boundary' if you need help.
         </p>
         {% endif %}
