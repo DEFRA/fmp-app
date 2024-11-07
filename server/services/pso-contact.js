@@ -1,28 +1,13 @@
-const util = require('../util')
-const { config } = require('../../config')
-const url = config.service + '/get-pso-contacts/'
+const { getContacts } = require('./agol/getContacts')
 
-const getPsoContacts = (easting, northing) => {
+const getPsoContacts = async (easting, northing) => {
   try {
     if (!easting || !northing) {
       throw new Error('No point provided')
     }
-
-    return util.getJson(url + easting + '/' + northing).then((result) => {
-      const {
-        emailaddress: EmailAddress,
-        areaname: AreaName,
-        localauthority: LocalAuthorities,
-        useautomatedservice: useAutomatedService
-      } = result
-      return {
-        EmailAddress,
-        AreaName,
-        LocalAuthorities,
-        useAutomatedService
-      }
-    })
+    return await getContacts({ geometryType: 'esriGeometryPoint', x: easting, y: northing })
   } catch (error) {
+    console.log('pso-contact', error.message, '\n', error)
     throw new Error('Fetching Pso contacts failed: ', error)
   }
 }

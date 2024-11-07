@@ -2,20 +2,25 @@ require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
-const { method: getPsoContacts } = require('../../server/services/pso-contact')
-const { config } = require('../../config')
-const util = require('../../server/util')
+const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
 
 lab.experiment('pso-contact', () => {
-  let restoreUtilGetJson
-
+  let getPsoContacts
   lab.before(async () => {
-    restoreUtilGetJson = util.getJson
-    util.getJson = (url) => ({ url })
+    mockEsriRequest([{
+      attributes: {
+        authority_name: 'Ryedale',
+        contact_email: 'neyorkshire@environment-agency.gov.uk',
+        area_name: 'Environment Agency team in Yorkshire',
+        use_automated_service: true
+      }
+    }])
+    const { method: _getPsoContacts } = require('../../server/services/pso-contact')
+    getPsoContacts = _getPsoContacts
   })
 
   lab.after(async () => {
-    util.getJson = restoreUtilGetJson
+    stopMockingEsriRequests()
   })
 
   lab.test('getPsoContacts should throw an exception if easting and northing are not set', async () => {
@@ -43,20 +48,6 @@ lab.experiment('pso-contact', () => {
   })
 
   lab.test('getPsoContacts should post to config.functionAppUrl/pso/contacts if data passed is valid', async () => {
-    util.getJson = async (url) => {
-      try {
-        Code.expect(url).to.equal(config.service + '/get-pso-contacts/10000/20000')
-        return {
-          emailaddress: 'neyorkshire@environment-agency.gov.uk',
-          areaname: 'Environment Agency team in Yorkshire',
-          localauthority: 'Ryedale',
-          useautomatedservice: true
-        }
-      } catch (assertError) {
-        console.log('assertError failed', assertError)
-        throw assertError
-      }
-    }
     try {
       const psoContactDetails = await getPsoContacts(10000, 20000)
       Code.expect(psoContactDetails).to.equal({

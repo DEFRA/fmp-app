@@ -33,7 +33,15 @@ const schema = Joi.object({
   ignoreUseAutomatedService: Joi.boolean().strict(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
-  })
+  }),
+  agol: {
+    clientId: Joi.string().required(),
+    clientSecret: Joi.string().required(),
+    serviceUrl: Joi.string().uri().required(),
+    customerTeamEndPoint: Joi.string().required(),
+    localAuthorityEndPoint: Joi.string().required(),
+    isEnglandEndPoint: Joi.string().required()
+  }
 })
 
 const validateSchema = (config) => {
@@ -42,7 +50,6 @@ const validateSchema = (config) => {
   if (error) {
     throw new Error(`The server config is invalid. ${error.message}`)
   }
-
   return value
 }
 
