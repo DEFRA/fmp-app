@@ -63,48 +63,35 @@ module.exports = [
             return zeroAreaPolygonRedirect(h, polygon, center, location)
           }
 
-          const psoResults =
-            await request.server.methods.getPsoContactsByPolygon(polygon)
+          const contactDetails = await request.server.methods.getPsoContactsByPolygon(polygon)
 
-          if (
-            !psoResults.EmailAddress ||
-            !psoResults.AreaName ||
-            !psoResults.LocalAuthorities
-          ) {
+          if (!contactDetails.isEngland) {
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           }
-          if (
-            psoResults &&
-            psoResults.useAutomatedService !== undefined &&
-            !request.server.methods.ignoreUseAutomatedService()
-          ) {
-            useAutomatedService = psoResults.useAutomatedService
+          if (!request.server.methods.ignoreUseAutomatedService()) {
+            useAutomatedService = contactDetails.useAutomatedService
           }
           const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
 
-          if (!floodZoneResults.in_england && !floodZoneResults.point_in_england) {
-            const queryString = new URLSearchParams(request.query).toString()
-            return h.redirect('/england-only?' + queryString)
-          } else {
-            const plotSize = getAreaInHectares(polygon)
-            const floodZoneResultsData = new FloodRiskView.Model({
-              psoEmailAddress: psoResults.EmailAddress || undefined,
-              areaName: punctuateAreaName(psoResults.AreaName) || undefined,
-              center,
-              polygon,
-              location,
-              placeOrPostcode,
-              useAutomatedService,
-              plotSize,
-              localAuthorities: psoResults.LocalAuthorities || '',
-              floodZoneResults
-            })
-            return h
-              .view('flood-zone-results', floodZoneResultsData)
-              .unstate('pdf-download')
-          }
+          const plotSize = getAreaInHectares(polygon)
+          const floodZoneResultsData = new FloodRiskView.Model({
+            psoEmailAddress: contactDetails.EmailAddress || undefined,
+            areaName: punctuateAreaName(contactDetails.AreaName) || undefined,
+            center,
+            polygon,
+            location,
+            placeOrPostcode,
+            useAutomatedService,
+            plotSize,
+            localAuthorities: contactDetails.LocalAuthorities || '',
+            floodZoneResults
+          })
+          return h
+            .view('flood-zone-results', floodZoneResultsData)
+            .unstate('pdf-download')
         } catch (err) {
+          console.log('Error in flood zone results', err.message)
           return Boom.badImplementation(err.message, err)
         }
       },

@@ -29,7 +29,7 @@ lab.experiment('pso-contact-by-polygon', () => {
 
   lab.test('pso-contact-by-polygon getPsoContactsByPolygon should throw if invalid result returned', async () => {
     const assertions = Code.count()
-    const getPsoContactsByPolygon = psoContactByPolygonExport.method
+    const getPsoContactsByPolygon = server.methods.getPsoContactsByPolygon // psoContactByPolygonExport.method
     try {
       mockEsriRequest('invalid response')
       await getPsoContactsByPolygon([[1, 2], [3, 4]])

@@ -35,16 +35,17 @@ const makePolygonGeometry = (polygon) => {
 
 const esriRequest = async (endPoint, geometry, geometryType) => {
   const esriToken = await aquireToken()
-
-  const result = await queryFeatures({
-    url: `${config.agol.serviceUrl}/${endPoint}`,
+  const requestObject = {
+    url: `${config.agol.serviceUrl}${endPoint}`,
     geometry,
     geometryType,
     spatialRel: 'esriSpatialRelIntersects',
     returnGeometry: 'false',
     authentication: esriToken,
     outFields: '*'
-  })
+  }
+  // console.dir(requestObject, { depth: null })
+  const result = await queryFeatures(requestObject)
   return result.features
 }
 
