@@ -21,6 +21,7 @@
     "unit-test": "lab --verbose -l -c -r console -o stdout -r lcov -o lcov.info",
     "unit-test-quiet": "lab -l -s",
     "test": "npm run lint && npm run unit-test",
+    "test-bail": "lab -l --bail",
     "postinstall": "npm run build",
     "kill": "sudo kill -9 $(sudo lsof -t -i:3000)",
     "increment-version": "npm version prerelease --preid=pre -m \"Set Version to %s\"",

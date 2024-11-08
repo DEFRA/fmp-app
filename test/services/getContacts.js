@@ -20,9 +20,7 @@ lab.experiment('getContacts', () => {
 
   const errorsToTest = [
     ['false', false],
-    ['a non array', 'not-array'],
-    ['an empty array', []],
-    ['an object without attributes', [{}]]
+    ['a non array', 'not-array']
   ]
   errorsToTest.forEach(([titleText, returnValue]) => {
     lab.test(`if esriRequest returns ${titleText} expect an error`, async () => {

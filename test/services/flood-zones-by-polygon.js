@@ -2,24 +2,32 @@ require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
+const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
 const createServer = require('../../server')
-const util = require('../../server/util')
-const { config } = require('../../config')
 
 lab.experiment('getFloodZonesByPolygon', () => {
-  let restoreGetJson
   let server
 
   lab.before(async () => {
+    mockEsriRequest([{
+      attributes: {
+        OBJECTID: 150662,
+        origin: 'modelled and recorded',
+        flood_zone: 'FZ3',
+        asset_state: 'defended & undefended',
+        flood_source: 'river',
+        flood_source_and_state: 'river-undefended-modelled_river-defended-modelled_recorded',
+        Shape__Area: 108075.19142150879,
+        Shape__Length: 5098.461924182072
+      }
+    }])
     server = await createServer()
     await server.initialize()
-    restoreGetJson = util.getJson
-    util.getJson = async (url) => url
   })
 
   lab.after(async () => {
-    util.getJson = restoreGetJson
     await server.stop()
+    stopMockingEsriRequests()
   })
 
   lab.test('getFloodZonesByPolygon without polygon should throw "No Polygon provided"', async () => {
@@ -27,17 +35,20 @@ lab.experiment('getFloodZonesByPolygon', () => {
       const response = await server.methods.getFloodZonesByPolygon('')
       Code.expect(response).to.equal('this line should not be reached')
     } catch (err) {
-      Code.expect(err.message).to.equal('No Polygon provided')
+      Code.expect(err.message).to.equal('getFloodZonesByPolygon - No Polygon provided')
     }
   })
 
-  lab.test('getFloodZonesByPolygon with northing and easting should call util.getJson"', async () => {
-    // Question - unless i am mistaken, calls to zones-by-polygon instigated by
-    // fmp-app seem to pass in the polygon as a json object (as per the line below 'const polygon = ...')
-    // however the fmp-service test code implies that polygon=[[400000, 600000]] is expected i.e an array of coordinates
+  lab.test('getFloodZonesByPolygon should return data as expected', async () => {
     const polygon = '[[123,456],[125,457],[125,456],[123,456]]'
-    const expectedPolygonInUrl = `{"type": "Polygon", "coordinates": [${polygon}]}`
     const response = await server.methods.getFloodZonesByPolygon(polygon)
-    Code.expect(response).to.equal(`${config.service}/flood-zones-by-polygon?polygon=${expectedPolygonInUrl}`)
+    Code.expect(response).to.equal({
+      in_england: true,
+      floodzone_2: false,
+      floodzone_3: true,
+      reduction_in_rofrs: false,
+      surface_water: false,
+      extra_info: null
+    })
   })
 })

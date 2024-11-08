@@ -17,6 +17,7 @@ lab.experiment('flood-zone-results', () => {
   const LocalAuthorities = 'Ryedale'
 
   const optInPSOContactResponse = {
+    isEngland: true,
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
     useAutomatedService: true,
@@ -24,6 +25,7 @@ lab.experiment('flood-zone-results', () => {
   }
 
   const optOutPSOContactResponse = {
+    isEngland: true,
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
     useAutomatedService: false,
@@ -92,15 +94,9 @@ lab.experiment('flood-zone-results', () => {
   lab.test(
     'get flood-zone-results with a valid polygon should succeed',
     async () => {
-      const options = {
-        method: 'GET',
-        url: fzrUrl
-      }
-
-      server.methods.getPsoContactsByPolygon = async () =>
-        optInPSOContactResponse
+      server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
       server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
-      const response = await server.inject(options)
+      const response = await server.inject({ method: 'GET', url: fzrUrl })
       const { payload } = response
       Code.expect(response.statusCode).to.equal(200)
       // FCRM 3594
@@ -224,16 +220,13 @@ lab.experiment('flood-zone-results', () => {
   lab.test(
     'get flood-zone-results with valid polygon parameters and psoContactResponse should succeed',
     async () => {
-      const options = {
-        method: 'GET',
-        url: fzrUrl
-      }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: true,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities
       })
-      const response = await server.inject(options)
+      const response = await server.inject({ method: 'GET', url: fzrUrl })
       Code.expect(response.statusCode).to.equal(200)
     }
   )
@@ -268,6 +261,7 @@ lab.experiment('flood-zone-results', () => {
     async () => {
       const options = { method: 'GET', url: fzrUrl }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: false,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire'
       })
@@ -287,6 +281,7 @@ lab.experiment('flood-zone-results', () => {
     async () => {
       const options = { method: 'GET', url: fzrUrl }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: true,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities
@@ -306,8 +301,7 @@ lab.experiment('flood-zone-results', () => {
       const url =
         '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
       const options = { method: 'GET', url }
-      server.methods.getPsoContactsByPolygon = async () =>
-        optInPSOContactResponse
+      server.methods.getPsoContactsByPolygon = async () => Object.assign({}, optInPSOContactResponse, { isEngland: false })
       server.methods.getFloodZonesByPolygon = () => ({ in_england: false })
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
@@ -412,8 +406,7 @@ lab.experiment('flood-zone-results', () => {
       const getDocument = async () => {
         const options = { method: 'GET', url: fzrUrl }
         server.methods.getFloodZonesByPolygon = () => getByPolygonResponse
-        server.methods.getPsoContactsByPolygon = async () =>
-          optInPSOContactResponse
+        server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
         const response = await server.inject(options)
         const { payload } = response
         const {
@@ -465,8 +458,7 @@ lab.experiment('flood-zone-results', () => {
         `a flood zone request for ${expectedPolygonString} should not redirect`,
         async () => {
           server.methods.getFloodZonesByPolygon = () => zone1GetByPolygonResponse
-          server.methods.getPsoContactsByPolygon = async () =>
-            optInPSOContactResponse
+          server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
           const options = { method: 'GET', url: fzrBuffedZeroAreaPolygonUrl }
           const response = await server.inject(options)
           Code.expect(response.statusCode).to.equal(200)

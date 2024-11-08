@@ -2,6 +2,7 @@ const { config } = require('../../../config')
 const { esriRequest, makePolygonGeometry } = require('./')
 
 const parseFloodZoneResponse = (response) => {
+  console.log('getFloodZones ezri response', response)
   const results = {
     in_england: response.length > 0,
     floodzone_2: false,
@@ -18,7 +19,7 @@ const parseFloodZoneResponse = (response) => {
       break // We can stop early once we find FZs 2 and 3
     }
   }
-  // console.log('getFloodZones response', results)
+  console.log('getFloodZones response', results)
   return results
 }
 

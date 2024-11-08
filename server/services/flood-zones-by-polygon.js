@@ -7,7 +7,7 @@ const getFloodZonesByPolygon = async (polygon) => {
     return await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
   } catch (error) {
     console.log('caught getFloodZonesByPolygon ERROR', error)
-    throw new Error('Fetching Pso contacts by polygon failed: ', error)
+    throw new Error('Fetching getFloodZonesByPolygon failed: ', error)
   }
 }
 

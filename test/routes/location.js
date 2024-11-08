@@ -14,7 +14,6 @@ lab.experiment('location', () => {
   let restoreFindByPlaceService
 
   lab.before(async () => {
-    console.log('Creating server')
     server = await createServer()
     await server.initialize()
     restoreIsValidNgrService = isValidNgrService.get
@@ -31,7 +30,6 @@ lab.experiment('location', () => {
   })
 
   lab.after(async () => {
-    console.log('Stopping server')
     await server.stop()
     isValidNgrService.get = restoreIsValidNgrService
     addressService.findByPlace = restoreFindByPlaceService
