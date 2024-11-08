@@ -64,7 +64,6 @@ module.exports = [
           }
 
           const contactDetails = await request.server.methods.getPsoContactsByPolygon(polygon)
-          console.log('contactDetails', contactDetails)
 
           if (!contactDetails.isEngland) {
             const queryString = new URLSearchParams(request.query).toString()

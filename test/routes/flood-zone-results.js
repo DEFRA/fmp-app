@@ -38,15 +38,10 @@ lab.experiment('flood-zone-results', () => {
 
   const zone1GetByPolygonResponse = {
     in_england: true,
-    england_error: false,
     floodzone_3: false,
-    floodzone_3_error: false,
     reduction_in_rofrs: false,
-    reduction_in_rofrs_error: false,
     floodzone_2: false,
-    floodzone_2_error: false,
     surface_water: true,
-    surface_water_error: false,
     extra_info: null
   }
 
@@ -128,15 +123,10 @@ lab.experiment('flood-zone-results', () => {
         areaName: 'Yorkshire',
         floodZoneResults: {
           in_england: true,
-          england_error: false,
           floodzone_3: false,
-          floodzone_3_error: false,
           reduction_in_rofrs: false,
-          reduction_in_rofrs_error: false,
           floodzone_2: false,
-          floodzone_2_error: false,
           surface_water: true,
-          surface_water_error: false,
           extra_info: null
         },
         center: [479472, 484194],
