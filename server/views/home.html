@@ -9,29 +9,69 @@ Flood map for planning - GOV.UK
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>
-    <p>
-      For general flood information, including local flood warnings you can 
-     <a class="govuk-link" href="https://www.gov.uk/check-flood-risk" data-journey-click="Home-Page:External-Link:Check-For-Flooding">check for flooding</a>.
+
+    <p class="govuk-body">
+      Use this service to get flood risk information for planning applications (also known as
+      planning permission).
     </p>
 
-    <div class="govuk-inset-text blue-inset">
-      You can now use this service to request flood risk assessment data for planning (also known as a product 4).
-    </div>
-
-    <p class="govuk-body">Use this service for locations in England to:</p>
+    <p class="govuk-body">You can use this service to:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>find out if you need a flood risk assessment as part of a planning application (sometimes known as planning
-        permission)
+      <li>find out if you need a flood risk assessment as part of a planning application </li>
+      <li>download a printable flood map for planning </li>
+      <li>request data for a flood risk assessment </li>
+    </ul>
+
+    <p class="govuk-body">Do not use this service if you are:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li> buying, selling or valuing a property. Go to
+        <br />
+        <a
+          href="https://www.gov.uk/check-long-term-flood-risk"
+          class="govuk-link govuk-!-font-weight-bold"
+          data-journey-click="Home-Page:External-Link:Check-Long-Term-Flood-Risk"
+        > check your long term flood risk for an area in England </a>
       </li>
-      <li>download a printable flood map for planning (PDF) showing your flood zone (also known as a product 1)</li>
-      <li>request flood risk assessment data (also known as a product 4)</li>
+      <li>checking if a location has flooded in the past. Go to
+        <br />
+        <a
+          href="https://www.gov.uk/request-flooding-history"
+          class="govuk-link govuk-!-font-weight-bold"
+          data-journey-click="Home-Page:External-Link:Request-Flooding-History"
+        > request a flood history report </a> 
+      </li>
+      <li> getting insurance. Go to
+        <br />
+        <a
+        href="https://www.gov.uk/prepare-for-flooding/get-insurance"
+        class="govuk-link govuk-!-font-weight-bold"
+        data-journey-click="Home-Page:External-Link:Prepare-For-Flooding-Get-Insurance"
+      > prepare for flooding: get insurance </a>
+      </li>
     </ul>
 
     <p class="govuk-body">
-      <a class="govuk-link" href="england-only" data-journey-click="Home-Page:Internal-Link:Not-England">Get flood risk information for Wales, Scotland or Northern
-        Ireland</a>.
-      <p>
+      Get flood risk information for
+      <a
+        href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area"
+        class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Northern-Ireland"
+        >Northern Ireland</a>,
+      <a
+        href="http://www.sepa.org.uk/environment/water/flooding"
+        class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Scotland">
+        Scotland</a>,
+      <a
+        href="https://naturalresources.wales"
+        class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Wales">
+        Wales</a>.
+    </p>
 
         <a href="location" role="button" draggable="false"
           class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
@@ -66,7 +106,7 @@ Flood map for planning - GOV.UK
         </ul>
 
         <p class="govuk-body">
-          <a 
+          <a
             href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment"
             data-journey-click="Home-Page:External-Link:Find-Out-More-About-FRA-for-Planning"
           >
@@ -93,46 +133,6 @@ Flood map for planning - GOV.UK
             <a
             href="https://www.gov.uk/call-charges">Find out about call charges</a>
        </p>
-
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-
-    <!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
-
-    {# <aside class="app-related-items" role="complementary">
-          <h2 class="govuk-heading-m" id="subsection-title">
-            Related content
-          </h2>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="govuk-list govuk-!-font-size-16">
-              <li>
-                <a class="govuk-link" href="https://flood-warning-information.service.gov.uk/warnings"
-                data-journey-click="Home-Page:External-Link:Check-Immediate-Risk"
-                >
-                  Check your immediate flood risk
-                </a>
-              </li>
-              <li>
-                <a class="govuk-link" 
-                  href="https://flood-warning-information.service.gov.uk/5-day-flood-risk?_ga=2.203237463.77474540.1572345023-902236253.1554453719&_gac=1.158934600.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE"
-                  data-journey-click="Home-Page:External-Link:Check-5-Day-Flood-Risk"
-                  >
-                  Check your flood risk for the next 5 days
-                </a>
-              </li>
-              <li>
-                <a href="https://flood-warning-information.service.gov.uk/long-term-flood-risk?_ga=2.127667275.77474540.1572345023-902236253.1554453719&_gac=1.124390008.1570532269.CjwKCAjw5_DsBRBPEiwAIEDRW7EfP37Wg2AzLlBkZNTpdinb3-amc1875cjdwiLaU-qXZCN8vsz9VhoC2QUQAvD_BwE" class="govuk-link govuk-!-font-weight-bold"
-                data-journey-click="Home-Page:External-Link:Check-Long-Term-Flood-Risk"
-                >
-                  Check your long-term flood risk
-                </a>
-              </li>
-              <li><a href="https://www.planningportal.co.uk/" class="govuk-link govuk-!-font-weight-bold">Planning portal </a></li>
-            </ul>
-          </nav>
-        </aside> #}
-
   </div>
 </div>
 
