@@ -4,7 +4,6 @@ const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
-// server/services/agol/index.js missing coverage on line(s): 9, 10, 14, 15, 19-21, 23, 37, 38, 48, 49
 
 lab.experiment('agol.js', () => {
   let agol
