@@ -2,7 +2,7 @@ require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
-const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
+const { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests } = require('./mocks/agol')
 const createServer = require('../../server')
 
 lab.experiment('getFloodZonesByPolygon', () => {
@@ -50,5 +50,16 @@ lab.experiment('getFloodZonesByPolygon', () => {
       surface_water: false,
       extra_info: null
     })
+  })
+
+  lab.test('getFloodZonesByPolygon without polygon should throw "No Polygon provided"', async () => {
+    try {
+      mockEsriRequestWithThrow()
+      const { method: getFloodZonesByPolygon } = require('../../server/services/flood-zones-by-polygon')
+      await getFloodZonesByPolygon('[[123,456],[125,457],[125,456],[123,456]]')
+      Code.expect('').to.equal('this line should not be reached')
+    } catch (err) {
+      Code.expect(err.message).to.equal('Fetching getFloodZonesByPolygon failed: ')
+    }
   })
 })
