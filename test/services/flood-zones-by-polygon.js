@@ -8,19 +8,33 @@ const createServer = require('../../server')
 lab.experiment('getFloodZonesByPolygon', () => {
   let server
 
+  const fz2Area = {
+    attributes: {
+      OBJECTID: 150662,
+      origin: 'modelled and recorded',
+      flood_zone: 'FZ2',
+      asset_state: 'defended & undefended',
+      flood_source: 'river',
+      flood_source_and_state: 'river-undefended-modelled_river-defended-modelled_recorded',
+      Shape__Area: 108075.19142150879,
+      Shape__Length: 5098.461924182072
+    }
+  }
+  const fz3Area = {
+    attributes: {
+      OBJECTID: 150662,
+      origin: 'modelled and recorded',
+      flood_zone: 'FZ3',
+      asset_state: 'defended & undefended',
+      flood_source: 'river',
+      flood_source_and_state: 'river-undefended-modelled_river-defended-modelled_recorded',
+      Shape__Area: 108075.19142150879,
+      Shape__Length: 5098.461924182072
+    }
+  }
+
   lab.before(async () => {
-    mockEsriRequest([{
-      attributes: {
-        OBJECTID: 150662,
-        origin: 'modelled and recorded',
-        flood_zone: 'FZ3',
-        asset_state: 'defended & undefended',
-        flood_source: 'river',
-        flood_source_and_state: 'river-undefended-modelled_river-defended-modelled_recorded',
-        Shape__Area: 108075.19142150879,
-        Shape__Length: 5098.461924182072
-      }
-    }])
+    mockEsriRequest([fz3Area, fz3Area]) // We send two areas so that early exit lines are covered
     server = await createServer()
     await server.initialize()
   })
@@ -39,7 +53,7 @@ lab.experiment('getFloodZonesByPolygon', () => {
     }
   })
 
-  lab.test('getFloodZonesByPolygon should return data as expected', async () => {
+  lab.test('getFloodZonesByPolygon should return data as expected for FZ3 only', async () => {
     const polygon = '[[123,456],[125,457],[125,456],[123,456]]'
     const response = await server.methods.getFloodZonesByPolygon(polygon)
     Code.expect(response).to.equal({
@@ -52,7 +66,35 @@ lab.experiment('getFloodZonesByPolygon', () => {
     })
   })
 
-  lab.test('getFloodZonesByPolygon without polygon should throw "No Polygon provided"', async () => {
+  lab.test('getFloodZonesByPolygon should return data as expected for FZ2 only', async () => {
+    mockEsriRequest([fz2Area, fz2Area]) // We send two areas so that early exit lines are covered
+    const { method: getFloodZonesByPolygon } = require('../../server/services/flood-zones-by-polygon')
+    const response = await await getFloodZonesByPolygon('[[123,456],[125,457],[125,456],[123,456]]')
+    Code.expect(response).to.equal({
+      in_england: true,
+      floodzone_2: true,
+      floodzone_3: false,
+      reduction_in_rofrs: false,
+      surface_water: false,
+      extra_info: null
+    })
+  })
+
+  lab.test('getFloodZonesByPolygon should return data as expected for FZ2 and FZ3', async () => {
+    mockEsriRequest([fz2Area, fz3Area, fz2Area, fz3Area]) // We send multiple areas so that early exit lines are covered
+    const { method: getFloodZonesByPolygon } = require('../../server/services/flood-zones-by-polygon')
+    const response = await await getFloodZonesByPolygon('[[123,456],[125,457],[125,456],[123,456]]')
+    Code.expect(response).to.equal({
+      in_england: true,
+      floodzone_2: true,
+      floodzone_3: true,
+      reduction_in_rofrs: false,
+      surface_water: false,
+      extra_info: null
+    })
+  })
+
+  lab.test('getFloodZonesByPolygon should throw if ezreiRequest throws"', async () => {
     try {
       mockEsriRequestWithThrow()
       const { method: getFloodZonesByPolygon } = require('../../server/services/flood-zones-by-polygon')
