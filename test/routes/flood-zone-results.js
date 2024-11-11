@@ -32,6 +32,14 @@ lab.experiment('flood-zone-results', () => {
     LocalAuthorities
   }
 
+  const emptyPSOContactResponse = {
+    isEngland: true,
+    EmailAddress: '',
+    AreaName: '',
+    LocalAuthorities: '',
+    useAutomatedService: false
+  }
+
   const fzrUrlPolygon =
     '[[479657,484223],[479655,484224],[479730,484210],[479657,484223]]'
   const fzrUrl = `/flood-zone-results?location=Pickering&polygon=${fzrUrlPolygon}&center=[479472,484194]`
@@ -86,22 +94,33 @@ lab.experiment('flood-zone-results', () => {
     await server.stop()
   })
 
-  lab.test(
-    'get flood-zone-results with a valid polygon should succeed',
-    async () => {
-      server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
-      server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
-      const response = await server.inject({ method: 'GET', url: fzrUrl })
-      const { payload } = response
-      Code.expect(response.statusCode).to.equal(200)
-      // FCRM 3594
-      await payloadMatchTest(
-        payload,
-        /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
-        1
-      )
-    }
-  )
+  lab.test('get flood-zone-results with a valid polygon should succeed', async () => {
+    server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+    server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
+    const response = await server.inject({ method: 'GET', url: fzrUrl })
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    // FCRM 3594
+    await payloadMatchTest(
+      payload,
+      /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
+      1
+    )
+  })
+
+  lab.test('get flood-zone-results with a empty contact details should succeed', async () => {
+    server.methods.getPsoContactsByPolygon = async () => emptyPSOContactResponse
+    server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
+    const response = await server.inject({ method: 'GET', url: fzrUrl })
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    // FCRM 3594
+    await payloadMatchTest(
+      payload,
+      /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
+      1
+    )
+  })
 
   lab.test(
     'get flood-zone-results with a valid polygon should call buildFloodZoneResultsData',
@@ -328,6 +347,7 @@ lab.experiment('flood-zone-results', () => {
       }
     }
   ]
+
   bestGuessRedirectTests.forEach(({ testName, requestHeaders }) => {
     lab.test(
       `${testName} should redirect to /confirm-location with best guess url`,
@@ -438,6 +458,7 @@ lab.experiment('flood-zone-results', () => {
   )
 
   let zeroAreaPolygonsTestCount = 0
+
   zeroAreaPolygons.forEach(
     ([zeroAreaPolygon, expectedBuffedPolygon, expectedMinMaxXY]) => {
       const expectedPolygonString = JSON.stringify(expectedBuffedPolygon)
@@ -458,7 +479,27 @@ lab.experiment('flood-zone-results', () => {
     }
   )
 
+  zeroAreaPolygons.forEach(
+    ([zeroAreaPolygon, _expectedBuffedPolygon, expectedMinMaxXY]) => {
+      const zeroAreaPolygonString = JSON.stringify(zeroAreaPolygon)
+      const center = JSON.stringify(expectedMinMaxXY[0])
+      const fzrBuffedZeroAreaPolygonUrl = `/flood-zone-results?polygon=${zeroAreaPolygonString}&center=${center}&location=Pickering`
+
+      lab.test(
+        `a flood zone request for ${zeroAreaPolygonString} should redirect: , ${fzrBuffedZeroAreaPolygonUrl}`,
+        async () => {
+          server.methods.getFloodZonesByPolygon = () => zone1GetByPolygonResponse
+          server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+          const options = { method: 'GET', url: fzrBuffedZeroAreaPolygonUrl }
+          const response = await server.inject(options)
+          Code.expect(response.statusCode).to.equal(302)
+          zeroAreaPolygonsTestCount++
+        }
+      )
+    }
+  )
+
   lab.test('zeroAreaPolygonsTestCount should equal 10', async () => {
-    Code.expect(zeroAreaPolygonsTestCount).to.equal(10)
+    Code.expect(zeroAreaPolygonsTestCount).to.equal(20)
   })
 })
