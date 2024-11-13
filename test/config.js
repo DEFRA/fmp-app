@@ -10,6 +10,7 @@ lab.experiment('Ensure config is correct', () => {
       require('../config')
     }).not.to.throw()
   })
+
   lab.test('test config values', () => {
     const { config } = require('../config')
     const expectedConfig = {
