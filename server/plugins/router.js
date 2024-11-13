@@ -13,6 +13,7 @@ const routes = [].concat(
   require('../routes/os-maps-proxy'),
   require('../routes/feedback'),
   require('../routes/pdf'),
+  require('../routes/product-1'),
   require('../routes/os-terms'),
   require('../routes/error'),
   require('../routes/cookies'),
