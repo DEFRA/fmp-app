@@ -8,8 +8,6 @@ module.exports = {
     description: 'Generate Product 1 PDF',
     handler: async (request, h) => {
       try {
-        // const { referer } = request.headers
-        // console.log('referer', referer)
         const {
           polygon,
           scale = 2500,
