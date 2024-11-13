@@ -4,19 +4,18 @@ function Model (data) {
   const {
     psoEmailAddress,
     areaName,
-    risk,
+    floodZoneResults,
     center,
     polygon,
     location,
     placeOrPostcode,
     useAutomatedService,
     plotSize,
-    localAuthorities,
-    surfaceWaterResults
+    localAuthorities
   } = data
 
   this.localAuthorities = localAuthorities
-  this.surfaceWaterResults = surfaceWaterResults
+  this.surfaceWater = floodZoneResults.surface_water
 
   if (psoEmailAddress) {
     this.psoEmailAddress = psoEmailAddress
@@ -41,7 +40,7 @@ function Model (data) {
   this.easting = center[0]
   this.northing = center[1]
 
-  this.floodZone = new FloodZone(risk)
+  this.floodZone = new FloodZone(floodZoneResults)
   if (this.floodZone.zone === 'FZ1') {
     this.zoneNumber = '1'
   } else if (this.floodZone.zone === 'FZ2') {
@@ -56,10 +55,10 @@ function Model (data) {
     this.zoneNumber = 'not available'
   }
 
-  this.holdingComments = Boolean(risk.extra_info)
+  this.holdingComments = Boolean(floodZoneResults.extra_info)
 
   // Provide test data for e2e tests
-  this.riskJSON = JSON.stringify(risk)
+  this.riskJSON = JSON.stringify(floodZoneResults)
   // Add a requestP1 event object
   // <div class="hide" data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
   this.analyticsRequestProduct1Event = JSON.stringify({

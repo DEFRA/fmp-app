@@ -3,7 +3,6 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
-const riskService = require('../../server/services/risk')
 const Wreck = require('@hapi/wreck')
 const { config } = require('../../config')
 
@@ -13,18 +12,15 @@ lab.experiment('PDF', () => {
   let restoreWreckPost
 
   lab.before(async () => {
-    restoreGetByPolygon = riskService.getByPolygon
-
-    riskService.getByPolygon = () => ({ in_england: true })
-    riskService.getByPoint = () => ({ point_in_england: true })
-
-    restoreWreckPost = Wreck.post
     server = await createServer()
     await server.initialize()
+    restoreGetByPolygon = server.methods.getFloodZonesByPolygon
+    server.methods.getFloodZonesByPolygon = async () => ({ in_england: true })
+    restoreWreckPost = Wreck.post
   })
 
   lab.after(async () => {
-    riskService.getByPolygon = restoreGetByPolygon
+    server.methods.getFloodZonesByPolygon = restoreGetByPolygon
     Wreck.post = restoreWreckPost
     await server.stop()
   })

@@ -35,7 +35,8 @@ const config = {
     serviceUrl: process.env.agolServiceUrl,
     customerTeamEndPoint: process.env.agolCustomerTeamEndPoint,
     localAuthorityEndPoint: process.env.agolLocalAuthorityEndPoint,
-    isEnglandEndPoint: process.env.agolIsEnglandEndPoint
+    isEnglandEndPoint: process.env.agolIsEnglandEndPoint,
+    floodZonesRiversAndSeaEndPoint: process.env.agolFloodZonesRiversAndSeaEndPoint
   }
 }
 

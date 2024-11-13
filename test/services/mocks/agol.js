@@ -1,15 +1,27 @@
 const agol = require('../../../server/services/agol')
 const restoreEsriRequest = agol.esriRequest
 
-const mockEsriRequest = (result = [{}]) => {
+const clearCaches = () => {
   delete require.cache[require.resolve('../../../server/services/is-england')]
   delete require.cache[require.resolve('../../../server/services/pso-contact')]
   delete require.cache[require.resolve('../../../server/services/agol/getContacts')]
-  agol.esriRequest = agol.esriRequest = async () => (result)
+  delete require.cache[require.resolve('../../../server/services/agol/getFloodZones')]
+  delete require.cache[require.resolve('../../../server/services/flood-zones-by-polygon.js')]
+  delete require.cache[require.resolve('../../../server/services/pso-contact-by-polygon.js')]
+}
+
+const mockEsriRequest = (result = [{}]) => {
+  clearCaches()
+  agol.esriRequest = async () => (result)
+}
+
+const mockEsriRequestWithThrow = (result = [{}]) => {
+  clearCaches()
+  agol.esriRequest = async () => { throw new Error('mocked error') }
 }
 
 const stopMockingEsriRequests = () => {
   agol.esriRequest = restoreEsriRequest
 }
 
-module.exports = { mockEsriRequest, stopMockingEsriRequests }
+module.exports = { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests }

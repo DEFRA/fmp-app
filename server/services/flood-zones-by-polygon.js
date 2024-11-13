@@ -1,14 +1,13 @@
-const util = require('../util')
-const { config } = require('../../config')
-const url = config.service + '/flood-zones-by-polygon?polygon='
-
-const getFloodZonesByPolygon = (polygon) => {
+const { getFloodZones } = require('./agol/getFloodZones')
+const getFloodZonesByPolygon = async (polygon) => {
+  if (!polygon) {
+    throw new Error('getFloodZonesByPolygon - No Polygon provided')
+  }
   try {
-    const geoJsonPolygon = util.convertToGeoJson(polygon)
-    const myurl = url + geoJsonPolygon
-    return util.getJson(myurl).then((result) => result)
+    return await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
   } catch (error) {
-    throw new Error('Fetching Pso contacts by polygon failed: ', error)
+    console.log('caught getFloodZonesByPolygon ERROR', error)
+    throw new Error('Fetching getFloodZonesByPolygon failed: ', error)
   }
 }
 

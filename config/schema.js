@@ -40,7 +40,8 @@ const schema = Joi.object({
     serviceUrl: Joi.string().uri().required(),
     customerTeamEndPoint: Joi.string().required(),
     localAuthorityEndPoint: Joi.string().required(),
-    isEnglandEndPoint: Joi.string().required()
+    isEnglandEndPoint: Joi.string().required(),
+    floodZonesRiversAndSeaEndPoint: Joi.string().required()
   }
 })
 

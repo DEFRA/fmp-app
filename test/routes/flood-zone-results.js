@@ -3,7 +3,6 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
-const riskService = require('../../server/services/risk')
 const { payloadMatchTest } = require('../utils')
 const FloodRiskView = require('../../server/models/flood-risk-view')
 const sinon = require('sinon')
@@ -14,11 +13,11 @@ lab.experiment('flood-zone-results', () => {
   let server
   let restoreGetPsoContactsByPolygon
   let restoreGetFloodZonesByPolygon
-  let restoreGetByPolygon
   let restoreIgnoreUseAutomatedService
   const LocalAuthorities = 'Ryedale'
 
   const optInPSOContactResponse = {
+    isEngland: true,
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
     useAutomatedService: true,
@@ -26,10 +25,19 @@ lab.experiment('flood-zone-results', () => {
   }
 
   const optOutPSOContactResponse = {
+    isEngland: true,
     EmailAddress: 'psoContact@example.com',
     AreaName: 'Yorkshire',
     useAutomatedService: false,
     LocalAuthorities
+  }
+
+  const emptyPSOContactResponse = {
+    isEngland: true,
+    EmailAddress: '',
+    AreaName: '',
+    LocalAuthorities: '',
+    useAutomatedService: false
   }
 
   const fzrUrlPolygon =
@@ -38,26 +46,10 @@ lab.experiment('flood-zone-results', () => {
 
   const zone1GetByPolygonResponse = {
     in_england: true,
-    england_error: false,
     floodzone_3: false,
-    floodzone_3_error: false,
     reduction_in_rofrs: false,
-    reduction_in_rofrs_error: false,
     floodzone_2: false,
-    floodzone_2_error: false
-  }
-
-  const surfaceWaterResults = {
-    in_england: true,
-    england_error: false,
-    floodzone_3: true,
-    floodzone_3_error: false,
-    reduction_in_rofrs: false,
-    reduction_in_rofrs_error: false,
-    floodzone_2: true,
-    floodzone_2_error: false,
     surface_water: true,
-    surface_water_error: false,
     extra_info: null
   }
 
@@ -87,10 +79,6 @@ lab.experiment('flood-zone-results', () => {
   )
 
   lab.before(async () => {
-    restoreGetByPolygon = riskService.getByPolygon
-
-    riskService.getByPolygon = () => ({ in_england: true })
-
     server = await createServer()
     await server.initialize()
     restoreIgnoreUseAutomatedService = server.methods.ignoreUseAutomatedService
@@ -102,33 +90,37 @@ lab.experiment('flood-zone-results', () => {
   lab.after(async () => {
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
     server.methods.getFloodZonesByPolygon = restoreGetFloodZonesByPolygon
-    riskService.getByPolygon = restoreGetByPolygon
     server.methods.ignoreUseAutomatedService = restoreIgnoreUseAutomatedService
     await server.stop()
   })
 
-  lab.test(
-    'get flood-zone-results with a valid polygon should succeed',
-    async () => {
-      const options = {
-        method: 'GET',
-        url: fzrUrl
-      }
+  lab.test('get flood-zone-results with a valid polygon should succeed', async () => {
+    server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+    server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
+    const response = await server.inject({ method: 'GET', url: fzrUrl })
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    // FCRM 3594
+    await payloadMatchTest(
+      payload,
+      /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
+      1
+    )
+  })
 
-      server.methods.getPsoContactsByPolygon = async () =>
-        optInPSOContactResponse
-      server.methods.getFloodZonesByPolygon = async () => surfaceWaterResults
-      const response = await server.inject(options)
-      const { payload } = response
-      Code.expect(response.statusCode).to.equal(200)
-      // FCRM 3594
-      await payloadMatchTest(
-        payload,
-        /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
-        1
-      )
-    }
-  )
+  lab.test('get flood-zone-results with a empty contact details should succeed', async () => {
+    server.methods.getPsoContactsByPolygon = async () => emptyPSOContactResponse
+    server.methods.getFloodZonesByPolygon = async () => zone1GetByPolygonResponse
+    const response = await server.inject({ method: 'GET', url: fzrUrl })
+    const { payload } = response
+    Code.expect(response.statusCode).to.equal(200)
+    // FCRM 3594
+    await payloadMatchTest(
+      payload,
+      /<figcaption class="govuk-visually-hidden" aria-hidden="false">[\s\S]*[ ]{1}A map showing the flood risk for the location you have provided[\s\S]*<\/figcaption>/g,
+      1
+    )
+  })
 
   lab.test(
     'get flood-zone-results with a valid polygon should call buildFloodZoneResultsData',
@@ -141,22 +133,20 @@ lab.experiment('flood-zone-results', () => {
 
       server.methods.getPsoContactsByPolygon = async () =>
         optInPSOContactResponse
-      riskService.getByPolygon = () => zone1GetByPolygonResponse
+      server.methods.getFloodZonesByPolygon = () => zone1GetByPolygonResponse
       await server.inject(options)
 
       Code.expect(FloodRiskViewModelSpy.callCount).to.equal(1)
       Code.expect(FloodRiskViewModelSpy.args[0][0]).to.equal({
         psoEmailAddress: 'psoContact@example.com',
         areaName: 'Yorkshire',
-        risk: {
+        floodZoneResults: {
           in_england: true,
-          england_error: false,
           floodzone_3: false,
-          floodzone_3_error: false,
           reduction_in_rofrs: false,
-          reduction_in_rofrs_error: false,
           floodzone_2: false,
-          floodzone_2_error: false
+          surface_water: true,
+          extra_info: null
         },
         center: [479472, 484194],
         polygon: [
@@ -169,20 +159,7 @@ lab.experiment('flood-zone-results', () => {
         placeOrPostcode: undefined,
         useAutomatedService: true,
         plotSize: '0',
-        localAuthorities: 'Ryedale',
-        surfaceWaterResults: {
-          in_england: true,
-          england_error: false,
-          floodzone_3: true,
-          floodzone_3_error: false,
-          reduction_in_rofrs: false,
-          reduction_in_rofrs_error: false,
-          floodzone_2: true,
-          floodzone_2_error: false,
-          surface_water: true,
-          surface_water_error: false,
-          extra_info: null
-        }
+        localAuthorities: 'Ryedale'
       })
     }
   )
@@ -252,16 +229,13 @@ lab.experiment('flood-zone-results', () => {
   lab.test(
     'get flood-zone-results with valid polygon parameters and psoContactResponse should succeed',
     async () => {
-      const options = {
-        method: 'GET',
-        url: fzrUrl
-      }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: true,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities
       })
-      const response = await server.inject(options)
+      const response = await server.inject({ method: 'GET', url: fzrUrl })
       Code.expect(response.statusCode).to.equal(200)
     }
   )
@@ -296,10 +270,11 @@ lab.experiment('flood-zone-results', () => {
     async () => {
       const options = { method: 'GET', url: fzrUrl }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: false,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire'
       })
-      riskService.getByPolygon = () => ({ in_england: false })
+      server.methods.getFloodZonesByPolygon = () => ({ in_england: false })
 
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
@@ -315,11 +290,12 @@ lab.experiment('flood-zone-results', () => {
     async () => {
       const options = { method: 'GET', url: fzrUrl }
       server.methods.getPsoContactsByPolygon = async () => ({
+        isEngland: true,
         EmailAddress: 'psoContact@example.com',
         AreaName: 'Yorkshire',
         LocalAuthorities
       })
-      riskService.getByPolygon = () => {
+      server.methods.getFloodZonesByPolygon = () => {
         throw new Error('Deliberate Testing Error ')
       }
 
@@ -334,9 +310,8 @@ lab.experiment('flood-zone-results', () => {
       const url =
         '/flood-zone-results?center=[341638,352001]&location=Caldecott%2520Green&polygon=[[479472,484194],[479467,484032],[479678,484015],[479691,484176],[479472,484194]]'
       const options = { method: 'GET', url }
-      server.methods.getPsoContactsByPolygon = async () =>
-        optInPSOContactResponse
-      riskService.getByPolygon = () => ({ in_england: false })
+      server.methods.getPsoContactsByPolygon = async () => Object.assign({}, optInPSOContactResponse, { isEngland: false })
+      server.methods.getFloodZonesByPolygon = () => ({ in_england: false })
       const response = await server.inject(options)
       Code.expect(response.statusCode).to.equal(302)
       const { headers } = response
@@ -372,6 +347,7 @@ lab.experiment('flood-zone-results', () => {
       }
     }
   ]
+
   bestGuessRedirectTests.forEach(({ testName, requestHeaders }) => {
     lab.test(
       `${testName} should redirect to /confirm-location with best guess url`,
@@ -439,9 +415,8 @@ lab.experiment('flood-zone-results', () => {
     async ([getByPolygonResponse, expectedFloodZone]) => {
       const getDocument = async () => {
         const options = { method: 'GET', url: fzrUrl }
-        riskService.getByPolygon = () => getByPolygonResponse
-        server.methods.getPsoContactsByPolygon = async () =>
-          optInPSOContactResponse
+        server.methods.getFloodZonesByPolygon = () => getByPolygonResponse
+        server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
         const response = await server.inject(options)
         const { payload } = response
         const {
@@ -483,6 +458,7 @@ lab.experiment('flood-zone-results', () => {
   )
 
   let zeroAreaPolygonsTestCount = 0
+
   zeroAreaPolygons.forEach(
     ([zeroAreaPolygon, expectedBuffedPolygon, expectedMinMaxXY]) => {
       const expectedPolygonString = JSON.stringify(expectedBuffedPolygon)
@@ -492,9 +468,8 @@ lab.experiment('flood-zone-results', () => {
       lab.test(
         `a flood zone request for ${expectedPolygonString} should not redirect`,
         async () => {
-          riskService.getByPolygon = () => zone1GetByPolygonResponse
-          server.methods.getPsoContactsByPolygon = async () =>
-            optInPSOContactResponse
+          server.methods.getFloodZonesByPolygon = () => zone1GetByPolygonResponse
+          server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
           const options = { method: 'GET', url: fzrBuffedZeroAreaPolygonUrl }
           const response = await server.inject(options)
           Code.expect(response.statusCode).to.equal(200)
@@ -504,7 +479,27 @@ lab.experiment('flood-zone-results', () => {
     }
   )
 
+  zeroAreaPolygons.forEach(
+    ([zeroAreaPolygon, _expectedBuffedPolygon, expectedMinMaxXY]) => {
+      const zeroAreaPolygonString = JSON.stringify(zeroAreaPolygon)
+      const center = JSON.stringify(expectedMinMaxXY[0])
+      const fzrBuffedZeroAreaPolygonUrl = `/flood-zone-results?polygon=${zeroAreaPolygonString}&center=${center}&location=Pickering`
+
+      lab.test(
+        `a flood zone request for ${zeroAreaPolygonString} should redirect: , ${fzrBuffedZeroAreaPolygonUrl}`,
+        async () => {
+          server.methods.getFloodZonesByPolygon = () => zone1GetByPolygonResponse
+          server.methods.getPsoContactsByPolygon = async () => optInPSOContactResponse
+          const options = { method: 'GET', url: fzrBuffedZeroAreaPolygonUrl }
+          const response = await server.inject(options)
+          Code.expect(response.statusCode).to.equal(302)
+          zeroAreaPolygonsTestCount++
+        }
+      )
+    }
+  )
+
   lab.test('zeroAreaPolygonsTestCount should equal 10', async () => {
-    Code.expect(zeroAreaPolygonsTestCount).to.equal(10)
+    Code.expect(zeroAreaPolygonsTestCount).to.equal(20)
   })
 })

@@ -11,7 +11,6 @@ lab.experiment('home', () => {
   let server
 
   lab.before(async () => {
-    console.log('Creating server')
     server = await createServer()
     await server.initialize()
 
@@ -26,7 +25,6 @@ lab.experiment('home', () => {
   })
 
   lab.after(async () => {
-    console.log('Stopping server')
     await server.stop()
   })
 

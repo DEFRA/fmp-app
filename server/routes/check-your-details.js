@@ -18,11 +18,7 @@ const getFunctionAppResponse = async (referer, data) => {
     payload?.y
   )
   payload.postcode = postcode
-  if (payload?.postcode) {
-    console.log('====================================')
-    console.log('successfully retrieved the postcode', payload)
-    console.log('====================================')
-  }
+
   const functionAppResponse = wreck.post(publishToQueueURL, {
     payload: JSON.stringify(payload)
   })

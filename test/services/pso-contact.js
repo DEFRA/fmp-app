@@ -11,7 +11,7 @@ lab.experiment('pso-contact', () => {
       attributes: {
         authority_name: 'Ryedale',
         contact_email: 'neyorkshire@environment-agency.gov.uk',
-        area_name: 'Environment Agency team in Yorkshire',
+        area_name_1: 'Environment Agency team in Yorkshire',
         use_automated_service: true
       }
     }])
@@ -47,10 +47,11 @@ lab.experiment('pso-contact', () => {
     }
   })
 
-  lab.test('getPsoContacts should post to config.functionAppUrl/pso/contacts if data passed is valid', async () => {
+  lab.test('getPsoContacts should return expected results', async () => {
     try {
       const psoContactDetails = await getPsoContacts(10000, 20000)
       Code.expect(psoContactDetails).to.equal({
+        isEngland: true,
         EmailAddress: 'neyorkshire@environment-agency.gov.uk',
         AreaName: 'Environment Agency team in Yorkshire',
         LocalAuthorities: 'Ryedale',
