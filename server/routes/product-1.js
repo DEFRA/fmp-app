@@ -1,4 +1,5 @@
 const Boom = require('@hapi/boom')
+const Joi = require('joi')
 const { getProduct1 } = require('../services/eaMaps/getProduct1')
 
 module.exports = {
@@ -24,9 +25,18 @@ module.exports = {
           .header('content-disposition', `attachment; filename=flood-map-planning-${date}.pdf;`)
           .header('X-XSS-Protection', '1; mode=block')
       } catch (err) {
-        const message = (err && err.message) || 'An error occured during PDF generation'
+        const message = err.message
+        console.log('error caught in product-1 route', err.message)
         return Boom.badImplementation(message, err)
       }
+    },
+    validate: {
+      payload: Joi.object().keys({
+        reference: Joi.string().allow('').max(25).trim(),
+        scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
+        polygon: Joi.string().required().allow(''),
+        holdingComments: Joi.string().allow('')
+      })
     }
   }
 }

@@ -13,7 +13,6 @@ const cachedToken = {
 // getToken should be wrapped in a try catch as refreshToken will throw
 const getToken = async () => {
   if (cachedToken.token && cachedToken.expires > new Date()) {
-    console.log('TOKEN STILL VALID: ', cachedToken.token)
     return cachedToken.token
   }
   // invalidate the cachedToken
@@ -34,10 +33,8 @@ const refreshToken = async () => {
     f: 'json',
     expiration: 60
   }
-  console.log('getToken formData', formData)
 
   const response = await axios.post(tokenUrl, formData, { headers, httpsAgent })
-  // console.log('getToken response', response)
   const { status, data } = response
 
   if (status === 200) {

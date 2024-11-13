@@ -24,7 +24,7 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
       f: 'json',
       token
     }
-
+    console.log('\n\npdfUrl', pdfUrl)
     const response = await axios.post(pdfUrl, formData, {
       httpsAgent,
       headers
@@ -48,7 +48,8 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
       throw new Error(data)
     }
   } catch (error) {
-    console.log('caught error', error)
+    console.log('Error caught in getProduct1', error)
+    throw (error)
   }
 }
 

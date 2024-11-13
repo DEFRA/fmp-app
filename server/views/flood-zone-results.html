@@ -201,10 +201,7 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
       </summary>
       <div class="govuk-details__text">
         <form class="form" id="product-1-form" method="POST" action="product-1">
-          <input name="id" type="hidden" />
-          <input name="zone" type="hidden" value="FZ1" />
           <input name="polygon" type="hidden" value="{{polygon}}" />
-          <input name="center" type="hidden" value="[{{easting}},{{northing}}]" />
           <input name="holdingComments" type="hidden" value="{{holdingComments}}" />
 
           <div class="govuk-form-group">
