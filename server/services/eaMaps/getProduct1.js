@@ -6,8 +6,6 @@ const headers = {
 }
 const { makePolygonGeometry } = require('../agol')
 const { getToken } = require('./getToken')
-const https = require('https')
-const httpsAgent = new https.Agent({ keepAlive: true })
 
 const parseEaMapsProduct1Response = (response) => {
   const { data } = response
@@ -49,7 +47,6 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
     // 1st post the data, which triggers the EAMaps process to produce a temporary pdf
     // and returns the url of that pdf
     const response = await axios.post(pdfUrl, formData, {
-      httpsAgent,
       headers
     })
 
@@ -66,7 +63,6 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
 
     // Now fetch and return the actual pdf stream using the returned url
     const pdfStreamResponse = await axios.get(url, {
-      httpsAgent,
       responseType: 'stream'
     })
 

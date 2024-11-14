@@ -2,8 +2,6 @@ const { config } = require('../../../config')
 const axios = require('axios')
 
 const headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
-const https = require('https')
-const httpsAgent = new https.Agent({ keepAlive: true })
 
 const cachedToken = {
   token: undefined,
@@ -38,7 +36,7 @@ const refreshToken = async () => {
   }
 
   try {
-    const response = await axios.post(tokenUrl, formData, { headers, httpsAgent })
+    const response = await axios.post(tokenUrl, formData, { headers })
     const { data } = response
 
     const { token, expires, error } = data
