@@ -2,6 +2,12 @@ const Boom = require('@hapi/boom')
 const Joi = require('joi')
 const { getProduct1 } = require('../services/eaMaps/getProduct1')
 
+const MAX_REFERENCE_WIDTH = 25
+const SCALE_2500 = 2500
+const SCALE_10000 = 10000
+const SCALE_25000 = 25000
+const SCALE_50000 = 50000
+
 module.exports = {
   method: 'POST',
   path: '/product-1',
@@ -11,7 +17,7 @@ module.exports = {
       try {
         const {
           polygon,
-          scale = 2500,
+          scale = SCALE_2500,
           reference = '<Unspecified>'
         } = request.payload
         const holdingComments = request.payload.holdingComments === 'true'
@@ -32,8 +38,8 @@ module.exports = {
     },
     validate: {
       payload: Joi.object().keys({
-        reference: Joi.string().allow('').max(25).trim(),
-        scale: Joi.number().allow(2500, 10000, 25000, 50000).required(),
+        reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
+        scale: Joi.number().allow(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).required(),
         polygon: Joi.string().required().allow(''),
         holdingComments: Joi.string().allow('')
       })

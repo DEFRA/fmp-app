@@ -17,18 +17,19 @@ const parseEaMapsProduct1Response = (response) => {
     throw new Error(message)
   }
 
-  return results.reduce((response, resultEntry) => {
+  return results.reduce((returnValues, resultEntry) => {
     const { paramName, value } = resultEntry
     if (paramName === 'pdfFile') {
-      response.url = (value && value.url) || undefined
-    } else if (paramName === 'error') {
-      response.error = value
+      returnValues.url = (value?.url) || undefined
     }
-    return response
+    if (paramName === 'error') {
+      returnValues.error = value
+    }
+    return returnValues
   }, { url: undefined, error: undefined })
 }
 
-const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingComments) => {
+const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) => {
   try {
     const token = await getToken()
     const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
@@ -39,11 +40,10 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
       geometry,
       referenceNumber,
       scale,
+      token,
       product: '1',
-      f: 'json',
-      token
+      f: 'json'
     }
-    console.log('\n\npdfUrl', pdfUrl)
     // 1st post the data, which triggers the EAMaps process to produce a temporary pdf
     // and returns the url of that pdf
     const response = await axios.post(pdfUrl, formData, {
@@ -55,7 +55,8 @@ const getProduct1 = async (polygon, referenceNumber = 'X', scale, _holdingCommen
     if (error) {
       console.log('An error was returned from the eaMaps Product 1 service', error)
       throw (error)
-    } else if (!url) {
+    }
+    if (!url) {
       const message = 'The eaMaps Product 1 service failed to return a url'
       console.log(message)
       throw new Error(message)
