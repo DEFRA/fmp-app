@@ -10,15 +10,18 @@ const cachedToken = {
   expires: undefined
 }
 
+// invalidateToken is exported for unit tests
+const invalidateToken = () => {
+  cachedToken.token = undefined
+  cachedToken.expires = undefined
+}
+
 // getToken should be wrapped in a try catch as refreshToken will throw
 const getToken = async () => {
   if (cachedToken.token && cachedToken.expires > new Date()) {
     return cachedToken.token
   }
-  // invalidate the cachedToken
-  cachedToken.token = undefined
-  cachedToken.expires = undefined
-
+  invalidateToken()
   await refreshToken()
   return cachedToken.token
 }
@@ -34,12 +37,11 @@ const refreshToken = async () => {
     expiration: 60
   }
 
-  const response = await axios.post(tokenUrl, formData, { headers, httpsAgent })
-  const { status, data } = response
+  try {
+    const response = await axios.post(tokenUrl, formData, { headers, httpsAgent })
+    const { data } = response
 
-  if (status === 200) {
     const { token, expires, error } = data
-    console.log('token', token)
     if (error) {
       const errorMessage = 'An error was returned attempting to get an EA Maps esri token'
       console.log(errorMessage, JSON.stringify(error))
@@ -48,11 +50,10 @@ const refreshToken = async () => {
     // Now save the token and expiry time
     cachedToken.token = token
     cachedToken.expires = expires
-  } else {
-    const errorMessage = 'There was an error requesting an EA Maps esri token'
-    console.log(errorMessage, data)
-    throw (new Error(errorMessage))
+  } catch (error) {
+    console.log('There was an error requesting an EA Maps esri token')
+    throw (error)
   }
 }
 
-module.exports = { getToken }
+module.exports = { getToken, invalidateToken }

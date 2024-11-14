@@ -5,6 +5,7 @@ const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const axios = require('axios')
 const { config } = require('../../config')
+const { invalidateToken } = require('../../server/services/eaMaps/getToken')
 
 lab.experiment('product-1.js', () => {
   let server
@@ -37,8 +38,10 @@ lab.experiment('product-1.js', () => {
   })
 
   lab.beforeEach(async () => {
+    invalidateToken()
+    mockAxios.reset()
     mockAxios.onPost(getTokenUrl)
-      .reply(200, { token: 'XXX', expires: 99999999999 })
+      .reply(200, { token: 'XXX', expires: 999999999999999 })
 
     mockAxios.onPost(getProduct1Url)
       .reply(200, validPdfResponse)
@@ -59,12 +62,14 @@ lab.experiment('product-1.js', () => {
     holdingComments: 'true'
   }
 
+  const injectedServerValues = {
+    method: 'POST',
+    url: '/product-1',
+    payload: product1Payload
+  }
+
   lab.test('product-1 route should return a PDF Stream', async () => {
-    const response = await server.inject({
-      method: 'POST',
-      url: '/product-1',
-      payload: product1Payload
-    })
+    const response = await server.inject(injectedServerValues)
     Code.expect(response.statusCode).to.equal(200)
     Code.expect(response.result).to.equal('PDF_STREAM')
   })
@@ -73,11 +78,7 @@ lab.experiment('product-1.js', () => {
     mockAxios.onPost(getTokenUrl)
       .reply(200, { token: 'XXX', expires: 99999999999, error: { message: 'Mocked Error' } })
 
-    const response = await server.inject({
-      method: 'POST',
-      url: '/product-1',
-      payload: product1Payload
-    })
+    const response = await server.inject(injectedServerValues)
     Code.expect(response.statusCode).to.equal(500)
     // NB The current response when an error occurs is a redirect to a generic error page
     // FCRM-5373 has been raised to determine a better UX
@@ -86,17 +87,12 @@ lab.experiment('product-1.js', () => {
   lab.test('product-1 route should catch an error when returned by eamaps getProduct1', async () => {
     mockAxios.onPost(getProduct1Url).reply(200, invalidPdfResponse)
 
-    const response = await server.inject({
-      method: 'POST',
-      url: '/product-1',
-      payload: product1Payload
-    })
+    const response = await server.inject(injectedServerValues)
     Code.expect(response.statusCode).to.equal(500)
     // NB The current response when an error occurs is a redirect to a generic error page
     // FCRM-5373 has been raised to determine a better UX
   })
 
-  // server/services/eaMaps/getProduct1.js missing coverage on line(s): 16-19, 26, 57-63
   // server/services/eaMaps/getToken.js missing coverage on line(s): 15, 16, 40, 52-54
   const unexpectedResponses = [
     [{}, 'no results'],
@@ -107,14 +103,45 @@ lab.experiment('product-1.js', () => {
     lab.test(`product-1 route should catch an error when eamaps getProduct1 returns ${description}`, async () => {
       mockAxios.onPost(getProduct1Url).reply(200, getProduct1Response)
 
-      const response = await server.inject({
-        method: 'POST',
-        url: '/product-1',
-        payload: product1Payload
-      })
+      const response = await server.inject(injectedServerValues)
       Code.expect(response.statusCode).to.equal(500)
       // NB The current response when an error occurs is a redirect to a generic error page
       // FCRM-5373 has been raised to determine a better UX
     })
+  })
+
+  // mockAxios.onPost(getTokenUrl)
+  // .reply(200, { token: 'XXX', expires: 99999999999 })
+  const getMockHistoryCalls = (url, history) => history.filter((item) => item.url === url)
+
+  lab.test("getToken should reuse the token if it hasn't expired", async () => {
+    const getTokenCallCount = () => getMockHistoryCalls(getTokenUrl, mockAxios.history.post).length
+
+    Code.expect(getTokenCallCount()).to.equal(0)
+    await server.inject(injectedServerValues)
+    Code.expect(getTokenCallCount()).to.equal(1)
+    await server.inject(injectedServerValues)
+    Code.expect(getTokenCallCount()).to.equal(1) // Should Still Be One
+  })
+
+  lab.test('getToken should request a new token if it has expired', async () => {
+    mockAxios.onPost(getTokenUrl).reply(200, { token: 'XXX', expires: 0 })
+
+    const getTokenCallCount = () => getMockHistoryCalls(getTokenUrl, mockAxios.history.post).length
+
+    Code.expect(getTokenCallCount()).to.equal(0)
+    await server.inject(injectedServerValues)
+    Code.expect(getTokenCallCount()).to.equal(1)
+    await server.inject(injectedServerValues)
+    Code.expect(getTokenCallCount()).to.equal(2) // Should Be Two
+  })
+
+  lab.test('product-1 route should catch an error when getToken fails', async () => {
+    mockAxios.onPost(getTokenUrl).reply(404, { token: 'XXX', expires: 0 })
+
+    const response = await server.inject(injectedServerValues)
+    Code.expect(response.statusCode).to.equal(500)
+    // NB The current response when an error occurs is a redirect to a generic error page
+    // FCRM-5373 has been raised to determine a better UX
   })
 })
