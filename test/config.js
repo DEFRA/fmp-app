@@ -10,6 +10,7 @@ lab.experiment('Ensure config is correct', () => {
       require('../config')
     }).not.to.throw()
   })
+
   lab.test('test config values', () => {
     const { config } = require('../config')
     const expectedConfig = {
@@ -41,6 +42,13 @@ lab.experiment('Ensure config is correct', () => {
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
         floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0'
+      },
+      eamaps: {
+        serviceUrl: 'http://dummyEAMapslUrl',
+        product1User: 'PRODUCT1_USER',
+        product1Password: 'PRODUCT1_PASSWORD',
+        product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
+        tokenEndPoint: '/tokens/generateToken'
       }
     }
     Code.expect(config).to.equal(expectedConfig)

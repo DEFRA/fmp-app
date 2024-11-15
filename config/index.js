@@ -37,6 +37,13 @@ const config = {
     localAuthorityEndPoint: process.env.agolLocalAuthorityEndPoint,
     isEnglandEndPoint: process.env.agolIsEnglandEndPoint,
     floodZonesRiversAndSeaEndPoint: process.env.agolFloodZonesRiversAndSeaEndPoint
+  },
+  eamaps: {
+    serviceUrl: process.env.eamapsServiceUrl,
+    product1User: process.env.eamapsProduct1User,
+    product1Password: process.env.eamapsProduct1Password,
+    product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
+    tokenEndPoint: '/tokens/generateToken'
   }
 }
 
