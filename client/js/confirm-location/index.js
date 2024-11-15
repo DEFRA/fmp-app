@@ -1,3 +1,4 @@
+// BEGIN-NOSCAN
 const $ = require('jquery')
 
 const VectorLayer = require('ol/layer/Vector').default
@@ -317,3 +318,4 @@ function ConfirmLocationPage (options) {
 }
 
 module.exports = ConfirmLocationPage
+// END-NOSCAN

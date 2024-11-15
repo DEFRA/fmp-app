@@ -27,13 +27,12 @@ ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
 RUN echo -e "module.exports = { version: '$BUILD_VERSION', revision: '$GIT_COMMIT' }" > ./version.js
 
-
 FROM base AS development 
 
 # Temporarily disable the postinstall NPM script
-RUN npm pkg set scripts.postinstall="echo no-postinstall"
-RUN npm ci --ignore-scripts --omit dev 
-RUN npm run build
+RUN npm pkg set scripts.postinstall="echo no-postinstall" \
+&& npm ci --ignore-scripts --omit dev \
+&& npm run build
 
 USER node
 EXPOSE ${PORT}/tcp
@@ -42,9 +41,9 @@ CMD [ "node", "index.js" ]
 FROM base AS production 
 
 # Temporarily disable the postinstall NPM script
-RUN npm pkg set scripts.postinstall="echo no-postinstall"
-RUN npm ci --ignore-scripts --omit dev 
-RUN npm run build
+RUN npm pkg set scripts.postinstall="echo no-postinstall" \
+&& npm ci --ignore-scripts --omit dev \
+&& npm run build
 
 USER node
 EXPOSE ${PORT}/tcp

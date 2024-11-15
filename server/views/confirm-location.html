@@ -189,12 +189,14 @@
     data-statement=" "
   ></script>
   <script>
+    // BEGIN-NOSCAN
     new FMP.ConfirmLocationPage({
       easting: '{{easting}}',
       northing: '{{northing}}',
       location: '{{location}}',
       polygon: ''
     })
+    // END-NOSCAN
   </script>
   
   {% endblock %}

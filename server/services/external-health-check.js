@@ -1,13 +1,15 @@
 const axios = require('axios')
 const { config } = require('../../config')
 
+const GIT_REVISION_LENGTH = 7
+
 const getExternalVersion = async (url, name) => {
   try {
     const { data = {} } = await axios.get(url)
     const { version = '', revision = '' } = data
     return {
       version,
-      revision: revision.substring(0, 7)
+      revision: revision.substring(0, GIT_REVISION_LENGTH)
     }
   } catch (error) {
     console.log(`error fetching ${name} health-check`, url, error)
