@@ -1,4 +1,3 @@
-// BEGIN-NOSCAN
 const $ = require('jquery')
 
 const VectorLayer = require('ol/layer/Vector').default
@@ -197,7 +196,7 @@ function ConfirmLocationPage (options) {
 
     drawInteraction.on('drawend', function (e) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
-      if (coordinates.length >= 3) {
+      if (coordinates.length >= 3) { // NOSONAR
         // Update polygon and targetUrl
         polygon = snapCoordinates(e.feature)
         updateTargetUrl()
@@ -318,4 +317,3 @@ function ConfirmLocationPage (options) {
 }
 
 module.exports = ConfirmLocationPage
-// END-NOSCAN
