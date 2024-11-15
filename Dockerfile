@@ -32,7 +32,7 @@ FROM base AS development
 
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall"
-RUN npm i --omit dev --ignore-scripts
+RUN npm ci --ignore-scripts --omit dev 
 RUN npm run build
 
 USER node
@@ -43,7 +43,7 @@ FROM base AS production
 
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall"
-RUN npm i --omit dev --ignore-scripts
+RUN npm ci --ignore-scripts --omit dev 
 RUN npm run build
 
 USER node
