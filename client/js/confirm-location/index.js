@@ -196,7 +196,7 @@ function ConfirmLocationPage (options) {
 
     drawInteraction.on('drawend', function (e) {
       const coordinates = e.feature.getGeometry().getCoordinates()[0]
-      if (coordinates.length >= 3) { // NOSONAR
+      if (coordinates.length >= 3) {
         // Update polygon and targetUrl
         polygon = snapCoordinates(e.feature)
         updateTargetUrl()
