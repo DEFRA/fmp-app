@@ -14,8 +14,8 @@ const invalidateToken = () => {
   cachedToken.expires = undefined
 }
 
-// getToken should be wrapped in a try catch as refreshToken will throw
-const getToken = async () => {
+// getEAMapsToken should be wrapped in a try catch as refreshToken will throw
+const getEAMapsToken = async () => {
   if (cachedToken.token && cachedToken.expires > new Date()) {
     return cachedToken.token
   }
@@ -54,4 +54,4 @@ const refreshToken = async () => {
   }
 }
 
-module.exports = { getToken, invalidateToken }
+module.exports = { getEAMapsToken, invalidateToken }

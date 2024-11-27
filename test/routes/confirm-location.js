@@ -5,7 +5,7 @@ const lab = (exports.lab = Lab.script())
 const headers = require('../models/page-headers')
 const isEnglandService = require('../../server/services/is-england')
 const createServer = require('../../server')
-const { JSDOM } = require('jsdom')
+const { assertSelectorContainsText } = require('../utils')
 
 lab.experiment('confirm-location', () => {
   let server
@@ -57,18 +57,6 @@ lab.experiment('confirm-location', () => {
     server.methods.getPsoContacts = restoreGetPsoContacts
     server.methods.getPsoContactsByPolygon = restoreGetPsoContactsByPolygon
   })
-
-  const assertSelectorContainsText = async (response, selector, content) => {
-    const { payload } = response
-    const {
-      window: { document: doc }
-    } = await new JSDOM(payload)
-    const div = doc.querySelectorAll(selector)
-    Code.expect(div.length).to.equal(content ? 1 : 0) // check for a single result if content is passed, otherwise expect nothing
-    if (content) {
-      Code.expect(div[0].textContent).to.contain(content)
-    }
-  }
 
   const assertContactEnvironmentAgencyText = async (response) =>
     assertSelectorContainsText(response, '[data-pso-contact-email]', 'contact the Environment Agency team in Yorkshire at')
@@ -341,7 +329,7 @@ lab.experiment('confirm-location', () => {
       errorMessageExpected
         ? 'Error: Draw the boundary of your site - Flood map for planning - GOV.UK'
         : 'Draw the boundary of your site - Flood map for planning - GOV.UK'
-    assertSelectorContainsText(response, 'title', expectedTitle)
+    assertSelectorContainsText(response, 'head title', expectedTitle)
   }
 
   lab.test(

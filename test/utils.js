@@ -1,5 +1,17 @@
-require('dotenv').config({ path: 'config/.env-example' })
 const Code = require('@hapi/code')
+const { JSDOM } = require('jsdom')
+
+const assertSelectorContainsText = async (response, selector, content) => {
+  const { payload } = response
+  const {
+    window: { document: doc }
+  } = await new JSDOM(payload)
+  const div = doc.querySelectorAll(selector)
+  Code.expect(div.length).to.equal(content ? 1 : 0) // check for a single result if content is passed, otherwise expect nothing
+  if (content) {
+    Code.expect(div[0].textContent).to.contain(content)
+  }
+}
 
 module.exports = {
   payloadMatchTest: async (payload, regex, expectedMatchCount = 1) => {
@@ -9,8 +21,8 @@ module.exports = {
     )
   },
   titleTest: async (payload, expectedTitle) => {
-    const titleMatch = payload.match(/<title>([\s\S]*)<\/title>/)
-    Code.expect(titleMatch.length, 'a title match is expected').to.equal(2)
-    Code.expect(titleMatch[1].trim()).to.equal(expectedTitle)
-  }
+    assertSelectorContainsText({ payload }, 'head title', expectedTitle)
+  },
+  assertSelectorContainsText
+
 }

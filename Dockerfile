@@ -16,12 +16,15 @@ RUN set -xe \
 WORKDIR /home/node/app
 
 # Copy the basic directories/files across
+RUN mkdir -p dist
 COPY --chown=root:root package*.json .
 COPY --chown=root:root ./index.js .
 COPY --chown=root:root ./client ./client
 COPY --chown=root:root ./server ./server
 COPY --chown=root:root ./bin ./bin
 COPY --chown=root:root ./config ./config
+COPY --chown=root:root ./webpack.config.mjs ./webpack.config.mjs
+COPY --chown=root:root ./babel.config.json ./babel.config.json
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
@@ -32,7 +35,8 @@ FROM base AS development
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
 && npm ci --ignore-scripts --omit dev \
-&& npm run build
+&& npm run build \
+&& npm run build-map
 
 USER node
 EXPOSE ${PORT}/tcp
@@ -43,7 +47,8 @@ FROM base AS production
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
 && npm ci --ignore-scripts --omit dev \
-&& npm run build
+&& npm run build \
+&& npm run build-map
 
 USER node
 EXPOSE ${PORT}/tcp

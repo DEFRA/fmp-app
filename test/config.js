@@ -28,7 +28,9 @@ lab.experiment('Ensure config is correct', () => {
         osMapsUrl: 'http://dummyuri',
         osNamesUrl: 'http://dummyuri',
         osSearchKey: 'replace_this',
-        osMapsKey: 'replace_this'
+        osMapsKey: 'replace_this',
+        osClientId: 'replace_this',
+        osClientSecret: 'replace_this'
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: '=http://dummyuri',
@@ -49,6 +51,9 @@ lab.experiment('Ensure config is correct', () => {
         product1Password: 'PRODUCT1_PASSWORD',
         product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
         tokenEndPoint: '/tokens/generateToken'
+      },
+      defraMap: {
+        layerNameSuffix: '_NON_PRODUCTION'
       }
     }
     Code.expect(config).to.equal(expectedConfig)

@@ -26,7 +26,9 @@ const schema = Joi.object({
       osMapsUrl: Joi.string().uri().required(),
       osNamesUrl: Joi.string().uri().required(),
       osSearchKey: Joi.string().required().allow(''),
-      osMapsKey: Joi.string().required().allow('')
+      osMapsKey: Joi.string().required().allow(''),
+      osClientId: Joi.string().required().allow(''),
+      osClientSecret: Joi.string().required().allow('')
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
@@ -49,6 +51,9 @@ const schema = Joi.object({
     product1Password: Joi.string().required(),
     product1EndPoint: Joi.string().required(),
     tokenEndPoint: Joi.string().required()
+  },
+  defraMap: {
+    layerNameSuffix: Joi.string().required().allow('')
   }
 })
 

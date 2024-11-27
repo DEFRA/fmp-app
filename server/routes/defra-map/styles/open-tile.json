@@ -1,0 +1,124 @@
+{
+    "currentVersion": 10.81,
+    "name": "VTS_27700-r17",
+    "capabilities": "TilesOnly",
+    "type": "indexedVector",
+    "defaultStyles": "resources/styles",
+    "tiles": [
+        "https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
+    ],
+    "exportTilesAllowed": false,
+    "initialExtent": {
+        "xmin": -238375,
+        "ymin": 0,
+        "xmax": 900000,
+        "ymax": 1376256,
+        "spatialReference": {
+            "wkid": 27700,
+            "latestWkid": 27700
+        }
+    },
+    "fullExtent": {
+        "xmin": -238375,
+        "ymin": 0,
+        "xmax": 900000,
+        "ymax": 1376256,
+        "spatialReference": {
+            "wkid": 27700,
+            "latestWkid": 27700
+        }
+    },
+    "minScale": 1.354579968E7,
+    "maxScale": 413.385,
+    "tileInfo": {
+        "rows": 512,
+        "cols": 512,
+        "dpi": 96,
+        "format": "pbf",
+        "origin": {
+            "x": -238375,
+            "y": 1376256
+        },
+        "spatialReference": {
+            "wkid": 27700,
+            "latestWkid": 27700
+        },
+        "lods": [
+            {
+                "level": 0,
+                "resolution": 3584,
+                "scale": 1.354579968E7
+            },
+            {
+                "level": 1,
+                "resolution": 1792,
+                "scale": 6772899.84
+            },
+            {
+                "level": 2,
+                "resolution": 896,
+                "scale": 3386449.92
+            },
+            {
+                "level": 3,
+                "resolution": 448,
+                "scale": 1693224.96
+            },
+            {
+                "level": 4,
+                "resolution": 224,
+                "scale": 846612.48
+            },
+            {
+                "level": 5,
+                "resolution": 112,
+                "scale": 423306.24
+            },
+            {
+                "level": 6,
+                "resolution": 56,
+                "scale": 211653.12
+            },
+            {
+                "level": 7,
+                "resolution": 28,
+                "scale": 105826.56
+            },
+            {
+                "level": 8,
+                "resolution": 14,
+                "scale": 52913.28
+            },
+            {
+                "level": 9,
+                "resolution": 7,
+                "scale": 26456.64
+            },
+            {
+                "level": 10,
+                "resolution": 3.5,
+                "scale": 13228.32
+            },
+            {
+                "level": 11,
+                "resolution": 1.75,
+                "scale": 6614.16
+            }
+        ]
+    },
+    "maxzoom": 15,
+    "minLOD": 0,
+    "maxLOD": 15,
+    "resourceInfo": {
+        "styleVersion": 8,
+        "tileCompression": "gzip",
+        "cacheInfo": {
+            "storageInfo": {
+                "packetSize": 128,
+                "storageFormat": "compactV2"
+            }
+        }
+    },
+    "serviceItemId": "d729187bed114158b79f8650e37bf9ef",
+    "maxExportTilesCount": 100000
+}
