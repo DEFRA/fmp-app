@@ -16,6 +16,7 @@ RUN set -xe \
 WORKDIR /home/node/app
 
 # Copy the basic directories/files across
+RUN mkdir -p dist
 COPY --chown=root:root package*.json .
 COPY --chown=root:root ./index.js .
 COPY --chown=root:root ./client ./client
