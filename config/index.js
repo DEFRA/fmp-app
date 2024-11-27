@@ -21,7 +21,9 @@ const config = {
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
     osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
     osSearchKey: process.env.ordnanceSurveyOsSearchKey,
-    osMapsKey: process.env.ordnanceSurveyOsMapsKey
+    osMapsKey: process.env.ordnanceSurveyOsMapsKey,
+    osClientId: process.env.ordnanceSurveyOsClientId,
+    osClientSecret: process.env.ordnanceSurveyOsClientSecret
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
@@ -44,6 +46,9 @@ const config = {
     product1Password: process.env.eamapsProduct1Password,
     product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
     tokenEndPoint: '/tokens/generateToken'
+  },
+  defraMap: {
+    layerNameSuffix: process.env.layerNameSuffix || ''
   }
 }
 

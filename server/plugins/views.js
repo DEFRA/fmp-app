@@ -31,7 +31,7 @@ module.exports = {
         }
       }
     },
-    path: ['server/views', 'node_modules/govuk-frontend/govuk', 'node_modules/govuk-frontend/govuk/components/'],
+    path: ['server/views', 'node_modules/govuk-frontend/dist/govuk', 'node_modules/govuk-frontend/dist/govuk/components/'],
     isCached: !config.isDev,
     context: {
       env: config.env,

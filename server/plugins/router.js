@@ -1,4 +1,6 @@
 const routes = [].concat(
+  require('../routes/defra-map'),
+  require('../routes/defra-map/styles'),
   require('../routes/home'),
   require('../routes/flood-zone-results'),
   require('../routes/flood-zone-results-explained'),

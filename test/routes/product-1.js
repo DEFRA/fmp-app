@@ -5,7 +5,7 @@ const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
 const axios = require('axios')
 const { config } = require('../../config')
-const { invalidateToken } = require('../../server/services/eaMaps/getToken')
+const { invalidateToken } = require('../../server/services/eaMaps/getEAMapsToken')
 
 lab.experiment('product-1.js', () => {
   let server

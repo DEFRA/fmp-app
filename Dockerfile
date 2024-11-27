@@ -22,6 +22,9 @@ COPY --chown=root:root ./client ./client
 COPY --chown=root:root ./server ./server
 COPY --chown=root:root ./bin ./bin
 COPY --chown=root:root ./config ./config
+COPY --chown=root:root ./webpack.config.mjs ./webpack.config.mjs
+COPY --chown=root:root ./babel.config.json ./babel.config.json
+COPY --chown=root:root ./dist ./dist
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
@@ -32,7 +35,8 @@ FROM base AS development
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
 && npm ci --ignore-scripts --omit dev \
-&& npm run build
+&& npm run build \
+&& npm run build-map
 
 USER node
 EXPOSE ${PORT}/tcp

@@ -32,7 +32,6 @@
 
 {% block header %}
   {{ govukHeader({
-    useTudorCrown: true,
     homepageUrl: "https://www.gov.uk/",
     containerClasses: "govuk-width-container",
     serviceName: serviceName,
@@ -148,12 +147,10 @@
 {% block bodyEnd %}
 
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="{{ assetPath }}/all.js"></script>
   <script src="{{ assetPath }}/javascripts/core.js"></script>
-  <script>
-    window
-      .GOVUKFrontend
-      .initAll()
+  <script type="module">
+    import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
+    initAll()
   </script>
   {% endblock %}
 {% block footer %}

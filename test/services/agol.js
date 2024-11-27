@@ -37,8 +37,12 @@ lab.experiment('agol.js', () => {
       token: 'dummy_token_2'
     })
 
+    const { getEsriToken } = proxyquire('../../server/services/agol/getEsriToken', {
+      '@esri/arcgis-rest-request': { ApplicationCredentialsManager: { fromCredentials: stubFromCredentials } }
+    })
+
     agol = proxyquire('../../server/services/agol', {
-      '@esri/arcgis-rest-request': { ApplicationCredentialsManager: { fromCredentials: stubFromCredentials } },
+      './getEsriToken': { getEsriToken },
       '@esri/arcgis-rest-feature-service': { queryFeatures: stubQueryFeatures }
     })
   })

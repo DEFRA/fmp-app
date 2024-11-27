@@ -5,7 +5,7 @@ const headers = {
   'Accept-Encoding': 'gzip, deflate, br'
 }
 const { makePolygonGeometry } = require('../agol')
-const { getToken } = require('./getToken')
+const { getEAMapsToken } = require('./getEAMapsToken')
 
 const parseEaMapsProduct1Response = (response) => {
   const { data } = response
@@ -31,7 +31,7 @@ const parseEaMapsProduct1Response = (response) => {
 
 const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) => {
   try {
-    const token = await getToken()
+    const token = await getEAMapsToken()
     const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
     const geometry = JSON.stringify(makePolygonGeometry(polygon))
     // _holdingComments is awaiting an implementation for FMP2
