@@ -1,25 +1,38 @@
 {% extends "layout.html" %}
+
+{% set bodyClasses = "flood-map" %}
+
 {% block head %}
-{{ super() }}
-<link href="/public/defra-map/main.css" rel="stylesheet"/>
+  {{ super() }}
+  <link href="/public/defra-map/main.css" rel="stylesheet"/>
 {% endblock %}
+
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "https://www.gov.uk/",
+    containerClasses: "govuk-header",
+    serviceName: serviceName,
+    serviceUrl: "/"
+  }) }}
+{% endblock %}
+
+
 {% block pageTitle %}
   Flood map for planning - GOV.UK
-  {% endblock %}
+{% endblock %}
 
-{% block beforeContent %}
-{% endblock %}  
+{% block beforeContent %} {% endblock %}  
 
+{% block main %}
 {% block content %}
   <main class="flood-map-main" id="main-content">
     <h1 class="govuk-visually-hidden">Interactive map showing flood planning data</h1>
     <div class="flood-map-target" id="map"></div>
   </main>
 
-  <script>
-    // Remove BETA banner, need to ask if we need it here
-    document.querySelector('.govuk-phase-banner').remove()
-  </script>
   <script src="/public/defra-map/main.js"></script>
+
 {% endblock %}
+{% endblock %}
+
 {% block footer %} {% endblock %}

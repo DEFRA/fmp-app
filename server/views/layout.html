@@ -124,13 +124,6 @@
     const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
 
     if (analyticsAccount && analyticsAccepted) {
-      // ga('create', analyticsAccount, 'auto');
-      // ga('govuk_shared.require', 'linker');
-      // ga('govuk_shared.linker.set', 'anonymizeIp', true);
-      // ga('govuk_shared.linker:autoLink', ['www.gov.uk']);
-
-      // ga('send', 'pageview');
-      // ga('govuk_shared.send', 'pageview');
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -146,13 +139,14 @@
 
 {% block bodyEnd %}
 
-  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="{{ assetPath }}/javascripts/core.js"></script>
-  <script type="module">
-    import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
-    initAll()
-  </script>
-  {% endblock %}
+{# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+<script src="{{ assetPath }}/javascripts/core.js"></script>
+<script type="module">
+  import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
+  initAll()
+</script>
+{% endblock %}
+
 {% block footer %}
   {{ govukFooter({
     meta: {

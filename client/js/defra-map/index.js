@@ -107,10 +107,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   const floodMap = new FloodMap('map', {
     type: 'hybrid',
     place: 'England',
-    zoom: 7,
+    zoom: 7.7,
     minZoom: 6,
     maxZoom: 20,
-    centre: [416804, 350039],
+    centre: [340367, 322766],
     height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
