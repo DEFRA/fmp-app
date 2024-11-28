@@ -106,12 +106,12 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const floodMap = new FloodMap('map', {
     type: 'hybrid',
-    place: 'Ambleside',
-    zoom: 16,
+    place: 'England',
+    zoom: 7,
     minZoom: 6,
     maxZoom: 20,
-    centre: [324973, 536891],
-    height: '750px',
+    centre: [416804, 350039],
+    height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
     symbols,
@@ -129,7 +129,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     legend: {
       width: '280px',
-      // display: 'compact',
       isVisible: true,
       title: 'Menu',
       keyWidth: '360px',
