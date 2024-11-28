@@ -4,7 +4,7 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './
 getDefraMapConfig().then((defraMapConfig) => {
   let map
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
-  const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
+  const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
   // let isDark, isRamp
 
   const vtLayers = [
