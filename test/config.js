@@ -39,7 +39,9 @@ lab.experiment('Ensure config is correct', () => {
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
         clientSecret: 'TEST_AGOL_CLIENT_SECRET',
-        serviceUrl: 'http://dummyAgolUrl',
+        serviceId: 'DUMMY_SERVICE_ID',
+        serviceUrl: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services',
+        vectorTileUrl: 'https://tiles.arcgis.com/tiles/DUMMY_SERVICE_ID/arcgis/rest/services',
         customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',

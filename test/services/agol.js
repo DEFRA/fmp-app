@@ -60,7 +60,7 @@ lab.experiment('agol.js', () => {
 
     // Test that the expected params get passed to queryFeatures
     const expectedParameters = {
-      url: 'http://dummyAgolUrl/endPoint1',
+      url: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services/endPoint1',
       geometry: undefined,
       geometryType: undefined,
       spatialRel: 'esriSpatialRelIntersects',
@@ -77,7 +77,7 @@ lab.experiment('agol.js', () => {
 
     // Test that the modified expected params get passed to queryFeatures
     Object.assign(expectedParameters, {
-      url: 'http://dummyAgolUrl/endPoint2',
+      url: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services/endPoint2',
       authentication: 'dummy_token_refreshed'
     })
 

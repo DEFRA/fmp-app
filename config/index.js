@@ -34,7 +34,9 @@ const config = {
   agol: {
     clientId: process.env.agolClientId,
     clientSecret: process.env.agolClientSecret,
-    serviceUrl: process.env.agolServiceUrl,
+    serviceId: process.env.agolServiceId,
+    serviceUrl: `https://services1.arcgis.com/${process.env.agolServiceId}/arcgis/rest/services`,
+    vectorTileUrl: `https://tiles.arcgis.com/tiles/${process.env.agolServiceId}/arcgis/rest/services`,
     customerTeamEndPoint: process.env.agolCustomerTeamEndPoint,
     localAuthorityEndPoint: process.env.agolLocalAuthorityEndPoint,
     isEnglandEndPoint: process.env.agolIsEnglandEndPoint,

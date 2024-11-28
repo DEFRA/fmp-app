@@ -39,7 +39,9 @@ const schema = Joi.object({
   agol: {
     clientId: Joi.string().required(),
     clientSecret: Joi.string().required(),
+    serviceId: Joi.string().required(),
     serviceUrl: Joi.string().uri().required(),
+    vectorTileUrl: Joi.string().uri().required(),
     customerTeamEndPoint: Joi.string().required(),
     localAuthorityEndPoint: Joi.string().required(),
     isEnglandEndPoint: Joi.string().required(),
