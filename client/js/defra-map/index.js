@@ -1,6 +1,47 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 
+const symbols = {
+  waterStorageAreas: '/assets/images/water-storage.svg',
+  floodDefences: '/assets/images/flood-defence.svg'
+}
+
+const keyItemDefinitions = {
+  floodZone1: {
+    // id: 'fz1',
+    label: 'Flood zone 1',
+    fill: '#00A4CD'
+  },
+  floodZone2: {
+    // id: 'fz2',
+    label: 'Flood zone 2',
+    fill: '#003078'
+  },
+  waterStorageAreas: {
+    id: 'fsa',
+    label: 'Water storage',
+    icon: symbols.waterStorageAreas,
+    fill: 'default: #12393d, dark: #12393d'
+  },
+  floodDefences: {
+    id: 'fd',
+    label: 'Flood defence',
+    icon: symbols.floodDefences,
+    fill: '#12393d'
+  },
+  mainRivers: {
+    id: 'mainr',
+    label: 'Main Rivers',
+    icon: symbols.floodDefences,
+    fill: '#f47738'
+  },
+  floodExtents: {
+    // id: 'fz1',
+    label: 'Flood extent',
+    fill: 'default: #ff0000, dark: #00ff00'
+  }
+}
+
 getDefraMapConfig().then((defraMapConfig) => {
   let map
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
@@ -97,12 +138,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const getSymbols = () => {
-    return ['water-storage', 'flood-defence'].map(s => `/assets/images/${s}.svg`)
-  }
-
-  const symbols = getSymbols()
-
   const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
   const floodMap = new FloodMap('map', {
@@ -115,7 +150,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
-    symbols,
+    symbols: [symbols.waterStorageAreas, symbols.floodDefences],
     requestCallback: getRequest,
     styles: {
       tokenCallback: getEsriToken,
@@ -134,228 +169,172 @@ getDefraMapConfig().then((defraMapConfig) => {
       title: 'Menu',
       keyWidth: '360px',
       keyDisplay: 'min',
-      segments: [
-        {
-          heading: 'Datasets',
-          collapse: 'collapse',
-          items: [
-            {
-              id: 'fz',
-              label: 'Flood zones 2 and 3'
-            },
-            {
-              id: 'rsd',
-              label: 'River and sea with defences'
-            },
-            {
-              id: 'rsu',
-              label: 'River and sea without defences'
-            },
-            {
-              id: 'sw',
-              label: 'Surface water'
-            },
-            {
-              id: 'mo',
-              label: 'None'
-            }
-          ]
-        },
-        {
-          id: 'tf',
-          heading: 'Time frame',
-          collapse: 'collapse',
-          // parentIds: ['rsd', 'rsu', 'sw'],
-          parentIds: ['rsd', 'rsu'],
-          items: [
-            {
-              id: 'pd',
-              label: 'Present day'
-            },
-            {
-              id: 'cl',
-              label: '2040\'s to 2060\'s'
-            }
-          ]
-        },
-        {
-          id: 'af1',
-          heading: 'Annual likelihood of flooding',
-          collapse: 'collapse',
-          parentIds: ['rsd', 'sw'],
-          items: [
-            {
-              id: 'hr',
-              label: 'Above 3.3%'
-            },
-            {
-              id: 'mr',
-              label: '0.1% to 0.5%'
-            },
-            {
-              id: 'lr',
-              label: 'Below 0.1%'
-            }
-          ]
-        },
-        {
-          id: 'af2',
-          heading: 'Annual likelihood of flooding',
-          collapse: 'collapse',
-          parentIds: ['rsu'],
-          items: [
-            {
-              id: 'mr',
-              label: '0.1% to 0.5%'
-            },
-            {
-              id: 'lr',
-              label: 'below 0.1%'
-            }
-          ]
-        }
+      segments: [{
+        heading: 'Datasets',
+        collapse: 'collapse',
+        items: [
+          {
+            id: 'fz',
+            label: 'Flood zones 2 and 3'
+          },
+          {
+            id: 'rsd',
+            label: 'River and sea with defences'
+          },
+          {
+            id: 'rsu',
+            label: 'River and sea without defences'
+          },
+          {
+            id: 'sw',
+            label: 'Surface water'
+          },
+          {
+            id: 'mo',
+            label: 'None'
+          }
+        ]
+      },
+      {
+        id: 'tf',
+        heading: 'Time frame',
+        collapse: 'collapse',
+        parentIds: ['rsd', 'rsu', 'sw'],
+        items: [
+          {
+            id: 'pd',
+            label: 'Present day'
+          },
+          {
+            id: 'cl',
+            label: '2040\'s to 2060\'s'
+          }
+        ]
+      },
+      {
+        id: 'af1',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['rsd', 'sw'],
+        items: [
+          {
+            id: 'hr',
+            label: 'Above 3.3%'
+          },
+          {
+            id: 'mr',
+            label: '0.1% to 0.5%'
+          },
+          {
+            id: 'lr',
+            label: 'Below 0.1%'
+          }
+        ]
+      },
+      {
+        id: 'af2',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['rsu'],
+        items: [
+          {
+            id: 'mr',
+            label: '0.1% to 0.5%'
+          },
+          {
+            id: 'lr',
+            label: 'below 0.1%'
+          }
+        ]
+      }
       ],
       key: [
-      // {
-      //   heading: 'Flood extent and depth',
-      //   parentIds: ['pd', 'cl'],
-      //   collapse: 'collapse',
-      //   type: 'radio',
-      //   items: [
-      //     {
-      //       id: 'na',
-      //       label: 'Hidden'
-      //     },
-      //     {
-      //       id: 'fe',
-      //       label: 'Flood extent',
-      //       fill: 'default: #ff0000, dark: #00ff00',
-      //       isSelected: true
-      //     },
-      //     {
-      //       id: 'md',
-      //       label: 'Maximum depth in metres',
-      //       display: 'ramp',
-      //       numLabels: 3,
-      //       items: [
-      //         {
-      //           label: 'above 2.3',
-      //           fill: 'default: #08589e, dark: #00ff00'
-      //         },
-      //         {
-      //           label: '2.3',
-      //           fill: '#2b8cbe'
-      //         },
-      //         {
-      //           label: '1.2',
-      //           fill: '#4eb3d3'
-      //         },
-      //         {
-      //           label: '0.9',
-      //           fill: '#7bccc4'
-      //         },
-      //         {
-      //           label: '0.6',
-      //           fill: '#a8ddb5'
-      //         },
-      //         {
-      //           label: '0.3',
-      //           fill: '#ccebc5'
-      //         },
-      //         {
-      //           label: '0.15',
-      //           fill: '#f0f9e8'
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
-      // {
-      //   heading: 'Map features',
-      //   parentIds: ['fz'],
-      //   collapse: 'collapse',
-      //   items: [
-      //     {
-      //       id: 'fz23',
-      //       label: 'Flood zones',
-      //       isSelected: true,
-      //       items: [
-      //         {
-      //           label: 'Flood zone 1',
-      //           fill: '#00A4CD'
-      //         },
-      //         {
-      //           label: 'Flood zone 2',
-      //           fill: '#003078'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       id: 'fsa',
-      //       label: 'Water storage',
-      //       icon: symbols[0],
-      //       fill: 'default: #12393d, dark: #12393d'
-      //     },
-      //     {
-      //       id: 'fd',
-      //       label: 'Flood defence',
-      //       icon: symbols[1],
-      //       fill: '#12393d'
-      //     }
-      //   ]
-      // },
-      // {
-      //   heading: 'Map features',
-      //   parentIds: ['pd', 'cl'],
-      //   collapse: 'collapse',
-      //   items: [
-      //     {
-      //       id: 'fsa',
-      //       label: 'Water storage',
-      //       icon: symbols[0],
-      //       fill: 'default: #12393d, dark: #12393d'
-      //     },
-      //     {
-      //       id: 'fd',
-      //       label: 'Flood defence',
-      //       icon: symbols[1],
-      //       fill: '#12393d'
-      //     }
-      //   ]
-      // },
+      //   {
+      //     heading: 'Flood extent and depth',
+      //     parentIds: ['pd', 'cl'],
+      //     collapse: 'collapse',
+      //     type: 'radio',
+      //     items: [
+      //       {
+      //         id: 'na',
+      //         label: 'Hidden'
+      //       },
+      //       keyItemDefinitions.floodExtents,
+      //       {
+      //         id: 'md',
+      //         label: 'Maximum depth in metres',
+      //         display: 'ramp',
+      //         numLabels: 3,
+      //         items: [
+      //           {
+      //             label: 'above 2.3',
+      //             fill: 'default: #08589e, dark: #00ff00'
+      //           },
+      //           {
+      //             label: '2.3',
+      //             fill: '#2b8cbe'
+      //           },
+      //           {
+      //             label: '1.2',
+      //             fill: '#4eb3d3'
+      //           },
+      //           {
+      //             label: '0.9',
+      //             fill: '#7bccc4'
+      //           },
+      //           {
+      //             label: '0.6',
+      //             fill: '#a8ddb5'
+      //           },
+      //           {
+      //             label: '0.3',
+      //             fill: '#ccebc5'
+      //           },
+      //           {
+      //             label: '0.15',
+      //             fill: '#f0f9e8'
+      //           }
+      //         ]
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     heading: 'Map features',
+      //     parentIds: ['fz'],
+      //     collapse: 'collapse',
+      //     items: [
+      //       {
+      //         id: 'fz23',
+      //         label: 'Flood zones',
+      //         isSelected: true,
+      //         items: [
+      //           keyItemDefinitions.floodZone1,
+      //           keyItemDefinitions.floodZone2
+      //         ]
+      //       },
+      //       keyItemDefinitions.waterStorageAreas,
+      //       keyItemDefinitions.floodDefences
+      //     ]
+      //   },
+      //   {
+      //     heading: 'Map features',
+      //     parentIds: ['pd', 'cl'],
+      //     collapse: 'collapse',
+      //     items: [
+      //       keyItemDefinitions.waterStorageAreas,
+      //       keyItemDefinitions.floodDefences
+      //     ]
+      //   },
         {
           heading: 'Map features',
           parentIds: ['fz'],
           collapse: 'collapse',
           items: [
-            {
-            // id: 'fz1',
-              label: 'Flood zone 1',
-              fill: '#00A4CD'
-            },
-            {
-            // id: 'fz2',
-              label: 'Flood zone 2',
-              fill: '#003078'
-            },
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #12393d, dark: #12393d'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#12393d'
-            },
-            {
-              id: 'mainr',
-              label: 'Main Rivers',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.floodZone1,
+            keyItemDefinitions.floodZone2,
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         },
         {
@@ -363,29 +342,10 @@ getDefraMapConfig().then((defraMapConfig) => {
           parentIds: ['rsd', 'rsu', 'sw'],
           collapse: 'collapse',
           items: [
-            {
-            // id: 'fz1',
-              label: 'Flood extent',
-              fill: 'default: #ff0000, dark: #00ff00'
-            },
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #12393d, dark: #12393d'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#12393d'
-            },
-            {
-              id: 'mainr',
-              label: 'Main Rivers',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.floodExtents,
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         },
         {
@@ -393,35 +353,13 @@ getDefraMapConfig().then((defraMapConfig) => {
           parentIds: ['mo'],
           collapse: 'collapse',
           items: [
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #12393d, dark: #12393d'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#12393d'
-            },
-            {
-              id: 'mainr',
-              label: 'Main Rivers',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         }
       ]
     },
-    // info: {
-    //     markerCoord: [337297, 503995],
-    //     hasData: true,
-    //     width: '360px',
-    //     label: '[dynamic title]',
-    //     html: '<p class="govuk-body-s">[dynamic body]</p>'
-    // },
     queryPolygon: {
       heading: 'Get a boundary  report',
       startLabel: 'Add site boundary',
