@@ -26,7 +26,8 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const fLayers = [
     { n: 'nat_defences', q: 'fd' },
-    { n: 'nat_fsa', q: 'fsa' }
+    { n: 'nat_fsa', q: 'fsa' },
+    { n: 'Statutory_Main_River_Map', q: 'mainr' }
   ]
 
   const addLayers = async () => {
@@ -293,13 +294,13 @@ getDefraMapConfig().then((defraMapConfig) => {
       //       id: 'fsa',
       //       label: 'Water storage',
       //       icon: symbols[0],
-      //       fill: 'default: #d4351c, dark: #00703c'
+      //       fill: 'default: #12393d, dark: #12393d'
       //     },
       //     {
       //       id: 'fd',
       //       label: 'Flood defence',
       //       icon: symbols[1],
-      //       fill: '#f47738'
+      //       fill: '#12393d'
       //     }
       //   ]
       // },
@@ -312,13 +313,13 @@ getDefraMapConfig().then((defraMapConfig) => {
       //       id: 'fsa',
       //       label: 'Water storage',
       //       icon: symbols[0],
-      //       fill: 'default: #d4351c, dark: #00703c'
+      //       fill: 'default: #12393d, dark: #12393d'
       //     },
       //     {
       //       id: 'fd',
       //       label: 'Flood defence',
       //       icon: symbols[1],
-      //       fill: '#f47738'
+      //       fill: '#12393d'
       //     }
       //   ]
       // },
@@ -341,11 +342,17 @@ getDefraMapConfig().then((defraMapConfig) => {
               id: 'fsa',
               label: 'Water storage',
               icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
+              fill: 'default: #12393d, dark: #12393d'
             },
             {
               id: 'fd',
               label: 'Flood defence',
+              icon: symbols[1],
+              fill: '#12393d'
+            },
+            {
+              id: 'mainr',
+              label: 'Main Rivers',
               icon: symbols[1],
               fill: '#f47738'
             }
@@ -365,11 +372,17 @@ getDefraMapConfig().then((defraMapConfig) => {
               id: 'fsa',
               label: 'Water storage',
               icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
+              fill: 'default: #12393d, dark: #12393d'
             },
             {
               id: 'fd',
               label: 'Flood defence',
+              icon: symbols[1],
+              fill: '#12393d'
+            },
+            {
+              id: 'mainr',
+              label: 'Main Rivers',
               icon: symbols[1],
               fill: '#f47738'
             }
@@ -384,11 +397,17 @@ getDefraMapConfig().then((defraMapConfig) => {
               id: 'fsa',
               label: 'Water storage',
               icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
+              fill: 'default: #12393d, dark: #12393d'
             },
             {
               id: 'fd',
               label: 'Flood defence',
+              icon: symbols[1],
+              fill: '#12393d'
+            },
+            {
+              id: 'mainr',
+              label: 'Main Rivers',
               icon: symbols[1],
               fill: '#f47738'
             }
