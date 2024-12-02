@@ -43,33 +43,150 @@ const keyItemDefinitions = {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  let map
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
-  // let isDark, isRamp
 
   const vtLayers = [
-    { n: 'Flood_Zones_2_and_3_Rivers_and_Sea', s: 'Flood Zones 2 and 3 Rivers and Sea', v: '', m: null, q: 'fz' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdhr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdmr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth', s: '_N', v: '', m: null, q: 'rsupdmr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdlr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth', s: '_N', v: '', m: null, q: 'rsupdlr' },
-    { n: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdclhr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdclmr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsuclmr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdcllr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsucllr' }
+    {
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
+      q: 'fz',
+      styleLayers: [
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1'
+      ]
+    },
+    {
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
+      q: '',
+      styleLayers: [
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
+      ]
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
+      q: '',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
+      q: 'rsdpdhr',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
+      q: 'rsdpdmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
+      q: 'rsupdmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
+      q: 'rsdpdlr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
+      q: 'rsupdlr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
+      q: '',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
+      q: 'rsdclhr',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
+      q: 'rsdclmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
+      q: 'rsuclmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
+      q: 'rsdcllr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
+      q: 'rsucllr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1']
+    }
   ]
+
+  const nonFloodZoneLight = '#2b8cbe'
+  const nonFloodZoneDark = '#7fcdbb'
+  const floodZone2Light = '#1d70b8'
+  const floodZone2Dark = '#41ab5d'
+  const floodZone3Light = '#003078'
+  const floodZone3Dark = '#e5f5e0'
+
+  // These will require reinstating when depth band data is available
+  // // light tones > 2300 to < 150
+  // const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
+  // // GREENS dark tones > 2300 to < 150
+  // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
+  // // BLUES dark tones > 2300 to < 150
+  // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
+
+  const paintProperties = {
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark]
+  }
 
   const fLayers = [
     { n: 'nat_defences', q: 'fd' },
     { n: 'nat_fsa', q: 'fsa' },
     { n: 'Statutory_Main_River_Map', q: 'mainr' }
   ]
+
+  const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
+    vtLayer.styleLayers.forEach((styleLayerName) => {
+      const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
+      if (layerPaintProperties) {
+        const fillColour = paintProperties[styleLayerName][isDark ? 1 : 0]
+        layerPaintProperties['fill-color'] = fillColour
+        layerPaintProperties['fill-opacity'] = 0.75
+        vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
+      }
+    })
+    // const { styleRepository = {} } = vectorTileLayer
+    // const { layers: styleLayers = [] } = styleRepository
+    // styleLayers.forEach((styleLayer) => {
+    //   console.log(styleLayer.id)
+    //   const fillColour = paintProperties[styleLayer.id][isDark ? 1 : 0]
+    //   const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayer.id)
+    //   layerPaintProperties['fill-color'] = fillColour
+    //   layerPaintProperties['fill-opacity'] = 0.75
+    //   // vectorTileLayer.setPaintProperties(styleLayer.id, { 'fill-color': fillColour, 'fill-opacity': 0.75 })
+    //   vectorTileLayer.setPaintProperties(styleLayer.id, layerPaintProperties)
+    // })
+  }
 
   const addLayers = async () => {
     return Promise.all([
@@ -78,15 +195,57 @@ getDefraMapConfig().then((defraMapConfig) => {
     ]).then(modules => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
-      vtLayers.forEach((layer, i) => {
-        map.add(new VectorTileLayer({
-          id: layer.n,
-          url: getVectorTileUrl(layer.n),
+      vtLayers.forEach((vtLayer) => {
+        const vectorTileLayer = new VectorTileLayer({
+          id: vtLayer.name,
+          url: getVectorTileUrl(vtLayer.name),
           visible: false
-        }))
+          // style: {
+          //   version: 8,
+          //   sources: {
+          //     esri: {
+          //       type: 'vector',
+          //       minzoom: 4,
+          //       maxzoom: 16,
+          //       scheme: 'xyz',
+          //       // url: '../../'
+          //       url: `https://tiles.arcgis.com/tiles/JZM7qJpmv7vJ0Hzx/arcgis/rest/services/${vtLayer.name + defraMapConfig.layerNameSuffix}/VectorTileServer/resources/styles/root.json`
+          //     }
+          //   },
+          //   // layers: Array(i === 0 ? 2 : 7).fill(0).map((_, j) => {
+          //   layers: vtLayer.styleLayers.map((styleLayerName, j) => {
+          //     return {
+          //       id: styleLayerName,
+          //       type: 'fill',
+          //       source: 'esri',
+          //       'source-layer': vtLayer.name.replaceAll('_', ' '),
+          //       minzoom: 4.7597,
+          //       filter: ['==', '_symbol', j],
+          //       layout: {
+          //         visibility: 'visible'
+          //       },
+          //       paint: {
+          //         'fill-color': paintProperties[styleLayerName][0],
+          //         'fill-opacity': 0.75
+          //       }
+          //     }
+          //   })
+          // }
+        })
+        // vectorTileLayer.on('load', (event) => {
+        //   setStylePaintProperties(vtLayer, vectorTileLayer, 0)
+        // })
+        // vectorTileLayer.watch('visible', (visibility, a, eventName, layer) => {
+        //   console.log('visible: ', visibility)
+        //   console.log(layer, eventName, a)
+        //   if (visibility) {
+        //     setStylePaintProperties(vtLayer, layer, 0)
+        //   }
+        // })
+        floodMap.map.add(vectorTileLayer)
       })
       fLayers.forEach(layer => {
-        map.add(new FeatureLayer({
+        floodMap.map.add(new FeatureLayer({
           id: layer.n,
           url: getFeatureLayerUrl(layer.n),
           renderer: layer.n === 'nat_defences' ? renderFloodDefence() : renderFloodStorage(),
@@ -122,13 +281,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const toggleVisibility = (type, mode, segments, layers, map) => {
+  const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
     const isDrawMode = ['frame', 'draw'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
-      const id = vtLayer.n
+      const id = vtLayer.name
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
+      setStylePaintProperties(vtLayer, layer, isDark)
     })
     fLayers.forEach(l => {
       const layer = map.findLayerById(l.n)
@@ -375,33 +535,31 @@ getDefraMapConfig().then((defraMapConfig) => {
       minZoom: 12,
       maxZoom: 21
     },
-    queryPixel: vtLayers.map(l => l.n)
+    queryPixel: vtLayers.map(vtLayer => vtLayer.name)
   })
 
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
-  floodMap.addEventListener('ready', e => {
-    map = floodMap.map
-    const { mode, segments, layers } = e.detail
+  floodMap.addEventListener('ready', async e => {
+    const { mode, segments, layers, basemap } = e.detail
     // const { basemap } = e.detail
-    // isDark = basemap === 'dark'
+    const isDark = basemap === 'dark'
     // isRamp = layers.includes('md')
-    addLayers(layers).then(() => {
-      toggleVisibility(null, mode, segments, layers, map)
-    })
+    await addLayers(layers)
+    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, isDark), 1000)
   })
 
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
-    const { type, mode, segments, layers } = e.detail
+    const { type, mode, segments, layers, basemap } = e.detail
     if (['layer', 'segment'].includes(type)) {
       floodMap.info = null
     }
     // const { basemap } = e.detail
-    // isDark = basemap === 'dark'
+    const isDark = basemap === 'dark'
     // isRamp = layers.includes('md')
     const map = floodMap.map
-    toggleVisibility(type, mode, segments, layers, map)
+    toggleVisibility(type, mode, segments, layers, map, isDark)
   })
 
   // Listen to map queries
@@ -421,7 +579,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
 
     const name = feature.layer.split('_VTP')[0]
-    const layer = vtLayers.find(l => l.n === name)
+    const layer = vtLayers.find(vtLayer => vtLayer.name === name)
 
     Promise.all([
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),
