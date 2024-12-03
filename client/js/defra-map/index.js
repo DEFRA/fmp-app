@@ -1,33 +1,189 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 
+const symbols = {
+  waterStorageAreas: '/assets/images/water-storage.svg',
+  floodDefences: '/assets/images/flood-defence.svg'
+}
+
+const keyItemDefinitions = {
+  floodZone1: {
+    // id: 'fz1',
+    label: 'Flood zone 1',
+    fill: '#00A4CD'
+  },
+  floodZone2: {
+    // id: 'fz2',
+    label: 'Flood zone 2',
+    fill: '#003078'
+  },
+  waterStorageAreas: {
+    id: 'fsa',
+    label: 'Water storage',
+    icon: symbols.waterStorageAreas,
+    fill: 'default: #12393d, dark: #12393d'
+  },
+  floodDefences: {
+    id: 'fd',
+    label: 'Flood defence',
+    icon: symbols.floodDefences,
+    fill: '#12393d'
+  },
+  mainRivers: {
+    id: 'mainr',
+    label: 'Main Rivers',
+    icon: symbols.floodDefences,
+    fill: '#f47738'
+  },
+  floodExtents: {
+    // id: 'fz1',
+    label: 'Flood extent',
+    fill: 'default: #ff0000, dark: #00ff00'
+  }
+}
+
 getDefraMapConfig().then((defraMapConfig) => {
-  let map
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
-  const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
-  // let isDark, isRamp
+  const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
 
   const vtLayers = [
-    { n: 'Flood_Zones_2_and_3_Rivers_and_Sea', s: 'Flood Zones 2 and 3 Rivers and Sea', v: '', m: null, q: 'fz' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdhr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdmr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth', s: '_N', v: '', m: null, q: 'rsupdmr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth', s: '_N', v: '', m: null, q: 'rsdpdlr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth', s: '_N', v: '', m: null, q: 'rsupdlr' },
-    { n: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1', s: '_N', v: '', m: null, q: '' },
-    { n: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdclhr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdclmr' },
-    { n: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsuclmr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsdcllr' },
-    { n: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1', s: '_N', v: '', m: null, q: 'rsucllr' }
+    {
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
+      q: 'fz',
+      styleLayers: [
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1'
+      ]
+    },
+    {
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
+      q: '',
+      styleLayers: [
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
+      ]
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
+      q: '',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
+      q: 'rsdpdhr',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
+      q: 'rsdpdmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
+      q: 'rsupdmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
+      q: 'rsdpdlr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
+      q: 'rsupdlr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
+      q: '',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
+      q: 'rsdclhr',
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
+      q: 'rsdclmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
+      q: 'rsuclmr',
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
+      q: 'rsdcllr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1']
+    },
+    {
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
+      q: 'rsucllr',
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1']
+    }
   ]
+
+  const nonFloodZoneLight = '#2b8cbe'
+  const nonFloodZoneDark = '#7fcdbb'
+  const floodZone2Light = '#1d70b8'
+  const floodZone2Dark = '#41ab5d'
+  const floodZone3Light = '#003078'
+  const floodZone3Dark = '#e5f5e0'
+
+  // These will require reinstating when depth band data is available
+  // // light tones > 2300 to < 150
+  // const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
+  // // GREENS dark tones > 2300 to < 150
+  // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
+  // // BLUES dark tones > 2300 to < 150
+  // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
+
+  const paintProperties = {
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark]
+  }
 
   const fLayers = [
     { n: 'nat_defences', q: 'fd' },
-    { n: 'nat_fsa', q: 'fsa' }
+    { n: 'nat_fsa', q: 'fsa' },
+    { n: 'Statutory_Main_River_Map', q: 'mainr' }
   ]
+
+  const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
+    vtLayer.styleLayers.forEach((styleLayerName) => {
+      const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
+      if (layerPaintProperties) {
+        const fillColour = paintProperties[styleLayerName][isDark ? 1 : 0]
+        layerPaintProperties['fill-color'] = fillColour
+        layerPaintProperties['fill-opacity'] = 0.75
+        vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
+      }
+    })
+    // Un comment this section to infer the styleLayers for each vector layer
+    // They don't seem to be defined anywhere server side, so Paul is anxious that
+    // they may change when new layers are published.
+    // const { styleRepository = {} } = vectorTileLayer
+    // const { layers: styleLayers = [] } = styleRepository
+    // styleLayers.forEach((styleLayer) => {
+    //   console.log(styleLayer.id)
+    // })
+  }
 
   const addLayers = async () => {
     return Promise.all([
@@ -36,15 +192,16 @@ getDefraMapConfig().then((defraMapConfig) => {
     ]).then(modules => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
-      vtLayers.forEach((layer, i) => {
-        map.add(new VectorTileLayer({
-          id: layer.n,
-          url: getVectorTileUrl(layer.n),
+      vtLayers.forEach((vtLayer) => {
+        const vectorTileLayer = new VectorTileLayer({
+          id: vtLayer.name,
+          url: getVectorTileUrl(vtLayer.name),
           visible: false
-        }))
+        })
+        floodMap.map.add(vectorTileLayer)
       })
       fLayers.forEach(layer => {
-        map.add(new FeatureLayer({
+        floodMap.map.add(new FeatureLayer({
           id: layer.n,
           url: getFeatureLayerUrl(layer.n),
           renderer: layer.n === 'nat_defences' ? renderFloodDefence() : renderFloodStorage(),
@@ -80,13 +237,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const toggleVisibility = (type, mode, segments, layers, map) => {
+  const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
     const isDrawMode = ['frame', 'draw'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
-      const id = vtLayer.n
+      const id = vtLayer.name
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
+      setStylePaintProperties(vtLayer, layer, isDark)
     })
     fLayers.forEach(l => {
       const layer = map.findLayerById(l.n)
@@ -96,25 +254,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const getSymbols = () => {
-    return ['water-storage', 'flood-defence'].map(s => `/assets/images/${s}.svg`)
-  }
-
-  const symbols = getSymbols()
-
   const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
   const floodMap = new FloodMap('map', {
     type: 'hybrid',
-    place: 'Ambleside',
-    zoom: 16,
+    place: 'England',
+    zoom: 7.7,
     minZoom: 6,
     maxZoom: 20,
-    centre: [324973, 536891],
-    height: '750px',
+    centre: [340367, 322766],
+    height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
-    symbols,
+    symbols: [symbols.waterStorageAreas, symbols.floodDefences],
     requestCallback: getRequest,
     styles: {
       tokenCallback: getEsriToken,
@@ -129,227 +281,176 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     legend: {
       width: '280px',
-      // display: 'compact',
       isVisible: true,
       title: 'Menu',
       keyWidth: '360px',
       keyDisplay: 'min',
-      segments: [
-        {
-          heading: 'Datasets',
-          collapse: 'collapse',
-          items: [
-            {
-              id: 'fz',
-              label: 'Flood zones 2 and 3'
-            },
-            {
-              id: 'rsd',
-              label: 'River and sea with defences'
-            },
-            {
-              id: 'rsu',
-              label: 'River and sea without defences'
-            },
-            {
-              id: 'sw',
-              label: 'Surface water'
-            },
-            {
-              id: 'mo',
-              label: 'None'
-            }
-          ]
-        },
-        {
-          id: 'tf',
-          heading: 'Time frame',
-          collapse: 'collapse',
-          // parentIds: ['rsd', 'rsu', 'sw'],
-          parentIds: ['rsd', 'rsu'],
-          items: [
-            {
-              id: 'pd',
-              label: 'Present day'
-            },
-            {
-              id: 'cl',
-              label: '2040\'s to 2060\'s'
-            }
-          ]
-        },
-        {
-          id: 'af1',
-          heading: 'Annual likelihood of flooding',
-          collapse: 'collapse',
-          parentIds: ['rsd', 'sw'],
-          items: [
-            {
-              id: 'hr',
-              label: 'Above 3.3%'
-            },
-            {
-              id: 'mr',
-              label: '0.1% to 0.5%'
-            },
-            {
-              id: 'lr',
-              label: 'Below 0.1%'
-            }
-          ]
-        },
-        {
-          id: 'af2',
-          heading: 'Annual likelihood of flooding',
-          collapse: 'collapse',
-          parentIds: ['rsu'],
-          items: [
-            {
-              id: 'mr',
-              label: '0.1% to 0.5%'
-            },
-            {
-              id: 'lr',
-              label: 'below 0.1%'
-            }
-          ]
-        }
+      segments: [{
+        heading: 'Datasets',
+        collapse: 'collapse',
+        items: [
+          {
+            id: 'fz',
+            label: 'Flood zones 2 and 3'
+          },
+          {
+            id: 'rsd',
+            label: 'River and sea with defences'
+          },
+          {
+            id: 'rsu',
+            label: 'River and sea without defences'
+          },
+          {
+            id: 'sw',
+            label: 'Surface water'
+          },
+          {
+            id: 'mo',
+            label: 'None'
+          }
+        ]
+      },
+      {
+        id: 'tf',
+        heading: 'Time frame',
+        collapse: 'collapse',
+        parentIds: ['rsd', 'rsu', 'sw'],
+        items: [
+          {
+            id: 'pd',
+            label: 'Present day'
+          },
+          {
+            id: 'cl',
+            label: '2040\'s to 2060\'s'
+          }
+        ]
+      },
+      {
+        id: 'af1',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['rsd', 'sw'],
+        items: [
+          {
+            id: 'hr',
+            label: 'Above 3.3%'
+          },
+          {
+            id: 'mr',
+            label: '0.1% to 0.5%'
+          },
+          {
+            id: 'lr',
+            label: 'Below 0.1%'
+          }
+        ]
+      },
+      {
+        id: 'af2',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['rsu'],
+        items: [
+          {
+            id: 'mr',
+            label: '0.1% to 0.5%'
+          },
+          {
+            id: 'lr',
+            label: 'below 0.1%'
+          }
+        ]
+      }
       ],
       key: [
-      // {
-      //   heading: 'Flood extent and depth',
-      //   parentIds: ['pd', 'cl'],
-      //   collapse: 'collapse',
-      //   type: 'radio',
-      //   items: [
-      //     {
-      //       id: 'na',
-      //       label: 'Hidden'
-      //     },
-      //     {
-      //       id: 'fe',
-      //       label: 'Flood extent',
-      //       fill: 'default: #ff0000, dark: #00ff00',
-      //       isSelected: true
-      //     },
-      //     {
-      //       id: 'md',
-      //       label: 'Maximum depth in metres',
-      //       display: 'ramp',
-      //       numLabels: 3,
-      //       items: [
-      //         {
-      //           label: 'above 2.3',
-      //           fill: 'default: #08589e, dark: #00ff00'
-      //         },
-      //         {
-      //           label: '2.3',
-      //           fill: '#2b8cbe'
-      //         },
-      //         {
-      //           label: '1.2',
-      //           fill: '#4eb3d3'
-      //         },
-      //         {
-      //           label: '0.9',
-      //           fill: '#7bccc4'
-      //         },
-      //         {
-      //           label: '0.6',
-      //           fill: '#a8ddb5'
-      //         },
-      //         {
-      //           label: '0.3',
-      //           fill: '#ccebc5'
-      //         },
-      //         {
-      //           label: '0.15',
-      //           fill: '#f0f9e8'
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
-      // {
-      //   heading: 'Map features',
-      //   parentIds: ['fz'],
-      //   collapse: 'collapse',
-      //   items: [
-      //     {
-      //       id: 'fz23',
-      //       label: 'Flood zones',
-      //       isSelected: true,
-      //       items: [
-      //         {
-      //           label: 'Flood zone 1',
-      //           fill: '#00A4CD'
-      //         },
-      //         {
-      //           label: 'Flood zone 2',
-      //           fill: '#003078'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       id: 'fsa',
-      //       label: 'Water storage',
-      //       icon: symbols[0],
-      //       fill: 'default: #d4351c, dark: #00703c'
-      //     },
-      //     {
-      //       id: 'fd',
-      //       label: 'Flood defence',
-      //       icon: symbols[1],
-      //       fill: '#f47738'
-      //     }
-      //   ]
-      // },
-      // {
-      //   heading: 'Map features',
-      //   parentIds: ['pd', 'cl'],
-      //   collapse: 'collapse',
-      //   items: [
-      //     {
-      //       id: 'fsa',
-      //       label: 'Water storage',
-      //       icon: symbols[0],
-      //       fill: 'default: #d4351c, dark: #00703c'
-      //     },
-      //     {
-      //       id: 'fd',
-      //       label: 'Flood defence',
-      //       icon: symbols[1],
-      //       fill: '#f47738'
-      //     }
-      //   ]
-      // },
+      //   {
+      //     heading: 'Flood extent and depth',
+      //     parentIds: ['pd', 'cl'],
+      //     collapse: 'collapse',
+      //     type: 'radio',
+      //     items: [
+      //       {
+      //         id: 'na',
+      //         label: 'Hidden'
+      //       },
+      //       keyItemDefinitions.floodExtents,
+      //       {
+      //         id: 'md',
+      //         label: 'Maximum depth in metres',
+      //         display: 'ramp',
+      //         numLabels: 3,
+      //         items: [
+      //           {
+      //             label: 'above 2.3',
+      //             fill: 'default: #08589e, dark: #00ff00'
+      //           },
+      //           {
+      //             label: '2.3',
+      //             fill: '#2b8cbe'
+      //           },
+      //           {
+      //             label: '1.2',
+      //             fill: '#4eb3d3'
+      //           },
+      //           {
+      //             label: '0.9',
+      //             fill: '#7bccc4'
+      //           },
+      //           {
+      //             label: '0.6',
+      //             fill: '#a8ddb5'
+      //           },
+      //           {
+      //             label: '0.3',
+      //             fill: '#ccebc5'
+      //           },
+      //           {
+      //             label: '0.15',
+      //             fill: '#f0f9e8'
+      //           }
+      //         ]
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     heading: 'Map features',
+      //     parentIds: ['fz'],
+      //     collapse: 'collapse',
+      //     items: [
+      //       {
+      //         id: 'fz23',
+      //         label: 'Flood zones',
+      //         isSelected: true,
+      //         items: [
+      //           keyItemDefinitions.floodZone1,
+      //           keyItemDefinitions.floodZone2
+      //         ]
+      //       },
+      //       keyItemDefinitions.waterStorageAreas,
+      //       keyItemDefinitions.floodDefences
+      //     ]
+      //   },
+      //   {
+      //     heading: 'Map features',
+      //     parentIds: ['pd', 'cl'],
+      //     collapse: 'collapse',
+      //     items: [
+      //       keyItemDefinitions.waterStorageAreas,
+      //       keyItemDefinitions.floodDefences
+      //     ]
+      //   },
         {
           heading: 'Map features',
           parentIds: ['fz'],
           collapse: 'collapse',
           items: [
-            {
-            // id: 'fz1',
-              label: 'Flood zone 1',
-              fill: '#00A4CD'
-            },
-            {
-            // id: 'fz2',
-              label: 'Flood zone 2',
-              fill: '#003078'
-            },
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.floodZone1,
+            keyItemDefinitions.floodZone2,
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         },
         {
@@ -357,23 +458,10 @@ getDefraMapConfig().then((defraMapConfig) => {
           parentIds: ['rsd', 'rsu', 'sw'],
           collapse: 'collapse',
           items: [
-            {
-            // id: 'fz1',
-              label: 'Flood extent',
-              fill: 'default: #ff0000, dark: #00ff00'
-            },
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.floodExtents,
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         },
         {
@@ -381,29 +469,13 @@ getDefraMapConfig().then((defraMapConfig) => {
           parentIds: ['mo'],
           collapse: 'collapse',
           items: [
-            {
-              id: 'fsa',
-              label: 'Water storage',
-              icon: symbols[0],
-              fill: 'default: #d4351c, dark: #00703c'
-            },
-            {
-              id: 'fd',
-              label: 'Flood defence',
-              icon: symbols[1],
-              fill: '#f47738'
-            }
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
           ]
         }
       ]
     },
-    // info: {
-    //     markerCoord: [337297, 503995],
-    //     hasData: true,
-    //     width: '360px',
-    //     label: '[dynamic title]',
-    //     html: '<p class="govuk-body-s">[dynamic body]</p>'
-    // },
     queryPolygon: {
       heading: 'Get a boundary  report',
       startLabel: 'Add site boundary',
@@ -419,33 +491,31 @@ getDefraMapConfig().then((defraMapConfig) => {
       minZoom: 12,
       maxZoom: 21
     },
-    queryPixel: vtLayers.map(l => l.n)
+    queryPixel: vtLayers.map(vtLayer => vtLayer.name)
   })
 
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
-  floodMap.addEventListener('ready', e => {
-    map = floodMap.map
-    const { mode, segments, layers } = e.detail
+  floodMap.addEventListener('ready', async e => {
+    const { mode, segments, layers, basemap } = e.detail
     // const { basemap } = e.detail
-    // isDark = basemap === 'dark'
+    const isDark = basemap === 'dark'
     // isRamp = layers.includes('md')
-    addLayers(layers).then(() => {
-      toggleVisibility(null, mode, segments, layers, map)
-    })
+    await addLayers(layers)
+    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, isDark), 1000)
   })
 
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
-    const { type, mode, segments, layers } = e.detail
+    const { type, mode, segments, layers, basemap } = e.detail
     if (['layer', 'segment'].includes(type)) {
       floodMap.info = null
     }
     // const { basemap } = e.detail
-    // isDark = basemap === 'dark'
+    const isDark = basemap === 'dark'
     // isRamp = layers.includes('md')
     const map = floodMap.map
-    toggleVisibility(type, mode, segments, layers, map)
+    toggleVisibility(type, mode, segments, layers, map, isDark)
   })
 
   // Listen to map queries
@@ -465,7 +535,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
 
     const name = feature.layer.split('_VTP')[0]
-    const layer = vtLayers.find(l => l.n === name)
+    const layer = vtLayers.find(vtLayer => vtLayer.name === name)
 
     Promise.all([
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),

@@ -16,3 +16,79 @@ $govuk-new-typography-scale: true;
 
 // Componenet CSS
 @import '../../node_modules/@defra/flood-map/src/flood-map';
+
+.flood-map {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .govuk-header {
+    @include mq ($until: tablet) {
+      padding-left: 0.75em;
+      padding-right: 0.75em;
+    }
+  }
+
+  .govuk-header__container {
+    @include mq ($from: tablet) {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding-left: 0.75em;
+      padding-right: 0.75em;
+
+      .govuk-header__logo {
+        width: auto;
+        padding-right: 0;
+        float: none;
+      }
+
+      .govuk-header__content {
+        width: auto;
+        float: none;
+        padding-left: 0;
+      }
+
+    }
+  }
+}
+
+.flood-map-main {
+  padding: 0.75em;
+
+  @include mq ($from: tablet) {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    padding: 0;
+  }
+}
+
+.flood-map-target {
+  @include mq ($from: tablet) {
+    height: 100%;
+  }
+}
+
+.govuk-header__container {
+  @include mq ($from: tablet) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+
+    .govuk-header__logo {
+      width: auto;
+      padding-right: 0;
+      float: none;
+    }
+
+    .govuk-header__content {
+      width: auto;
+      float: none;
+      padding-left: 0;
+      transform: translateX(-80px);
+    }
+  }
+}
