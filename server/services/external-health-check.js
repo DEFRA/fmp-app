@@ -20,7 +20,6 @@ const getExternalVersion = async (url, name) => {
   }
 }
 
-const getFmpServiceVersion = async () => getExternalVersion(config.service + '/health-check', 'fmp-service')
 const getFmpApiVersion = async () => getExternalVersion(config.functionAppUrl + '/health-check', 'fmp-api')
 
-module.exports = { getFmpServiceVersion, getFmpApiVersion }
+module.exports = { getFmpApiVersion }

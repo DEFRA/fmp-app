@@ -16,7 +16,6 @@ lab.experiment('Ensure config is correct', () => {
     const expectedConfig = {
       env: 'dev',
       server: { port: '8050' },
-      service: 'http://dummyuri',
       geoserver: 'http://dummyuri',
       views: { isCached: false },
       analyticsAccount: 'replace_this',

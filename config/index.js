@@ -7,7 +7,6 @@ const config = {
   server: {
     port: process.env.PORT
   },
-  service: process.env.service,
   geoserver: process.env.geoserver,
   views: {
     isCached: toBool(process.env.viewsIsCached)

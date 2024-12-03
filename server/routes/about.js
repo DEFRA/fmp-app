@@ -9,7 +9,6 @@ module.exports = {
   options: {
     description: 'Describe application version number',
     handler: async (_request, h) => {
-      const fmpService = await externalHealthCheck.getFmpServiceVersion()
       const fmpApi = await externalHealthCheck.getFmpApiVersion()
 
       const data = {
@@ -17,7 +16,6 @@ module.exports = {
           version: version.substring(0, version.lastIndexOf('-')),
           revision: revision.substring(0, GIT_REVISION_LENGTH)
         },
-        fmpService,
         fmpApi
       }
       return h.view('about', data)
