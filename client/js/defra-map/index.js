@@ -200,48 +200,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           id: vtLayer.name,
           url: getVectorTileUrl(vtLayer.name),
           visible: false
-          // style: {
-          //   version: 8,
-          //   sources: {
-          //     esri: {
-          //       type: 'vector',
-          //       minzoom: 4,
-          //       maxzoom: 16,
-          //       scheme: 'xyz',
-          //       // url: '../../'
-          //       url: `https://tiles.arcgis.com/tiles/JZM7qJpmv7vJ0Hzx/arcgis/rest/services/${vtLayer.name + defraMapConfig.layerNameSuffix}/VectorTileServer/resources/styles/root.json`
-          //     }
-          //   },
-          //   // layers: Array(i === 0 ? 2 : 7).fill(0).map((_, j) => {
-          //   layers: vtLayer.styleLayers.map((styleLayerName, j) => {
-          //     return {
-          //       id: styleLayerName,
-          //       type: 'fill',
-          //       source: 'esri',
-          //       'source-layer': vtLayer.name.replaceAll('_', ' '),
-          //       minzoom: 4.7597,
-          //       filter: ['==', '_symbol', j],
-          //       layout: {
-          //         visibility: 'visible'
-          //       },
-          //       paint: {
-          //         'fill-color': paintProperties[styleLayerName][0],
-          //         'fill-opacity': 0.75
-          //       }
-          //     }
-          //   })
-          // }
         })
-        // vectorTileLayer.on('load', (event) => {
-        //   setStylePaintProperties(vtLayer, vectorTileLayer, 0)
-        // })
-        // vectorTileLayer.watch('visible', (visibility, a, eventName, layer) => {
-        //   console.log('visible: ', visibility)
-        //   console.log(layer, eventName, a)
-        //   if (visibility) {
-        //     setStylePaintProperties(vtLayer, layer, 0)
-        //   }
-        // })
         floodMap.map.add(vectorTileLayer)
       })
       fLayers.forEach(layer => {
