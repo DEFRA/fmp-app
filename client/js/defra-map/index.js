@@ -3,19 +3,20 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
-  floodDefences: '/assets/images/flood-defence.svg'
+  floodDefences: '/assets/images/flood-defence.svg',
+  mainRivers: '/assets/images/main-rivers.svg'
 }
 
 const keyItemDefinitions = {
   floodZone1: {
-    // id: 'fz1',
-    label: 'Flood zone 1',
-    fill: '#00A4CD'
+    // id: 'fz2',
+    label: 'Flood zone 2',
+    fill: 'default: #1d70b8, dark: #41ab5d'
   },
   floodZone2: {
     // id: 'fz2',
-    label: 'Flood zone 2',
-    fill: '#003078'
+    label: 'Flood zone 3',
+    fill: 'default: #003078, dark: #e5f5e0'
   },
   waterStorageAreas: {
     id: 'fsa',
@@ -32,13 +33,13 @@ const keyItemDefinitions = {
   mainRivers: {
     id: 'mainr',
     label: 'Main Rivers',
-    icon: symbols.floodDefences,
+    icon: symbols.mainRivers,
     fill: '#f47738'
   },
   floodExtents: {
-    // id: 'fz1',
+    // id: 'fz2',
     label: 'Flood extent',
-    fill: 'default: #ff0000, dark: #00ff00'
+    fill: 'default: #2b8cbe, dark: #7fcdbb'
   }
 }
 
@@ -277,7 +278,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
-    symbols: [symbols.waterStorageAreas, symbols.floodDefences],
+    symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers],
     requestCallback: getRequest,
     styles: {
       tokenCallback: getEsriToken,
@@ -334,7 +335,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'cl',
-            label: '2040\'s to 2060\'s'
+            label: 'Climate change'
           }
         ]
       },
@@ -346,15 +347,35 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: 'Above 3.3%'
+            label: 'Rivers and sea 3.3%'
           },
           {
             id: 'mr',
-            label: '0.1% to 0.5%'
+            label: 'Rivers 1% Sea 0.5%'
           },
           {
             id: 'lr',
-            label: 'Below 0.1%'
+            label: 'Rivers and sea < 1%'
+          }
+        ]
+      },
+      {
+        id: 'sw1',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'hr',
+            label: '3.3%'
+          },
+          {
+            id: 'mr',
+            label: '1%'
+          },
+          {
+            id: 'lr',
+            label: '0.1%'
           }
         ]
       },
@@ -366,11 +387,11 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'mr',
-            label: '0.1% to 0.5%'
+            label: 'Rivers 1% Sea 0.5%'
           },
           {
             id: 'lr',
-            label: 'below 0.1%'
+            label: 'Rivers and sea 1%'
           }
         ]
       }
@@ -386,42 +407,48 @@ getDefraMapConfig().then((defraMapConfig) => {
       //         id: 'na',
       //         label: 'Hidden'
       //       },
+      //         {
+      //             id: 'fe',
+      //             label: 'Flood extent',
+      //             fill: 'default: #2b8cbe, dark: #7fcdbb',
+      //             isSelected: true
+      //         },
       //       keyItemDefinitions.floodExtents,
       //       {
       //         id: 'md',
       //         label: 'Maximum depth in metres',
       //         display: 'ramp',
       //         numLabels: 3,
-      //         items: [
-      //           {
-      //             label: 'above 2.3',
-      //             fill: 'default: #08589e, dark: #00ff00'
-      //           },
-      //           {
-      //             label: '2.3',
-      //             fill: '#2b8cbe'
-      //           },
-      //           {
-      //             label: '1.2',
-      //             fill: '#4eb3d3'
-      //           },
-      //           {
-      //             label: '0.9',
-      //             fill: '#7bccc4'
-      //           },
-      //           {
-      //             label: '0.6',
-      //             fill: '#a8ddb5'
-      //           },
-      //           {
-      //             label: '0.3',
-      //             fill: '#ccebc5'
-      //           },
-      //           {
-      //             label: '0.15',
-      //             fill: '#f0f9e8'
-      //           }
-      //         ]
+      //             items: [
+      //                 {
+      //                     label: 'above 2.3',
+      //                     fill: 'default: #7f2704, dark: #f7fcf5'
+      //                 },
+      //                 {
+      //                     label: '2.3',
+      //                     fill: '#a63603, dark: #e5f5e0'
+      //                 },
+      //                 {
+      //                     label: '1.2',
+      //                     fill: '#d94801, dark: #c7e9c0'
+      //                 },
+      //                 {
+      //                     label: '0.9',
+      //                     fill: '#f16913, dark: #a1d99b'
+      //                 },
+      //                 {
+      //                     label: '0.6',
+      //                     fill: '#fd8d3c, dark: #74c476'
+      //                 },
+      //                 {
+      //                     label: '0.3',
+      //                     fill: '#fdae6b, dark: #41ab5d'
+      //                 },
+      //                 {
+      //                     label: '0.15',
+      //                     fill: '#fdd0a2, dark: #238b45'
+      //                 }
+      //             ]
       //       }
       //     ]
       //   },
