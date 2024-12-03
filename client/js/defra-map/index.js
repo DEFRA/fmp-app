@@ -175,16 +175,13 @@ getDefraMapConfig().then((defraMapConfig) => {
         vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
       }
     })
+    // Un comment this section to infer the styleLayers for each vector layer
+    // They don't seem to be defined anywhere server side, so Paul is anxious that
+    // they may change when new layers are published.
     // const { styleRepository = {} } = vectorTileLayer
     // const { layers: styleLayers = [] } = styleRepository
     // styleLayers.forEach((styleLayer) => {
     //   console.log(styleLayer.id)
-    //   const fillColour = paintProperties[styleLayer.id][isDark ? 1 : 0]
-    //   const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayer.id)
-    //   layerPaintProperties['fill-color'] = fillColour
-    //   layerPaintProperties['fill-opacity'] = 0.75
-    //   // vectorTileLayer.setPaintProperties(styleLayer.id, { 'fill-color': fillColour, 'fill-opacity': 0.75 })
-    //   vectorTileLayer.setPaintProperties(styleLayer.id, layerPaintProperties)
     // })
   }
 
