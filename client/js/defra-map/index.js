@@ -160,9 +160,46 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const fLayers = [
-    { n: 'nat_defences', q: 'fd' },
-    { n: 'nat_fsa', q: 'fsa' },
-    { n: 'Statutory_Main_River_Map', q: 'mainr' }
+    {
+      name: 'nat_defences',
+      q: 'fd',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#12393d'
+        }
+      }
+    },
+    {
+      name: 'nat_fsa',
+      q: 'fsa',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-fill',
+          style: 'diagonal-cross',
+          color: '#12393d',
+          outline: {
+            color: '#12393d',
+            width: 1
+          }
+        }
+      }
+    },
+    {
+      name: 'Statutory_Main_River_Map',
+      q: 'mainr',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#f47738'
+        }
+      }
+    }
   ]
 
   const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
@@ -200,41 +237,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         })
         floodMap.map.add(vectorTileLayer)
       })
-      fLayers.forEach(layer => {
+      fLayers.forEach(fLayer => {
         floodMap.map.add(new FeatureLayer({
-          id: layer.n,
-          url: getFeatureLayerUrl(layer.n),
-          renderer: layer.n === 'nat_defences' ? renderFloodDefence() : renderFloodStorage(),
+          id: fLayer.name,
+          url: getFeatureLayerUrl(fLayer.name),
+          renderer: fLayer.renderer,
           visible: false
         }))
       })
     })
-  }
-
-  const renderFloodDefence = () => {
-    return {
-      type: 'simple',
-      symbol: {
-        type: 'simple-line',
-        width: '2px',
-        color: '#f47738'
-      }
-    }
-  }
-
-  const renderFloodStorage = () => {
-    return {
-      type: 'simple',
-      symbol: {
-        type: 'simple-fill',
-        style: 'diagonal-cross',
-        color: '#d4351c',
-        outline: {
-          color: '#d4351c',
-          width: 1
-        }
-      }
-    }
   }
 
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
@@ -246,9 +257,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       layer.visible = isVisible
       setStylePaintProperties(vtLayer, layer, isDark)
     })
-    fLayers.forEach(l => {
-      const layer = map.findLayerById(l.n)
-      const isVisible = !isDrawMode && layers.includes(l.q)
+    fLayers.forEach(fLayer => {
+      const layer = map.findLayerById(fLayer.name)
+      const isVisible = !isDrawMode && layers.includes(fLayer.q)
       layer.visible = isVisible
     // Re-colour feature layers
     })
