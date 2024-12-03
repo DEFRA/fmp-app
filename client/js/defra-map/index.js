@@ -515,18 +515,18 @@ getDefraMapConfig().then((defraMapConfig) => {
       ]
     },
     queryPolygon: {
-      heading: 'Get a boundary  report',
+      heading: 'Get a boundary report',
       startLabel: 'Add site boundary',
       editLabel: 'Edit site boundary',
       addLabel: 'Add boundary',
       updateLabel: 'Update boundary',
-      submitLabel: 'Get site report',
+      submitLabel: 'Get summary report',
       helpLabel: 'How to draw a shape',
       keyLabel: 'Report area',
-      html: '<p class="govuk-body-s">Instructions</p>',
+      html: '<p><strong>For an approximate site boundary</strong>: <ul class="govuk-list govuk-list--bullet"><li>use the red square to define the boundary of your site</li><li>zoom and move the map to position the square</li><li>click the ‘add boundary’ button to finish</li></ul></p></br><p><strong>For a more detailed site boundary:</strong></p><ul class="govuk-list govuk-list--bullet"><li>click ‘edit shape’ and dots will appear on the square</li><li>move the dots to change the shape of the square until it matches your boundary</li><li>click the ‘add boundary’ button to finish</li></ul>',
       defaultUrl: '/map/styles/polygon-default',
       darkUrl: '/map/styles/polygon-dark',
-      minZoom: 12,
+      minZoom: 19,
       maxZoom: 21
     },
     queryPixel: vtLayers.map(vtLayer => vtLayer.name)
