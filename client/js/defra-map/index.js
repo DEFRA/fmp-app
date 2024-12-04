@@ -3,19 +3,20 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
-  floodDefences: '/assets/images/flood-defence.svg'
+  floodDefences: '/assets/images/flood-defence.svg',
+  mainRivers: '/assets/images/main-rivers.svg'
 }
 
 const keyItemDefinitions = {
   floodZone1: {
-    // id: 'fz1',
-    label: 'Flood zone 1',
-    fill: '#00A4CD'
+    // id: 'fz2',
+    label: 'Flood zone 2',
+    fill: 'default: #1d70b8, dark: #41ab5d'
   },
   floodZone2: {
     // id: 'fz2',
-    label: 'Flood zone 2',
-    fill: '#003078'
+    label: 'Flood zone 3',
+    fill: 'default: #003078, dark: #e5f5e0'
   },
   waterStorageAreas: {
     id: 'fsa',
@@ -32,13 +33,13 @@ const keyItemDefinitions = {
   mainRivers: {
     id: 'mainr',
     label: 'Main Rivers',
-    icon: symbols.floodDefences,
+    icon: symbols.mainRivers,
     fill: '#f47738'
   },
   floodExtents: {
-    // id: 'fz1',
+    // id: 'fz2',
     label: 'Flood extent',
-    fill: 'default: #ff0000, dark: #00ff00'
+    fill: 'default: #2b8cbe, dark: #7fcdbb'
   }
 }
 
@@ -160,9 +161,46 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const fLayers = [
-    { n: 'nat_defences', q: 'fd' },
-    { n: 'nat_fsa', q: 'fsa' },
-    { n: 'Statutory_Main_River_Map', q: 'mainr' }
+    {
+      name: 'nat_defences',
+      q: 'fd',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#12393d'
+        }
+      }
+    },
+    {
+      name: 'nat_fsa',
+      q: 'fsa',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-fill',
+          style: 'diagonal-cross',
+          color: '#12393d',
+          outline: {
+            color: '#12393d',
+            width: 1
+          }
+        }
+      }
+    },
+    {
+      name: 'Statutory_Main_River_Map',
+      q: 'mainr',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#f47738'
+        }
+      }
+    }
   ]
 
   const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
@@ -200,41 +238,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         })
         floodMap.map.add(vectorTileLayer)
       })
-      fLayers.forEach(layer => {
+      fLayers.forEach(fLayer => {
         floodMap.map.add(new FeatureLayer({
-          id: layer.n,
-          url: getFeatureLayerUrl(layer.n),
-          renderer: layer.n === 'nat_defences' ? renderFloodDefence() : renderFloodStorage(),
+          id: fLayer.name,
+          url: getFeatureLayerUrl(fLayer.name),
+          renderer: fLayer.renderer,
           visible: false
         }))
       })
     })
-  }
-
-  const renderFloodDefence = () => {
-    return {
-      type: 'simple',
-      symbol: {
-        type: 'simple-line',
-        width: '2px',
-        color: '#f47738'
-      }
-    }
-  }
-
-  const renderFloodStorage = () => {
-    return {
-      type: 'simple',
-      symbol: {
-        type: 'simple-fill',
-        style: 'diagonal-cross',
-        color: '#d4351c',
-        outline: {
-          color: '#d4351c',
-          width: 1
-        }
-      }
-    }
   }
 
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
@@ -246,9 +258,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       layer.visible = isVisible
       setStylePaintProperties(vtLayer, layer, isDark)
     })
-    fLayers.forEach(l => {
-      const layer = map.findLayerById(l.n)
-      const isVisible = !isDrawMode && layers.includes(l.q)
+    fLayers.forEach(fLayer => {
+      const layer = map.findLayerById(fLayer.name)
+      const isVisible = !isDrawMode && layers.includes(fLayer.q)
       layer.visible = isVisible
     // Re-colour feature layers
     })
@@ -266,7 +278,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     height: '100%',
     hasGeoLocation: true,
     framework: 'esri',
-    symbols: [symbols.waterStorageAreas, symbols.floodDefences],
+    symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers],
     requestCallback: getRequest,
     styles: {
       tokenCallback: getEsriToken,
@@ -323,7 +335,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'cl',
-            label: '2040\'s to 2060\'s'
+            label: 'Climate change'
           }
         ]
       },
@@ -331,19 +343,39 @@ getDefraMapConfig().then((defraMapConfig) => {
         id: 'af1',
         heading: 'Annual likelihood of flooding',
         collapse: 'collapse',
-        parentIds: ['rsd', 'sw'],
+        parentIds: ['rsd'],
         items: [
           {
             id: 'hr',
-            label: 'Above 3.3%'
+            label: 'Rivers and sea 3.3%'
           },
           {
             id: 'mr',
-            label: '0.1% to 0.5%'
+            label: 'Rivers 1% Sea 0.5%'
           },
           {
             id: 'lr',
-            label: 'Below 0.1%'
+            label: 'Rivers and sea 0.1%'
+          }
+        ]
+      },
+      {
+        id: 'sw1',
+        heading: 'Annual likelihood of flooding',
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'hr',
+            label: '3.3%'
+          },
+          {
+            id: 'mr',
+            label: '1%'
+          },
+          {
+            id: 'lr',
+            label: '0.1%'
           }
         ]
       },
@@ -355,11 +387,11 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'mr',
-            label: '0.1% to 0.5%'
+            label: 'Rivers 1% Sea 0.5%'
           },
           {
             id: 'lr',
-            label: 'below 0.1%'
+            label: 'Rivers and sea 0.1%'
           }
         ]
       }
@@ -375,42 +407,48 @@ getDefraMapConfig().then((defraMapConfig) => {
       //         id: 'na',
       //         label: 'Hidden'
       //       },
+      //         {
+      //             id: 'fe',
+      //             label: 'Flood extent',
+      //             fill: 'default: #2b8cbe, dark: #7fcdbb',
+      //             isSelected: true
+      //         },
       //       keyItemDefinitions.floodExtents,
       //       {
       //         id: 'md',
       //         label: 'Maximum depth in metres',
       //         display: 'ramp',
       //         numLabels: 3,
-      //         items: [
-      //           {
-      //             label: 'above 2.3',
-      //             fill: 'default: #08589e, dark: #00ff00'
-      //           },
-      //           {
-      //             label: '2.3',
-      //             fill: '#2b8cbe'
-      //           },
-      //           {
-      //             label: '1.2',
-      //             fill: '#4eb3d3'
-      //           },
-      //           {
-      //             label: '0.9',
-      //             fill: '#7bccc4'
-      //           },
-      //           {
-      //             label: '0.6',
-      //             fill: '#a8ddb5'
-      //           },
-      //           {
-      //             label: '0.3',
-      //             fill: '#ccebc5'
-      //           },
-      //           {
-      //             label: '0.15',
-      //             fill: '#f0f9e8'
-      //           }
-      //         ]
+      //             items: [
+      //                 {
+      //                     label: 'above 2.3',
+      //                     fill: 'default: #7f2704, dark: #f7fcf5'
+      //                 },
+      //                 {
+      //                     label: '2.3',
+      //                     fill: '#a63603, dark: #e5f5e0'
+      //                 },
+      //                 {
+      //                     label: '1.2',
+      //                     fill: '#d94801, dark: #c7e9c0'
+      //                 },
+      //                 {
+      //                     label: '0.9',
+      //                     fill: '#f16913, dark: #a1d99b'
+      //                 },
+      //                 {
+      //                     label: '0.6',
+      //                     fill: '#fd8d3c, dark: #74c476'
+      //                 },
+      //                 {
+      //                     label: '0.3',
+      //                     fill: '#fdae6b, dark: #41ab5d'
+      //                 },
+      //                 {
+      //                     label: '0.15',
+      //                     fill: '#fdd0a2, dark: #238b45'
+      //                 }
+      //             ]
       //       }
       //     ]
       //   },
@@ -477,18 +515,18 @@ getDefraMapConfig().then((defraMapConfig) => {
       ]
     },
     queryPolygon: {
-      heading: 'Get a boundary  report',
+      heading: 'Get a boundary report',
       startLabel: 'Add site boundary',
       editLabel: 'Edit site boundary',
       addLabel: 'Add boundary',
       updateLabel: 'Update boundary',
-      submitLabel: 'Get site report',
+      submitLabel: 'Get summary report',
       helpLabel: 'How to draw a shape',
       keyLabel: 'Report area',
-      html: '<p class="govuk-body-s">Instructions</p>',
+      html: '<p><strong>For an approximate site boundary</strong>: <ul class="govuk-list govuk-list--bullet"><li>use the red square to define the boundary of your site</li><li>zoom and move the map to position the square</li><li>click the ‘add boundary’ button to finish</li></ul></p></br><p><strong>For a more detailed site boundary:</strong></p><ul class="govuk-list govuk-list--bullet"><li>click ‘edit shape’ and dots will appear on the square</li><li>move the dots to change the shape of the square until it matches your boundary</li><li>click the ‘add boundary’ button to finish</li></ul>',
       defaultUrl: '/map/styles/polygon-default',
       darkUrl: '/map/styles/polygon-dark',
-      minZoom: 12,
+      minZoom: 19,
       maxZoom: 21
     },
     queryPixel: vtLayers.map(vtLayer => vtLayer.name)
