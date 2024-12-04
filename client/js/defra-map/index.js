@@ -355,7 +355,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'lr',
-            label: 'Rivers and sea < 1%'
+            label: 'Rivers and sea 0.1%'
           }
         ]
       },
@@ -391,7 +391,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'lr',
-            label: 'Rivers and sea 1%'
+            label: 'Rivers and sea 0.1%'
           }
         ]
       }
