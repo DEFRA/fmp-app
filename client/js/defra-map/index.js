@@ -343,7 +343,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         id: 'af1',
         heading: 'Annual likelihood of flooding',
         collapse: 'collapse',
-        parentIds: ['rsd', 'sw'],
+        parentIds: ['rsd'],
         items: [
           {
             id: 'hr',
