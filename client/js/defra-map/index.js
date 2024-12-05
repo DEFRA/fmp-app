@@ -1,5 +1,6 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
+import { renderInfo, renderList, renderListRow } from './infoRenderer'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -46,6 +47,7 @@ const keyItemDefinitions = {
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
+  const getModelOriginLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}_Model_Origin${defraMapConfig.layerNameSuffix}/FeatureServer`
 
   const vtLayers = [
     {
@@ -532,98 +534,106 @@ getDefraMapConfig().then((defraMapConfig) => {
     queryPixel: vtLayers.map(vtLayer => vtLayer.name)
   })
 
+  const mapState = {
+    isDark: false,
+    isRamp: false,
+    layers: [],
+    segments: []
+  }
+
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, basemap } = e.detail
-    // const { basemap } = e.detail
-    const isDark = basemap === 'dark'
-    // isRamp = layers.includes('md')
-    await addLayers(layers)
-    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, isDark), 1000)
+    mapState.segments = segments
+    mapState.layers = layers
+    mapState.isDark = basemap === 'dark'
+    mapState.isRamp = layers.includes('md')
+    console.log('ready mapState', mapState)
+    await addLayers()
+    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
   })
 
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
     const { type, mode, segments, layers, basemap } = e.detail
+    mapState.segments = segments
+    mapState.layers = layers
+    mapState.isDark = basemap === 'dark'
+    mapState.isRamp = layers.includes('md')
+    console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
       floodMap.info = null
     }
-    // const { basemap } = e.detail
-    const isDark = basemap === 'dark'
-    // isRamp = layers.includes('md')
     const map = floodMap.map
-    toggleVisibility(type, mode, segments, layers, map, isDark)
+    toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
-  // Listen to map queries
-  floodMap.addEventListener('query', e => {
-    const { coord, features } = e.detail
-    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
-
-    if (!feature) {
-      floodMap.info = {
-        width: '360px',
-        label: 'Title',
-        html: `
-                <p class="govuk-body-s">No feature info</p>
-            `
-      }
-      return
+  const getDataset = () => {
+    if (mapState.segments.includes('sw')) {
+      return 'Surface water'
     }
+    if (mapState.segments.includes('rsd')) {
+      return 'River and sea with defences'
+    }
+    if (mapState.segments.includes('rsu')) {
+      return 'River and sea without defences'
+    }
+    return undefined
+  }
 
-    const name = feature.layer.split('_VTP')[0]
-    const layer = vtLayers.find(vtLayer => vtLayer.name === name)
-
-    Promise.all([
+  const getModelOriginLayer = async (coords, layerName) => {
+    const vtLayer = vtLayers.find(vtLayer => vtLayer.name === layerName)
+    const [{ default: FeatureLayer }, { default: Point }] = await Promise.all([
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/geometry/Point.js')
-    ]).then(modules => {
-      const FeatureLayer = modules[0].default
-      const Point = modules[1].default
-      Promise.resolve({ FeatureLayer, Point })
-    }).then((FeatureLayer, Point) => layer.m
-      ? () => {
-          const model = new FeatureLayer({
-            url: getFeatureLayerUrl(layer.n)
-          })
-          model.queryFeatures({
-            geometry: new Point({ x: coord[0], y: coord[1], spatialReference: 27700 }),
-            outFields: ['*'],
-            spatialRelationship: 'intersects',
-            distance: 1,
-            units: 'meters',
-            returnGeometry: false
-          }).then(results => {
-            if (results.features.length) {
-              Promise.resolve(results.features[0].attributes)
-            } else {
-              Promise.resolve(null)
-            }
-          })
-        }
-      : Promise.resolve()).finally(attributes => {
-      const band = feature._symbol
-      const layerName = feature.layer
-      const isFloodZone = layerName.includes('Zone')
-      const title = isFloodZone
-        ? `<strong>Flood zone</strong>: ${band + 2}<br>`
-        : `<strong>Maximum depth:</strong> ${depthMap[band]}metres<br/>`
-      const model = attributes
-        ? `
-          <strong>Model:</strong> ${attributes.model}</br/>
-          <strong>Model year:</strong> ${attributes.model_year}
-      `
-        : ''
-      floodMap.info = {
-        width: '360px',
-        label: 'Title',
-        html: `
-        <p class="govuk-body-s">${title}${model}</p>
-        <p class="govuk-body-s govuk-!-margin-top-1">${layerName}</p>
-        <p class="govuk-body-s govuk-!-margin-bottom-0">Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914 translation by H. Rackham "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</p>
-      `
-      }
+    ])
+
+    const model = new FeatureLayer({ url: getModelOriginLayerUrl(vtLayer.name) })
+    const results = await model.queryFeatures({
+      geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
+      outFields: ['*'],
+      spatialRelationship: 'intersects',
+      distance: 1,
+      units: 'meters',
+      returnGeometry: false
     })
+    console.log('results', results)
+    const attributes = results.features.length ? results.features[0].attributes : undefined
+    console.log('attributes', attributes)
+    return attributes
+  }
+
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { coord, features } = e.detail
+    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
+    const listContents = [
+      ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
+      ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
+    ]
+
+    if (feature) {
+      console.log('feature', feature)
+      const floodZone = feature._symbol === undefined ? undefined : feature._symbol + 2
+      if (floodZone) {
+        listContents.push(['Flood zone', floodZone])
+        const attributes = await getModelOriginLayer(coord, feature.layer)
+        if (attributes && attributes.flood_source) {
+          listContents.push(['Flood source', attributes.flood_source])
+        }
+      }
+    } else {
+      if (mapState.segments.includes('fz')) {
+        listContents.push(['Flood zone', '1'])
+      } else {
+        const dataset = getDataset()
+        if (dataset) {
+          listContents.push(['Dataset', dataset])
+        }
+      }
+    }
+
+    floodMap.info = renderInfo(renderList(listContents))
   })
 })
