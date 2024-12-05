@@ -1,6 +1,6 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
-import { renderInfo, renderList, renderListRow } from './infoRenderer'
+import { renderInfo, renderList } from './infoRenderer'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -44,6 +44,13 @@ const keyItemDefinitions = {
   }
 }
 
+// floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
+// we believe it depends on the order of the styles that are set on the flood zones vector tile layer
+// and it is used to infer the flood zone that has been clicked on by a user.
+// On a previous data set, these values were in the reverse order so we need to verify that they remain correct 
+// after a data upload to arcGis
+const floodZoneSymbolIndex = [ '3', '2' ]
+
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
@@ -54,8 +61,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
       q: 'fz',
       styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1'
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1'
       ]
     },
     {
@@ -268,7 +275,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
+  // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
   const floodMap = new FloodMap('map', {
     type: 'hybrid',
@@ -615,7 +622,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
     if (feature) {
       console.log('feature', feature)
-      const floodZone = feature._symbol === undefined ? undefined : feature._symbol + 2
+      const floodZone = feature._symbol === undefined ? undefined : floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
         const attributes = await getModelOriginLayer(coord, feature.layer)
