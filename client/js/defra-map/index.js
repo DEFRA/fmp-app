@@ -611,6 +611,15 @@ getDefraMapConfig().then((defraMapConfig) => {
     return attributes
   }
 
+  const formatFloodSource = (floodSource) => {
+    if (floodSource === 'Coastal') {
+      return 'Sea'
+    } else if (floodSource === 'Fluvial') {
+      return 'River'
+    }
+    return floodSource || ''
+  }
+
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
     const { coord, features } = e.detail
@@ -627,7 +636,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         listContents.push(['Flood zone', floodZone])
         const attributes = await getModelOriginLayer(coord, feature.layer)
         if (attributes && attributes.flood_source) {
-          listContents.push(['Flood source', attributes.flood_source])
+          listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
         }
       }
     } else {
