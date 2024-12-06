@@ -7,14 +7,25 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 dotenv.config({ path: path.join(__dirname, './.env') })
 
+const buildAsSubmodule = process.env.build_map_as_submodule === 'true'
+
+const exclusions = buildAsSubmodule ? /node_modules/ : /node_modules\/(?!@defra*)/
+
+const floodMapPath = buildAsSubmodule
+  ? 'defra-map/src/flood-map.js'
+  : 'node_modules/@defra/flood-map/src/flood-map.js'
+
+const arcGisPackagePath = buildAsSubmodule
+  ? path.resolve(__dirname, 'defra-map/node_modules/@arcgis')
+  : '@arcgis'
+
+console.log('Building defra-map as', buildAsSubmodule ? 'a submodule' : 'an npm package', '\n')
+
 export default {
   entry: {
     main: [
       path.join(__dirname, 'client/js/defra-map/index.js'),
       path.join(__dirname, 'client/sass-flood-map/main.scss')
-    ],
-    esriComponents: [
-      path.join(__dirname, 'client/js/defra-map/esri-components.js')
     ]
   },
   devtool: 'source-map',
@@ -43,11 +54,7 @@ export default {
     rules: [
       {
         test: /\.jsx?$/i,
-        exclude: [
-          /node_modules/
-          // /node_modules\/(?!@defra*)/,
-          // /defra-map\/node_modules\/(?!@defra*)/
-        ],
+        exclude: exclusions,
         loader: 'babel-loader'
       },
       { // I need to include the css from defra-map
@@ -67,18 +74,16 @@ export default {
       {
         test: /\.jsx?$/,
         use: ['magic-comments-loader'],
-        exclude: [
-          /node_modules/
-          // /node_modules\/(?!@defra*)/,
-          // /defra-map\/node_modules\/(?!@defra*)/
-        ]
+        exclude: exclusions
       }
     ]
   },
   resolve: {
     extensions: ['.jsx', '.js'],
     alias: {
-      '/assets': path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets')
+      '/assets': path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'),
+      '/flood-map': path.resolve(__dirname, floodMapPath),
+      '/@arcgis-path': arcGisPackagePath
     }
   },
   ignoreWarnings: [
