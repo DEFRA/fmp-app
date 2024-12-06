@@ -12,6 +12,9 @@ export default {
     main: [
       path.join(__dirname, 'client/js/defra-map/index.js'),
       path.join(__dirname, 'client/sass-flood-map/main.scss')
+    ],
+    esriComponents: [
+      path.join(__dirname, 'client/js/defra-map/esri-components.js')
     ]
   },
   devtool: 'source-map',
@@ -40,7 +43,11 @@ export default {
     rules: [
       {
         test: /\.jsx?$/i,
-        exclude: /node_modules\/(?!@defra*)/,
+        exclude: [
+          /node_modules/
+          // /node_modules\/(?!@defra*)/,
+          // /defra-map\/node_modules\/(?!@defra*)/
+        ],
         loader: 'babel-loader'
       },
       { // I need to include the css from defra-map
@@ -60,7 +67,11 @@ export default {
       {
         test: /\.jsx?$/,
         use: ['magic-comments-loader'],
-        exclude: /node_modules\/(?!@defra*)/
+        exclude: [
+          /node_modules/
+          // /node_modules\/(?!@defra*)/,
+          // /defra-map\/node_modules\/(?!@defra*)/
+        ]
       }
     ]
   },
