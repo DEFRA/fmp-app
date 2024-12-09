@@ -72,7 +72,7 @@ lab.experiment('home', () => {
     await payloadMatchTest(payload, /<a href = "https:\/\/www.ordnancesurvey.co.uk\/">Ordnance Survey\(OS\)<\/a>/g)
     await payloadMatchTest(payload, /<a href="os-terms">Ordnance Survey terms and conditions<\/a>/g)
     await payloadMatchTest(payload, /<li>download a printable flood map for planning <\/li>/g)
-    await payloadMatchTest(payload, /<li>request data for a flood risk assessment <\/li>/g)
+    await payloadMatchTest(payload, /<li>request flood risk data <\/li>/g)
     Code.expect(payload).to.not.include('100024198') // Old Os Number
     Code.expect(payload).to.include('AC0000807064') // New Os Number
   })
