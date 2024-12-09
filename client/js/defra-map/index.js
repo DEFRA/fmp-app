@@ -1,5 +1,7 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
+import { renderInfo, renderList } from './infoRenderer'
+import { terms } from './terms.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -43,17 +45,24 @@ const keyItemDefinitions = {
   }
 }
 
+// floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
+// we believe it depends on the order of the styles that are set on the flood zones vector tile layer
+// and it is used to infer the flood zone that has been clicked on by a user.
+// On a previous data set, these values were in the reverse order so we need to verify that they remain correct
+// after a data upload to arcGis
+const floodZoneSymbolIndex = ['3', '2']
+
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
-
+  const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
   const vtLayers = [
     {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
       q: 'fz',
       styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1'
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1'
       ]
     },
     {
@@ -67,62 +76,74 @@ getDefraMapConfig().then((defraMapConfig) => {
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
       q: '',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
       q: 'rsdpdhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
       q: 'rsdpdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
       q: 'rsupdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
       q: 'rsdpdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
       q: 'rsupdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
       q: '',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
       q: 'rsdclhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
       q: 'rsdclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
       q: 'rsuclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
       q: 'rsdcllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
       q: 'rsucllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     }
   ]
 
@@ -266,7 +287,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
+  // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
   const floodMap = new FloodMap('map', {
     type: 'hybrid',
@@ -347,15 +368,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: 'Rivers and sea 3.3%'
+            label: terms.likelihood.rsHigh
           },
           {
             id: 'mr',
-            label: 'Rivers 1% Sea 0.5%'
+            label: terms.likelihood.rsMedium
           },
           {
             id: 'lr',
-            label: 'Rivers and sea 0.1%'
+            label: terms.likelihood.rsLow
           }
         ]
       },
@@ -367,15 +388,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: '3.3%'
+            label: terms.likelihood.swHigh
           },
           {
             id: 'mr',
-            label: '1%'
+            label: terms.likelihood.swMedium
           },
           {
             id: 'lr',
-            label: '0.1%'
+            label: terms.likelihood.swLow
           }
         ]
       },
@@ -387,11 +408,11 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'mr',
-            label: 'Rivers 1% Sea 0.5%'
+            label: terms.likelihood.rsMedium
           },
           {
             id: 'lr',
-            label: 'Rivers and sea 0.1%'
+            label: terms.likelihood.rsLow
           }
         ]
       }
@@ -532,98 +553,119 @@ getDefraMapConfig().then((defraMapConfig) => {
     queryPixel: vtLayers.map(vtLayer => vtLayer.name)
   })
 
+  const mapState = {
+    isDark: false,
+    isRamp: false,
+    layers: [],
+    segments: []
+  }
+
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, basemap } = e.detail
-    // const { basemap } = e.detail
-    const isDark = basemap === 'dark'
-    // isRamp = layers.includes('md')
-    await addLayers(layers)
-    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, isDark), 1000)
+    mapState.segments = segments
+    mapState.layers = layers
+    mapState.isDark = basemap === 'dark'
+    mapState.isRamp = layers.includes('md')
+    console.log('ready mapState', mapState)
+    await addLayers()
+    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
   })
 
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
     const { type, mode, segments, layers, basemap } = e.detail
+    mapState.segments = segments
+    mapState.layers = layers
+    mapState.isDark = basemap === 'dark'
+    mapState.isRamp = layers.includes('md')
+    console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
       floodMap.info = null
     }
-    // const { basemap } = e.detail
-    const isDark = basemap === 'dark'
-    // isRamp = layers.includes('md')
     const map = floodMap.map
-    toggleVisibility(type, mode, segments, layers, map, isDark)
+    toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
-  // Listen to map queries
-  floodMap.addEventListener('query', e => {
-    const { coord, features } = e.detail
-    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
-
-    if (!feature) {
-      floodMap.info = {
-        width: '360px',
-        label: 'Title',
-        html: `
-                <p class="govuk-body-s">No feature info</p>
-            `
-      }
-      return
+  const getDataset = () => {
+    if (mapState.segments.includes('sw')) {
+      return 'Surface water'
     }
+    if (mapState.segments.includes('rsd')) {
+      return 'River and sea with defences'
+    }
+    if (mapState.segments.includes('rsu')) {
+      return 'River and sea without defences'
+    }
+    return undefined
+  }
 
-    const name = feature.layer.split('_VTP')[0]
-    const layer = vtLayers.find(vtLayer => vtLayer.name === name)
-
-    Promise.all([
+  const getModelFeatureLayer = async (coords, layerName) => {
+    const [{ default: FeatureLayer }, { default: Point }] = await Promise.all([
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/geometry/Point.js')
-    ]).then(modules => {
-      const FeatureLayer = modules[0].default
-      const Point = modules[1].default
-      Promise.resolve({ FeatureLayer, Point })
-    }).then((FeatureLayer, Point) => layer.m
-      ? () => {
-          const model = new FeatureLayer({
-            url: getFeatureLayerUrl(layer.n)
-          })
-          model.queryFeatures({
-            geometry: new Point({ x: coord[0], y: coord[1], spatialReference: 27700 }),
-            outFields: ['*'],
-            spatialRelationship: 'intersects',
-            distance: 1,
-            units: 'meters',
-            returnGeometry: false
-          }).then(results => {
-            if (results.features.length) {
-              Promise.resolve(results.features[0].attributes)
-            } else {
-              Promise.resolve(null)
-            }
-          })
-        }
-      : Promise.resolve()).finally(attributes => {
-      const band = feature._symbol
-      const layerName = feature.layer
-      const isFloodZone = layerName.includes('Zone')
-      const title = isFloodZone
-        ? `<strong>Flood zone</strong>: ${band + 2}<br>`
-        : `<strong>Maximum depth:</strong> ${depthMap[band]}metres<br/>`
-      const model = attributes
-        ? `
-          <strong>Model:</strong> ${attributes.model}</br/>
-          <strong>Model year:</strong> ${attributes.model_year}
-      `
-        : ''
-      floodMap.info = {
-        width: '360px',
-        label: 'Title',
-        html: `
-        <p class="govuk-body-s">${title}${model}</p>
-        <p class="govuk-body-s govuk-!-margin-top-1">${layerName}</p>
-        <p class="govuk-body-s govuk-!-margin-bottom-0">Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914 translation by H. Rackham "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</p>
-      `
-      }
+    ])
+
+    const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
+    const results = await model.queryFeatures({
+      geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
+      outFields: ['*'],
+      spatialRelationship: 'intersects',
+      distance: 1,
+      units: 'meters',
+      returnGeometry: false
     })
+    console.log('results', results)
+    const attributes = results.features.length ? results.features[0].attributes : undefined
+    console.log('attributes', attributes)
+    return attributes
+  }
+
+  const formatFloodSource = (floodSource = '') => {
+    if (floodSource === 'Coastal') {
+      return 'Sea'
+    } else if (floodSource === 'Fluvial') {
+      return 'River'
+    }
+    return floodSource[0].toUpperCase() + floodSource.slice(1)
+  }
+
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { coord, features } = e.detail
+    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
+    const listContents = [
+      ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
+      ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
+    ]
+
+    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
+
+    if (feature && feature._symbol !== undefined) {
+      console.log('feature', feature)
+      const floodZone = floodZoneSymbolIndex[feature._symbol]
+      if (floodZone) {
+        listContents.push(['Flood zone', floodZone])
+        const attributes = await getModelFeatureLayer(coord, feature.layer)
+        if (attributes && attributes.flood_source) {
+          listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
+        }
+      }
+    } else {
+      if (mapState.segments.includes('fz')) {
+        listContents.push(['Flood zone', '1'])
+      } else {
+        const dataset = getDataset()
+        if (dataset) {
+          listContents.push(['Dataset', dataset])
+        }
+        if (vtLayer && vtLayer.likelihoodLabel) {
+          listContents.push(['Annual likelihood of flooding', vtLayer.likelihoodLabel])
+        }
+      }
+    }
+
+    floodMap.info = renderInfo(renderList(listContents))
   })
 })

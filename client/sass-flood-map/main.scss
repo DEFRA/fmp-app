@@ -17,6 +17,10 @@ $govuk-new-typography-scale: true;
 // Componenet CSS
 @import '../../node_modules/@defra/flood-map/src/flood-map';
 
+strong {
+  font-weight: bold;
+}
+
 .flood-map {
   display: flex;
   flex-direction: column;
