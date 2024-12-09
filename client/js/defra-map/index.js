@@ -1,6 +1,7 @@
 import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
+import { terms } from './terms.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -54,8 +55,7 @@ const floodZoneSymbolIndex = [ '3', '2' ]
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
-  const getModelOriginLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}_Model_Origin${defraMapConfig.layerNameSuffix}/FeatureServer`
-
+  const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
   const vtLayers = [
     {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
@@ -76,62 +76,74 @@ getDefraMapConfig().then((defraMapConfig) => {
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
       q: '',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
       q: 'rsdpdhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
       q: 'rsdpdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
       q: 'rsupdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
       q: 'rsdpdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
       q: 'rsupdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
       q: '',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
       q: 'rsdclhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
       q: 'rsdclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
       q: 'rsuclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
       q: 'rsdcllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
       q: 'rsucllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1']
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1'],
+      likelihoodLabel: terms.likelihood.rsLow
     }
   ]
 
@@ -356,15 +368,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: 'Rivers and sea 3.3%'
+            label: terms.likelihood.rsHigh
           },
           {
             id: 'mr',
-            label: 'Rivers 1% Sea 0.5%'
+            label: terms.likelihood.rsMedium
           },
           {
             id: 'lr',
-            label: 'Rivers and sea 0.1%'
+            label: terms.likelihood.rsLow
           }
         ]
       },
@@ -376,15 +388,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: '3.3%'
+            label: terms.likelihood.swHigh
           },
           {
             id: 'mr',
-            label: '1%'
+            label: terms.likelihood.swMedium
           },
           {
             id: 'lr',
-            label: '0.1%'
+            label: terms.likelihood.swLow
           }
         ]
       },
@@ -396,11 +408,11 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'mr',
-            label: 'Rivers 1% Sea 0.5%'
+            label: terms.likelihood.rsMedium
           },
           {
             id: 'lr',
-            label: 'Rivers and sea 0.1%'
+            label: terms.likelihood.rsLow
           }
         ]
       }
@@ -589,14 +601,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     return undefined
   }
 
-  const getModelOriginLayer = async (coords, layerName) => {
-    const vtLayer = vtLayers.find(vtLayer => vtLayer.name === layerName)
+  const getModelFeatureLayer = async (coords, layerName) => {
     const [{ default: FeatureLayer }, { default: Point }] = await Promise.all([
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),
       import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/geometry/Point.js')
     ])
 
-    const model = new FeatureLayer({ url: getModelOriginLayerUrl(vtLayer.name) })
+    const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
     const results = await model.queryFeatures({
       geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
       outFields: ['*'],
@@ -611,13 +622,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     return attributes
   }
 
-  const formatFloodSource = (floodSource) => {
+  const formatFloodSource = (floodSource = '') => {
     if (floodSource === 'Coastal') {
       return 'Sea'
     } else if (floodSource === 'Fluvial') {
       return 'River'
     }
-    return floodSource || ''
+    return floodSource[0].toUpperCase() + floodSource.slice(1);
   }
 
   // Listen to map queries
@@ -629,12 +640,14 @@ getDefraMapConfig().then((defraMapConfig) => {
       ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
     ]
 
-    if (feature) {
+    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
+
+    if (feature && feature._symbol !== undefined) {
       console.log('feature', feature)
-      const floodZone = feature._symbol === undefined ? undefined : floodZoneSymbolIndex[feature._symbol]
+      const floodZone = floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
-        const attributes = await getModelOriginLayer(coord, feature.layer)
+        const attributes = await getModelFeatureLayer(coord, feature.layer)
         if (attributes && attributes.flood_source) {
           listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
         }
@@ -646,6 +659,9 @@ getDefraMapConfig().then((defraMapConfig) => {
         const dataset = getDataset()
         if (dataset) {
           listContents.push(['Dataset', dataset])
+        }
+        if (vtLayer && vtLayer.likelihoodLabel) {
+          listContents.push(['Annual likelihood of flooding', vtLayer.likelihoodLabel])
         }
       }
     }
