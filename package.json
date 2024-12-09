@@ -131,6 +131,7 @@
   },
   "standard": {
     "ignore": [
+      "defra-map/",
       "server/public/static/javascripts/ol.js",
       "server/public/static/javascripts/components/maps/live.js",
       "server/public/static/javascripts/components/a11y-dialog.js",

@@ -1,4 +1,5 @@
-import { FloodMap } from '../../../node_modules/@defra/flood-map/src/flood-map.js'
+// /flood-map Path defined as an alias to npm or submodule version in webpack alias
+import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
@@ -243,11 +244,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     //   console.log(styleLayer.id)
     // })
   }
-
   const addLayers = async () => {
     return Promise.all([
-      import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/VectorTileLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js')
+      /* eslint-disable */
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js')
+      /* eslint-enable */
     ]).then(modules => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
@@ -603,8 +605,10 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getModelFeatureLayer = async (coords, layerName) => {
     const [{ default: FeatureLayer }, { default: Point }] = await Promise.all([
-      import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/layers/FeatureLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '@arcgis/core/geometry/Point.js')
+      /* eslint-disable */
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/geometry/Point.js')
+      /* eslint-enable */
     ])
 
     const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
