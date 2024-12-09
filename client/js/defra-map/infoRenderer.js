@@ -1,4 +1,3 @@
-
 const renderListKey = (value) => `<dt class="govuk-summary-list__key govuk-!-width-one-half">
   <span class="govuk-body-s">
     <strong>${value}</strong>

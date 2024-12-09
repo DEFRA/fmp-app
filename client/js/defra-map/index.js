@@ -48,9 +48,9 @@ const keyItemDefinitions = {
 // floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
 // we believe it depends on the order of the styles that are set on the flood zones vector tile layer
 // and it is used to infer the flood zone that has been clicked on by a user.
-// On a previous data set, these values were in the reverse order so we need to verify that they remain correct 
+// On a previous data set, these values were in the reverse order so we need to verify that they remain correct
 // after a data upload to arcGis
-const floodZoneSymbolIndex = [ '3', '2' ]
+const floodZoneSymbolIndex = ['3', '2']
 
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
@@ -628,7 +628,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     } else if (floodSource === 'Fluvial') {
       return 'River'
     }
-    return floodSource[0].toUpperCase() + floodSource.slice(1);
+    return floodSource[0].toUpperCase() + floodSource.slice(1)
   }
 
   // Listen to map queries
