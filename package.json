@@ -123,6 +123,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^6.6.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^20.0.3",
     "mock-require": "^3.0.3",
     "prettier": "3.2.5",
@@ -130,6 +132,10 @@
     "standard": "^16.0.4"
   },
   "standard": {
+    "env": [
+      "jest",
+      "node"
+    ],
     "ignore": [
       "defra-map/",
       "server/public/static/javascripts/ol.js",

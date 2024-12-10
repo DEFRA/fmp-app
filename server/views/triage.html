@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  What flood information do you need? Flood map for planning - GOV.UK
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+
+{% from "radios/macro.njk" import govukRadios %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">What flood information do you need?</h1>
+
+    {{ govukRadios({
+      name: "triage-options",
+      value: "/about-map",
+      items: [
+        {
+          id: "about-map",
+          value: "about-map",
+          text: "For planning purposes or scoping a site",
+          hint: { text: "You will be taken to the flood map for planning service" }
+        },
+        {
+          id: "buy-sell",
+          value: "https://www.gov.uk/check-long-term-flood-risk",
+          text: "For buying, selling or valuing a property",
+          hint: { text: "You will be taken to the check your long term flood risk service" }
+        },
+        {
+          id: "flood-history",
+          value: "https://www.gov.uk/request-flooding-history",
+          text: "To check if an area has flooded in the past",
+          hint: { text: "You will be taken to information on how to request a flood history report" }
+        },
+        {
+          id: "insurance",
+          value: "https://www.gov.uk/check-long-term-flood-risk",
+          text: "For insurance purposes, to find out if I am at risk of flooding",
+          hint: { text: "You will be taken to the check your long term flood risk service" }
+        },
+        {
+          id: "other",
+          value: "https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather",
+          text: "My reason is not listed here",
+          hint: { text: "Find other flood information on GOV.UK" }
+        }
+      ]
+    }) }}
+
+    <a id="continue-button" href="/about-map" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+      Continue
+    </a>
+  </div>
+</div>
+
+{% endblock %}
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module">
+    import { assignClickEvents } from "{{assetPath}}/javascripts/triage.js"
+    assignClickEvents(document)
+  </script>
+{% endblock %}

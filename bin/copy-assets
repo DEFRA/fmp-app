@@ -9,3 +9,4 @@ cp node_modules/jquery/dist/jquery.min.js server/public/assets/javascripts/jquer
 cp node_modules/jquery/dist/jquery.min.map server/public/assets/javascripts/jquery.min.map
 cp node_modules/ol/src/ol.css server/public/assets/stylesheets/ol.css
 cp node_modules/govuk_frontend_toolkit/javascripts/govuk/show-hide-content.js server/public/assets/javascripts/show-hide-content.js
+cp client/js/triage.js server/public/build/javascripts/triage.js
