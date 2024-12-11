@@ -53,6 +53,15 @@ const keyItemDefinitions = {
 // after a data upload to arcGis
 const floodZoneSymbolIndex = ['3', '2']
 
+const surfaceWaterStyleLayers = [
+  'Risk of Flooding from Surface Water Depth > 0mm/1',
+  'Risk of Flooding from Surface Water Depth > 200mm/1',
+  'Risk of Flooding from Surface Water Depth > 300mm/1',
+  'Risk of Flooding from Surface Water Depth > 600mm/1',
+  'Risk of Flooding from Surface Water Depth > 900mm/1',
+  'Risk of Flooding from Surface Water Depth > 1200mm/1'
+]
+
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
@@ -145,6 +154,24 @@ getDefraMapConfig().then((defraMapConfig) => {
       q: 'rsucllr',
       styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1'],
       likelihoodLabel: terms.likelihood.rsLow
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_Low',
+      q: 'swpdlr',
+      styleLayers: surfaceWaterStyleLayers,
+      likelihoodLabel: terms.likelihood.swLow
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_Medium',
+      q: 'swpdmr',
+      styleLayers: surfaceWaterStyleLayers,
+      likelihoodLabel: terms.likelihood.swMedium
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_High',
+      q: 'swpdhr',
+      styleLayers: surfaceWaterStyleLayers,
+      likelihoodLabel: terms.likelihood.swHigh
     }
   ]
 
@@ -157,9 +184,9 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // These will require reinstating when depth band data is available
   // // light tones > 2300 to < 150
-  // const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
+  const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
   // // GREENS dark tones > 2300 to < 150
-  // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
+  const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
   // // BLUES dark tones > 2300 to < 150
   // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
 
@@ -179,7 +206,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark]
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
+    'Risk of Flooding from Surface Water Depth > 0mm/1': [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
+    'Risk of Flooding from Surface Water Depth > 200mm/1': [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
+    'Risk of Flooding from Surface Water Depth > 300mm/1': [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
+    'Risk of Flooding from Surface Water Depth > 600mm/1': [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
+    'Risk of Flooding from Surface Water Depth > 900mm/1': [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
+    'Risk of Flooding from Surface Water Depth > 1200mm/1': [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
   }
 
   const fLayers = [

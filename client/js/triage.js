@@ -1,4 +1,3 @@
-
 const updateLocation = (src) => {
   const button = document.getElementById('continue-button')
   if (button) {
