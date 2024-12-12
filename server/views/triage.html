@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "radios/macro.njk" import govukRadios %}
 
 {% block pageTitle %}
   What flood information do you need? Flood map for planning - GOV.UK
@@ -7,7 +8,6 @@
 {% block content %}
 {{ super() }}
 
-{% from "radios/macro.njk" import govukRadios %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">What flood information do you need?</h1>
