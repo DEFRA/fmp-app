@@ -157,9 +157,9 @@ What flood information do you need? Flood map for planning - GOV.UK
           <fieldset class="govuk-fieldset" aria-describedby="skip-next-time">
             <div class="govuk-checkboxes" data-module="govuk-checkboxes">
               <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="waste" name="waste" type="checkbox" value="carcasses">
-                <label class="govuk-label govuk-checkboxes__label" for="waste">
-                  Don't show me this information again
+                <input class="govuk-checkboxes__input" id="dont-show-again" name="dont-show-again" type="checkbox">
+                <label class="govuk-label govuk-checkboxes__label" for="dont-show-again">
+                  Don't show me this information again for 30 days
                 </label>
               </div>
             </div>
@@ -181,4 +181,25 @@ What flood information do you need? Flood map for planning - GOV.UK
   </div>
 </div>
 
+{% endblock %}
+{% block bodyEnd %}
+  {{ super() }}
+  <script>
+
+    const setCookie =  (cName, cValue, expDays) => {
+      const date = new Date()
+      date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000)
+      const expires = 'expires=' + date.toUTCString()
+      document.cookie = cName + '=' + cValue + '; ' + expires + '; path=/'
+    }
+
+    const element = document.getElementById('dont-show-again')
+    element.onchange = (element) => {
+      if (element.target.checked) {
+        setCookie('Skip-changes-to-flood-data', 'true', 30)
+      } else {
+        setCookie('Skip-changes-to-flood-data', 'true', -365)
+      }
+    }
+  </script>
 {% endblock %}

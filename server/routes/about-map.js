@@ -5,6 +5,11 @@ module.exports = [
     options: {
       description: 'About Map Page',
       handler: async (request, h) => {
+        const cookies = request.state
+        const skipAboutMapPage = (cookies['Skip-changes-to-flood-data'] === 'true')
+        if (skipAboutMapPage) {
+          return h.redirect('/map')
+        }
         return h.view('about-map')
       }
     }
