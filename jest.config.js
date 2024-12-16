@@ -1,13 +1,13 @@
-const { setImmediate } = require('timers')
-
 module.exports = async () => {
-  return {
+  const config = {
     testPathIgnorePatterns: [
-      'defra-map'
+      '/defra-map'
     ],
     testEnvironment: 'jsdom',
     globals: {
       setImmediate
-    }
+    },
+    setupFilesAfterEnv: ['<rootDir>/jest.env.js']
   }
+  return config
 }

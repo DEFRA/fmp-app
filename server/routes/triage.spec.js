@@ -1,5 +1,4 @@
 const createServer = require('../../server')
-const { assignClickEvents } = require('../../client/js/triage')
 
 describe('Triage Page', () => {
   let server
@@ -14,7 +13,7 @@ describe('Triage Page', () => {
       continue: document.getElementById('continue-button')
     })
     // We have to assignClickEvents here as they dont get assigned by assigning innerHTML
-    assignClickEvents(document)
+    require('../../client/js/modules/triage')
   })
 
   afterAll(async () => {
