@@ -184,22 +184,5 @@ What flood information do you need? Flood map for planning - GOV.UK
 {% endblock %}
 {% block bodyEnd %}
   {{ super() }}
-  <script>
-
-    const setCookie =  (cName, cValue, expDays) => {
-      const date = new Date()
-      date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000)
-      const expires = 'expires=' + date.toUTCString()
-      document.cookie = cName + '=' + cValue + '; ' + expires + '; path=/'
-    }
-
-    const element = document.getElementById('dont-show-again')
-    element.onchange = (element) => {
-      if (element.target.checked) {
-        setCookie('Skip-changes-to-flood-data', 'true', 30)
-      } else {
-        setCookie('Skip-changes-to-flood-data', 'true', -365)
-      }
-    }
-  </script>
+  <script type="module" src="{{assetPath}}/javascripts/about-map.js"></script>
 {% endblock %}

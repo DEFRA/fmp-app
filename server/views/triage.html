@@ -58,8 +58,5 @@
 {% endblock %}
 {% block bodyEnd %}
   {{ super() }}
-  <script type="module">
-    import { assignClickEvents } from "{{assetPath}}/javascripts/triage.js"
-    assignClickEvents(document)
-  </script>
+  <script src="{{assetPath}}/javascripts/triage.js"></script>
 {% endblock %}
