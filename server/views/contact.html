@@ -15,7 +15,6 @@
 
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form autocomplete="off" class="form" method="post" action="/contact" novalidate>
 
         {% if errorSummary.length > 0 %}
           {{ govukErrorSummary({
@@ -26,13 +25,30 @@
 
         {{ govukFieldset({
         legend: {
-        text: "Request your flood risk assessment data",
-        classes: "govuk-fieldset__legend--l",
+        text: "Order your flood risk data",
+        classes: "govuk-fieldset__legend--xl",
         isPageHeading: true
         }
         }) }}
 
-        <p class="govuk-body">We’ll send your flood risk assessment data in an email. This data is also known as a product 4.</p>
+        <p class="govuk-body">
+          Order detailed flood risk information to be used for a flood risk assessment as
+          part of a planning application.
+          This data is also known as a product 4.
+        </p>
+        <p class="govuk-body"> The flood risk data usually includes: </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>detailed flood data</li>
+          <li>past floods event data</li>
+          <li>modelled flood levels and extents</li>
+          <li>flood defence locations and attributes</li>
+        </ul>
+
+       <p class="govuk-body"> We will send your flood risk data in an email. </p>
+       <p class="govuk-body"> You should receive your data within 20 working days. </p>
+       <form autocomplete="off" class="form" method="post" action="/contact" novalidate>
+
         {{ govukInput({
         label: {
         text: "Full name",
