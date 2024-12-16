@@ -668,9 +668,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     return floodSource[0].toUpperCase() + floodSource.slice(1)
   }
 
+  // event to fire for 'Get site report' button to non dynamic results page
+  document.addEventListener('click', e => {
+    if (e.target.innerText === 'Get summary report') {
+      // TODO - add in the boundary to the url
+      window.location = '/results'
+    }
+  })
+
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
     const { coord, features } = e.detail
+    if (!features || !coord) {
+      return
+    }
     const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
