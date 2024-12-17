@@ -668,11 +668,23 @@ getDefraMapConfig().then((defraMapConfig) => {
     return floodSource[0].toUpperCase() + floodSource.slice(1)
   }
 
+  const roundPolygon = (polygon) => {
+    return polygon.map(([x, y]) => [Math.round(x * 100) / 100, Math.round(y * 100) / 100])
+  }
+
   // event to fire for 'Get site report' button to non dynamic results page
   document.addEventListener('click', e => {
     if (e.target.innerText === 'Get summary report') {
-      // TODO - add in the boundary to the url
-      window.location = '/results'
+      // TODO - version 0.4.0 of defra-map, will remove the need to
+      // hack the polygon layer like this.
+      const { items: layers } = floodMap.map.layers
+      const polygonLayer = layers[layers.length - 1]
+      const { graphics } = polygonLayer
+      const { items } = graphics
+      const { geometry } = items[0]
+      const { rings } = geometry
+      const polygon = roundPolygon(rings[0])
+      window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
 
