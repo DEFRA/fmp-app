@@ -61,7 +61,14 @@ const surfaceWaterStyleLayers = [
   'Risk of Flooding from Surface Water Depth > 900mm/1',
   'Risk of Flooding from Surface Water Depth > 1200mm/1'
 ]
-
+const surfaceWaterCcLowStyleLayers = [
+  'Risk of Flooding from Surface Water Depth CCSW1 > 0mm/1',
+  'Risk of Flooding from Surface Water Depth CCSW1 > 200mm/1',
+  'Risk of Flooding from Surface Water Depth CCSW1 > 300mm/1',
+  'Risk of Flooding from Surface Water Depth CCSW1 > 600mm/1',
+  'Risk of Flooding from Surface Water Depth CCSW1 > 900mm/1',
+  'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
+]
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
@@ -172,6 +179,24 @@ getDefraMapConfig().then((defraMapConfig) => {
       q: 'swpdhr',
       styleLayers: surfaceWaterStyleLayers,
       likelihoodLabel: terms.likelihood.swHigh
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low',
+      q: 'swcllr',
+      styleLayers: surfaceWaterCcLowStyleLayers,
+      likelihoodLabel: terms.likelihood.swLow
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',
+      q: 'swclmr',
+      styleLayers: surfaceWaterStyleLayers,
+      likelihoodLabel: terms.likelihood.swMedium
+    },
+    {
+      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',
+      q: 'swclhr',
+      styleLayers: surfaceWaterStyleLayers,
+      likelihoodLabel: terms.likelihood.swHigh
     }
   ]
 
@@ -207,12 +232,18 @@ getDefraMapConfig().then((defraMapConfig) => {
     'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Risk of Flooding from Surface Water Depth > 0mm/1': [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
-    'Risk of Flooding from Surface Water Depth > 200mm/1': [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
-    'Risk of Flooding from Surface Water Depth > 300mm/1': [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
-    'Risk of Flooding from Surface Water Depth > 600mm/1': [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
-    'Risk of Flooding from Surface Water Depth > 900mm/1': [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
-    'Risk of Flooding from Surface Water Depth > 1200mm/1': [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
+    [surfaceWaterStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
+    [surfaceWaterStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
+    [surfaceWaterStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
+    [surfaceWaterStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
+    [surfaceWaterStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
+    [surfaceWaterStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]],
+    [surfaceWaterCcLowStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
+    [surfaceWaterCcLowStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
+    [surfaceWaterCcLowStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
+    [surfaceWaterCcLowStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
+    [surfaceWaterCcLowStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
+    [surfaceWaterCcLowStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
   }
 
   const fLayers = [
