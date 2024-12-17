@@ -3,13 +3,9 @@
   {% from "summary-list/macro.njk" import govukSummaryList %}
   {% from "warning-text/macro.njk" import govukWarningText %}
 
-{{ govukWarningText({
-  text: "You can be fined up to £5,000 if you do not register.",
-  iconFallbackText: "Warning"
-}) }}
   {% block pageTitle %}
-Check your details - Flood map for planning - GOV.UK
-{% endblock %}
+    Check your details - Flood map for planning - GOV.UK
+  {% endblock %}
 
 {% block content %}
   {{ super() }}
@@ -18,19 +14,13 @@ Check your details - Flood map for planning - GOV.UK
   {% from "button/macro.njk" import govukButton %}
 
   <div id="check-your-details-page" class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form autocomplete="off" class="form" method="post" action="/check-your-details" novalidate>
-    
-    {{ govukFieldset({
-        legend: {
-        text: "Check your details before ordering your data",
-        classes: "govuk-fieldset__legend--l",
-        isPageHeading: true
-        }
-        }) }}
+    <form autocomplete="off" class="form" method="post" action="/check-your-details" novalidate>
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl"> Check your details before requesting your data </h1>
 
         <p class="govuk-body">
-          After you have ordered your flood risk data you will not be able to change your details. Make sure the site location is accurate.
+          After you have submitted your request you will not be able to change it.
+          Make sure the site location is accurate.
         </p>
 
         <p class="govuk-body">
@@ -38,158 +28,106 @@ Check your details - Flood map for planning - GOV.UK
         </p>
 
         {{ govukSummaryList({
-  rows: [
-    {
-      key: {
-        text: "Name"
-      },
-      value: {
-        text: PDFinformationDetailsObject.fullName
-      },
-      actions: {
-        items: [
+          rows: [{
+            key: { text: "Name" },
+            value: { text: fullName },
+            actions: { items: [ { href: contactUrl, text: "Change", visuallyHiddenText: "name" } ] }
+          }, {
+            key: { text: "Email address" },
+            value: { text: recipientemail },
+            actions: { items: [ { href: contactUrl, text: "Change", visuallyHiddenText: "email address" } ] }
+          }, {
+            key: { text: "Location" },
+            value: {
+              html: '</br>
+              <figure class="map-container check-your-details-map govuk-!-margin-bottom-6" role="application">
+                <figcaption class="govuk-visually-hidden" aria-hidden="false">
+                  An image of a map showing the site you have provided for the location for assessment
+                </figcaption>
+                <div id="map--result" class="map--result">
+                  <div id="map" class="map">
+                    <noscript>
+                      <h2 class="govuk-heading-m">The interactive map part of this service needs javascript to function.</h2>
+                      <p class="govuk-body">
+                        It is still possible for you to use the service but without the map it might be difficult to supply an accurate location.
+                        This could mean that your request is delayed.
+                      </p>
+                      <p class="govuk-body">
+                        If you can, please enable JavaScript to allow the service to work to its full potential
+                      </p>
+                      <p class="govuk-body">
+                        If this is something that you are unable to do, it might be best to contact the Environment Agency by telephone: 
+                        03708 506 506 (Monday to Friday, 8am to 6pm) to help you
+                      </p>
+                    </noscript>
+                  </div>
+                </div>
+              </figure>'
+            },
+            actions: {
+              items: [ { href: confirmLocationUrl, text: "Change", visuallyHiddenText: "name" } ]
+            }
+          },
           {
-            href: contacturl,
-            text: "Change",
-            visuallyHiddenText: "name"
+            key: { text: "Flood Zone" },
+            value: { text: floodZone }
           }
-        ]
-      }
-    },
-    {
-      key: {
-        text: "Email address"
-      },
-      value: {
-        text: PDFinformationDetailsObject.recipientemail
-      },
-      actions: {
-        items: [
-          {
-            href: contacturl,
-            text: "Change",
-            visuallyHiddenText: "email address"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: "Location"
-      },
-      value: {
-        html: '</br>
-        <figure class="map-container check-your-details-map govuk-!-margin-bottom-6" role="application">
-          <figcaption class="govuk-visually-hidden" aria-hidden="false">
-            An image of a map showing the site you have provided for the location for assessment
-          </figcaption>
-          <div id="map--result" class="map--result">
-            <div id="map" class="map">
-              <noscript>
-                <h2 class="govuk-heading-m">The interactive map part of this service needs javascript to function.</h2>
-                <p class="govuk-body">
-                  It is still possible for you to use the service but without the map it might be difficult to supply an accurate location.
-                  This could mean that your request is delayed.
-                </p>
-                <p class="govuk-body">
-                  If you can, please enable JavaScript to allow the service to work to its full potential
-                </p>
-                <p class="govuk-body">
-                  If this is something that you are unable to do, it might be best to contact the Environment Agency by telephone: 
-                  03708 506 506 (Monday to Friday, 8am to 6pm) to help you
-                </p>
-              </noscript>
-            </div>
-          </div>
-        </figure>'
-      },
-        actions: {
-        items: [
-          {
-            href: confirmlocationurl,
-            text: "Change",
-            visuallyHiddenText: "name"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: "Flood Zone"
-      },
-      value: {
-        text: PDFinformationDetailsObject.zoneNumber
-      }
-    }
-  ]
-}) }}
+        ] 
+      }) }}
 
+      {% if not polygon %}
+        {{ govukWarningText({
+          text: "You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.",
+          iconFallbackText: "Warning"
+        }) }}
+      {% endif %}
 
-
-    {% if not PDFinformationDetailsObject.polygon %}
-    {{ govukWarningText({
-  text: "You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.",
-  iconFallbackText: "Warning"
-}) }}
-{% endif %}
-
-
-
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-      
-          <div id="summary-review-context">
-          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.x}}" name="easting"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.y}}" name="northing"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.location}}" name="location"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.polygon}}" name="polygon"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.cent}}" name="cent"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.recipientemail}}" name="recipientemail"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.fullName}}" name="fullName"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
+      <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
+        
+        <div id="summary-review-context">
+          <input type="hidden" value="{{polygon}}" name="polygon"/>
+          <input type="hidden" value="{{recipientemail}}" name="recipientemail"/>
+          <input type="hidden" value="{{fullName}}" name="fullName"/>
         </div>
 
         <p class="govuk-body">
           You are ordering detailed flood risk data to be used for a flood risk assessment as part of a planning application. 
         </p>
+        <p class="govuk-body">
+          You should not submit another request for data for the same location after you have placed an order.
+          We will not action a request for the same location if the email address is the same.
+          If you request the same data twice, it will not speed up your order.
+        </p>
 
         {{ govukButton({
-          text: "Order your flood risk data",
+          text: "Order flood risk data",
           preventDoubleClick: true,
           classes: "order-product-four"
-        })
-        }}
- </form>
+        }) }}
+      </form>
     </div>
   </div>
   <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
   <script src="{{assetPath}}/javascripts/summary-review.js"></script>
-
-
-  {% if PDFinformationDetailsObject.polygon %}
-  <script>
-    $(function () {
-      const form = document.getElementsByTagName('form')[0]
-      const submitButton = document.querySelector('.order-product-four')
-      // FCRM-4556 - Prevent a 2nd Submission
-      form.addEventListener("submit", function(evt) {
-        if (submitButton.classList.contains('govuk-button--disabled')) {
-          evt.preventDefault()
-        } else {
-          submitButton.classList.add('govuk-button--disabled')
-        }
-      })
-
-      var page = new FMP.ApplicationSummaryReviewPage({
-        polygon: {{ PDFinformationDetailsObject.polygon }} // This needs to be verified as originally {{polygon}}
-          })
+ 
+  {% if polygon %}
+    <script>
+      $(function () {
+        const form = document.getElementsByTagName('form')[0]
+        const submitButton = document.querySelector('.order-product-four')
+        // FCRM-4556 - Prevent a 2nd Submission
+        form.addEventListener("submit", function(evt) {
+          if (submitButton.classList.contains('govuk-button--disabled')) {
+            evt.preventDefault()
+          } else {
+            submitButton.classList.add('govuk-button--disabled')
+          }
         })
-  </script>
-  {% else %}
-  <script>
-    $(function () {
-      var page = new FMP.ApplicationSummaryReviewPage({ easting: '{{PDFinformationDetailsObject.coordinates.x}}', northing: '{{PDFinformationDetailsObject.coordinates.y}}' })
-    })
-  </script>
-  {% endif %}
-  
-  {% endblock %}
+
+        var page = new FMP.ApplicationSummaryReviewPage({
+          polygon: {{ polygon }}
+        })
+      })
+    </script>
+  {% endif %} 
+{% endblock %}

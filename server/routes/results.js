@@ -5,7 +5,8 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        return h.view('results')
+        const { polygon } = request.query
+        return h.view('results', { polygon })
       }
     }
   }

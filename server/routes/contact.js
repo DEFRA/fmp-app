@@ -79,10 +79,14 @@ module.exports = [
           }
 
           let model = {}
-          const { recipientemail, fullName } = request.payload
+          const { recipientemail, fullName, polygon } = request.payload
           // Sanitise user inputs
           const isNameFormatValid = nameRegex.test(fullName.trim())
           const isEmailFormatValid = emailRegex.test(recipientemail.trim())
+          if (recipientemail.trim() !== '' && isEmailFormatValid && fullName.trim() !== '' && isNameFormatValid) {
+            return h.redirect(`/check-your-details?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`)
+          }
+
           if (recipientemail.trim() !== '' && isEmailFormatValid && fullName.trim() !== '' && isNameFormatValid) {
             if (payload.easting && payload.northing) {
               PDFinformationDetailsObject.coordinates.x = payload.easting

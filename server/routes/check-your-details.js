@@ -1,5 +1,5 @@
-const Boom = require('@hapi/boom')
-const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
+// const Boom = require('@hapi/boom')
+// const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
@@ -40,55 +40,59 @@ module.exports = [
     options: {
       description: 'Application Review Summary',
       handler: async (request, h) => {
-        const payload = request.query
-        const PDFinformationDetailsObject = {
-          coordinates: { x: 0, y: 0 },
-          applicationReferenceNumber: '',
-          location: '',
-          polygon: '',
-          center: '',
-          zoneNumber: '',
-          fullName: '',
-          recipientemail: '',
-          contacturl: ''
-        }
-        const { recipientemail, fullName } = payload
-        if (payload.easting && payload.northing) {
-          PDFinformationDetailsObject.coordinates.x = payload.easting
-          PDFinformationDetailsObject.coordinates.y = payload.northing
-          if (payload.zoneNumber) {
-            PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
-          }
-          if (payload.polygon) {
-            PDFinformationDetailsObject.polygon = payload.polygon
-            PDFinformationDetailsObject.cent = payload.center
-          }
-          if (!payload.location) {
-            PDFinformationDetailsObject.location =
-              payload.easting + ',' + payload.northing
-          } else {
-            PDFinformationDetailsObject.location = payload.location
-          }
-          PDFinformationDetailsObject.applicationReferenceNumber = ''
-        } else {
-          return Boom.badImplementation('Query parameters are empty')
-        }
-        if (fullName) {
-          PDFinformationDetailsObject.fullName = fullName
-        } else {
-          return Boom.badImplementation('fullName is Empty')
-        }
-        if (recipientemail) {
-          PDFinformationDetailsObject.recipientemail = recipientemail
-        } else {
-          return Boom.badImplementation('RecipientEmail is Empty')
-        }
-        const model = new ApplicationReviewSummaryViewModel({
-          PDFinformationDetailsObject,
-          contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
-          confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
-        })
-        return h.view('check-your-details', model)
+        const { polygon, fullName, recipientemail } = request.query
+        const floodZone = 'TODO'
+        const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
+        const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
+        return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, confirmLocationUrl, floodZone })
+        // const PDFinformationDetailsObject = {
+        //   coordinates: { x: 0, y: 0 },
+        //   applicationReferenceNumber: '',
+        //   location: '',
+        //   polygon: '',
+        //   center: '',
+        //   zoneNumber: '',
+        //   fullName: '',
+        //   recipientemail: '',
+        //   contacturl: ''
+        // }
+        // const { recipientemail, fullName } = payload
+        // if (payload.easting && payload.northing) {
+        //   PDFinformationDetailsObject.coordinates.x = payload.easting
+        //   PDFinformationDetailsObject.coordinates.y = payload.northing
+        //   if (payload.zoneNumber) {
+        //     PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
+        //   }
+        //   if (payload.polygon) {
+        //     PDFinformationDetailsObject.polygon = payload.polygon
+        //     PDFinformationDetailsObject.cent = payload.center
+        //   }
+        //   if (!payload.location) {
+        //     PDFinformationDetailsObject.location =
+        //       payload.easting + ',' + payload.northing
+        //   } else {
+        //     PDFinformationDetailsObject.location = payload.location
+        //   }
+        //   PDFinformationDetailsObject.applicationReferenceNumber = ''
+        // } else {
+        //   return Boom.badImplementation('Query parameters are empty')
+        // }
+        // if (fullName) {
+        //   PDFinformationDetailsObject.fullName = fullName
+        // } else {
+        //   return Boom.badImplementation('fullName is Empty')
+        // }
+        // if (recipientemail) {
+        //   PDFinformationDetailsObject.recipientemail = recipientemail
+        // } else {
+        //   return Boom.badImplementation('RecipientEmail is Empty')
+        // }
+        // const model = new ApplicationReviewSummaryViewModel({
+        //   PDFinformationDetailsObject,
+        //   contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
+        //   confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
+        // })
+        // return h.view('check-your-details', model)
       }
     }
   },
