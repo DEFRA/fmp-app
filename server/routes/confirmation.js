@@ -12,8 +12,8 @@ module.exports = {
         if (
           request.query.recipientemail &&
           request.query.fullName &&
-          request.query.applicationReferenceNumber &&
-          request.query.location
+          request.query.applicationReferenceNumber
+          // && request.query.location
         ) {
           const result = await request.server.methods.getPsoContactsByPolygon(request.query.polygon)
           const model = new ConfirmationViewModel(
@@ -35,7 +35,6 @@ module.exports = {
           model.AreaName = result && result.AreaName ? punctuateAreaName(result.AreaName) : undefined
           model.LocalAuthorities = result && result.LocalAuthorities ? result.LocalAuthorities : undefined
           model.zoneNumber = request.query.zoneNumber ? request.query.zoneNumber : undefined
-          model.ispolygon = !!request.query.polygon
           model.search = request.query.location
 
           return h.view('confirmation', model)

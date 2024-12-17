@@ -160,7 +160,9 @@ module.exports = [
             const referer = request.headers
               ? request.headers.referer
               : undefined
-            const result = await getFunctionAppResponse(referer, data)
+            // TODO - reinstate this request
+            // const result = await getFunctionAppResponse(referer, data)
+            const result = { payload: JSON.stringify({ applicationReferenceNumber: 'DUMMYP4REF' }) }
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)
             queryParams.applicationReferenceNumber = applicationReferenceNumber
