@@ -26,6 +26,9 @@ export default {
     main: [
       path.join(__dirname, 'client/js/defra-map/index.js'),
       path.join(__dirname, 'client/sass-flood-map/main.scss')
+    ],
+    'check-your-details-map': [
+      path.join(__dirname, 'client/js/modules/check-your-details-map.js')
     ]
   },
   devtool: 'source-map',
