@@ -93,8 +93,6 @@ const showMap = async (polygonArray) => {
     layers: [baseMapLayer, graphicsLayer]
   })
 
-  const { center, extent } = getCentreAndExtents(polygonArray)
-
   const polygonGraphic = new Graphic({
     geometry: {
       type: 'polygon',
@@ -109,6 +107,14 @@ const showMap = async (polygonArray) => {
     }
   })
   graphicsLayer.add(polygonGraphic)
+  polygonGraphic.symbol = {
+    type: 'simple-line', // autocasts as new SimpleLineSymbol()
+    color: '#d4351c',
+    width: '3px',
+    style: 'solid'
+  }
+
+  const { center, extent } = getCentreAndExtents(polygonArray)
 
   const view = new MapView({
     map: myMap,
@@ -124,6 +130,7 @@ const showMap = async (polygonArray) => {
       rotationEnabled: false
     }
   })
+
   return view
 }
 
