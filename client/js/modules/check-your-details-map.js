@@ -4,8 +4,12 @@ import MapView from '@arcgis/core/views/MapView'
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer'
 import TileInfo from '@arcgis/core/layers/support/TileInfo'
 import Point from '@arcgis/core/geometry/Point'
+import Extent from '@arcgis/core/geometry/Extent'
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
+import Graphic from '@arcgis/core/Graphic'
+import { polygon, centroid, bbox } from '@turf/turf'
 
-const esriAuth = {}
+const spatialReference = 27700
 
 const setUpIgnoreRepeatedSubmits = () => {
   const form = document.getElementsByTagName('form')[0]
@@ -20,6 +24,8 @@ const setUpIgnoreRepeatedSubmits = () => {
   })
 }
 
+// TODO - import these from tokens.js
+const esriAuth = {}
 const getEsriToken = async () => {
   const response = await window.fetch('/esri-token')
   const json = await response.json()
@@ -27,10 +33,9 @@ const getEsriToken = async () => {
 }
 
 const osAuth = {}
-export const getOsToken = async () => {
+const getOsToken = async () => {
   // Check token is valid
   const isExpired = !Object.keys(osAuth).length || Date.now() >= osAuth?.expiresAt
-
   if (isExpired) {
     try {
       const response = await window.fetch('/os-token', {
@@ -47,14 +52,21 @@ export const getOsToken = async () => {
       console.log('Error getting OS access token: ', err)
     }
   }
-
   return osAuth
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  setUpIgnoreRepeatedSubmits()
+const getCentreAndExtents = (polygonArray) => {
+  const turfPolygon = polygon([polygonArray])
+  const turfCentre = centroid(turfPolygon)
+  const turfBBox = bbox(turfPolygon)
+  // const bBoxPolygon = bboxPolygon(bBox)
+  const center = new Point({ x: turfCentre.geometry.coordinates[0], y: turfCentre.geometry.coordinates[1], spatialReference })
+  const extent = new Extent({ xmin: turfBBox[0], ymin: turfBBox[1], xmax: turfBBox[2], ymax: turfBBox[3], spatialReference })
+  return { center, extent }
+}
+
+const showMap = async (polygonArray) => {
   esriAuth.token = await getEsriToken()
-  // console.log('token', esriAuth.token)
   esriConfig.apiKey = esriAuth.token
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
@@ -65,8 +77,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   })
-  console.log('esriConfig', esriConfig)
 
+  // TODO get this url from config
   const baseMapLayer = new WMTSLayer({
     url: 'https://api.os.uk/maps/raster/v1/wmts',
     serviceMode: 'KVP',
@@ -75,31 +87,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   })
 
+  const graphicsLayer = new GraphicsLayer()
+
   const myMap = new Map({
-    layers: [baseMapLayer],
-    logo: false
+    layers: [baseMapLayer, graphicsLayer]
   })
 
-  const centre = [465687, 451375]
-  // const centre = [231062, 72358]
-  const centrePoint = new Point({ x: centre[0], y: centre[1], spatialReference: 27700 })
-  console.log('centrePoint', centrePoint)
+  const { center, extent } = getCentreAndExtents(polygonArray)
+
+  const polygonGraphic = new Graphic({
+    geometry: {
+      type: 'polygon',
+      rings: [polygonArray],
+      symbol: {
+        type: 'simple-line',
+        color: '#d4351c',
+        width: '2px',
+        cap: 'square'
+      },
+      spatialReference
+    }
+  })
+  graphicsLayer.add(polygonGraphic)
+
   const view = new MapView({
     map: myMap,
-    logo: false,
     container: 'map',
-    spatialReference: 27700,
-    zoom: 7.7,
-    center: centrePoint,
+    spatialReference,
+    center,
+    extent,
     constraints: {
-      snapToZoom: true,
+      snapToZoom: false,
       minZoom: 6,
       maxZoom: 20,
-      //      maxScale: 0,
-      lods: TileInfo.create({ spatialReference: { wkid: 27700 } }).lods,
+      lods: TileInfo.create({ spatialReference: { wkid: spatialReference } }).lods,
       rotationEnabled: false
     }
   })
-  console.log('view', view)
-  // document.getElementById('map--result').innerText = 'MAP GOES HERE!'
-})
+  return view
+}
+
+// Add these as globals so they can be called from the html page, which will inject the polygon.
+// This approach avoids the need to import this as a module, which limits browser compatibility.
+window.setUpIgnoreRepeatedSubmits = setUpIgnoreRepeatedSubmits
+window.showMap = showMap
+// Also export the methods, so they can be used for unit testing
+export { setUpIgnoreRepeatedSubmits, showMap }

@@ -112,4 +112,10 @@
 {% block bodyEnd %}
   {{ super() }}
   <script src="/public/defra-map/check-your-details-map.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setUpIgnoreRepeatedSubmits()
+      showMap({{ polygon }})
+    })
+  </script>
 {% endblock %}
