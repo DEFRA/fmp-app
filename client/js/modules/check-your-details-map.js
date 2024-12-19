@@ -122,6 +122,13 @@ const showMap = async (polygonArray) => {
     spatialReference,
     center,
     extent,
+    ui: {
+      components: []
+    },
+    navigation: {
+      mouseWheelZoomEnabled: false,
+      browserTouchPanEnabled: false
+    },
     constraints: {
       snapToZoom: false,
       minZoom: 6,
@@ -130,6 +137,13 @@ const showMap = async (polygonArray) => {
       rotationEnabled: false
     }
   })
+  // Disable Zoom in its many forms.
+  view.on('key-down', (event) => event.stopPropagation())
+  view.on('drag', (event) => event.stopPropagation())
+  view.on('drag', ['Shift'], (event) => event.stopPropagation())
+  view.on('drag', ['Shift', 'Control'], (event) => event.stopPropagation())
+  view.on('double-click', (event) => event.stopPropagation())
+  view.on('double-click', ['Control'], (event) => event.stopPropagation())
 
   return view
 }
