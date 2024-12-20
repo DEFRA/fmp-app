@@ -8,7 +8,7 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-
+import { getOsToken, getEsriToken } from '../defra-map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
 
 const spatialReference = 27700
@@ -24,37 +24,6 @@ const setUpIgnoreRepeatedSubmits = () => {
       submitButton.classList.add('govuk-button--disabled')
     }
   })
-}
-
-// TODO - import these from tokens.js
-const esriAuth = {}
-const getEsriToken = async () => {
-  const response = await window.fetch('/esri-token')
-  const json = await response.json()
-  return json.token
-}
-
-const osAuth = {}
-const getOsToken = async () => {
-  // Check token is valid
-  const isExpired = !Object.keys(osAuth).length || Date.now() >= osAuth?.expiresAt
-  if (isExpired) {
-    try {
-      const response = await window.fetch('/os-token', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-      const json = await response.json()
-      osAuth.token = json.access_token
-      osAuth.expiresAt = Date.now() + ((json.expires_in - 30) * 1000)
-    } catch (err) {
-      console.log('Error getting OS access token: ', err)
-    }
-  }
-  return osAuth
 }
 
 const buffBoundingBox = (bBox) => {
@@ -74,15 +43,13 @@ const getCentreAndExtents = (polygonArray) => {
   const turfPolygon = polygon([polygonArray])
   const turfCentre = centroid(turfPolygon)
   const turfBBox = buffBoundingBox(bbox(turfPolygon))
-  // const bBoxPolygon = bboxPolygon(bBox)
   const center = new Point({ x: turfCentre.geometry.coordinates[0], y: turfCentre.geometry.coordinates[1], spatialReference })
   const extent = new Extent({ xmin: turfBBox[0], ymin: turfBBox[1], xmax: turfBBox[2], ymax: turfBBox[3], spatialReference })
   return { center, extent }
 }
 
 const showMap = async (polygonArray) => {
-  esriAuth.token = await getEsriToken()
-  esriConfig.apiKey = esriAuth.token
+  esriConfig.apiKey = await getEsriToken()
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
     before: async params => {
@@ -137,9 +104,7 @@ const showMap = async (polygonArray) => {
     spatialReference,
     center,
     extent,
-    ui: {
-      components: []
-    },
+    ui: { components: [] }, // Removes Zoom Buttons and attribution
     navigation: {
       mouseWheelZoomEnabled: false,
       browserTouchPanEnabled: false
@@ -160,10 +125,9 @@ const showMap = async (polygonArray) => {
   view.on('double-click', (event) => event.stopPropagation())
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
 
-  // The scale bar displays both metric and imperial units.
-  const scaleBar = new ScaleBar({ view: view, unit: 'metric', style: 'ruler' })
+  const scaleBar = new ScaleBar({ view: view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
-
+  view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
   return view
 }
 
