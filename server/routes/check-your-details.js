@@ -157,11 +157,13 @@ module.exports = [
           const queryParams = {}
 
           try {
-            const referer = request.headers
-              ? request.headers.referer
-              : undefined
+            const referer = request.headers ? request.headers.referer : undefined
             // TODO - reinstate this request
             // const result = await getFunctionAppResponse(referer, data)
+            await new Promise((resolve) => {
+              console.log('\nPOST recieved in check-your-details\n', referer)
+              setTimeout(() => resolve(true), 5000)
+            })
             const result = { payload: JSON.stringify({ applicationReferenceNumber: 'DUMMYP4REF' }) }
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)

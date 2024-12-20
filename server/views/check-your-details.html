@@ -9,8 +9,7 @@
 
 {% block content %}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/check-your-details/index.css">
-  
+  <link href="/public/defra-map/check-your-details-map.css" rel="stylesheet"/>
   {% from "button/macro.njk" import govukButton %}
 
   <div id="check-your-details-page" class="govuk-grid-row">
@@ -39,7 +38,7 @@
           }, {
             key: { text: "Location" },
             value: {
-              html: '</br>
+              html: '
               <figure class="map-container check-your-details-map govuk-!-margin-bottom-6" role="application">
                 <figcaption class="govuk-visually-hidden" aria-hidden="false">
                   An image of a map showing the site you have provided for the location for assessment
@@ -107,27 +106,15 @@
       </form>
     </div>
   </div>
-  <script src="{{assetPath}}/javascripts/jquery.min.js"></script>
-  <script src="{{assetPath}}/javascripts/summary-review.js"></script>
- 
-  {% if polygon %}
-    <script>
-      $(function () {
-        const form = document.getElementsByTagName('form')[0]
-        const submitButton = document.querySelector('.order-product-four')
-        // FCRM-4556 - Prevent a 2nd Submission
-        form.addEventListener("submit", function(evt) {
-          if (submitButton.classList.contains('govuk-button--disabled')) {
-            evt.preventDefault()
-          } else {
-            submitButton.classList.add('govuk-button--disabled')
-          }
-        })
+{% endblock %}
 
-        var page = new FMP.ApplicationSummaryReviewPage({
-          polygon: {{ polygon }}
-        })
-      })
-    </script>
-  {% endif %} 
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="/public/defra-map/check-your-details-map.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setUpIgnoreRepeatedSubmits()
+      showMap({{ polygon }})
+    })
+  </script>
 {% endblock %}
