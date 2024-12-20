@@ -28,7 +28,8 @@ export default {
       path.join(__dirname, 'client/sass-flood-map/main.scss')
     ],
     'check-your-details-map': [
-      path.join(__dirname, 'client/js/modules/check-your-details-map.js')
+      path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
+      path.join(__dirname, 'client/sass/check-your-details/index.scss')
     ]
   },
   devtool: 'source-map',
@@ -60,7 +61,7 @@ export default {
         exclude: exclusions,
         loader: 'babel-loader'
       },
-      { // I need to include the css from defra-map
+      {
         test: /\.s?css$/i,
         use: [
           MiniCssExtractPlugin.loader,

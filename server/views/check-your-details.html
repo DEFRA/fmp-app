@@ -9,8 +9,7 @@
 
 {% block content %}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/check-your-details/index.css">
-  
+  <link href="/public/defra-map/check-your-details-map.css" rel="stylesheet"/>
   {% from "button/macro.njk" import govukButton %}
 
   <div id="check-your-details-page" class="govuk-grid-row">
@@ -39,7 +38,7 @@
           }, {
             key: { text: "Location" },
             value: {
-              html: '</br>
+              html: '
               <figure class="map-container check-your-details-map govuk-!-margin-bottom-6" role="application">
                 <figcaption class="govuk-visually-hidden" aria-hidden="false">
                   An image of a map showing the site you have provided for the location for assessment

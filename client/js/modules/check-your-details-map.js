@@ -7,6 +7,8 @@ import Point from '@arcgis/core/geometry/Point'
 import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
+import ScaleBar from '@arcgis/core/widgets/ScaleBar'
+
 import { polygon, centroid, bbox } from '@turf/turf'
 
 const spatialReference = 27700
@@ -55,10 +57,23 @@ const getOsToken = async () => {
   return osAuth
 }
 
+const buffBoundingBox = (bBox) => {
+  const width = bBox[2] - bBox[0]
+  const height = bBox[3] - bBox[1]
+  const widthBuff = width < 300 ? (320 - width) / 2 : 10
+  const heightBuff = height < 240 ? (260 - height) / 2 : 10
+  return [
+    bBox[0] - widthBuff,
+    bBox[1] - heightBuff,
+    bBox[2] + widthBuff,
+    bBox[3] + heightBuff
+  ]
+}
+
 const getCentreAndExtents = (polygonArray) => {
   const turfPolygon = polygon([polygonArray])
   const turfCentre = centroid(turfPolygon)
-  const turfBBox = bbox(turfPolygon)
+  const turfBBox = buffBoundingBox(bbox(turfPolygon))
   // const bBoxPolygon = bboxPolygon(bBox)
   const center = new Point({ x: turfCentre.geometry.coordinates[0], y: turfCentre.geometry.coordinates[1], spatialReference })
   const extent = new Extent({ xmin: turfBBox[0], ymin: turfBBox[1], xmax: turfBBox[2], ymax: turfBBox[3], spatialReference })
@@ -144,6 +159,10 @@ const showMap = async (polygonArray) => {
   view.on('drag', ['Shift', 'Control'], (event) => event.stopPropagation())
   view.on('double-click', (event) => event.stopPropagation())
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
+
+  // The scale bar displays both metric and imperial units.
+  const scaleBar = new ScaleBar({ view: view, unit: 'metric', style: 'ruler' })
+  view.ui.add(scaleBar, { position: 'bottom-left' })
 
   return view
 }
