@@ -72,7 +72,8 @@ module.exports = {
       console.log('About to: getPostcodeFromEastingorNorthing')
       const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
       const payload = await util.getJson(uri)
-      if (!payload || !payload?.results[0]) {
+      console.log(payload.results)
+      if (!payload?.results?.[0]) {
         console.error(
           `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
         )
@@ -82,8 +83,8 @@ module.exports = {
         : ''
     } catch (error) {
       console.error(
-        `unable to get postcode for easting :${easting} and northing: ${northing}`,
-        JSON.stringify(error)
+        `unable to get postcode for easting: ${easting} and northing: ${northing}`,
+        error
       )
     }
   }

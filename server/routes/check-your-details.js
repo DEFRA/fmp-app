@@ -5,7 +5,7 @@ const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
 const addressService = require('../services/address')
-
+const { polygon: TurfPolygon, centroid } = require('@turf/turf')
 const functionAppRequests = {}
 
 const getFunctionAppResponse = async (referer, data) => {
@@ -114,33 +114,40 @@ module.exports = [
           }
           const { recipientemail, fullName, zoneNumber } = payload
           // Sanitise user inputs
-          if (payload.easting && payload.northing) {
-            PDFinformationDetailsObject.coordinates.x = payload.easting
-            PDFinformationDetailsObject.coordinates.y = payload.northing
-            if (zoneNumber) {
-              PDFinformationDetailsObject.zoneNumber = zoneNumber
-            }
-            if (payload.polygon) {
-              PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
-              PDFinformationDetailsObject.cent = payload.cent
-            }
-            if (!payload.location) {
-              PDFinformationDetailsObject.location =
-                payload.easting + ',' + payload.northing
-            } else {
-              PDFinformationDetailsObject.location = payload.location
-            }
+          // if (payload.easting && payload.northing) {
+          console.log('payload.polygon', payload.polygon)
+          const turfPolygon = TurfPolygon([JSON.parse(payload.polygon)])
+          console.log('turfPolygon', turfPolygon)
+          const turfCentre = centroid(turfPolygon)
+          const easting = turfCentre.geometry.coordinates[0]
+          const northing = turfCentre.geometry.coordinates[0]
+          PDFinformationDetailsObject.coordinates.x = easting
+          PDFinformationDetailsObject.coordinates.y = northing
+          if (zoneNumber) {
+            PDFinformationDetailsObject.zoneNumber = zoneNumber
           }
+          if (payload.polygon) {
+            PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
+            PDFinformationDetailsObject.cent = payload.cent
+          }
+          if (!payload.location) {
+            PDFinformationDetailsObject.location =
+                easting + ',' + northing
+          } else {
+            PDFinformationDetailsObject.location = payload.location
+          }
+          // }
 
           // Send details to function app
           const { x, y } = PDFinformationDetailsObject.coordinates
           const { location, polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
-          const psoResults =
-            await request.server.methods.getPsoContactsByPolygon(
-              payload.polygon
-            )
+          console.log('requesting contacts')
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
+          console.log('psoResults', psoResults)
+          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
+          console.log('floodZoneResults', floodZoneResults)
           const data = JSON.stringify({
             name,
             recipientemail,
@@ -148,7 +155,7 @@ module.exports = [
             y,
             polygon,
             location,
-            zoneNumber,
+            zoneNumber: floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1',
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
@@ -159,12 +166,7 @@ module.exports = [
           try {
             const referer = request.headers ? request.headers.referer : undefined
             // TODO - reinstate this request
-            // const result = await getFunctionAppResponse(referer, data)
-            await new Promise((resolve) => {
-              console.log('\nPOST recieved in check-your-details\n', referer)
-              setTimeout(() => resolve(true), 5000)
-            })
-            const result = { payload: JSON.stringify({ applicationReferenceNumber: 'DUMMYP4REF' }) }
+            const result = await getFunctionAppResponse(referer, data)
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)
             queryParams.applicationReferenceNumber = applicationReferenceNumber
