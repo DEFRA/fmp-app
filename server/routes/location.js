@@ -94,8 +94,6 @@ module.exports = [
               const addr = address[0]
               BNG.easting = addr.geometry_x
               BNG.northing = addr.geometry_y
-              locationDetails = addr.locationDetails
-              isPostCode = addr.isPostCode
             } else {
               const errors = [
                 {
@@ -228,23 +226,7 @@ module.exports = [
             return h.view('location', model)
           }
 
-          queryParams.easting = BNG.easting || ''
-          queryParams.northing = BNG.northing || ''
-          // if the search wasn't by E/N include the original search in the query params
-          if (selectedOption === 'nationalGridReference') {
-            queryParams.nationalGridReference = payload.nationalGridReference
-          } else if (selectedOption === 'placeOrPostcode') {
-            queryParams.placeOrPostcode = placeOrPostcode
-          }
-          if (locationDetails) {
-            queryParams.locationDetails = locationDetails
-          }
-          if (isPostCode !== undefined) {
-            queryParams.isPostCode = isPostCode
-          }
-
-          const query = new URLSearchParams(queryParams).toString()
-          return h.redirect(`/confirm-location?${query}`)
+          return h.redirect(`/map?cz=${BNG.easting},${BNG.northing},15`)
         } catch (error) {}
       }
     }

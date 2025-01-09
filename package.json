@@ -8,7 +8,7 @@
     "node": ">=18.17.0"
   },
   "scripts": {
-    "start": "pm2 start config/pm2.json",
+    "start": "node index.js",
     "clean": "sh ./bin/clean-public",
     "copy": "npm run copy:gov && npm run copy:assets",
     "copy:gov": "sh ./bin/copy-gov && node ./bin/fix-layout.js",

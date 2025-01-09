@@ -8,7 +8,7 @@ module.exports = [
         const cookies = request.state
         const skipAboutMapPage = (cookies['Skip-changes-to-flood-data'] === 'true')
         if (skipAboutMapPage) {
-          return h.redirect('/map')
+          return h.redirect('/location')
         }
         return h.view('about-map')
       }
