@@ -7,7 +7,8 @@ module.exports = async () => {
     globals: {
       setImmediate
     },
-    setupFilesAfterEnv: ['<rootDir>/jest.env.js']
+    setupFiles: ['<rootDir>/.jest/jest.env.js'],
+    setupFilesAfterEnv: ['<rootDir>/.jest/setup.js']
   }
   return config
 }
