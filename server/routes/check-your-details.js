@@ -33,6 +33,9 @@ const getFunctionAppResponse = async (referer, data) => {
   return functionAppRequests[referer]
 }
 
+const floodZoneResultsToFloodZone = (floodZoneResults) =>
+  floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1'
+
 module.exports = [
   {
     method: 'GET',
@@ -41,58 +44,11 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { polygon, fullName, recipientemail } = request.query
-        const floodZone = 'TODO'
+        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const floodZone = floodZoneResultsToFloodZone(floodZoneResults)
         const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
         const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
         return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, confirmLocationUrl, floodZone })
-        // const PDFinformationDetailsObject = {
-        //   coordinates: { x: 0, y: 0 },
-        //   applicationReferenceNumber: '',
-        //   location: '',
-        //   polygon: '',
-        //   center: '',
-        //   zoneNumber: '',
-        //   fullName: '',
-        //   recipientemail: '',
-        //   contacturl: ''
-        // }
-        // const { recipientemail, fullName } = payload
-        // if (payload.easting && payload.northing) {
-        //   PDFinformationDetailsObject.coordinates.x = payload.easting
-        //   PDFinformationDetailsObject.coordinates.y = payload.northing
-        //   if (payload.zoneNumber) {
-        //     PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
-        //   }
-        //   if (payload.polygon) {
-        //     PDFinformationDetailsObject.polygon = payload.polygon
-        //     PDFinformationDetailsObject.cent = payload.center
-        //   }
-        //   if (!payload.location) {
-        //     PDFinformationDetailsObject.location =
-        //       payload.easting + ',' + payload.northing
-        //   } else {
-        //     PDFinformationDetailsObject.location = payload.location
-        //   }
-        //   PDFinformationDetailsObject.applicationReferenceNumber = ''
-        // } else {
-        //   return Boom.badImplementation('Query parameters are empty')
-        // }
-        // if (fullName) {
-        //   PDFinformationDetailsObject.fullName = fullName
-        // } else {
-        //   return Boom.badImplementation('fullName is Empty')
-        // }
-        // if (recipientemail) {
-        //   PDFinformationDetailsObject.recipientemail = recipientemail
-        // } else {
-        //   return Boom.badImplementation('RecipientEmail is Empty')
-        // }
-        // const model = new ApplicationReviewSummaryViewModel({
-        //   PDFinformationDetailsObject,
-        //   contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
-        //   confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
-        // })
-        // return h.view('check-your-details', model)
       }
     }
   },
@@ -104,6 +60,7 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
+
           const PDFinformationDetailsObject = {
             coordinates: { x: 0, y: 0 },
             applicationReferenceNumber: '',
@@ -113,8 +70,6 @@ module.exports = [
             zoneNumber: ''
           }
           const { recipientemail, fullName, zoneNumber } = payload
-          // Sanitise user inputs
-          // if (payload.easting && payload.northing) {
           console.log('payload.polygon', payload.polygon)
           const turfPolygon = TurfPolygon([JSON.parse(payload.polygon)])
           console.log('turfPolygon', turfPolygon)
@@ -143,11 +98,8 @@ module.exports = [
           const { location, polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
-          console.log('requesting contacts')
           const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
-          console.log('psoResults', psoResults)
           const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
-          console.log('floodZoneResults', floodZoneResults)
           const data = JSON.stringify({
             name,
             recipientemail,
@@ -155,7 +107,7 @@ module.exports = [
             y,
             polygon,
             location,
-            zoneNumber: floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1',
+            zoneNumber: floodZoneResultsToFloodZone(floodZoneResults),
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
@@ -175,10 +127,7 @@ module.exports = [
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
               data
             )
-            console.log(
-              'Remember if the postcode is part of the previous log, then it sent it to the fmp-api'
-            )
-            console.log('This is the previous error', JSON.stringify(error))
+            console.log('Error\n', JSON.stringify(error))
             const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]&location=${PDFinformationDetailsObject?.location}`
             return h.redirect(redirectURL)
           }
