@@ -11,8 +11,6 @@ const isValidNgrService = require('../../services/is-valid-ngr')
 const url = '/location'
 
 describe('location route', () => {
-  let server
-
   it(`Should return success response and correct view for ${url}`, async () => {
     const response = await submitGetRequest({ url }, 'Find the location')
     expect(htmlParser.parse(response.payload).querySelector('title').textContent).toContain('Find location - Flood map for planning - GOV.UK')
@@ -35,7 +33,6 @@ describe('location route', () => {
 
   it('location page with rubbish to redirect', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -52,7 +49,6 @@ describe('location route', () => {
 
   it('location page without placeOrPostcode', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -65,7 +61,6 @@ describe('location route', () => {
 
   it('location page without placeOrPostcode', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode'
@@ -77,7 +72,6 @@ describe('location route', () => {
 
   it('location page without nationalGridReference', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -90,7 +84,6 @@ describe('location route', () => {
 
   it('location page without nationalGridReference', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference'
@@ -102,7 +95,6 @@ describe('location route', () => {
 
   it('location page with bad national grid reference', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -115,7 +107,6 @@ describe('location route', () => {
 
   it('location page without an easting', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -128,7 +119,6 @@ describe('location route', () => {
 
   it('location page without an easting', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -140,9 +130,8 @@ describe('location route', () => {
     await submitPostRequestExpectHandledError(options, '<a href="#easting">Enter an easting</a>')
   })
 
-  it.only('location page without a northing', async () => {
+  it('location page without a northing', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -155,7 +144,6 @@ describe('location route', () => {
 
   it('location page without a northing', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -169,7 +157,6 @@ describe('location route', () => {
 
   it('location page without an easting or northing', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing'
@@ -180,9 +167,8 @@ describe('location route', () => {
     expect(response.payload).toContain('<a href="#easting">Enter an easting</a>')
   })
 
-  it.only('location page without an easting or northing', async () => {
+  it('location page without an easting or northing', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -195,9 +181,8 @@ describe('location route', () => {
     expect(response.payload).toContain('<a href="#easting">Enter an easting</a>')
   })
 
-  it.only('location page with bad easting from location', async () => {
+  it('location page with bad easting from location', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -209,13 +194,11 @@ describe('location route', () => {
       return [{ geometry_x: 300000 }]
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
   })
 
   it('location page with bad northing from location', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -227,12 +210,10 @@ describe('location route', () => {
       return [{ geometry_y: 300000 }]
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
   })
   it('location page NGR fails to return easting but ok address', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -247,13 +228,11 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#nationalGridReference">Enter a real National Grid Reference (NGR)</a>')
   })
 
   it('location page NGR fails to return northing but ok address', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -268,13 +247,11 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#nationalGridReference">Enter a real National Grid Reference (NGR)</a>')
   })
 
   it('location page NGR fails', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -286,55 +263,42 @@ describe('location route', () => {
       return null
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#nationalGridReference">Enter a real National Grid Reference (NGR)</a>')
   })
 
   it('location page with invalid easting or northing integer', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
-        easting: 1232545655,
-        northing: 465465412
+        easting: '1232545655',
+        northing: '465465412'
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#easting">Enter an easting in the correct format</a>')
   })
 
   it('location page with negative easting or northing integer', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
-        easting: -12545,
-        northing: -452165
+        easting: '-12545',
+        northing: '-452165'
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequestExpectHandledError(options, '<a href="#easting">Enter an easting in the correct format</a>')
   })
 
   it('location page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
-    const options = {
-      method: 'GET',
-      url: '/location?place=co10 onn'
-    }
-
-    // Question: the model that is passed to the location view doesn't contain any of the query params (eg place in this example)
-    // (see location.js lines 17-19) is this a bug?
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    const response = await submitGetRequest({ url: '/location?place=co10 onn' }, 'Find the location')
+    expect(htmlParser.parse(response.payload).querySelector('title').textContent).toContain('Find location - Flood map for planning - GOV.UK')
   })
 
   it('location page with placeOrPostcode AGAIN', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -350,9 +314,7 @@ describe('location route', () => {
         }
       ]
     }
-
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    await submitPostRequest(options)
   })
 
   const validPayloads = [
@@ -369,7 +331,6 @@ describe('location route', () => {
       `location page with a valid placeOrPostcode: ${requestPayload.placeOrPostcode} should redirect to /confirm-location`,
       async () => {
         const options = {
-          method: 'POST',
           url,
           payload: requestPayload
         }
@@ -383,19 +344,14 @@ describe('location route', () => {
           ]
         }
 
-        const response = await server.inject(options)
-        expect(response.statusCode).toBe(302)
-        const { headers } = response
-        expect(headers.location).toBe(
-          '/map?cz=360799,388244,15'
-        )
+        const response = await submitPostRequest(options)
+        expect(response.headers.location).toBe('/map?cz=360799,388244,15')
       }
     )
   })
 
   it('location page should pass locationDetails on to to /confirm-location', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'placeOrPostcode',
@@ -412,12 +368,8 @@ describe('location route', () => {
       ]
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(302)
-    const { headers } = response
-    expect(headers.location).toBe(
-      '/map?cz=360799,388244,15'
-    )
+    const response = await submitPostRequest(options)
+    expect(response.headers.location).toBe('/map?cz=360799,388244,15')
   })
 
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
@@ -431,7 +383,6 @@ describe('location route', () => {
   invalidPayloads.forEach(async (requestPayload) => {
     it(`location page with placeOrPostcode: "${requestPayload.placeOrPostcode || 'undefined'}" should load /location view with errors`, async () => {
       const options = {
-        method: 'POST',
         url,
         payload: requestPayload
       }
@@ -445,11 +396,7 @@ describe('location route', () => {
         ]
       }
 
-      const response = await server.inject(options)
-      expect(response.statusCode).toBe(200)
-      expect(response.request.path).toBe(url)
-      expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a real place name or postcode')
-      expect(response.payload).toContain('Error: Find location - Flood map for planning - GOV.UK')
+      await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
     }
     )
   })
@@ -458,7 +405,6 @@ describe('location route', () => {
   findByAddressResponse.forEach((addressResponse) => {
     it(`location page with placeOrPostcode and findByAddressResponse: "${JSON.stringify(addressResponse)}" should load /location view with errors`, async () => {
       const options = {
-        method: 'POST',
         url,
         payload: {
           findby: 'placeOrPostcode',
@@ -467,17 +413,12 @@ describe('location route', () => {
       }
 
       addressService.findByPlace = async (place) => addressResponse
-      const response = await server.inject(options)
-      expect(response.statusCode).toBe(200)
-      expect(response.request.path).toBe(url)
-      expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> No address found for that place or postcode')
-      expect(response.payload).toContain('<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
+      await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
     })
   })
 
   it('location page with nationalGridReference and ngrResponse: "[{ isValid: false }]" should load /location view with errors', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -486,16 +427,11 @@ describe('location route', () => {
     }
 
     isValidNgrService.get = async (ngr) => ({ isValid: false })
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
-    expect(response.request.path).toBe(url)
-    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a real National Grid Reference (NGR)')
-    expect(response.payload).toContain('<a href="#nationalGridReference">Enter a real National Grid Reference (NGR)</a>')
+    await submitPostRequestExpectHandledError(options, '<a href="#nationalGridReference">Enter a real National Grid Reference (NGR)</a>')
   })
 
   it('location page with a valid nationalGridReference should redirect to /confirm-location', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'nationalGridReference',
@@ -506,14 +442,12 @@ describe('location route', () => {
     isValidNgrService.get = async (ngr) => ({ isValid: true })
     ngrToBngService.convert = (ngr) => ({ easting: 360799, northing: 388244 })
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(302)
+    const response = await submitPostRequest(options)
     expect(response.headers.location).toBe('/map?cz=360799,388244,15')
   })
 
   it('location page with a valid eastingNorthing should redirect to /confirm-location', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -522,21 +456,18 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(302)
+    const response = await submitPostRequest(options)
     expect(response.headers.location).toBe('/map?cz=360799,388244,15')
   })
 
   it('location page findby eastingNorthing with missing easting and northing should should load /location view with errors', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing'
       }
     }
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    const response = await submitPostRequestExpectHandledError(options)
     expect(response.request.path).toBe(url)
     expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter an easting')
     expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a northing')
@@ -546,7 +477,6 @@ describe('location route', () => {
 
   it('location page findby eastingNorthing with invalid easting and northing should should load /location view with errors', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -555,16 +485,14 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    const response = await submitPostRequestExpectHandledError(options)
     expect(response.request.path).toBe(url)
-    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format')
-    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format')
+    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter an easting in the correct format')
+    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a northing in the correct format')
   })
 
   it('location page findby eastingNorthing with invalid easting should should load /location view with errors', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -573,18 +501,16 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    const response = await submitPostRequestExpectHandledError(options)
     expect(response.request.path).toBe(url)
-    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format')
-    expect(response.payload).not.toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format')
-    expect(response.payload).toContain('<a href="#easting">Enter an easting in the correct format<\/a>')
-    expect(response.payload).not.toContain('<a href="#northing">Enter a northing in the correct format<\/a>')
+    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter an easting in the correct format')
+    expect(response.payload).not.toContain('<span class="govuk-visually-hidden">Error:</span> Enter a northing in the correct format')
+    expect(response.payload).toContain('<a href="#easting">Enter an easting in the correct format</a>')
+    expect(response.payload).not.toContain('<a href="#northing">Enter a northing in the correct format</a>')
   })
 
   it('location page findby eastingNorthing with invalid northing should should load /location view with errors', async () => {
     const options = {
-      method: 'POST',
       url,
       payload: {
         findby: 'eastingNorthing',
@@ -593,12 +519,11 @@ describe('location route', () => {
       }
     }
 
-    const response = await server.inject(options)
-    expect(response.statusCode).toBe(200)
+    const response = await submitPostRequestExpectHandledError(options)
     expect(response.request.path).toBe(url)
-    expect(response.payload).not.toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter an easting in the correct format')
-    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:<\/span> Enter a northing in the correct format')
-    expect(response.payload).not.toContain('<a href="#easting">Enter an easting in the correct format<\/a>')
-    expect(response.payload).toContain('<a href="#northing">Enter a northing in the correct format<\/a>')
+    expect(response.payload).not.toContain('<span class="govuk-visually-hidden">Error:</span> Enter an easting in the correct format')
+    expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a northing in the correct format')
+    expect(response.payload).not.toContain('<a href="#easting">Enter an easting in the correct format</a>')
+    expect(response.payload).toContain('<a href="#northing">Enter a northing in the correct format</a>')
   })
 })

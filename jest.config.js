@@ -1,5 +1,10 @@
 module.exports = async () => {
   const config = {
+    collectCoverage: true,
+    coverageReporters: [
+      'lcov',
+      'text'
+    ],
     testPathIgnorePatterns: [
       '/defra-map'
     ],

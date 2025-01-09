@@ -17,7 +17,7 @@ const submitGetRequest = async (options, header, expectedResponseCode = 200, ses
   return response
 }
 
-const submitPostRequest = async (options, expectedResponseCode = 304, sessionData = {}) => {
+const submitPostRequest = async (options, expectedResponseCode = 302, sessionData = {}) => {
   // if (Object.keys(sessionData).length > 0) {
   //   await addOnPreAuth(sessionData)
   // }
@@ -29,7 +29,9 @@ const submitPostRequestExpectHandledError = async (options, errorMessage) => {
   options.method = 'POST'
   const response = await submitRequest(options, 200)
   expect(response.payload).toContain('There is a problem')
-  expect(response.payload).toContain(errorMessage)
+  if (errorMessage) {
+    expect(response.payload).toContain(errorMessage)
+  }
   return response
 }
 
