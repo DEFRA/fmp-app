@@ -30,11 +30,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=defra
-            -Dsonar.projectKey=DEFRA_fmp-app
-            -Dsonar.exclusions=**/__tests__/**, **/node_modules/**, **/test/**, **/test-output/**, /test/**, **/*.spec.js
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.javascript.exclusions=**/node_modules/**, **/test/**, **/test-output/**, **/server/dist/**, **/server/src/**
-            -Dsonar.cpd.exclusions=server/routes/**, server/views/**
