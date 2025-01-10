@@ -3,7 +3,7 @@
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
-const { getAreaInHectares } = require('../services/shape-utils')
+const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
 const { polygon: TurfPolygon, centroid } = require('@turf/turf')
 const functionAppRequests = {}
@@ -60,22 +60,19 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
+          const { recipientemail, fullName, zoneNumber } = payload
+          const coordinates = getCentreOfPolygon(payload.polygon)
 
           const PDFinformationDetailsObject = {
-            coordinates: { x: 0, y: 0 },
+            coordinates,
             applicationReferenceNumber: '',
             location: '',
-            polygon: '',
+            polygon: '[' + payload.polygon + ']',
             center: '',
             zoneNumber: ''
           }
-          const { recipientemail, fullName, zoneNumber } = payload
-          console.log('payload.polygon', payload.polygon)
-          const turfPolygon = TurfPolygon([JSON.parse(payload.polygon)])
-          console.log('turfPolygon', turfPolygon)
-          const turfCentre = centroid(turfPolygon)
-          const easting = turfCentre.geometry.coordinates[0]
-          const northing = turfCentre.geometry.coordinates[0]
+          const easting = centre.x
+          const northing = centre.y
           PDFinformationDetailsObject.coordinates.x = easting
           PDFinformationDetailsObject.coordinates.y = northing
           if (zoneNumber) {
@@ -86,8 +83,7 @@ module.exports = [
             PDFinformationDetailsObject.cent = payload.cent
           }
           if (!payload.location) {
-            PDFinformationDetailsObject.location =
-                easting + ',' + northing
+            PDFinformationDetailsObject.location = easting + ',' + northing
           } else {
             PDFinformationDetailsObject.location = payload.location
           }
