@@ -113,6 +113,7 @@ module.exports = [
           }
 
           // Forward details to confirmation page
+          queryParams.fullName = fullName || ''
           queryParams.polygon = payload.polygon || ''
           queryParams.recipientemail = payload.recipientemail || ''
           queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
