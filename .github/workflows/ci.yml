@@ -37,5 +37,4 @@ jobs:
             -Dsonar.exclusions=**/__tests__/**, **/__mocks__/**, **/node_modules/**, **/test/**, **/test-output/**, /test/**, **/*.spec.js, *snyk_report.html, *snyk_report.css, **/*.config.js
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.javascript.exclusions=**/node_modules/**, **/test/**, **/test-output/**, **/server/dist/**, **/server/src/**
-            -Dsonar.coverage.exclusions=**/test/**, **/__tests__/**, **/__test-helpers__/**, **/__mocks__/**, **/*.spec.*, **/*.test.*, **/test-env.js, **/client/**, **/*.config.js
             -Dsonar.cpd.exclusions=server/routes/**, server/views/**
