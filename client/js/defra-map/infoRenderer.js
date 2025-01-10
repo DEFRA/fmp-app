@@ -21,14 +21,14 @@ const renderList = (valuePairs) => {
   return html
 }
 
-const renderInfo = (html, label = 'Title') => {
+const renderInfo = (html, extraContent = '', label = 'Title') => {
   if (!html) {
     return null
   }
   return {
     width: '360px',
     label,
-    html
+    html: html + extraContent
   }
 }
 
