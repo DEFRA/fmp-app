@@ -24,7 +24,6 @@ jobs:
         run: |
           cp ./config/.env-example .env
           npm run test
-          # sed -i 's/\/home\/runner\/work\/fmp-app\/fmp-app\//\/github\/workspace\//g' lcov.info
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -36,5 +35,5 @@ jobs:
             -Dsonar.organization=defra
             -Dsonar.projectKey=DEFRA_fmp-app
             -Dsonar.exclusions=**/node_modules/**,**/test/**,**/test-output/**
-            -Dsonar.javascript.lcov.reportPaths=lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.javascript.exclusions=**/node_modules/**,**/test/**,**/test-output/**,**/server/dist/**,**/server/src/** 
