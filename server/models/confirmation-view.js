@@ -9,7 +9,6 @@ function ConfirmationViewModel (
   northing,
   polygon,
   cent,
-  location,
   search
 ) {
   if (recipientemail) {
@@ -23,7 +22,6 @@ function ConfirmationViewModel (
     this.ispolygon = false
     this.polygon = polygon
     this.cent = cent
-    this.location = location
     this.search = search
   }
   if (applicationReferenceNumber) {

@@ -62,19 +62,13 @@ module.exports = [
           const payload = request.payload || {}
           const { recipientemail, fullName, zoneNumber } = payload
           const coordinates = getCentreOfPolygon(payload.polygon)
-
           const PDFinformationDetailsObject = {
             coordinates,
             applicationReferenceNumber: '',
-            location: '',
             polygon: '[' + payload.polygon + ']',
             center: '',
             zoneNumber: ''
           }
-          const easting = centre.x
-          const northing = centre.y
-          PDFinformationDetailsObject.coordinates.x = easting
-          PDFinformationDetailsObject.coordinates.y = northing
           if (zoneNumber) {
             PDFinformationDetailsObject.zoneNumber = zoneNumber
           }
@@ -82,16 +76,10 @@ module.exports = [
             PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
             PDFinformationDetailsObject.cent = payload.cent
           }
-          if (!payload.location) {
-            PDFinformationDetailsObject.location = easting + ',' + northing
-          } else {
-            PDFinformationDetailsObject.location = payload.location
-          }
-          // }
 
           // Send details to function app
           const { x, y } = PDFinformationDetailsObject.coordinates
-          const { location, polygon } = PDFinformationDetailsObject
+          const { polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
           const name = fullName
           const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
@@ -102,7 +90,6 @@ module.exports = [
             x,
             y,
             polygon,
-            location,
             zoneNumber: floodZoneResultsToFloodZone(floodZoneResults),
             plotSize,
             areaName: psoResults.AreaName,
@@ -124,17 +111,13 @@ module.exports = [
               data
             )
             console.log('Error\n', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]&location=${PDFinformationDetailsObject?.location}`
+            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]`
             return h.redirect(redirectURL)
           }
 
           // Forward details to confirmation page
-          queryParams.fullName = payload.fullName || ''
           queryParams.polygon = payload.polygon || ''
           queryParams.recipientemail = payload.recipientemail || ''
-          queryParams.x = PDFinformationDetailsObject.coordinates.x
-          queryParams.y = PDFinformationDetailsObject.coordinates.y
-          queryParams.location = PDFinformationDetailsObject.location
           queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
           queryParams.cent = payload.cent || ''
 

@@ -27,15 +27,12 @@ module.exports = {
             request.query.y,
             request.query.polygon,
             request.query.cent,
-            request.query.location,
             ''
           )
-          model.location = request.query.x + ',' + request.query.y
           model.psoEmailAddress = result && result.EmailAddress ? result.EmailAddress : undefined
           model.AreaName = result && result.AreaName ? punctuateAreaName(result.AreaName) : undefined
           model.LocalAuthorities = result && result.LocalAuthorities ? result.LocalAuthorities : undefined
           model.zoneNumber = request.query.zoneNumber ? request.query.zoneNumber : undefined
-          model.search = request.query.location
 
           return h.view('confirmation', model)
         } else {
