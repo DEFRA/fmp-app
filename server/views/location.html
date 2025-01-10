@@ -20,7 +20,7 @@
               errorList: errorSummary
             }) 
           }}
-          <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
+          <div class="hide" data-journey="{{analyticsPageEvent | safe}}"></div>
         {% endif %}
 
         {% set placeOrPostcodeHtml %}
@@ -30,7 +30,7 @@
           type: "text",
           classes: "govuk-!-width-one-third",                          
           value: placeOrPostcode,                     
-          errorMessage: placeOrPostcodeError,
+          errorMessage: findErrorMessageById(errorSummary, "placeOrPostcode"),
           spellcheck: false,
           hint: {
             text: "For example, Bakewell or WA4 1AB"
@@ -50,8 +50,8 @@
           name: "nationalGridReference",
           type: "text",
           classes: "govuk-!-width-one-third",                          
-          value:nationalGridReference,                        
-          errorMessage: nationalGridReferenceError,
+          value: nationalGridReference,                        
+          errorMessage: findErrorMessageById(errorSummary, "nationalGridReference"),
           hint: {
             text: "For example, SJ8632197947 (10 or 12 digits)"
           },
@@ -74,7 +74,7 @@
             type: "text",
             classes: "govuk-!-width-one-third",
             value: easting,                
-            errorMessage: eastingError,
+            errorMessage: findErrorMessageById(errorSummary, "easting"),
             label: {
               text: 'Easting',
               for: "easting",
@@ -87,7 +87,7 @@
           type: "text",
           classes: "govuk-!-width-one-third",
           value: northing,                      
-          errorMessage: northingError,
+          errorMessage: findErrorMessageById(errorSummary, "northing"),
           label: {
             text: 'Northing',
             for: "northing",
@@ -113,7 +113,7 @@
               conditional: {
                 html: placeOrPostcodeHtml
               },
-              checked: placeOrPostcodeSelected
+              checked: findby === 'placeOrPostcode'
             },
             {
               value: "nationalGridReference",
@@ -121,7 +121,7 @@
               conditional: {
                 html: nationalGridReferenceHtml
               },
-              checked: nationalGridReferenceSelected
+              checked: findby === 'nationalGridReference'
             },
             {
               value: "eastingNorthing",
@@ -129,10 +129,10 @@
               conditional: {
                 html: eastingNorthingHtml
               },
-              checked: eastingNorthingSelected
+              checked: findby === 'eastingNorthing'
             }  
           ],
-          errorMessage: errors["findby"]
+          errorMessage: findErrorMessageById(errorSummary, "findby")
         })}}
         
 
@@ -144,27 +144,4 @@
     </div>
   </div>
 </div>
-<script>
-    // FCRM-3619 - Now checks the Radio for PostCode by default (to avoid errors when JS is disabled)
-    // This script unchecks the radio, when JS is enabled so the UX is the same (nothing is checked by default)
-    document.addEventListener("DOMContentLoaded", () => {
-      if (!"{{placeOrPostcodeError.text}}") {
-        const radio = document.getElementById("findby")
-        if (radio) {
-          radio.checked = false
-        }
-      }
-    })
-    const form = document.getElementById('location-form')
-    if (form) {
-      form.onsubmit = () => {
-        try {
-          if (window.sessionStorage) {
-            window.sessionStorage.removeItem('polygon')
-            window.sessionStorage.removeItem('point')
-          }
-        } catch (ex) { }
-      }
-    }
-  </script>
 {% endblock %}

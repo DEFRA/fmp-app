@@ -3,7 +3,7 @@ const twelveCharactersRegex =
 const tenCharactersRegex =
   /^(?:HP|HT|HU|H[W-Z]|N[A-D]|NF|N[G-H]|N[J-O]|N[R-U]|N[W-Z]|OV|S[C-E]|SH|S[J-K]|S[M-P]|S[R-Z]|TA|T[F-G]|T[L-M]|T[Q-R]|TV)\d{8}$/
 module.exports = {
-  get: async (ngr) => {
+  get: (ngr) => {
     const response = { isValid: false }
     const formattedNgr = ngr.replace(/\s+/g, '')
     switch (formattedNgr.length) {

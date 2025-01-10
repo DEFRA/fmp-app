@@ -4,6 +4,10 @@ const { config } = require('../../config')
 const pkg = require('../../package.json')
 const { gaAccId, fbAppId, analyticsAccount } = config
 
+const findErrorMessageById = (errorSummary, id) => {
+  return errorSummary?.find(error => error.href === `#${id}`)
+}
+
 module.exports = {
   plugin: require('@hapi/vision'),
   options: {
@@ -26,6 +30,8 @@ module.exports = {
 
           env.addFilter('formatDate', util.formatDate)
           env.addFilter('toFixed', util.toFixed)
+
+          env.addGlobal('findErrorMessageById', findErrorMessageById)
 
           return next()
         }

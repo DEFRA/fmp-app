@@ -194,7 +194,7 @@ describe('location route', () => {
       return [{ geometry_x: 300000 }]
     }
 
-    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
+    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">No address found for that place or postcode</a>')
   })
 
   it('location page with bad northing from location', async () => {
@@ -210,7 +210,7 @@ describe('location route', () => {
       return [{ geometry_y: 300000 }]
     }
 
-    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
+    await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">No address found for that place or postcode</a>')
   })
   it('location page NGR fails to return easting but ok address', async () => {
     const options = {
@@ -413,7 +413,7 @@ describe('location route', () => {
       }
 
       addressService.findByPlace = async (place) => addressResponse
-      await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">Enter a real place name or postcode</a>')
+      await submitPostRequestExpectHandledError(options, '<a href="#placeOrPostcode">No address found for that place or postcode</a>')
     })
   })
 
@@ -439,7 +439,7 @@ describe('location route', () => {
       }
     }
 
-    isValidNgrService.get = async (ngr) => ({ isValid: true })
+    isValidNgrService.get = (ngr) => ({ isValid: true })
     ngrToBngService.convert = (ngr) => ({ easting: 360799, northing: 388244 })
 
     const response = await submitPostRequest(options)
