@@ -1,4 +1,4 @@
-const createServer = require('../../server')
+const createServer = require('../../../server')
 
 describe('About Map Page', () => {
   const values = { server: undefined }
@@ -8,7 +8,7 @@ describe('About Map Page', () => {
     await values.server.initialize()
     values.response = await values.server.inject({ method: 'GET', url: '/about-map' })
     document.body.innerHTML = values.response.payload
-    require('../../client/js/modules/about-map')
+    require('../../../client/js/modules/about-map')
   })
 
   afterAll(async () => {
