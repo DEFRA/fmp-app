@@ -1,11 +1,8 @@
-// const Boom = require('@hapi/boom')
-// const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
-const { polygon: TurfPolygon, centroid } = require('@turf/turf')
 const functionAppRequests = {}
 
 const getFunctionAppResponse = async (referer, data) => {
