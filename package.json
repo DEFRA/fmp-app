@@ -22,7 +22,7 @@
     "unit-test": "lab --verbose -l -c -r console -o stdout -r lcov -o lcov.info",
     "unit-jest": "jest --runInBand --verbose",
     "unit-test-quiet": "lab -l -s",
-    "test": "npm run lint && npm run unit-test",
+    "test": "npm run lint && npm run unit-jest",
     "jest": "jest",
     "test-bail": "lab -l --bail",
     "postinstall": "npm run build",

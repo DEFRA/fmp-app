@@ -24,12 +24,7 @@ jobs:
         run: |
           cp ./config/.env-example .env
           npm run test
-          sed -i 's/\/home\/runner\/work\/fmp-app\/fmp-app\//\/github\/workspace\//g' lcov.info
-      
-      - name: Run jest unit tests
-        run: |
-          cp ./config/.env-example .env
-          npm run unit-jest
+          # sed -i 's/\/home\/runner\/work\/fmp-app\/fmp-app\//\/github\/workspace\//g' lcov.info
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
