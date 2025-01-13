@@ -62,13 +62,12 @@ module.exports = [
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          const queryParams = {}
-
+          let applicationReferenceNumber
           try {
             const result = await getFunctionAppResponse(data)
             const response = result.payload.toString()
-            const { applicationReferenceNumber } = JSON.parse(response)
-            queryParams.applicationReferenceNumber = applicationReferenceNumber
+            const { applicationReferenceNumber: appRef } = JSON.parse(response)
+            applicationReferenceNumber = appRef
           } catch (error) {
             console.log(
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
@@ -80,12 +79,12 @@ module.exports = [
           }
 
           // Forward details to confirmation page
-          queryParams.fullName = fullName || ''
-          queryParams.polygon = payload.polygon || ''
-          queryParams.recipientemail = recipientemail
-          queryParams.zoneNumber = zoneNumber
-          queryParams.cent = payload.cent || ''
-
+          const queryParams = {
+            applicationReferenceNumber,
+            polygon: payload.polygon,
+            recipientemail,
+            zoneNumber
+          }
           // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
           const query = new URLSearchParams(queryParams).toString()
           return h.redirect(`/confirmation?${query}`)
