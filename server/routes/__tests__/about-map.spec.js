@@ -1,4 +1,4 @@
-const createServer = require('../../server')
+const createServer = require('../../../server')
 
 describe('About Map Page', () => {
   const values = { server: undefined }
@@ -8,7 +8,7 @@ describe('About Map Page', () => {
     await values.server.initialize()
     values.response = await values.server.inject({ method: 'GET', url: '/about-map' })
     document.body.innerHTML = values.response.payload
-    require('../../client/js/modules/about-map')
+    require('../../../client/js/modules/about-map')
   })
 
   afterAll(async () => {
@@ -36,7 +36,7 @@ describe('About Map Page', () => {
     expect(document.cookie).toBe('')
   })
 
-  it('should redirect to /map if Skip-changes-to-flood-data cookie is set to true ', async () => {
+  it('should redirect to /location if Skip-changes-to-flood-data cookie is set to true ', async () => {
     const headers = { cookie: 'Skip-changes-to-flood-data=true;' }
     const response = await values.server.inject({
       method: 'GET',
@@ -44,6 +44,6 @@ describe('About Map Page', () => {
       headers
     })
     expect(response.statusCode).toBe(302)
-    expect(response.headers.location).toBe('/map')
+    expect(response.headers.location).toBe('/location')
   })
 })

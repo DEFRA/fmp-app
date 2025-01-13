@@ -1,4 +1,4 @@
-const createServer = require('../../server')
+const createServer = require('../../../server')
 
 describe('Results Page', () => {
   let server

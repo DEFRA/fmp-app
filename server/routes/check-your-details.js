@@ -1,37 +1,37 @@
 // const Boom = require('@hapi/boom')
 // const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
-const { config } = require('../../config')
-const wreck = require('@hapi/wreck')
-const publishToQueueURL = config.functionAppUrl + '/order-product-four'
+// const { config } = require('../../config')
+// const wreck = require('@hapi/wreck')
+// const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares } = require('../services/shape-utils')
-const addressService = require('../services/address')
+// const addressService = require('../services/address')
 
-const functionAppRequests = {}
+// const functionAppRequests = {}
 
-const getFunctionAppResponse = async (referer, data) => {
-  if (referer && functionAppRequests[referer]) {
-    return functionAppRequests[referer]
-  }
-  const payload = JSON.parse(data)
-  const postcode = await addressService.getPostcodeFromEastingorNorthing(
-    payload?.x,
-    payload?.y
-  )
-  payload.postcode = postcode
+// const getFunctionAppResponse = async (referer, data) => {
+//   if (referer && functionAppRequests[referer]) {
+//     return functionAppRequests[referer]
+//   }
+//   const payload = JSON.parse(data)
+//   const postcode = await addressService.getPostcodeFromEastingorNorthing(
+//     payload?.x,
+//     payload?.y
+//   )
+//   payload.postcode = postcode
 
-  const functionAppResponse = wreck.post(publishToQueueURL, {
-    payload: JSON.stringify(payload)
-  })
-  if (!referer) {
-    return functionAppResponse
-  }
-  functionAppRequests[referer] = functionAppResponse
-  setTimeout(() => {
-    // delete the saved response after 60 seconds
-    delete functionAppRequests[referer]
-  }, 60000)
-  return functionAppRequests[referer]
-}
+//   const functionAppResponse = wreck.post(publishToQueueURL, {
+//     payload: JSON.stringify(payload)
+//   })
+//   if (!referer) {
+//     return functionAppResponse
+//   }
+//   functionAppRequests[referer] = functionAppResponse
+//   setTimeout(() => {
+//     // delete the saved response after 60 seconds
+//     delete functionAppRequests[referer]
+//   }, 60000)
+//   return functionAppRequests[referer]
+// }
 
 module.exports = [
   {
