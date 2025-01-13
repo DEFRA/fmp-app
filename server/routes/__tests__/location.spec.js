@@ -47,6 +47,29 @@ describe('location route', () => {
     await submitPostRequestExpectServiceError(options)
   })
 
+  it('location page with blank findby', async () => {
+    const options = {
+      url,
+      payload: {
+        findby: '',
+        placeOrPostcode: ''
+      }
+    }
+
+    await submitPostRequestExpectHandledError(options, '<a href="#findby">Select a place or postcode, National Grid Reference (NGR) or an Easting and northing</a>')
+  })
+
+  it('location page with missing findby', async () => {
+    const options = {
+      url,
+      payload: {
+        placeOrPostcode: ''
+      }
+    }
+
+    await submitPostRequestExpectHandledError(options, '<a href="#findby">Select a place or postcode, National Grid Reference (NGR) or an Easting and northing</a>')
+  })
+
   it('location page without placeOrPostcode', async () => {
     const options = {
       url,
