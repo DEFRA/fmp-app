@@ -24,8 +24,8 @@ const handlers = {
 }
 
 const validatePayload = async payload => {
-  let BNG = {}
-  let {
+  const BNG = {}
+  const {
     findby,
     placeOrPostcode,
     nationalGridReference,
@@ -35,55 +35,11 @@ const validatePayload = async payload => {
   const errorSummary = []
 
   if (findby === 'placeOrPostcode') {
-    placeOrPostcode = placeOrPostcode?.trim() || ''
-    if (!validatePlaceOrPostcode(placeOrPostcode)) {
-      errorSummary.push({
-        text: 'Enter a real place name or postcode',
-        href: '#placeOrPostcode'
-      })
-    } else {
-      const address = await addressService.findByPlace(placeOrPostcode)
-      if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
-        errorSummary.push({
-          text: 'No address found for that place or postcode',
-          href: '#placeOrPostcode'
-        })
-      } else {
-        BNG.easting = address[0].geometry_x
-        BNG.northing = address[0].geometry_y
-      }
-    }
+    await validatePlace(BNG, placeOrPostcode, errorSummary)
   } else if (findby === 'nationalGridReference') {
-    const isNGrValid = isValidNgrService.get(nationalGridReference || '')
-    if (isNGrValid.isValid) {
-      BNG = ngrToBng.convert(nationalGridReference)
-    } else {
-      errorSummary.push({
-        text: 'Enter a real National Grid Reference (NGR)',
-        href: '#nationalGridReference'
-      })
-    }
+    validateGridReference(BNG, nationalGridReference, errorSummary)
   } else if (findby === 'eastingNorthing') {
-    const formattedEasting = easting ? easting.trim().replace(/\s+/g, '') : ''
-    const formattedNorthing = northing ? northing.trim().replace(/\s+/g, '') : ''
-    const eastingNorthingResponse = isValidEastingNorthingService.get(formattedEasting, formattedNorthing)
-    if (eastingNorthingResponse.isValid) {
-      BNG.easting = formattedEasting
-      BNG.northing = formattedNorthing
-    } else {
-      if (eastingNorthingResponse.eastingError) {
-        errorSummary.push({
-          text: eastingNorthingResponse.eastingError,
-          href: '#easting'
-        })
-      }
-      if (eastingNorthingResponse.northingError) {
-        errorSummary.push({
-          text: eastingNorthingResponse.northingError,
-          href: '#northing'
-        })
-      }
-    }
+    validateBNG(BNG, easting, northing, errorSummary)
   } else {
     errorSummary.push({
       text: 'Select a place or postcode, National Grid Reference (NGR) or an Easting and northing',
@@ -94,6 +50,64 @@ const validatePayload = async payload => {
   return {
     BNG,
     errorSummary
+  }
+}
+
+const validatePlace = async (BNG, placeOrPostcode, errorSummary) => {
+  placeOrPostcode = placeOrPostcode?.trim() || ''
+  if (!validatePlaceOrPostcode(placeOrPostcode)) {
+    errorSummary.push({
+      text: 'Enter a real place name or postcode',
+      href: '#placeOrPostcode'
+    })
+  } else {
+    const address = await addressService.findByPlace(placeOrPostcode)
+    if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
+      errorSummary.push({
+        text: 'No address found for that place or postcode',
+        href: '#placeOrPostcode'
+      })
+    } else {
+      BNG.easting = address[0].geometry_x
+      BNG.northing = address[0].geometry_y
+    }
+  }
+}
+
+const validateGridReference = (BNG, nationalGridReference, errorSummary) => {
+  const isNGrValid = isValidNgrService.get(nationalGridReference || '')
+  if (isNGrValid.isValid) {
+    const convertedBNG = ngrToBng.convert(nationalGridReference)
+    BNG.easting = convertedBNG.easting
+    BNG.northing = convertedBNG.northing
+  } else {
+    errorSummary.push({
+      text: 'Enter a real National Grid Reference (NGR)',
+      href: '#nationalGridReference'
+    })
+  }
+}
+
+const validateBNG = (BNG, easting, northing, errorSummary) => {
+  const formattedEasting = easting ? easting.trim().replace(/\s+/g, '') : ''
+  const formattedNorthing = northing ? northing.trim().replace(/\s+/g, '') : ''
+  const eastingNorthingResponse = isValidEastingNorthingService.get(formattedEasting, formattedNorthing)
+  if (eastingNorthingResponse.isValid) {
+    BNG.easting = formattedEasting
+    BNG.northing = formattedNorthing
+  } else {
+    if (eastingNorthingResponse.eastingError) {
+      errorSummary.push({
+        text: eastingNorthingResponse.eastingError,
+        href: '#easting'
+      })
+    }
+    if (eastingNorthingResponse.northingError) {
+      errorSummary.push({
+        text: eastingNorthingResponse.northingError,
+        href: '#northing'
+      })
+    }
   }
 }
 
