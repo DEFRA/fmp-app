@@ -1,8 +1,7 @@
 const createServer = require('../server')
-// import serverOptions from '../server/__test-helpers__/server-options.js'
 const ORIGINAL_ENV = process.env
 
-let server, context
+let server
 
 beforeEach(async () => {
   jest.resetAllMocks()
@@ -24,6 +23,4 @@ afterEach(async () => {
 
 const getServer = () => server
 
-const getContext = () => context
-
-export { getServer, getContext }
+export { getServer }
