@@ -1,5 +1,5 @@
 const getAreaPolygon = require('area-polygon')
-const { polygon: TurfPolygon, centroid, bbox } = require('@turf/turf')
+const { polygon: TurfPolygon, centroid } = require('@turf/turf')
 
 const getCentreOfPolygon = (polygon) => {
   polygon = polygonToArray(polygon)
