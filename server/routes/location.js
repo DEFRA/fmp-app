@@ -62,7 +62,7 @@ const validatePlace = async (BNG, placeOrPostcode, errorSummary) => {
     })
   } else {
     const address = await addressService.findByPlace(placeOrPostcode)
-    if (!address || !address.length || !address[0].geometry_x || !address[0].geometry_y) {
+    if (!address?.length || !address[0].geometry_x || !address[0].geometry_y) {
       errorSummary.push({
         text: 'No address found for that place or postcode',
         href: '#placeOrPostcode'
