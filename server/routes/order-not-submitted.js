@@ -3,8 +3,8 @@ module.exports = [
     method: 'GET',
     path: '/order-not-submitted',
     handler: (request, h) => {
-      const { polygon, center, location, error } = request.query
-      const tryAgainURL = `/flood-zone-results?polygon=${polygon}&center=${center}&location=${location}`
+      const { polygon, error } = request.query
+      const tryAgainURL = `/results?polygon=${polygon}`
       return h.view('order-not-submitted', { tryAgainURL, error }).code(200)
     }
   }

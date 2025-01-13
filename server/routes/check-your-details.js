@@ -1,37 +1,22 @@
-// const Boom = require('@hapi/boom')
-// const ApplicationReviewSummaryViewModel = require('../models/check-your-details')
-// const { config } = require('../../config')
-// const wreck = require('@hapi/wreck')
-// const publishToQueueURL = config.functionAppUrl + '/order-product-four'
-const { getAreaInHectares } = require('../services/shape-utils')
-// const addressService = require('../services/address')
+const { config } = require('../../config')
+const wreck = require('@hapi/wreck')
+const publishToQueueURL = config.functionAppUrl + '/order-product-four'
+const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
+const addressService = require('../services/address')
 
-// const functionAppRequests = {}
+const getFunctionAppResponse = async (data) => {
+  const payload = JSON.parse(data)
+  const postcode = await addressService.getPostcodeFromEastingorNorthing(
+    payload?.x,
+    payload?.y
+  )
+  payload.postcode = postcode
 
-// const getFunctionAppResponse = async (referer, data) => {
-//   if (referer && functionAppRequests[referer]) {
-//     return functionAppRequests[referer]
-//   }
-//   const payload = JSON.parse(data)
-//   const postcode = await addressService.getPostcodeFromEastingorNorthing(
-//     payload?.x,
-//     payload?.y
-//   )
-//   payload.postcode = postcode
+  return wreck.post(publishToQueueURL, { payload: JSON.stringify(payload) })
+}
 
-//   const functionAppResponse = wreck.post(publishToQueueURL, {
-//     payload: JSON.stringify(payload)
-//   })
-//   if (!referer) {
-//     return functionAppResponse
-//   }
-//   functionAppRequests[referer] = functionAppResponse
-//   setTimeout(() => {
-//     // delete the saved response after 60 seconds
-//     delete functionAppRequests[referer]
-//   }, 60000)
-//   return functionAppRequests[referer]
-// }
+const floodZoneResultsToFloodZone = (floodZoneResults) =>
+  floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1'
 
 module.exports = [
   {
@@ -41,58 +26,11 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { polygon, fullName, recipientemail } = request.query
-        const floodZone = 'TODO'
+        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const floodZone = floodZoneResultsToFloodZone(floodZoneResults)
         const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
         const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
         return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, confirmLocationUrl, floodZone })
-        // const PDFinformationDetailsObject = {
-        //   coordinates: { x: 0, y: 0 },
-        //   applicationReferenceNumber: '',
-        //   location: '',
-        //   polygon: '',
-        //   center: '',
-        //   zoneNumber: '',
-        //   fullName: '',
-        //   recipientemail: '',
-        //   contacturl: ''
-        // }
-        // const { recipientemail, fullName } = payload
-        // if (payload.easting && payload.northing) {
-        //   PDFinformationDetailsObject.coordinates.x = payload.easting
-        //   PDFinformationDetailsObject.coordinates.y = payload.northing
-        //   if (payload.zoneNumber) {
-        //     PDFinformationDetailsObject.zoneNumber = payload.zoneNumber
-        //   }
-        //   if (payload.polygon) {
-        //     PDFinformationDetailsObject.polygon = payload.polygon
-        //     PDFinformationDetailsObject.cent = payload.center
-        //   }
-        //   if (!payload.location) {
-        //     PDFinformationDetailsObject.location =
-        //       payload.easting + ',' + payload.northing
-        //   } else {
-        //     PDFinformationDetailsObject.location = payload.location
-        //   }
-        //   PDFinformationDetailsObject.applicationReferenceNumber = ''
-        // } else {
-        //   return Boom.badImplementation('Query parameters are empty')
-        // }
-        // if (fullName) {
-        //   PDFinformationDetailsObject.fullName = fullName
-        // } else {
-        //   return Boom.badImplementation('fullName is Empty')
-        // }
-        // if (recipientemail) {
-        //   PDFinformationDetailsObject.recipientemail = recipientemail
-        // } else {
-        //   return Boom.badImplementation('RecipientEmail is Empty')
-        // }
-        // const model = new ApplicationReviewSummaryViewModel({
-        //   PDFinformationDetailsObject,
-        //   contacturl: `/contact?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&zone=${PDFinformationDetailsObject.zoneNumber}&polygon=${PDFinformationDetailsObject.polygon}&center${PDFinformationDetailsObject.cent}&location=${PDFinformationDetailsObject.location}&zoneNumber=${PDFinformationDetailsObject.zoneNumber}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`,
-        //   confirmlocationurl: `confirm-location?easting=${PDFinformationDetailsObject.coordinates.x}&northing=${PDFinformationDetailsObject.coordinates.y}&placeOrPostcode=${PDFinformationDetailsObject.location}&fullName=${PDFinformationDetailsObject.fullName}&recipientemail=${PDFinformationDetailsObject.recipientemail}`
-        // })
-        // return h.view('check-your-details', model)
       }
     }
   },
@@ -104,93 +42,49 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
-          const PDFinformationDetailsObject = {
-            coordinates: { x: 0, y: 0 },
-            applicationReferenceNumber: '',
-            location: '',
-            polygon: '',
-            center: '',
-            zoneNumber: ''
-          }
-          const { recipientemail, fullName, zoneNumber } = payload
-          // Sanitise user inputs
-          if (payload.easting && payload.northing) {
-            PDFinformationDetailsObject.coordinates.x = payload.easting
-            PDFinformationDetailsObject.coordinates.y = payload.northing
-            if (zoneNumber) {
-              PDFinformationDetailsObject.zoneNumber = zoneNumber
-            }
-            if (payload.polygon) {
-              PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
-              PDFinformationDetailsObject.cent = payload.cent
-            }
-            if (!payload.location) {
-              PDFinformationDetailsObject.location =
-                payload.easting + ',' + payload.northing
-            } else {
-              PDFinformationDetailsObject.location = payload.location
-            }
-          }
+          const { recipientemail, fullName } = payload
+          const coordinates = getCentreOfPolygon(payload.polygon)
 
           // Send details to function app
-          const { x, y } = PDFinformationDetailsObject.coordinates
-          const { location, polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
-          const name = fullName
-          const psoResults =
-            await request.server.methods.getPsoContactsByPolygon(
-              payload.polygon
-            )
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
+          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
+          const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
           const data = JSON.stringify({
-            name,
+            name: fullName,
             recipientemail,
-            x,
-            y,
-            polygon,
-            location,
+            x: coordinates.x,
+            y: coordinates.y,
+            polygon: '[' + payload.polygon + ']',
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          const queryParams = {}
-
+          let applicationReferenceNumber
           try {
-            const referer = request.headers ? request.headers.referer : undefined
-            // TODO - reinstate this request
-            // const result = await getFunctionAppResponse(referer, data)
-            await new Promise((resolve) => {
-              console.log('\nPOST recieved in check-your-details\n', referer)
-              setTimeout(() => resolve(true), 5000)
-            })
-            const result = { payload: JSON.stringify({ applicationReferenceNumber: 'DUMMYP4REF' }) }
+            const result = await getFunctionAppResponse(data)
             const response = result.payload.toString()
-            const { applicationReferenceNumber } = JSON.parse(response)
-            queryParams.applicationReferenceNumber = applicationReferenceNumber
+            const { applicationReferenceNumber: appRef } = JSON.parse(response)
+            applicationReferenceNumber = appRef
           } catch (error) {
             console.log(
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
               data
             )
-            console.log(
-              'Remember if the postcode is part of the previous log, then it sent it to the fmp-api'
-            )
-            console.log('This is the previous error', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]&location=${PDFinformationDetailsObject?.location}`
+            console.log('Error\n', JSON.stringify(error))
+            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]`
             return h.redirect(redirectURL)
           }
 
           // Forward details to confirmation page
-          queryParams.fullName = payload.fullName || ''
-          queryParams.polygon = payload.polygon || ''
-          queryParams.recipientemail = payload.recipientemail || ''
-          queryParams.x = PDFinformationDetailsObject.coordinates.x
-          queryParams.y = PDFinformationDetailsObject.coordinates.y
-          queryParams.location = PDFinformationDetailsObject.location
-          queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
-          queryParams.cent = payload.cent || ''
-
+          const queryParams = {
+            applicationReferenceNumber,
+            polygon: payload.polygon,
+            recipientemail,
+            zoneNumber
+          }
           // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
           const query = new URLSearchParams(queryParams).toString()
           return h.redirect(`/confirmation?${query}`)
