@@ -1,10 +1,6 @@
 {% extends 'layout.html' %}
 {% block pageTitle %}
-  {% if errorSummary.length > 0 %}
-      Error: Find location - Flood map for planning - GOV.UK
-  {% else %}
-      Find location - Flood map for planning - GOV.UK
-  {% endif %}
+  {% if errorSummary.length > 0 %}Error: {% endif %}Find location - Flood map for planning - GOV.UK
 {% endblock %}
 {% block content %}
   {{ super() }}
@@ -15,163 +11,137 @@
   {% from "error-summary/macro.njk" import govukErrorSummary %}
 
   <div class="govuk-width-container">
-    <div class="govuk-main-wrapper">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"> 
-  <form autocomplete="off" id='location-form' method="post" action="/location" novalidate>
-    {% if errorSummary.length > 0 %}
-      {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorSummary,
-          classes: "govuk-grid-column-two-thirds"
-        }) 
-      }}
-      <div class="hide" data-journey="{{analyticsPageEvent}}"></div>
-    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds"> 
+      <form autocomplete="off" id='location-form' method="post" action="/location" novalidate>
+        {% if errorSummary.length > 0 %}
+          {{ govukErrorSummary({
+              titleText: "There is a problem",
+              errorList: errorSummary
+            }) 
+          }}
+          <div class="hide" data-journey="{{analyticsPageEvent | safe}}"></div>
+        {% endif %}
 
-    {% set placeOrPostcodeHtml %}
-    {{ govukInput({
-      id: "placeOrPostcode",
-      name: "placeOrPostcode",
-      type: "text",
-      classes: "govuk-!-width-one-third",                          
-      value: placeOrPostcode,                     
-      errorMessage: placeOrPostcodeError,
-      spellcheck: false,
-      hint: {
-        text: "For example, Bakewell or WA4 1AB"
-      },
-      label: {
-        text: 'Place or postcode',
-        classes: 'visually-hidden',
-        for: "placeOrPostcode",
-        isPageHeading: false
-      }
-    })}}
-    {% endset -%}
-
-    {% set nationalGridReferenceHtml %}
-    {{ govukInput({
-      id: "nationalGridReference",
-      name: "nationalGridReference",
-      type: "text",
-      classes: "govuk-!-width-one-third",                          
-      value:nationalGridReference,                        
-      errorMessage: nationalGridReferenceError,
-      hint: {
-        text: "For example, SJ8632197947 (10 or 12 digits)"
-      },
-      label: {
-        text: 'National Grid Reference (NGR)',
-        classes: 'visually-hidden',
-        for: "nationalGridReference",
-        isPageHeading: false
-      }
-    })}}
-    {% endset -%}
-
-    {% set eastingNorthingHtml %}
-    <div id="eastings-northings-hint" class="govuk-hint">
-      Eastings and northings should only include numbers.  For example: 123456
-    </div>
-    {{ govukInput({
-        id: "easting",
-        name: "easting",
-        type: "text",
-        classes: "govuk-!-width-one-third",
-        value :easting,                
-        errorMessage: eastingError,
-        label: {
-          text: 'Easting',
-          for: "easting",
-          isPageHeading: false
-        }
-    })}}
-    {{ govukInput({
-      id: "northing",
-      name: "northing",
-      type: "text",
-      classes: "govuk-!-width-one-third",
-      value :northing,                      
-      errorMessage: northingError,
-      label: {
-        text: 'Northing',
-        for: "northing",
-        classes: "govuk-!-margin-top-3",
-        isPageHeading: false
-      }
-    })}}
-    {% endset -%}
-
-    {{ govukRadios({
-      name: "findby",
-      fieldset: {
-        legend: {
-          text: "Find the location",
-          isPageHeading: true,
-          classes: "govuk-fieldset__legend--xl"
-        }
-      },
-      items: [
-        {
-          value: "placeOrPostcode",
-          text: "Place or postcode",
-          conditional: {
-            html: placeOrPostcodeHtml
+        {% set placeOrPostcodeHtml %}
+        {{ govukInput({
+          id: "placeOrPostcode",
+          name: "placeOrPostcode",
+          type: "text",
+          classes: "govuk-!-width-one-third",                          
+          value: placeOrPostcode,                     
+          errorMessage: findErrorMessageById(errorSummary, "placeOrPostcode"),
+          spellcheck: false,
+          hint: {
+            text: "For example, Bakewell or WA4 1AB"
           },
-          checked:placeOrPostcodeSelected
-        },
-        {
-          value: "nationalGridReference",
-          text: "National Grid Reference (NGR)",
-          conditional: {
-            html: nationalGridReferenceHtml
-          },
-          checked:nationalGridReferenceSelected
-        },
-        {
-          value: "eastingNorthing",
-          text: "Easting and northing",
-          conditional: {
-            html: eastingNorthingHtml
-          },
-          checked:eastingNorthingSelected
-        }  
-      ],
-      errorMessage: errors["findby"]
-    })}}
-    
+          label: {
+            text: 'Place or postcode',
+            classes: 'visually-hidden',
+            for: "placeOrPostcode",
+            isPageHeading: false
+          }
+        })}}
+        {% endset -%}
 
-    {{ govukButton({
-      text: "Continue",
-      preventDoubleClick: true
-    })}}
-  </form>
-      </div>
+        {% set nationalGridReferenceHtml %}
+        {{ govukInput({
+          id: "nationalGridReference",
+          name: "nationalGridReference",
+          type: "text",
+          classes: "govuk-!-width-one-third",                          
+          value: nationalGridReference,                        
+          errorMessage: findErrorMessageById(errorSummary, "nationalGridReference"),
+          hint: {
+            text: "For example, SJ8632197947 (10 or 12 digits)"
+          },
+          label: {
+            text: 'National Grid Reference (NGR)',
+            classes: 'visually-hidden',
+            for: "nationalGridReference",
+            isPageHeading: false
+          }
+        })}}
+        {% endset -%}
+
+        {% set eastingNorthingHtml %}
+        <div id="eastings-northings-hint" class="govuk-hint">
+          Eastings and northings should only include numbers.  For example: 123456
+        </div>
+        {{ govukInput({
+            id: "easting",
+            name: "easting",
+            type: "text",
+            classes: "govuk-!-width-one-third",
+            value: easting,                
+            errorMessage: findErrorMessageById(errorSummary, "easting"),
+            label: {
+              text: 'Easting',
+              for: "easting",
+              isPageHeading: false
+            }
+        })}}
+        {{ govukInput({
+          id: "northing",
+          name: "northing",
+          type: "text",
+          classes: "govuk-!-width-one-third",
+          value: northing,                      
+          errorMessage: findErrorMessageById(errorSummary, "northing"),
+          label: {
+            text: 'Northing',
+            for: "northing",
+            classes: "govuk-!-margin-top-3",
+            isPageHeading: false
+          }
+        })}}
+        {% endset -%}
+
+        {{ govukRadios({
+          name: "findby",
+          fieldset: {
+            legend: {
+              text: "Find the location",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: "placeOrPostcode",
+              text: "Place or postcode",
+              conditional: {
+                html: placeOrPostcodeHtml
+              },
+              checked: findby === 'placeOrPostcode'
+            },
+            {
+              value: "nationalGridReference",
+              text: "National Grid Reference (NGR)",
+              conditional: {
+                html: nationalGridReferenceHtml
+              },
+              checked: findby === 'nationalGridReference'
+            },
+            {
+              value: "eastingNorthing",
+              text: "Easting and northing",
+              conditional: {
+                html: eastingNorthingHtml
+              },
+              checked: findby === 'eastingNorthing'
+            }  
+          ],
+          errorMessage: findErrorMessageById(errorSummary, "findby")
+        })}}
+        
+
+        {{ govukButton({
+          text: "Continue",
+          preventDoubleClick: true
+        })}}
+      </form>
     </div>
   </div>
 </div>
-<script>
-    // FCRM-3619 - Now checks the Radio for PostCode by default (to avoid errors when JS is disabled)
-    // This script unchecks the radio, when JS is enabled so the UX is the same (nothing is checked by default)
-    document.addEventListener("DOMContentLoaded", () => {
-      if (!"{{placeOrPostcodeError.text}}") {
-        const radio = document.getElementById("findby")
-        if (radio) {
-          radio.checked = false
-        }
-      }
-    })
-    const form = document.getElementById('location-form')
-    if (form) {
-      form.onsubmit = () => {
-        try {
-          if (window.sessionStorage) {
-            window.sessionStorage.removeItem('polygon')
-            window.sessionStorage.removeItem('point')
-          }
-        } catch (ex) { }
-      }
-    }
-  </script>
 {% endblock %}

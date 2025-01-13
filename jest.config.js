@@ -1,5 +1,10 @@
 module.exports = async () => {
   const config = {
+    collectCoverage: true,
+    coverageReporters: [
+      'lcov',
+      'text'
+    ],
     testPathIgnorePatterns: [
       '/defra-map'
     ],
@@ -7,7 +12,8 @@ module.exports = async () => {
     globals: {
       setImmediate
     },
-    setupFilesAfterEnv: ['<rootDir>/jest.env.js']
+    setupFiles: ['<rootDir>/.jest/jest.env.js'],
+    setupFilesAfterEnv: ['<rootDir>/.jest/setup.js']
   }
   return config
 }
