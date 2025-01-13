@@ -5,25 +5,14 @@ function ConfirmationViewModel (
   AreaName,
   LocalAuthorities,
   zoneNumber,
-  easting,
-  northing,
-  polygon,
-  cent,
-  search
+  polygon
 ) {
-  if (recipientemail) {
-    this.recipientemail = recipientemail
-    this.psoEmailAddress = psoEmailAddress
-    this.AreaName = AreaName
-    this.LocalAuthorities = LocalAuthorities
-    this.zoneNumber = zoneNumber
-    this.easting = easting
-    this.northing = northing
-    this.ispolygon = false
-    this.polygon = polygon
-    this.cent = cent
-    this.search = search
-  }
+  this.recipientemail = recipientemail
+  this.psoEmailAddress = psoEmailAddress
+  this.AreaName = AreaName
+  this.LocalAuthorities = LocalAuthorities
+  this.zoneNumber = zoneNumber
+  this.polygon = polygon
   if (applicationReferenceNumber) {
     this.applicationReferenceNumber = applicationReferenceNumber.replace(/(\w{4})/g, '$1 ').replace(/(^\s+|\s+$)/, '')
   }

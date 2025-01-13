@@ -3,12 +3,8 @@ const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
-const functionAppRequests = {}
 
-const getFunctionAppResponse = async (referer, data) => {
-  if (referer && functionAppRequests[referer]) {
-    return functionAppRequests[referer]
-  }
+const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
     payload?.x,
@@ -16,18 +12,7 @@ const getFunctionAppResponse = async (referer, data) => {
   )
   payload.postcode = postcode
 
-  const functionAppResponse = wreck.post(publishToQueueURL, {
-    payload: JSON.stringify(payload)
-  })
-  if (!referer) {
-    return functionAppResponse
-  }
-  functionAppRequests[referer] = functionAppResponse
-  setTimeout(() => {
-    // delete the saved response after 60 seconds
-    delete functionAppRequests[referer]
-  }, 60000)
-  return functionAppRequests[referer]
+  return wreck.post(publishToQueueURL, { payload: JSON.stringify(payload) })
 }
 
 const floodZoneResultsToFloodZone = (floodZoneResults) =>
@@ -57,37 +42,21 @@ module.exports = [
       handler: async (request, h) => {
         try {
           const payload = request.payload || {}
-          const { recipientemail, fullName, zoneNumber } = payload
+          const { recipientemail, fullName } = payload
           const coordinates = getCentreOfPolygon(payload.polygon)
-          const PDFinformationDetailsObject = {
-            coordinates,
-            applicationReferenceNumber: '',
-            polygon: '[' + payload.polygon + ']',
-            center: '',
-            zoneNumber: ''
-          }
-          if (zoneNumber) {
-            PDFinformationDetailsObject.zoneNumber = zoneNumber
-          }
-          if (payload.polygon) {
-            PDFinformationDetailsObject.polygon = '[' + payload.polygon + ']'
-            PDFinformationDetailsObject.cent = payload.cent
-          }
 
           // Send details to function app
-          const { x, y } = PDFinformationDetailsObject.coordinates
-          const { polygon } = PDFinformationDetailsObject
           const plotSize = getAreaInHectares(payload.polygon)
-          const name = fullName
           const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
           const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
+          const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
           const data = JSON.stringify({
-            name,
+            name: fullName,
             recipientemail,
-            x,
-            y,
-            polygon,
-            zoneNumber: floodZoneResultsToFloodZone(floodZoneResults),
+            x: coordinates.x,
+            y: coordinates.y,
+            polygon: '[' + payload.polygon + ']',
+            zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
@@ -96,9 +65,7 @@ module.exports = [
           const queryParams = {}
 
           try {
-            const referer = request.headers ? request.headers.referer : undefined
-            // TODO - reinstate this request
-            const result = await getFunctionAppResponse(referer, data)
+            const result = await getFunctionAppResponse(data)
             const response = result.payload.toString()
             const { applicationReferenceNumber } = JSON.parse(response)
             queryParams.applicationReferenceNumber = applicationReferenceNumber
@@ -115,8 +82,8 @@ module.exports = [
           // Forward details to confirmation page
           queryParams.fullName = fullName || ''
           queryParams.polygon = payload.polygon || ''
-          queryParams.recipientemail = payload.recipientemail || ''
-          queryParams.zoneNumber = PDFinformationDetailsObject.zoneNumber
+          queryParams.recipientemail = recipientemail
+          queryParams.zoneNumber = zoneNumber
           queryParams.cent = payload.cent || ''
 
           // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
