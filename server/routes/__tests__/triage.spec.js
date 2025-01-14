@@ -1,39 +1,21 @@
-const createServer = require('../../../server')
+const {
+  submitGetRequest,
+  submitPostRequest
+} = require('../../__test-helpers__/server')
+
+const url = '/triage'
 
 describe('Triage Page', () => {
-  let server
-  const elements = {}
-
-  beforeAll(async () => {
-    server = await createServer()
-    await server.initialize()
-    const { payload } = await server.inject({ method: 'GET', url: '/triage' })
-    document.body.innerHTML = payload
-    Object.assign(elements, {
-      continue: document.getElementById('continue-button')
-    })
-    // We have to assignClickEvents here as they dont get assigned by assigning innerHTML
-    require('../../../client/js/modules/triage')
-  })
-
-  afterAll(async () => {
-    await server.stop()
-  })
-
   it('should have the heading "What flood information do you need?"', async () => {
-    const heading = document.querySelector('.govuk-heading-xl')
-    expect(heading.textContent).toBe('What flood information do you need?')
-  })
-
-  it('should have a continue button that redirects to about-map', async () => {
-    expect(elements.continue.href).toBe(`${document.location.href}about-map`)
+    const response = await submitGetRequest({ url }, 'What flood information do you need?')
+    document.body.innerHTML = response.payload
+    expect(document.querySelector('title').textContent).toContain('What flood information do you need - Flood map for planning - GOV.UK')
   })
 
   const radioItems = [
     {
       id: 'about-map',
-      local: true,
-      expectedLocation: 'about-map'
+      expectedLocation: '/about-map'
     },
     {
       id: 'buy-sell',
@@ -52,11 +34,16 @@ describe('Triage Page', () => {
       expectedLocation: 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
     }
   ]
-  radioItems.forEach(({ id, expectedLocation, local }) => {
+  radioItems.forEach(({ id, expectedLocation }) => {
     it(`should update continue button to ${expectedLocation} when ${id} is clicked`, async () => {
-      const radioItem = document.getElementById(id)
-      radioItem.click(radioItem)
-      expect(elements.continue.href).toBe(local ? `${document.location.href}${expectedLocation}` : expectedLocation)
+      const options = {
+        url,
+        payload: {
+          triageOptions: id
+        }
+      }
+      const response = await submitPostRequest(options)
+      expect(response.headers.location).toBe(expectedLocation)
     })
   })
 })
