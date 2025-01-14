@@ -32,6 +32,13 @@ describe('Triage Page', () => {
     {
       id: 'other',
       expectedLocation: 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
+    },
+    {
+      id: '',
+      expectedLocation: '/about-map'
+    },
+    {
+      expectedLocation: '/about-map'
     }
   ]
   radioItems.forEach(({ id, expectedLocation }) => {
