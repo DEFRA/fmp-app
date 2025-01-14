@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% from "radios/macro.njk" import govukRadios %}
 
+{% set pageHeading = 'What flood information do you need' %}
+
 {% block pageTitle %}
-  What flood information do you need? Flood map for planning - GOV.UK
+  {{ pageHeading }} - Flood map for planning - GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -10,53 +12,50 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">What flood information do you need?</h1>
+    <h1 class="govuk-heading-xl">{{ pageHeading }}?</h1>
+    <form autocomplete="off" id='triage-form' method="post" action="/triage" novalidate>
+      {{ govukRadios({
+        name: "triageOptions",
+        items: [
+          {
+            id: "about-map",
+            value: "about-map",
+            text: "For planning purposes or scoping a site",
+            hint: { text: "You will be taken to the flood map for planning service" }
+          },
+          {
+            id: "buy-sell",
+            value: "buy-sell",
+            text: "For buying, selling or valuing a property",
+            hint: { text: "You will be taken to the check your long term flood risk service" }
+          },
+          {
+            id: "flood-history",
+            value: "flood-history",
+            text: "To check if an area has flooded in the past",
+            hint: { text: "You will be taken to information on how to request a flood history report" }
+          },
+          {
+            id: "insurance",
+            value: "insurance",
+            text: "For insurance purposes, to find out if I am at risk of flooding",
+            hint: { text: "You will be taken to the check your long term flood risk service" }
+          },
+          {
+            id: "other",
+            value: "other",
+            text: "My reason is not listed here",
+            hint: { text: "Find other flood information on GOV.UK" }
+          }
+        ]
+      }) }}
 
-    {{ govukRadios({
-      name: "triage-options",
-      value: "/about-map",
-      items: [
-        {
-          id: "about-map",
-          value: "about-map",
-          text: "For planning purposes or scoping a site",
-          hint: { text: "You will be taken to the flood map for planning service" }
-        },
-        {
-          id: "buy-sell",
-          value: "https://www.gov.uk/check-long-term-flood-risk",
-          text: "For buying, selling or valuing a property",
-          hint: { text: "You will be taken to the check your long term flood risk service" }
-        },
-        {
-          id: "flood-history",
-          value: "https://www.gov.uk/request-flooding-history",
-          text: "To check if an area has flooded in the past",
-          hint: { text: "You will be taken to information on how to request a flood history report" }
-        },
-        {
-          id: "insurance",
-          value: "https://www.gov.uk/check-long-term-flood-risk",
-          text: "For insurance purposes, to find out if I am at risk of flooding",
-          hint: { text: "You will be taken to the check your long term flood risk service" }
-        },
-        {
-          id: "other",
-          value: "https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather",
-          text: "My reason is not listed here",
-          hint: { text: "Find other flood information on GOV.UK" }
-        }
-      ]
-    }) }}
-
-    <a id="continue-button" href="/about-map" role="button" draggable="false" class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-      Continue
-    </a>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      })}}
+    </form>
   </div>
 </div>
 
-{% endblock %}
-{% block bodyEnd %}
-  {{ super() }}
-  <script src="{{assetPath}}/javascripts/triage.js"></script>
 {% endblock %}
