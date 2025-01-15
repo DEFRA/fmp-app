@@ -1,4 +1,3 @@
-console.log(process.env)
 const { toBool } = require('../toBool')
 
 describe('Ensure config is correct', () => {
@@ -51,10 +50,15 @@ describe('Ensure config is correct', () => {
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {
+        agolServiceUrl: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services',
+        agolVectorTileUrl: 'https://tiles.arcgis.com/tiles/DUMMY_SERVICE_ID/arcgis/rest/services',
         layerNameSuffix: '_NON_PRODUCTION'
+      },
+      riskAdminApi: {
+        url: 'http://riskadmin-api-url'
       }
     }
-    expect(config).toMatchObject(expectedConfig)
+    expect(config).toStrictEqual(expectedConfig)
   })
 })
 
