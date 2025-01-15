@@ -1,4 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
 const { punctuateAreaName } = require('../../../server/services/punctuateAreaName')
 
 const areaNames = [

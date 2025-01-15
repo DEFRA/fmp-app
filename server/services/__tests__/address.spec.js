@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const { findByPlace, getPostcodeFromEastingorNorthing } = require('../../../server/services/address')
 const util = require('../../../server/util')
 const { config } = require('../../../config')

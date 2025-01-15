@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const psoContactByPolygonExport = require('../../../server/services/pso-contact-by-polygon')
 const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
 const createServer = require('../../../server')

@@ -1,4 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
 const ngrToBng = require('../../services/ngr-to-bng')
 
 describe('ngr-to-bng', () => {

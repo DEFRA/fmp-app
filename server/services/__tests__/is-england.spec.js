@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const createServer = require('../../../server')
 const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
 

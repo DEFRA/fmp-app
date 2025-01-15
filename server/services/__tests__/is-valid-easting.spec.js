@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const isValidEastingService = require('../../../server/services/is-valid-easting')
 
 describe('is-valid-easting', () => {

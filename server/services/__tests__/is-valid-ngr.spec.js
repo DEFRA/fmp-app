@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const isValidNgrService = require('../../../server/services/is-valid-ngr')
 
 describe('is-valid-ngr', () => {

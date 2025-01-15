@@ -1,5 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
-
 const isValidNorthingService = require('../../../server/services/is-valid-northing')
 
 describe('is-valid-northing', () => {
