@@ -1,9 +1,12 @@
 const {
   submitGetRequest,
-  submitPostRequest
+  submitPostRequest,
+  submitPostRequestExpectHandledError
 } = require('../../__test-helpers__/server')
 
-const url = '/triage'
+const constants = require('../../constants')
+
+const url = constants.routes.TRIAGE
 
 describe('Triage Page', () => {
   it('should have the heading "What flood information do you need?"', async () => {
@@ -32,13 +35,6 @@ describe('Triage Page', () => {
     {
       id: 'other',
       expectedLocation: 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
-    },
-    {
-      id: '',
-      expectedLocation: '/about-map'
-    },
-    {
-      expectedLocation: '/about-map'
     }
   ]
   radioItems.forEach(({ id, expectedLocation }) => {
@@ -52,5 +48,23 @@ describe('Triage Page', () => {
       const response = await submitPostRequest(options)
       expect(response.headers.location).toBe(expectedLocation)
     })
+  })
+
+  it('Should display error message if no selection', async () => {
+    const options = {
+      url,
+      payload: {
+        triageOptions: ''
+      }
+    }
+    await submitPostRequestExpectHandledError(options, 'Please select an option to continue')
+  })
+
+  it('Should display error message if missing payload value', async () => {
+    const options = {
+      url,
+      payload: {}
+    }
+    await submitPostRequestExpectHandledError(options, 'Please select an option to continue')
   })
 })
