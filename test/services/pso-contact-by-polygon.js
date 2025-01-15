@@ -3,7 +3,7 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const psoContactByPolygonExport = require('../../server/services/pso-contact-by-polygon')
-const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
+const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
 const createServer = require('../../server')
 
 lab.experiment('pso-contact-by-polygon', () => {

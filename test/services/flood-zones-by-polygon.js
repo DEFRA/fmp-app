@@ -2,7 +2,7 @@ require('dotenv').config({ path: 'config/.env-example' })
 const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
-const { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests } = require('./mocks/agol')
+const { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests } = require('./__mocks__/agol')
 const createServer = require('../../server')
 
 lab.experiment('getFloodZonesByPolygon', () => {

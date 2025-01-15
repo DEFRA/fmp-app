@@ -1,18 +1,18 @@
 require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
+// const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
-const lab = (exports.lab = Lab.script())
+// const lab = (exports.lab = Lab.script())
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 
-lab.experiment('agol.js', () => {
+describe('agol.js', () => {
   let agol
   let stubQueryFeatures
   let stubFromCredentials
   let stubRefreshToken
   let stubTokenGetter
 
-  lab.before(async () => {
+  beforeAll(async () => {
     stubQueryFeatures = sinon.stub().resolves({ features: {} })
     stubRefreshToken = sinon.stub().returns('dummy_token_refreshed')
 
@@ -47,11 +47,11 @@ lab.experiment('agol.js', () => {
     })
   })
 
-  lab.after(async () => {
+  afterAll(async () => {
     sinon.restore()
   })
 
-  lab.test('esriRequest should call fromCredentials and refreshToken once when 2 esriRequest are made', async () => {
+  it('esriRequest should call fromCredentials and refreshToken once when 2 esriRequest are made', async () => {
     await agol.esriRequest('/endPoint1')
     Code.expect(stubFromCredentials.calledOnce).to.be.true() // Expect One Call and no further calls
     Code.expect(stubQueryFeatures.callCount).to.equal(1)

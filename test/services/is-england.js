@@ -3,7 +3,7 @@ const Lab = require('@hapi/lab')
 const Code = require('@hapi/code')
 const lab = (exports.lab = Lab.script())
 const createServer = require('../../server')
-const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
+const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
 
 lab.experiment('is-england', () => {
   let server
