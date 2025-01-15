@@ -1,52 +1,50 @@
 require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
-const Code = require('@hapi/code')
-const lab = (exports.lab = Lab.script())
-const { findByPlace, getPostcodeFromEastingorNorthing } = require('../../server/services/address')
-const util = require('../../server/util')
-const { config } = require('../../config')
 
-lab.experiment('address', () => {
+const { findByPlace, getPostcodeFromEastingorNorthing } = require('../../../server/services/address')
+const util = require('../../../server/util')
+const { config } = require('../../../config')
+
+describe('address', () => {
   let restoreGetJson
 
-  lab.before(async () => {
+  beforeAll(async () => {
     restoreGetJson = util.getJson
   })
 
-  lab.after(async () => {
+  afterAll(async () => {
     util.getJson = restoreGetJson
   })
 
-  lab.test('findByPlace should call the os api with a filter applied', async () => {
+  it('findByPlace should call the os api with a filter applied', async () => {
     util.getJson = (url) => {
       const expectedUrl =
         config.ordnanceSurvey.osNamesUrl.replace('maxresults=1&', 'maxresults=10&') +
         `/pickering&key=${config.ordnanceSurvey.osSearchKey}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village`
 
-      Code.expect(url).to.equal(expectedUrl)
+      expect(url).toEqual(expectedUrl)
     }
     await findByPlace('/pickering')
   })
 
-  lab.test('findByPlace should return an empty array if payload does not exist', async () => {
+  it('findByPlace should return an empty array if payload does not exist', async () => {
     util.getJson = () => undefined
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([])
+    expect(places).toEqual([])
   })
 
-  lab.test('findByPlace should return an empty array if payload.results does not exist', async () => {
+  it('findByPlace should return an empty array if payload.results does not exist', async () => {
     util.getJson = () => ({})
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([])
+    expect(places).toEqual([])
   })
 
-  lab.test('findByPlace should return an empty array if payload.results is an empty array', async () => {
+  it('findByPlace should return an empty array if payload.results is an empty array', async () => {
     util.getJson = () => ({ results: [] })
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([])
+    expect(places).toEqual([])
   })
 
-  lab.test('findByPlace should return an array of geometry items if payload.results is valid', async () => {
+  it('findByPlace should return an array of geometry items if payload.results is valid', async () => {
     util.getJson = () => ({
       results: [
         {
@@ -58,7 +56,7 @@ lab.experiment('address', () => {
       ]
     })
     const places = await findByPlace('/pickering')
-    Code.expect(places).to.equal([
+    expect(places).toEqual([
       { exact: 0, geometry_x: 123, geometry_y: 456, isPostCode: false, locationDetails: '' }
     ])
   })
@@ -115,23 +113,23 @@ lab.experiment('address', () => {
       expectedLocationDetails: 'Nottingham, City of Nottingham, East Midlands, England'
     }
   ]
-  lab.test('findByPlace should populate locationDetails with an address description', async () => {
+  it('findByPlace should populate locationDetails with an address description', async () => {
     util.getJson = () => ({
       results: apiResults
     })
     const places = await findByPlace('/pickering')
     places.forEach(({ locationDetails }, index) =>
-      Code.expect(locationDetails).to.equal(apiResults[index].expectedLocationDetails)
+      expect(locationDetails).toEqual(apiResults[index].expectedLocationDetails)
     )
   })
 
-  lab.test('getPostcodeFromEastingorNorthing should return undefined if payload does not exist', async () => {
+  it('getPostcodeFromEastingorNorthing should return undefined if payload does not exist', async () => {
     util.getJson = () => ''
     const postcode = await getPostcodeFromEastingorNorthing(12345, 678910)
-    Code.expect(postcode).to.equal('')
+    expect(postcode).toEqual('')
   })
 
-  lab.test('getPostcodeFromEastingorNorthing should return postcode if payload exists', async () => {
+  it('getPostcodeFromEastingorNorthing should return postcode if payload exists', async () => {
     util.getJson = () => ({
       results: [
         {
@@ -142,6 +140,6 @@ lab.experiment('address', () => {
       ]
     })
     const postcode = await getPostcodeFromEastingorNorthing(360799, 388244)
-    Code.expect(postcode).to.equal('WA1 2NN')
+    expect(postcode).toEqual('WA1 2NN')
   })
 })

@@ -1,9 +1,5 @@
 require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
-const Code = require('@hapi/code')
-const lab = (exports.lab = Lab.script())
-
-const { punctuateAreaName } = require('../../server/services/punctuateAreaName')
+const { punctuateAreaName } = require('../../../server/services/punctuateAreaName')
 
 const areaNames = [
   ['Cumbria and Lancashire', 'Cumbria and Lancashire'],
@@ -26,10 +22,10 @@ const areaNames = [
   [undefined, undefined]
 ]
 
-lab.experiment('Test that punctuateAreaName adds commas to area names.', () => {
+describe('Test that punctuateAreaName adds commas to area names.', () => {
   areaNames.forEach(([dbName, correctedName]) => {
-    lab.test(`It should display "${dbName}" as "${correctedName}"`, async () => {
-      Code.expect(punctuateAreaName(dbName)).to.equal(correctedName)
+    it(`It should display "${dbName}" as "${correctedName}"`, async () => {
+      expect(punctuateAreaName(dbName)).toEqual(correctedName)
     })
   })
 })

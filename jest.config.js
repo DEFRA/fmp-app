@@ -6,7 +6,9 @@ module.exports = async () => {
       'text'
     ],
     testPathIgnorePatterns: [
-      '/defra-map'
+      '/defra-map',
+      '__mocks__',
+      '__test-helpers__'
     ],
     testEnvironment: 'jsdom',
     globals: {
