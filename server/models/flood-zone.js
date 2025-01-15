@@ -4,9 +4,7 @@ function FloodZoneModel (risk) {
   this.isZone2 = false
   this.isZone1 = false
   // Set the points flood zone (centroid)
-  if (risk.reduction_in_rofrs) {
-    this.isAreaBenefiting = true
-  }
+  this.isAreaBenefiting = false
   if (risk.floodzone_3) {
     this.zone = this.isAreaBenefiting ? 'FZ3a' : 'FZ3'
   } else if (risk.floodzone_2) {

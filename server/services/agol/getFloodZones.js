@@ -19,7 +19,6 @@ const getFloodZones = async (options = {}) => {
     in_england: false,
     floodzone_2: false,
     floodzone_3: false,
-    reduction_in_rofrs: false, // TODO - will probably be dropped with NAFRA2
     surface_water: false, // TODO - a new end point will be provided
     extra_info: null // TODO Risk Admin shape intersection
   }

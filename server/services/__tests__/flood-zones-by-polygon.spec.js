@@ -56,7 +56,6 @@ describe('getFloodZonesByPolygon', () => {
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
-      reduction_in_rofrs: false,
       surface_water: false,
       extra_info: null
     })
@@ -71,7 +70,6 @@ describe('getFloodZonesByPolygon', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
-      reduction_in_rofrs: false,
       surface_water: false,
       extra_info: null
     })
@@ -86,7 +84,6 @@ describe('getFloodZonesByPolygon', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
-      reduction_in_rofrs: false,
       surface_water: false,
       extra_info: null
     })

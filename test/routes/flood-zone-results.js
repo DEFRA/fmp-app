@@ -47,7 +47,6 @@ lab.experiment('flood-zone-results', () => {
   const zone1GetByPolygonResponse = {
     in_england: true,
     floodzone_3: false,
-    reduction_in_rofrs: false,
     floodzone_2: false,
     surface_water: true,
     extra_info: null
@@ -72,10 +71,7 @@ lab.experiment('flood-zone-results', () => {
 
   const zone3WithDefenceGetByPolygonResponse = Object.assign(
     {},
-    zone3GetByPolygonResponse,
-    {
-      reduction_in_rofrs: true
-    }
+    zone3GetByPolygonResponse
   )
 
   lab.before(async () => {
@@ -143,7 +139,6 @@ lab.experiment('flood-zone-results', () => {
         floodZoneResults: {
           in_england: true,
           floodzone_3: false,
-          reduction_in_rofrs: false,
           floodzone_2: false,
           surface_water: true,
           extra_info: null
