@@ -1,6 +1,6 @@
 const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
-require('dotenv').config()
+require('./environment')
 
 const config = {
   env: process.env.ENV,

@@ -1,18 +1,15 @@
-require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
-const lab = (exports.lab = Lab.script())
-const Code = require('@hapi/code')
-const { toBool } = require('../config/toBool')
+console.log(process.env)
+const { toBool } = require('../toBool')
 
-lab.experiment('Ensure config is correct', () => {
-  lab.test('test config', () => {
-    Code.expect(() => {
-      require('../config')
-    }).not.to.throw()
+describe('Ensure config is correct', () => {
+  it('test config', () => {
+    expect(() => {
+      require('../index')
+    }).not.toThrow()
   })
 
-  lab.test('test config values', () => {
-    const { config } = require('../config')
+  it('test config values', () => {
+    const { config } = require('../index')
     const expectedConfig = {
       env: 'dev',
       server: { port: '8050' },
@@ -57,15 +54,15 @@ lab.experiment('Ensure config is correct', () => {
         layerNameSuffix: '_NON_PRODUCTION'
       }
     }
-    Code.expect(config).to.equal(expectedConfig)
+    expect(config).toMatchObject(expectedConfig)
   })
 })
 
-lab.experiment('toBool function', () => {
-  lab.test('toBool(true) should be true', () => Code.expect(toBool(true)).to.equal(true))
-  lab.test('toBool("true") should be true', () => Code.expect(toBool('true')).to.equal(true))
-  lab.test('toBool(false) should be false', () => Code.expect(toBool(false)).to.equal(false))
-  lab.test('toBool("false") should be false', () => Code.expect(toBool('false')).to.equal(false))
-  lab.test('toBool(undefined) should be undefined', () => Code.expect(toBool(undefined)).to.equal(undefined))
-  lab.test('toBool("other") should be undefined', () => Code.expect(toBool('other')).to.equal(undefined))
+describe('toBool function', () => {
+  it('toBool(true) should be true', () => expect(toBool(true)).toBe(true))
+  it('toBool("true") should be true', () => expect(toBool('true')).toBe(true))
+  it('toBool(false) should be false', () => expect(toBool(false)).toBe(false))
+  it('toBool("false") should be false', () => expect(toBool('false')).toBe(false))
+  it('toBool(undefined) should be undefined', () => expect(toBool(undefined)).toBe(undefined))
+  it('toBool("other") should be undefined', () => expect(toBool('other')).toBe(undefined))
 })
