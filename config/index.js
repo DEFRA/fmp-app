@@ -50,6 +50,9 @@ const config = {
   },
   defraMap: {
     layerNameSuffix: process.env.layerNameSuffix || ''
+  },
+  riskAdminApi: {
+    url: process.env.riskAdminApiUrl
   }
 }
 

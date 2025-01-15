@@ -55,6 +55,9 @@ const schema = Joi.object({
   },
   defraMap: {
     layerNameSuffix: Joi.string().required().allow('')
+  },
+  riskAdminApi: {
+    url: Joi.string().uri().required()
   }
 })
 
