@@ -1,20 +1,17 @@
 require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
-const Code = require('@hapi/code')
-const lab = (exports.lab = Lab.script())
 const {
   getArea,
   getAreaInHectares,
   polygonToArray,
   buffPolygon,
   polygonStartEnd
-} = require('../../server/services/shape-utils')
-const zeroAreaPolygons = require('./zeroAreaPolygons')
+} = require('../../../server/services/shape-utils')
+const zeroAreaPolygons = require('./__mocks__/zeroAreaPolygons')
 
-lab.experiment('shape-utils - polygonToArray', () => {
-  lab.test('polygonToArray should return an array for polygon strings "[[0,0],[0,10],[10,10],[10,0]]"', async () => {
+describe('shape-utils - polygonToArray', () => {
+  it('polygonToArray should return an array for polygon strings "[[0,0],[0,10],[10,10],[10,0]]"', async () => {
     const polygonString = '[[0,0],[0,10],[10,10],[10,0]]'
-    Code.expect(polygonToArray(polygonString)).to.equal([
+    expect(polygonToArray(polygonString)).toEqual([
       [0, 0],
       [0, 10],
       [10, 10],
@@ -22,14 +19,14 @@ lab.experiment('shape-utils - polygonToArray', () => {
     ])
   })
 
-  lab.test('polygonToArray should return an array for polygon array [[0,0],[0,10],[10,10],[10,0]]', async () => {
+  it('polygonToArray should return an array for polygon array [[0,0],[0,10],[10,10],[10,0]]', async () => {
     const polygonString = [
       [0, 0],
       [0, 10],
       [10, 10],
       [10, 0]
     ]
-    Code.expect(polygonToArray(polygonString)).to.equal([
+    expect(polygonToArray(polygonString)).toEqual([
       [0, 0],
       [0, 10],
       [10, 10],
@@ -38,7 +35,7 @@ lab.experiment('shape-utils - polygonToArray', () => {
   })
 })
 
-lab.experiment('shape-utils - getArea/getAreaInHectares', () => {
+describe('shape-utils - getArea/getAreaInHectares', () => {
   const polygonsToTest = [
     /* [polygonString, area in m^2 (Number), 'Hectares (String to 2 dp)] */
     [undefined, undefined, undefined],
@@ -54,39 +51,39 @@ lab.experiment('shape-utils - getArea/getAreaInHectares', () => {
   ]
 
   polygonsToTest.forEach(([polygonString, expectedSqMeters, expectedHectares]) => {
-    lab.test(`getArea should return ${expectedSqMeters} for ${polygonString}`, async () => {
-      Code.expect(getArea(polygonString)).to.equal(expectedSqMeters)
+    it(`getArea should return ${expectedSqMeters} for ${polygonString}`, async () => {
+      expect(getArea(polygonString)).toEqual(expectedSqMeters)
     })
 
-    lab.test(`getAreaInHectares should return ${expectedHectares} for ${polygonString}`, async () => {
-      Code.expect(getAreaInHectares(polygonString)).to.equal(expectedHectares)
+    it(`getAreaInHectares should return ${expectedHectares} for ${polygonString}`, async () => {
+      expect(getAreaInHectares(polygonString)).toEqual(expectedHectares)
     })
     // Now repeat the same tests, but with polygon as an array instead of a string
     const polygon = polygonString ? JSON.parse(polygonString) : undefined
-    lab.test(`getArea should return ${expectedSqMeters} for ${polygonString} when it is an array`, async () => {
-      Code.expect(getArea(polygon)).to.equal(expectedSqMeters)
+    it(`getArea should return ${expectedSqMeters} for ${polygonString} when it is an array`, async () => {
+      expect(getArea(polygon)).toEqual(expectedSqMeters)
     })
 
-    lab.test(
+    it(
       `getAreaInHectares should return ${expectedHectares} for ${polygonString} when it is an array`,
       async () => {
-        Code.expect(getAreaInHectares(polygon)).to.equal(expectedHectares)
+        expect(getAreaInHectares(polygon)).toEqual(expectedHectares)
       }
     )
   })
 
   zeroAreaPolygons.forEach(([zeroAreaPolygon, expectedBuffedPolygon, expectedMinMaxXY]) => {
-    lab.test(
+    it(
       `polygonStartEnd for ${JSON.stringify(zeroAreaPolygon)} should return ${JSON.stringify(expectedMinMaxXY)}`,
       async () => {
-        Code.expect(polygonStartEnd(zeroAreaPolygon)).to.equal(expectedMinMaxXY)
+        expect(polygonStartEnd(zeroAreaPolygon)).toEqual(expectedMinMaxXY)
       }
     )
 
-    lab.test(
+    it(
       `buffPolygon should convert ${JSON.stringify(zeroAreaPolygon)} to ${JSON.stringify(expectedBuffedPolygon)}`,
       async () => {
-        Code.expect(buffPolygon(zeroAreaPolygon)).to.equal(expectedBuffedPolygon)
+        expect(buffPolygon(zeroAreaPolygon)).toEqual(expectedBuffedPolygon)
       }
     )
   })

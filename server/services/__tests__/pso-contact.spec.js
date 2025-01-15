@@ -1,12 +1,9 @@
 require('dotenv').config({ path: 'config/.env-example' })
-const Lab = require('@hapi/lab')
-const Code = require('@hapi/code')
-const lab = (exports.lab = Lab.script())
-const { mockEsriRequest, stopMockingEsriRequests } = require('./mocks/agol')
+const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
 
-lab.experiment('pso-contact', () => {
+describe('pso-contact', () => {
   let getPsoContacts
-  lab.before(async () => {
+  beforeEach(async () => {
     mockEsriRequest([{
       attributes: {
         authority_name: 'Ryedale',
@@ -15,42 +12,42 @@ lab.experiment('pso-contact', () => {
         use_automated_service: true
       }
     }])
-    const { method: _getPsoContacts } = require('../../server/services/pso-contact')
+    const { method: _getPsoContacts } = require('../../services/pso-contact')
     getPsoContacts = _getPsoContacts
   })
 
-  lab.after(async () => {
+  afterAll(async () => {
     stopMockingEsriRequests()
   })
 
-  lab.test('getPsoContacts should throw an exception if easting and northing are not set', async () => {
+  it('getPsoContacts should throw an exception if easting and northing are not set', async () => {
     try {
       await getPsoContacts()
     } catch (err) {
-      Code.expect(err.message).to.equal('Fetching Pso contacts failed: ')
+      expect(err.message).toEqual('Fetching Pso contacts failed: ')
     }
   })
 
-  lab.test('getPsoContacts should throw an exception if easting is not set', async () => {
+  it('getPsoContacts should throw an exception if easting is not set', async () => {
     try {
       await getPsoContacts(undefined, 10000)
     } catch (err) {
-      Code.expect(err.message).to.equal('Fetching Pso contacts failed: ')
+      expect(err.message).toEqual('Fetching Pso contacts failed: ')
     }
   })
 
-  lab.test('getPsoContacts should throw an exception if northing is not set', async () => {
+  it('getPsoContacts should throw an exception if northing is not set', async () => {
     try {
       await getPsoContacts(10000)
     } catch (err) {
-      Code.expect(err.message).to.equal('Fetching Pso contacts failed: ')
+      expect(err.message).toEqual('Fetching Pso contacts failed: ')
     }
   })
 
-  lab.test('getPsoContacts should return expected results', async () => {
+  it('getPsoContacts should return expected results', async () => {
     try {
       const psoContactDetails = await getPsoContacts(10000, 20000)
-      Code.expect(psoContactDetails).to.equal({
+      expect(psoContactDetails).toEqual({
         isEngland: true,
         EmailAddress: 'neyorkshire@environment-agency.gov.uk',
         AreaName: 'Environment Agency team in Yorkshire',
@@ -61,7 +58,7 @@ lab.experiment('pso-contact', () => {
       // This is a dummy catch - if any of the asserts in the mocked util.getJson above fail, then getPsoContacts
       // will throw the error 'Fetching Pso contacts failed: '
       // The console.log in the catch block above should contain the details of the actual assertion failure
-      Code.expect(err).to.equal(undefined)
+      expect(err).toEqual(undefined)
     }
   })
 })
