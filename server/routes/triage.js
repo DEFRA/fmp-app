@@ -9,7 +9,7 @@ const handlers = {
         errorSummary
       })
     }
-    return h.redirect(redirectTo || constants.routes.ABOUT_MAP)
+    return h.redirect(redirectTo)
   }
 }
 
