@@ -1,4 +1,3 @@
-require('dotenv').config({ path: 'config/.env-example' })
 const {
   getArea,
   getAreaInHectares,

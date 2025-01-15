@@ -1,3 +1,4 @@
+jest.mock('../config/environment')
 const createServer = require('../server')
 const ORIGINAL_ENV = process.env
 

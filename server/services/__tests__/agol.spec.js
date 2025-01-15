@@ -1,7 +1,6 @@
 it('commented out as needs sorting at later date', () => {
   expect(true)
 })
-// require('dotenv').config({ path: 'config/.env-example' })
 
 // const sinon = require('sinon')
 // const proxyquire = require('proxyquire')
