@@ -1,6 +1,6 @@
 const { config } = require('../../../config')
 const { queryFeatures } = require('@esri/arcgis-rest-feature-service')
-// const { getEsriToken } = require('./getEsriToken')
+const { getEsriToken } = require('./getEsriToken')
 
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })
 
