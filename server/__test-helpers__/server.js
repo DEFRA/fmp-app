@@ -31,7 +31,7 @@ const submitPostRequestExpectServiceError = async (options) => {
   const response = await submitRequest(options, constants.statusCodes.PROBLEM_WITH_SERVICE)
   document.body.innerHTML = response.payload
   expect(document.querySelector('h1').textContent).toContain('Sorry, there is a problem with the page you requested')
-  expect(document.querySelectorAll('.govuk-body')[1].textContent).toContain('We will fix this issue as soon as possible')
+  expect(document.querySelector('h1 + p').textContent).toContain('We will fix this issue as soon as possible')
   return response
 }
 
