@@ -1,5 +1,5 @@
 jest.mock('../agol/getFloodZones')
-const { method: getFloodZonesByPolygon } = require('../../../server/services/flood-zones-by-polygon')
+const { method: getFloodZonesByPolygon, options: { generateKey } } = require('../../../server/services/flood-zones-by-polygon')
 const mockPolygons = require('../agol/__mocks__/mockPolygons.json')
 
 describe('getFloodZonesByPolygon', () => {
@@ -54,5 +54,11 @@ describe('getFloodZonesByPolygon', () => {
       console.log(err)
       expect(err.message).toEqual('Fetching getFloodZonesByPolygon failed: ')
     }
+  })
+})
+
+describe('generateKey', () => {
+  it('generateKey should stringify a polygon', async () => {
+    expect(generateKey([123, 456])).toEqual('[123,456]')
   })
 })
