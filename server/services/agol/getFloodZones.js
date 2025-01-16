@@ -2,7 +2,6 @@ const { config } = require('../../../config')
 const { esriRequest, makePolygonGeometry } = require('./')
 
 const assignFloodZoneResponse = (response, results) => {
-  results.in_england = response.length > 0
   for (const { attributes } of response) {
     results.floodzone_2 = results.floodzone_2 || (attributes.flood_zone === 'FZ2')
     results.floodzone_3 = results.floodzone_3 || (attributes.flood_zone === 'FZ3')
@@ -14,13 +13,10 @@ const assignFloodZoneResponse = (response, results) => {
   return results
 }
 
-const getFloodZones = async (options = {}) => {
+const getFloodZones = async (options) => {
   const results = {
-    in_england: false,
     floodzone_2: false,
-    floodzone_3: false,
-    surface_water: false, // TODO - a new end point will be provided
-    extra_info: null // TODO Risk Admin shape intersection
+    floodzone_3: false
   }
 
   await esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')

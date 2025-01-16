@@ -4,7 +4,12 @@ const getFloodZonesByPolygon = async (polygon) => {
     throw new Error('getFloodZonesByPolygon - No Polygon provided')
   }
   try {
-    return await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
+    const resultsTodo = {
+      surface_water: false,
+      extra_info: null
+    }
+    const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
+    return Object.assign(resultsTodo, response)
   } catch (error) {
     console.log('caught getFloodZonesByPolygon ERROR', error)
     throw new Error('Fetching getFloodZonesByPolygon failed: ', error)

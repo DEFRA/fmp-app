@@ -52,7 +52,6 @@ describe('getFloodZonesByPolygon', () => {
     const polygon = '[[123,456],[125,457],[125,456],[123,456]]'
     const response = await server.methods.getFloodZonesByPolygon(polygon)
     expect(response).toEqual({
-      in_england: true,
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
@@ -66,7 +65,6 @@ describe('getFloodZonesByPolygon', () => {
     const { method: getFloodZonesByPolygon } = require('../../../server/services/flood-zones-by-polygon')
     const response = await getFloodZonesByPolygon('[[123,456],[125,457],[125,456],[123,456]]')
     expect(response).toEqual({
-      in_england: true,
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
@@ -80,7 +78,6 @@ describe('getFloodZonesByPolygon', () => {
     const { method: getFloodZonesByPolygon } = require('../../../server/services/flood-zones-by-polygon')
     const response = await getFloodZonesByPolygon('[[123,456],[125,457],[125,456],[123,456]]')
     expect(response).toEqual({
-      in_england: true,
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
