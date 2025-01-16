@@ -1,0 +1,58 @@
+{% set acceptHtml %}
+  <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+{% endset %}
+
+{% set rejectHtml %}
+  <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+{% endset %}
+
+{{ govukCookieBanner({
+  ariaLabel: "Cookies on Flood Map For Planning",    
+  classes: "js-cookies-banner govuk-visually-hidden",
+  messages: [
+    {
+      headingText: "Cookies on Flood Map For Planning",
+      text: "We use analytics cookies to help understand how users use our service.",
+      hidden:true,
+      actions: [
+        {
+          text: "Accept analytics cookies",
+          type: "button",
+          classes: "js-cookies-button-accept"
+        },
+        {
+          text: "Reject analytics cookies",
+          type: "button",
+          classes: "js-cookies-button-reject"
+        },
+        {
+          text: "View cookie preferences",
+          href: "cookies"
+        }
+      ],
+      classes: "js-question-banner"
+    },
+    {
+      html: acceptHtml,
+      role: "alert",
+      hidden: true,
+      actions: [
+        {
+          text: "Hide this message"
+        }
+      ],
+      classes: "js-cookies-accepted"
+    },
+    {
+      html: rejectHtml,
+      role: "alert",
+      hidden: true,
+      actions: [
+        {
+          text: "Hide this message"
+        }
+      ],
+      classes: "js-cookies-rejected"
+    }
+  ]
+}) }}
