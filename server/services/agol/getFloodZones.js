@@ -19,10 +19,8 @@ const getFloodZones = async (options) => {
     floodzone_3: false
   }
 
-  await esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  return await esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignFloodZoneResponse(esriResponse, results))
-
-  return results
 }
 
 module.exports = { getFloodZones }
