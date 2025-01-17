@@ -28,13 +28,13 @@ describe('isRiskAdminArea - Error Handling', () => {
   })
 
   it('should return true if process.env.forceRiskAdminApiResponse === true', async () => {
-    process.env.forceRiskAdminApiResponse = true
+    process.env.forceRiskAdminApiResponse = 'true'
     const response = await isRiskAdminArea('[[111,111],[111,112],[112,112],[112,111],[111,111]]')
     expect(response).toEqual({ isRiskAdminArea: true })
   })
 
   it('should return false if process.env.forceRiskAdminApiResponse === false', async () => {
-    process.env.forceRiskAdminApiResponse = false
+    process.env.forceRiskAdminApiResponse = 'false'
     const response = await isRiskAdminArea('[[111,111],[111,112],[112,112],[112,111],[111,111]]')
     expect(response).toEqual({ isRiskAdminArea: false })
   })
