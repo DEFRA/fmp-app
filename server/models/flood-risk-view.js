@@ -55,7 +55,7 @@ function Model (data) {
     this.zoneNumber = 'not available'
   }
 
-  this.holdingComments = Boolean(floodZoneResults.extra_info)
+  this.holdingComments = Boolean(floodZoneResults.isRiskAdminArea)
 
   // Provide test data for e2e tests
   this.riskJSON = JSON.stringify(floodZoneResults)

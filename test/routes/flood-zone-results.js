@@ -49,7 +49,7 @@ lab.experiment('flood-zone-results', () => {
     floodzone_3: false,
     floodzone_2: false,
     surface_water: true,
-    extra_info: null
+    isRiskAdminArea: null
   }
 
   const zone2GetByPolygonResponse = Object.assign(
@@ -141,7 +141,7 @@ lab.experiment('flood-zone-results', () => {
           floodzone_3: false,
           floodzone_2: false,
           surface_water: true,
-          extra_info: null
+          isRiskAdminArea: null
         },
         center: [479472, 484194],
         polygon: [

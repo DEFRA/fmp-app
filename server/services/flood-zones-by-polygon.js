@@ -6,7 +6,7 @@ const getFloodZonesByPolygon = async (polygon) => {
   try {
     const resultsTodo = {
       surface_water: false,
-      extra_info: null
+      isRiskAdminArea: null
     }
     const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
     return Object.assign(resultsTodo, response)

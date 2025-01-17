@@ -13,14 +13,13 @@ describe('getFloodZonesByPolygon', () => {
   })
 
   it('getFloodZonesByPolygon should return data as expected for FZ3 only', async () => {
-    const polygon = mockPolygons.fz3_only
-    const response = await getFloodZonesByPolygon(polygon)
+    const response = await getFloodZonesByPolygon(mockPolygons.fz3_only)
     expect(response).toEqual({
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
       surface_water: false,
-      extra_info: null
+      isRiskAdminArea: null
     })
   })
 
@@ -31,7 +30,7 @@ describe('getFloodZonesByPolygon', () => {
       floodzone_2: true,
       floodzone_3: false,
       surface_water: false,
-      extra_info: null
+      isRiskAdminArea: null
     })
   })
 
@@ -42,7 +41,7 @@ describe('getFloodZonesByPolygon', () => {
       floodzone_2: true,
       floodzone_3: true,
       surface_water: false,
-      extra_info: null
+      isRiskAdminArea: null
     })
   })
 
