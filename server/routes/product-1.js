@@ -20,9 +20,9 @@ module.exports = {
           scale = SCALE_2500,
           reference = '<Unspecified>'
         } = request.payload
-        const holdingComments = request.payload.holdingComments === 'true'
+        const isRiskAdminArea = request.payload.isRiskAdminArea === 'true'
 
-        const product1 = await getProduct1(polygon, reference, scale, holdingComments)
+        const product1 = await getProduct1(polygon, reference, scale, isRiskAdminArea)
         const date = new Date().toISOString()
         return h
           .response(product1)
@@ -41,7 +41,7 @@ module.exports = {
         reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
         scale: Joi.number().allow(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).required(),
         polygon: Joi.string().required().allow(''),
-        holdingComments: Joi.string().allow('')
+        isRiskAdminArea: Joi.string().allow('')
       })
     }
   }
