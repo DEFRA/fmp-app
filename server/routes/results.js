@@ -1,4 +1,3 @@
-// const { isRiskAdminArea } = require('../services/riskAdmin/isRiskAdminArea')
 module.exports = [
   {
     method: 'GET',
@@ -7,8 +6,8 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon } = request.query
-        // await isRiskAdminArea(polygon)
-        return h.view('results', { polygon })
+        const floodData = await request.server.methods.getFloodZonesByPolygon(polygon)
+        return h.view('results', { polygon, floodData })
       }
     }
   }

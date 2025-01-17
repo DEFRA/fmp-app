@@ -1,21 +1,33 @@
-const createServer = require('../../../server')
+const { submitGetRequest } = require('../../__test-helpers__/server')
+const { assertCopy } = require('../../__test-helpers__/copy')
+const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+
+const url = '/results'
+
+const assertFloodZoneCopy = (floodZone) => {
+  const heading = document.querySelector('.govuk-heading-xl')
+  expect(heading.textContent).toBe(`This location is in flood zone ${floodZone}`)
+}
+
+const assertRiskAdminCopy = (expected) => {
+  assertCopy(
+    '[data-testid="understanding-changed"]',
+    expected && 'Our understanding of flood risk from rivers and the sea has changed'
+  )
+}
 
 describe('Results Page', () => {
-  let server
-
-  beforeAll(async () => {
-    server = await createServer()
-    await server.initialize()
-    const { payload } = await server.inject({ method: 'GET', url: '/results' })
-    document.body.innerHTML = payload
+  it('should have the correct copy for Zone 1"', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
+    document.body.innerHTML = response.payload
+    assertFloodZoneCopy(1)
+    assertRiskAdminCopy(false)
   })
 
-  afterAll(async () => {
-    await server.stop()
-  })
-
-  it('should have the heading "Results - Placeholder"', async () => {
-    const heading = document.querySelector('.govuk-heading-xl')
-    expect(heading.textContent).toBe('Results - Placeholder')
+  it('should have the correct copy for Zone 1 with riskAdmin"', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.inRiskAdmin.fz1_only}` })
+    document.body.innerHTML = response.payload
+    assertFloodZoneCopy(1)
+    assertRiskAdminCopy(true)
   })
 })
