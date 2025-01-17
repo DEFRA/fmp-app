@@ -61,14 +61,14 @@ const surfaceWaterStyleLayers = [
   'Risk of Flooding from Surface Water Depth > 900mm/1',
   'Risk of Flooding from Surface Water Depth > 1200mm/1'
 ]
-const surfaceWaterCcLowStyleLayers = [
-  'Risk of Flooding from Surface Water Depth CCSW1 > 0mm/1',
-  'Risk of Flooding from Surface Water Depth CCSW1 > 200mm/1',
-  'Risk of Flooding from Surface Water Depth CCSW1 > 300mm/1',
-  'Risk of Flooding from Surface Water Depth CCSW1 > 600mm/1',
-  'Risk of Flooding from Surface Water Depth CCSW1 > 900mm/1',
-  'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
-]
+// const surfaceWaterCcLowStyleLayers = [
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 0mm/1',
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 200mm/1',
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 300mm/1',
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 600mm/1',
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 900mm/1',
+//   'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
+// ]
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
@@ -164,40 +164,41 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_Low',
-      q: 'swpdlr',
+      q: 'swlr',
       styleLayers: surfaceWaterStyleLayers,
       likelihoodLabel: terms.likelihood.swLow
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_Medium',
-      q: 'swpdmr',
+      q: 'swmr',
       styleLayers: surfaceWaterStyleLayers,
       likelihoodLabel: terms.likelihood.swMedium
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_High',
-      q: 'swpdhr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodLabel: terms.likelihood.swHigh
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low',
-      q: 'swcllr',
-      styleLayers: surfaceWaterCcLowStyleLayers,
-      likelihoodLabel: terms.likelihood.swLow
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',
-      q: 'swclmr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodLabel: terms.likelihood.swMedium
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',
-      q: 'swclhr',
+      q: 'swhr',
       styleLayers: surfaceWaterStyleLayers,
       likelihoodLabel: terms.likelihood.swHigh
     }
+    // ,
+    // {
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low',
+    //   q: 'swcllr',
+    //   styleLayers: surfaceWaterCcLowStyleLayers,
+    //   likelihoodLabel: terms.likelihood.swLow
+    // },
+    // {
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',
+    //   q: 'swclmr',
+    //   styleLayers: surfaceWaterStyleLayers,
+    //   likelihoodLabel: terms.likelihood.swMedium
+    // },
+    // {
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',
+    //   q: 'swclhr',
+    //   styleLayers: surfaceWaterStyleLayers,
+    //   likelihoodLabel: terms.likelihood.swHigh
+    // }
   ]
 
   const nonFloodZoneLight = '#2b8cbe'
@@ -209,9 +210,9 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // These will require reinstating when depth band data is available
   // // light tones > 2300 to < 150
-  const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
+  // const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
   // // GREENS dark tones > 2300 to < 150
-  const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
+  // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
   // // BLUES dark tones > 2300 to < 150
   // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
 
@@ -232,18 +233,18 @@ getDefraMapConfig().then((defraMapConfig) => {
     'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
     'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
-    [surfaceWaterStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
-    [surfaceWaterStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
-    [surfaceWaterStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
-    [surfaceWaterStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
-    [surfaceWaterStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]],
-    [surfaceWaterCcLowStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
-    [surfaceWaterCcLowStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
-    [surfaceWaterCcLowStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
-    [surfaceWaterCcLowStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
-    [surfaceWaterCcLowStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
-    [surfaceWaterCcLowStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
+    [surfaceWaterStyleLayers[0]]: [nonFloodZoneLight, nonFloodZoneDark],
+    [surfaceWaterStyleLayers[1]]: [nonFloodZoneLight, nonFloodZoneDark],
+    [surfaceWaterStyleLayers[2]]: [nonFloodZoneLight, nonFloodZoneDark],
+    [surfaceWaterStyleLayers[3]]: [nonFloodZoneLight, nonFloodZoneDark],
+    [surfaceWaterStyleLayers[4]]: [nonFloodZoneLight, nonFloodZoneDark],
+    [surfaceWaterStyleLayers[5]]: [nonFloodZoneLight, nonFloodZoneDark]
+    // , [surfaceWaterCcLowStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
+    // [surfaceWaterCcLowStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
+    // [surfaceWaterCcLowStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
+    // [surfaceWaterCcLowStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
+    // [surfaceWaterCcLowStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
+    // [surfaceWaterCcLowStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
   }
 
   const fLayers = [
@@ -295,7 +296,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (layerPaintProperties) {
         const fillColour = paintProperties[styleLayerName][isDark ? 1 : 0]
         layerPaintProperties['fill-color'] = fillColour
-        layerPaintProperties['fill-opacity'] = 0.75
         vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
       }
     })
@@ -321,6 +321,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         const vectorTileLayer = new VectorTileLayer({
           id: vtLayer.name,
           url: getVectorTileUrl(vtLayer.name),
+          opacity: 0.75,
           visible: false
         })
         floodMap.map.add(vectorTileLayer)
@@ -414,7 +415,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         id: 'tf',
         heading: 'Time frame',
         collapse: 'collapse',
-        parentIds: ['rsd', 'rsu', 'sw'],
+        parentIds: ['rsd', 'rsu'],
         items: [
           {
             id: 'pd',
