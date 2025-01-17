@@ -12,7 +12,7 @@ const assertFloodZoneCopy = (floodZone) => {
 const assertRiskAdminCopy = (expected) => {
   assertCopy(
     '[data-testid="understanding-changed"]',
-    expected && 'Our understanding of flood risk from rivers and the sea has changed'
+    expected && 'Our understanding of flood risk from rivers and the sea has changed since this information was published.'
   )
 }
 
