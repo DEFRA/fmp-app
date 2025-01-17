@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
+{% set pageHeading = 'Find the location' %}
 {% block pageTitle %}
-  {% if errorSummary.length > 0 %}Error: {% endif %}Find location - Flood map for planning - GOV.UK
+  {% if errorSummary.length > 0 %}Error: {% endif %}{{ pageHeading }} - Flood map for planning - GOV.UK
 {% endblock %}
 {% block content %}
   {{ super() }}
@@ -101,7 +102,7 @@
           name: "findby",
           fieldset: {
             legend: {
-              text: "Find the location",
+              text: pageHeading,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--xl"
             }

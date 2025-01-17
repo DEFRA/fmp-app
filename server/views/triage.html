@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% from "radios/macro.njk" import govukRadios %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
 
 {% set pageHeading = 'What flood information do you need' %}
 
@@ -14,8 +15,16 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">{{ pageHeading }}?</h1>
     <form autocomplete="off" id='triage-form' method="post" action="/triage" novalidate>
+      {% if errorSummary.length > 0 %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+          })
+        }}
+      {% endif %}
       {{ govukRadios({
         name: "triageOptions",
+        errorMessage: findErrorMessageById(errorSummary, "about-map"),
         items: [
           {
             id: "about-map",

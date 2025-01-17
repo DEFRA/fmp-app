@@ -13,7 +13,7 @@ describe('location route', () => {
   it(`Should return success response and correct view for ${url}`, async () => {
     const response = await submitGetRequest({ url }, 'Find the location')
     document.body.innerHTML = response.payload
-    expect(document.querySelector('title').textContent).toContain('Find location - Flood map for planning - GOV.UK')
+    expect(document.querySelector('title').textContent).toContain('Find the location - Flood map for planning - GOV.UK')
   })
 
   it('location page with location search error', async () => {
@@ -318,7 +318,7 @@ describe('location route', () => {
   it('location page returns 200 when requested with legacy place param  - expect this to be via redirect from confirm-location', async () => {
     const response = await submitGetRequest({ url: '/location?place=co10 onn' }, 'Find the location')
     document.body.innerHTML = response.payload
-    expect(document.querySelector('title').textContent).toContain('Find location - Flood map for planning - GOV.UK')
+    expect(document.querySelector('title').textContent).toContain('Find the location - Flood map for planning - GOV.UK')
   })
 
   it('location page with placeOrPostcode AGAIN', async () => {

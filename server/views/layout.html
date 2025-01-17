@@ -24,151 +24,60 @@
     <meta name="robots" content="noindex"/>
   {% endif %}
   <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet"/>
-  {# For Internet Explorer 8, you need to compile specific stylesheet #}
-  {# see https://github.com/alphagov/govuk-frontend/blob/master/docs/installation/supporting-internet-explorer-8.md #}
   <script src="{{assetPath}}/javascripts/polyfill.min.js"></script>
-  <script src="{{assetPath}}/javascripts/js.cookie.min.js"></script>
 {% endblock %}
 
 {% block header %}
-  {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    containerClasses: "govuk-width-container",
-    serviceName: serviceName,
-    serviceUrl: "/"
-  }) }}
-
-  {{ govukPhaseBanner({
-    tag: {
-      text: "beta"
-    },
-    classes: "govuk-width-container",
-    html: 'This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.'
-  }) }}
-
+  {% include "partials/header.html" %}
 {% endblock %}
 
 {%block bodyStart%}
-{% set acceptHtml %}
-  <p>You’ve accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
-{% endset %}
-
-{% set rejectHtml %}
-  <p>You’ve rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
-{% endset %}
-
-{{ govukCookieBanner({
-  ariaLabel: "Cookies on Flood Map For Planning",    
-  classes: "js-cookies-banner govuk-visually-hidden",
-  messages: [
-    {
-      headingText: "Cookies on Flood Map For Planning",
-      text: "We use analytics cookies to help understand how users use our service.",
-      hidden:true,
-      actions: [
-        {
-          text: "Accept analytics cookies",
-          type: "button",
-          classes: "js-cookies-button-accept"
-        },
-        {
-          text: "Reject analytics cookies",
-          type: "button",
-          classes: "js-cookies-button-reject"
-        },
-        {
-          text: "View cookie preferences",
-          href: "cookies"
-        }
-      ],
-      classes: "js-question-banner"
-    },
-    {
-      html: acceptHtml,
-      role: "alert",
-      hidden: true,
-      actions: [
-        {
-          text: "Hide this message"
-        }
-      ],
-      classes: "js-cookies-accepted"
-    },
-    {
-      html: rejectHtml,
-      role: "alert",
-      hidden: true,
-      actions: [
-        {
-          text: "Hide this message"
-        }
-      ],
-      classes: "js-cookies-rejected"
-    }
-  ]
-}) }}
+  {% include "partials/cookie-banner.html" %}
 {% endblock %}
 
 {% block beforeContent %}
-{{ govukBackLink({
-  text: "Back",
-  href: "javascript:history.back()"
-}) }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
 {% endblock %}  
 
 {% block content %} 
-  <script src="{{assetPath}}/javascripts/stageprompt.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{analyticsAccount}}"></script>
+{% endblock %} 
+
+{% block bodyEnd %}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+  <script src="{{ assetPath }}/javascripts/core.js"></script>
+  <script type="module">
+    import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
+    initAll()
+  </script>
   <script type="text/javascript">
     const analyticsAccount = '{{analyticsAccount}}'
     const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
 
     if (analyticsAccount && analyticsAccepted) {
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      const script = document.createElement('script')
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${analyticsAccount}`
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || []
+        function gtag () { window.dataLayer.push(arguments) }
+        gtag('consent', 'default', {
+          ad_storage: 'granted',
+          ad_personalization: 'granted',
+          ad_user_data: 'granted',
+          analytics_storage: 'granted'
+        })
+        window.dataLayer.push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        })
       }
-      gtag('js', new Date());
-      gtag('config', analyticsAccount); 
-      document.addEventListener("DOMContentLoaded", () => {
-        GOVUK.performance.stageprompt.setupForGoogleAnalytics(document)
-      })
+      document.body.appendChild(script)
     }
   </script>
-{% endblock %} 
-
-{% block bodyEnd %}
-
-{# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-<script src="{{ assetPath }}/javascripts/core.js"></script>
-<script type="module">
-  import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
-  initAll()
-</script>
 {% endblock %}
 
 {% block footer %}
-  {{ govukFooter({
-    meta: {
-      items: [
-        {
-          href: "/cookies",
-          text: "Cookies"
-        },
-        {
-          href: "/accessibility-statement",
-          text: "Accessibility"
-        },
-        {
-          href: "/terms-and-conditions",
-          text: "Terms and conditions"
-        },
-        {
-          href: "/privacy-notice",
-          text: "Privacy notice"
-        }
-      ],
-        html: '<p class="govuk-body-s">Built by the <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a></p><p class="govuk-body-s" style="max-width: 70ch;">© Crown copyright and database rights 2021 <a href = "https://www.ordnancesurvey.co.uk/">Ordnance Survey(OS)</a> AC0000807064. Use of the address and mapping data is subject to the <a href="os-terms">Ordnance Survey terms and conditions</a>.</p>'
-    }
-  }) }}
+  {% include "partials/footer.html" %}
 {% endblock %}
