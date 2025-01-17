@@ -1,4 +1,4 @@
-const mockPolygons = require('./mockPolygons.json')
+const mockPolygons = require('../../__data__/mockPolygons.json')
 
 const getFloodZones = async (options) => {
   switch (options.polygon) {

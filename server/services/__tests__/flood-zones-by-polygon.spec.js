@@ -1,8 +1,7 @@
 jest.mock('../agol/getFloodZones')
 jest.mock('../riskAdmin/isRiskAdminArea')
-const { isRiskAdminArea } = require('../riskAdmin/isRiskAdminArea')
 const { method: getFloodZonesByPolygon, options: { generateKey } } = require('../../../server/services/flood-zones-by-polygon')
-const mockPolygons = require('../agol/__mocks__/mockPolygons.json')
+const mockPolygons = require('../__data__/mockPolygons.json')
 
 describe('getFloodZonesByPolygon - Error Handling Scenarios', () => {
   it('getFloodZonesByPolygon without polygon should throw "No Polygon provided"', async () => {

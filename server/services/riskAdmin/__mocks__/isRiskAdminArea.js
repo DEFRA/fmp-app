@@ -1,4 +1,4 @@
-const mockPolygons = require('../../agol/__mocks__/mockPolygons.json')
+const mockPolygons = require('../../__data__/mockPolygons.json')
 
 const isRiskAdminArea = async (polygon) => {
   switch (polygon) {
