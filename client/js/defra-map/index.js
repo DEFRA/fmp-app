@@ -69,7 +69,8 @@ const surfaceWaterStyleLayers = [
 //   'Risk of Flooding from Surface Water Depth CCSW1 > 900mm/1',
 //   'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
 // ]
-getDefraMapConfig().then((defraMapConfig) => {
+
+const fixLocalStorage = () => {
   // Temp fix until 0.5.0
   // Map will not load if localStorage basemap is not one of default OR dark
   // but 0.3.0 sets the value to 'default,light', which screws up
@@ -78,7 +79,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   if (basemap !== 'default' && basemap !== 'dark') {
     window.localStorage.removeItem('basemap')
   }
+}
 
+getDefraMapConfig().then((defraMapConfig) => {
+  fixLocalStorage() // Temp fix until 0.5.0
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
