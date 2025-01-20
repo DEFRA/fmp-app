@@ -18,6 +18,10 @@ const getFunctionAppResponse = async (data) => {
 const floodZoneResultsToFloodZone = (floodZoneResults) =>
   floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1'
 
+const duplicateP4Request = (p4RequestCookie, polygon) => {
+  return !!(p4RequestCookie?.applicationReferenceNumber && p4RequestCookie?.polygon === polygon)
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -40,34 +44,39 @@ module.exports = [
     options: {
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
-        try {
-          const payload = request.payload || {}
-          const { recipientemail, fullName } = payload
-          const coordinates = getCentreOfPolygon(payload.polygon)
+        const payload = request.payload || {}
+        const { recipientemail, fullName, polygon } = payload
+        const coordinates = getCentreOfPolygon(polygon)
+        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
+        let applicationReferenceNumber
 
+        if (!duplicateP4Request(request.state.p4Request, polygon)) {
           // Send details to function app
-          const plotSize = getAreaInHectares(payload.polygon)
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
-          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
-          const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
+          const plotSize = getAreaInHectares(polygon)
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
             name: fullName,
             recipientemail,
             x: coordinates.x,
             y: coordinates.y,
-            polygon: '[' + payload.polygon + ']',
+            polygon: '[' + polygon + ']',
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          let applicationReferenceNumber
           try {
             const result = await getFunctionAppResponse(data)
             const response = result.payload.toString()
             const { applicationReferenceNumber: appRef } = JSON.parse(response)
             applicationReferenceNumber = appRef
+            // Set p4 request cookie to store app number and polygon
+            h.state('p4Request', {
+              applicationReferenceNumber,
+              polygon: polygon
+            })
           } catch (error) {
             console.log(
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
@@ -77,18 +86,20 @@ module.exports = [
             const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]`
             return h.redirect(redirectURL)
           }
+        } else {
+          applicationReferenceNumber = request.state.p4Request.applicationReferenceNumber
+        }
 
-          // Forward details to confirmation page
-          const queryParams = {
-            applicationReferenceNumber,
-            polygon: payload.polygon,
-            recipientemail,
-            zoneNumber
-          }
-          // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
-          const query = new URLSearchParams(queryParams).toString()
-          return h.redirect(`/confirmation?${query}`)
-        } catch (error) {}
+        // Forward details to confirmation page
+        const queryParams = {
+          applicationReferenceNumber,
+          polygon: polygon,
+          recipientemail,
+          zoneNumber
+        }
+        // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
+        const query = new URLSearchParams(queryParams).toString()
+        return h.redirect(`/confirmation?${query}`)
       }
     }
   }
