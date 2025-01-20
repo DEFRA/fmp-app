@@ -48,7 +48,7 @@ module.exports = [
         let applicationReferenceNumber
 
         // Check if p4Request is duplicate
-        if (!request.state.p4Request || !request.state.p4Request[polygon]) {
+        if (!request.state?.p4Request?.[polygon]) {
           // Send details to function app
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
@@ -57,7 +57,7 @@ module.exports = [
             recipientemail,
             x: coordinates.x,
             y: coordinates.y,
-            polygon: '[' + polygon + ']',
+            polygon: `[${polygon}]`,
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
