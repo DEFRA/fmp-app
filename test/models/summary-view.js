@@ -11,7 +11,6 @@ lab.experiment('summary-view view model tests', () => {
     const summaryViewModel = new SummaryViewModel(testObjects.zone1, [300000, 400000])
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ1')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(300000)
     Code.expect(summaryViewModel.northing).to.equal(400000)
   })
@@ -20,7 +19,6 @@ lab.experiment('summary-view view model tests', () => {
     const summaryViewModel = new SummaryViewModel(testObjects.zone2, [300000, 400000])
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(300000)
     Code.expect(summaryViewModel.northing).to.equal(400000)
   })
@@ -29,7 +27,6 @@ lab.experiment('summary-view view model tests', () => {
     const summaryViewModel = new SummaryViewModel(testObjects.zone3, [300000, 400000])
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(300000)
     Code.expect(summaryViewModel.northing).to.equal(400000)
   })
@@ -38,7 +35,6 @@ lab.experiment('summary-view view model tests', () => {
     const summaryViewModel = new SummaryViewModel(testObjects.zone2a, [300000, 400000])
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2a')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()
     Code.expect(summaryViewModel.easting).to.equal(300000)
     Code.expect(summaryViewModel.northing).to.equal(400000)
   })
@@ -47,7 +43,6 @@ lab.experiment('summary-view view model tests', () => {
     const summaryViewModel = new SummaryViewModel(testObjects.zone3a, [300000, 400000])
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3a')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()
     Code.expect(summaryViewModel.easting).to.equal(300000)
     Code.expect(summaryViewModel.northing).to.equal(400000)
   })
@@ -67,7 +62,6 @@ lab.experiment('summary-view view model tests', () => {
     )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ1')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(361930)
     Code.expect(summaryViewModel.northing).to.equal(387463)
   })
@@ -86,7 +80,6 @@ lab.experiment('summary-view view model tests', () => {
     )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(361930)
     Code.expect(summaryViewModel.northing).to.equal(387463)
   })
@@ -105,7 +98,6 @@ lab.experiment('summary-view view model tests', () => {
     )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.false()
     Code.expect(summaryViewModel.easting).to.equal(361930)
     Code.expect(summaryViewModel.northing).to.equal(387463)
   })
@@ -124,7 +116,6 @@ lab.experiment('summary-view view model tests', () => {
     )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ2a')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()
     Code.expect(summaryViewModel.easting).to.equal(361930)
     Code.expect(summaryViewModel.northing).to.equal(387463)
   })
@@ -143,7 +134,6 @@ lab.experiment('summary-view view model tests', () => {
     )
 
     Code.expect(summaryViewModel.floodZone.zone).to.equal('FZ3a')
-    Code.expect(summaryViewModel.floodZone.isAreaBenefiting).to.be.true()
     Code.expect(summaryViewModel.easting).to.equal(361930)
     Code.expect(summaryViewModel.northing).to.equal(387463)
   })

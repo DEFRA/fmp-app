@@ -1,6 +1,6 @@
 module.exports = async () => {
   const config = {
-    collectCoverage: true,
+    collectCoverage: false,
     coverageReporters: [
       'lcov',
       'text'

@@ -1,10 +1,22 @@
 const { getFloodZones } = require('./agol/getFloodZones')
+const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
+
 const getFloodZonesByPolygon = async (polygon) => {
   if (!polygon) {
     throw new Error('getFloodZonesByPolygon - No Polygon provided')
   }
   try {
-    return await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon })
+    const results = {
+      surface_water: false
+    }
+
+    await Promise.all([
+      getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
+      isRiskAdminArea(polygon)
+    ]).then((responseArray) => {
+      return Object.assign(results, ...responseArray)
+    })
+    return results
   } catch (error) {
     console.log('caught getFloodZonesByPolygon ERROR', error)
     throw new Error('Fetching getFloodZonesByPolygon failed: ', error)

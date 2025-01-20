@@ -6,7 +6,8 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon } = request.query
-        return h.view('results', { polygon })
+        const floodData = await request.server.methods.getFloodZonesByPolygon(polygon)
+        return h.view('results', { polygon, floodData })
       }
     }
   }
