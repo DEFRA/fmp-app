@@ -18,10 +18,6 @@ const getFunctionAppResponse = async (data) => {
 const floodZoneResultsToFloodZone = (floodZoneResults) =>
   floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1'
 
-const duplicateP4Request = (p4RequestCookie, polygon) => {
-  return !!(p4RequestCookie?.applicationReferenceNumber && p4RequestCookie?.polygon === polygon)
-}
-
 module.exports = [
   {
     method: 'GET',
@@ -51,7 +47,8 @@ module.exports = [
         const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
         let applicationReferenceNumber
 
-        if (!duplicateP4Request(request.state.p4Request, polygon)) {
+        // Check if p4Request is duplicate
+        if (!request.state.p4Request || !request.state.p4Request[polygon]) {
           // Send details to function app
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
@@ -72,11 +69,10 @@ module.exports = [
             const response = result.payload.toString()
             const { applicationReferenceNumber: appRef } = JSON.parse(response)
             applicationReferenceNumber = appRef
-            // Set p4 request cookie to store app number and polygon
-            h.state('p4Request', {
-              applicationReferenceNumber,
-              polygon: polygon
-            })
+            // Upsert p4Cookie to store app ref by polygon key
+            const p4Cookie = request.state.p4Request || {}
+            p4Cookie[polygon] = applicationReferenceNumber
+            h.state('p4Request', p4Cookie)
           } catch (error) {
             console.log(
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
@@ -87,7 +83,7 @@ module.exports = [
             return h.redirect(redirectURL)
           }
         } else {
-          applicationReferenceNumber = request.state.p4Request.applicationReferenceNumber
+          applicationReferenceNumber = request.state.p4Request[polygon]
         }
 
         // Forward details to confirmation page
