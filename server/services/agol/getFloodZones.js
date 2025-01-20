@@ -9,7 +9,13 @@ const assignFloodZoneResponse = (response, results) => {
       break // We can stop early once we find FZs 2 and 3
     }
   }
-  results.floodZone = results.floodzone_3 ? '3' : results.floodzone_2 ? '2' : '1'
+  if (results.floodzone_3) {
+    results.floodZone = '3'
+  } else if (results.floodzone_2) {
+    results.floodZone = '2'
+  } else {
+    results.floodZone = '1'
+  }
   return results
 }
 
@@ -19,7 +25,7 @@ const getFloodZones = async (options) => {
     floodzone_3: false
   }
 
-  return await esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  return esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignFloodZoneResponse(esriResponse, results))
 }
 
