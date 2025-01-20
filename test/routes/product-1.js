@@ -59,7 +59,7 @@ lab.experiment('product-1.js', () => {
     polygon: '[[1,2], [3,4]]',
     scale: 2500,
     reference: '',
-    holdingComments: 'true'
+    isRiskAdminArea: 'true'
   }
 
   const injectedServerValues = {
