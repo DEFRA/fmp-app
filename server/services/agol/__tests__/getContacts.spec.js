@@ -1,5 +1,5 @@
-const { mockEsriRequest, stopMockingEsriRequests } = require('./__mocks__/agol')
-const createServer = require('../../../server')
+const { mockEsriRequest, stopMockingEsriRequests } = require('../../../services/__tests__/__mocks__/agol')
+const createServer = require('../../..')
 
 describe('getContacts', () => {
   let server
@@ -21,7 +21,7 @@ describe('getContacts', () => {
   errorsToTest.forEach(([titleText, returnValue]) => {
     it(`if esriRequest returns ${titleText} expect an error`, async () => {
       mockEsriRequest(returnValue)
-      const { getContacts } = require('../../services/agol/getContacts')
+      const { getContacts } = require('../getContacts')
       try {
         await getContacts({ geometryType: 'esriGeometryPolygon', polygon: [[1, 2], [3, 4]] })
       } catch (error) {
