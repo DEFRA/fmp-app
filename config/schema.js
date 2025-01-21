@@ -8,6 +8,7 @@ const serverSchema = Joi.object()
 
 const schema = Joi.object({
   env: Joi.string().required(),
+  appType: Joi.string().required().allow('internal', 'public'),
   server: serverSchema,
   geoserver: Joi.string().uri().required(),
   logging: Joi.object(),
