@@ -1,27 +1,35 @@
-const { mockEsriRequest, stopMockingEsriRequests } = require('../../../services/__tests__/__mocks__/agol')
+const { getContacts } = require('../getContacts')
+const mockPolygons = require('../../__data__/mockPolygons.json')
+jest.mock('../getCustomerTeam')
+jest.mock('../getLocalAuthority')
 
 describe('getContacts', () => {
-  beforeAll(async () => {
-    mockEsriRequest()
+  it('should return the combined contents of getCustomerTeam and getLocalAuthority for a polygon', async () => {
+    const response = await getContacts({
+      geometryType: 'esriGeometryPolygon',
+      polygon: mockPolygons.fz1_only
+    })
+    expect(response).toEqual({
+      LocalAuthorities: 'North Yorkshire',
+      isEngland: true,
+      EmailAddress: 'neyorkshire@environment-agency.gov.uk',
+      AreaName: 'Yorkshire',
+      useAutomatedService: true
+    })
   })
 
-  afterAll(async () => {
-    stopMockingEsriRequests()
-  })
-
-  const errorsToTest = [
-    ['false', false],
-    ['a non array', 'not-array']
-  ]
-  errorsToTest.forEach(([titleText, returnValue]) => {
-    it(`if esriRequest returns ${titleText} expect an error`, async () => {
-      mockEsriRequest(returnValue)
-      const { getContacts } = require('../getContacts')
-      try {
-        await getContacts({ geometryType: 'esriGeometryPolygon', polygon: [[1, 2], [3, 4]] })
-      } catch (error) {
-        expect(error.message).toEqual('Invalid response from AGOL customerTeam request')
-      }
+  it('should return the combined contents of getCustomerTeam and getLocalAuthority for a point', async () => {
+    const response = await getContacts({
+      geometryType: 'esriGeometryPoint',
+      x: 123,
+      y: 456
+    })
+    expect(response).toEqual({
+      LocalAuthorities: 'Winchester',
+      isEngland: true,
+      EmailAddress: 'wessexenquiries@environment-agency.gov.uk',
+      AreaName: 'Wessex',
+      useAutomatedService: false
     })
   })
 })

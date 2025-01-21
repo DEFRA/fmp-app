@@ -15,6 +15,9 @@ const optedInResponse = {
 }
 
 const getCustomerTeam = async (options = {}) => {
+  if (options.geometryType === 'esriGeometryPoint') {
+    return optedOutResponse
+  }
   switch (options.polygon) {
     case mockPolygons.optedOut.fz3_only:
       return optedOutResponse

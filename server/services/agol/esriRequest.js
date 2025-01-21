@@ -14,8 +14,6 @@ const esriRequest = async (endPoint, geometry, geometryType) => {
     outFields: '*'
   }
   const result = await queryFeatures(requestObject)
-  console.log('queryFeatures result', result)
-
   return result.features
 }
 
