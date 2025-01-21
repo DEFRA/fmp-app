@@ -1,16 +1,11 @@
 const { mockEsriRequest, stopMockingEsriRequests } = require('../../../services/__tests__/__mocks__/agol')
-const createServer = require('../../..')
 
 describe('getContacts', () => {
-  let server
   beforeAll(async () => {
     mockEsriRequest()
-    server = await createServer()
-    await server.initialize()
   })
 
   afterAll(async () => {
-    await server.stop()
     stopMockingEsriRequests()
   })
 
