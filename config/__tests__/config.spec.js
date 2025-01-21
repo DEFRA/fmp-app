@@ -29,7 +29,7 @@ describe('Ensure config is correct', () => {
         osClientSecret: 'replace_this'
       },
       siteUrl: 'http://dummyuri',
-      functionAppUrl: '=http://dummyuri',
+      functionAppUrl: 'http://dummyuri',
       ignoreUseAutomatedService: true,
       placeApi: { url: 'http://dummyuri' },
       agol: {
