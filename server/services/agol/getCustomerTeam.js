@@ -17,7 +17,7 @@ const getCustomerTeam = (options) => {
       response.isEngland = esriResult.length > 0
       const { attributes } = esriResult[0]
       // console.log('\ncustomerTeam Results ', esriResult)
-      Object.assign(response, {
+      return Object.assign(response, {
         EmailAddress: attributes.contact_email,
         AreaName: attributes.area_name_1, // This will change back to area_name once Paul fixes the data.
         useAutomatedService: Boolean(attributes.use_automated_service)
