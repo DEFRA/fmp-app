@@ -1,6 +1,7 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
 const { assertCopy } = require('../../__test-helpers__/copy')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+const { config } = require('../../../config')
 jest.mock('../../services/agol/getContacts')
 
 const url = '/results'
@@ -21,7 +22,9 @@ const assertOrderFloodRiskDataButton = (expected = true) => {
   assertCopy('[data-testid="order-product4"]', expected && 'Order flood risk data')
 }
 
-describe('Results Page', () => {
+describe('Results Page On Public', () => {
+  beforeAll(() => { config.appType = 'public' })
+  afterAll(() => { config.appType = 'internal' })
   it('should have the correct copy for Zone 1"', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
     document.body.innerHTML = response.payload
@@ -44,5 +47,16 @@ describe('Results Page', () => {
     assertFloodZoneCopy(3)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton(false)
+  })
+})
+
+describe('Results Page On Internal', () => {
+  beforeAll(() => { config.appType = 'internal' })
+  it('should show the "Order flood risk data" for opted out areas on internal', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
+    document.body.innerHTML = response.payload
+    assertFloodZoneCopy(3)
+    assertRiskAdminCopy(false)
+    assertOrderFloodRiskDataButton(true)
   })
 })
