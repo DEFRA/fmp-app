@@ -43,6 +43,7 @@ async function createServer () {
   await server.register(require('./plugins/error-pages'))
   await server.register(require('blipp'))
   await server.register(require('./plugins/full-url'))
+  await server.register(require('./plugins/register-cookie'))
 
   server.ext('onPreResponse', async (request, h) => {
     request.response.header('cache-control', 'no-cache')
