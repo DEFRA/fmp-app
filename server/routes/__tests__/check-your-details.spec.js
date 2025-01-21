@@ -1,12 +1,10 @@
 const { getServer } = require('../../../.jest/setup')
+const { assertCopy } = require('../../__test-helpers__/copy')
 const {
   submitGetRequest,
   submitPostRequest
 } = require('../../__test-helpers__/server')
-const mockPolygons = require('../../services/__data__/mockPolygons.json')
-
-jest.mock('../../services/agol/getFloodZones')
-jest.mock('../../services/riskAdmin/isRiskAdminArea')
+const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
 jest.mock('../../services/agol/getContacts')
 jest.mock('../../services/address')
 jest.mock('@hapi/wreck')
@@ -37,10 +35,10 @@ describe('Check your details page', () => {
       it(`Happy get request for a flood zone ${floodZone} information`, async () => {
         const response = await submitGetRequest({ url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, 'Check your details before requesting your data')
         document.body.innerHTML = response.payload
-        expect(document.querySelector('title').textContent).toContain('Check your details - Flood map for planning - GOV.UK')
-        expect(document.querySelector('.govuk-summary-list__row > dd.govuk-summary-list__value').textContent).toContain(user.fullName)
-        expect(document.querySelector('.govuk-summary-list__row:nth-child(2) > dd.govuk-summary-list__value').textContent).toContain(user.email)
-        expect(document.querySelector('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value').textContent).toContain(floodZone)
+        assertCopy('title', 'Check your details - Flood map for planning - GOV.UK')
+        assertCopy('.govuk-summary-list__row > dd.govuk-summary-list__value', user.fullName)
+        assertCopy('.govuk-summary-list__row:nth-child(2) > dd.govuk-summary-list__value', user.email)
+        assertCopy('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value', floodZone)
       })
     })
   })
@@ -119,7 +117,6 @@ describe('Check your details page', () => {
         }
       }
       wreck.post.mockImplementation(() => {
-        console.log('in wreck post mock')
         throw new Error()
       })
       const response = await submitPostRequest(options)
