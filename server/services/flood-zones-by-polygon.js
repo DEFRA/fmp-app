@@ -1,17 +1,25 @@
 const { getFloodZones } = require('./agol/getFloodZones')
 const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
+const { getRiversAndSeaDefended } = require('./agol/getRiversAndSeaDefended')
+const { getRiversAndSeaUndefended } = require('./agol/getRiversAndSeaUndefended')
+const { getRiversAndSeaDefendedClimateChange } = require('./agol/getRiversAndSeaDefendedClimateChange')
+const { getRiversAndSeaUndefendedClimateChange } = require('./agol/getRiversAndSeaUndefendedClimateChange')
+const { getSurfaceWater } = require('./agol/getSurfaceWater')
 
 const getFloodZonesByPolygon = async (polygon) => {
   if (!polygon) {
     throw new Error('getFloodZonesByPolygon - No Polygon provided')
   }
   try {
-    const results = {
-      surface_water: false
-    }
+    const results = {}
 
     await Promise.all([
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaDefended({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaUndefended({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaDefendedClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaUndefendedClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
+      getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon }),
       isRiskAdminArea(polygon)
     ]).then((responseArray) => {
       return Object.assign(results, ...responseArray)

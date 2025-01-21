@@ -1,5 +1,6 @@
 const { config } = require('../../../config')
 const { queryFeatures } = require('@esri/arcgis-rest-feature-service')
+const { request } = require('@esri/arcgis-rest-request')
 const { getEsriToken } = require('./getEsriToken')
 
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })
@@ -28,4 +29,23 @@ const esriRequest = async (endPoint, geometry, geometryType) => {
   return result.features
 }
 
-module.exports = { esriRequest, makePointGeometry, makePolygonGeometry }
+const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
+  const esriToken = await getEsriToken()
+  const url = `${config.agol.serviceUrl}${endPoint}/query`
+  const requestObject = {
+    httpMethod: 'GET',
+    authentication: esriToken,
+    params: {
+      layerDefs,
+      geometry,
+      geometryType,
+      spatialRel: 'esriSpatialRelIntersects',
+      returnGeometry: 'false',
+      returnCountOnly: 'true'
+    }
+  }
+  const result = await request(url, requestObject)
+  return result
+}
+
+module.exports = { esriRequest, esriRestRequest, makePointGeometry, makePolygonGeometry }

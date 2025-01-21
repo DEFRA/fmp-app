@@ -39,7 +39,12 @@ const config = {
     customerTeamEndPoint: process.env.agolCustomerTeamEndPoint,
     localAuthorityEndPoint: process.env.agolLocalAuthorityEndPoint,
     isEnglandEndPoint: process.env.agolIsEnglandEndPoint,
-    floodZonesRiversAndSeaEndPoint: process.env.agolFloodZonesRiversAndSeaEndPoint
+    floodZonesRiversAndSeaEndPoint: process.env.agolFloodZonesRiversAndSeaEndPoint,
+    riversAndSeaDefendedEndPoint: process.env.agolRiversAndSeaDefendedEndPoint,
+    riversAndSeaUndefendedEndPoint: process.env.agolRiversAndSeaUndefendedEndPoint,
+    riversAndSeaDefendedCCP1EndPoint: process.env.agolRiversAndSeaDefendedCCP1EndPoint,
+    riversAndSeaUndefendedCCP1EndPoint: process.env.agolRiversAndSeaUndefendedCCP1EndPoint,
+    surfaceWaterEndPoint: process.env.agolSurfaceWaterEndPoint
   },
   eamaps: {
     serviceUrl: process.env.eamapsServiceUrl,

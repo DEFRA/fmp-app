@@ -28,11 +28,11 @@ describe('getFloodZonesByPolygon - Error Handling Scenarios', () => {
 describe('getFloodZonesByPolygon - Flood Zone Only Scenarios', () => {
   it('getFloodZonesByPolygon should return data as expected for FZ3 only', async () => {
     const response = await getFloodZonesByPolygon(mockPolygons.fz3_only)
+    console.log(response)
     expect(response).toEqual({
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
-      surface_water: false,
       isRiskAdminArea: false
     })
   })
@@ -43,7 +43,6 @@ describe('getFloodZonesByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
-      surface_water: false,
       isRiskAdminArea: false
     })
   })
@@ -54,7 +53,6 @@ describe('getFloodZonesByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
-      surface_water: false,
       isRiskAdminArea: false
     })
   })
@@ -67,7 +65,6 @@ describe('getFloodZonesByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
-      surface_water: false,
       isRiskAdminArea: true
     })
   })
@@ -78,7 +75,6 @@ describe('getFloodZonesByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
-      surface_water: false,
       isRiskAdminArea: true
     })
   })
@@ -89,7 +85,6 @@ describe('getFloodZonesByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
-      surface_water: false,
       isRiskAdminArea: true
     })
   })

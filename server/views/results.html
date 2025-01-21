@@ -10,6 +10,21 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl">This location is in flood zone {{floodData.floodZone}}</h1>
+      {% if floodData.rivers_and_sea_defended_climate_change_1_risk_band %}
+        <p>Between 2070 and 2125, taking flood defences into account, there is {{floodData.rivers_and_sea_defended_climate_change_1_risk_band}} chance of a flood at this location in any year.  </p>
+      {% endif %}
+      {% if floodData.rivers_and_sea_undefended_climate_change_1_risk_band %}
+        <p>Between 2070 and 2125, without flood defences, there is {{floodData.rivers_and_sea_undefended_climate_change_1_risk_band}} chance of a flood at this location in any year. </p>
+      {% endif %}
+      {% if floodData.rivers_and_sea_defended_risk_band %}
+        <p>Taking flood defences into account, there is {{floodData.rivers_and_sea_defended_risk_band}} chance of a flood at this location in any year.  </p>
+      {% endif %}
+      {% if floodData.rivers_and_sea_undefended_risk_band %}
+        <p>Without flood defences, there is {{floodData.rivers_and_sea_undefended_risk_band}} chance of a flood at this location in any year. </p>
+      {% endif %}
+      {% if floodData.surface_water_risk_band %}
+      <p>{{floodData.surface_water_risk_band}} risk of surface water (or flash) flooding.</p>
+      {% endif %}
     </div>
 
     {% if floodData.isRiskAdminArea %}
@@ -28,6 +43,8 @@
         </div>
       </div>
     {% endif %}
+
+
 
     <div class="govuk-grid-column-two-thirds">
       <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button">
