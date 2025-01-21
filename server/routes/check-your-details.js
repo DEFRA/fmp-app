@@ -12,7 +12,7 @@ const getFunctionAppResponse = async (data) => {
   )
   payload.postcode = postcode
 
-  return wreck.post(publishToQueueURL, { payload: JSON.stringify(payload) })
+  return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }
 
 const floodZoneResultsToFloodZone = (floodZoneResults) =>
@@ -66,9 +66,7 @@ module.exports = [
           })
           try {
             const result = await getFunctionAppResponse(data)
-            const response = result.payload.toString()
-            const { applicationReferenceNumber: appRef } = JSON.parse(response)
-            applicationReferenceNumber = appRef
+            applicationReferenceNumber = result.payload.applicationReferenceNumber
             // Upsert p4Cookie to store app ref by polygon key
             const p4Cookie = request.state.p4Request || {}
             p4Cookie[polygon] = applicationReferenceNumber
@@ -79,7 +77,7 @@ module.exports = [
               data
             )
             console.log('Error\n', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]`
+            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}`
             return h.redirect(redirectURL)
           }
         } else {
