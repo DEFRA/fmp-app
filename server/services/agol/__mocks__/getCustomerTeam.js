@@ -4,7 +4,6 @@ const optedOutResponse = {
   isEngland: true,
   EmailAddress: 'wessexenquiries@environment-agency.gov.uk',
   AreaName: 'Wessex',
-  LocalAuthorities: 'Bath and North East Somerset',
   useAutomatedService: false
 }
 
@@ -12,11 +11,13 @@ const optedInResponse = {
   isEngland: true,
   EmailAddress: 'neyorkshire@environment-agency.gov.uk',
   AreaName: 'Yorkshire',
-  LocalAuthorities: 'North Yorkshire',
   useAutomatedService: true
 }
 
-const getContacts = async (options = {}) => {
+const getCustomerTeam = async (options = {}) => {
+  if (options.geometryType === 'esriGeometryPoint') {
+    return optedOutResponse
+  }
   switch (options.polygon) {
     case mockPolygons.optedOut.fz3_only:
       return optedOutResponse
@@ -31,9 +32,9 @@ const getContacts = async (options = {}) => {
     case mockPolygons.inRiskAdmin.fz2_and_3:
       return optedInResponse
     default: {
-      throw new Error(`Error - No Polygon Mocked for getContacts- ${JSON.stringify(options.polygon)}`)
+      throw new Error(`Error - No Polygon Mocked for getCustomerTeam- ${JSON.stringify(options.polygon)}`)
     }
   }
 }
 
-module.exports = { getContacts }
+module.exports = { getCustomerTeam }

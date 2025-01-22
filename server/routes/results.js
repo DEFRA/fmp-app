@@ -1,3 +1,5 @@
+const { config } = require('../../config')
+
 module.exports = [
   {
     method: 'GET',
@@ -6,8 +8,10 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon } = request.query
+        const contactData = await request.server.methods.getPsoContactsByPolygon(polygon)
+        const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         const floodData = await request.server.methods.getFloodZonesByPolygon(polygon)
-        return h.view('results', { polygon, floodData })
+        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
     }
   }

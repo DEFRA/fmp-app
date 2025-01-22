@@ -11,6 +11,7 @@ const getFloodZones = async (options) => {
       return { floodZone: '2', floodzone_2: true, floodzone_3: false }
     case mockPolygons.fz3_only:
     case mockPolygons.inRiskAdmin.fz3_only:
+    case mockPolygons.optedOut.fz3_only:
       return { floodZone: '3', floodzone_2: false, floodzone_3: true }
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:

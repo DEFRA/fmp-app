@@ -5,6 +5,7 @@ const {
   submitPostRequest
 } = require('../../__test-helpers__/server')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+const { getCentreOfPolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
 jest.mock('../../services/address')
 jest.mock('@hapi/wreck')
@@ -25,6 +26,7 @@ describe('Check your details page', () => {
       }
     })
   })
+
   describe('GET', () => {
     const floodZoneGets = [
       { polygon: mockPolygons.fz1_only, floodZone: '1' },
@@ -42,6 +44,7 @@ describe('Check your details page', () => {
       })
     })
   })
+
   describe('POST', () => {
     // Makes a first request with no cookie
     const postTests = [
@@ -91,10 +94,11 @@ describe('Check your details page', () => {
           request.state = { p4Request: p4Cookie }
           return h.continue
         })
-
+        const { polygon } = payload
+        const { x, y } = getCentreOfPolygon(polygon)
         const queryParams = {
           applicationReferenceNumber: expectedAppRef,
-          polygon: payload.polygon,
+          polygon,
           recipientemail: payload.recipientemail,
           zoneNumber: expectedZoneNumber
         }
@@ -103,6 +107,24 @@ describe('Check your details page', () => {
         expect(response.headers.location).toEqual(`/confirmation?${new URLSearchParams(queryParams).toString()}`)
         expect(response.request.state.p4Request).toEqual(p4Cookie)
         expect(wreck.post).toHaveBeenCalledTimes(expectedWreckCalls)
+        if (expectedWreckCalls) {
+          const expectedPayload = JSON.stringify({
+            appType: 'internal',
+            name: user.fullName,
+            recipientemail: user.email,
+            x,
+            y,
+            polygon: `[${polygon}]`,
+            zoneNumber: expectedZoneNumber,
+            plotSize: '0',
+            areaName: 'Yorkshire',
+            psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
+            llfa: 'North Yorkshire',
+            postcode: 'M1 1AA'
+          })
+
+          expect(wreck.post).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
+        }
       })
     })
     // Sad paths

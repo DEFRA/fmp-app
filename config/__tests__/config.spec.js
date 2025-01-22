@@ -11,6 +11,7 @@ describe('Ensure config is correct', () => {
     const { config } = require('../index')
     const expectedConfig = {
       env: 'dev',
+      appType: 'internal',
       server: { port: '8050' },
       geoserver: 'http://dummyuri',
       views: { isCached: false },
@@ -28,7 +29,7 @@ describe('Ensure config is correct', () => {
         osClientSecret: 'replace_this'
       },
       siteUrl: 'http://dummyuri',
-      functionAppUrl: '=http://dummyuri',
+      functionAppUrl: 'http://dummyuri',
       ignoreUseAutomatedService: true,
       placeApi: { url: 'http://dummyuri' },
       agol: {
