@@ -1,6 +1,8 @@
+const constants = require('../constants')
+
 module.exports = {
   method: 'GET',
-  path: '/england-only',
+  path: constants.routes.ENGLAND_ONLY,
   options: {
     description: 'That location is not in England',
     handler: async (request, h) => {

@@ -46,9 +46,11 @@
     {% endif %}
 
     <div class="govuk-grid-column-two-thirds">
-      <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button">
-        Order flood risk data
-      </a>
+      {% if showOrderProduct4Button %}
+        <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+          Order flood risk data
+        </a>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

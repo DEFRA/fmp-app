@@ -12,7 +12,7 @@ const getFunctionAppResponse = async (data) => {
   )
   payload.postcode = postcode
 
-  return wreck.post(publishToQueueURL, { payload: JSON.stringify(payload) })
+  return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }
 
 const floodZoneResultsToFloodZone = (floodZoneResults) =>
@@ -40,55 +40,61 @@ module.exports = [
     options: {
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
-        try {
-          const payload = request.payload || {}
-          const { recipientemail, fullName } = payload
-          const coordinates = getCentreOfPolygon(payload.polygon)
+        const payload = request.payload || {}
+        const { recipientemail, fullName, polygon } = payload
+        const coordinates = getCentreOfPolygon(polygon)
+        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
+        let applicationReferenceNumber
 
+        // Check if p4Request is duplicate
+        if (!request.state?.p4Request?.[polygon]) {
           // Send details to function app
-          const plotSize = getAreaInHectares(payload.polygon)
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(payload.polygon)
-          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(payload.polygon)
-          const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
+          const plotSize = getAreaInHectares(polygon)
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
+            appType: config.appType,
             name: fullName,
             recipientemail,
             x: coordinates.x,
             y: coordinates.y,
-            polygon: '[' + payload.polygon + ']',
+            polygon: `[${polygon}]`,
             zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          let applicationReferenceNumber
           try {
             const result = await getFunctionAppResponse(data)
-            const response = result.payload.toString()
-            const { applicationReferenceNumber: appRef } = JSON.parse(response)
-            applicationReferenceNumber = appRef
+            applicationReferenceNumber = result.payload.applicationReferenceNumber
+            // Upsert p4Cookie to store app ref by polygon key
+            const p4Cookie = request.state.p4Request || {}
+            p4Cookie[polygon] = applicationReferenceNumber
+            h.state('p4Request', p4Cookie)
           } catch (error) {
             console.log(
               '\nFailed to POST these data to the functionsApp /order-product-four:\n',
               data
             )
             console.log('Error\n', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}&center=[${payload?.easting},${payload?.northing}]`
+            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}`
             return h.redirect(redirectURL)
           }
+        } else {
+          applicationReferenceNumber = request.state.p4Request[polygon]
+        }
 
-          // Forward details to confirmation page
-          const queryParams = {
-            applicationReferenceNumber,
-            polygon: payload.polygon,
-            recipientemail,
-            zoneNumber
-          }
-          // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
-          const query = new URLSearchParams(queryParams).toString()
-          return h.redirect(`/confirmation?${query}`)
-        } catch (error) {}
+        // Forward details to confirmation page
+        const queryParams = {
+          applicationReferenceNumber,
+          polygon: polygon,
+          recipientemail,
+          zoneNumber
+        }
+        // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
+        const query = new URLSearchParams(queryParams).toString()
+        return h.redirect(`/confirmation?${query}`)
       }
     }
   }

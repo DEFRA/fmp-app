@@ -4,6 +4,7 @@ require('./environment')
 
 const config = {
   env: process.env.ENV,
+  appType: process.env.fmpAppType,
   server: {
     port: process.env.PORT
   },

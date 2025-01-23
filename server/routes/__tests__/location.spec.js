@@ -7,9 +7,17 @@ const {
 const ngrToBngService = require('../../services/ngr-to-bng')
 const addressService = require('../../services/address')
 const isValidNgrService = require('../../services/is-valid-ngr')
-const url = '/location'
+const constants = require('../../constants')
+const url = constants.routes.LOCATION
+
+jest.mock('../../services/is-england')
+const isEnglandService = require('../../services/is-england')
 
 describe('location route', () => {
+  beforeEach(() => {
+    isEnglandService.mockResolvedValue(true)
+  })
+
   it(`Should return success response and correct view for ${url}`, async () => {
     const response = await submitGetRequest({ url }, 'Find the location')
     document.body.innerHTML = response.payload
@@ -549,5 +557,21 @@ describe('location route', () => {
     expect(response.payload).toContain('<span class="govuk-visually-hidden">Error:</span> Enter a northing in the correct format')
     expect(response.payload).not.toContain('<a href="#easting">Enter an easting in the correct format</a>')
     expect(response.payload).toContain('<a href="#northing">Enter a northing in the correct format</a>')
+  })
+
+  it('Should redirect to england-only if not isEngland', async () => {
+    const options = {
+      url,
+      payload: {
+        findby: 'eastingNorthing',
+        easting: '123456',
+        northing: '123456'
+      }
+    }
+    // Switch isEngland mock to be false
+    isEnglandService.mockResolvedValue(false)
+
+    const response = await submitPostRequest(options)
+    expect(response.headers.location).toEqual('/england-only?easting=123456&northing=123456')
   })
 })

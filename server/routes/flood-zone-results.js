@@ -89,7 +89,6 @@ module.exports = [
           })
           return h
             .view('flood-zone-results', floodZoneResultsData)
-            .unstate('pdf-download')
         } catch (err) {
           console.log('Error in flood zone results', err.message)
           return Boom.badImplementation(err.message, err)
