@@ -6,9 +6,9 @@ const { getRiversAndSeaDefendedCC } = require('./agol/getRiversAndSeaDefendedCC'
 const { getRiversAndSeaUndefendedCC } = require('./agol/getRiversAndSeaUndefendedCC')
 const { getSurfaceWater } = require('./agol/getSurfaceWater')
 
-const getFloodZonesByPolygon = async (polygon) => {
+const getFloodDataByPolygon = async (polygon) => {
   if (!polygon) {
-    throw new Error('getFloodZonesByPolygon - No Polygon provided')
+    throw new Error('getFloodDataByPolygon - No Polygon provided')
   }
   try {
     const results = {}
@@ -26,8 +26,8 @@ const getFloodZonesByPolygon = async (polygon) => {
     })
     return results
   } catch (error) {
-    console.log('caught getFloodZonesByPolygon ERROR', error)
-    throw new Error('Fetching getFloodZonesByPolygon failed: ', error)
+    console.log('caught getFloodDataByPolygon ERROR', error)
+    throw new Error('Fetching getFloodDataByPolygon failed: ', error)
   }
 }
 
@@ -37,8 +37,8 @@ const generateTimeout = 10000 // 10 seconds
 const staleTimeout = 59000 // 59 seconds
 
 module.exports = {
-  name: 'getFloodZonesByPolygon',
-  method: getFloodZonesByPolygon,
+  name: 'getFloodDataByPolygon',
+  method: getFloodDataByPolygon,
   options: {
     cache: {
       cache: 'FMFP',

@@ -26,7 +26,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { polygon, fullName, recipientemail } = request.query
-        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
         const floodZone = floodZoneResultsToFloodZone(floodZoneResults)
         const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
         const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
@@ -43,7 +43,7 @@ module.exports = [
         const payload = request.payload || {}
         const { recipientemail, fullName, polygon } = payload
         const coordinates = getCentreOfPolygon(polygon)
-        const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+        const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
         const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
         let applicationReferenceNumber
 
