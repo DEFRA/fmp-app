@@ -111,7 +111,7 @@ describe('Check your details page', () => {
           const expectedPayload = JSON.stringify({
             appType: 'internal',
             name: user.fullName,
-            recipientemail: user.email,
+            customerEmail: user.email,
             x,
             y,
             polygon: `[${polygon}]`,

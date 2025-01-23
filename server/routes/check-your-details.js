@@ -55,7 +55,7 @@ module.exports = [
           const data = JSON.stringify({
             appType: config.appType,
             name: fullName,
-            recipientemail,
+            customerEmail: recipientemail,
             x: coordinates.x,
             y: coordinates.y,
             polygon: `[${polygon}]`,
