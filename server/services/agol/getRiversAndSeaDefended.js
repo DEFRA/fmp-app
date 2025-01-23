@@ -4,31 +4,36 @@ const { esriRestRequest, makePolygonGeometry } = require('.')
 const layerDefs = { 0: '', 1: '', 2: '' }
 
 const LayerRiskBand = {
-  0: 'more than a 3.3%',
-  1: 'a 1%',
-  2: 'less than a 0.1%',
-  3: false
+  0: {
+    riskBandId: 0,
+    riskBandPercent: '3.3'
+  },
+  1: {
+    riskBandId: 1,
+    riskBandPercent: '1'
+  },
+  2: {
+    riskBandId: 2,
+    riskBandPercent: '0.1'
+  },
+  3: {
+    riskBandId: 3,
+    riskBandPercent: false
+  }
 }
 
-const assignResponse = (response, results) => {
-  let lowestLayerId = 3
-  response.layers.forEach(layer => {
-    if (layer.count > 0) {
-      if (layer.id < lowestLayerId) {
-        lowestLayerId = layer.id
-      }
-    }
-  })
-  results.rivers_and_sea_defended_risk_band = LayerRiskBand[lowestLayerId]
-  return results
+const assignResponse = (response) => {
+  const lowestLayerId = response.layers.reduce((lowest, layer) => {
+    return (layer.count > 0 && layer.id < lowest) ? layer.id : lowest
+  }, 3)
+  return {
+    riversAndSeaDefended: LayerRiskBand[lowestLayerId]
+  }
 }
 
 const getRiversAndSeaDefended = async (options) => {
-  const results = {
-    rivers_and_sea_defended_risk_band: false
-  }
   return esriRestRequest(config.agol.riversAndSeaDefendedEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon', layerDefs)
-    .then((esriResponse) => assignResponse(esriResponse, results))
+    .then((esriResponse) => assignResponse(esriResponse))
 }
 
 module.exports = { getRiversAndSeaDefended }

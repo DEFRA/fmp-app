@@ -2,8 +2,8 @@ const { getFloodZones } = require('./agol/getFloodZones')
 const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
 const { getRiversAndSeaDefended } = require('./agol/getRiversAndSeaDefended')
 const { getRiversAndSeaUndefended } = require('./agol/getRiversAndSeaUndefended')
-const { getRiversAndSeaDefendedClimateChange } = require('./agol/getRiversAndSeaDefendedClimateChange')
-const { getRiversAndSeaUndefendedClimateChange } = require('./agol/getRiversAndSeaUndefendedClimateChange')
+const { getRiversAndSeaDefendedCC } = require('./agol/getRiversAndSeaDefendedCC')
+const { getRiversAndSeaUndefendedCC } = require('./agol/getRiversAndSeaUndefendedCC')
 const { getSurfaceWater } = require('./agol/getSurfaceWater')
 
 const getFloodZonesByPolygon = async (polygon) => {
@@ -17,8 +17,8 @@ const getFloodZonesByPolygon = async (polygon) => {
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
       getRiversAndSeaDefended({ geometryType: 'esriGeometryPolygon', polygon }),
       getRiversAndSeaUndefended({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaDefendedClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaUndefendedClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaDefendedCC({ geometryType: 'esriGeometryPolygon', polygon }),
+      getRiversAndSeaUndefendedCC({ geometryType: 'esriGeometryPolygon', polygon }),
       getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon }),
       isRiskAdminArea(polygon)
     ]).then((responseArray) => {

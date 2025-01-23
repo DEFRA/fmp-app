@@ -2,31 +2,37 @@ const { config } = require('../../../config')
 const { esriRequest, makePolygonGeometry } = require('.')
 
 const riskBandPriority = {
-  false: -1,
-  Low: 1,
-  Medium: 2,
-  High: 3
+  false: {
+    riskBandId: -1,
+    riskBand: false
+  },
+  Low: {
+    riskBandId: 1,
+    riskBand: 'Low'
+  },
+  Medium: {
+    riskBandId: 2,
+    riskBand: 'Medium'
+  },
+  High: {
+    riskBandId: 3,
+    riskBand: 'High'
+  }
 }
 
-const assignResponse = (response, results) => {
-  let highestRiskBand = false
-  response.forEach(item => {
+const assignResponse = (response) => {
+  const highestRiskBand = response.reduce((highest, item) => {
     const riskBand = item.attributes.Risk_band
-    if (riskBandPriority[riskBand] > riskBandPriority[highestRiskBand]) {
-      highestRiskBand = riskBand
-    }
-  })
-  results.surface_water_risk_band = highestRiskBand
-  return results
+    return riskBandPriority[riskBand].riskBandId > riskBandPriority[highest].riskBandId ? riskBand : highest
+  }, false)
+  return {
+    surfaceWater: riskBandPriority[highestRiskBand]
+  }
 }
 
 const getSurfaceWater = async (options) => {
-  const results = {
-    surface_water_risk_band: false
-  }
-
   return esriRequest(config.agol.surfaceWaterEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
-    .then((esriResponse) => assignResponse(esriResponse, results))
+    .then((esriResponse) => assignResponse(esriResponse))
 }
 
 module.exports = { getSurfaceWater }

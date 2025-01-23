@@ -26,7 +26,7 @@ describe('getFloodZonesByPolygon - Error Handling Scenarios', () => {
 })
 
 describe('getFloodZonesByPolygon - Flood Zone Only Scenarios', () => {
-  it('getFloodZonesByPolygon should return data as expected for FZ3 only', async () => {
+  it.only('getFloodZonesByPolygon should return data as expected for FZ3 only', async () => {
     const response = await getFloodZonesByPolygon(mockPolygons.fz3_only)
     console.log(response)
     expect(response).toEqual({

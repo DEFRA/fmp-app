@@ -23,13 +23,13 @@ const assignResponse = (response) => {
     return (layer.count > 0 && layer.id < lowest) ? layer.id : lowest
   }, 2)
   return {
-    riversAndSeaUndefended: LayerRiskBand[lowestLayerId]
+    riversAndSeaUndefendedCC: LayerRiskBand[lowestLayerId]
   }
 }
 
-const getRiversAndSeaUndefended = async (options) => {
-  return esriRestRequest(config.agol.riversAndSeaUndefendedEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon', layerDefs)
+const getRiversAndSeaUndefendedCC = async (options) => {
+  return esriRestRequest(config.agol.riversAndSeaUndefendedCCP1EndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon', layerDefs)
     .then((esriResponse) => assignResponse(esriResponse))
 }
 
-module.exports = { getRiversAndSeaUndefended }
+module.exports = { getRiversAndSeaUndefendedCC }
