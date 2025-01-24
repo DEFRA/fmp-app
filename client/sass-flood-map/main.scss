@@ -96,3 +96,22 @@ strong {
     }
   }
 }
+
+// Application CSS
+.fm-mobile.fm-inline.fm-o-container {
+  position:fixed;
+  box-sizing: border-box;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  z-index: 999;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  width: 100%;
+  border: 0;
+  background-color:var(--background-colour);
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}

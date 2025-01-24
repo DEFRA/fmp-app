@@ -358,7 +358,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
   const floodMap = new FloodMap('map', {
-    type: 'hybrid',
+    type: 'inline',
     place: 'England',
     zoom: 7.7,
     minZoom: 6,
