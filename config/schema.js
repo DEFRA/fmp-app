@@ -32,7 +32,6 @@ const schema = Joi.object({
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
-  ignoreUseAutomatedService: Joi.boolean().strict(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
   }),

@@ -27,7 +27,6 @@ const config = {
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
-  ignoreUseAutomatedService: toBool(process.env.ignoreUseAutomatedService),
   placeApi: {
     url: process.env.placeApiUrl
   },
