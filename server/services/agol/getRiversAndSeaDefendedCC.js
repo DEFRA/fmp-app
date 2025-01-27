@@ -1,32 +1,14 @@
 const { config } = require('../../../config')
 const { esriRestRequest, makePolygonGeometry } = require('.')
+const { riversAndSeaDefended: layerRiskBand } = require('./layerRiskBands')
+const { riversAndSeaDefended: layerDefs } = require('./layerDefs')
 
-const layerDefs = { 0: '', 1: '', 2: '' }
-
-const LayerRiskBand = {
-  0: {
-    riskBandId: 0,
-    riskBandPercent: '3.3'
-  },
-  1: {
-    riskBandId: 1,
-    riskBandPercent: '1'
-  },
-  2: {
-    riskBandId: 2,
-    riskBandPercent: '0.1'
-  },
-  3: {
-    riskBandId: 3,
-    riskBandPercent: false
-  }
-}
 const assignResponse = (response) => {
   const lowestLayerId = response.layers.reduce((lowest, layer) => {
     return (layer.count > 0 && layer.id < lowest) ? layer.id : lowest
   }, 3)
   return {
-    riversAndSeaDefendedCC: LayerRiskBand[lowestLayerId]
+    riversAndSeaDefendedCC: layerRiskBand[lowestLayerId]
   }
 }
 
