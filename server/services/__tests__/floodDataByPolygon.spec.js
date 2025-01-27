@@ -1,4 +1,4 @@
-const { mockPolygons } = require('./__mocks__/floodZonesByPolygonMock')
+const { mockPolygons } = require('./__mocks__/floodDataByPolygonMock')
 const {
   method: getFloodDataByPolygon,
   options: { generateKey }

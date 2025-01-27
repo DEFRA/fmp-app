@@ -15,9 +15,6 @@ const getFunctionAppResponse = async (data) => {
   return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }
 
-const floodZoneResultsToFloodZone = (floodZoneResults) =>
-  floodZoneResults.floodzone_3 ? '3' : floodZoneResults.floodzone_2 ? '2' : '1'
-
 module.exports = [
   {
     method: 'GET',
@@ -26,8 +23,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { polygon, fullName, recipientemail } = request.query
-        const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
-        const floodZone = floodZoneResultsToFloodZone(floodZoneResults)
+        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
         const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
         return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, confirmLocationUrl, floodZone })
@@ -43,8 +39,7 @@ module.exports = [
         const payload = request.payload || {}
         const { recipientemail, fullName, polygon } = payload
         const coordinates = getCentreOfPolygon(polygon)
-        const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
-        const zoneNumber = floodZoneResultsToFloodZone(floodZoneResults)
+        const { floodZone: zoneNumber } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
 
         // Check if p4Request is duplicate

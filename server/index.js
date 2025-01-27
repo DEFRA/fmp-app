@@ -28,9 +28,11 @@ async function createServer () {
     ]
   })
 
+  // Cached server methods
   await server.method(require('./services/pso-contact'))
   await server.method(require('./services/pso-contact-by-polygon'))
   await server.method(require('./services/floodDataByPolygon'))
+  await server.method(require('./services/floodZoneByPolygon'))
   await server.method(require('./services/use-automated'))
 
   // Register the plugins

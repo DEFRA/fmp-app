@@ -4,7 +4,7 @@ const {
   submitPostRequest,
   getServer
 } = require('../../__test-helpers__/server')
-const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZoneByPolygonMock')
 const { getCentreOfPolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
 jest.mock('../../services/address')
@@ -19,7 +19,6 @@ let postSpy
 describe('Check your details page', () => {
   beforeEach(() => {
     postSpy = jest.spyOn(wreck, 'post').mockImplementation(() => {
-      console.log('in mock')
       return {
         payload: {
           applicationReferenceNumber: '12345',
