@@ -17,7 +17,7 @@ const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
       returnCountOnly: 'true'
     }
   }
-  return await request(url, requestObject)
+  return request(url, requestObject)
 }
 
 module.exports = { esriRestRequest }

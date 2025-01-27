@@ -6,7 +6,7 @@ const { riversAndSeaDefended: layerDefs } = require('./layerDefs')
 const assignResponse = (response) => {
   const lowestLayerId = response.layers.reduce((lowest, layer) => {
     return (layer.count > 0 && layer.id < lowest) ? layer.id : lowest
-  }, 3)
+  }, Number(Object.keys(layerRiskBand)[Object.keys(layerRiskBand).length - 1])) // Max layer ID for comparison
   return {
     riversAndSeaDefendedCC: layerRiskBand[lowestLayerId]
   }
