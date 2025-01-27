@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   
 env:
-  REPOSITORY: flood_map_planning/app-internal
+  REPOSITORY: flood_map_planning/app
   
 jobs:
   build:

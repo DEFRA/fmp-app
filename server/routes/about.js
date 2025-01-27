@@ -1,3 +1,4 @@
+const { config } = require('../../config')
 const { version, revision } = require('../../version')
 const externalHealthCheck = require('../services/external-health-check')
 
@@ -14,7 +15,8 @@ module.exports = {
       const data = {
         fmpApp: {
           version: version.substring(0, version.lastIndexOf('-')),
-          revision: revision.substring(0, GIT_REVISION_LENGTH)
+          revision: revision.substring(0, GIT_REVISION_LENGTH),
+          appType: config.appType
         },
         fmpApi
       }
