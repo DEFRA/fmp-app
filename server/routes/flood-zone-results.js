@@ -42,7 +42,6 @@ module.exports = [
       description: 'Displays flood zone results page',
       handler: async (request, h) => {
         try {
-          let useAutomatedService = true
           const location = request.query.location
           const placeOrPostcode = request.query.placeOrPostcode
           const polygon = polygonToArray(request.query.polygon)
@@ -69,10 +68,7 @@ module.exports = [
             const queryString = new URLSearchParams(request.query).toString()
             return h.redirect('/england-only?' + queryString)
           }
-          if (!request.server.methods.ignoreUseAutomatedService()) {
-            useAutomatedService = contactDetails.useAutomatedService
-          }
-          const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
+          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
 
           const plotSize = getAreaInHectares(polygon)
           const floodZoneResultsData = new FloodRiskView.Model({
@@ -82,7 +78,7 @@ module.exports = [
             polygon,
             location,
             placeOrPostcode,
-            useAutomatedService,
+            useAutomatedService: contactDetails.useAutomatedService,
             plotSize,
             localAuthorities: contactDetails.LocalAuthorities || '',
             floodZoneResults

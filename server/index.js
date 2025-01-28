@@ -33,7 +33,6 @@ async function createServer () {
   await server.method(require('./services/pso-contact-by-polygon'))
   await server.method(require('./services/floodDataByPolygon'))
   await server.method(require('./services/floodZoneByPolygon'))
-  await server.method(require('./services/use-automated'))
 
   // Register the plugins
   await server.register(require('@hapi/inert'))

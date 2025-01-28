@@ -33,7 +33,6 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
-      ignoreUseAutomatedService: true,
       placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
@@ -93,7 +92,6 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
-      ignoreUseAutomatedService: true,
       placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
