@@ -13,19 +13,6 @@ import { polygon, centroid, bbox } from '@turf/turf'
 
 const spatialReference = 27700
 
-const setUpIgnoreRepeatedSubmits = () => {
-  const form = document.getElementsByTagName('form')[0]
-  const submitButton = document.querySelector('.order-product-four')
-  // FCRM-4556 - Prevent a 2nd Submission
-  form.addEventListener('submit', function (evt) {
-    if (submitButton.classList.contains('govuk-button--disabled')) {
-      evt.preventDefault()
-    } else {
-      submitButton.classList.add('govuk-button--disabled')
-    }
-  })
-}
-
 const buffBoundingBox = (bBox) => {
   const width = bBox[2] - bBox[0]
   const height = bBox[3] - bBox[1]
@@ -131,9 +118,17 @@ const showMap = async (polygonArray) => {
   return view
 }
 
+// Prevent 2nd p4 submission
+document.getElementsByTagName('form')[0].addEventListener('submit', () => {
+  document.querySelector('.order-product-four').disabled = true
+})
+// Re-enable submit button if user navigates back to page
+window.addEventListener('pageshow', () => {
+  document.querySelector('.order-product-four').disabled = false
+})
+
 // Add these as globals so they can be called from the html page, which will inject the polygon.
 // This approach avoids the need to import this as a module, which limits browser compatibility.
-window.setUpIgnoreRepeatedSubmits = setUpIgnoreRepeatedSubmits
 window.showMap = showMap
 // Also export the methods, so they can be used for unit testing
-export { setUpIgnoreRepeatedSubmits, showMap }
+export { showMap }
