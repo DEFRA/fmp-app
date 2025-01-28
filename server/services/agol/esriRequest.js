@@ -13,8 +13,7 @@ const esriRequest = async (endPoint, geometry, geometryType) => {
     authentication: esriToken,
     outFields: '*'
   }
-  const result = await queryFeatures(requestObject)
-  return result.features
+  return (await queryFeatures(requestObject)).features
 }
 
 module.exports = { esriRequest }

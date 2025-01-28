@@ -1,4 +1,4 @@
-
+let expectedParameters
 const response = {
   token: 'TEST_TOKEN',
   refreshToken: () => {
@@ -14,4 +14,35 @@ const ApplicationCredentialsManager = {
   fromCredentials: () => (response)
 }
 
-module.exports = { ApplicationCredentialsManager, _invalidateToken, _resetToken }
+const requestSpy = {
+  expectParameters: (params) => { expectedParameters = params }
+}
+
+const request = async (url, requestObject) => {
+  if (expectedParameters) {
+    expect(url).toEqual(expectedParameters.url)
+    expect(requestObject).toEqual(expectedParameters.requestObject)
+  }
+  return {
+    layers: [
+      {
+        id: 0,
+        count: 0
+      }, {
+        id: 1,
+        count: 0
+      }, {
+        id: 2,
+        count: 0
+      }
+    ]
+  }
+}
+
+module.exports = {
+  ApplicationCredentialsManager,
+  _invalidateToken,
+  _resetToken,
+  request,
+  requestSpy
+}

@@ -2,6 +2,30 @@ const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
 require('./environment')
 
+const agolEndpoints = {
+  customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
+  localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
+  isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
+  floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
+  riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth_NON_PRODUCTION/FeatureServer',
+  riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth_NON_PRODUCTION/FeatureServer',
+  riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+  riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+  surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
+}
+
+const isProduction = () => {
+  return process.env.ENV === 'prd' ||
+    process.env.ENV === 'production' ||
+    process.env.ENV === 'prod' ||
+    process.env.ENV === 'prod-green' ||
+    process.env.ENV === 'prod-blue'
+}
+
+const productioniseEndpoint = (endpoint) => {
+  return isProduction() ? endpoint.replace('_NON_PRODUCTION', '') : endpoint
+}
+
 const config = {
   env: process.env.ENV,
   appType: process.env.fmpAppType,
@@ -36,10 +60,15 @@ const config = {
     serviceId: process.env.agolServiceId,
     serviceUrl: `https://services1.arcgis.com/${process.env.agolServiceId}/arcgis/rest/services`,
     vectorTileUrl: `https://tiles.arcgis.com/tiles/${process.env.agolServiceId}/arcgis/rest/services`,
-    customerTeamEndPoint: process.env.agolCustomerTeamEndPoint,
-    localAuthorityEndPoint: process.env.agolLocalAuthorityEndPoint,
-    isEnglandEndPoint: process.env.agolIsEnglandEndPoint,
-    floodZonesRiversAndSeaEndPoint: process.env.agolFloodZonesRiversAndSeaEndPoint
+    customerTeamEndPoint: productioniseEndpoint(agolEndpoints.customerTeamEndPoint),
+    localAuthorityEndPoint: productioniseEndpoint(agolEndpoints.localAuthorityEndPoint),
+    isEnglandEndPoint: productioniseEndpoint(agolEndpoints.isEnglandEndPoint),
+    floodZonesRiversAndSeaEndPoint: productioniseEndpoint(agolEndpoints.floodZonesRiversAndSeaEndPoint),
+    riversAndSeaDefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedEndPoint),
+    riversAndSeaUndefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedEndPoint),
+    riversAndSeaDefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedCCP1EndPoint),
+    riversAndSeaUndefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedCCP1EndPoint),
+    surfaceWaterEndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterEndPoint)
   },
   eamaps: {
     serviceUrl: process.env.eamapsServiceUrl,

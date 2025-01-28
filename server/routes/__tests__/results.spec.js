@@ -1,6 +1,6 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
 const { assertCopy } = require('../../__test-helpers__/copy')
-const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+const { mockPolygons } = require('../../services/__tests__/__mocks__/floodDataByPolygonMock')
 const { config } = require('../../../config')
 jest.mock('../../services/agol/getContacts')
 

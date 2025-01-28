@@ -44,7 +44,12 @@ const schema = Joi.object({
     customerTeamEndPoint: Joi.string().required(),
     localAuthorityEndPoint: Joi.string().required(),
     isEnglandEndPoint: Joi.string().required(),
-    floodZonesRiversAndSeaEndPoint: Joi.string().required()
+    floodZonesRiversAndSeaEndPoint: Joi.string().required(),
+    riversAndSeaDefendedEndPoint: Joi.string().required(),
+    riversAndSeaUndefendedEndPoint: Joi.string().required(),
+    riversAndSeaDefendedCCP1EndPoint: Joi.string().required(),
+    riversAndSeaUndefendedCCP1EndPoint: Joi.string().required(),
+    surfaceWaterEndPoint: Joi.string().required()
   },
   eamaps: {
     serviceUrl: Joi.string().uri().required(),

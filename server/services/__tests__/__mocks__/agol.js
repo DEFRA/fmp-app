@@ -17,4 +17,22 @@ const stopMockingEsriRequests = () => {
   jest.resetAllMocks()
 }
 
-module.exports = { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests }
+const mockEsriRestRequest = (result = [{}]) => {
+  agol.esriRestRequest.mockImplementation(async () => {
+    return result
+  })
+}
+
+const mockEsriRestRequestWithThrow = () => {
+  agol.esriRestRequest.mockImplementation(async () => {
+    throw new Error('mocked error')
+  })
+}
+
+module.exports = {
+  mockEsriRequest,
+  mockEsriRequestWithThrow,
+  stopMockingEsriRequests,
+  mockEsriRestRequest,
+  mockEsriRestRequestWithThrow
+}
