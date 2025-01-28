@@ -13,7 +13,7 @@
     "copy": "npm run copy:gov && npm run copy:assets",
     "copy:gov": "sh ./bin/copy-gov && node ./bin/fix-layout.js",
     "copy:assets": "sh ./bin/copy-assets",
-    "build:js": "sh ./bin/build-js",
+    "build:js": "sh ./bin/build-js && npm run build-map",
     "build:css": "sh ./bin/build-css",
     "build": "sh ./bin/build",
     "build-map": "rm dist/* -f && webpack",
