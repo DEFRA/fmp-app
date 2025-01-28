@@ -736,7 +736,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
 
     if (feature && feature._symbol !== undefined) {
-      console.log('feature', feature)
       const floodZone = floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
@@ -777,6 +776,13 @@ getDefraMapConfig().then((defraMapConfig) => {
               sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
             </li>
           </ul>`
+    }
+    if (mapState.segments.includes('fz')) {
+      extraContent += `
+      <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+      <p class="govuk-body-s">
+        Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+      </p>`
     }
 
     floodMap.info = renderInfo(renderList(listContents), extraContent)
