@@ -762,16 +762,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     let extraContent = ''
     if (mapState.segments.includes('cl')) {
       extraContent += `
-          <h2 class="govuk-heading-s">Climate Change</h2>
+          <h2 class="govuk-heading-s">Climate change allowances</h2>
           <ul class="govuk-list govuk-list--bullet">
             <li class='govuk-body-s'>
-              the allowances used have been chosen from the Environment Agency’s <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">Flood risk assessment: climate change allowances</a>
+              these have been taken from the Environment Agency's 
+              <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+                Flood risk assessment: climate change allowances
+              </a>
             </li>
             <li class='govuk-body-s'>
-              for river flooding we have used the ‘central’ allowance – based on the 50th percentile for the 2080s epoch
+              river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
             </li>
             <li class='govuk-body-s'>
-              for sea and tidal flooding we have used the ‘upper end’ allowance – based on the 95th percentile for 2125
+              sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
             </li>
           </ul>`
     }
