@@ -1,28 +1,29 @@
-const { getServer } = require('../../../.jest/setup')
 const { assertCopy } = require('../../__test-helpers__/copy')
 const {
   submitGetRequest,
-  submitPostRequest
+  submitPostRequest,
+  getServer
 } = require('../../__test-helpers__/server')
-const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZonesByPolygonMock')
+const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZoneByPolygonMock')
 const { getCentreOfPolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
 jest.mock('../../services/address')
-jest.mock('@hapi/wreck')
 const wreck = require('@hapi/wreck')
 const user = {
   fullName: 'John Smith',
   email: 'john.smith@email.com'
 }
-
 const url = '/check-your-details'
+let postSpy
 
 describe('Check your details page', () => {
   beforeEach(() => {
-    wreck.post.mockResolvedValue({
-      payload: {
-        applicationReferenceNumber: '12345',
-        nextTask: 'SEND_CONFIRMATION_EMAIL'
+    postSpy = jest.spyOn(wreck, 'post').mockImplementation(() => {
+      return {
+        payload: {
+          applicationReferenceNumber: '12345',
+          nextTask: 'SEND_CONFIRMATION_EMAIL'
+        }
       }
     })
   })
@@ -123,7 +124,7 @@ describe('Check your details page', () => {
             postcode: 'M1 1AA'
           })
 
-          expect(wreck.post).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
+          expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
         }
       })
     })

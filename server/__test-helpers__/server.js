@@ -1,5 +1,17 @@
-const { getServer } = require('../../.jest/setup')
 const constants = require('../constants')
+const createServer = require('../../server')
+let server
+
+beforeEach(async () => {
+  server = await createServer()
+  await server.initialize()
+})
+
+afterEach(async () => {
+  await server.stop()
+})
+
+const getServer = () => server
 
 const submitGetRequest = async (options, header, expectedResponseCode = constants.statusCodes.OK) => {
   options.method = 'GET'
@@ -13,7 +25,8 @@ const submitGetRequest = async (options, header, expectedResponseCode = constant
 
 const submitPostRequest = async (options, expectedResponseCode = constants.statusCodes.REDIRECT) => {
   options.method = 'POST'
-  return submitRequest(options, expectedResponseCode)
+  const response = await submitRequest(options, expectedResponseCode)
+  return response
 }
 
 const submitPostRequestExpectHandledError = async (options, errorMessage) => {
@@ -45,5 +58,6 @@ module.exports = {
   submitGetRequest,
   submitPostRequest,
   submitPostRequestExpectHandledError,
-  submitPostRequestExpectServiceError
+  submitPostRequestExpectServiceError,
+  getServer
 }

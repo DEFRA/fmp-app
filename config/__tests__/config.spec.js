@@ -1,6 +1,9 @@
 const { toBool } = require('../toBool')
 
 describe('Ensure config is correct', () => {
+  beforeEach(() => {
+    jest.resetModules()
+  })
   it('test config', () => {
     expect(() => {
       require('../index')
@@ -41,7 +44,12 @@ describe('Ensure config is correct', () => {
         customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
-        floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0'
+        floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
+        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth_NON_PRODUCTION/FeatureServer',
+        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
       },
       eamaps: {
         serviceUrl: 'http://dummyEAMapslUrl',
@@ -51,8 +59,66 @@ describe('Ensure config is correct', () => {
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {
-        agolServiceUrl: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services',
-        agolVectorTileUrl: 'https://tiles.arcgis.com/tiles/DUMMY_SERVICE_ID/arcgis/rest/services',
+        layerNameSuffix: '_NON_PRODUCTION'
+      },
+      riskAdminApi: {
+        url: 'http://riskadmin-api-url'
+      }
+    }
+    expect(config).toStrictEqual(expectedConfig)
+  })
+
+  it('test config values in production', () => {
+    jest.resetModules()
+    process.env.ENV = 'prod-green'
+    const { config } = require('../index')
+    const expectedConfig = {
+      env: 'prod-green',
+      appType: 'internal',
+      server: { port: '8050' },
+      geoserver: 'http://dummyuri',
+      views: { isCached: false },
+      analyticsAccount: 'replace_this',
+      googleVerification: 'replace_this',
+      fbAppId: 'replace_this',
+      httpTimeoutMs: '3000',
+      ordnanceSurvey: {
+        osGetCapabilitiesUrl: 'http://dummyuri',
+        osMapsUrl: 'http://dummyuri',
+        osNamesUrl: 'http://dummyuri',
+        osSearchKey: 'replace_this',
+        osMapsKey: 'replace_this',
+        osClientId: 'replace_this',
+        osClientSecret: 'replace_this'
+      },
+      siteUrl: 'http://dummyuri',
+      functionAppUrl: 'http://dummyuri',
+      ignoreUseAutomatedService: true,
+      placeApi: { url: 'http://dummyuri' },
+      agol: {
+        clientId: 'TEST_AGOL_CLIENT_ID',
+        clientSecret: 'TEST_AGOL_CLIENT_SECRET',
+        serviceId: 'DUMMY_SERVICE_ID',
+        serviceUrl: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services',
+        vectorTileUrl: 'https://tiles.arcgis.com/tiles/DUMMY_SERVICE_ID/arcgis/rest/services',
+        customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service/FeatureServer/0',
+        localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service/FeatureServer/1',
+        isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service/FeatureServer/2',
+        floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea/FeatureServer/0',
+        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth/FeatureServer',
+        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth/FeatureServer',
+        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1/FeatureServer',
+        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1/FeatureServer',
+        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm/FeatureServer/0'
+      },
+      eamaps: {
+        serviceUrl: 'http://dummyEAMapslUrl',
+        product1User: 'PRODUCT1_USER',
+        product1Password: 'PRODUCT1_PASSWORD',
+        product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
+        tokenEndPoint: '/tokens/generateToken'
+      },
+      defraMap: {
         layerNameSuffix: '_NON_PRODUCTION'
       },
       riskAdminApi: {

@@ -72,7 +72,7 @@ module.exports = [
           if (!request.server.methods.ignoreUseAutomatedService()) {
             useAutomatedService = contactDetails.useAutomatedService
           }
-          const floodZoneResults = await request.server.methods.getFloodZonesByPolygon(polygon)
+          const floodZoneResults = await request.server.methods.getFloodDataByPolygon(polygon)
 
           const plotSize = getAreaInHectares(polygon)
           const floodZoneResultsData = new FloodRiskView.Model({
