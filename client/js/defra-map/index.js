@@ -364,6 +364,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     minZoom: 6,
     maxZoom: 20,
     centre: [340367, 322766],
+    maxExtent: [0, 0, 700000, 1300000],
     height: '100%',
     hasGeoLocation: false,
     framework: 'esri',
