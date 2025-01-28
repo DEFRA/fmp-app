@@ -7,6 +7,13 @@
   <link href="/public/defra-map/main.css" rel="stylesheet"/>
 {% endblock %}
 
+{% block bodyStart %}
+  {{ super() }}
+  <script>
+    document.body.classList.add('fm-js-hidden')
+  </script>
+{% endblock %}
+
 {% block header %}
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",

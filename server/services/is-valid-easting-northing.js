@@ -1,14 +1,14 @@
 const isValidEastingService = require('../services/is-valid-easting')
 const isValidNorthingService = require('../services/is-valid-northing')
 module.exports = {
-  get: async (easting, northing) => {
+  get: (easting, northing) => {
     const response = {
       isValid: false,
       easting: { eastingError: '', isValid: false },
       northing: { northingError: '', isValid: false }
     }
-    const eastingResponse = await isValidEastingService.get(easting)
-    const northingResponse = await isValidNorthingService.get(northing)
+    const eastingResponse = isValidEastingService.get(easting)
+    const northingResponse = isValidNorthingService.get(northing)
     if (eastingResponse.isValid && northingResponse.isValid) {
       response.isValid = true
     } else {

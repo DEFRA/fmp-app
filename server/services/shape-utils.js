@@ -1,4 +1,15 @@
 const getAreaPolygon = require('area-polygon')
+const { polygon: TurfPolygon, centroid } = require('@turf/turf')
+
+const getCentreOfPolygon = (polygon) => {
+  polygon = polygonToArray(polygon)
+  const turfPolygon = TurfPolygon([polygon])
+  const turfCentre = centroid(turfPolygon)
+  return {
+    x: turfCentre.geometry.coordinates[0],
+    y: turfCentre.geometry.coordinates[1]
+  }
+}
 
 const getArea = (polygon) => {
   polygon = polygonToArray(polygon)
@@ -21,7 +32,7 @@ const polygonToArray = (polygon) => {
   return Array.isArray(polygon) ? polygon : JSON.parse(polygon)
 }
 
-// NB polygonStartEnd is only applicable if the polygon is a line or a single point
+// NB polygonStartEnd is only applicable if the polygon is a line or a single point - ie getArea(polygon) returns 0.
 // it returns the start and end positions along the x axis
 const polygonStartEnd = (polygon) => {
   polygon = polygon.sort(([x1, y1], [x2, y2]) => (x1 - x2 ? x1 - x2 : y1 - y2))
@@ -31,6 +42,8 @@ const polygonStartEnd = (polygon) => {
 const _isPoint = (minMax) => minMax[0][0] === minMax[1][0] && minMax[0][1] === minMax[1][1]
 const _isYBuff = ([[minX, minY], [maxX, maxY]]) => Math.abs(maxX - minX) >= Math.abs(maxY - minY)
 
+// buffPolygon transforms a polygon with no area to
+// a very small 1*1 polygon, if it's a point, or a 1 m wide line, if it's a line.
 const buffPolygon = (polygon) => {
   const minMax = polygonStartEnd(polygon)
   const [[startX, startY], [endX, endY]] = minMax
@@ -61,4 +74,11 @@ const buffPolygon = (polygon) => {
   ]
 }
 
-module.exports = { getArea, getAreaInHectares, polygonToArray, buffPolygon, polygonStartEnd }
+module.exports = {
+  getArea,
+  getAreaInHectares,
+  polygonToArray,
+  buffPolygon,
+  polygonStartEnd,
+  getCentreOfPolygon
+}

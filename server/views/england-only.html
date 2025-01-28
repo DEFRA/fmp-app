@@ -5,12 +5,9 @@
 {% block content %}
   {{ super() }}
 
- 
- 
-
-  <div id="not-england-page"  class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-xlarge">This service provides data for locations in England only</h1>
+  <div id="not-england-page"  class="govuk-grid-row govuk-body">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">This service provides data for locations in England only</h1>
       {% if locationDetails %} 
       <p>Your search for '{{placeOrPostcode}}' has been placed in {{locationDetails}}</p>
       {% else %}

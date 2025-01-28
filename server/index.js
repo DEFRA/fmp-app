@@ -28,10 +28,11 @@ async function createServer () {
     ]
   })
 
+  // Cached server methods
   await server.method(require('./services/pso-contact'))
   await server.method(require('./services/pso-contact-by-polygon'))
-  await server.method(require('./services/flood-zones-by-polygon'))
-  await server.method(require('./services/use-automated'))
+  await server.method(require('./services/floodDataByPolygon'))
+  await server.method(require('./services/floodZoneByPolygon'))
 
   // Register the plugins
   await server.register(require('@hapi/inert'))
@@ -43,6 +44,7 @@ async function createServer () {
   await server.register(require('./plugins/error-pages'))
   await server.register(require('blipp'))
   await server.register(require('./plugins/full-url'))
+  await server.register(require('./plugins/register-cookie'))
 
   server.ext('onPreResponse', async (request, h) => {
     request.response.header('cache-control', 'no-cache')

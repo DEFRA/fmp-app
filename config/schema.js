@@ -8,6 +8,7 @@ const serverSchema = Joi.object()
 
 const schema = Joi.object({
   env: Joi.string().required(),
+  appType: Joi.string().required().allow('internal', 'public'),
   server: serverSchema,
   geoserver: Joi.string().uri().required(),
   logging: Joi.object(),
@@ -31,7 +32,6 @@ const schema = Joi.object({
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
-  ignoreUseAutomatedService: Joi.boolean().strict(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
   }),
@@ -44,7 +44,12 @@ const schema = Joi.object({
     customerTeamEndPoint: Joi.string().required(),
     localAuthorityEndPoint: Joi.string().required(),
     isEnglandEndPoint: Joi.string().required(),
-    floodZonesRiversAndSeaEndPoint: Joi.string().required()
+    floodZonesRiversAndSeaEndPoint: Joi.string().required(),
+    riversAndSeaDefendedEndPoint: Joi.string().required(),
+    riversAndSeaUndefendedEndPoint: Joi.string().required(),
+    riversAndSeaDefendedCCP1EndPoint: Joi.string().required(),
+    riversAndSeaUndefendedCCP1EndPoint: Joi.string().required(),
+    surfaceWaterEndPoint: Joi.string().required()
   },
   eamaps: {
     serviceUrl: Joi.string().uri().required(),
@@ -55,6 +60,9 @@ const schema = Joi.object({
   },
   defraMap: {
     layerNameSuffix: Joi.string().required().allow('')
+  },
+  riskAdminApi: {
+    url: Joi.string().uri().required()
   }
 })
 

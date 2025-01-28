@@ -6,19 +6,36 @@
 {% endblock %}
 
 {% block content %}
-{{ super() }}
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Results - Placeholder</h1>
-    <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button">
-      Order flood risk data
-    </a>
-  </div>
-</div>
-
-{% endblock %}
-{% block bodyEnd %}
   {{ super() }}
-  <!-- <script src="{{assetPath}}/javascripts/triage.js"></script> -->
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">This location is in flood zone {{floodData.floodZone}}</h1>
+      Flood data results: {{ floodData | dump | safe }}
+    </div>
+
+    {% if floodData.isRiskAdminArea %}
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
+          <h3 class="govuk-heading-s govuk-warning-text__text" data-testid="understanding-changed">
+            Our understanding of flood risk from rivers and the sea has changed
+            since this information was published.
+          </h3>
+          <p class="govuk-warning-text__text">
+            Contact
+            <a class="govuk-link" href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
+            for further information.
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="govuk-grid-column-two-thirds">
+      {% if showOrderProduct4Button %}
+        <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+          Order flood risk data
+        </a>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}
