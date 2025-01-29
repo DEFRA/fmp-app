@@ -25,13 +25,13 @@ const keyItemDefinitions = {
     id: 'fsa',
     label: 'Water storage',
     icon: symbols.waterStorageAreas,
-    fill: 'default: #12393d, dark: #12393d'
+    fill: 'default: #12393d, dark: #c979a9'
   },
   floodDefences: {
     id: 'fd',
     label: 'Flood defence',
     icon: symbols.floodDefences,
-    fill: '#12393d'
+    fill: 'default #12393d, dark: #c979a9'
   },
   mainRivers: {
     id: 'mainr',
@@ -248,23 +248,27 @@ getDefraMapConfig().then((defraMapConfig) => {
     // [surfaceWaterCcLowStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
   }
 
-  const fLayers = [
-    {
-      name: 'nat_defences',
-      q: 'fd',
-      renderer: {
+  const mapFeatureRenderers = {
+    nat_defences: {
+      default: {
         type: 'simple',
         symbol: {
           type: 'simple-line',
           width: '3px',
           color: '#12393d'
         }
+      },
+      dark: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#c979a9'
+        }
       }
     },
-    {
-      name: 'nat_fsa',
-      q: 'fsa',
-      renderer: {
+    nat_fsa: {
+      default: {
         type: 'simple',
         symbol: {
           type: 'simple-fill',
@@ -275,12 +279,30 @@ getDefraMapConfig().then((defraMapConfig) => {
             width: 1
           }
         }
+      },
+      dark: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-fill',
+          style: 'diagonal-cross',
+          color: '#c979a9',
+          outline: {
+            color: '#c979a9',
+            width: 1
+          }
+        }
       }
     },
-    {
-      name: 'Statutory_Main_River_Map',
-      q: 'mainr',
-      renderer: {
+    Statutory_Main_River_Map: {
+      default: {
+        type: 'simple',
+        symbol: {
+          type: 'simple-line',
+          width: '3px',
+          color: '#f47738'
+        }
+      },
+      dark: {
         type: 'simple',
         symbol: {
           type: 'simple-line',
@@ -288,6 +310,26 @@ getDefraMapConfig().then((defraMapConfig) => {
           color: '#f47738'
         }
       }
+    }
+  }
+
+  const getMapFeatureRenderer = (name) => {
+    const mode = mapState.isDark ? 'dark' : 'default'
+    return mapFeatureRenderers[name][mode]
+  }
+
+  const fLayers = [
+    {
+      name: 'nat_defences',
+      q: 'fd'
+    },
+    {
+      name: 'nat_fsa',
+      q: 'fsa'
+    },
+    {
+      name: 'Statutory_Main_River_Map',
+      q: 'mainr'
     }
   ]
 
@@ -331,7 +373,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         floodMap.map.add(new FeatureLayer({
           id: fLayer.name,
           url: getFeatureLayerUrl(fLayer.name),
-          renderer: fLayer.renderer,
+          renderer: getMapFeatureRenderer(fLayer.name),
           visible: false
         }))
       })
@@ -351,7 +393,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       const layer = map.findLayerById(fLayer.name)
       const isVisible = !isDrawMode && layers.includes(fLayer.q)
       layer.visible = isVisible
-    // Re-colour feature layers
+      if (isVisible) {
+        layer.renderer = getMapFeatureRenderer(fLayer.name)
+      }
     })
   }
 
