@@ -60,54 +60,41 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         flood zones and what they mean </a>.
     </p>
     {% endif %}
-    {% if surfaceWaterResults.surface_water %}
     <p class="govuk-body">
-      There is a risk of flooding from surface water at this site. You should
-      check one of the following:
+      There could be a risk of flooding from surface water at this site.
+    </p>
+    <p class="govuk-body">
+      You should check
+      <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
+          href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
+          the surface water map on the check your long term flood risk service
+        </a>
+    </p>
+    <p class="govuk-body">
+      When using this data the following considerations apply:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        surface water extents are suitable for use in planning
+      </li>
+      <li>
+        surface water climate change scenarios may help to inform risk assessments,
+        but the available data fall short of what is required to assess planned development
+      </li>
+      <li>
+        surface water depth information should not be used for planning purposes
+      </li>
+    </ul>
+    <p class="govuk-body">
+      To find out about other factors that might affect the flood risk of this
+      location, you should also check:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
            href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
-          the surface water map on the check your long term flood risk service
-        </a>
-      </li>
-      <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Risk-Flooding-Surface-Water"
-           href="https://environment.data.gov.uk/dataset/51a5c4e7-10d3-4f34-bb0e-558835ab8c85">
-          the risk of flooding from surface water dataset on the data services
-          platform
-        </a>
-      </li>
-    </ul>
-    <p class="govuk-body">
-      To find out about other factors that might affect the flood risk of this
-      location, you should also check:
-    </p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-           href="https://check-long-term-flood-risk.service.gov.uk">
-          groundwater and reservoir flood risk
-        </a>
-      </li>
-      <li>
-        {{localAuthorities}} planning authority's strategic flood risk
-        assessment (SFRA), which includes future flood risk
-      </li>
-    </ul>
-    {% else %}
-    <p class="govuk-body">
-      To find out about other factors that might affect the flood risk of this
-      location, you should also check:
-    </p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a class="govuk-link" data-journey-click="Flood-Zone-Results:External-Link:Check-Long-Term-Flood-Risk"
-           href="https://check-long-term-flood-risk.service.gov.uk/long-term-flood-risk/map?easting={{easting}}&northing={{northing}}&map=SurfaceWater">
           surface water, groundwater and reservoir flood risk
         </a>
       </li>
@@ -116,7 +103,6 @@ this location - Flood map for planning - GOV.UK {% endblock %} {% block content
         assessment (SFRA), which includes future flood risk
       </li>
     </ul>
-    {% endif %}
 
     <h2 class="govuk-heading-m">
       Flood map showing the flood zone your site is in
