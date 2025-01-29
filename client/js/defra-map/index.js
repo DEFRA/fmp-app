@@ -72,7 +72,7 @@ const surfaceWaterStyleLayers = [
 
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
-  const getFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName}/FeatureServer`
+  const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.layerNameSuffix}/FeatureServer`
   const vtLayers = [
     {
@@ -320,14 +320,17 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const fLayers = [
     {
+      urlLayerName: 'nat_defences',
       name: 'nat_defences',
       q: 'fd'
     },
     {
+      urlLayerName: 'nat_fsa',
       name: 'nat_fsa',
       q: 'fsa'
     },
     {
+      urlLayerName: 'Statutory_Main_River_Map',
       name: 'Statutory_Main_River_Map',
       q: 'mainr'
     }
@@ -372,7 +375,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       fLayers.forEach(fLayer => {
         floodMap.map.add(new FeatureLayer({
           id: fLayer.name,
-          url: getFeatureLayerUrl(fLayer.name),
+          url: getFeatureLayerUrl(fLayer.urlLayerName),
           renderer: getMapFeatureRenderer(fLayer.name),
           visible: false
         }))
