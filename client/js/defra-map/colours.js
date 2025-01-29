@@ -24,5 +24,6 @@ const getKeyItemFill = ([light, dark]) => (`default: ${light}, dark: ${dark}`)
 // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
 // // BLUES dark tones > 2300 to < 150
 // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
-
-module.exports = { colours, getKeyItemFill }
+const LIGHT_INDEX = 0
+const DARK_INDEX = 1
+module.exports = { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX }

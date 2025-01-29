@@ -3,7 +3,7 @@ import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
-import { colours, getKeyItemFill } from './colours.js'
+import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -241,7 +241,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: colours.floodDefences[0]
+          color: colours.floodDefences[LIGHT_INDEX]
         }
       },
       dark: {
@@ -249,7 +249,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: colours.floodDefences[1]
+          color: colours.floodDefences[DARK_INDEX]
         }
       }
     },
@@ -259,9 +259,9 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-fill',
           style: 'diagonal-cross',
-          color: colours.waterStorageAreas[0],
+          color: colours.waterStorageAreas[LIGHT_INDEX],
           outline: {
-            color: colours.waterStorageAreas[0],
+            color: colours.waterStorageAreas[LIGHT_INDEX],
             width: 1
           }
         }
@@ -271,9 +271,9 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-fill',
           style: 'diagonal-cross',
-          color: colours.waterStorageAreas[1],
+          color: colours.waterStorageAreas[DARK_INDEX],
           outline: {
-            color: colours.waterStorageAreas[1],
+            color: colours.waterStorageAreas[DARK_INDEX],
             width: 1
           }
         }
@@ -285,7 +285,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: colours.mainRivers[0]
+          color: colours.mainRivers[LIGHT_INDEX]
         }
       },
       dark: {
@@ -293,7 +293,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: colours.mainRivers[1]
+          color: colours.mainRivers[DARK_INDEX]
         }
       }
     }
