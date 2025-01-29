@@ -3,6 +3,7 @@ import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
+import { colours, getKeyItemFill } from './colours.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -11,38 +12,38 @@ const symbols = {
 }
 
 const keyItemDefinitions = {
-  floodZone1: {
-    // id: 'fz2',
-    label: 'Flood zone 2',
-    fill: 'default: #1d70b8, dark: #41ab5d'
-  },
   floodZone2: {
     // id: 'fz2',
+    label: 'Flood zone 2',
+    fill: getKeyItemFill(colours.floodZone2)
+  },
+  floodZone3: {
+    // id: 'fz2',
     label: 'Flood zone 3',
-    fill: 'default: #003078, dark: #e5f5e0'
+    fill: getKeyItemFill(colours.floodZone3)
   },
   waterStorageAreas: {
     id: 'fsa',
     label: 'Water storage',
     icon: symbols.waterStorageAreas,
-    fill: 'default: #12393d, dark: #c979a9'
+    fill: getKeyItemFill(colours.waterStorageAreas)
   },
   floodDefences: {
     id: 'fd',
     label: 'Flood defence',
     icon: symbols.floodDefences,
-    fill: 'default #12393d, dark: #c979a9'
+    fill: getKeyItemFill(colours.floodDefences)
   },
   mainRivers: {
     id: 'mainr',
     label: 'Main Rivers',
     icon: symbols.mainRivers,
-    fill: '#f47738'
+    fill: getKeyItemFill(colours.mainRivers)
   },
   floodExtents: {
     // id: 'fz2',
     label: 'Flood extent',
-    fill: 'default: #2b8cbe, dark: #7fcdbb'
+    fill: getKeyItemFill(colours.floodExtents)
   }
 }
 
@@ -202,44 +203,29 @@ getDefraMapConfig().then((defraMapConfig) => {
     // }
   ]
 
-  const nonFloodZoneLight = '#2b8cbe'
-  const nonFloodZoneDark = '#7fcdbb'
-  const floodZone2Light = '#1d70b8'
-  const floodZone2Dark = '#41ab5d'
-  const floodZone3Light = '#003078'
-  const floodZone3Dark = '#e5f5e0'
-
-  // These will require reinstating when depth band data is available
-  // // light tones > 2300 to < 150
-  // const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2']
-  // // GREENS dark tones > 2300 to < 150
-  // const nonFloodZoneDepthBandsDark = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45']
-  // // BLUES dark tones > 2300 to < 150
-  // // const nonFloodZoneDepthBandsDark = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5']
-
   const paintProperties = {
-    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
-    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
-    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': [floodZone3Light, floodZone3Dark],
-    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': [floodZone2Light, floodZone2Dark],
-    'Rivers 1 in 30 Sea 1 in 30 Defended/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 30 Sea 1 in 30 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 100 Sea 1 in 200 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[0]]: [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[1]]: [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[2]]: [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[3]]: [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[4]]: [nonFloodZoneLight, nonFloodZoneDark],
-    [surfaceWaterStyleLayers[5]]: [nonFloodZoneLight, nonFloodZoneDark]
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': colours.floodZone2,
+    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1': colours.floodZone3,
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': colours.floodZone3,
+    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': colours.floodZone2,
+    'Rivers 1 in 30 Sea 1 in 30 Defended/1': colours.nonFloodZone,
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': colours.nonFloodZone,
+    [surfaceWaterStyleLayers[0]]: colours.nonFloodZone,
+    [surfaceWaterStyleLayers[1]]: colours.nonFloodZone,
+    [surfaceWaterStyleLayers[2]]: colours.nonFloodZone,
+    [surfaceWaterStyleLayers[3]]: colours.nonFloodZone,
+    [surfaceWaterStyleLayers[4]]: colours.nonFloodZone,
+    [surfaceWaterStyleLayers[5]]: colours.nonFloodZone
     // , [surfaceWaterCcLowStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
     // [surfaceWaterCcLowStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
     // [surfaceWaterCcLowStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
@@ -249,13 +235,13 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const mapFeatureRenderers = {
-    nat_defences: {
+    floodDefences: {
       default: {
         type: 'simple',
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: '#12393d'
+          color: colours.floodDefences[0]
         }
       },
       dark: {
@@ -263,19 +249,19 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: '#c979a9'
+          color: colours.floodDefences[1]
         }
       }
     },
-    nat_fsa: {
+    waterStorageAreas: {
       default: {
         type: 'simple',
         symbol: {
           type: 'simple-fill',
           style: 'diagonal-cross',
-          color: '#12393d',
+          color: colours.waterStorageAreas[0],
           outline: {
-            color: '#12393d',
+            color: colours.waterStorageAreas[0],
             width: 1
           }
         }
@@ -285,21 +271,21 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-fill',
           style: 'diagonal-cross',
-          color: '#c979a9',
+          color: colours.waterStorageAreas[1],
           outline: {
-            color: '#c979a9',
+            color: colours.waterStorageAreas[1],
             width: 1
           }
         }
       }
     },
-    Statutory_Main_River_Map: {
+    mainRivers: {
       default: {
         type: 'simple',
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: '#f47738'
+          color: colours.mainRivers[0]
         }
       },
       dark: {
@@ -307,7 +293,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         symbol: {
           type: 'simple-line',
           width: '3px',
-          color: '#f47738'
+          color: colours.mainRivers[1]
         }
       }
     }
@@ -320,18 +306,18 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const fLayers = [
     {
+      name: 'floodDefences',
       urlLayerName: 'nat_defences',
-      name: 'nat_defences',
       q: 'fd'
     },
     {
+      name: 'waterStorageAreas',
       urlLayerName: 'nat_fsa',
-      name: 'nat_fsa',
       q: 'fsa'
     },
     {
+      name: 'mainRivers',
       urlLayerName: 'Statutory_Main_River_Map',
-      name: 'Statutory_Main_River_Map',
       q: 'mainr'
     }
   ]
@@ -599,8 +585,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       //         label: 'Flood zones',
       //         isSelected: true,
       //         items: [
-      //           keyItemDefinitions.floodZone1,
-      //           keyItemDefinitions.floodZone2
+      //           keyItemDefinitions.floodZone2,
+      //           keyItemDefinitions.floodZone3
       //         ]
       //       },
       //       keyItemDefinitions.waterStorageAreas,
@@ -621,8 +607,8 @@ getDefraMapConfig().then((defraMapConfig) => {
           parentIds: ['fz'],
           collapse: 'expanded',
           items: [
-            keyItemDefinitions.floodZone1,
             keyItemDefinitions.floodZone2,
+            keyItemDefinitions.floodZone3,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
             keyItemDefinitions.mainRivers
