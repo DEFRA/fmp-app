@@ -1,8 +1,8 @@
 const { config } = require('../../../config')
 const { ApplicationCredentialsManager } = require('@esri/arcgis-rest-request')
 
-const tokenDurationInMinutes = 7200 // 5 Days
-// const tokenDurationInMinutes = 1
+// const tokenDurationInMinutes = 7200 // 5 Days
+const tokenDurationInMinutes = 1
 const ONE_MINUTE_MS = 60000
 const FIVE_SECONDS = 5000
 let tokenExpiryTime
