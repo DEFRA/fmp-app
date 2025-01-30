@@ -1,19 +1,29 @@
 const { getEsriToken } = require('../getEsriToken')
-const { _invalidateToken, _resetToken } = require('@esri/arcgis-rest-request')
+const { _invalidateToken, _resetToken, getRefreshTokenCallCount } = require('@esri/arcgis-rest-request')
 
 describe('getEsriToken', () => {
   afterEach(_resetToken)
 
   it('should return TEST_TOKEN', async () => {
     expect(await getEsriToken()).toEqual('TEST_TOKEN')
+    expect(getRefreshTokenCallCount()).toEqual(0)
   })
 
   it('should return REFRESHED_TOKEN after token is invalidated', async () => {
     _invalidateToken()
     expect(await getEsriToken()).toEqual('REFRESHED_TOKEN')
+    expect(getRefreshTokenCallCount()).toEqual(1)
   })
 
   it('should return TEST_TOKEN again', async () => {
     expect(await getEsriToken()).toEqual('TEST_TOKEN')
+  })
+
+  it('refresh token should only be called once after multiple sync requests', async () => {
+    _invalidateToken()
+    const responses = await Promise.all([getEsriToken(), getEsriToken()])
+    expect(responses.length).toEqual(2)
+    expect(responses).toEqual(['REFRESHED_TOKEN', 'REFRESHED_TOKEN'])
+    expect(getRefreshTokenCallCount()).toEqual(1)
   })
 })

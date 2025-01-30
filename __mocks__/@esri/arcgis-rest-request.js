@@ -1,14 +1,25 @@
 let expectedParameters
+let refreshTokenCallCount = 0
+
+const refreshToken = async () => {
+  refreshTokenCallCount++
+  // Short delay to simulate awaiting a response
+  await new Promise(resolve => setTimeout(resolve, 100))
+  response.token = 'REFRESHED_TOKEN'
+  return response.token
+}
 const response = {
   token: 'TEST_TOKEN',
-  refreshToken: () => {
-    response.token = 'REFRESHED_TOKEN'
-    return response.token
-  }
+  refreshToken
 }
 const _invalidateToken = () => { response.token = undefined }
 
-const _resetToken = () => { response.token = 'TEST_TOKEN' }
+const _resetToken = () => {
+  refreshTokenCallCount = 0
+  response.token = 'TEST_TOKEN'
+}
+
+const getRefreshTokenCallCount = () => refreshTokenCallCount
 
 const ApplicationCredentialsManager = {
   fromCredentials: () => (response)
@@ -44,5 +55,6 @@ module.exports = {
   _invalidateToken,
   _resetToken,
   request,
-  requestSpy
+  requestSpy,
+  getRefreshTokenCallCount
 }
