@@ -42,7 +42,9 @@ describe('getSurfaceWater', () => {
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
       riskBandId: 3,
-      riskBand: 'High'
+      riskBand: 'High',
+      riskBandPercent: '3.3',
+      riskBandOdds: '1 in 30'
     })
   })
 
@@ -51,7 +53,9 @@ describe('getSurfaceWater', () => {
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
       riskBandId: 2,
-      riskBand: 'Medium'
+      riskBand: 'Medium',
+      riskBandPercent: '1',
+      riskBandOdds: '1 in 100'
     })
   })
 
@@ -60,7 +64,9 @@ describe('getSurfaceWater', () => {
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
       riskBandId: 1,
-      riskBand: 'Low'
+      riskBand: 'Low',
+      riskBandPercent: '0.1',
+      riskBandOdds: '1 in 1000'
     })
   })
 
@@ -69,7 +75,9 @@ describe('getSurfaceWater', () => {
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
       riskBandId: 1,
-      riskBand: 'Low'
+      riskBand: 'Low',
+      riskBandPercent: '0.1',
+      riskBandOdds: '1 in 1000'
     })
   })
 

@@ -25,7 +25,7 @@ const assertOrderFloodRiskDataButton = (expected = true) => {
 describe('Results Page On Public', () => {
   beforeAll(() => { config.appType = 'public' })
   afterAll(() => { config.appType = 'internal' })
-  it('should have the correct copy for Zone 1"', async () => {
+  it.only('should have the correct copy for Zone 1"', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
