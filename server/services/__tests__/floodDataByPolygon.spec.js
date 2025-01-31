@@ -32,7 +32,12 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
-      isRiskAdminArea: false
+      isRiskAdminArea: false,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 
@@ -42,7 +47,12 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
-      isRiskAdminArea: false
+      isRiskAdminArea: false,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 
@@ -52,7 +62,12 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
-      isRiskAdminArea: false
+      isRiskAdminArea: false,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 })
@@ -64,7 +79,12 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
-      isRiskAdminArea: true
+      isRiskAdminArea: true,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 
@@ -74,7 +94,12 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
-      isRiskAdminArea: true
+      isRiskAdminArea: true,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 
@@ -84,7 +109,12 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
-      isRiskAdminArea: true
+      isRiskAdminArea: true,
+      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
+      surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
 })

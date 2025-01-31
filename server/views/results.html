@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% from "radios/macro.njk" import govukRadios %}
-{% from "summary-list/macro.njk" import govukSummaryList %}
 
 {% block pageTitle %}
   Location flood zone results - Flood map for planning - GOV.UK
@@ -172,7 +171,7 @@
               {% endif %}
               {% if floodData.riversAndSeaUndefended.riskBandPercent %}
               <h3 class="govuk-heading-s">Without defences (undefended)</h3>
-                <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefended.riskBandOdds }}) chance of flooding each year.</p>
+                <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefended.riskBandOdds }}) chance of a flood at this location each year.</p>
               <details class="govuk-details">
                 <summary class="govuk-details__summary">
                   <span class="govuk-details__summary-text">
