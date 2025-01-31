@@ -3,11 +3,11 @@ const { request } = require('@esri/arcgis-rest-request')
 const { getEsriToken } = require('./getEsriToken')
 
 const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
-  const esriToken = await getEsriToken()
+  const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
   const requestObject = {
     httpMethod: 'GET',
-    authentication: esriToken,
+    authentication: token,
     params: {
       layerDefs,
       geometry,

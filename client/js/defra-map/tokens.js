@@ -57,7 +57,6 @@ export const getRequest = async (url) => {
 }
 
 export const getEsriToken = async () => {
-  // *ESRI manages this somehow?
   const hasToken = esriAuth.token
 
   if (!hasToken) {

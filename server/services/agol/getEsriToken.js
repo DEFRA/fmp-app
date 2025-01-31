@@ -17,6 +17,10 @@ const isExpired = () => {
   return tokenExpiryTime && Date.now() > tokenExpiryTime - FIVE_SECONDS
 }
 
+const getExpiryDurationInMilliseconds = () => {
+  return tokenExpiryTime - Date.now()
+}
+
 // getAppManager is wrapped in a getter so it is initialised at 1st use, to stop test failures
 // when it is initialised at include time.
 const getAppManager = async () => {
@@ -43,7 +47,7 @@ const refreshToken = async () => {
   return token
 }
 
-const getEsriToken = async () => {
+const getToken = async () => {
   const appManager = await getAppManager()
   const expired = isExpired()
 
@@ -53,6 +57,13 @@ const getEsriToken = async () => {
   }
   const token = await refreshToken()
   return token
+}
+
+const getEsriToken = async () => {
+  const token = await getToken()
+  const expires = tokenExpiryTime
+  const durationMs = getExpiryDurationInMilliseconds()
+  return { token, expires, durationMs }
 }
 
 module.exports = { getEsriToken }
