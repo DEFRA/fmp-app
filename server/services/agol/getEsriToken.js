@@ -18,7 +18,7 @@ const isExpired = () => {
 }
 
 const getExpiryDurationInMilliseconds = () => {
-  return tokenExpiryTime - Date.now()
+  return tokenExpiryTime - FIVE_SECONDS - Date.now()
 }
 
 // getAppManager is wrapped in a getter so it is initialised at 1st use, to stop test failures
