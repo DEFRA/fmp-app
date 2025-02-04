@@ -63,7 +63,7 @@ export const getEsriToken = async () => {
     try {
       const response = await window.fetch('/esri-token')
       const json = await response.json()
-      esriAuth.token = json.token
+      Object.assign(esriAuth, json)
     } catch (err) {
       console.log('Error getting ESRI access token: ', err)
     }
