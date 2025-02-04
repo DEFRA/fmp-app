@@ -1,4 +1,4 @@
-const { getEsriToken } = require('../../services/agol/getEsriToken')
+const { getEsriToken, revokeEsriToken } = require('../../services/agol/getEsriToken')
 const { getOsToken } = require('../../services/os/getOsToken')
 
 module.exports = [
@@ -28,6 +28,16 @@ module.exports = [
       description: 'Get a short lived token for the ESRI map data and layers',
       handler: async (request, h) => {
         return await getEsriToken()
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/revoke-esri-token',
+    options: {
+      description: 'Get a short lived token for the ESRI map data and layers',
+      handler: async (request, h) => {
+        return await revokeEsriToken()
       }
     }
   }

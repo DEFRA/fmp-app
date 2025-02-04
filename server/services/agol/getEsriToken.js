@@ -38,6 +38,7 @@ const getAppManager = async () => {
 const refreshToken = async () => {
   // Saving refreshTokenPromise ensures that multple async requests dont all refresh the token
   if (refreshTokenPromise) {
+    console.log('refreshTokenPromise EXISTS')
     return refreshTokenPromise
   }
   const appManager = appManagerInstance
@@ -52,6 +53,7 @@ const getToken = async () => {
   const expired = isExpired()
 
   if (appManager.token && !expired) {
+    console.log('destroying refreshTokenPromise')
     refreshTokenPromise = undefined
     return appManager.token
   }
@@ -66,4 +68,10 @@ const getEsriToken = async () => {
   return { token, expires, durationMs }
 }
 
-module.exports = { getEsriToken }
+const revokeEsriToken = async () => {
+  const appManager = await getAppManager()
+  appManager.token = 'xxx' + appManager.token
+  return appManager.token
+}
+
+module.exports = { getEsriToken, revokeEsriToken }
