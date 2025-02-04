@@ -1,6 +1,6 @@
 const { config } = require('../../../config')
 const { request } = require('@esri/arcgis-rest-request')
-const { getEsriToken } = require('./getEsriToken')
+const { getEsriToken, INVALID_TOKEN_CODE } = require('./getEsriToken')
 
 const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   const { token } = await getEsriToken()
@@ -17,7 +17,17 @@ const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
       returnCountOnly: 'true'
     }
   }
-  return request(url, requestObject)
+
+  try {
+    return await request(url, requestObject)
+  } catch (error) {
+    if (error?.response?.error?.code !== INVALID_TOKEN_CODE) {
+      throw error
+    }
+    const { token: newToken } = await getEsriToken(true) // true implies forceRefresh
+    requestObject.authentication = newToken
+    return request(url, requestObject)
+  }
 }
 
 module.exports = { esriRestRequest }

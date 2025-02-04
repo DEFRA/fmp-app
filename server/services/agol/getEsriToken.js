@@ -5,6 +5,7 @@ const { ApplicationCredentialsManager } = require('@esri/arcgis-rest-request')
 const tokenDurationInMinutes = 1
 const ONE_MINUTE_MS = 60000
 const FIVE_SECONDS = 5000
+const INVALID_TOKEN_CODE = 498
 let tokenExpiryTime
 let appManagerInstance
 let refreshTokenPromise
@@ -14,7 +15,9 @@ const setExpiryTime = () => {
 }
 
 const isExpired = () => {
-  return tokenExpiryTime && Date.now() > tokenExpiryTime - FIVE_SECONDS
+  const timestampNow = new Date() - 0
+  const expired = tokenExpiryTime && timestampNow > tokenExpiryTime - FIVE_SECONDS
+  return tokenExpiryTime && expired
 }
 
 const getExpiryDurationInMilliseconds = () => {
@@ -38,9 +41,9 @@ const getAppManager = async () => {
 const refreshToken = async () => {
   // Saving refreshTokenPromise ensures that multple async requests dont all refresh the token
   if (refreshTokenPromise) {
-    console.log('refreshTokenPromise EXISTS')
     return refreshTokenPromise
   }
+  console.log('refreshing Esri token')
   const appManager = appManagerInstance
   refreshTokenPromise = appManager.refreshToken()
   const token = await refreshTokenPromise
@@ -48,12 +51,11 @@ const refreshToken = async () => {
   return token
 }
 
-const getToken = async () => {
+const getToken = async (forceRefresh) => {
   const appManager = await getAppManager()
   const expired = isExpired()
 
-  if (appManager.token && !expired) {
-    console.log('destroying refreshTokenPromise')
+  if (!forceRefresh && appManager.token && !expired) {
     refreshTokenPromise = undefined
     return appManager.token
   }
@@ -61,8 +63,11 @@ const getToken = async () => {
   return token
 }
 
-const getEsriToken = async () => {
-  const token = await getToken()
+const getEsriToken = async (forceRefresh = false) => {
+  if (forceRefresh) {
+    console.log('Forcing an Esri token due to invalid response')
+  }
+  const token = await getToken(forceRefresh)
   const expires = tokenExpiryTime
   const durationMs = getExpiryDurationInMilliseconds()
   return { token, expires, durationMs }
@@ -74,4 +79,4 @@ const revokeEsriToken = async () => {
   return appManager.token
 }
 
-module.exports = { getEsriToken, revokeEsriToken }
+module.exports = { getEsriToken, revokeEsriToken, INVALID_TOKEN_CODE }
