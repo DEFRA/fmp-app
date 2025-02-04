@@ -38,15 +38,15 @@ const staleTimeout = 59000 // 59 seconds
 
 module.exports = {
   name: 'getFloodDataByPolygon',
-  method: getFloodDataByPolygon,
-  options: {
-    cache: {
-      cache: 'FMFP',
-      expiresIn,
-      staleIn,
-      generateTimeout,
-      staleTimeout
-    },
-    generateKey: (polygon) => JSON.stringify(polygon)
-  }
+  method: getFloodDataByPolygon
+  // options: {
+  //   cache: {
+  //     cache: 'FMFP',
+  //     expiresIn,
+  //     staleIn,
+  //     generateTimeout,
+  //     staleTimeout
+  //   },
+  //   generateKey: (polygon) => JSON.stringify(polygon)
+  // }
 }
