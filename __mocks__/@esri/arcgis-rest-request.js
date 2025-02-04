@@ -26,10 +26,22 @@ const ApplicationCredentialsManager = {
 }
 
 const requestSpy = {
-  expectParameters: (params) => { expectedParameters = params }
+  expectParameters: (params) => { expectedParameters = params },
+  throwOnce: false,
+  throwUnexpected: false
 }
 
 const request = async (url, requestObject) => {
+  if (requestSpy.throwOnce) {
+    requestSpy.throwOnce = false
+    /* eslint-disable no-throw-literal */
+    throw ({ response: { error: { code: 498 } } })
+  }
+  if (requestSpy.throwUnexpected) {
+    requestSpy.throwUnexpected = false
+    throw (new Error('unexpected ERROR'))
+  }
+
   if (expectedParameters) {
     expect(url).toEqual(expectedParameters.url)
     expect(requestObject).toEqual(expectedParameters.requestObject)

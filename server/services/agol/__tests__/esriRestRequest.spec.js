@@ -25,23 +25,46 @@ const expectedResponse = {
 }
 
 describe('esriRestRequest', () => {
+  const params = {
+    layerDefs,
+    geometry,
+    geometryType: 'esriGeometryPolygon',
+    spatialRel: 'esriSpatialRelIntersects',
+    returnGeometry: 'false',
+    returnCountOnly: 'true'
+  }
+
+  const expectedParameters = {
+    url: `${config.agol.serviceUrl}/endpoint/query`,
+    requestObject: {
+      httpMethod: 'GET',
+      authentication: 'TEST_TOKEN',
+      params
+    }
+  }
+
   it('should call esriRestRequest with the expected object and return mocked object', async () => {
-    requestSpy.expectParameters({
-      url: `${config.agol.serviceUrl}/endpoint/query`,
-      requestObject: {
-        httpMethod: 'GET',
-        authentication: 'TEST_TOKEN',
-        params: {
-          layerDefs,
-          geometry,
-          geometryType: 'esriGeometryPolygon',
-          spatialRel: 'esriSpatialRelIntersects',
-          returnGeometry: 'false',
-          returnCountOnly: 'true'
-        }
-      }
-    })
+    requestSpy.expectParameters(expectedParameters)
     const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
     expect(response).toEqual(expectedResponse)
+  })
+
+  it('should retry with a refreshed token after an invalid token response', async () => {
+    requestSpy.throwOnce = true
+    requestSpy.expectParameters(Object.assign({}, expectedParameters, {
+      requestObject: { httpMethod: 'GET', authentication: 'REFRESHED_TOKEN', params }
+    }))
+    const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
+    expect(response).toEqual(expectedResponse)
+  })
+
+  it('should throw error other than invalid token response', async () => {
+    requestSpy.throwUnexpected = true
+    try {
+      const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
+      expect(response).toEqual('THIS LINE SHOULD NOT BE REACHED')
+    } catch (error) {
+      expect(error).toEqual(new Error('unexpected ERROR'))
+    }
   })
 })
