@@ -1,6 +1,6 @@
 {
   "name": "fmfp",
-  "version": "2.10.0",
+  "version": "2.13.0",
   "dataVersion": "2.5.1",
   "description": "Flood map for planning",
   "main": "index.js",
