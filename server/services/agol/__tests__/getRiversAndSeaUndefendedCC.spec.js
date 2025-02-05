@@ -18,7 +18,8 @@ describe('getRiversAndSeaUndefendedCC', () => {
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 2,
-      riskBandPercent: false
+      riskBandPercent: false,
+      riskBandOdds: false
     })
   })
 
@@ -28,7 +29,8 @@ describe('getRiversAndSeaUndefendedCC', () => {
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 1,
-      riskBandPercent: '0.1'
+      riskBandPercent: '0.1',
+      riskBandOdds: '1 in 1000'
     })
   })
 
@@ -38,7 +40,8 @@ describe('getRiversAndSeaUndefendedCC', () => {
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 0,
-      riskBandPercent: '1'
+      riskBandPercent: '1',
+      riskBandOdds: '1 in 100'
     })
   })
 
@@ -47,7 +50,8 @@ describe('getRiversAndSeaUndefendedCC', () => {
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 2,
-      riskBandPercent: false
+      riskBandPercent: false,
+      riskBandOdds: false
     })
   })
 

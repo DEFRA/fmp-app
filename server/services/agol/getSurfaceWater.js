@@ -8,15 +8,21 @@ const riskBandPriority = {
   },
   Low: {
     riskBandId: 1,
-    riskBand: 'Low'
+    riskBand: 'Low',
+    riskBandPercent: '0.1',
+    riskBandOdds: '1 in 1000'
   },
   Medium: {
     riskBandId: 2,
-    riskBand: 'Medium'
+    riskBand: 'Medium',
+    riskBandPercent: '1',
+    riskBandOdds: '1 in 100'
   },
   High: {
     riskBandId: 3,
-    riskBand: 'High'
+    riskBand: 'High',
+    riskBandPercent: '3.3',
+    riskBandOdds: '1 in 30'
   }
 }
 
