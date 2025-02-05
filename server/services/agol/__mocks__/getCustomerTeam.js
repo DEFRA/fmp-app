@@ -19,6 +19,7 @@ const getCustomerTeam = async (options = {}) => {
     return optedOutResponse
   }
   switch (options.polygon) {
+    case mockPolygons.optedOut.fz1_only:
     case mockPolygons.optedOut.fz3_only:
       return optedOutResponse
     case mockPolygons.fz1_only:
@@ -30,6 +31,10 @@ const getCustomerTeam = async (options = {}) => {
     case mockPolygons.inRiskAdmin.fz3_only:
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:
+    case mockPolygons.fz1_only_gt_1_ha:
+    case mockPolygons.fz2_low:
+    case mockPolygons.fz2_medium:
+    case mockPolygons.fz3_high:
       return optedInResponse
     default: {
       throw new Error(`Error - No Polygon Mocked for getCustomerTeam- ${JSON.stringify(options.polygon)}`)

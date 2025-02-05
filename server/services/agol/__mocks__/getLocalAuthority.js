@@ -20,6 +20,11 @@ const getLocalAuthority = async (options = {}) => {
     case mockPolygons.inRiskAdmin.fz3_only:
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:
+    case mockPolygons.fz1_only_gt_1_ha:
+    case mockPolygons.fz2_low:
+    case mockPolygons.fz2_medium:
+    case mockPolygons.fz3_high:
+    case mockPolygons.optedOut.fz1_only:
       return yorkshireResponse
     default: {
       throw new Error(`Error - No Polygon Mocked for getLocalAuthority- ${JSON.stringify(options.polygon)}`)
