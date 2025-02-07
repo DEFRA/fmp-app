@@ -1,5 +1,4 @@
 const { config } = require('../../../config')
-const { getCentreOfPolygon } = require('../../services/shape-utils')
 const riskAdminApiUrl = config.riskAdminApi.url
 const axios = require('axios')
 
@@ -10,14 +9,14 @@ const isRiskAdminArea = async (polygon) => {
     return { isRiskAdminArea: process.env.forceRiskAdminApiResponse === 'true' }
   }
 
-  const { x, y } = getCentreOfPolygon(polygon)
-  const url = `${riskAdminApiUrl}/extra_info/${x}/${y}`
+  const url = `${riskAdminApiUrl}/hit-test?polygon=${polygon}`
 
   try {
     const { data } = await axios.get(url)
-    if (Array.isArray(data)) {
+    const { intersects: isRiskAdminArea } = data
+    if (isRiskAdminArea !== undefined) {
       const response = {
-        isRiskAdminArea: data.length > 0
+        isRiskAdminArea
       }
       return response
     }
