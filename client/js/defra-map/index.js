@@ -389,9 +389,16 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
+  const osAccountNumber = 'AC0000807064' // FCRM-5609 is raised to add this to a constants file
+  const currentYear = new Date().getFullYear()
+  const osAttribution = `Contains OS data © Crown copyright and database rights ${currentYear}`
+  const osMasterMapAttribution = `© Crown copyright and database rights ${currentYear} OS ${osAccountNumber}`
+  // FCRM-5599 Use these hyperlinks once the map component supports embedding them as markup (currently embeds as text)
+  // const osAttributionHyperlink = `<a href="os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
+  // const osMasterMapAttributionHyperlink = `<a href="os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
 
   const floodMap = new FloodMap('map', {
-    type: 'inline',
+    behaviour: 'inline',
     place: 'England',
     zoom: 7.7,
     minZoom: 6,
@@ -402,13 +409,21 @@ getDefraMapConfig().then((defraMapConfig) => {
     hasGeoLocation: false,
     framework: 'esri',
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers],
-    requestCallback: getRequest,
-    styles: {
-      tokenCallback: getEsriToken,
-      interceptorsCallback: getInterceptors,
-      defaultUrl: '/map/styles/base-map-default',
-      darkUrl: '/map/styles/base-map-dark'
-    },
+    transformSearchRequest: getRequest,
+    interceptorsCallback: getInterceptors,
+    tokenCallback: getEsriToken,
+    styles: [
+      {
+        name: 'default',
+        url: '/map/styles/base-map-default',
+        attribution: osAttribution
+      },
+      {
+        name: 'dark',
+        url: '/map/styles/base-map-dark',
+        attribution: osAttribution
+      }
+    ],
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -555,7 +570,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         }
       ]
     },
-    queryPolygon: {
+    queryArea: {
       heading: 'Get a boundary report',
       startLabel: 'Add site boundary',
       editLabel: 'Edit site boundary',
@@ -565,12 +580,36 @@ getDefraMapConfig().then((defraMapConfig) => {
       helpLabel: 'How to draw a boundary',
       keyLabel: 'Report area',
       html: '<p><strong>For an approximate site boundary</strong>: <ul class="govuk-list govuk-list--bullet"><li>use the red square to define the boundary of your site</li><li>zoom and move the map to position the square</li><li>click the ‘add boundary’ button to finish</li></ul></p></br><p><strong>For a more detailed site boundary:</strong></p><ul class="govuk-list govuk-list--bullet"><li>click ‘edit shape’ and dots will appear on the square</li><li>move the dots to change the shape of the square until it matches your boundary</li><li>click the ‘add boundary’ button to finish</li></ul>',
-      defaultUrl: '/map/styles/polygon-default',
-      darkUrl: '/map/styles/polygon-dark',
       minZoom: 19,
-      maxZoom: 21
+      maxZoom: 21,
+      styles: [
+        {
+          name: 'default',
+          url: '/map/styles/polygon-default',
+          attribution: osMasterMapAttribution
+        },
+        {
+          name: 'dark',
+          url: '/map/styles/polygon-dark',
+          attribution: osMasterMapAttribution
+        }
+      ]
+      // Placeholder: FCRM-5588 When a polygon is passed in the url we should build a feature object like this and
+      // pass it in here
+      // , feature: {
+      //   type: 'feature',
+      //   geometry: {
+      //     type: 'polygon',
+      //     coordinates: [[[324667, 537194], [325298, 537194], [325298, 536563], [324667, 536563], [324667, 537194]]]
+      //   }
+      // }
     },
-    queryPixel: vtLayers.map(vtLayer => vtLayer.name)
+    queryLocation: {
+      layers: vtLayers.map(vtLayer => vtLayer.name)
+    }
+  }, (esriMapObjects) => {
+    // Placeholder: FCRM-5578, the esriConfig.apiKey is passed here and can be saved and updated when the token expires
+    console.log('esriMapObjects', esriMapObjects)
   })
 
   const mapState = {
@@ -602,7 +641,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.isRamp = layers.includes('md')
     console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
-      floodMap.info = null
+      floodMap.setInfo(null)
     }
     const map = floodMap.map
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
@@ -737,6 +776,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       </p>`
     }
 
-    floodMap.info = renderInfo(renderList(listContents), extraContent)
+    floodMap.setInfo(renderInfo(renderList(listContents), extraContent))
   })
 })
