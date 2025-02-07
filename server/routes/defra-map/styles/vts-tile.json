@@ -5,7 +5,7 @@
     "type": "indexedVector",
     "defaultStyles": "resources/styles",
     "tiles": [
-        "https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?key=4flNisK69QG6w6NGkDZ4CZz0CObcUA5h"
+        "https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
     ],
     "exportTilesAllowed": false,
     "initialExtent": {
