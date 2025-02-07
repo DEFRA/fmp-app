@@ -4,14 +4,14 @@ const axios = require('axios')
 jest.mock('axios')
 
 describe('isRiskAdminArea', () => {
-  it('should return true when riskadmin-api returns data', async () => {
-    axios.get.mockResolvedValue({ data: [{ info: '', apply: 'holding', riskoverride: 'High' }] })
+  it('should return true when riskadmin-api returns true', async () => {
+    axios.get.mockResolvedValue({ data: { intersects: true } })
     const response = await isRiskAdminArea('[[111,111],[111,112],[112,112],[112,111],[111,111]]')
     expect(response).toEqual({ isRiskAdminArea: true })
   })
 
-  it('should return false when riskadmin-api returns an empty array', async () => {
-    axios.get.mockResolvedValue({ data: [] })
+  it('should return false when riskadmin-api returns a false response', async () => {
+    axios.get.mockResolvedValue({ data: { intersects: false } })
     const response = await isRiskAdminArea('[[111,111],[111,112],[112,112],[112,111],[111,111]]')
     expect(response).toEqual({ isRiskAdminArea: false })
   })
@@ -19,7 +19,7 @@ describe('isRiskAdminArea', () => {
 
 describe('isRiskAdminArea - Error Handling', () => {
   let logSpy
-  const expectedUrl = 'http://riskadmin-api-url/extra_info/111.5/111.5'
+  const expectedUrl = 'http://riskadmin-api-url/hit-test?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]'
   const expectedError = 'Error requesting riskadmin-api data:\n'
 
   beforeEach(async () => {
@@ -54,7 +54,7 @@ describe('isRiskAdminArea - Error Handling', () => {
   })
 
   it('should log and throw an error if response is not an array ', async () => {
-    axios.get.mockResolvedValue({ data: 'NOT AN ARRAY' })
+    axios.get.mockResolvedValue({ data: 'NOT JSON: {intersects: ?}' })
     const errorToThrow = { message: 'Unexpected response from riskadmin-api', name: 'Error' }
     const expectedLoggedErrorObject = Object.assign({}, { url: expectedUrl }, errorToThrow)
     try {
@@ -62,7 +62,7 @@ describe('isRiskAdminArea - Error Handling', () => {
       expect(response).toEqual('this line should not be reached')
     } catch (error) {
       expect(error).toEqual(new Error('Unexpected response from riskadmin-api'))
-      expect(logSpy).toHaveBeenNthCalledWith(1, 'riskadmin-api response data:\n', 'NOT AN ARRAY')
+      expect(logSpy).toHaveBeenNthCalledWith(1, 'riskadmin-api response data:\n', 'NOT JSON: {intersects: ?}')
       expect(logSpy).toHaveBeenNthCalledWith(2, expectedError, JSON.stringify(expectedLoggedErrorObject))
     }
   })
