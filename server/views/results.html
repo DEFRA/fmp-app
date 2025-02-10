@@ -35,22 +35,22 @@
 
       <h2 class="govuk-heading-m">Flood risk assessments</h2>
       {% if floodData.isFZ1Andlt1ha %}
-        <p class="govuk-body">Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:</p>
+        <p class="govuk-body" data-testid="fz1-lt1ha-fra">Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>land has been identified as having critical drainage problems</li>
           <li>land is identified in the local planning authority's (LPA) strategic flood risk assessment (SFRA) as being at increased flood risk in future</li>
           <li>it would increase the <a href="https://www.gov.uk/guidance/national-planning-policy-framework/annex-3-flood-risk-vulnerability-classification">vulnerability classification</a> and land may be subject to sources of flooding other than rivers or sea</li>
         </ul>
-        <p class="govuk-body">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
+        <p class="govuk-body" data-testid="fz1-lt1ha-area">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
       {% endif %}
       
       {% if floodData.floodzone_2 or floodData.floodzone_3 or floodData.isFZ1Andgt1ha %}
-        <p class="govuk-body">Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
+        <p class="govuk-body" data-testid="fra">Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
       {% endif %}
 
       {% if floodData.isFZ1Andgt1ha %}
-        <p class="govuk-body">Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).</p>
-        <p class="govuk-body">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
+        <p class="govuk-body" data-testid="fz1-gt1ha-fra">Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).</p>
+        <p class="govuk-body" data-testid="fz1-gt1ha-area">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
       {% endif %}
 
       <p class="govuk-body">
@@ -76,31 +76,24 @@
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
+              <dt class="govuk-summary-list__key" data-testid="fz-description">
                 What flood zone {{ floodData.floodZone }} means
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if floodData.floodZone === '3' %}
-                  <p class="govuk-body">Land within flood zone 3 has a high probability of flooding from rivers and the sea.</p>
-                  <p class="govuk-body">You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
-                {% elif floodData.floodZone === '2' %}
-                  <p class="govuk-body">Land within flood zone 2 has a medium probability of flooding from rivers and the sea.</p>
-                  <p class="govuk-body">You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
-                {% else %}
-                  <p class="govuk-body">Land within flood zone 1 has a low probability of flooding from rivers and the sea.</p>
-                {% endif %}
-                  <p class="govuk-body"><a href="#">Find out more about flood zones and what they mean.</a></p>
+                <p class="govuk-body" data-testid="fz{{ floodData.floodZone }}-probability">Land within flood zone {{ floodData.floodZone }} has a {{ floodData.floodZoneLevel }} probability of flooding from rivers and the sea.</p>
+                {% if floodData.floodZone === '2' or floodData.floodZone === '3' %}<p class="govuk-body">You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>{% endif %}
+                <p class="govuk-body"><a href="#">Find out more about flood zones and what they mean.</a></p>
               </dd>
             </div>
             {% if floodData.riversAndSeaDefendedCC.riskBandPercent or floodData.riversAndSeaUndefendedCC.riskBandPercent %}
               <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="rofrs-cc">
                   Climate change: projected chance of flooding
                 </dt>
                 <dd class="govuk-summary-list__value">
                 {% if floodData.riversAndSeaDefendedCC.riskBandPercent %}
                   <h3 class="govuk-heading-s">With defences (defended)</h3>
-                  <p class="govuk-body">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:</p>
+                  <p class="govuk-body" data-testid="rofrs-cc-defended-probability">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:</p>
                   <ul class="govuk-list govuk-list--bullet">
                     <li>from rivers for the period 2070 to 2125</li>
                     <li>from the sea (tidal flooding) by the year 2125</li>
@@ -121,7 +114,7 @@
                   </details>
                 {% endif %}
                 {% if floodData.riversAndSeaUndefendedCC.riskBandPercent %}
-                <h3 class="govuk-heading-s">Without defences (undefended)</h3>
+                <h3 class="govuk-heading-s" data-testid="rofrs-cc-undefended">Without defences (undefended)</h3>
                 <p class="govuk-body">We have not modelled the 3.3% AEP event for an undefended scenario.</p>
                 <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefendedCC.riskBandOdds }}) chance of flooding each year: </p>
                 <ul class="govuk-list govuk-list--bullet">
@@ -146,14 +139,14 @@
               </div>
             {% endif %}
             {% if floodData.riversAndSeaDefended.riskBandPercent or floodData.riversAndSeaUndefended.riskBandPercent %}
-            <div class="govuk-summary-list__row">
+            <div class="govuk-summary-list__row" data-testid="rofrs">
               <dt class="govuk-summary-list__key">
                 Present day chance of flooding
               </dt>
               <dd class="govuk-summary-list__value">
               {% if floodData.riversAndSeaDefended.riskBandPercent %}
-                <h3 class="govuk-heading-s">With defences (defended)</h3>
-                  <p class="govuk-body">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefended.riskBandOdds }}) chance of a flood at this location each year.</p>
+                <h3 class="govuk-heading-s" data-testid="rofrs-defended">With defences (defended)</h3>
+                <p class="govuk-body">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefended.riskBandOdds }}) chance of a flood at this location each year.</p>
                 <details class="govuk-details">
                   <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
@@ -170,20 +163,20 @@
                 </details>
               {% endif %}
               {% if floodData.riversAndSeaUndefended.riskBandPercent %}
-              <h3 class="govuk-heading-s">Without defences (undefended)</h3>
+                <h3 class="govuk-heading-s" data-testid="rofrs-undefended">Without defences (undefended)</h3>
                 <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefended.riskBandOdds }}) chance of a flood at this location each year.</p>
-              <details class="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">
-                    What does 'undefended' mean?
-                  </span>
-                </summary>
-                <div class="govuk-details__text">
-                  <ul class="govuk-list govuk-list--bullet">
-                    <li>our modelling ignores the presence of existing flood defences</li>
-                  </ul>
-                </div>
-              </details>
+                <details class="govuk-details">
+                  <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                      What does 'undefended' mean?
+                    </span>
+                  </summary>
+                  <div class="govuk-details__text">
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>our modelling ignores the presence of existing flood defences</li>
+                    </ul>
+                  </div>
+                </details>
               {% endif %}
               <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">Find out more about climate change allowances.</a>
               </dd>
@@ -195,7 +188,7 @@
 
       <!-- Surface water summary list card -->
       {% if floodData.surfaceWater.riskBand %}
-        <div class="govuk-summary-card">
+        <div class="govuk-summary-card" data-testid="sw">
           <div class="govuk-summary-card__title-wrapper">
             <h2 class="govuk-summary-card__title">
               Surface water for planning
@@ -222,7 +215,7 @@
                 <dt class="govuk-summary-list__key">
                   Present day chance of flooding
                 </dt>
-                <dd class="govuk-summary-list__value">
+                <dd class="govuk-summary-list__value" data-testid="sw-probability">
                   The chance of surface water flooding at this location could be more than {{ floodData.surfaceWater.riskBandPercent }}% ({{ floodData.surfaceWater.riskBandOdds }}) each year.
                 </dd>
               </div>
@@ -315,14 +308,14 @@
                 {% if showOrderProduct4Button %}
                   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
                   {% if floodData.floodZone === '1'%}
-                    <p class="govuk-body">Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. You can place an order and we'll email you if none is available.</p>
+                    <p class="govuk-body" data-testid="fz1-order-product4">Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. You can place an order and we'll email you if none is available.</p>
                   {% endif %}
                   <br>
                   <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
                     Order flood risk data
                   </a>
                 {% else %}
-                  <p class="govuk-body">To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}</p>
+                  <p class="govuk-body" data-testid="order-product4-email">To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}</p>
                   <p class="govuk-body">Your email should say that you are ordering flood risk data and include:</p>
                   <ul class="govuk-list govuk-list--bullet">
                     <li>the address</li>

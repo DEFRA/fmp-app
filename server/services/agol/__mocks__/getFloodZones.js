@@ -7,20 +7,20 @@ const getFloodZones = async (options) => {
     case mockPolygons.inRiskAdmin.fz1_only:
     case mockPolygons.inRiskAdmin.throws:
     case mockPolygons.optedOut.fz1_only:
-      return { floodZone: '1', floodzone_2: false, floodzone_3: false }
+      return { floodZone: '1', floodzone_2: false, floodzone_3: false, floodZoneLevel: 'low' }
     case mockPolygons.fz2_only:
     case mockPolygons.inRiskAdmin.fz2_only:
     case mockPolygons.fz2_low:
     case mockPolygons.fz2_medium:
-      return { floodZone: '2', floodzone_2: true, floodzone_3: false }
+      return { floodZone: '2', floodzone_2: true, floodzone_3: false, floodZoneLevel: 'medium' }
     case mockPolygons.fz3_only:
     case mockPolygons.inRiskAdmin.fz3_only:
     case mockPolygons.optedOut.fz3_only:
-      return { floodZone: '3', floodzone_2: false, floodzone_3: true }
+      return { floodZone: '3', floodzone_2: false, floodzone_3: true, floodZoneLevel: 'high' }
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:
     case mockPolygons.fz3_high:
-      return { floodZone: '3', floodzone_2: true, floodzone_3: true }
+      return { floodZone: '3', floodzone_2: true, floodzone_3: true, floodZoneLevel: 'high' }
     default: {
       throw new Error(`Error - No Polygon Mocked - ${JSON.stringify(options.polygon)}`)
     }

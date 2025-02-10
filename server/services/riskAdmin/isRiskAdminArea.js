@@ -13,12 +13,9 @@ const isRiskAdminArea = async (polygon) => {
 
   try {
     const { data } = await axios.get(url)
-    const { intersects: isRiskAdminArea } = data
-    if (isRiskAdminArea !== undefined) {
-      const response = {
-        isRiskAdminArea
-      }
-      return response
+    const { intersects } = data
+    if (intersects !== undefined) {
+      return { isRiskAdminArea: intersects }
     }
     console.log('riskadmin-api response data:\n', data)
     throw new Error('Unexpected response from riskadmin-api')

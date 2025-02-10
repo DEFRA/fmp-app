@@ -38,7 +38,8 @@ describe('getFloodZones', () => {
     expect(response).toEqual({
       floodZone: '3',
       floodzone_2: false,
-      floodzone_3: true
+      floodzone_3: true,
+      floodZoneLevel: 'high'
     })
   })
 
@@ -48,7 +49,8 @@ describe('getFloodZones', () => {
     expect(response).toEqual({
       floodZone: '2',
       floodzone_2: true,
-      floodzone_3: false
+      floodzone_3: false,
+      floodZoneLevel: 'medium'
     })
   })
 
@@ -58,7 +60,8 @@ describe('getFloodZones', () => {
     expect(response).toEqual({
       floodZone: '3',
       floodzone_2: true,
-      floodzone_3: true
+      floodzone_3: true,
+      floodZoneLevel: 'high'
     })
   })
 
@@ -69,7 +72,8 @@ describe('getFloodZones', () => {
     expect(response).toEqual({
       floodZone: '1',
       floodzone_2: false,
-      floodzone_3: false
+      floodzone_3: false,
+      floodZoneLevel: 'low'
     })
   })
 
