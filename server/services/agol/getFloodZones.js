@@ -11,10 +11,13 @@ const assignFloodZoneResponse = (response, results) => {
   }
   if (results.floodzone_3) {
     results.floodZone = '3'
+    results.floodZoneLevel = 'high'
   } else if (results.floodzone_2) {
     results.floodZone = '2'
+    results.floodZoneLevel = 'medium'
   } else {
     results.floodZone = '1'
+    results.floodZoneLevel = 'low'
   }
   return results
 }

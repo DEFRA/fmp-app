@@ -50,10 +50,12 @@ const assertFZ1gt1AndFZ23Copy = (expected = true) => {
 
 const assertFZ2Copy = (expected = true) => {
   assertCopy('[data-testid="fz2-probability"]', expected && 'Land within flood zone 2 has a medium probability of flooding from rivers and the sea.')
+  assertCopy('[data-testid="fz2-probability"] + p', expected && 'You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
 }
 
 const assertFZ3Copy = (expected = true) => {
   assertCopy('[data-testid="fz3-probability"]', expected && 'Land within flood zone 3 has a high probability of flooding from rivers and the sea.')
+  assertCopy('[data-testid="fz3-probability"] + p', expected && 'You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
 }
 
 const assertROFRSDefCCCopy = (band, odds, expected = true) => {
