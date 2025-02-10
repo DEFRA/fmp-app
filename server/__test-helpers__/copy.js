@@ -17,12 +17,4 @@ const assertCopy = (selector, expectedCopy) => {
   }
 }
 
-const weakAssertCopy = (expectedCopy, expected = true) => {
-  if (expected) {
-    expect(document.body.innerHTML).toContain(expectedCopy)
-  } else {
-    expect(document.body.innerHTML).not.toContain(expectedCopy)
-  }
-}
-
-module.exports = { assertCopy, weakAssertCopy }
+module.exports = { assertCopy }

@@ -1,5 +1,5 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
-const { assertCopy, weakAssertCopy } = require('../../__test-helpers__/copy')
+const { assertCopy } = require('../../__test-helpers__/copy')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodDataByPolygonMock')
 const { config } = require('../../../config')
 jest.mock('../../services/agol/getContacts')
@@ -8,7 +8,7 @@ const url = '/results'
 
 const assertFloodZoneCopy = (floodZone) => {
   assertCopy('.govuk-heading-xl', `This location is in flood zone ${floodZone}`)
-  weakAssertCopy(`What flood zone ${floodZone} means`)
+  assertCopy('[data-testid="fz-description"', `What flood zone ${floodZone} means`)
 }
 
 const assertRiskAdminCopy = (expected) => {
@@ -20,7 +20,8 @@ const assertRiskAdminCopy = (expected) => {
 
 const assertOrderFloodRiskDataButton = (expected = true) => {
   assertCopy('[data-testid="order-product4"]', expected && 'Order flood risk data')
-  weakAssertCopy('To order flood risk data for this site, contact the Environment Agency team in Wessex at wessexenquiries@environment-agency.gov.uk', !expected)
+  // Below email contact is hidden if the button is visible
+  assertCopy('[data-testid="order-product4-email"]', !expected && 'To order flood risk data for this site, contact the Environment Agency team in Wessex at wessexenquiries@environment-agency.gov.uk')
 }
 
 const assertCoreCopy = () => {
@@ -29,71 +30,59 @@ const assertCoreCopy = () => {
 }
 
 const assertFZ1Copy = (expected = true) => {
-  weakAssertCopy('Land within flood zone 1 has a low probability of flooding from rivers and the sea.', expected)
-  weakAssertCopy('Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it', expected)
+  assertCopy('[data-testid="fz1-probability"]', expected && 'Land within flood zone 1 has a low probability of flooding from rivers and the sea.')
+  assertCopy('[data-testid="fz1-order-product4"]', expected && 'Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it')
 }
 
 const assertFZ1lt1haCopy = (expected = true) => {
-  weakAssertCopy('Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:', expected)
-  weakAssertCopy('The site you have drawn is 0ha.', expected)
+  assertCopy('[data-testid="fz1-lt1ha-fra"]', expected && 'Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:')
+  assertCopy('[data-testid="fz1-lt1ha-area"]', expected && 'The site you have drawn is 0ha.')
 }
 
 const assertFZ1gt1haCopy = (expected = true) => {
-  weakAssertCopy('Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).', expected)
-  weakAssertCopy('The site you have drawn is 123.43ha.', expected)
+  assertCopy('[data-testid="fz1-gt1ha-fra"]', expected && 'Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).')
+  assertCopy('[data-testid="fz1-gt1ha-area"]', expected && 'The site you have drawn is 123.43ha.')
 }
 
 const assertFZ1gt1AndFZ23Copy = (expected = true) => {
-  weakAssertCopy('Based on our flood risk data, you need to carry out a flood risk assessment (FRA)', expected)
+  assertCopy('[data-testid="fra"]', expected && 'Based on our flood risk data, you need to carry out a flood risk assessment (FRA)')
 }
 
 const assertFZ2Copy = (expected = true) => {
-  weakAssertCopy('Land within flood zone 2 has a medium probability of flooding from rivers and the sea.', expected)
+  assertCopy('[data-testid="fz2-probability"]', expected && 'Land within flood zone 2 has a medium probability of flooding from rivers and the sea.')
 }
 
 const assertFZ3Copy = (expected = true) => {
-  weakAssertCopy('Land within flood zone 3 has a high probability of flooding from rivers and the sea.', expected)
+  assertCopy('[data-testid="fz3-probability"]', expected && 'Land within flood zone 3 has a high probability of flooding from rivers and the sea.')
 }
 
 const assertROFRSDefCCCopy = (band, odds, expected = true) => {
-  weakAssertCopy('Climate change: projected chance of flooding', expected)
-  if (band && odds) {
-    weakAssertCopy(`Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of flooding each year:`, expected)
-  }
+  assertCopy('[data-testid="rofrs-cc"]', expected && 'Climate change: projected chance of flooding')
+  assertCopy('[data-testid="rofrs-cc-defended-probability"]', expected && `Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of flooding each year:`)
 }
 
 const assertROFRSUnDefCCCopy = (band, odds, expected = true) => {
-  weakAssertCopy('Without defences (undefended)', expected)
-  weakAssertCopy('We have not modelled the 3.3% AEP event for an undefended scenario', expected)
-  if (band && odds) {
-    weakAssertCopy(`Without flood defences, there could be a ${band}% AEP (${odds}) chance of flooding each year:`, expected)
-  }
+  assertCopy('[data-testid="rofrs-cc-undefended"]', expected && 'Without defences (undefended)')
+  assertCopy('[data-testid="rofrs-cc-undefended"] + p', expected && 'We have not modelled the 3.3% AEP event for an undefended scenario')
+  assertCopy('[data-testid="rofrs-cc-undefended"] + p + p', expected && `Without flood defences, there could be a ${band}% AEP (${odds}) chance of flooding each year:`)
 }
 
 const assertROFRSDefCopy = (band, odds, expected = true) => {
-  weakAssertCopy('Present day chance of flooding', expected)
-  weakAssertCopy('<h3 class="govuk-heading-s">With defences (defended)</h3>', expected)
-  if (band && odds) {
-    weakAssertCopy(`Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`, expected)
-  }
+  assertCopy('[data-testid="rofrs"] > dt', expected && 'Present day chance of flooding')
+  assertCopy('[data-testid="rofrs-defended"]', expected && 'With defences (defended)')
+  assertCopy('[data-testid="rofrs-defended"] + p', expected && `Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`)
 }
 
 const assertROFRSUnDefCopy = (band, odds, expected = true) => {
-  weakAssertCopy('Without defences (undefended)', expected)
-  if (band && odds) {
-    weakAssertCopy(`Without flood defences, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`, expected)
-  }
+  assertCopy('[data-testid="rofrs-undefended"]', expected && 'Without defences (undefended)')
+  assertCopy('[data-testid="rofrs-undefended"] + p', expected && `Without flood defences, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`)
 }
 
 const assertSWCopy = (band, odds, expected = true) => {
-  weakAssertCopy('Surface water for planning', expected)
-  weakAssertCopy('Climate change: projected chance of flooding', expected)
-  weakAssertCopy('We do not currently show climate change scenarios for surface water.', expected)
-  if (band && odds) {
-    weakAssertCopy(`The chance of surface water flooding at this location could be more than ${band}% (${odds}) each year`, expected)
-  } else {
-    weakAssertCopy('The chance of surface water flooding at this location could be more than', expected)
-  }
+  assertCopy('[data-testid="sw"] > div > h2', expected && 'Surface water for planning')
+  assertCopy('[data-testid="sw"] > div > dl > div > dt', expected && 'Climate change: projected chance of flooding')
+  assertCopy('[data-testid="sw"] > div > dl > div > dd > p:nth-child(1)', expected && 'We do not currently show climate change scenarios for surface water.')
+  assertCopy('[data-testid="sw-probability"]', expected && `The chance of surface water flooding at this location could be more than ${band}% (${odds}) each year`)
 }
 
 describe('Results Page On Public', () => {
@@ -169,7 +158,7 @@ describe('Results Page On Public', () => {
     assertFZ1lt1haCopy(false)
     assertFZ2Copy()
     assertFZ3Copy(false)
-    assertSWCopy('', true)
+    assertSWCopy('1', '1 in 100', true)
     assertROFRSDefCCCopy('1', '1 in 100', true)
     assertROFRSUnDefCCCopy('1', '1 in 100', true)
     assertROFRSDefCopy('1', '1 in 100', true)
@@ -188,7 +177,7 @@ describe('Results Page On Public', () => {
     assertFZ1lt1haCopy(false)
     assertFZ2Copy(false)
     assertFZ3Copy()
-    assertSWCopy('', true)
+    assertSWCopy('3.3', '1 in 30', true)
     assertROFRSDefCCCopy('3.3', '1 in 30', true)
     assertROFRSUnDefCCCopy('1', '1 in 100', true)
     assertROFRSDefCopy('3.3', '1 in 30', true)
