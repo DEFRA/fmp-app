@@ -4,13 +4,14 @@ const floodZone2Light = '#1d70b8'
 const floodZone2Dark = '#41ab5d'
 const floodZone3Light = '#003078'
 const floodZone3Dark = '#e5f5e0'
+const white = '#ffffff'
 
 const colours = { // [default, dark]
   nonFloodZone: [nonFloodZoneLight, nonFloodZoneDark],
   floodZone2: [floodZone2Light, floodZone2Dark],
   floodZone3: [floodZone3Light, floodZone3Dark],
-  waterStorageAreas: ['#12393d', '#c979a9'],
-  floodDefences: ['#12393d', '#c979a9'],
+  waterStorageAreas: ['#12393d', white],
+  floodDefences: ['#12393d', white],
   mainRivers: ['#f47738', '#f47738'],
   floodExtents: [nonFloodZoneLight, nonFloodZoneDark]
 }
