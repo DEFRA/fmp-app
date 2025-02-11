@@ -36,14 +36,14 @@ const getCentreAndExtents = (polygonArray) => {
 }
 
 const showMap = async (polygonArray) => {
-  const { token } = await getEsriToken()
-  esriConfig.apiKey = token
+  const { token: esriToken } = await getEsriToken()
+  esriConfig.apiKey = esriToken
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
     before: async params => {
-      const token = (await getOsToken()).token
+      const osToken = (await getOsToken()).token
       params.requestOptions.headers = {
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + osToken
       }
     }
   })

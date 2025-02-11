@@ -730,6 +730,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
+  const getFloodZoneAttributes = async (coord, feature) => {
+    try {
+      return await getModelFeatureLayer(coord, feature.layer)
+    } catch (error) {
+      if (isInvalidTokenError(error)) {
+        const { token } = await getEsriToken(true) // forceRefresh = true
+        mapState.esriConfig.apiKey = token
+        return await getModelFeatureLayer(coord, feature.layer)
+      }
+      console.log('unexpected error caught when calling getModelFeatureLayer', error)
+    }
+  }
+
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
     const { coord, features } = e.detail
@@ -749,18 +762,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
 
-        const attributes = await (async () => {
-          try {
-            return await getModelFeatureLayer(coord, feature.layer)
-          } catch (error) {
-            if (isInvalidTokenError(error)) {
-              const { token } = await getEsriToken(true) // forceRefresh = true
-              mapState.esriConfig.apiKey = token
-              return await getModelFeatureLayer(coord, feature.layer)
-            }
-            console.log('unexpected error caught when calling getModelFeatureLayer', error)
-          }
-        })()
+        const attributes = await getFloodZoneAttributes(coord, feature)
 
         if (attributes && attributes.flood_source) {
           listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])

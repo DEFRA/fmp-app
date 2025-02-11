@@ -7,7 +7,7 @@ module.exports = [
     path: '/map',
     options: {
       description: 'a POC page to display the map component',
-      handler: async (request, h) => {
+      handler: async (_request, h) => {
         return h.view('map')
       }
     }
@@ -16,7 +16,7 @@ module.exports = [
     path: '/os-token',
     options: {
       description: 'Get a short lived token for the OS base maps',
-      handler: async (request, h) => {
+      handler: async (_request, _h) => {
         return await getOsToken()
       }
     }
@@ -26,7 +26,7 @@ module.exports = [
     path: '/esri-token',
     options: {
       description: 'Get a short lived token for the ESRI map data and layers',
-      handler: async (request, h) => {
+      handler: async (_request, _h) => {
         return await getEsriToken()
       }
     }

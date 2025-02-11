@@ -12,7 +12,7 @@ const setExpiryTime = () => {
 }
 
 const isExpired = () => {
-  const timestampNow = new Date() - 0
+  const timestampNow = +new Date() - 0
   const expired = tokenExpiryTime && timestampNow > tokenExpiryTime - FIVE_SECONDS
   return tokenExpiryTime && expired
 }
@@ -42,9 +42,9 @@ const refreshToken = async () => {
   }
   const appManager = appManagerInstance
   refreshTokenPromise = appManager.refreshToken()
-  const token = await refreshTokenPromise.then((token) => {
+  const token = await refreshTokenPromise.then((refreshedToken) => {
     refreshTokenPromise = undefined
-    return token
+    return refreshedToken
   })
   setExpiryTime()
   return token
