@@ -641,10 +641,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   floodMap.addEventListener('ready', async e => {
-    const { mode, segments, layers, basemap } = e.detail
+    const { mode, segments, layers, style } = e.detail
     mapState.segments = segments
     mapState.layers = layers
-    mapState.isDark = basemap === 'dark'
+    mapState.isDark = style?.name === 'dark'
     mapState.isRamp = layers.includes('md')
     console.log('ready mapState', mapState)
     await addLayers()
@@ -653,10 +653,10 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
-    const { type, mode, segments, layers, basemap } = e.detail
+    const { type, mode, segments, layers, style } = e.detail
     mapState.segments = segments
     mapState.layers = layers
-    mapState.isDark = basemap === 'dark'
+    mapState.isDark = style === 'dark'
     mapState.isRamp = layers.includes('md')
     console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
