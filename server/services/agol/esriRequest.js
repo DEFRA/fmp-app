@@ -1,6 +1,7 @@
 const { config } = require('../../../config')
 const { queryFeatures } = require('@esri/arcgis-rest-feature-service')
-const { getEsriToken, INVALID_TOKEN_CODE } = require('./getEsriToken')
+const { getEsriToken } = require('./getEsriToken')
+const { esriStatusCodes } = require('../../constants')
 
 const esriRequest = async (endPoint, geometry, geometryType) => {
   const { token } = await getEsriToken()
@@ -17,7 +18,7 @@ const esriRequest = async (endPoint, geometry, geometryType) => {
   try {
     return (await queryFeatures(requestObject)).features
   } catch (error) {
-    if (error?.response?.error?.code !== INVALID_TOKEN_CODE) {
+    if (error?.response?.error?.code !== esriStatusCodes.INVALID_TOKEN_CODE) {
       throw error
     }
     // If the token is invalidated, try one more time with a refrehed token before throwing

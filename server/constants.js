@@ -48,6 +48,10 @@ const statusCodes = {
   SERVICE_UNAVAILABLE: 503
 }
 
+const esriStatusCodes = {
+  INVALID_TOKEN_CODE: 498
+}
+
 const triageRoutes = {
   'about-map': '/about-map',
   'buy-sell': CYLTFRIURL,
@@ -60,5 +64,6 @@ module.exports = Object.freeze({
   routes,
   views,
   statusCodes,
-  triageRoutes
+  triageRoutes,
+  esriStatusCodes
 })

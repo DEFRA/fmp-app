@@ -1,6 +1,7 @@
 const { config } = require('../../../config')
 const { request } = require('@esri/arcgis-rest-request')
-const { getEsriToken, INVALID_TOKEN_CODE } = require('./getEsriToken')
+const { getEsriToken } = require('./getEsriToken')
+const { esriStatusCodes } = require('../../constants')
 
 const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   const { token } = await getEsriToken()
@@ -21,7 +22,7 @@ const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   try {
     return await request(url, requestObject)
   } catch (error) {
-    if (error?.response?.error?.code !== INVALID_TOKEN_CODE) {
+    if (error?.response?.error?.code !== esriStatusCodes.INVALID_TOKEN_CODE) {
       throw error
     }
     const { token: newToken } = await getEsriToken(true) // true implies forceRefresh

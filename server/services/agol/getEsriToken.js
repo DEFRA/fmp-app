@@ -1,11 +1,9 @@
 const { config } = require('../../../config')
 const { ApplicationCredentialsManager } = require('@esri/arcgis-rest-request')
-
 // const tokenDurationInMinutes = 7200 // 5 Days
 const tokenDurationInMinutes = 1
 const ONE_MINUTE_MS = 60000
 const FIVE_SECONDS = 5000
-const INVALID_TOKEN_CODE = 498
 let tokenExpiryTime
 let appManagerInstance
 let refreshTokenPromise
@@ -78,10 +76,4 @@ const getEsriToken = async (forceRefresh = false) => {
   return { token, expires, durationMs }
 }
 
-const revokeEsriToken = async () => {
-  const appManager = await getAppManager()
-  appManager.token = 'xxx' + appManager.token
-  return appManager.token
-}
-
-module.exports = { getEsriToken, revokeEsriToken, INVALID_TOKEN_CODE }
+module.exports = { getEsriToken }
