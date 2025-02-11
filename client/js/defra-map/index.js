@@ -740,6 +740,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         return await getModelFeatureLayer(coord, feature.layer)
       }
       console.log('unexpected error caught when calling getModelFeatureLayer', error)
+      return undefined
     }
   }
 
