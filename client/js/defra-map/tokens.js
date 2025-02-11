@@ -34,6 +34,14 @@ export const getInterceptors = () => {
         Authorization: 'Bearer ' + token
       }
     }
+  }, {
+    urls: 'https://tiles.arcgis.com/tiles',
+    error: async (error) => {
+      if (isInvalidTokenError(error)) {
+        console.log('refreshing esri token')
+        await refreshEsriToken()
+      }
+    }
   }]
 }
 
@@ -81,3 +89,15 @@ export const getDefraMapConfig = async () => {
   }
   return defraMapConfig
 }
+
+let _esriConfig
+export const setEsriConfig = (esriConfig) => (_esriConfig = esriConfig)
+
+const refreshEsriToken = async () => {
+  if (_esriConfig) {
+    const { token } = await getEsriToken(true) // forceRefresh = true
+    _esriConfig.apiKey = token
+  }
+}
+// The title case of these messages is inconsistent !
+export const isInvalidTokenError = (error) => (error.message === 'Invalid token.' || error.message === 'Invalid Token.')

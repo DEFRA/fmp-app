@@ -13,7 +13,7 @@ const parseEaMapsProduct1Response = (response) => {
 
   if (!results || !Array.isArray(results)) {
     const message = 'unexpected results from eaMaps generate pdf'
-    console.log(message, results)
+    console.log(message, results, data)
     throw new Error(message)
   }
 
