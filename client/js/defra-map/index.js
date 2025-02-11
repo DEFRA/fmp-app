@@ -73,15 +73,15 @@ const surfaceWaterStyleLayers = [
 
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
-const calculateExtent = (polygon) => {
-  const extent = polygon.reduce((acc, [x, y]) => {
+const calculateExtent = (polygonToCalculate) => {
+  const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
     acc[0] = Math.min(acc[0], x)
     acc[1] = Math.min(acc[1], y)
     acc[2] = Math.max(acc[2], x)
     acc[3] = Math.max(acc[3], y)
     return acc
   }, [Infinity, Infinity, -Infinity, -Infinity])
-  return extent
+  return calculatedExtent
 }
 const polygon = queryParams.get('polygon')
 let feature, extent
