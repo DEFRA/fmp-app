@@ -1,6 +1,6 @@
+import { esriStatusCodes } from '../../../server/constants'
 const osAuth = {}
 const esriAuth = {}
-
 export const getOsToken = async () => {
   // Check token is valid
   const isExpired = !Object.keys(osAuth).length || Date.now() >= osAuth?.expiresAt
@@ -99,5 +99,5 @@ const refreshEsriToken = async () => {
     _esriConfig.apiKey = token
   }
 }
-// The title case of these messages is inconsistent !
-export const isInvalidTokenError = (error) => (error.message === 'Invalid token.' || error.message === 'Invalid Token.')
+
+export const isInvalidTokenError = (error) => (error?.details?.httpStatus === esriStatusCodes.INVALID_TOKEN_CODE)
