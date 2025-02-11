@@ -56,10 +56,10 @@ export const getRequest = async (url) => {
   return new window.Request(url, options)
 }
 
-export const getEsriToken = async () => {
+export const getEsriToken = async (refresh = false) => {
   const hasToken = esriAuth.token
 
-  if (!hasToken) {
+  if (refresh || !hasToken) {
     try {
       const response = await window.fetch('/esri-token')
       const json = await response.json()

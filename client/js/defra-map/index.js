@@ -610,6 +610,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   }, (esriMapObjects) => {
     // Placeholder: FCRM-5578, the esriConfig.apiKey is passed here and can be saved and updated when the token expires
     console.log('esriMapObjects', esriMapObjects)
+    const { esriConfig } = esriMapObjects
+    mapState.esriConfig = esriConfig
   })
 
   const mapState = {
@@ -669,6 +671,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     ])
 
     const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
+
     const results = await model.queryFeatures({
       geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
       outFields: ['*'],
@@ -677,9 +680,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       units: 'meters',
       returnGeometry: false
     })
-    console.log('results', results)
     const attributes = results.features.length ? results.features[0].attributes : undefined
-    console.log('attributes', attributes)
     return attributes
   }
 
@@ -730,7 +731,20 @@ getDefraMapConfig().then((defraMapConfig) => {
       const floodZone = floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
-        const attributes = await getModelFeatureLayer(coord, feature.layer)
+
+        const attributes = await (async () => {
+          try {
+            return await getModelFeatureLayer(coord, feature.layer)
+          } catch (error) {
+            if (error.message === 'Invalid token.') {
+              const { token } = await getEsriToken(true) // forceRefresh = true
+              mapState.esriConfig.apiKey = token
+              return await getModelFeatureLayer(coord, feature.layer)
+            }
+            console.log('unexpected error caught when calling getModelFeatureLayer', error)
+          }
+        })()
+
         if (attributes && attributes.flood_source) {
           listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
         }
