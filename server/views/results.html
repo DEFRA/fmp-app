@@ -69,7 +69,7 @@
           </h2>
           <ul class="govuk-summary-card__actions">
             <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="/map?cz={{floodData.centreOfPolygon.x.toFixed(0)}},{{floodData.centreOfPolygon.y.toFixed(0)}},15&seg=rsd,pd,hr">See this risk on the map<span class="govuk-visually-hidden"> See the risk from rivers and the sea on the map</span></a>
+              <a class="govuk-link" href="/map?polygon={{ polygon }}&seg=rsd,pd,hr">See this risk on the map<span class="govuk-visually-hidden"> See the risk from rivers and the sea on the map</span></a>
             </li>
           </ul>
         </div>
@@ -195,7 +195,7 @@
             </h2>
             <ul class="govuk-summary-card__actions">
               <li class="govuk-summary-card__action">
-                <a class="govuk-link" href="/map?cz={{floodData.centreOfPolygon.x.toFixed(0)}},{{floodData.centreOfPolygon.y.toFixed(0)}},15&seg=sw,hr">See this risk on the map<span class="govuk-visually-hidden"> See the risk from surface water on the map</span></a>
+                <a class="govuk-link" href="/map?polygon={{ polygon }}&seg=sw,hr">See this risk on the map<span class="govuk-visually-hidden"> See the risk from surface water on the map</span></a>
               </li>
             </ul>
           </div>

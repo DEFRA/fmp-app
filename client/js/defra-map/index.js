@@ -71,6 +71,31 @@ const surfaceWaterStyleLayers = [
 //   'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
 // ]
 
+// capture polygon from query string
+const queryParams = new URLSearchParams(window.location.search)
+const calculateExtent = (polygonToCalculate) => {
+  const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
+    acc[0] = Math.min(acc[0], x)
+    acc[1] = Math.min(acc[1], y)
+    acc[2] = Math.max(acc[2], x)
+    acc[3] = Math.max(acc[3], y)
+    return acc
+  }, [Infinity, Infinity, -Infinity, -Infinity])
+  return calculatedExtent
+}
+const polygonQuery = queryParams.get('polygon')
+let featureQuery, extent
+if (polygonQuery) {
+  featureQuery = {
+    type: 'feature',
+    geometry: {
+      type: 'polygon',
+      coordinates: JSON.parse(polygonQuery)
+    }
+  }
+  extent = calculateExtent(JSON.parse(polygonQuery))
+}
+
 getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
@@ -405,6 +430,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     maxZoom: 20,
     centre: [340367, 322766],
     maxExtent: [0, 0, 700000, 1300000],
+    extent, // extent taken from polygon to fit map to drawn feature or null if not present
     height: '100%',
     hasGeoLocation: false,
     framework: 'esri',
@@ -593,16 +619,8 @@ getDefraMapConfig().then((defraMapConfig) => {
           url: '/map/styles/polygon-dark',
           attribution: osMasterMapAttribution
         }
-      ]
-      // Placeholder: FCRM-5588 When a polygon is passed in the url we should build a feature object like this and
-      // pass it in here
-      // , feature: {
-      //   type: 'feature',
-      //   geometry: {
-      //     type: 'polygon',
-      //     coordinates: [[[324667, 537194], [325298, 537194], [325298, 536563], [324667, 536563], [324667, 537194]]]
-      //   }
-      // }
+      ],
+      feature: featureQuery // feature derived from polygon query string or null if not present
     },
     queryLocation: {
       layers: vtLayers.map(vtLayer => vtLayer.name)
