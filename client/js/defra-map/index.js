@@ -83,17 +83,17 @@ const calculateExtent = (polygonToCalculate) => {
   }, [Infinity, Infinity, -Infinity, -Infinity])
   return calculatedExtent
 }
-const polygon = queryParams.get('polygon')
-let feature, extent
-if (polygon) {
-  feature = {
+const polygonQuery = queryParams.get('polygon')
+let featureQuery, extent
+if (polygonQuery) {
+  featureQuery = {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(polygon)
+      coordinates: JSON.parse(polygonQuery)
     }
   }
-  extent = calculateExtent(JSON.parse(polygon))
+  extent = calculateExtent(JSON.parse(polygonQuery))
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -620,7 +620,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           attribution: osMasterMapAttribution
         }
       ],
-      feature // feature derived from polygon query string or null if not present
+      feature: featureQuery // feature derived from polygon query string or null if not present
     },
     queryLocation: {
       layers: vtLayers.map(vtLayer => vtLayer.name)
