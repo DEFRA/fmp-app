@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   build:
     name: Run CI Tests
@@ -8,12 +8,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install nodejs
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: "16.14.x"
 
