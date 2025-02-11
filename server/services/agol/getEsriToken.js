@@ -32,7 +32,7 @@ const getAppManager = async () => {
     })
     setExpiryTime()
   }
-  return await appManagerInstance
+  return appManagerInstance
 }
 
 const refreshToken = async () => {
@@ -43,7 +43,7 @@ const refreshToken = async () => {
   const appManager = appManagerInstance
   refreshTokenPromise = appManager.refreshToken()
   const token = await refreshTokenPromise.then((refreshedToken) => {
-    refreshTokenPromise = undefined
+    refreshTokenPromise = null
     return refreshedToken
   })
   setExpiryTime()

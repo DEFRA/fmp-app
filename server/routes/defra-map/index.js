@@ -17,7 +17,7 @@ module.exports = [
     options: {
       description: 'Get a short lived token for the OS base maps',
       handler: async (_request, _h) => {
-        return await getOsToken()
+        return getOsToken()
       }
     }
   },
@@ -27,7 +27,7 @@ module.exports = [
     options: {
       description: 'Get a short lived token for the ESRI map data and layers',
       handler: async (_request, _h) => {
-        return await getEsriToken()
+        return getEsriToken()
       }
     }
   }

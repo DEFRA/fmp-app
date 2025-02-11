@@ -732,12 +732,12 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getFloodZoneAttributes = async (coord, feature) => {
     try {
-      return await getModelFeatureLayer(coord, feature.layer)
+      return getModelFeatureLayer(coord, feature.layer)
     } catch (error) {
       if (isInvalidTokenError(error)) {
         const { token } = await getEsriToken(true) // forceRefresh = true
         mapState.esriConfig.apiKey = token
-        return await getModelFeatureLayer(coord, feature.layer)
+        return getModelFeatureLayer(coord, feature.layer)
       }
       console.log('unexpected error caught when calling getModelFeatureLayer', error)
       return undefined
