@@ -732,7 +732,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getFloodZoneAttributes = async (coord, feature) => {
     try {
-      return getModelFeatureLayer(coord, feature.layer)
+      return await getModelFeatureLayer(coord, feature.layer)
     } catch (error) {
       if (isInvalidTokenError(error)) {
         const { token } = await getEsriToken(true) // forceRefresh = true
