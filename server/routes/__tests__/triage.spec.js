@@ -17,8 +17,8 @@ describe('Triage Page', () => {
 
   const radioItems = [
     {
-      id: 'about-map',
-      expectedLocation: '/about-map'
+      id: 'location',
+      expectedLocation: '/location'
     },
     {
       id: 'buy-sell',

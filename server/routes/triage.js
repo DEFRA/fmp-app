@@ -19,7 +19,7 @@ const validatePayload = payload => {
   if (!redirectTo) {
     errorSummary.push({
       text: 'Please select an option to continue',
-      href: '#about-map'
+      href: '#location'
     })
   }
   return {
