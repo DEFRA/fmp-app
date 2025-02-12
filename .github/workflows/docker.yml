@@ -52,7 +52,7 @@ jobs:
           tags: |
             type=semver,priority=900,pattern={{version}},value=${{ steps.raw-tag.outputs.raw_tag }}
             type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-3.0') }}
-            type=raw,value={{branch}}-{{sha}}
+            type=raw,value=Branch-{{branch}}-{{sha}}
           labels: |
             org.opencontainers.image.licenses=OGL-UK-3.0
 
