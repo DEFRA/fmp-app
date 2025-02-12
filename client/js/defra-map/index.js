@@ -443,7 +443,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     zoom: 7.7,
     minZoom: 6,
     maxZoom: 20,
-    centre: [340367, 322766],
+    center: [340367, 322766],
     maxExtent: [0, 0, 700000, 1300000],
     extent, // extent taken from polygon to fit map to drawn feature or null if not present
     height: '100%',
