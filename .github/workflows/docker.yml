@@ -49,7 +49,7 @@ jobs:
           images: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPOSITORY }}
           tags: |
             type=semver,priority=900,pattern={{raw}}
-            type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{is_default_branch}}
+            type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-3.0') }}
             type=raw,value=mytag-{{branch}}-{{sha}}
           labels: |
             org.opencontainers.image.licenses=OGL-UK-3.0
