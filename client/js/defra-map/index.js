@@ -121,91 +121,106 @@ getDefraMapConfig().then((defraMapConfig) => {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
       q: '',
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
-      likelihoodLabel: terms.likelihood.rsHigh
+      likelihoodLabel: terms.likelihood.rsHigh,
+      chanceLabel: terms.chance.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
       q: 'rsdpdhr',
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1'],
-      likelihoodLabel: terms.likelihood.rsHigh
+      likelihoodLabel: terms.likelihood.rsHigh,
+      chanceLabel: terms.chance.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
       q: 'rsdpdmr',
       styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1'],
-      likelihoodLabel: terms.likelihood.rsMedium
+      likelihoodLabel: terms.likelihood.rsMedium,
+      chanceLabel: terms.chance.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
       q: 'rsupdmr',
       styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1'],
-      likelihoodLabel: terms.likelihood.rsMedium
+      likelihoodLabel: terms.likelihood.rsMedium,
+      chanceLabel: terms.chance.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
       q: 'rsdpdlr',
       styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1'],
-      likelihoodLabel: terms.likelihood.rsLow
+      likelihoodLabel: terms.likelihood.rsLow,
+      chanceLabel: terms.chance.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
       q: 'rsupdlr',
       styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1'],
-      likelihoodLabel: terms.likelihood.rsLow
+      likelihoodLabel: terms.likelihood.rsLow,
+      chanceLabel: terms.chance.rsLow
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
       q: '',
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsHigh
+      likelihoodLabel: terms.likelihood.rsHigh,
+      chanceLabel: terms.chance.rsHigh
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
       q: 'rsdclhr',
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsHigh
+      likelihoodLabel: terms.likelihood.rsHigh,
+      chanceLabel: terms.chance.rsHigh
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
       q: 'rsdclmr',
       styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsMedium
+      likelihoodLabel: terms.likelihood.rsMedium,
+      chanceLabel: terms.chance.rsMedium
     },
     {
       name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
       q: 'rsuclmr',
       styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsMedium
+      likelihoodLabel: terms.likelihood.rsMedium,
+      chanceLabel: terms.chance.rsMedium
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
       q: 'rsdcllr',
       styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsLow
+      likelihoodLabel: terms.likelihood.rsLow,
+      chanceLabel: terms.chance.rsLow
     },
     {
       name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
       q: 'rsucllr',
       styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1'],
-      likelihoodLabel: terms.likelihood.rsLow
+      likelihoodLabel: terms.likelihood.rsLow,
+      chanceLabel: terms.chance.rsLow
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_Low',
       q: 'swlr',
       styleLayers: surfaceWaterStyleLayers,
-      likelihoodLabel: terms.likelihood.swLow
+      likelihoodLabel: terms.likelihood.swLow,
+      chanceLabel: terms.chance.swLow
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_Medium',
       q: 'swmr',
       styleLayers: surfaceWaterStyleLayers,
-      likelihoodLabel: terms.likelihood.swMedium
+      likelihoodLabel: terms.likelihood.swMedium,
+      chanceLabel: terms.chance.swMedium
     },
     {
       name: 'Risk_of_Flooding_from_Surface_Water_High',
       q: 'swhr',
       styleLayers: surfaceWaterStyleLayers,
-      likelihoodLabel: terms.likelihood.swHigh
+      likelihoodLabel: terms.likelihood.swHigh,
+      chanceLabel: terms.chance.swHigh
     }
     // ,
     // {
@@ -512,15 +527,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: terms.likelihood.rsHigh
+            label: terms.chance.rsHigh
           },
           {
             id: 'mr',
-            label: terms.likelihood.rsMedium
+            label: terms.chance.rsMedium
           },
           {
             id: 'lr',
-            label: terms.likelihood.rsLow
+            label: terms.chance.rsLow
           }
         ]
       },
@@ -532,15 +547,15 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'hr',
-            label: terms.likelihood.swHigh
+            label: terms.chance.swHigh
           },
           {
             id: 'mr',
-            label: terms.likelihood.swMedium
+            label: terms.chance.swMedium
           },
           {
             id: 'lr',
-            label: terms.likelihood.swLow
+            label: terms.chance.swLow
           }
         ]
       },
@@ -552,11 +567,11 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'mr',
-            label: terms.likelihood.rsMedium
+            label: terms.chance.rsMedium
           },
           {
             id: 'lr',
-            label: terms.likelihood.rsLow
+            label: terms.chance.rsLow
           }
         ]
       }
@@ -746,9 +761,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
 
     if (feature && feature._symbol !== undefined) {
+      // This part is currently only applicable to Flood_Zones
       const floodZone = floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
+        // call getModelFeatureLayer to get the flood source
+        // (was previously using ModelOriginLayer but Lloyd said Feature Layer is better.)
         const attributes = await getModelFeatureLayer(coord, feature.layer)
         if (attributes && attributes.flood_source) {
           listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
@@ -756,14 +774,24 @@ getDefraMapConfig().then((defraMapConfig) => {
       }
     } else {
       if (mapState.segments.includes('fz')) {
+        // This part is applicable for Flood_Zones, when an area outside 
+        // of a zone has been clicked
         listContents.push(['Flood zone', '1'])
       } else {
+        // This part is applicable for non Flood_Zones layers, when an area outside 
+        // of a zone has been clicked
         const dataset = getDataset()
         if (dataset) {
           listContents.push(['Dataset', dataset])
         }
         if (vtLayer && vtLayer.likelihoodLabel) {
-          listContents.push(['Annual likelihood of flooding', vtLayer.likelihoodLabel])
+          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
+        }
+        if (vtLayer && vtLayer.chanceLabel) {
+          listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
+        }
+        if (vtLayer && vtLayer.likelihoodchanceLabel) {
+          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
         }
       }
     }
