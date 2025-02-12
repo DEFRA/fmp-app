@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - release-3.0
+    tags:
+      - "v*.*.*"
   workflow_dispatch:
   
 env:
@@ -50,7 +52,7 @@ jobs:
           tags: |
             type=semver,priority=900,pattern={{raw}}
             type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-3.0') }}
-            type=raw,value=mytag-{{branch}}-{{sha}}
+            type=raw,value={{branch}}-{{sha}}
           labels: |
             org.opencontainers.image.licenses=OGL-UK-3.0
 
