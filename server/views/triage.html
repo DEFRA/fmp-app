@@ -24,11 +24,11 @@
       {% endif %}
       {{ govukRadios({
         name: "triageOptions",
-        errorMessage: findErrorMessageById(errorSummary, "about-map"),
+        errorMessage: findErrorMessageById(errorSummary, "location"),
         items: [
           {
-            id: "about-map",
-            value: "about-map",
+            id: "location",
+            value: "location",
             text: "For planning purposes or scoping a site",
             hint: { text: "You will be taken to the flood map for planning service" }
           },
