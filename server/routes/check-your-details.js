@@ -83,7 +83,7 @@ module.exports = [
         // Forward details to confirmation page
         const queryParams = {
           applicationReferenceNumber,
-          polygon: polygon,
+          polygon,
           recipientemail,
           zoneNumber
         }
