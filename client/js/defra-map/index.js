@@ -774,11 +774,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       }
     } else {
       if (mapState.segments.includes('fz')) {
-        // This part is applicable for Flood_Zones, when an area outside 
+        // This part is applicable for Flood_Zones, when an area outside
         // of a zone has been clicked
         listContents.push(['Flood zone', '1'])
       } else {
-        // This part is applicable for non Flood_Zones layers, when an area outside 
+        // This part is applicable for non Flood_Zones layers, when an area outside
         // of a zone has been clicked
         const dataset = getDataset()
         if (dataset) {
