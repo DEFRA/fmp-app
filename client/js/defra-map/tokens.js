@@ -1,6 +1,6 @@
+import { esriStatusCodes } from '../../../server/constants'
 const osAuth = {}
 const esriAuth = {}
-
 export const getOsToken = async () => {
   // Check token is valid
   const isExpired = !Object.keys(osAuth).length || Date.now() >= osAuth?.expiresAt
@@ -34,6 +34,14 @@ export const getInterceptors = () => {
         Authorization: 'Bearer ' + token
       }
     }
+  }, {
+    urls: 'https://tiles.arcgis.com/tiles',
+    error: async (error) => {
+      if (isInvalidTokenError(error)) {
+        console.log('refreshing esri token')
+        await refreshEsriToken()
+      }
+    }
   }]
 }
 
@@ -56,15 +64,14 @@ export const getRequest = async (url) => {
   return new window.Request(url, options)
 }
 
-export const getEsriToken = async () => {
-  // *ESRI manages this somehow?
+export const getEsriToken = async (refresh = false) => {
   const hasToken = esriAuth.token
 
-  if (!hasToken) {
+  if (refresh || !hasToken) {
     try {
       const response = await window.fetch('/esri-token')
       const json = await response.json()
-      esriAuth.token = json.token
+      Object.assign(esriAuth, json)
     } catch (err) {
       console.log('Error getting ESRI access token: ', err)
     }
@@ -82,3 +89,15 @@ export const getDefraMapConfig = async () => {
   }
   return defraMapConfig
 }
+
+let _esriConfig
+export const setEsriConfig = (esriConfig) => (_esriConfig = esriConfig)
+
+const refreshEsriToken = async () => {
+  if (_esriConfig) {
+    const { token } = await getEsriToken(true) // forceRefresh = true
+    _esriConfig.apiKey = token
+  }
+}
+
+export const isInvalidTokenError = (error) => (error?.details?.httpStatus === esriStatusCodes.INVALID_TOKEN_CODE)

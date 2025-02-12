@@ -1,6 +1,6 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
-import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig } from './tokens.js'
+import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, isInvalidTokenError } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
@@ -642,8 +642,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       layers: vtLayers.map(vtLayer => vtLayer.name)
     }
   }, (esriMapObjects) => {
-    // Placeholder: FCRM-5578, the esriConfig.apiKey is passed here and can be saved and updated when the token expires
-    console.log('esriMapObjects', esriMapObjects)
+    const { esriConfig } = esriMapObjects
+    mapState.esriConfig = esriConfig
+    setEsriConfig(esriConfig)
   })
 
   const mapState = {
@@ -703,6 +704,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     ])
 
     const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
+
     const results = await model.queryFeatures({
       geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
       outFields: ['*'],
@@ -711,9 +713,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       units: 'meters',
       returnGeometry: false
     })
-    console.log('results', results)
     const attributes = results.features.length ? results.features[0].attributes : undefined
-    console.log('attributes', attributes)
     return attributes
   }
 
@@ -746,6 +746,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
+  const getFloodZoneAttributes = async (coord, feature) => {
+    try {
+      return await getModelFeatureLayer(coord, feature.layer)
+    } catch (error) {
+      if (isInvalidTokenError(error)) {
+        const { token } = await getEsriToken(true) // forceRefresh = true
+        mapState.esriConfig.apiKey = token
+        return getModelFeatureLayer(coord, feature.layer)
+      }
+      console.log('unexpected error caught when calling getModelFeatureLayer', error)
+      return undefined
+    }
+  }
+
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
     const { coord, features } = e.detail
@@ -765,9 +779,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       const floodZone = floodZoneSymbolIndex[feature._symbol]
       if (floodZone) {
         listContents.push(['Flood zone', floodZone])
-        // call getModelFeatureLayer to get the flood source
-        // (was previously using ModelOriginLayer but Lloyd said Feature Layer is better.)
-        const attributes = await getModelFeatureLayer(coord, feature.layer)
+
+        const attributes = await getFloodZoneAttributes(coord, feature)
+
         if (attributes && attributes.flood_source) {
           listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
         }
