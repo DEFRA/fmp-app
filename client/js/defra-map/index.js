@@ -784,13 +784,13 @@ getDefraMapConfig().then((defraMapConfig) => {
         if (dataset) {
           listContents.push(['Dataset', dataset])
         }
-        if (vtLayer && vtLayer.likelihoodLabel) {
+        if (vtLayer?.likelihoodLabel) {
           listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
         }
-        if (vtLayer && vtLayer.chanceLabel) {
+        if (vtLayer?.chanceLabel) {
           listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
         }
-        if (vtLayer && vtLayer.likelihoodchanceLabel) {
+        if (vtLayer?.likelihoodchanceLabel) {
           listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
         }
       }
