@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - release-3.0
-      - release-test
     tags:
       - "v*.*.*"
   workflow_dispatch:
@@ -52,7 +51,7 @@ jobs:
           images: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPOSITORY }}
           tags: |
             type=semver,priority=900,pattern={{version}}
-            type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-test') }}
+            type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-3.0') }}
             type=raw,value={{branch}}-{{sha}}
           labels: |
             org.opencontainers.image.licenses=OGL-UK-3.0
