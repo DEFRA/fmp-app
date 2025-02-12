@@ -50,7 +50,7 @@ jobs:
             latest=false
           images: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPOSITORY }}
           tags: |
-            type=semver,event=tag,priority=900,pattern={{version}},value=${{ steps.raw-tag.outputs.raw_tag }}
+            type=semver,priority=900,pattern={{version}},value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ !startsWith(github.ref, 'refs/tags/v') }}
             type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'release-3.0') }}
             type=raw,value={{branch}}-{{sha}},enable=${{ !startsWith(github.ref, 'refs/tags/v') }}
 
@@ -66,7 +66,7 @@ jobs:
           target: production
           build-args: |
             GIT_COMMIT=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-            BUILD_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            BUILD_VERSION=${{ steps.raw-tag.outputs.raw_tag }}
           push: true
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
