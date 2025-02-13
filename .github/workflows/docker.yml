@@ -79,7 +79,7 @@ jobs:
         run: |
           {
             echo "### Docker Image details"
-            echo "The tag is **${{ steps.raw-tag.outputs.raw_tag }}**"
+            echo "The tag is **${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}**"
             echo "| Label      | Value |"
             echo "| ---------- | ----- |"
             echo "| created    | ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }} |"
