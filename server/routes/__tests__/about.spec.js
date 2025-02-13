@@ -12,4 +12,14 @@ describe('About Page', () => {
     assertCopy('#fmp-api-version', 'Version: v8.8.8')
     assertCopy('#fmp-api-revision', 'Revision: 9988776')
   })
+
+  it('/about page should contain version numbers as expected when a tag build', async () => {
+    jest.mock('../../../version', () => ({ version: '3.0.0', revision: '925617123' }))
+    await submitGetRequest({ url }, 'Flood map for planning')
+    assertCopy('#fmp-app-version', 'Version: 3.0.0')
+    assertCopy('#fmp-app-revision', 'Revision: 9256171')
+    assertCopy('#fmp-app-type', 'internal')
+    assertCopy('#fmp-api-version', 'Version: v8.8.8')
+    assertCopy('#fmp-api-revision', 'Revision: 9988776')
+  })
 })
