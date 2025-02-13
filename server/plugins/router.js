@@ -1,6 +1,5 @@
 const routes = [].concat(
   require('../routes/defra-map'),
-  require('../routes/about-map'),
   require('../routes/triage'),
   require('../routes/results'),
   require('../routes/defra-map/map-config'),

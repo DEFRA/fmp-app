@@ -1,7 +1,6 @@
 // Routes and Views
 const HOME = 'home'
 const TRIAGE = 'triage'
-const ABOUT_MAP = 'about-map'
 const LOCATION = 'location'
 const ENGLAND_ONLY = 'england-only'
 const MAP = 'map'
@@ -17,7 +16,6 @@ const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-country
 const views = {
   HOME,
   TRIAGE,
-  ABOUT_MAP,
   LOCATION,
   ENGLAND_ONLY,
   MAP,
@@ -53,7 +51,7 @@ const esriStatusCodes = {
 }
 
 const triageRoutes = {
-  'about-map': '/about-map',
+  location: routes.LOCATION,
   'buy-sell': CYLTFRIURL,
   'flood-history': FLOOD_HISTORY_URL,
   insurance: CYLTFRIURL,
