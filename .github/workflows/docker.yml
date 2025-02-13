@@ -66,10 +66,10 @@ jobs:
           target: production
           build-args: |
             GIT_COMMIT=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-            BUILD_VERSION=${{ steps.raw-tag.outputs.raw_tag }}
+            BUILD_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
           push: true
           labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+          tags: ${{ steps.meta.outputs.tags }}
 
       # Generate a summary that will be displayed against the Job when selected in the Actions tab.
       # We this to quickly see details for the image generated instead of digging into the build output.
