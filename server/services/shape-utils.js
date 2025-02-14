@@ -1,13 +1,15 @@
 const getAreaPolygon = require('area-polygon')
 const { polygon: TurfPolygon, centroid } = require('@turf/turf')
 
+const roundTo2Dp = (x) => Math.round(x * 100) / 100
+
 const getCentreOfPolygon = (polygon) => {
   polygon = polygonToArray(polygon)
   const turfPolygon = TurfPolygon([polygon])
   const turfCentre = centroid(turfPolygon)
   return {
-    x: turfCentre.geometry.coordinates[0],
-    y: turfCentre.geometry.coordinates[1]
+    x: roundTo2Dp(turfCentre.geometry.coordinates[0]),
+    y: roundTo2Dp(turfCentre.geometry.coordinates[1])
   }
 }
 
