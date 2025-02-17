@@ -429,7 +429,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
-  const osAccountNumber = 'AC0000807064' // FCRM-5609 is raised to add this to a constants file
+  const osAccountNumber = defraMapConfig.OS_ACCOUNT_NUMBER
   const currentYear = new Date().getFullYear()
   const osAttribution = `Contains OS data © Crown copyright and database rights ${currentYear}`
   const osMasterMapAttribution = `© Crown copyright and database rights ${currentYear} OS ${osAccountNumber}`
