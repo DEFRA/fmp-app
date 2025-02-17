@@ -18,27 +18,54 @@
       <p class="govuk-body">
         Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it out.
       </p>
-      <p class="govuk-body">For developments in flood zone 3 your FRA should include an assessment of all sources of
-        flooding and
-        <a href="">take into account climate change allowances</a>.
+      <p class="govuk-body">
+        For developments in flood zone {{floodData.floodZone}} your FRA should include an assessment of all sources of
+        flooding and <a href="">take into account climate change allowances</a>.
       </p>
       <p class="govuk-body">
         Find out <a href="#">how to do an assessment</a>.
       </p>
       <p class="govuk-body">
-        To find out about other factors that might affect the flood risk of this location, you should also check:
+        Find out more about <a href="#">flood zones and what they mean</a>
       </p>
+      
+      <p class="govuk-body">
+        There could be a risk of flooding from the surface water at this site.
+      </p>
+
+      <p class="govuk-body">
+        You should check 
+        <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{floodData.centreOfPolygon.x}}&northing={{floodData.centreOfPolygon.y}}&map=SurfaceWater">
+          the surface water map on the check your long term flood risk service.
+        </a>
+      </p>
+
+      <p class="govuk-body">
+        When using this data the following considerations apply:
+      </p>
+
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          <a href="https://www.gov.uk/check-long-term-flood-risk">surface water, groundwater and reservoir flood risk </a>
+          surface water extents are suitable for use in planning
         </li>
         <li>
-          the <a href="https://www.bgs.ac.uk/datasets/groundwater-flooding/">British Geological Survey groundwater
-            flooding data</a>, <a
-            href="https://www.gov.uk/government/collections/groundwater-current-status-and-flood-risk">groundwater:
-            current status and flood risk</a> and the guide on <a
-            href="https://www.gov.uk/guidance/mining-and-groundwater-constraints-for-development">mining and groundwater
-            constraints for development</a> for information on groundwater flood risk
+          surface water climate change scenarios may help to inform risk assessments, 
+          but the available data fall short of what is required to assess planned development 
+        </li>
+        <li>
+          surface water depth information should not be used for planning purposes
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        To find out about other factors that might affect the flood risk of this location, you should also check:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{floodData.centreOfPolygon.x}}&northing={{floodData.centreOfPolygon.y}}&map=SurfaceWater">
+            groundwater and reservoir flood risk
+          </a>
         </li>
         <li>
           your local planning authority's strategic flood risk assessment (SFRA), which includes future flood risk.
@@ -51,55 +78,55 @@
 
       <p class="govuk-body">You will also need to assess <a
           href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41">residual
-          risk</a> from flood defence breach in this location. If available, we will provide breach hazard mapping data to
-        help you do this. </p>
+          risk</a> from flood defence breach in this location.
+          If available, we will provide breach hazard mapping data to help you do this. 
+      </p>
 
       <h3 class="govuk-heading-m">
         Get help
       </h3>
 
       <p class="govuk-body">
-        For help deciding what flood risk information you need, email the Environment Agency team in ((AreaName)) at
-        ((PSOEmail))
+        For help deciding what flood risk information you need, 
+        email the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}
       </p>
 
       <h3 class="govuk-heading-m">
         Download a flood map for this location
       </h3>
 
-      <p class="govuk-body">The flood map is suitable for a local planning authority to use when checking a planning
-        application to see if a
-        development is:</p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          in flood zone 1, 2 or 3
-        </li>
-        <li>
-          within 20 meters of a main river or a flood defence
-        </li>
-        <li>
-          in a water storage area
-        </li>
-      </ul>
-
       {% include "./partials/product-1-form.html" %}
 
-      <!-- <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-        Download flood map for this location (PDF)
-      </button> -->
-
       <h3 class="govuk-heading-m">
-        Order detailed flood risk data
+        Order flood risk data for rivers and the sea
       </h3>
 
       <p class="govuk-body">
-        Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.
+        The flood risk data usually includes:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          detailed flood data
+        </li>
+        <li>
+          past flood event data
+        </li>
+        <li>
+          modelled flood levels and extents
+        </li>
+        <li>
+          flood defence locations and attributes
+        </li>
+      </ul>
+
+    
+      <p class="govuk-body">
+        You should receive your data within 20 working days.
       </p>
       <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
         Order flood risk data
       </a>
-
     </div>
   </div>
 {% endblock %}
