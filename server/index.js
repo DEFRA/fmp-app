@@ -1,6 +1,7 @@
 const hapi = require('@hapi/hapi')
 const { config } = require('./../config')
 const CatboxMemory = require('@hapi/catbox-memory')
+const { OS_ACCOUNT_NUMBER } = require('./constants')
 
 async function createServer () {
   // Create the hapi server
@@ -47,6 +48,10 @@ async function createServer () {
   await server.register(require('./plugins/register-cookie'))
 
   server.ext('onPreResponse', async (request, h) => {
+    if (!request.response.isBoom && request.response?.source?.context) {
+      request.response.source.context.osAccountNumber = OS_ACCOUNT_NUMBER
+    }
+
     request.response.header('cache-control', 'no-cache')
     request.response.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
     request.response.header('Content-Security-Policy')

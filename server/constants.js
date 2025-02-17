@@ -8,7 +8,7 @@ const RESULTS = 'results'
 const CONTACT = 'contact'
 const CHECK_YOUR_DETAILS = 'check-your-details'
 const CONFIRMATION = 'confirmation'
-
+const OS_ACCOUNT_NUMBER = 'AC0000807064'
 const CYLTFRIURL = 'https://www.gov.uk/check-long-term-flood-risk'
 const FLOOD_HISTORY_URL = 'https://www.gov.uk/request-flooding-history'
 const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
@@ -63,5 +63,6 @@ module.exports = Object.freeze({
   views,
   statusCodes,
   triageRoutes,
-  esriStatusCodes
+  esriStatusCodes,
+  OS_ACCOUNT_NUMBER
 })
