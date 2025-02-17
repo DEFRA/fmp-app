@@ -69,7 +69,8 @@ export const getEsriToken = async (refresh = false) => {
 
   if (refresh || !hasToken) {
     try {
-      const response = await window.fetch('/esri-token')
+      const queryString = refresh ? '?refresh=true' : ''
+      const response = await window.fetch(`/esri-token${queryString}`)
       const json = await response.json()
       Object.assign(esriAuth, json)
     } catch (err) {
