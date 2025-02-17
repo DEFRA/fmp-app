@@ -26,8 +26,9 @@ module.exports = [
     path: '/esri-token',
     options: {
       description: 'Get a short lived token for the ESRI map data and layers',
-      handler: async (_request, _h) => {
-        return getEsriToken()
+      handler: async (request, _h) => {
+        const { refresh = false } = request.query
+        return getEsriToken(refresh)
       }
     }
   }
