@@ -3,8 +3,9 @@ const riskAdminApiUrl = config.riskAdminApi.url
 const axios = require('axios')
 const http = require('http')
 const https = require('https')
-const httpAgent = new http.Agent({ keepAlive: true })
-const httpsAgent = new https.Agent({ keepAlive: true })
+const protocol = new URL(riskAdminApiUrl).protocol
+const httpAgent = protocol === 'http:' ? new http.Agent({ keepAlive: true }) : undefined
+const httpsAgent = protocol === 'https:' ? new https.Agent({ keepAlive: true }) : undefined
 
 const isRiskAdminArea = async (polygon) => {
   // set forceRiskAdminApiResponse to true or false in your local env file
