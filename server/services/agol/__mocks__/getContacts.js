@@ -31,6 +31,7 @@ const getContacts = async (options = {}) => {
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:
     case mockPolygons.fz1_only_gt_1_ha:
+    case mockPolygons.fz1_only_lt_1_ha_sw:
     case mockPolygons.fz2_low:
     case mockPolygons.fz2_medium:
     case mockPolygons.fz3_high:

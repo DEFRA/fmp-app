@@ -111,6 +111,26 @@ describe('Results Page On Public', () => {
     assertOrderFloodRiskDataButton()
   })
 
+  it('should have correct copy for Zone 1 < 1ha with Surface Water', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_lt_1_ha_sw}` })
+    document.body.innerHTML = response.payload
+    assertFloodZoneCopy(1)
+    assertFZ1gt1AndFZ23Copy(true)
+    assertFZ1Copy()
+    assertFZ1lt1haCopy()
+    assertFZ1gt1haCopy(false)
+    assertFZ2Copy(false)
+    assertFZ3Copy(false)
+    assertSWCopy('', '', false)
+    assertROFRSDefCCCopy(false, false, false)
+    assertROFRSUnDefCCCopy(false, false, false)
+    assertROFRSDefCopy(false, false, false)
+    assertROFRSUnDefCopy(false, false, false)
+    assertCoreCopy()
+    assertRiskAdminCopy(false)
+    assertOrderFloodRiskDataButton()
+  })
+
   it('should have correct copy for Zone 1 > 1ha', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_gt_1_ha}` })
     document.body.innerHTML = response.payload

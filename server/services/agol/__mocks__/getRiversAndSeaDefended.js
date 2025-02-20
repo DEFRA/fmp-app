@@ -16,6 +16,7 @@ const getRiversAndSeaDefended = async (options) => {
       }
     case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_gt_1_ha:
+    case mockPolygons.fz1_only_lt_1_ha_sw:
     case mockPolygons.fz2_only:
     case mockPolygons.fz3_only:
     case mockPolygons.optedOut.fz1_only:
