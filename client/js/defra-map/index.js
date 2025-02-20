@@ -431,11 +431,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
   const osAccountNumber = defraMapConfig.OS_ACCOUNT_NUMBER
   const currentYear = new Date().getFullYear()
-  const osAttribution = `Contains OS data © Crown copyright and database rights ${currentYear}`
-  const osMasterMapAttribution = `© Crown copyright and database rights ${currentYear} OS ${osAccountNumber}`
-  // FCRM-5599 Use these hyperlinks once the map component supports embedding them as markup (currently embeds as text)
-  // const osAttributionHyperlink = `<a href="os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
-  // const osMasterMapAttributionHyperlink = `<a href="os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
+  const osAttributionHyperlink = `<a href="os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
+  const osMasterMapAttributionHyperlink = `<a href="os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
 
   const floodMap = new FloodMap('map', {
     behaviour: 'inline',
@@ -457,12 +454,12 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         name: 'default',
         url: '/map/styles/base-map-default',
-        attribution: osAttribution
+        attribution: osAttributionHyperlink
       },
       {
         name: 'dark',
         url: '/map/styles/base-map-dark',
-        attribution: osAttribution
+        attribution: osAttributionHyperlink
       }
     ],
     search: {
@@ -628,12 +625,12 @@ getDefraMapConfig().then((defraMapConfig) => {
         {
           name: 'default',
           url: '/map/styles/polygon-default',
-          attribution: osMasterMapAttribution
+          attribution: osMasterMapAttributionHyperlink
         },
         {
           name: 'dark',
           url: '/map/styles/polygon-dark',
-          attribution: osMasterMapAttribution
+          attribution: osMasterMapAttributionHyperlink
         }
       ],
       feature: featureQuery // feature derived from polygon query string or null if not present
