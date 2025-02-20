@@ -1,6 +1,10 @@
 const { config } = require('../../../config')
 const riskAdminApiUrl = config.riskAdminApi.url
 const axios = require('axios')
+const http = require('http')
+const https = require('https')
+const httpAgent = new http.Agent({ keepAlive: true })
+const httpsAgent = new https.Agent({ keepAlive: true })
 
 const isRiskAdminArea = async (polygon) => {
   // set forceRiskAdminApiResponse to true or false in your local env file
@@ -12,7 +16,7 @@ const isRiskAdminArea = async (polygon) => {
   const url = `${riskAdminApiUrl}/hit-test?polygon=${polygon}`
 
   try {
-    const { data } = await axios.get(url)
+    const { data } = await axios.get(url, { httpsAgent, httpAgent })
     const { intersects } = data
     if (intersects !== undefined) {
       return { isRiskAdminArea: intersects }
