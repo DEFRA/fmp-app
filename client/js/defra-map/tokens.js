@@ -51,6 +51,10 @@ export const getRequest = async (url) => {
 
   // OS Open Names
   if (url.startsWith('https://api.os.uk')) {
+    if (!url.match('suburban_area%20')) {
+      // Temp Fix until FMC-71 is implemented in the map component
+      url = url.replace('local_type:city%20', 'local_type:city%20local_type:suburban_area%20')
+    }
     const token = (await getOsToken()).token
     options = { headers: { Authorization: 'Bearer ' + token } }
   }
