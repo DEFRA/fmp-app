@@ -15,6 +15,7 @@ const doRequest = async (url) => {
   if (intersects !== undefined) {
     return { isRiskAdminArea: intersects }
   }
+  console.log('riskadmin-api response data:\n', data)
   throw new Error('Unexpected response from riskadmin-api')
 }
 
