@@ -7,6 +7,7 @@ const protocol = new URL(riskAdminApiUrl).protocol
 const httpAgent = protocol === 'http:' ? new http.Agent({ keepAlive: true }) : undefined
 const httpsAgent = protocol === 'https:' ? new https.Agent({ keepAlive: true }) : undefined
 
+const PAUSE_TIME = 50
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const doRequest = async (url) => {
@@ -34,7 +35,7 @@ const isRiskAdminArea = async (polygon) => {
       if (error.code === 'ECONNRESET') {
         const { message, name, code } = error
         console.log('1st Attempt Error requesting riskadmin-api data:\n', JSON.stringify({ url, message, name, code }))
-        await wait(50)
+        await wait(PAUSE_TIME)
         console.log('Doing attempt 2')
         return await doRequest(url)
       } else {
