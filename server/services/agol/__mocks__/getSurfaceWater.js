@@ -20,6 +20,10 @@ const getSurfaceWater = async (options) => {
     case mockPolygons.fz2_only:
     case mockPolygons.fz3_only:
     case mockPolygons.optedOut.fz1_only:
+    case mockPolygons.fz1_only_lt_1_ha_rsd:
+    case mockPolygons.fz1_only_lt_1_ha_rsd_cc:
+    case mockPolygons.fz1_only_lt_1_ha_rs:
+    case mockPolygons.fz1_only_lt_1_ha_rs_cc:
     default:
       return {
         surfaceWater: { riskBandId: -1, riskBand: false }

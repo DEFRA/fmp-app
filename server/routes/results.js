@@ -24,6 +24,12 @@ module.exports = [
           floodData.riversAndSeaUndefended.riskBandPercent ||
           floodData.riversAndSeaDefendedCC.riskBandPercent ||
           floodData.riversAndSeaUndefendedCC.riskBandPercent
+        floodData.isFZ1Andlt1haShowFRA = floodData.isFZ1Andlt1ha &&
+          (floodData.riversAndSeaDefended.riskBandPercent ||
+          floodData.riversAndSeaUndefended.riskBandPercent ||
+          floodData.riversAndSeaDefendedCC.riskBandPercent ||
+          floodData.riversAndSeaUndefendedCC.riskBandPercent)
+
         console.log('results page data:\n', { polygon, floodData, contactData, showOrderProduct4Button })
         return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
