@@ -19,16 +19,13 @@ module.exports = [
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
-        floodData.hasROFRSRiskBand =
+        const isRiversAndSea =
           floodData.riversAndSeaDefended.riskBandPercent ||
           floodData.riversAndSeaUndefended.riskBandPercent ||
           floodData.riversAndSeaDefendedCC.riskBandPercent ||
           floodData.riversAndSeaUndefendedCC.riskBandPercent
-        floodData.isFZ1Andlt1haShowFRA = floodData.isFZ1Andlt1ha &&
-          (floodData.riversAndSeaDefended.riskBandPercent ||
-          floodData.riversAndSeaUndefended.riskBandPercent ||
-          floodData.riversAndSeaDefendedCC.riskBandPercent ||
-          floodData.riversAndSeaUndefendedCC.riskBandPercent)
+        floodData.hasROFRSRiskBand = isRiversAndSea
+        floodData.isFZ1Andlt1haShowFRA = floodData.isFZ1Andlt1ha && isRiversAndSea
 
         return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
