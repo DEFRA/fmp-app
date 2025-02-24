@@ -50,6 +50,7 @@ async function createServer () {
   server.ext('onPreResponse', async (request, h) => {
     if (!request.response.isBoom && request.response?.source?.context) {
       request.response.source.context.osAccountNumber = OS_ACCOUNT_NUMBER
+      request.response.source.context.currentYear = new Date().getFullYear()
     }
 
     request.response.header('cache-control', 'no-cache')
