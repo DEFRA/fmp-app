@@ -1,4 +1,5 @@
 const { isRiskAdminArea } = require('../isRiskAdminArea')
+const { config } = require('../../../../config')
 
 const axios = require('axios')
 jest.mock('axios')
@@ -78,5 +79,14 @@ describe('isRiskAdminArea - Error Handling', () => {
       expect(error).toEqual(errorToThrow)
       expect(logSpy).toHaveBeenCalledWith(expectedError, expectedUrl, errorToThrow)
     }
+  })
+
+  it('should retry if an ECONNRESET response is received', async () => {
+    console.log(config)
+    const errorToThrow = { message: 'Socket hung up', name: 'ECONNRESET', code: 'ECONNRESET' }
+    axios.get.mockRejectedValueOnce(errorToThrow)
+    axios.get.mockResolvedValue({ data: { intersects: true } })
+    const response = await isRiskAdminArea('[[111,111],[111,112],[112,112],[112,111],[111,111]]')
+    expect(response).toEqual({ isRiskAdminArea: true })
   })
 })
