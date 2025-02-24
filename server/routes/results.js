@@ -30,7 +30,6 @@ module.exports = [
           floodData.riversAndSeaDefendedCC.riskBandPercent ||
           floodData.riversAndSeaUndefendedCC.riskBandPercent)
 
-        console.log('results page data:\n', { polygon, floodData, contactData, showOrderProduct4Button })
         return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
     }
