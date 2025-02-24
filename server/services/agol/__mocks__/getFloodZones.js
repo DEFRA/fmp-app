@@ -4,6 +4,11 @@ const getFloodZones = async (options) => {
   switch (options.polygon) {
     case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_gt_1_ha:
+    case mockPolygons.fz1_only_lt_1_ha_sw:
+    case mockPolygons.fz1_only_lt_1_ha_rsd:
+    case mockPolygons.fz1_only_lt_1_ha_rsd_cc:
+    case mockPolygons.fz1_only_lt_1_ha_rs:
+    case mockPolygons.fz1_only_lt_1_ha_rs_cc:
     case mockPolygons.inRiskAdmin.fz1_only:
     case mockPolygons.inRiskAdmin.throws:
     case mockPolygons.optedOut.fz1_only:
