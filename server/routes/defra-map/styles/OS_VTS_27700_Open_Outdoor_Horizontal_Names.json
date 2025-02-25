@@ -3499,8 +3499,7 @@
         "_label_class",
         14
       ],
-      "minzoom": 9,
-      "maxzoom": 12,
+      "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3509,7 +3508,8 @@
         ],
         "text-size": 12,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
       },
       "paint": {
         "text-color": "#737373",
@@ -3556,7 +3556,6 @@
         12
       ],
       "minzoom": 9,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3565,7 +3564,8 @@
         ],
         "text-size": 13,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 10
       },
       "paint": {
         "text-color": "#808080",
@@ -3858,7 +3858,6 @@
         7
       ],
       "minzoom": 10,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3868,7 +3867,8 @@
         "text-size": 13,
         "text-letter-spacing": 0.05,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 10
       },
       "paint": {
         "text-color": "#737373",
@@ -3945,7 +3945,6 @@
         10
       ],
       "minzoom": 9,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3954,7 +3953,8 @@
         ],
         "text-size": 13,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 10
       },
       "paint": {
         "text-color": "#808080",
@@ -4357,7 +4357,6 @@
         3
       ],
       "minzoom": 9,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -4444,7 +4443,6 @@
         6
       ],
       "minzoom": 8,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -4547,7 +4545,6 @@
         0
       ],
       "minzoom": 9,
-      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
