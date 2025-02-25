@@ -1,6 +1,24 @@
 const { config } = require('../../../config')
 const riskAdminApiUrl = config.riskAdminApi.url
 const axios = require('axios')
+const http = require('http')
+const https = require('https')
+const protocol = new URL(riskAdminApiUrl).protocol
+const httpAgent = protocol === 'http:' ? new http.Agent({ keepAlive: true }) : undefined
+const httpsAgent = protocol === 'https:' ? new https.Agent({ keepAlive: true }) : undefined
+
+const PAUSE_TIME = 50
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+const doRequest = async (url) => {
+  const { data } = await axios.get(url, { httpsAgent, httpAgent })
+  const { intersects } = data
+  if (intersects !== undefined) {
+    return { isRiskAdminArea: intersects }
+  }
+  console.log('riskadmin-api response data:\n', data)
+  throw new Error('Unexpected response from riskadmin-api')
+}
 
 const isRiskAdminArea = async (polygon) => {
   // set forceRiskAdminApiResponse to true or false in your local env file
@@ -10,15 +28,20 @@ const isRiskAdminArea = async (polygon) => {
   }
 
   const url = `${riskAdminApiUrl}/hit-test?polygon=${polygon}`
-
   try {
-    const { data } = await axios.get(url)
-    const { intersects } = data
-    if (intersects !== undefined) {
-      return { isRiskAdminArea: intersects }
+    try {
+      return await doRequest(url)
+    } catch (error) {
+      if (error.code === 'ECONNRESET') {
+        const { message, name, code } = error
+        console.log('1st Attempt Error requesting riskadmin-api data:\n', JSON.stringify({ url, message, name, code }))
+        await wait(PAUSE_TIME)
+        console.log('Doing attempt 2')
+        return await doRequest(url)
+      } else {
+        throw error
+      }
     }
-    console.log('riskadmin-api response data:\n', data)
-    throw new Error('Unexpected response from riskadmin-api')
   } catch (error) {
     if (error.message) {
       const { message, name, code } = error

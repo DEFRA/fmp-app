@@ -44,7 +44,7 @@ const assertFZ1gt1haCopy = (expected = true) => {
   assertCopy('[data-testid="fz1-gt1ha-area"]', expected && 'The site you have drawn is 123.43ha.')
 }
 
-const assertFZ1gt1AndFZ23Copy = (expected = true) => {
+const assertFraCopy = (expected = true) => {
   assertCopy('[data-testid="fra"]', expected && 'Based on our flood risk data, you need to carry out a flood risk assessment (FRA)')
 }
 
@@ -95,7 +95,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
-    assertFZ1gt1AndFZ23Copy(false)
+    assertFraCopy(false)
     assertFZ1Copy()
     assertFZ1lt1haCopy()
     assertFZ1gt1haCopy(false)
@@ -111,11 +111,35 @@ describe('Results Page On Public', () => {
     assertOrderFloodRiskDataButton()
   })
 
+  const lt1haZon1TestCases = [
+    [mockPolygons.fz1_only_lt_1_ha_sw, 'with Surface Water'],
+    [mockPolygons.fz1_only_lt_1_ha_rsd, 'with Rivers and Seas defended'],
+    [mockPolygons.fz1_only_lt_1_ha_rsd_cc, 'with Rivers and Seas defended CC'],
+    [mockPolygons.fz1_only_lt_1_ha_rs, 'with Rivers and Seas undefended'],
+    [mockPolygons.fz1_only_lt_1_ha_rs_cc, 'with Rivers and Seas undefended CC']
+  ]
+  lt1haZon1TestCases.forEach(([polygon, description]) => {
+    it(`should have correct copy for Zone 1 < 1ha ${description}`, async () => {
+      const response = await submitGetRequest({ url: `${url}?polygon=${polygon}` })
+      document.body.innerHTML = response.payload
+      assertFloodZoneCopy(1)
+      assertFraCopy(polygon !== mockPolygons.fz1_only_lt_1_ha_sw)
+      assertFZ1Copy()
+      assertFZ1lt1haCopy(polygon === mockPolygons.fz1_only_lt_1_ha_sw)
+      assertFZ1gt1haCopy(false)
+      assertFZ2Copy(false)
+      assertFZ3Copy(false)
+      assertCoreCopy()
+      assertRiskAdminCopy(false)
+      assertOrderFloodRiskDataButton()
+    })
+  })
+
   it('should have correct copy for Zone 1 > 1ha', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_gt_1_ha}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
-    assertFZ1gt1AndFZ23Copy()
+    assertFraCopy()
     assertFZ1Copy()
     assertFZ1lt1haCopy(false)
     assertFZ1gt1haCopy()
@@ -136,7 +160,7 @@ describe('Results Page On Public', () => {
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(2)
     assertCoreCopy()
-    assertFZ1gt1AndFZ23Copy()
+    assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
     assertFZ2Copy()
@@ -155,7 +179,7 @@ describe('Results Page On Public', () => {
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(2)
     assertCoreCopy()
-    assertFZ1gt1AndFZ23Copy()
+    assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
     assertFZ2Copy()
@@ -174,7 +198,7 @@ describe('Results Page On Public', () => {
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(3)
     assertCoreCopy()
-    assertFZ1gt1AndFZ23Copy()
+    assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
     assertFZ2Copy(false)
