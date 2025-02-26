@@ -10,7 +10,6 @@
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl">This location is in flood zone {{floodData.floodZone}}</h1>
       {% if floodData.isRiskAdminArea %}
-      <div class="govuk-grid-column-two-thirds">
         <div class="govuk-warning-text">
           <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
           <h3 class="govuk-heading-s govuk-warning-text__text" data-testid="understanding-changed">
@@ -23,7 +22,6 @@
             for further information.
           </p>
         </div>
-      </div>
     {% endif %}
       {% if floodData.hasROFRSRiskBand or floodData.surfaceWater.riskBand %}
         <p class="govuk-body">In your proposed development site there is a risk of flooding from:</p>

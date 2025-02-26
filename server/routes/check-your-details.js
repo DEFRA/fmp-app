@@ -25,8 +25,8 @@ module.exports = [
         const { polygon, fullName, recipientemail } = request.query
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
-        const confirmLocationUrl = `confirm-location?fullName=${fullName}&recipientemail=${recipientemail}`
-        return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, confirmLocationUrl, floodZone })
+        const mapUrl = `/map?polygon=${polygon}`
+        return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
     }
   },
