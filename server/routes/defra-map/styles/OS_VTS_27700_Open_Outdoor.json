@@ -3499,6 +3499,35 @@
         "_label_class",
         14
       ],
+      "minzoom": 9,
+      "maxzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 12,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-max-angle": 20
+      },
+      "paint": {
+        "text-color": "#737373",
+        "text-halo-color": "rgba(255,255,255,0.99)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Local Road 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        14
+      ],
       "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -3538,7 +3567,7 @@
         "text-size": 12,
         "text-field": "{_name}",
         "text-optional": true,
-        "text-max-angle": 10
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "#737373",
@@ -3557,6 +3586,35 @@
         12
       ],
       "minzoom": 9,
+      "maxzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 13,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-max-angle": 20
+      },
+      "paint": {
+        "text-color": "#808080",
+        "text-halo-color": "rgba(255,255,255,0.99)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Minor Road 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        12
+      ],
+      "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3603,8 +3661,6 @@
         "text-halo-width": 1.5
       }
     },
-
-
     {
       "id": "OS/Names/Local/Greenspace:1",
       "type": "symbol",
