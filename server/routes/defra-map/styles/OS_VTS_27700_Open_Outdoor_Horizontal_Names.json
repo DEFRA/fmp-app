@@ -3840,12 +3840,33 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": [
-        "==",
-        "_label_class",
-        7
-      ],
-      "minzoom": 10,
+      "filter": ["==", "_label_class", 7 ],
+      "minzoom": 1,
+      "maxzoom": 14,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Arial Bold"
+        ],
+        "text-size": 13,
+        "text-letter-spacing": 0.05,
+        "text-field": "{_name}",
+        "text-optional": true
+      },
+      "paint": {
+        "text-color": "#0000FF",
+        "text-halo-color": "#FFFFFF",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "OS/Roads/label/A & B Road 2800-11200",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": ["==", "_label_class", 7 ],
+      "minzoom": 14,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3856,7 +3877,7 @@
         "text-letter-spacing": 0.05,
         "text-field": "{_name}",
         "text-optional": true,
-        "text-max-angle": 10
+         "text-rotation-alignment": "viewport"
       },
       "paint": {
         "text-color": "#0000FF",
@@ -3932,8 +3953,8 @@
         "_label_class",
         10
       ],
-      "minzoom": 9,
-      "maxzoom": 10,
+      "minzoom": 8,
+      "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3943,7 +3964,7 @@
         "text-size": 13,
         "text-field": "{_name}",
         "text-optional": true,
-        "text-max-angle": 10
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "#AA00FF",
@@ -3961,7 +3982,7 @@
         "_label_class",
         10
       ],
-      "minzoom": 10,
+      "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,

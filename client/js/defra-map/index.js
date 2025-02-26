@@ -453,7 +453,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     styles: [
       {
         name: 'default',
-        url: '/map/styles/base-map-default',
+        url: '/map/styles/base-map-default-horizontal-names',
         attribution: osAttributionHyperlink
       },
       {
@@ -463,7 +463,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         name: 'default-horizontal-names',
-        url: '/map/styles/base-map-default-horizontal-names',
+        url: '/map/styles/base-map-default',
         attribution: osAttributionHyperlink
       }
       // , {
