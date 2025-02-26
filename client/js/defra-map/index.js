@@ -460,17 +460,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         name: 'dark',
         url: '/map/styles/base-map-dark',
         attribution: osAttributionHyperlink
-      },
-      {
-        name: 'default-original',
-        url: '/map/styles/base-map-default-original',
-        attribution: osAttributionHyperlink
       }
-      // , {
-      //   name: 'dark-horizontal-names',
-      //   url: '/map/styles/base-map-dark-horizontal-names',
-      //   attribution: osAttributionHyperlink
-      // }
     ],
     search: {
       label: 'Search for a place',
