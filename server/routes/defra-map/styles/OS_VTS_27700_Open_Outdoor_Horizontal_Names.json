@@ -3494,7 +3494,11 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": ["==", "_label_class", 14 ],
+      "filter": [
+        "==",
+        "_label_class",
+        14
+      ],
       "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -3518,9 +3522,13 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": ["==", "_label_class", 15 ],
-      "minzoom": 1,
-      "maxzoom": 12,
+      "filter": [
+        "==",
+        "_label_class",
+        15
+      ],
+      "minzoom": 8,
+      "maxzoom": 9,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3543,15 +3551,19 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": [ "==", "_label_class", 12 ],
-      "minzoom": 12,
+      "filter": [
+        "==",
+        "_label_class",
+        12
+      ],
+      "minzoom": 9,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
         "text-font": [
           "Source Sans Pro Regular"
         ],
-        "text-size": 12,
+        "text-size": 13,
         "text-field": "{_name}",
         "text-optional": true,
         "text-rotation-alignment": "viewport"
@@ -3567,9 +3579,13 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": [ "==", "_label_class", 13 ],
-      "minzoom": 1,
-      "maxzoom": 12,
+      "filter": [
+        "==",
+        "_label_class",
+        13
+      ],
+      "minzoom": 7,
+      "maxzoom": 9,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
@@ -3840,8 +3856,12 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": ["==", "_label_class", 7 ],
-      "minzoom": 1,
+      "filter": [
+        "==",
+        "_label_class",
+        7
+      ],
+      "minzoom": 10,
       "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -3865,7 +3885,11 @@
       "type": "symbol",
       "source": "esri",
       "source-layer": "Roads/label",
-      "filter": ["==", "_label_class", 7 ],
+      "filter": [
+        "==",
+        "_label_class",
+        7
+      ],
       "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -3953,7 +3977,7 @@
         "_label_class",
         10
       ],
-      "minzoom": 8,
+      "minzoom": 9,
       "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -4395,7 +4419,7 @@
         "_label_class",
         3
       ],
-      "minzoom": 1,
+      "minzoom": 9,
       "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -4512,7 +4536,7 @@
         "_label_class",
         6
       ],
-      "minzoom": 1,
+      "minzoom": 8,
       "maxzoom": 12,
       "layout": {
         "symbol-placement": "line",
@@ -4541,7 +4565,6 @@
         6
       ],
       "minzoom": 12,
-      "maxzoom": 19,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
