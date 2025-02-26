@@ -3544,7 +3544,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "filter": [ "==", "_label_class", 12 ],
-      "minzoom": 11,
+      "minzoom": 12,
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 1000,
