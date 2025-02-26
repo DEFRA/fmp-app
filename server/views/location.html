@@ -72,7 +72,9 @@
         {{ govukInput({
             id: "easting",
             name: "easting",
-            type: "text",
+            type: "number",
+            inputmode: "numeric",
+            pattern: "[0-9]*",
             classes: "govuk-!-width-one-third",
             value: easting,                
             errorMessage: findErrorMessageById(errorSummary, "easting"),
@@ -85,7 +87,9 @@
         {{ govukInput({
           id: "northing",
           name: "northing",
-          type: "text",
+          type: "number",
+          inputmode: "numeric",
+          pattern: "[0-9]*",
           classes: "govuk-!-width-one-third",
           value: northing,                      
           errorMessage: findErrorMessageById(errorSummary, "northing"),
