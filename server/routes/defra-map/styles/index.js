@@ -1,6 +1,6 @@
 const baseMapDefault = require('./OS_VTS_27700_Open_Outdoor.json')
 const baseMapDark = require('./OS_VTS_27700_Open_Dark.json')
-const baseMapDefaultHorizontalNames = require('./OS_VTS_27700_Open_Outdoor_Horizontal_Names.json')
+const baseMapDefaultOriginal = require('./OS_VTS_27700_Open_Outdoor_Original.json')
 const baseMapDarkHorizontalNames = require('./OS_VTS_27700_Open_Dark_Horizontal_Names.json')
 const polygonDefault = require('./OS_VTS_27700_Outdoor.json')
 const polygonDark = require('./OS_VTS_27700_Dark.json')
@@ -26,8 +26,8 @@ module.exports = [
     handler: () => baseMapDark
   }, {
     method: 'GET',
-    path: '/map/styles/base-map-default-horizontal-names',
-    handler: () => baseMapDefaultHorizontalNames
+    path: '/map/styles/base-map-default-original',
+    handler: () => baseMapDefaultOriginal
   }, {
     method: 'GET',
     path: '/map/styles/base-map-dark-horizontal-names',
