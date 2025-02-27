@@ -669,7 +669,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     const { type, mode, segments, layers, style } = e.detail
     mapState.segments = segments
     mapState.layers = layers
-    mapState.isDark = style === 'dark'
+    if (style) {
+      mapState.isDark = style.name === 'dark' || style === 'dark'
+    }
     mapState.isRamp = layers.includes('md')
     console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
