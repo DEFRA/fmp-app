@@ -3527,7 +3527,36 @@
         ],
         "text-size": 12,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
+      },
+      "paint": {
+        "text-color": "rgb(141,141,141)",
+        "text-halo-color": "rgba(1,1,1,0.99)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Local Road 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        14
+      ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 12,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
       },
       "paint": {
         "text-color": "rgb(141,141,141)",
@@ -3555,7 +3584,8 @@
         ],
         "text-size": 12,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "rgb(141,141,141)",
@@ -3583,7 +3613,36 @@
         ],
         "text-size": 13,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
+      },
+      "paint": {
+        "text-color": "rgb(127,127,127)",
+        "text-halo-color": "rgba(1,1,1,0.99)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Minor Road 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        12
+      ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 13,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
       },
       "paint": {
         "text-color": "rgb(127,127,127)",
@@ -3611,7 +3670,8 @@
         ],
         "text-size": 11,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "rgb(153,153,153)",
@@ -3875,6 +3935,35 @@
         "_label_class",
         7
       ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Arial Bold"
+        ],
+        "text-size": 13,
+        "text-letter-spacing": 0.05,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
+      },
+      "paint": {
+        "text-color": "rgb(141,141,141)",
+        "text-halo-color": "rgb(1,1,1)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "OS/Roads/label/A & B Road 2800-11200",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        7
+      ],
       "minzoom": 10,
       "maxzoom": 12,
       "layout": {
@@ -3886,7 +3975,8 @@
         "text-size": 13,
         "text-letter-spacing": 0.05,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "rgb(141,141,141)",
@@ -3962,6 +4052,34 @@
         "_label_class",
         10
       ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 13,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
+      },
+      "paint": {
+        "text-color": "rgb(127,127,127)",
+        "text-halo-color": "rgba(1,1,1,0.99)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/A & B Road Name 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        10
+      ],
       "minzoom": 9,
       "maxzoom": 12,
       "layout": {
@@ -3972,7 +4090,8 @@
         ],
         "text-size": 13,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "rgb(127,127,127)",
@@ -4385,7 +4504,37 @@
         "text-size": 13,
         "text-letter-spacing": 0.1,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
+      },
+      "paint": {
+        "text-color": "rgb(3,3,3)",
+        "text-halo-color": "rgb(79,79,79)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Primary 2800-22400",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        3
+      ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Arial Bold"
+        ],
+        "text-size": 13,
+        "text-letter-spacing": 0.1,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
       },
       "paint": {
         "text-color": "rgb(3,3,3)",
@@ -4461,6 +4610,35 @@
         "_label_class",
         6
       ],
+      "minzoom": 12,
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 1000,
+        "text-font": [
+          "Source Sans Pro Regular"
+        ],
+        "text-size": 13,
+        "text-letter-spacing": 0.1,
+        "text-field": "{_name}",
+        "text-optional": true,
+        "text-rotation-alignment": "viewport"
+      },
+      "paint": {
+        "text-color": "rgb(3,3,3)",
+        "text-halo-color": "rgb(79,79,79)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "OS/Roads/label/Primary Name 2800-44800",
+      "type": "symbol",
+      "source": "esri",
+      "source-layer": "Roads/label",
+      "filter": [
+        "==",
+        "_label_class",
+        6
+      ],
       "minzoom": 8,
       "maxzoom": 12,
       "layout": {
@@ -4472,7 +4650,8 @@
         "text-size": 13,
         "text-letter-spacing": 0.1,
         "text-field": "{_name}",
-        "text-optional": true
+        "text-optional": true,
+        "text-max-angle": 20
       },
       "paint": {
         "text-color": "rgb(3,3,3)",
