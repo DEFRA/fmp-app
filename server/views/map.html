@@ -33,6 +33,12 @@
 {% block main %}
 {% block content %}
   <main class="flood-map-main" id="main-content">
+    <noscript>
+      <div class="fm-error">
+        <p class="govuk-body">Your device is not supported. A map would be a available with JavaScript enabled.</p>
+      </div>
+    </noscript>
+
     <h1 class="govuk-visually-hidden">Interactive map showing flood planning data</h1>
     <div class="flood-map-target" id="map"></div>
   </main>
