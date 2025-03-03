@@ -29,7 +29,7 @@ const parseEaMapsProduct1Response = (response) => {
   }, { url: undefined, error: undefined })
 }
 
-const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) => {
+const getProduct1Url = async (polygon, referenceNumber, scale, _holdingComments) => {
   try {
     const token = await getEAMapsToken()
     const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
@@ -51,7 +51,18 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
     })
 
     const { url, error } = parseEaMapsProduct1Response(response)
+    const filename = new URL(url).pathname.split('/').pop()
+    console.log(url, '\n', filename)
+    return { url, error, filename }
+  } catch (error) {
+    console.log('Error caught in getProduct1 URL', error)
+    throw (error)
+  }
+}
 
+const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) => {
+  try {
+    const { url, error } = await getProduct1Url(polygon, referenceNumber, scale, _holdingComments)
     if (error) {
       console.log('An error was returned from the eaMaps Product 1 service', error)
       throw (error)
@@ -75,4 +86,4 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
   }
 }
 
-module.exports = { getProduct1 }
+module.exports = { getProduct1, getProduct1Url }

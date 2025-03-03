@@ -14,6 +14,7 @@ module.exports = {
   options: {
     description: 'Generate Product 1 PDF',
     handler: async (request, h) => {
+      console.log('Generate Product 1 PDF received')
       try {
         const {
           polygon,
