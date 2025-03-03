@@ -86,6 +86,9 @@ const assertSWCopy = (band, odds, expected = true) => {
   assertCopy('[data-testid="sw"] > div > dl > div > dd > p:nth-child(1)', expected && 'We do not currently show climate change scenarios for surface water.')
   assertCopy('[data-testid="sw-probability"]', expected && `The chance of surface water flooding at this location could be more than ${band}% (${odds}) each year`)
 }
+const assertCCAllowancesLink = (expected = true) => {
+  assertCopy('[data-testid="cc-allowances"]', expected && 'Find out more about climate change allowances.')
+}
 
 describe('Results Page On Public', () => {
   beforeAll(() => { config.appType = 'public' })
@@ -109,6 +112,7 @@ describe('Results Page On Public', () => {
     assertCoreCopy()
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
+    assertCCAllowancesLink(false)
   })
 
   const lt1haZon1TestCases = [
@@ -132,6 +136,7 @@ describe('Results Page On Public', () => {
       assertCoreCopy()
       assertRiskAdminCopy(false)
       assertOrderFloodRiskDataButton()
+      assertCCAllowancesLink(polygon === mockPolygons.fz1_only_lt_1_ha_rsd_cc || polygon === mockPolygons.fz1_only_lt_1_ha_rs_cc)
     })
   })
 
@@ -153,6 +158,7 @@ describe('Results Page On Public', () => {
     assertCoreCopy()
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
+    assertCCAllowancesLink(false)
   })
 
   it('Should have correct copy for Zone 2 low risk', async () => {
@@ -172,6 +178,7 @@ describe('Results Page On Public', () => {
     assertROFRSUnDefCopy('0.1', '1 in 1000', true)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
+    assertCCAllowancesLink(true)
   })
 
   it('Should have correct copy for Zone 2 medium risk', async () => {
@@ -191,6 +198,7 @@ describe('Results Page On Public', () => {
     assertROFRSUnDefCopy('1', '1 in 100', true)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
+    assertCCAllowancesLink(true)
   })
 
   it('Should have correct copy for Zone 3 high risk', async () => {
@@ -210,6 +218,7 @@ describe('Results Page On Public', () => {
     assertROFRSUnDefCopy('1', '1 in 100', true)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
+    assertCCAllowancesLink(true)
   })
 
   it('should have the correct copy for Zone 1 with riskAdmin"', async () => {
