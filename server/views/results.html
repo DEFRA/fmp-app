@@ -318,37 +318,6 @@
 {% endblock %}
 
 {% block bodyEnd %}
-{{ super() }}
-<script>
-  const form = document.getElementById('product-1-form')
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault()
-    const product1Button = document.getElementById('product-1-button')
-    product1Button.classList.toggle('loading')
-    product1Button.disabled = true
-    product1Button.textContent = 'We are generating your PDF, please wait'
-
-    const response = await fetch(event.target.action, {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-    })
-
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    const date = new Date().toISOString()
-    const filename = `flood-map-planning-${date}.pdf`
-    a.download = filename
-    document.body.appendChild(a)
-    // Trigger a click event on the link element to initiate the download
-    a.click()
-    // Clean up by revoking the blob URL and removing the link element
-    window.URL.revokeObjectURL(url)
-    document.body.removeChild(a)
-    product1Button.classList.toggle('loading')
-    product1Button.disabled = false
-    product1Button.textContent = 'Download flood map for this location (PDF)'
-  })
-</script>
+  {{ super() }}
+  <script src="/public/defra-map/product-1-spinner.js"></script>
 {% endblock %}

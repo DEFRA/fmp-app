@@ -30,7 +30,11 @@ export default {
     'check-your-details-map': [
       path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
       path.join(__dirname, 'client/sass/check-your-details/index.scss')
+    ],
+    'product-1-spinner': [
+      path.join(__dirname, 'client/js/modules/product-1-spinner.js')
     ]
+
   },
   devtool: 'source-map',
   mode: 'development',
