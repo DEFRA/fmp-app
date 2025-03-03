@@ -200,3 +200,33 @@ h1.heading-xlarge {
   .flood-risk-changed-icon {
     margin-top: 5px
   }
+
+  #product-1-button.loading {
+    padding-right: 36px;
+  }
+
+  #product-1-button.loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 0 auto auto;
+    border: 4px solid rgb(223, 222, 221);
+    border-top-color: #0000ff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s linear infinite;
+  }
+
+  @keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
