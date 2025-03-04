@@ -26,6 +26,7 @@ module.exports = [
       handler: {
         directory: {
           path: [
+            'dist/',
             'server/public/static',
             'server/public/build',
             'server/public/assets',

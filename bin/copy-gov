@@ -3,6 +3,5 @@
 cp -R node_modules/govuk_template_mustache/assets/* server/public/assets
 cp -R node_modules/govuk_template_mustache/views/layouts/govuk_template.html server/views
 cp -R node_modules/govuk_frontend_toolkit/images/* server/public/assets/images/
-cp client/js/stage-prompt-no-jquery.js server/public/assets/javascripts/stageprompt.js
 # govuk_template_mustache contains the old crown favicon, so this next line ensures we have the tudor crown favicon
 cp node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico server/public/assets/images/
