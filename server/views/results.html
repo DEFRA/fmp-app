@@ -240,6 +240,7 @@
                 <a href="#">I need help deciding what to include in my planning application.</a>
               </dd>
             </div>
+
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 Download a flood map for this location
@@ -251,54 +252,10 @@
                   <li>within 20 metres of a main river or a flood defence</li>
                   <li>in a water storage area (also likely to be flood zone 3b in the strategic flood risk assessment)</li>
                 </ul>
-                <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
-                          data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
-                  <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      Add a reference to the flood map and set the scale
-                    </span>
-                  </summary>
-                  <div class="govuk-details__text">
-                    <form class="form" id="product-1-form" method="POST" action="product-1">
-                      <input name="polygon" type="hidden" value="{{ polygon }}" />
-                      <input name="isRiskAdminArea" type="hidden" value="{{ floodData.isRiskAdminArea }}" />
-            
-                      <div class="govuk-form-group">
-                        <h3 class="govuk-label-wrapper">
-                          <label class="govuk-label--m" for="reference">
-                            Add a reference
-                          </label>
-                          <span class="govuk-hint govuk-hint--block">
-                            Optional. This is chosen by you to help you find the report
-                            later and should be less than 25 characters.
-                          </span>
-                        </h3>
-                        <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
-                                maxlength="25" />
-                      </div>
-            
-                      <div class="govuk-form-group">
-                        <h3 class="govuk-label-wrapper">
-                          <label class="govuk-label--m" for="scale"> Scale </label>
-                          <span class="govuk-hint govuk-hint--block">
-                            Select the scale of the map shown in the report
-                          </span>
-                        </h3>
-                        <select class="govuk-select" id="scale" name="scale">
-                          <option value="2500">1:2500</option>
-                          <option value="10000">1:10000</option>
-                          <option value="25000">1:25000</option>
-                          <option value="50000">1:50000</option>
-                        </select>
-                      </div>
-                    </form>
-                  </div>
-                </details>
-                <button href="#" form="product-1-form" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
-                  Download flood map for this location (PDF)
-                </button>
+                {% include "./partials/product-1-form.html" %}
               </dd>
             </div>
+
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 Order detailed flood risk data
@@ -358,4 +315,9 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="/public/defra-map/product-1-spinner.js"></script>
 {% endblock %}
