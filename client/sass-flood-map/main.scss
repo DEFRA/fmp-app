@@ -140,3 +140,8 @@ body.js-enabled:not([data-fm-error]) {
       }
   }
 }
+
+.govuk-heading-s,
+.govuk-details__text {
+  color: var(--foreground-colour);
+}
