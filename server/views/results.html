@@ -80,7 +80,7 @@
               <dd class="govuk-summary-list__value">
                 <p class="govuk-body" data-testid="fz{{ floodData.floodZone }}-probability">Land within flood zone {{ floodData.floodZone }} has a {{ floodData.floodZoneLevel }} probability of flooding from rivers and the sea.</p>
                 {% if floodData.floodZone === '2' or floodData.floodZone === '3' %}<p class="govuk-body">You need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>{% endif %}
-                <p class="govuk-body"><a href="#">Find out more about flood zones and what they mean.</a></p>
+                <p class="govuk-body"><a href="/flood-zone-results-explained">Find out more about flood zones and what they mean.</a></p>
               </dd>
             </div>
             {% if floodData.riversAndSeaDefendedCC.riskBandPercent or floodData.riversAndSeaUndefendedCC.riskBandPercent %}

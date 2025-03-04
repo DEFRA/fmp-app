@@ -12,6 +12,7 @@ const OS_ACCOUNT_NUMBER = 'AC0000807064'
 const CYLTFRIURL = 'https://www.gov.uk/check-long-term-flood-risk'
 const FLOOD_HISTORY_URL = 'https://www.gov.uk/request-flooding-history'
 const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
+const FLOOD_ZONE_RESULTS_EXPLAINED = 'flood-zone-results-explained'
 
 const views = {
   HOME,
@@ -22,7 +23,8 @@ const views = {
   RESULTS,
   CONTACT,
   CHECK_YOUR_DETAILS,
-  CONFIRMATION
+  CONFIRMATION,
+  FLOOD_ZONE_RESULTS_EXPLAINED
 }
 
 const routes = {
