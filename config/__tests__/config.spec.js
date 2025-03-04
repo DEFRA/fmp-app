@@ -44,10 +44,10 @@ describe('Ensure config is correct', () => {
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
         floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
-        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth_NON_PRODUCTION/FeatureServer',
-        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth_NON_PRODUCTION/FeatureServer',
-        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
-        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Extents_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents_NON_PRODUCTION/FeatureServer',
+        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
         surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
       },
       eamaps: {
@@ -103,10 +103,10 @@ describe('Ensure config is correct', () => {
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service/FeatureServer/2',
         floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea/FeatureServer/0',
-        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth/FeatureServer',
-        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth/FeatureServer',
-        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1/FeatureServer',
-        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1/FeatureServer',
+        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Extents/FeatureServer',
+        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents/FeatureServer',
+        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1/FeatureServer',
+        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1/FeatureServer',
         surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm/FeatureServer/0'
       },
       eamaps: {

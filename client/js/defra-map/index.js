@@ -111,7 +111,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: [
         'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
         'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
@@ -119,74 +119,74 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
     {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth',
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents',
       q: 'rsdpdhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth/1'],
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
     {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth',
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents',
       q: 'rsdpdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth/1'],
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsMedium
     },
     {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth',
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents',
       q: 'rsupdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1'],
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsMedium
     },
     {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth',
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents',
       q: 'rsdpdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1'],
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsLow
     },
     {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth',
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents',
       q: 'rsupdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1'],
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsLow
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
     {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Depth_CCP1',
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents_CCP1',
       q: 'rsdclhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1'],
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
     {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Depth_CCP1',
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents_CCP1',
       q: 'rsdclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1'],
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsMedium
     },
     {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Depth_CCP1',
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents_CCP1',
       q: 'rsuclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1'],
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsMedium
     },
     {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Depth_CCP1',
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents_CCP1',
       q: 'rsdcllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1'],
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsLow
     },
     {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Depth_CCP1',
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents_CCP1',
       q: 'rsucllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1'],
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsLow
     },
     {
@@ -234,17 +234,17 @@ getDefraMapConfig().then((defraMapConfig) => {
     'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': colours.floodZone3,
     'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': colours.floodZone2,
     'Rivers 1 in 30 Sea 1 in 30 Defended/1': colours.nonFloodZone,
-    'Rivers 1 in 30 Sea 1 in 30 Defended Depth/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Defended Depth/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth/1': colours.nonFloodZone,
+    'Rivers 1 in 30 Sea 1 in 30 Defended Extents/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Defended Extents/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1': colours.nonFloodZone,
     'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 30 Sea 1 in 30 Defended Depth CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Defended Depth CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Depth CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Depth CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Depth CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1': colours.nonFloodZone,
+    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1': colours.nonFloodZone,
     [surfaceWaterStyleLayers[0]]: colours.nonFloodZone,
     [surfaceWaterStyleLayers[1]]: colours.nonFloodZone,
     [surfaceWaterStyleLayers[2]]: colours.nonFloodZone,
@@ -375,6 +375,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
       vtLayers.forEach((vtLayer) => {
+        if (!vtLayer.q) {
+          return
+        }
         const vectorTileLayer = new VectorTileLayer({
           id: vtLayer.name,
           url: getVectorTileUrl(vtLayer.name),
@@ -397,6 +400,9 @@ getDefraMapConfig().then((defraMapConfig) => {
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
     const isDrawMode = ['frame', 'draw'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
+      if (!vtLayer.q) {
+        return
+      }
       const id = vtLayer.name
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
