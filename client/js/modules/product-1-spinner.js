@@ -4,7 +4,7 @@ const product1Button = document.getElementById('product-1-button')
 const onStartP1Generation = () => {
   product1Button.classList.toggle('loading')
   product1Button.disabled = true
-  product1Button.textContent = 'We are generating your PDF, please wait'
+  product1Button.textContent = 'We are preparing your PDF, please wait'
 }
 
 const onCompletedP1Generation = () => {
