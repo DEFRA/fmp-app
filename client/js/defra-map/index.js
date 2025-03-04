@@ -111,7 +111,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: [
         'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
         'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
@@ -119,7 +119,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
@@ -155,7 +155,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     },
     {
       name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
-      q: '',
+      q: '', // Implies disabled for now
       styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
       likelihoodchanceLabel: terms.likelihoodchance.rsHigh
     },
@@ -375,6 +375,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
       vtLayers.forEach((vtLayer) => {
+        if (!vtLayer.q) {
+          return
+        }
         const vectorTileLayer = new VectorTileLayer({
           id: vtLayer.name,
           url: getVectorTileUrl(vtLayer.name),
@@ -397,6 +400,9 @@ getDefraMapConfig().then((defraMapConfig) => {
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
     const isDrawMode = ['frame', 'draw'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
+      if (!vtLayer.q) {
+        return
+      }
       const id = vtLayer.name
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
