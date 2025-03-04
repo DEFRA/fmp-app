@@ -130,3 +130,8 @@
     </div>
   </div>
 {% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="/public/defra-map/product-1-spinner.js"></script>
+{% endblock %}
