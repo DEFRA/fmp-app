@@ -30,7 +30,8 @@ export default {
     'check-your-details-map': [
       path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
       path.join(__dirname, 'client/sass/check-your-details/index.scss')
-    ]
+    ],
+    core: [path.join(__dirname, 'client/js/core.js')]
   },
   devtool: 'source-map',
   mode: 'development',

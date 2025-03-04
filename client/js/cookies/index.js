@@ -29,7 +29,7 @@ const deleteGaCookies = (analyticsAccount) => {
   }
 }
 
-module.exports = window.onload = function () {
+export default function () {
   const cookieBanner = document.querySelector('.js-cookies-banner')
   const questionBanner = document.querySelector('.js-question-banner')
   const acceptedBanner = document.querySelector('.js-cookies-accepted')
