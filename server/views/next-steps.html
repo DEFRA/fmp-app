@@ -112,32 +112,7 @@
         Order flood risk data for rivers and the sea
       </h3>
 
-      <p class="govuk-body">
-        The flood risk data usually includes:
-      </p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          detailed flood data
-        </li>
-        <li>
-          past flood event data
-        </li>
-        <li>
-          modelled flood levels and extents
-        </li>
-        <li>
-          flood defence locations and attributes
-        </li>
-      </ul>
-
-    
-      <p class="govuk-body">
-        You should receive your data within 20 working days.
-      </p>
-      <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
-        Order flood risk data
-      </a>
+      {% include "./partials/order-product-four.html" %}
     </div>
   </div>
 {% endblock %}
