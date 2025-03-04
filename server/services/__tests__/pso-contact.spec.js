@@ -5,7 +5,7 @@ describe('pso-contact', () => {
   beforeEach(async () => {
     mockEsriRequest([{
       attributes: {
-        authority_name: 'Ryedale',
+        ons_name: 'Ryedale',
         contact_email: 'neyorkshire@environment-agency.gov.uk',
         area_name_1: 'Environment Agency team in Yorkshire',
         use_automated_service: true

@@ -8,7 +8,7 @@ const getLocalAuthority = (options) => {
         throw new Error('Invalid response from AGOL localAuthority request')
       }
       const { attributes } = esriResult[0]
-      return { LocalAuthorities: attributes.authority_name }
+      return { LocalAuthorities: attributes.ons_name }
     })
 }
 
