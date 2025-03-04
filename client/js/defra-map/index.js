@@ -5,18 +5,6 @@ import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 
-/*
-Rivers 1 in 30 Sea 1 in 30 Defended Extents/1
-index.js:379 Rivers 1 in 100 Sea 1 in 200 Defended Extents/1
-index.js:379 Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1
-index.js:379 Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1
-index.js:379 Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1
-index.js:379 Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1
-index.js:379 Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1
-index.js:379 Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1
-index.js:379 Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1
-index.js:379 Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1
-*/
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
   floodDefences: '/assets/images/flood-defence.svg',
