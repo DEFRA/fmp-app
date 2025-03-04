@@ -89,50 +89,52 @@
                   Climate change: projected chance of flooding
                 </dt>
                 <dd class="govuk-summary-list__value">
-                {% if floodData.riversAndSeaDefendedCC.riskBandPercent %}
-                  <h3 class="govuk-heading-s">With defences (defended)</h3>
-                  <p class="govuk-body" data-testid="rofrs-cc-defended-probability">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:</p>
-                  <ul class="govuk-list govuk-list--bullet">
-                    <li>from rivers for the period 2070 to 2125</li>
-                    <li>from the sea (tidal flooding) by the year 2125</li>
-                  </ul>
-                  <details class="govuk-details">
-                    <summary class="govuk-details__summary">
-                      <span class="govuk-details__summary-text">
-                        What does 'defended' mean?
-                      </span>
-                    </summary>
-                    <div class="govuk-details__text">
-                      <ul class="govuk-list govuk-list--bullet">
-                        <li>our modelling has taken into account the presence of existing flood defences</li>
-                        <li>there is still a flood risk if the flood defences fail or if their design standard is exceeded (if the flood event is more than they are designed to cope with)</li>
-                        <li>when considering climate change, we assume flood defences stay the same as present day</li>
-                      </ul>
-                    </div>
-                  </details>
-                {% endif %}
-                {% if floodData.riversAndSeaUndefendedCC.riskBandPercent %}
-                <h3 class="govuk-heading-s" data-testid="rofrs-cc-undefended">Without defences (undefended)</h3>
-                <p class="govuk-body">We have not modelled the 3.3% AEP event for an undefended scenario.</p>
-                <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefendedCC.riskBandOdds }}) chance of flooding each year: </p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>from rivers for the period 2070 to 2125</li>
-                    <li>from the sea (tidal flooding) by the year 2125</li>
-                </ul>
-                <details class="govuk-details">
-                  <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      What does 'undefended' mean?
-                    </span>
-                  </summary>
-                  <div class="govuk-details__text">
+                  {% if floodData.riversAndSeaDefendedCC.riskBandPercent %}
+                    <h3 class="govuk-heading-s">With defences (defended)</h3>
+                    <p class="govuk-body" data-testid="rofrs-cc-defended-probability">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:</p>
                     <ul class="govuk-list govuk-list--bullet">
-                      <li>our modelling ignores the presence of existing flood defences</li>
+                      <li>from rivers for the period 2070 to 2125</li>
+                      <li>from the sea (tidal flooding) by the year 2125</li>
                     </ul>
-                  </div>
-                </details>
-                {% endif %}
-                <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">Find out more about climate change allowances.</a>
+                    <details class="govuk-details">
+                      <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          What does 'defended' mean?
+                        </span>
+                      </summary>
+                      <div class="govuk-details__text">
+                        <ul class="govuk-list govuk-list--bullet">
+                          <li>our modelling has taken into account the presence of existing flood defences</li>
+                          <li>there is still a flood risk if the flood defences fail or if their design standard is exceeded (if the flood event is more than they are designed to cope with)</li>
+                          <li>when considering climate change, we assume flood defences stay the same as present day</li>
+                        </ul>
+                      </div>
+                    </details>
+                  {% endif %}
+                  {% if floodData.riversAndSeaUndefendedCC.riskBandPercent %}
+                    <h3 class="govuk-heading-s" data-testid="rofrs-cc-undefended">Without defences (undefended)</h3>
+                    <p class="govuk-body">We have not modelled the 3.3% AEP event for an undefended scenario.</p>
+                    <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefendedCC.riskBandOdds }}) chance of flooding each year: </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>from rivers for the period 2070 to 2125</li>
+                      <li>from the sea (tidal flooding) by the year 2125</li>
+                    </ul>
+                    <details class="govuk-details">
+                      <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          What does 'undefended' mean?
+                        </span>
+                      </summary>
+                      <div class="govuk-details__text">
+                        <ul class="govuk-list govuk-list--bullet">
+                          <li>our modelling ignores the presence of existing flood defences</li>
+                        </ul>
+                      </div>
+                    </details>
+                  {% endif %}
+                  <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" data-testid="cc-allowances">
+                    Find out more about climate change allowances.
+                  </a>
                 </dd>
               </div>
             {% endif %}
@@ -176,7 +178,6 @@
                   </div>
                 </details>
               {% endif %}
-              <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">Find out more about climate change allowances.</a>
               </dd>
             </div>
           {% endif %}
@@ -314,4 +315,9 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="/public/defra-map/product-1-spinner.js"></script>
 {% endblock %}

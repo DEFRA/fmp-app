@@ -24,7 +24,6 @@
     <meta name="robots" content="noindex"/>
   {% endif %}
   <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet"/>
-  <script src="{{assetPath}}/javascripts/polyfill.min.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -47,7 +46,7 @@
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="{{ assetPath }}/javascripts/core.js"></script>
+  <script src="{{ assetPath }}/core.js"></script>
   <script type="module">
     import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
     initAll()

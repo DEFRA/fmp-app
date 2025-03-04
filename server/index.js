@@ -12,7 +12,8 @@ async function createServer () {
         options: {
           abortEarly: false
         }
-      }
+      },
+      security: true
     },
     cache: [
       {

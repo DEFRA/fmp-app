@@ -119,3 +119,29 @@ strong {
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
+
+.fm-error {
+  margin: 4px;
+}
+
+// Disable page elements when map is fullscreen on mobile
+// Only hide elements if:
+// JavaScript is enabled
+// The map is showing (ie no data-fm-error)
+// The device is mobile
+body.js-enabled:not([data-fm-error]) {
+  header,
+  .govuk-cookie-banner,
+  .govuk-header,
+  .govuk-skip-link,
+  main > .govuk-heading-l {
+      @include mq ($until: tablet) {
+          display: none;
+      }
+  }
+}
+
+.govuk-heading-s,
+.govuk-details__text {
+  color: var(--foreground-colour);
+}

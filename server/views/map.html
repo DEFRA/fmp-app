@@ -25,7 +25,7 @@
 
 
 {% block pageTitle %}
-  Flood map for planning - GOV.UK
+  Map – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %} {% endblock %}  
@@ -33,6 +33,22 @@
 {% block main %}
 {% block content %}
   <main class="flood-map-main" id="main-content">
+    <noscript>
+      <div class="fm-error">
+        <h2 class="govuk-heading-m">The interactive map part of this service needs javascript and a supported device to function.</h2>
+        <p class="govuk-body">
+          It is still possible for you to use the service but without the map it might be difficult to supply an accurate location.
+          This could mean that your request is delayed.
+        </p>
+        <p class="govuk-body">
+          If you can, please enable JavaScript to allow the service to work to its full potential
+        </p>
+        <p class="govuk-body">
+          If this is something that you are unable to do, it might be best to contact the Environment Agency by telephone: 
+          03708 506 506 (Monday to Friday, 8am to 6pm) to help you
+        </p>      </div>
+    </noscript>
+
     <h1 class="govuk-visually-hidden">Interactive map showing flood planning data</h1>
     <div class="flood-map-target" id="map"></div>
   </main>
