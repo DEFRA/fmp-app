@@ -55,7 +55,7 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
 
     if (error) {
       console.log('An error was returned from the eaMaps Product 1 service', error)
-      throw (error)
+      throw new Error(error)
     }
     if (!url) {
       const message = 'The eaMaps Product 1 service failed to return a url'
