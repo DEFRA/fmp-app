@@ -1,15 +1,9 @@
 {% extends 'layout.html' %}
 {% block pageTitle %}
-Your results explained - Flood map for planning - GOV.UK
+  Flood zones and what they mean - Flood map for planning - GOV.UK
 {% endblock %}
+
 {% block content %}
-{{ super() }}
-
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
-<link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/summary/index.css">
-
-{% from "button/macro.njk" import govukButton %}
-{% from "error-summary/macro.njk" import govukErrorSummary %}
 
 <div id="flood-zone-results-explained" class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -18,20 +12,20 @@ Your results explained - Flood map for planning - GOV.UK
     </h1>
 
     <p class="govuk-body">
-      Flood zones give you one type of flood risk information for the planning process.
+      Flood zones show areas of land that could flood from rivers (fluvial) or the sea (tidal), ignoring the benefits of any existing flood defences.
     </p>
 
     <p class="govuk-body">
-      They are based on a location's chance of flooding from rivers or the sea in any year. They do not take into account:
+      They are based on a location's chance of flooding from rivers or the sea in any year. 
+    </p>
+
+    <p class="govuk-body">
+      Flood zones do not take into account:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>
-        other sources of flooding
-      </li>
-      <li>
-        future flood risk from rivers or the sea
-      </li>
+      <li>other sources of flooding</li>
+      <li>the possible effects of climate change on rivers or the sea</li>
     </ul>
 
     <p class="govuk-body">
@@ -39,30 +33,47 @@ Your results explained - Flood map for planning - GOV.UK
     </p>
 
     <p class="govuk-body">
-      To get a more complete picture of a location's risk, you should 
-      <a 
-        href="https://www.gov.uk/check-long-term-flood-risk" 
-        data-journey-click="Flood-Zone-Results-Explained:External-Link:Check-Long-Term-Flood-Risk"
-        class="govuk-link"
-      > check the long term flood risk for an area
-      </a>.
+      Flood zones combine several datasets to create a picture of flood risk, including: 
     </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>undefended modelling</li>
+      <li>defended modelling</li>
+      <li>recorded flood outlines from past floods</li>
+      <li>other suitable data from third parties</li>
+    </ul>
+
+    <p class="govuk-body">
+      Flood zones take account of flood risk from watercourses with a catchment area greater than 3 square kilometres. They do not have to be classified as main rivers. 
+    </p>
+
+    <p class="govuk-body">
+      Where we have data for watercourses with catchments smaller than 3 square kilometres, we will include it in the flood zones if we consider it suitable. 
+    </p>
+
+    <p class="govuk-body">
+      If a smaller catchment is not included in a flood zone it does not necessarily mean there is no flood risk. If your site is in a smaller catchment not included in a flood zone, you may need further assessment to understand all the risks. 
+    </p>   
 
     <h2 class="govuk-heading-m">
       Flood zone 1
     </h2>
 
     <p class="govuk-body">
-      Locations in flood zone 1 have a low probability of flooding. This means in any year land has a less than 0.1% chance of flooding from rivers or the sea.
+      Locations in flood zone 1 have a low probability of flooding.
     </p>
 
     <p class="govuk-body">
-      Some flood zone 1 developments need a flood risk assessment as part of their planning application. Find out 
-      <a 
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment" 
-        data-journey-click="Flood-Zone-Results-Explained:External-Link:Find-Out-When-You-Need-Assessment"
-        class="govuk-link"
-      >when you need a flood risk assessment for development in flood zone 1</a>.
+      This means, in any year, land has a less than 0.1% (1 in 1,000) chance of flooding from rivers or the sea.
+    </p>
+
+    <p class="govuk-body">
+      Some flood zone 1 developments need a flood risk assessment as part of their planning application. 
+    </p>
+
+    <p class="govuk-body">
+      Find out 
+      <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-an-assessment">when you need a flood risk assessment for development in flood zone 1</a>.
     </p>
 
     <h2 class="govuk-heading-m">
@@ -70,8 +81,17 @@ Your results explained - Flood map for planning - GOV.UK
     </h2>
 
     <p class="govuk-body">
-      Locations in flood zone 2 have a medium probability of flooding. This means in any year land has between a 1% and 0.1% chance of flooding from rivers and between a 0.5% and 0.1% chance of flooding from the sea.
+      Locations in flood zone 2 have a medium probability of flooding.
     </p>
+
+    <p class="govuk-body">
+      This means, in any year, land has:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>between a 1% and 0.1% (between 1 in 100 and 1 in 1,000) chance of flooding from rivers</li>
+      <li>between a 0.5% and 0.1% (between 1 in 200 and 1 in 1,000) chance of flooding from the sea.</li>
+    </ul>
 
     <p class="govuk-body">
       Flood zone 2 developments need a flood risk assessment as part of their planning application.
@@ -82,49 +102,71 @@ Your results explained - Flood map for planning - GOV.UK
     </h2>
 
     <p class="govuk-body">
-      Locations in flood zone 3 have a high probability of flooding. This means in any year land has a 1% or more chance of flooding from rivers, or a 0.5% or more chance of flooding from the sea.
+      Locations in flood zone 3 have a high probability of flooding. 
     </p>
 
     <p class="govuk-body">
-      Flood zone 3 developments need to submit a flood risk assessment as part of their planning application. 
+      This means, in any year, land has:
     </p>
 
-    {% if (zone == 'FZ2a') or (zone == 'FZ3a') %}
-      <h2 class="govuk-heading-m">
-        Flood defences
-      </h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a 1% (1 in 100) or more chance of flooding from rivers</li>
+      <li>a 0.5% (1 in 200) or more chance of flooding from the sea.</li>
+    </ul>
 
-      <p class="govuk-body">
-        There are flood defences in part or all of the location you selected.
-      </p>
-      <p class="govuk-body">
-        Flood defences:
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li> reduce the probability of flooding from a specific source (a river or the sea) </li>
-        <li>
-          do not completely stop the chance of flooding because there may be a flood that is bigger than 
-          the one the defence is designed to protect against (this is called overtopping), or the defence can fail
-        </li>
-        <li> may provide reduced protection over time because of climate change increasing flood risk in the future</li>
-      </ul>
-      <p class="govuk-body">
-        There are different types of flood defence. They include:
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>culverts</li>
-        <li>embankments</li>
-        <li>flood walls</li>
-      </ul>
-      <p class="govuk-body">
-        You can view a complete list of flood defences, called asset categories, on 
-          <a 
-            class="govuk-link" 
-            data-journey-click="Flood-Zone-Results-Explained:External-Link:View-List-Of-Flood-Defences"
-            href="https://environment.data.gov.uk/asset-management/drl-app/revision/current/categories#Defences"
-          >environment.data.gov.uk</a>.
-      </p>
-    {% endif %}
+    <p class="govuk-body">
+      Flood zone 3 developments need a flood risk assessment as part of their planning application.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      Flood zone 3b (functional floodplain)
+    </h2>
+
+    <p class="govuk-body">
+      Locations in flood zone 3b are at the highest risk of flooding.
+    </p>
+
+    <p class="govuk-body">
+      Flood zone 3b is not shown on the flood map for planning service, as it is defined and mapped by local planning authorities (LPAs) in their strategic flood risk assessments.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      The difference between flood zones and flood extents
+    </h2>
+
+    <p class="govuk-body">
+      Flood zones are sometimes different to the present day rivers and the sea extents because they combine several additional datasets to create a more complete picture of flood risk.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      Flood defences
+    </h2>
+
+    <p class="govuk-body">
+      Flood defences:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>reduce the probability of flooding from a specific source (a river or the sea)</li>
+      <li>do not completely stop the chance of flooding because there may be a flood that is bigger than the one the defence is designed to protect against (this is called overtopping), or the defence can fail</li>
+      <li>may provide reduced protection over time because of climate change increasing flood risk in the future</li>
+    </ul>
+
+    <p class="govuk-body">
+      There are different types of flood defence. They include:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>embankments</li>
+      <li>flood gates that are in line with the river</li>
+      <li>flood walls</li>
+    </ul>
+
+    <p class="govuk-body">
+      You can view a complete list of flood defences, called asset categories, on the 
+      <a href="https://environment.data.gov.uk/asset-management/drl-app/revision/current/categories#Defence">Defra data services platform</a>.
+    </p>
+
   </div>
 </div>
 {% endblock %}
