@@ -467,7 +467,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       keyDisplay: 'min',
       segments: [{
         heading: 'Datasets',
-        collapse: 'expanded',
         items: [
           {
             id: 'fz',
@@ -494,7 +493,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: 'Time frame',
-        collapse: 'collapse',
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -510,7 +508,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'af1',
         heading: 'Annual likelihood of flooding',
-        collapse: 'collapse',
         parentIds: ['rsd'],
         items: [
           {
@@ -530,7 +527,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'sw1',
         heading: 'Annual likelihood of flooding',
-        collapse: 'collapse',
         parentIds: ['sw'],
         items: [
           {
@@ -550,7 +546,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'af2',
         heading: 'Annual likelihood of flooding',
-        collapse: 'collapse',
         parentIds: ['rsu'],
         items: [
           {
@@ -568,7 +563,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         {
           heading: 'Map features',
           parentIds: ['fz'],
-          collapse: 'expanded',
           items: [
             keyItemDefinitions.floodZone2,
             keyItemDefinitions.floodZone3,
@@ -580,7 +574,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         {
           heading: 'Map features',
           parentIds: ['rsd', 'rsu', 'sw'],
-          collapse: 'expanded',
           items: [
             keyItemDefinitions.floodExtents,
             keyItemDefinitions.waterStorageAreas,
@@ -591,7 +584,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         {
           heading: 'Map features',
           parentIds: ['mo'],
-          collapse: 'expanded',
           items: [
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
@@ -653,6 +645,11 @@ getDefraMapConfig().then((defraMapConfig) => {
     console.log('ready mapState', mapState)
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
+
+    // The title: 'Menu' is hidden in css by extending .govuk-visually-hidden
+    // This makes it readable by a screen reader.
+    const menuTitle = document.getElementById('map-panel-legend-label')
+    menuTitle.setAttribute('aria-hidden', 'false')
   })
 
   // Listen for mode, segments, layers or style changes
