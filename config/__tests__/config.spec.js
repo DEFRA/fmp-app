@@ -16,7 +16,6 @@ describe('Ensure config is correct', () => {
       env: 'dev',
       appType: 'internal',
       server: { port: '8050' },
-      geoserver: 'http://dummyuri',
       views: { isCached: false },
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
@@ -69,13 +68,12 @@ describe('Ensure config is correct', () => {
 
   it('test config values in production', () => {
     jest.resetModules()
-    process.env.ENV = 'prod-green'
+    process.env.ENV = 'prod'
     const { config } = require('../index')
     const expectedConfig = {
-      env: 'prod-green',
+      env: 'prod',
       appType: 'internal',
       server: { port: '8050' },
-      geoserver: 'http://dummyuri',
       views: { isCached: false },
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
@@ -117,7 +115,7 @@ describe('Ensure config is correct', () => {
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {
-        layerNameSuffix: '_NON_PRODUCTION'
+        layerNameSuffix: '_Tile_Layer'
       },
       riskAdminApi: {
         url: 'http://riskadmin-api-url'

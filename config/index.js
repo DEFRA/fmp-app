@@ -16,13 +16,7 @@ const agolEndpoints = {
   surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
 }
 
-const isProduction = () => {
-  return process.env.ENV === 'prd' ||
-    process.env.ENV === 'production' ||
-    process.env.ENV === 'prod' ||
-    process.env.ENV === 'prod-green' ||
-    process.env.ENV === 'prod-blue'
-}
+const isProduction = () => process.env.ENV === 'prod'
 
 const productioniseEndpoint = (endpoint) => {
   return isProduction() ? endpoint.replace('_NON_PRODUCTION', '') : endpoint
@@ -34,7 +28,6 @@ const config = {
   server: {
     port: process.env.PORT
   },
-  geoserver: process.env.geoserver,
   views: {
     isCached: toBool(process.env.viewsIsCached)
   },
@@ -80,7 +73,7 @@ const config = {
     tokenEndPoint: '/tokens/generateToken'
   },
   defraMap: {
-    layerNameSuffix: process.env.layerNameSuffix || ''
+    layerNameSuffix: isProduction() ? '_Tile_Layer' : process.env.layerNameSuffix
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl
