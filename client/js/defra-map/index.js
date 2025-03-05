@@ -4,6 +4,7 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriCo
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
+import { siteBoundaryHelp } from './markUpItems.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -607,9 +608,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       addLabel: 'Add boundary',
       updateLabel: 'Update boundary',
       submitLabel: 'Get summary report',
-      helpLabel: 'How to draw a boundary',
+      helpLabel: 'How to draw a shape',
       keyLabel: 'Report area',
-      html: '<p><strong>For an approximate site boundary</strong>: <ul class="govuk-list govuk-list--bullet"><li>use the red square to define the boundary of your site</li><li>zoom and move the map to position the square</li><li>click the ‘add boundary’ button to finish</li></ul></p></br><p><strong>For a more detailed site boundary:</strong></p><ul class="govuk-list govuk-list--bullet"><li>click ‘edit shape’ and dots will appear on the square</li><li>move the dots to change the shape of the square until it matches your boundary</li><li>click the ‘add boundary’ button to finish</li></ul>',
+      html: siteBoundaryHelp,
       minZoom: 21,
       maxZoom: 17,
       styles: [
