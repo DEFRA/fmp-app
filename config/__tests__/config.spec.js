@@ -57,7 +57,8 @@ describe('Ensure config is correct', () => {
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {
-        layerNameSuffix: '_NON_PRODUCTION'
+        layerNameSuffix: '_NON_PRODUCTION',
+        featureLayerNameSuffix: '_NON_PRODUCTION'
       },
       riskAdminApi: {
         url: 'http://riskadmin-api-url'
@@ -115,7 +116,8 @@ describe('Ensure config is correct', () => {
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {
-        layerNameSuffix: '_Tile_Layer'
+        layerNameSuffix: '_Tile_Layer',
+        featureLayerNameSuffix: ''
       },
       riskAdminApi: {
         url: 'http://riskadmin-api-url'

@@ -58,7 +58,8 @@ const schema = Joi.object({
     tokenEndPoint: Joi.string().required()
   },
   defraMap: {
-    layerNameSuffix: Joi.string().required().allow('_NON_PRODUCTION', '_Tile_Layer')
+    layerNameSuffix: Joi.string().required().allow('_NON_PRODUCTION', '_Tile_Layer'),
+    featureLayerNameSuffix: Joi.string().required().allow('_NON_PRODUCTION', '')
   },
   riskAdminApi: {
     url: Joi.string().uri().required()
