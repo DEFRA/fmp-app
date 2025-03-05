@@ -13,7 +13,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">{{ pageHeading }}?</h1>
     <form autocomplete="off" id='triage-form' method="post" action="/triage" novalidate>
       {% if errorSummary.length > 0 %}
         {{ govukErrorSummary({
@@ -24,6 +23,13 @@
       {% endif %}
       {{ govukRadios({
         name: "triageOptions",
+        fieldset: {
+          legend: {
+            text: pageHeading + "?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
         errorMessage: findErrorMessageById(errorSummary, "location"),
         items: [
           {
