@@ -8,7 +8,10 @@
     Order flood risk data
   </a>
 {% else %}
-  <p class="govuk-body" data-testid="order-product4-email">To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}</p>
+  <p class="govuk-body" data-testid="order-product4-email">
+    To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at
+    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>
+  </p>
   <p class="govuk-body">Your email should say that you are ordering flood risk data and include:</p>
   <ul class="govuk-list govuk-list--bullet">
     <li>the address</li>
