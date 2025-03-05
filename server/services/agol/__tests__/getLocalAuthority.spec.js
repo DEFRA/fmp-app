@@ -3,7 +3,7 @@ const { getLocalAuthority } = require('../getLocalAuthority')
 
 describe('getLocalAuthority', () => {
   beforeEach(async () => {
-    mockEsriRequest([{ attributes: { authority_name: 'Ryedale' } }])
+    mockEsriRequest([{ attributes: { ons_name: 'Ryedale' } }])
   })
 
   afterEach(stopMockingEsriRequests)

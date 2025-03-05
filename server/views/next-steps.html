@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block pageTitle %}
+  Next steps - Flood map for planning - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-xl">
+        Next steps for your planning application
+      </h1>
+      <h3 class="govuk-heading-m">
+        Decide what you need for your planning application
+      </h3>
+      <p class="govuk-body">
+        Contact your local planning authority to check their requirements.
+      </p>
+      <p class="govuk-body">
+        Your local planning authority is {{contactData.LocalAuthorities}}
+      </p>
+      <p class="govuk-body">
+        Get a Flood Risk Assessment (FRA). You will normally need to pay a flood risk specialist to carry it out.
+      </p>
+      <p class="govuk-body">
+        For developments in flood zone {{floodData.floodZone}} your FRA should include an assessment of all sources of
+        flooding and <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">take into account climate change allowances</a>.
+      </p>
+      <p class="govuk-body">
+        Find out <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">how to do an assessment</a>.
+      </p>
+      <p class="govuk-body">
+        Find out more about <a class="govuk-link" href="/flood-zone-results-explained">flood zones and what they mean</a>
+      </p>
+      
+      <p class="govuk-body">
+        When using the surface water map on the
+        <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{floodData.centreOfPolygon.x}}&northing={{floodData.centreOfPolygon.y}}&map=SurfaceWater">
+          check your long term flood risk service
+        </a>
+        the following considerations apply:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          surface water extents are suitable for use in planning
+        </li>
+        <li>
+          surface water climate change scenarios may help to inform risk assessments, 
+          but the available data fall short of what is required to assess planned development 
+        </li>
+        <li>
+          surface water depth information should not be used for planning purposes
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        To find out about other factors that might affect the flood risk of this location, you should also check:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting={{floodData.centreOfPolygon.x}}&northing={{floodData.centreOfPolygon.y}}&map=SurfaceWater">
+            reservoir flood risk
+          </a>
+        </li>
+        <li>
+          groundwater flood risk - you could use the
+          <a class="govuk-link" href="https://www.bgs.ac.uk/datasets/groundwater-flooding/">
+            British Geological Survey groundwater flooding data
+          </a>,
+          <a class="govuk-link" href="https://www.gov.uk/government/collections/groundwater-current-status-and-flood-risk">
+            groundwater: current status and flood risk
+          </a>
+          and the guide on
+          <a class="govuk-link" href="https://www.gov.uk/guidance/mining-and-groundwater-constraints-for-development">
+            mining and groundwater constraints for development
+          </a>
+          - further information may be available from the lead local flood authority (LLFA) and your
+          local planning authority's strategic flood risk assessment (SFRA)
+        </li>
+        <li>
+          your local planning authority's strategic flood risk assessment (SFRA), which includes future flood risk.
+        </li>
+      </ul>
+
+      <h3 class="govuk-heading-m">
+        Other data you may need
+      </h3>
+
+      <p class="govuk-body">You will also need to assess <a
+          href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41">residual
+          risk</a> from flood defence breach in this location.
+          If available, we will provide breach hazard mapping data to help you do this. 
+      </p>
+
+      <h3 class="govuk-heading-m">
+        Get help
+      </h3>
+
+      <p class="govuk-body">
+        For help deciding what flood risk information you need, 
+        email the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}
+      </p>
+
+      <h3 class="govuk-heading-m">
+        Download a flood map for this location
+      </h3>
+
+      {% include "./partials/order-product-one.html" %}
+
+      <h3 class="govuk-heading-m">
+        Order flood risk data for rivers and the sea
+      </h3>
+
+      {% include "./partials/order-product-four.html" %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="/public/defra-map/product-1-spinner.js"></script>
+{% endblock %}

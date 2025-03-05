@@ -237,7 +237,7 @@
                 Decide what you need for your planning application
               </dt>
               <dd class="govuk-summary-list__value">
-                <a href="#">I need help deciding what to include in my planning application.</a>
+                <a href="/next-steps?polygon={{polygon}}">I need help deciding what to include in my planning application.</a>
               </dd>
             </div>
 
@@ -252,7 +252,7 @@
                   <li>within 20 metres of a main river or a flood defence</li>
                   <li>in a water storage area (also likely to be flood zone 3b in the strategic flood risk assessment)</li>
                 </ul>
-                {% include "./partials/product-1-form.html" %}
+                {% include "./partials/order-product-one.html" %}
               </dd>
             </div>
 
@@ -261,36 +261,7 @@
                 Order detailed flood risk data
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if showOrderProduct4Button %}
-                  <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
-                  {% if floodData.floodZone === '1'%}
-                    <p class="govuk-body" data-testid="fz1-order-product4">Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. You can place an order and we'll email you if none is available.</p>
-                  {% endif %}
-                  <br>
-                  <a href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
-                    Order flood risk data
-                  </a>
-                {% else %}
-                  <p class="govuk-body" data-testid="order-product4-email">To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}</p>
-                  <p class="govuk-body">Your email should say that you are ordering flood risk data and include:</p>
-                  <ul class="govuk-list govuk-list--bullet">
-                    <li>the address</li>
-                    <li>a map showing the site boundary</li>
-                  </ul>
-                  {% if floodData.floodZone === '1'%}
-                    <p class="govuk-body">Your site is in flood zone 1, so it is unlikely we'll have any flood risk data for it. You can place an order and we will email you if none are available. </p>
-                  {% else %}
-                    <p class="govuk-body">We aim to email you the data within 20 working days.</p>
-                    <p class="govuk-body">Depending on the information that's available, your flood risk data could include:</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                      <li>a flood zone map (flood map for planning)</li>
-                      <li>past flood outlines</li>
-                      <li>relevant modelled flood levels and extents</li>
-                      <li>flood defence locations and attributes</li>
-                      <li>flood defence breach hazard information.</li>
-                    </ul>
-                  {% endif %}
-                {% endif %}
+                {% include "./partials/order-product-four.html" %}
               </dd>
             </div>
             <div class="govuk-summary-list__row">

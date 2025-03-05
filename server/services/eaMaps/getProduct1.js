@@ -38,12 +38,13 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
 
     const formData = {
       geometry,
-      referenceNumber,
+      referenceNumber: referenceNumber || 'Unspecified',
       scale,
       token,
       product: '1',
       f: 'json'
     }
+
     // 1st post the data, which triggers the EAMaps process to produce a temporary pdf
     // and returns the url of that pdf
     const response = await axios.post(pdfUrl, formData, {
@@ -54,7 +55,7 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
 
     if (error) {
       console.log('An error was returned from the eaMaps Product 1 service', error)
-      throw (error)
+      throw new Error(error)
     }
     if (!url) {
       const message = 'The eaMaps Product 1 service failed to return a url'
