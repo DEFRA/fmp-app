@@ -73,7 +73,8 @@ const config = {
     tokenEndPoint: '/tokens/generateToken'
   },
   defraMap: {
-    layerNameSuffix: isProduction() ? '_Tile_Layer' : process.env.layerNameSuffix
+    layerNameSuffix: isProduction() ? '_Tile_Layer' : process.env.layerNameSuffix,
+    featureLayerNameSuffix: isProduction() ? '' : process.env.layerNameSuffix
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl
