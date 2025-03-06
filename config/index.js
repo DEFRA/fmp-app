@@ -19,7 +19,13 @@ const agolEndpoints = {
 const isProduction = () => process.env.ENV === 'prod'
 
 const productioniseEndpoint = (endpoint) => {
-  return isProduction() ? endpoint.replace('_NON_PRODUCTION', '') : endpoint
+  if (!isProduction()) {
+    return endpoint
+  }
+  endpoint = endpoint.replace('_NON_PRODUCTION', '')
+  // FCRM-5702: Production surface water depth layer name differs from non-production
+  endpoint = endpoint.replace('0mm', '0_mm')
+  return endpoint
 }
 
 const config = {
