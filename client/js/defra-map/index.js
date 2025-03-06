@@ -646,11 +646,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     console.log('ready mapState', mapState)
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
-
-    // The title: 'Menu' is hidden in css by extending .govuk-visually-hidden
-    // This makes it readable by a screen reader.
-    const menuTitle = document.getElementById('map-panel-legend-label')
-    menuTitle.setAttribute('aria-hidden', 'false')
   })
 
   // Listen for mode, segments, layers or style changes
