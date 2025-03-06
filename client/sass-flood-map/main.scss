@@ -142,6 +142,8 @@ body.js-enabled:not([data-fm-error]) {
 }
 
 .govuk-heading-s,
+.govuk-heading-m,
+.govuk-list > li,
 .govuk-details__text {
   color: var(--foreground-colour);
 }
