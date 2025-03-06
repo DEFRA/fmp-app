@@ -145,3 +145,7 @@ body.js-enabled:not([data-fm-error]) {
 .govuk-details__text {
   color: var(--foreground-colour);
 }
+
+#map-panel-legend-label {
+  @extend .govuk-visually-hidden;
+}
