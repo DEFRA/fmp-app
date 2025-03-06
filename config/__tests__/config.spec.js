@@ -106,7 +106,7 @@ describe('Ensure config is correct', () => {
         riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents/FeatureServer',
         riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1/FeatureServer',
         riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1/FeatureServer',
-        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm/FeatureServer/0'
+        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0_mm/FeatureServer/0'
       },
       eamaps: {
         serviceUrl: 'http://dummyEAMapslUrl',
