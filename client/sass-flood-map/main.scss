@@ -151,3 +151,7 @@ body.js-enabled:not([data-fm-error]) {
 #map-panel-legend-label {
   @extend .govuk-visually-hidden;
 }
+
+.esri-view-surface--touch-none {
+  touch-action: none;
+}
