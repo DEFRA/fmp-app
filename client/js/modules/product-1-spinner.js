@@ -2,14 +2,16 @@ const form = document.getElementById('product-1-form')
 const product1Button = document.getElementById('product-1-button')
 
 const onStartP1Generation = () => {
+  product1Button.blur()
   product1Button.classList.toggle('loading')
-  product1Button.disabled = true
   product1Button.textContent = 'We are preparing your PDF, please wait'
+  setTimeout(() => {
+    product1Button.focus()
+  }, 100)
 }
 
 const onCompletedP1Generation = () => {
   product1Button.classList.toggle('loading')
-  product1Button.disabled = false
   product1Button.textContent = 'Download flood map for this location (PDF)'
 }
 
@@ -29,6 +31,9 @@ const downloadP1 = async (response) => {
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault()
+  if (product1Button.classList.contains('loading')) {
+    return
+  }
   onStartP1Generation()
 
   const response = await window.fetch(event.target.action, {
