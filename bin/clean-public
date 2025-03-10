@@ -3,11 +3,7 @@
 rm -rf server/public/assets
 rm -rf server/public/build
 mkdir -p server/public/assets
-mkdir -p server/public/assets/fonts
-mkdir -p server/public/assets/stylesheets
-mkdir -p server/public/assets/javascripts
 mkdir -p server/public/assets/images
-mkdir -p server/public/assets/images/icons
 mkdir -p server/public/build
 mkdir -p server/public/build/stylesheets
 mkdir -p server/public/build/javascripts
