@@ -6,6 +6,8 @@ $govuk-global-styles: true;
 @import "../../node_modules/govuk-frontend/dist/govuk/all";
 @import 'node_modules/govuk-frontend/dist/govuk/settings/colours-applied.scss';
 
+@import 'util';
+
 h1.heading-xlarge {
   margin-bottom: 20px;
 }

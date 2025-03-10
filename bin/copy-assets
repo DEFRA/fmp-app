@@ -1,4 +1,5 @@
 
 #!/bin/bash
 
+cp -R client/images/* server/public/assets/images
 cp -R client/js/modules/* server/public/build/javascripts/
