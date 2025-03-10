@@ -423,8 +423,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
   const osAccountNumber = defraMapConfig.OS_ACCOUNT_NUMBER
   const currentYear = new Date().getFullYear()
-  const osAttributionHyperlink = `<a href="os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
-  const osMasterMapAttributionHyperlink = `<a href="os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
+  const osAttributionHyperlink = `<a href="/os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
+  const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
 
   const floodMap = new FloodMap('map', {
     behaviour: 'inline',
