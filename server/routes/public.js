@@ -10,23 +10,11 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/public/defra-map/{path*}',
-    options: {
-      handler: {
-        directory: {
-          path: 'dist/'
-        }
-      }
-    }
-  },
-  {
-    method: 'GET',
     path: '/assets/{path*}',
     options: {
       handler: {
         directory: {
           path: [
-            'dist/',
             'server/public/static',
             'server/public/build',
             'server/public/assets',

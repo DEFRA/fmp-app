@@ -23,15 +23,20 @@ console.log('Building defra-map as', buildAsSubmodule ? 'a submodule' : 'an npm 
 
 export default {
   entry: {
-    main: [
-      path.join(__dirname, 'client/js/defra-map/index.js'),
-      path.join(__dirname, 'client/sass-flood-map/main.scss')
+    application: [
+      path.join(__dirname, 'client/sass/application.scss')
     ],
-    'check-your-details-map': [
-      path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
+    map: [
+      path.join(__dirname, 'client/js/map/index.js'),
+      path.join(__dirname, 'client/sass/map/index.scss')
+    ],
+    'check-your-details': [
+      path.join(__dirname, 'client/js/check-your-details/index.js'),
       path.join(__dirname, 'client/sass/check-your-details/index.scss')
     ],
-    core: [path.join(__dirname, 'client/js/core.js')],
+    core: [
+      path.join(__dirname, 'client/js/core.js')
+    ],
     'product-1-spinner': [
       path.join(__dirname, 'client/js/modules/product-1-spinner.js')
     ]
@@ -40,7 +45,7 @@ export default {
   mode: 'development',
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'server/public/build')
   },
   optimization: {
     splitChunks: {
@@ -97,7 +102,7 @@ export default {
   ignoreWarnings: [
     {
       /* ignore scss warnings for now */
-      module: /main\.scss/
+      module: /index\.scss/
     }
   ],
   target: ['web', 'es5'],

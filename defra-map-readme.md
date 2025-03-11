@@ -9,4 +9,4 @@ TO Build defra-map as a submodule, do the following:
  npm ci
  cd ..
 -- Finally build the fmp-app 
- run build-map
+ npm run build

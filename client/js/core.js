@@ -1,3 +1,3 @@
-import cookies from './cookies'
+import cookies from './modules/cookies'
 
 cookies()
