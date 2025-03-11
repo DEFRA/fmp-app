@@ -102,7 +102,7 @@ export default {
   ignoreWarnings: [
     {
       /* ignore scss warnings for now */
-      module: /index\.scss/
+      module: /\.scss/
     }
   ],
   target: ['web', 'es5'],
