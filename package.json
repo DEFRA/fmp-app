@@ -57,7 +57,7 @@
     "@turf/turf": "^6.5.0",
     "accessible-autocomplete": "2.0.4",
     "area-polygon": "^1.0.1",
-    "axios": "^1.7.7",
+    "axios": "^1.8.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^9.2.1",
     "babel-preset-es2015": "^6.24.1",
