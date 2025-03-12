@@ -9,7 +9,7 @@
 
 {% block content %}
   {{ super() }}
-  <link href="/public/defra-map/check-your-details-map.css" rel="stylesheet"/>
+  <link href="{{ assetPath }}/stylesheets/check-your-details/index.css" rel="stylesheet"/>
   {% from "button/macro.njk" import govukButton %}
 
   <div id="check-your-details-page" class="govuk-grid-row">

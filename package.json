@@ -82,7 +82,6 @@
     "jquery": "^3.7.1",
     "jsdom": "^20.0.3",
     "magic-comments-loader": "^2.1.4",
-    "mini-css-extract-plugin": "^2.9.2",
     "moment-timezone": "0.5.35",
     "ngr-to-bng": "0.0.1",
     "node-cache": "^5.1.2",

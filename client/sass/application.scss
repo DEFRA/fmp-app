@@ -3,8 +3,8 @@ $govuk-fonts-path: "/assets/fonts/";
 $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 
-@import "../../node_modules/govuk-frontend/dist/govuk/all";
-@import 'node_modules/govuk-frontend/dist/govuk/settings/colours-applied.scss';
+@import 'govuk-frontend/dist/govuk/all';
+@import 'govuk-frontend/dist/govuk/settings/colours-applied.scss';
 
 @import 'util';
 

@@ -1,6 +1,5 @@
 import webpack from 'webpack'
 import path from 'path'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import dotenv from 'dotenv'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -23,18 +22,10 @@ console.log('Building defra-map as', buildAsSubmodule ? 'a submodule' : 'an npm 
 
 export default {
   entry: {
-    main: [
-      path.join(__dirname, 'client/js/defra-map/index.js'),
-      path.join(__dirname, 'client/sass-flood-map/main.scss')
-    ],
-    'check-your-details-map': [
-      path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
-      path.join(__dirname, 'client/sass/check-your-details/index.scss')
-    ],
+    main: path.join(__dirname, 'client/js/defra-map/index.js'),
+    'check-your-details-map': path.join(__dirname, 'client/js/modules/check-your-details-map.js'),
     core: [path.join(__dirname, 'client/js/core.js')],
-    'product-1-spinner': [
-      path.join(__dirname, 'client/js/modules/product-1-spinner.js')
-    ]
+    'product-1-spinner': path.join(__dirname, 'client/js/modules/product-1-spinner.js')
   },
   devtool: 'source-map',
   mode: 'development',
@@ -50,9 +41,6 @@ export default {
     }
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
     new webpack.NormalModuleReplacementPlugin(
       /js\/provider\/os-maplibre\/provider\.js/,
       './js/provider/esri-sdk/provider.js'
@@ -64,14 +52,6 @@ export default {
         test: /\.jsx?$/i,
         exclude: exclusions,
         loader: 'babel-loader'
-      },
-      {
-        test: /\.s?css$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ]
       },
       { // Not Required anymore as the svgs are embedded inline
         test: /\.(jpg|png)$/,
@@ -94,12 +74,6 @@ export default {
       '/@arcgis-path': arcGisPackagePath
     }
   },
-  ignoreWarnings: [
-    {
-      /* ignore scss warnings for now */
-      module: /main\.scss/
-    }
-  ],
   target: ['web', 'es5'],
   performance: {
     // hints: false,

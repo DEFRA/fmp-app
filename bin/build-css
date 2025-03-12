@@ -1,6 +1,6 @@
 #!/bin/bash
 
 sass --load-path=. \
+  --load-path=./node_modules \
   --no-source-map \
-  --quiet \
   client/sass:server/public/build/stylesheets

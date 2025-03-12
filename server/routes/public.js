@@ -37,5 +37,31 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/assets/stylesheets/base/{path*}',
+    options: {
+      handler: {
+        directory: {
+          path: [
+            'node_modules/@arcgis/core/assets/esri/themes/base'
+          ]
+        }
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/assets/stylesheets/map/@mapbox/{path*}',
+    options: {
+      handler: {
+        directory: {
+          path: [
+            'node_modules/@mapbox'
+          ]
+        }
+      }
+    }
   }
 ]
