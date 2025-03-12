@@ -5,7 +5,8 @@ module.exports = [
     options: {
       handler: {
         file: 'node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js'
-      }
+      },
+      tags: ['asset']
     }
   },
   {
@@ -23,7 +24,8 @@ module.exports = [
             'node_modules/nunjucks/browser'
           ]
         }
-      }
+      },
+      tags: ['asset']
     }
   }
 ]
