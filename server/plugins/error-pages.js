@@ -5,9 +5,9 @@
 module.exports = {
   plugin: {
     name: 'error-pages',
-    register: (server, options) => {
+    register: (server, _options) => {
       server.ext('onPreResponse', (request, h) => {
-        const response = request.response
+        const { response } = request
 
         if (response.isBoom) {
           // An error was raised during
@@ -25,13 +25,6 @@ module.exports = {
             data: response.data,
             message: response.message
           })
-
-          // In the event of 400
-          // return the invalid location error
-          if (statusCode === 400) {
-            // request.yar.set('displayError', { errorMessage: 'Enter a valid location' })
-            return h.redirect('/')
-          }
 
           // The return the `500` view
           return h.view('500').code(statusCode)

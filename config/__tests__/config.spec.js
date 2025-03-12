@@ -21,6 +21,7 @@ describe('Ensure config is correct', () => {
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
       httpTimeoutMs: '3000',
+      logLevel: 'error',
       ordnanceSurvey: {
         osGetCapabilitiesUrl: 'http://dummyuri',
         osMapsUrl: 'http://dummyuri',
@@ -80,6 +81,7 @@ describe('Ensure config is correct', () => {
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
       httpTimeoutMs: '3000',
+      logLevel: 'error',
       ordnanceSurvey: {
         osGetCapabilitiesUrl: 'http://dummyuri',
         osMapsUrl: 'http://dummyuri',
