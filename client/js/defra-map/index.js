@@ -603,8 +603,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       helpLabel: 'How to draw a shape',
       keyLabel: 'Report area',
       html: siteBoundaryHelp,
-      minZoom: 21,
-      maxZoom: 17,
+      minZoom: 17,
+      maxZoom: 21,
       styles: [
         {
           name: 'default',
