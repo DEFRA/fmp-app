@@ -12,11 +12,10 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon } = request.query
-        const { contactData, floodData } = await Promise.all([
+        const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
-        ).then(([contactResults, floodResults]) =>
-          ({ contactData: contactResults, floodData: floodResults }))
+        )
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
