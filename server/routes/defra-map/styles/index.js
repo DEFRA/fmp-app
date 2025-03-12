@@ -9,26 +9,44 @@ module.exports = [
   {
     method: 'GET',
     path: '/map/styles/open-tile.json',
-    handler: () => openTile
+    handler: () => openTile,
+    options: {
+      tags: ['asset']
+    }
   }, {
     method: 'GET',
     path: '/map/styles/vts-tile.json',
-    handler: () => vtsTile
+    handler: () => vtsTile,
+    options: {
+      tags: ['asset']
+    }
   }, {
     method: 'GET',
     path: '/map/styles/base-map-default',
-    handler: () => baseMapDefault
+    handler: () => baseMapDefault,
+    options: {
+      tags: ['asset']
+    }
   }, {
     method: 'GET',
     path: '/map/styles/base-map-dark',
-    handler: () => baseMapDark
+    handler: () => baseMapDark,
+    options: {
+      tags: ['asset']
+    }
   }, {
     method: 'GET',
     path: '/map/styles/polygon-default',
-    handler: () => polygonDefault
+    handler: () => polygonDefault,
+    options: {
+      tags: ['asset']
+    }
   }, {
     method: 'GET',
     path: '/map/styles/polygon-dark',
-    handler: () => polygonDark
+    handler: () => polygonDark,
+    options: {
+      tags: ['asset']
+    }
   }
 ]
