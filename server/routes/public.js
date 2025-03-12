@@ -19,7 +19,6 @@ module.exports = [
             'server/public/build',
             'server/public/assets',
             'node_modules/govuk-frontend/dist/govuk/assets',
-            'node_modules/accessible-autocomplete/dist',
             'node_modules/nunjucks/browser'
           ]
         }
