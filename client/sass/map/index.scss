@@ -4,18 +4,18 @@ $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 $govuk-new-typography-scale: true;
 
-@import "../../node_modules/govuk-frontend/dist/govuk/all";
+@import '../../../node_modules/govuk-frontend/dist/govuk/all';
 
 // // FloodMap css
 
 // // GOVUK Styles
-@import '../../node_modules/govuk-frontend/dist/govuk/base';
-@import '../../node_modules/govuk-frontend/dist/govuk/core/typography';
-@import '../../node_modules/govuk-frontend/dist/govuk/core/links';
-@import '../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
+@import '../../../node_modules/govuk-frontend/dist/govuk/base';
+@import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
+@import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
+@import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
 
-// Componenet CSS
-@import '../../node_modules/@defra/flood-map/src/flood-map';
+// Component CSS
+@import '../../../node_modules/@defra/flood-map/src/flood-map';
 
 strong {
   font-weight: bold;

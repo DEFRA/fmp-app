@@ -46,8 +46,7 @@ FROM base AS production
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
 && npm ci --ignore-scripts --omit dev \
-&& npm run build \
-&& npm run build-map
+&& npm run build
 
 USER node
 EXPOSE ${PORT}/tcp

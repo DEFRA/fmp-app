@@ -4,7 +4,7 @@
 
 {% block head %}
   {{ super() }}
-  <link href="/public/defra-map/main.css" rel="stylesheet"/>
+  <link href="{{ assetPath }}/map.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block bodyStart %}
@@ -53,7 +53,7 @@
     <div class="flood-map-target" id="map"></div>
   </main>
 
-  <script src="/public/defra-map/main.js"></script>
+  <script src="{{ assetPath }}/map.js"></script>
 
 {% endblock %}
 {% endblock %}
