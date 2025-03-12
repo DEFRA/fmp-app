@@ -10,6 +10,10 @@ module.exports = {
       paths: ['req.headers.authorization', 'req.headers.cookie', 'res.headers'],
       remove: true
     },
+    ignorePaths: [
+      '/healthcheck',
+      '/favicon.ico'
+    ],
     ignoreTags: [
       'asset'
     ]

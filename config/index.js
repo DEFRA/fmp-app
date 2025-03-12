@@ -34,7 +34,7 @@ const config = {
   server: {
     port: process.env.PORT
   },
-  logLevel: process.env.logLevel,
+  logLevel: process.env.logLevel || 'error',
   views: {
     isCached: toBool(process.env.viewsIsCached)
   },
