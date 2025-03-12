@@ -17,7 +17,8 @@ module.exports = [
         directory: {
           path: 'dist/'
         }
-      }
+      },
+      tags: ['asset']
     }
   },
   {
