@@ -10,7 +10,7 @@ const schema = Joi.object({
   env: Joi.string().required().allow('local', 'development', 'test', 'pre-prod', 'prod'),
   appType: Joi.string().required().allow('internal', 'public'),
   server: serverSchema,
-  logging: Joi.object(),
+  logLevel: Joi.object().required().allow('error', 'warn', 'info', 'debug').default('error'),
   views: Joi.object().required().keys({
     isCached: Joi.boolean().strict().required()
   }),
