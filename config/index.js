@@ -2,16 +2,18 @@ const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
 require('./environment')
 
+const agolRofrsDepthOrExtents = process.env.agolRofrsDepthOrExtents || 'Depth'
+
 const agolEndpoints = {
   customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
   localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
   isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
   floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
 
-  riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Extents_NON_PRODUCTION/FeatureServer',
-  riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents_NON_PRODUCTION/FeatureServer',
-  riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
-  riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
+  riversAndSeaDefendedEndPoint: `/Rivers_and_Sea_Defended_${agolRofrsDepthOrExtents}_NON_PRODUCTION/FeatureServer`,
+  riversAndSeaUndefendedEndPoint: `/Rivers_and_Sea_Undefended_${agolRofrsDepthOrExtents}_NON_PRODUCTION/FeatureServer`,
+  riversAndSeaDefendedCCP1EndPoint: `/Rivers_and_Sea_Defended_${agolRofrsDepthOrExtents}_CCP1_NON_PRODUCTION/FeatureServer`,
+  riversAndSeaUndefendedCCP1EndPoint: `/Rivers_and_Sea_Undefended_${agolRofrsDepthOrExtents}_CCP1_NON_PRODUCTION/FeatureServer`,
 
   surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
 }
@@ -70,7 +72,8 @@ const config = {
     riversAndSeaUndefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedEndPoint),
     riversAndSeaDefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedCCP1EndPoint),
     riversAndSeaUndefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedCCP1EndPoint),
-    surfaceWaterEndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterEndPoint)
+    surfaceWaterEndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterEndPoint),
+    agolRofrsDepthOrExtents // This is not needed in the app but we want to validate its value on startup
   },
   eamaps: {
     serviceUrl: process.env.eamapsServiceUrl,

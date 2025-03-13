@@ -12,6 +12,7 @@ describe('Ensure config is correct', () => {
 
   it('test config values', () => {
     const { config } = require('../index')
+    delete process.env.agolRofrsDepthOrExtents
     const expectedConfig = {
       env: 'dev',
       appType: 'internal',
@@ -44,11 +45,12 @@ describe('Ensure config is correct', () => {
         localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
         isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
         floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
-        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Extents_NON_PRODUCTION/FeatureServer',
-        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents_NON_PRODUCTION/FeatureServer',
-        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
-        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1_NON_PRODUCTION/FeatureServer',
-        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0'
+        riversAndSeaDefendedEndPoint: '/Rivers_and_Sea_Defended_Depth_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Depth_NON_PRODUCTION/FeatureServer',
+        riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+        riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
+        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0',
+        agolRofrsDepthOrExtents: 'Depth'
       },
       eamaps: {
         serviceUrl: 'http://dummyEAMapslUrl',
@@ -71,6 +73,7 @@ describe('Ensure config is correct', () => {
   it('test config values in production', () => {
     jest.resetModules()
     process.env.ENV = 'prod'
+    process.env.agolRofrsDepthOrExtents = 'Extents'
     const { config } = require('../index')
     const expectedConfig = {
       env: 'prod',
@@ -108,7 +111,8 @@ describe('Ensure config is correct', () => {
         riversAndSeaUndefendedEndPoint: '/Rivers_and_Sea_Undefended_Extents/FeatureServer',
         riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1/FeatureServer',
         riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1/FeatureServer',
-        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0_mm/FeatureServer/0'
+        surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0_mm/FeatureServer/0',
+        agolRofrsDepthOrExtents: 'Extents'
       },
       eamaps: {
         serviceUrl: 'http://dummyEAMapslUrl',
