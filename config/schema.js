@@ -7,10 +7,10 @@ const serverSchema = Joi.object()
   })
 
 const schema = Joi.object({
-  env: Joi.string().required().allow('local', 'development', 'test', 'pre-prod', 'prod'),
-  appType: Joi.string().required().allow('internal', 'public'),
+  env: Joi.string().required().valid('local', 'development', 'test', 'pre-prod', 'prod'),
+  appType: Joi.string().required().valid('internal', 'public'),
   server: serverSchema,
-  logLevel: Joi.string().allow('error', 'warn', 'info', 'debug'),
+  logLevel: Joi.string().valid('error', 'warn', 'info', 'debug').default('error'),
   views: Joi.object().required().keys({
     isCached: Joi.boolean().strict().required()
   }),
@@ -59,8 +59,8 @@ const schema = Joi.object({
     tokenEndPoint: Joi.string().required()
   },
   defraMap: {
-    layerNameSuffix: Joi.string().required().allow('_NON_PRODUCTION', '_Tile_Layer'),
-    featureLayerNameSuffix: Joi.string().required().allow('_NON_PRODUCTION', '')
+    layerNameSuffix: Joi.string().required().valid('_NON_PRODUCTION', '_Tile_Layer'),
+    featureLayerNameSuffix: Joi.string().required().valid('_NON_PRODUCTION', '')
   },
   riskAdminApi: {
     url: Joi.string().uri().required()
