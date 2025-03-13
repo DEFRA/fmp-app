@@ -48,7 +48,8 @@ const schema = Joi.object({
     riversAndSeaUndefendedEndPoint: Joi.string().required(),
     riversAndSeaDefendedCCP1EndPoint: Joi.string().required(),
     riversAndSeaUndefendedCCP1EndPoint: Joi.string().required(),
-    surfaceWaterEndPoint: Joi.string().required()
+    surfaceWaterEndPoint: Joi.string().required(),
+    agolRofrsDepthOrExtents: Joi.string().valid('Depth', 'Extents')
   },
   eamaps: {
     serviceUrl: Joi.string().uri().required(),
