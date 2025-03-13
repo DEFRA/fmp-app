@@ -14,7 +14,7 @@ describe('Ensure config is correct', () => {
     const { config } = require('../index')
     delete process.env.agolRofrsDepthOrExtents
     const expectedConfig = {
-      env: 'dev',
+      env: 'local',
       appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
