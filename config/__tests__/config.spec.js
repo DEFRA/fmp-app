@@ -56,7 +56,7 @@ describe('Ensure config is correct', () => {
         serviceUrl: 'http://dummyEAMapslUrl',
         product1User: 'PRODUCT1_USER',
         product1Password: 'PRODUCT1_PASSWORD',
-        product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
+        product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1-DevTest/GPServer/fmfp_get_product1/execute',
         tokenEndPoint: '/tokens/generateToken'
       },
       defraMap: {

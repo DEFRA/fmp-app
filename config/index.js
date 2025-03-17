@@ -30,6 +30,13 @@ const productioniseEndpoint = (endpoint) => {
   return endpoint
 }
 
+const getProduct1EndPoint = () => {
+  if (isProduction()) {
+    return '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute'
+  }
+  return '/rest/services/FMfP/FMFPGetProduct1-DevTest/GPServer/fmfp_get_product1/execute'
+}
+
 const config = {
   env: process.env.ENV,
   appType: process.env.fmpAppType,
@@ -79,7 +86,7 @@ const config = {
     serviceUrl: process.env.eamapsServiceUrl,
     product1User: process.env.eamapsProduct1User,
     product1Password: process.env.eamapsProduct1Password,
-    product1EndPoint: '/rest/services/FMfP/FMFPGetProduct1/GPServer/fmfp_get_product1/execute',
+    product1EndPoint: getProduct1EndPoint(),
     tokenEndPoint: '/tokens/generateToken'
   },
   defraMap: {
