@@ -17,8 +17,8 @@ module.exports = {
       try {
         const {
           polygon,
-          scale = SCALE_2500,
-          reference = '<Unspecified>',
+          scale,
+          reference,
           floodZone
         } = request.payload
         const isRiskAdminArea = request.payload.isRiskAdminArea === 'true'
@@ -40,10 +40,10 @@ module.exports = {
     validate: {
       payload: Joi.object().keys({
         reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
-        scale: Joi.number().valid(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).required(),
-        polygon: Joi.string().required().allow(''),
-        isRiskAdminArea: Joi.string().allow(''),
-        floodZone: Joi.string().valid('1', '2', '3')
+        scale: Joi.number().valid(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).default(SCALE_2500),
+        polygon: Joi.string().required(),
+        isRiskAdminArea: Joi.string().valid('true', 'false').required(),
+        floodZone: Joi.string().valid('1', '2', '3').required()
       })
     }
   }
