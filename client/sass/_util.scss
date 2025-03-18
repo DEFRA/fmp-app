@@ -89,18 +89,6 @@
   display: none;
 }
 
-.visible-mobile {
-  @include media(tablet) {
-    display: none!important;
-  }
-}
-
-.hidden-mobile {
-  @include media(mobile) {
-    display: none!important;
-  }
-}
-
 .no-wrap {
   white-space: nowrap;
 }
