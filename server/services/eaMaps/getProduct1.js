@@ -29,7 +29,7 @@ const parseEaMapsProduct1Response = (response) => {
   }, { url: undefined, error: undefined })
 }
 
-const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) => {
+const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments, floodZone) => {
   try {
     const token = await getEAMapsToken()
     const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
@@ -42,7 +42,8 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments) =>
       scale,
       token,
       product: '1',
-      f: 'json'
+      f: 'json',
+      floodZone
     }
 
     // 1st post the data, which triggers the EAMaps process to produce a temporary pdf
