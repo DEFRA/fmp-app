@@ -8,7 +8,7 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-import { getOsToken, getEsriToken } from '../defra-map/tokens'
+import { getOsToken, getEsriToken } from '../map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
 
 const spatialReference = 27700
