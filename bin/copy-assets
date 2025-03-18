@@ -1,5 +1,7 @@
 
 #!/bin/bash
 
+rm -rf server/public/assets
+mkdir -p server/public/assets
+mkdir -p server/public/assets/images
 cp -R client/images/* server/public/assets/images
-cp -R client/js/modules/* server/public/build/javascripts/
