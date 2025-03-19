@@ -9,7 +9,7 @@
 
 <div id="confirmation-page" class="govuk-grid-row">
   <div class="hide"
-       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
+       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{areaName}}"}}'></div>
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-panel govuk-panel--confirmation">
       <h1 class="govuk-panel__title">
@@ -65,7 +65,7 @@
 
     <h2 class="govuk-heading-m">Help and advice</h2>
     <p class="govuk-body" data-pso-contact-email>
-      Contact the Environment Agency team in {{AreaName}} at
+      Contact the Environment Agency team in {{areaName}} at
       <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
     </p>
     <ul class="govuk-list govuk-list--bullet">
@@ -76,12 +76,7 @@
       For advice around flood risk assessments and planning permission you can:
     </p>
     <ul class="govuk-list govuk-list--bullet">
-      <li data-local-authority>speak to your local authority
-      {% if LocalAuthorities %}, 
-        <span class="govuk-!-font-weight-bold">
-          {{LocalAuthorities}}
-        </span>
-      {% endif %}
+      <li data-local-authority>speak to your local authority{% if localAuthority %}, <span class="govuk-!-font-weight-bold">{{ localAuthority }}</span>{% endif %}
       </li>
       <li>
         <a
