@@ -13,6 +13,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const doRequest = async (url) => {
   const { data } = await axios.get(url, { httpsAgent, httpAgent })
   const { intersects } = data
+  console.log('riskadmin-api response url and data:', url, data)
   if (intersects !== undefined) {
     return { isRiskAdminArea: intersects }
   }
