@@ -28,19 +28,20 @@ const downloadP1 = async (response) => {
   window.URL.revokeObjectURL(url) // Clean up by revoking the blob URL and removing the link element
   document.body.removeChild(downloadElement)
 }
+if (form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    if (product1Button.classList.contains('loading')) {
+      return
+    }
+    onStartP1Generation()
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault()
-  if (product1Button.classList.contains('loading')) {
-    return
-  }
-  onStartP1Generation()
+    const response = await window.fetch(event.target.action, {
+      method: 'POST',
+      body: new URLSearchParams(new window.FormData(event.target)) // event.target is the form
+    })
 
-  const response = await window.fetch(event.target.action, {
-    method: 'POST',
-    body: new URLSearchParams(new window.FormData(event.target)) // event.target is the form
+    await downloadP1(response)
+    onCompletedP1Generation()
   })
-
-  await downloadP1(response)
-  onCompletedP1Generation()
-})
+}
