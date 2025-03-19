@@ -14,6 +14,7 @@ const schema = Joi.object({
   views: Joi.object().required().keys({
     isCached: Joi.boolean().strict().required()
   }),
+  allowProduct1: Joi.boolean().strict().required(),
   analyticsAccount: Joi.string().required().allow(''),
   googleVerification: Joi.string().required().allow(''),
   fbAppId: Joi.string().required().allow(''),

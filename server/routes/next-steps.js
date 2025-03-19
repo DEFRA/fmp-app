@@ -13,9 +13,10 @@ module.exports = [
         const { polygon } = request.query
         const contactData = await request.server.methods.getPsoContactsByPolygon(polygon)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
+        const showProduct1Button = config.allowProduct1
         const floodData = await request.server.methods.getFloodZoneByPolygon(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
-        return h.view('next-steps', { polygon, floodData, contactData, showOrderProduct4Button })
+        return h.view('next-steps', { polygon, floodData, contactData, showOrderProduct4Button, showProduct1Button })
       }
     }
   }

@@ -17,6 +17,7 @@ module.exports = [
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
+        const showProduct1Button = config.allowProduct1
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
@@ -29,7 +30,7 @@ module.exports = [
         floodData.hasROFRSRiskBand = isRiversAndSea
         floodData.isFZ1Andlt1haShowFRA = floodData.isFZ1Andlt1ha && isRiversAndSea
 
-        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
+        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button, showProduct1Button })
       }
     }
   }
