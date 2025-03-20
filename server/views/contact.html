@@ -1,13 +1,8 @@
 {% extends 'layout.html' %}
 {% block pageTitle %}
-  {% if errorSummary.length > 0 %}
-      Error: Request flood risk assessment data - Flood map for planning - GOV.UK
-  {% else %}
-      Request flood risk assessment data - Flood map for planning - GOV.UK
-  {% endif %}
+  {% if errorSummary.length > 0 %}Error: {% endif %}Request flood risk assessment data - Flood map for planning - GOV.UK
 {% endblock %}
 {% block content %}
-  {{ super() }}  
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
@@ -18,17 +13,17 @@
 
         {% if errorSummary.length > 0 %}
           {{ govukErrorSummary({
-        titleText: "There is a problem",
-        errorList: errorSummary
-        })}}
+            titleText: "There is a problem",
+            errorList: errorSummary
+          })}}
         {% endif %}
 
         {{ govukFieldset({
-        legend: {
-        text: "Order your flood risk data",
-        classes: "govuk-fieldset__legend--xl",
-        isPageHeading: true
-        }
+          legend: {
+          text: "Order your flood risk data",
+          classes: "govuk-fieldset__legend--xl",
+          isPageHeading: true
+          }
         }) }}
 
         <p class="govuk-body">
@@ -50,44 +45,39 @@
        <form autocomplete="off" class="form" method="post" action="/contact" novalidate>
 
         {{ govukInput({
-        label: {
-        text: "Full name",
-        classes:"govuk-label govuk-label--m"
-        },
-        id: "fullName",
-        name: "fullName",
-        classes: "govuk-input",
-        value:fullName,
-        errorMessage: fullnameError
+          label: {
+          text: "Full name",
+          classes:"govuk-label govuk-label--m"
+          },
+          id: "fullName",
+          name: "fullName",
+          classes: "govuk-input",
+          value: fullName,
+          errorMessage: findErrorMessageById(errorSummary, "fullName")
         }) }}
 
         {{ govukInput({
-        label: {
-        text: "Email address",
-        classes:"govuk-label govuk-label--m"
-        },
-        id: "recipientemail",
-        name: "recipientemail",
-        type: "email",
-        value: recipientemail,
-        autocomplete: "email",
-        errorMessage:emailError,
-        spellcheck: false
+          label: {
+          text: "Email address",
+          classes:"govuk-label govuk-label--m"
+          },
+          id: "recipientemail",
+          name: "recipientemail",
+          type: "email",
+          value: recipientemail,
+          autocomplete: "email",
+          errorMessage: findErrorMessageById(errorSummary, "recipientemail"),
+          spellcheck: false
         }) }}
 
         <div id="location-context">
-          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.x}}" name="easting"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.coordinates.y}}" name="northing"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.location}}" name="location"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.polygon}}" name="polygon"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.cent}}" name="cent"/>
-          <input type="hidden" value="{{PDFinformationDetailsObject.zoneNumber}}" name="zoneNumber"/>
+          <input type="hidden" value="{{ polygon }}" name="polygon"/>
         </div>
 
         {{ govukButton({
-        text: "Continue",
-        preventDoubleClick: true
-        })
+            text: "Continue",
+            preventDoubleClick: true
+          })
         }}
 
       </form>
