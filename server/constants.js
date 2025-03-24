@@ -14,6 +14,9 @@ const FLOOD_HISTORY_URL = 'https://www.gov.uk/request-flooding-history'
 const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
 const FLOOD_ZONE_RESULTS_EXPLAINED = 'flood-zone-results-explained'
 const COOKIES = 'cookies'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const ERROR = 'error'
+const FEEDBACK = 'feedback'
 
 const views = {
   HOME,
@@ -26,7 +29,10 @@ const views = {
   CHECK_YOUR_DETAILS,
   CONFIRMATION,
   FLOOD_ZONE_RESULTS_EXPLAINED,
-  COOKIES
+  COOKIES,
+  ACCESSIBILITY_STATEMENT,
+  ERROR,
+  FEEDBACK
 }
 
 const routes = {

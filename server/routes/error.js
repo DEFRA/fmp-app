@@ -1,9 +1,8 @@
 const Boom = require('@hapi/boom')
+const constants = require('../constants')
 
 module.exports = {
   method: 'GET',
-  path: '/error',
-  handler: (request, h) => {
-    return Boom.badImplementation('/error test route')
-  }
+  path: constants.routes.ERROR,
+  handler: (_request, _h) => Boom.badImplementation('/error test route')
 }
