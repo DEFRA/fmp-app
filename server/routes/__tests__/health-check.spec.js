@@ -2,7 +2,7 @@ const {
   submitGetRequest
 } = require('../../__test-helpers__/server')
 
-describe('cookies', () => {
+describe('healthcheck', () => {
   it('Should get /healthcheck successfully', async () => {
     const response = await submitGetRequest({ url: '/healthcheck' })
     expect(response.result).toMatchSnapshot()
