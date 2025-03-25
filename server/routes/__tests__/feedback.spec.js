@@ -49,9 +49,10 @@ describe('Feedback', () => {
       request.info.referrer = ''
       request.server.info.protocol = 'https'
       request.info.host = 'localhost:3000'
+      request.headers['user-agent'] = undefined
       return h.continue
     })
-    const response = await submitGetRequest({ url, headers: { 'user-agent': undefined } })
+    const response = await submitGetRequest({ url })
     expect(response.result).toMatchSnapshot()
   })
 })
