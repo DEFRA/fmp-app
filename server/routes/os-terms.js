@@ -1,10 +1,11 @@
+const constants = require('../constants')
 module.exports = {
   method: 'GET',
-  path: '/os-terms',
+  path: constants.routes.OS_TERMS,
   options: {
     description: 'Get Ordnance Survey terms and conditions',
     handler: {
-      view: 'os-terms'
+      view: constants.views.OS_TERMS
     }
   }
 }

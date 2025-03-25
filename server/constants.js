@@ -18,6 +18,7 @@ const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const ERROR = 'error'
 const FEEDBACK = 'feedback'
 const ORDER_NOT_SUBMITTED = 'order-not-submitted'
+const OS_TERMS = 'os-terms'
 
 const views = {
   HOME,
@@ -34,7 +35,8 @@ const views = {
   ACCESSIBILITY_STATEMENT,
   ERROR,
   FEEDBACK,
-  ORDER_NOT_SUBMITTED
+  ORDER_NOT_SUBMITTED,
+  OS_TERMS
 }
 
 const routes = {
