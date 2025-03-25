@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cookos-terms Should return os-terms page 1`] = `
+exports[`os-terms Should return os-terms page 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>

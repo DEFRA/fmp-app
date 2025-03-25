@@ -3,10 +3,10 @@ const {
 } = require('../../__test-helpers__/server')
 const constants = require('../../constants')
 
-const url = constants.routes.OS_TERMS
+const url = constants.routes.TERMS_AND_CONDITIONS
 
-describe('os-terms', () => {
-  it('Should return os-terms page', async () => {
+describe('terms-and-conditions', () => {
+  it('Should return terms-and-conditions page', async () => {
     const response = await submitGetRequest({ url })
     expect(response.result).toMatchSnapshot()
   })
