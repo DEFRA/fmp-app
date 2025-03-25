@@ -17,6 +17,7 @@ const COOKIES = 'cookies'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const ERROR = 'error'
 const FEEDBACK = 'feedback'
+const ORDER_NOT_SUBMITTED = 'order-not-submitted'
 
 const views = {
   HOME,
@@ -32,7 +33,8 @@ const views = {
   COOKIES,
   ACCESSIBILITY_STATEMENT,
   ERROR,
-  FEEDBACK
+  FEEDBACK,
+  ORDER_NOT_SUBMITTED
 }
 
 const routes = {

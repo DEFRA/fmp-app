@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cookies Should get /health-check successfully 1`] = `"{"name":"fmp-app","version":"v3.0.0-1","revision":"925617123"}"`;
+exports[`healthcheck Should get /health-check successfully 1`] = `"{"name":"fmp-app","version":"v3.0.0-1","revision":"925617123"}"`;
 
-exports[`cookies Should get /healthcheck successfully 1`] = `"{"name":"fmp-app","version":"v3.0.0-1","revision":"925617123"}"`;
+exports[`healthcheck Should get /healthcheck successfully 1`] = `"{"name":"fmp-app","version":"v3.0.0-1","revision":"925617123"}"`;
