@@ -36,8 +36,7 @@ module.exports = [
     options: {
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
-        const payload = request.payload || {}
-        const { recipientemail, fullName, polygon } = payload
+        const { recipientemail, fullName, polygon } = request.payload
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone: zoneNumber } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
@@ -73,7 +72,7 @@ module.exports = [
               data
             )
             console.log('Error\n', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${payload?.polygon}`
+            const redirectURL = `/order-not-submitted?polygon=${polygon}`
             return h.redirect(redirectURL)
           }
         } else {
