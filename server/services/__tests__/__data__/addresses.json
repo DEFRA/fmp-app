@@ -1,0 +1,60 @@
+[
+  {
+    "GAZETTEER_ENTRY": {
+      "ID": "osgb4000000074576165",
+      "NAMES_URI": "http://data.ordnancesurvey.co.uk/id/4000000074576165",
+      "NAME1": "Newcastle upon Tyne",
+      "TYPE": "populatedPlace",
+      "LOCAL_TYPE": "City",
+      "GEOMETRY_X": 425048,
+      "GEOMETRY_Y": 564892,
+      "MOST_DETAIL_VIEW_RES": 87000,
+      "LEAST_DETAIL_VIEW_RES": 9000000,
+      "MBR_XMIN": 416686,
+      "MBR_YMIN": 562751,
+      "MBR_XMAX": 430085,
+      "MBR_YMAX": 571703,
+      "POSTCODE_DISTRICT": "NE1",
+      "POSTCODE_DISTRICT_URI": "http://data.ordnancesurvey.co.uk/id/postcodedistrict/NE1",
+      "DISTRICT_BOROUGH": "Newcastle upon Tyne",
+      "DISTRICT_BOROUGH_URI": "http://data.ordnancesurvey.co.uk/id/7000000000009784",
+      "DISTRICT_BOROUGH_TYPE": "http://data.ordnancesurvey.co.uk/ontology/admingeo/MetropolitanDistrict",
+      "REGION": "North East",
+      "REGION_URI": "http://data.ordnancesurvey.co.uk/id/7000000000041422",
+      "COUNTRY": "England",
+      "COUNTRY_URI": "http://data.ordnancesurvey.co.uk/id/country/england",
+      "SAME_AS_GEONAMES": "http://sws.geonames.org/2641673"
+    }
+  },
+  {
+    "GAZETTEER_ENTRY": {
+      "ID": "osgb4000000074577594",
+      "NAMES_URI": "http://data.ordnancesurvey.co.uk/id/4000000074577594",
+      "NAME1": "Newcastle-under-Lyme",
+      "TYPE": "populatedPlace",
+      "LOCAL_TYPE": "Town",
+      "GEOMETRY_X": 384799,
+      "GEOMETRY_Y": 346008,
+      "MOST_DETAIL_VIEW_RES": 61000,
+      "LEAST_DETAIL_VIEW_RES": 2000000,
+      "MBR_XMIN": 380405,
+      "MBR_YMIN": 342085,
+      "MBR_XMAX": 386514,
+      "MBR_YMAX": 351450,
+      "POSTCODE_DISTRICT": "ST5",
+      "POSTCODE_DISTRICT_URI": "http://data.ordnancesurvey.co.uk/id/postcodedistrict/ST5",
+      "DISTRICT_BOROUGH": "Newcastle-under-Lyme",
+      "DISTRICT_BOROUGH_URI": "http://data.ordnancesurvey.co.uk/id/7000000000015178",
+      "DISTRICT_BOROUGH_TYPE": "http://data.ordnancesurvey.co.uk/ontology/admingeo/District",
+      "COUNTY_UNITARY": "Staffordshire",
+      "COUNTY_UNITARY_URI": "http://data.ordnancesurvey.co.uk/id/7000000000015052",
+      "COUNTY_UNITARY_TYPE": "http://data.ordnancesurvey.co.uk/ontology/admingeo/County",
+      "REGION": "West Midlands",
+      "REGION_URI": "http://data.ordnancesurvey.co.uk/id/7000000000041426",
+      "COUNTRY": "England",
+      "COUNTRY_URI": "http://data.ordnancesurvey.co.uk/id/country/england",
+      "SAME_AS_GEONAMES": "http://sws.geonames.org/2641674",
+      "SAME_AS_DBPEDIA": "http://dbpedia.org/resource/Newcastle-under-Lyme"
+    }
+  }
+]
