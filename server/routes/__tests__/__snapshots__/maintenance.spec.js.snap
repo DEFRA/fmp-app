@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`confirmation Should return content correctly based on flood zone 1 1`] = `
+exports[`maintenance Should get /maintainence successfully 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
     <title>
-  Request submitted - Flood map for planning - GOV.UK
+  Sorry, the service is unavailable - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -22,7 +22,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=1"/>
+  <meta property="og:url" content="http://dummyuri/maintainence"/>
   <meta property="og:title" content="Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -205,76 +205,20 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
 
         <main class="govuk-main-wrapper" id="main-content">
           
- 
-
-
-<div id="confirmation-page" class="govuk-grid-row">
-  <div class="hide"
-       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"1","AREA":"Yorkshire"}}'></div>
-  <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-panel govuk-panel--confirmation">
-      <h1 class="govuk-panel__title">
-        Request submitted
-      </h1>
-      <div class="govuk-panel__body">
-        Your reference number<br>
-        <bold>1234 5</bold>
-      </div>
+ <div id="contact-page" class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <header>
+        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+      </header>
+      <p class="govuk-body"> You will be able to use the service later. </p>
+      <p class="govuk-body">
+        We have not saved your search results. When the service is available you will have to start again.
+      </p>
+      <p class="govuk-body">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">Contact the Environment Agency</a>for help getting flood risk information.
+      </p>
     </div>
-    
-      <h2 class="govuk-heading-m">
-        What happens next
-      </h2>
-      <p class="govuk-body">
-        We have sent a confirmation email to test@test.com, stating that you have made a request
-        for flood risk assessment data, which we are currently processing.
-      </p>
-      <p class="govuk-body">
-        However, as your selected location is in flood zone 1, 
-        it's unlikely there will be any data available.
-      </p>
-      <p class="govuk-body">
-        Due to this potential lack of data, you may shortly receive 
-        an email stating that the report you requested is not available.
-      </p>
-      <p class="govuk-body">
-        Otherwise, you should recieve your data within 20 working days.
-      </p>
-    
-
-    <h2 class="govuk-heading-m">Help and advice</h2>
-    <p class="govuk-body" data-pso-contact-email>
-      Contact the Environment Agency team in Yorkshire at
-      <a href="mailto:psoContact@example.com">psoContact@example.com</a>
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
-      </li>
-      <li>for general help and advice about the site you're requesting data for</li>
-    </ul>
-    <p class="govuk-body">
-      For advice around flood risk assessments and planning permission you can:
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li data-local-authority>speak to your local authority, <span class="govuk-!-font-weight-bold">Ryedale</span>
-      </li>
-      <li>
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact"
-          data-journey-click="Confirmation:External-Link:Contact-Environment-Agency"
-        >contact the Environment Agency</a>
-      </li>
-    </ul>
-
-    <p class="govuk-body">
-      <a href="/results?&polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
-        Go back to your flood information summary page
-      </a>
-    </p>
   </div>
-</div>
 
         </main>
       </div>
@@ -413,13 +357,13 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
 "
 `;
 
-exports[`confirmation Should return content correctly based on flood zone 3 1`] = `
+exports[`maintenance Should get /maintenance successfully 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
     <title>
-  Request submitted - Flood map for planning - GOV.UK
+  Sorry, the service is unavailable - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -435,7 +379,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=3"/>
+  <meta property="og:url" content="http://dummyuri/maintenance"/>
   <meta property="og:title" content="Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -618,79 +562,20 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
 
         <main class="govuk-main-wrapper" id="main-content">
           
- 
-
-
-<div id="confirmation-page" class="govuk-grid-row">
-  <div class="hide"
-       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"3","AREA":"Yorkshire"}}'></div>
-  <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-panel govuk-panel--confirmation">
-      <h1 class="govuk-panel__title">
-        Request submitted
-      </h1>
-      <div class="govuk-panel__body">
-        Your reference number<br>
-        <bold>1234 5</bold>
-      </div>
+ <div id="contact-page" class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <header>
+        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+      </header>
+      <p class="govuk-body"> You will be able to use the service later. </p>
+      <p class="govuk-body">
+        We have not saved your search results. When the service is available you will have to start again.
+      </p>
+      <p class="govuk-body">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">Contact the Environment Agency</a>for help getting flood risk information.
+      </p>
     </div>
-    
-      <p class="govuk-body">
-        We have sent a confirmation email to test@test.com
-      </p>
-      <h2 class="govuk-heading-m">
-        What happens next
-      </h2>
-      <p class="govuk-body">
-        We are processing your flood risk data order.
-      </p>
-      <p class="govuk-body">
-        You should receive your data within 20 working days.
-      </p>
-      <p class="govuk-body">
-        If the data is available for your location, this information will include:
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>a flood zone map (flood map for planning)</li>
-        <li>past flood outlines</li>
-        <li>relevant modelled flood levels and extents</li>
-        <li>flood defence locations and attributes</li>
-      </ul>
-    
-
-    <h2 class="govuk-heading-m">Help and advice</h2>
-    <p class="govuk-body" data-pso-contact-email>
-      Contact the Environment Agency team in Yorkshire at
-      <a href="mailto:psoContact@example.com">psoContact@example.com</a>
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
-      </li>
-      <li>for general help and advice about the site you're requesting data for</li>
-    </ul>
-    <p class="govuk-body">
-      For advice around flood risk assessments and planning permission you can:
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li data-local-authority>speak to your local authority, <span class="govuk-!-font-weight-bold">Ryedale</span>
-      </li>
-      <li>
-        <a
-          href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact"
-          data-journey-click="Confirmation:External-Link:Contact-Environment-Agency"
-        >contact the Environment Agency</a>
-      </li>
-    </ul>
-
-    <p class="govuk-body">
-      <a href="/results?&polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
-        Go back to your flood information summary page
-      </a>
-    </p>
   </div>
-</div>
 
         </main>
       </div>

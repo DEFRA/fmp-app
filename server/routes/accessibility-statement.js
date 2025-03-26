@@ -1,10 +1,10 @@
+const constants = require('../constants')
+
 module.exports = {
   method: 'GET',
-  path: '/accessibility-statement',
+  path: constants.routes.ACCESSIBILITY_STATEMENT,
   options: {
     description: 'Accessibility Page',
-    handler: async (request, h) => {
-      return h.view('accessibility-statement')
-    }
+    handler: async (_request, h) => h.view(constants.views.ACCESSIBILITY_STATEMENT)
   }
 }
