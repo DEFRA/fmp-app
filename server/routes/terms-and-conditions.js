@@ -1,16 +1,14 @@
+const constants = require('../constants')
 module.exports = {
   method: 'GET',
-  path: '/terms-and-conditions',
+  path: constants.routes.TERMS_AND_CONDITIONS,
   options: {
     description: 'Terms and conditions - Flood map for planning - GOV.UK',
     handler: {
       view: {
-        template: 'terms-and-conditions',
+        template: constants.views.TERMS_AND_CONDITIONS,
         context: {
-          pageTitle: 'Terms and conditions - Flood map for planning - GOV.UK',
-          feedback: false,
-          metaDescription:
-            'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.'
+          pageTitle: 'Terms and conditions - Flood map for planning - GOV.UK'
         }
       }
     }

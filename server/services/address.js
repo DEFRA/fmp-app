@@ -1,4 +1,4 @@
-const util = require('../util')
+const axios = require('axios')
 const { config } = require('../../config')
 const { osNamesUrl, osSearchKey } = config.ordnanceSurvey
 const fqFilter =
@@ -24,13 +24,13 @@ module.exports = {
         'maxresults=1&',
         'maxresults=10&'
       )
-    const payload = await util.getJson(uri)
+    const response = await axios.get(uri)
 
     place = replaceCommonSearchTerms(place) // FCRM-4460 - see comment above
-    if (!payload || !payload.results || !payload.results.length) {
+    if (!response?.data?.results || response?.data?.results?.length === 0) {
       return []
     }
-    const gazetteerEntries = payload.results
+    const gazetteerEntries = response.data.results
       .map(function (item) {
         const {
           NAME1,
@@ -71,14 +71,14 @@ module.exports = {
     try {
       console.log('About to: getPostcodeFromEastingorNorthing')
       const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
-      const payload = await util.getJson(uri)
-      if (!payload?.results?.[0]) {
+      const response = await axios.get(uri)
+      if (!response?.data?.results?.[0]) {
         console.error(
           `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
         )
-      } else { console.log('postcode retrieved', JSON.stringify(payload?.results[0])) }
-      return payload?.results && payload?.results.length > 0
-        ? payload?.results[0]?.DPA?.POSTCODE
+      } else { console.log('postcode retrieved', JSON.stringify(response?.data?.results[0])) }
+      return response?.data?.results && response?.data?.results.length > 0
+        ? response?.data?.results[0]?.DPA?.POSTCODE
         : ''
     } catch (error) {
       console.error(

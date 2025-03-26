@@ -1,5 +1,4 @@
 const nunjucks = require('nunjucks')
-const util = require('../util')
 const { config } = require('../../config')
 const pkg = require('../../package.json')
 const { gaAccId, fbAppId, analyticsAccount } = config
@@ -18,21 +17,14 @@ module.exports = {
 
           return (context) => {
             const html = template.render(
-              context /* , function (err, value) {
-              console.error(err)
-            } */
+              context
             )
             return html
           }
         },
         prepare: (options, next) => {
           const env = (options.compileOptions.environment = nunjucks.configure(options.path))
-
-          env.addFilter('formatDate', util.formatDate)
-          env.addFilter('toFixed', util.toFixed)
-
           env.addGlobal('findErrorMessageById', findErrorMessageById)
-
           return next()
         }
       }

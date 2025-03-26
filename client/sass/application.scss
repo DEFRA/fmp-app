@@ -1,46 +1,11 @@
- $govuk-assets-path: "/govuk/assets/";
- $govuk-fonts-path: "/assets/fonts/";
- $govuk-images-path: "/assets/images/";
+$govuk-assets-path: "/govuk/assets/";
+$govuk-fonts-path: "/assets/fonts/";
+$govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 
-@import "../../node_modules/govuk-frontend/dist/govuk/all";
+@import '../../node_modules/govuk-frontend/dist/govuk/all';
+@import '../../node_modules/govuk-frontend/dist/govuk/settings/colours-applied.scss';
 
-// Patterns that aren't in Frontend
-// @import "patterns/check-your-answers";
-// @import "patterns/task-list";
-
-// // Custom patterns that aren't in Frontend or prorotpye kit
-// @import "patterns/risk-detail"; // Dan Leech
-// @import "patterns/map"; // Dan Leech (Pattern for buttons, progressive disclousre and map figure)
-
-// // Custom objects overides for existing components
-// @import "objects/warning-text"; // Dan Leech (modifiers for govuk-warning-text)
-// @import "objects/details"; // Dan Leech (modifier for govuk-details)
-// @import "objects/lists"; // Dan Leech (modifier for govuk-list)
-// @import "objects/header"; // Dan Leech (modifier to remove border when banner in use)
-// @import "objects/main"; // Dan Leech (modifier to remove margins when a warning is used)
-// @import "objects/typography"; // Dan Leech (modifier to remove margins when a warning is used)
-
-// // Components that aren't in Frontend
-// @import "components/cookie-banner";
-
-// // Custom components that aren't in Frontend or prorotpye kit
-// @import "components/accordion"; // Dan Leech (modifier for flood warnings)
-// // @import "components/map"; // Dan Leech
-// @import "components/bar-chart"; // Dan Leech
-// @import "components/line-chart"; // Dan Leech
-// @import "components/tabs"; // Dan Leech (modifier link display to improve affordance issues)
-// @import "components/banners"; // Dan Leech (Warnings and alert banners)
-// @import "components/flood-details"; // Dan Leech (Flood warning details)
-// @import "components/buttons"; // Dan Leech (Button overides)
-// @import "components/search-link"; // Dan Leech (Flood warning overview)
-// @import "components/modal-dialog"; // https://github.com/edenspiekermann/a11y-dialog
-// @import "components/related-items";
-// @import "components/contents"; 
-
-
-@import 'related-items';
-@import 'govuk-elements';
 @import 'util';
 
 h1.heading-xlarge {
@@ -64,17 +29,14 @@ h1.heading-xlarge {
 // Browser requirements
 
 .panel.panel-device-requirements {
-  @extend .panel-border-wide;
-  background-color: $panel-colour;
+  border-left-width: 10px;
+  background-color: #dee0e2;
   margin-top:em(5);
   margin-bottom: em(20, 16);
   p {
       font-weight:bold;
   }
 }
-
-
-
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 

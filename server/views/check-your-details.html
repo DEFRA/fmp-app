@@ -9,7 +9,7 @@
 
 {% block content %}
   {{ super() }}
-  <link href="/public/defra-map/check-your-details-map.css" rel="stylesheet"/>
+  <link href="{{ assetPath }}/check-your-details.css" rel="stylesheet"/>
   {% from "button/macro.njk" import govukButton %}
 
   <div id="check-your-details-page" class="govuk-grid-row">
@@ -80,8 +80,6 @@
           iconFallbackText: "Warning"
         }) }}
       {% endif %}
-
-      <link rel="stylesheet" type="text/css" href="{{assetPath}}/stylesheets/ol.css">
         
         <div id="summary-review-context">
           <input type="hidden" value="{{polygon}}" name="polygon"/>
@@ -110,7 +108,7 @@
 
 {% block bodyEnd %}
   {{ super() }}
-  <script src="/public/defra-map/check-your-details-map.js"></script>
+  <script src="{{ assetPath }}/check-your-details.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       showMap({{ polygon }})

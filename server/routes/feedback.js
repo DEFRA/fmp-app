@@ -1,18 +1,18 @@
+const constants = require('../constants')
+
 module.exports = {
   method: 'GET',
-  path: '/feedback',
+  path: constants.routes.FEEDBACK,
   options: {
     description: 'Get the feedback page',
     handler: async (request, h) => {
       const ref =
-        request.info.referrer && request.info.referrer.indexOf('/feedback') === -1
+        request.info.referrer && request.info.referrer.indexOf(constants.routes.FEEDBACK) === -1
           ? request.info.referrer
           : request.server.info.protocol + '://' + request.info.host
-      return h.view('feedback', {
+      return h.view(constants.views.FEEDBACK, {
         ref: encodeURIComponent(ref),
-        feedback: false,
-        pageTitle: 'Provide feedback about this service - GOV.UK',
-        userAgent: encodeURIComponent(request.headers['user-agent'] ? request.headers['user-agent'] : '')
+        userAgent: encodeURIComponent(request.headers['user-agent'] || '')
       })
     }
   }

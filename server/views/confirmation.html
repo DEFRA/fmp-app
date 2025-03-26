@@ -6,11 +6,10 @@
 
 {% block content %}
 {{ super() }}
-<link rel="stylesheet" type="text/css" property="stylesheet" href="{{assetPath}}/stylesheets/confirmation/index.css">
 
 <div id="confirmation-page" class="govuk-grid-row">
   <div class="hide"
-       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{AreaName}}"}}'></div>
+       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{areaName}}"}}'></div>
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-panel govuk-panel--confirmation">
       <h1 class="govuk-panel__title">
@@ -66,23 +65,21 @@
 
     <h2 class="govuk-heading-m">Help and advice</h2>
     <p class="govuk-body" data-pso-contact-email>
-      Contact the Environment Agency team in {{AreaName}} at
+      Contact the Environment Agency team in {{areaName}} at
       <a href="mailto:{{psoEmailAddress}}">{{psoEmailAddress}}</a>
     </p>
     <ul class="govuk-list govuk-list--bullet">
-      <li>{% include "./partials/more-information.html" %}</li>
+      <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
+        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
+      </li>
       <li>for general help and advice about the site you're requesting data for</li>
     </ul>
     <p class="govuk-body">
       For advice around flood risk assessments and planning permission you can:
     </p>
     <ul class="govuk-list govuk-list--bullet">
-      <li data-local-authority>speak to your local authority
-      {% if LocalAuthorities %}, 
-        <span class="govuk-!-font-weight-bold">
-          {{LocalAuthorities}}
-        </span>
-      {% endif %}
+      <li data-local-authority>speak to your local authority{% if localAuthority %}, <span class="govuk-!-font-weight-bold">{{ localAuthority }}</span>{% endif %}
       </li>
       <li>
         <a
