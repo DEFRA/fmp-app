@@ -94,14 +94,14 @@ export default function () {
   rejectButton.addEventListener('click', rejectFn)
 
   acceptedBanner.addEventListener('click', function () {
-    cookieBanner.classList.add('govuk-visually-hidden')
+    cookieBanner.classList.add('govuk-!-display-none')
   })
   rejectedBanner.addEventListener('click', function () {
-    cookieBanner.classList.add('govuk-visually-hidden')
+    cookieBanner.classList.add('govuk-!-display-none')
   })
 
   if (!doesCookieExist) {
-    cookieBanner.classList.remove('govuk-visually-hidden')
+    cookieBanner.classList.remove('govuk-!-display-none')
     questionBanner.removeAttribute('hidden')
   }
 
