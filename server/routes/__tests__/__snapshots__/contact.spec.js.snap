@@ -41,7 +41,7 @@ exports[`contact GET Should error if no polygon is present 1`] = `
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -394,7 +394,7 @@ exports[`contact GET Should return contact if polygon is present 1`] = `
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -875,7 +875,7 @@ exports[`contact POST Should return contact view with error message if blank ema
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -1395,7 +1395,7 @@ exports[`contact POST Should return contact view with error message if blank nam
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -1915,7 +1915,7 @@ exports[`contact POST Should return contact view with error message if invalid e
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -2435,7 +2435,7 @@ exports[`contact POST Should return contact view with error message if invalid n
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 

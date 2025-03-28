@@ -43,7 +43,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -456,7 +456,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
