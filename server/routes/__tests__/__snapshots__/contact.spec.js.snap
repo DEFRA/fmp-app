@@ -566,20 +566,7 @@ exports[`contact GET Should return contact if polygon is present 1`] = `
 
         
 
-        <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  
-    <h1 class="govuk-fieldset__heading">
-      Order your flood risk data
-    </h1>
-  
-  </legend>
-  
-
-</fieldset>
-
-
+        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.
@@ -1070,20 +1057,7 @@ exports[`contact POST Should return contact view with error message if blank ema
 
         
 
-        <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  
-    <h1 class="govuk-fieldset__heading">
-      Order your flood risk data
-    </h1>
-  
-  </legend>
-  
-
-</fieldset>
-
-
+        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.
@@ -1590,20 +1564,7 @@ exports[`contact POST Should return contact view with error message if blank nam
 
         
 
-        <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  
-    <h1 class="govuk-fieldset__heading">
-      Order your flood risk data
-    </h1>
-  
-  </legend>
-  
-
-</fieldset>
-
-
+        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.
@@ -2110,20 +2071,7 @@ exports[`contact POST Should return contact view with error message if invalid e
 
         
 
-        <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  
-    <h1 class="govuk-fieldset__heading">
-      Order your flood risk data
-    </h1>
-  
-  </legend>
-  
-
-</fieldset>
-
-
+        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.
@@ -2630,20 +2578,7 @@ exports[`contact POST Should return contact view with error message if invalid n
 
         
 
-        <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  
-    <h1 class="govuk-fieldset__heading">
-      Order your flood risk data
-    </h1>
-  
-  </legend>
-  
-
-</fieldset>
-
-
+        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.
