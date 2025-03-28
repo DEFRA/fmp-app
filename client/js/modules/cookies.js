@@ -36,6 +36,7 @@ export default function () {
   const rejectedBanner = document.querySelector('.js-cookies-rejected')
   const acceptButton = document.querySelector('.js-cookies-button-accept')
   const rejectButton = document.querySelector('.js-cookies-button-reject')
+  const govukDisplayNoneClass = 'govuk-!-display-none'
 
   function showBanner (banner) {
     banner.removeAttribute('hidden')
@@ -94,14 +95,14 @@ export default function () {
   rejectButton.addEventListener('click', rejectFn)
 
   acceptedBanner.addEventListener('click', function () {
-    cookieBanner.classList.add('govuk-visually-hidden')
+    cookieBanner.classList.add(govukDisplayNoneClass)
   })
   rejectedBanner.addEventListener('click', function () {
-    cookieBanner.classList.add('govuk-visually-hidden')
+    cookieBanner.classList.add(govukDisplayNoneClass)
   })
 
   if (!doesCookieExist) {
-    cookieBanner.classList.remove('govuk-visually-hidden')
+    cookieBanner.classList.remove(govukDisplayNoneClass)
     questionBanner.removeAttribute('hidden')
   }
 

@@ -41,7 +41,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
@@ -392,7 +392,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
 
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-visually-hidden" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
 
