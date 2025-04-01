@@ -246,6 +246,12 @@ Cookies - Flood map for planning - GOV.UK
             <td class="govuk-table__cell"> Session </td>
           </tr>
 
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> p4Customer </th>
+            <td class="govuk-table__cell"> Saves name and email address for flood risk data report request </td>
+            <td class="govuk-table__cell"> Session </td>
+          </tr>
+
         </tbody>
       </table>
       <h2 class="govuk-heading-m">Analytics cookies (optional)</h2>
@@ -788,6 +794,12 @@ Cookies - Flood map for planning - GOV.UK
             <td class="govuk-table__cell"> Session </td>
           </tr>
 
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> p4Customer </th>
+            <td class="govuk-table__cell"> Saves name and email address for flood risk data report request </td>
+            <td class="govuk-table__cell"> Session </td>
+          </tr>
+
         </tbody>
       </table>
       <h2 class="govuk-heading-m">Analytics cookies (optional)</h2>
@@ -1327,6 +1339,12 @@ Cookies - Flood map for planning - GOV.UK
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> p4Request </th>
             <td class="govuk-table__cell"> Saves your detailed flood risk data report request reference number and polygon </td>
+            <td class="govuk-table__cell"> Session </td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> p4Customer </th>
+            <td class="govuk-table__cell"> Saves name and email address for flood risk data report request </td>
             <td class="govuk-table__cell"> Session </td>
           </tr>
 
