@@ -31,7 +31,10 @@ module.exports = [
     options: {
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
-        return h.view(constants.views.CONTACT, { polygon: request.query.polygon })
+        return h.view(constants.views.CONTACT, {
+          polygon: request.query.polygon,
+          ...request.state.p4Customer
+        })
       },
       validate: {
         query: Joi.object({
@@ -53,6 +56,11 @@ module.exports = [
             ...request.payload
           })
         }
+        // Store name and email in cookie
+        h.state('p4Customer', {
+          fullName: request.payload.fullName,
+          recipientemail: request.payload.recipientemail
+        })
         return h.redirect(`${constants.routes.CHECK_YOUR_DETAILS}?polygon=${request.payload.polygon}&fullName=${request.payload.fullName}&recipientemail=${request.payload.recipientemail}`)
       }
     }
