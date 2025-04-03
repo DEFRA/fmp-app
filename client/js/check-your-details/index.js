@@ -113,6 +113,17 @@ const showMap = async (polygonArray) => {
   view.on('double-click', (event) => event.stopPropagation())
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
 
+  // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
+  view.whenLayerView(graphicsLayer).then((lyrView) => {
+    lyrView.watch('updating', (val) => {
+      if (!val) {
+        const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
+        mapDiv.removeAttribute('tabindex')
+        mapDiv.removeAttribute('role')
+      }
+    })
+  })
+
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
