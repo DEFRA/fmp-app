@@ -333,17 +333,17 @@ getDefraMapConfig().then((defraMapConfig) => {
   const fLayers = [
     {
       name: 'floodDefences',
-      urlLayerName: 'nat_defences',
+      url: getModelFeatureLayerUrl('Defences'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
       q: 'fd'
     },
     {
       name: 'waterStorageAreas',
-      urlLayerName: 'nat_fsa',
+      url: getModelFeatureLayerUrl('Flood_Storage_Areas'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
       q: 'fsa'
     },
     {
       name: 'mainRivers',
-      urlLayerName: 'Statutory_Main_River_Map',
+      url: getFeatureLayerUrl('Statutory_Main_River_Map'), // getFeatureLayerUrl doesn't add a suffix (river map uses same layer for non production and production)
       q: 'mainr'
     }
   ]
@@ -390,7 +390,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       fLayers.forEach(fLayer => {
         floodMap.map.add(new FeatureLayer({
           id: fLayer.name,
-          url: getFeatureLayerUrl(fLayer.urlLayerName),
+          url: fLayer.url,
           renderer: getMapFeatureRenderer(fLayer.name),
           visible: false
         }))
