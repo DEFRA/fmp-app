@@ -650,6 +650,10 @@ getDefraMapConfig().then((defraMapConfig) => {
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
   })
 
+  floodMap.addEventListener('close', e => {
+    console.log('close EVENT', e)
+  })
+
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
     const { type, mode, segments, layers, style } = e.detail
@@ -664,7 +668,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
-    onRiversAndSeasMenuItem(true)
+    onRiversAndSeasMenuItem()
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
