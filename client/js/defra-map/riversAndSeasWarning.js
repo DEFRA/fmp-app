@@ -45,13 +45,23 @@ bannerElement.addEventListener('click', (event) => {
     state.infoDismissed = false
     onRiversAndSeasMenuItem()
   } else {
-    state.bannerDismissed = true
+    // state.bannerDismissed = true
     onRiversAndSeasMenuItem()
   }
   event.preventDefault()
 })
 
-const showBanner = (show) => (bannerElement.style.display = show ? 'flex' : 'none')
+const showBanner = (show) => {
+  const mapElement = document.querySelector('#map')
+  if (show) {
+    mapElement.classList.add('rivers-and-seas-disclaimer')
+  } else {
+    mapElement.classList.remove('rivers-and-seas-disclaimer')
+  }
+
+  bannerElement.style.display = show ? 'flex' : 'none'
+}
+
 showBanner(false)
 const showInfoPanel = () => {
   state.floodMap.setInfo({
@@ -66,15 +76,18 @@ const isRiversAndSeas = () => state?.mapState?.segments && state?.mapState?.segm
 const initialiseRiversAndSeasWarnings = (mapState, floodMap) => {
   Object.assign(state, { mapState, floodMap })
 
-  const topElement = document.querySelector('.fm-o-top')
-  if (topElement) {
-    topElement.appendChild(bannerElement)
+  // const topElement = document.querySelector('.fm-o-top')
+  const mapElement = document.querySelector('#map')
+  if (mapElement) {
+    mapElement.insertBefore(bannerElement, mapElement.firstElementChild)
+    // mapElement.appendChild(bannerElement)
   }
   onRiversAndSeasMenuItem()
 }
 
 const onRiversAndSeasMenuItem = (selected) => {
-  showBanner(state.infoDismissed && !state.bannerDismissed && isRiversAndSeas())
+  // showBanner(state.infoDismissed && !state.bannerDismissed && isRiversAndSeas())
+  showBanner(isRiversAndSeas())
   if (isRiversAndSeas() && !state.infoDismissed) {
     showInfoPanel()
   }
