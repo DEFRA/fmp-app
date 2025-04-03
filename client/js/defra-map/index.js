@@ -5,6 +5,7 @@ import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
+import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -645,6 +646,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.isRamp = layers.includes('md')
     console.log('ready mapState', mapState)
     await addLayers()
+    initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
   })
 
@@ -657,11 +659,12 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapState.isDark = style.name === 'dark' || style === 'dark'
     }
     mapState.isRamp = layers.includes('md')
-    console.log('onChange mapState', mapState)
+    console.log('onChange mapState', mapState, e.detail)
     if (['layer', 'segment'].includes(type)) {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
+    onRiversAndSeasMenuItem(true)
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 

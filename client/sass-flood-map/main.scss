@@ -155,3 +155,21 @@ body.js-enabled:not([data-fm-error]) {
 .esri-view-surface--touch-none {
   touch-action: none;
 }
+
+#rivers-and-seas-banner {
+  position: absolute;
+  top: 15px;
+  right: 70px;
+  z-index: 1000;
+  display: none;
+  background-color: white;
+  padding: 10px 44px 12px 6px;
+  .govuk-warning-text__icon {
+    left: 4px;
+  }
+}
+
+#rivers-and-seas-link {
+  color: #1d70b8;
+  padding: 0px 4px 0px 4px
+}
