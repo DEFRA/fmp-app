@@ -77,9 +77,10 @@ const initialiseRiversAndSeasWarnings = (mapState, floodMap) => {
   Object.assign(state, { mapState, floodMap })
 
   // const topElement = document.querySelector('.fm-o-top')
-  const mapElement = document.querySelector('#map')
+  const mapElement = document.querySelector('#map .fm-o-container .fm-o-side')
   if (mapElement) {
-    mapElement.insertBefore(bannerElement, mapElement.firstElementChild)
+    mapElement.insertAdjacentElement('afterend', bannerElement)
+    // mapElement.insertBefore(bannerElement, mapElement.firstElementChild)
     // mapElement.appendChild(bannerElement)
   }
   onRiversAndSeasMenuItem()
