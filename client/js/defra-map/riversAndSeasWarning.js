@@ -13,17 +13,12 @@ const infoPopUpMarkUp = `
       Rivers and sea supporting data is given to help you further investigate flood risk.
     </p>
     <p class="govuk-body">
-      <a ="/how-to-use-rivers-and-sea-data">Find out more about this data and how it should be used.</a>
+      <a href="/how-to-use-rivers-and-sea-data">Find out more about this data and how it should be used.</a>
     </p>
     <p class="govuk-body"> In some locations the rivers and sea supporting data may show inconsistent results. </p>
     <p class="govuk-body"> The flood zones are not affected by this issue. </p>
   </div>
 </div>`
-
- 
-
- 
-
 
 const state = { infoDismissed: false }
 
