@@ -1,7 +1,7 @@
 const bannerMarkUp = `
 <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
 <strong class="govuk-warning-text__text">
-  <span class="govuk-visually-hidden">Warning</span> Rivers and sea data layers may present inconsitencies.
+  <span class="govuk-visually-hidden">Warning</span> Rivers and sea data may show inconsistent results.
 </strong>
 <a id="rivers-and-seas-link" class="fm-c-btn" href = '/how-to-use-rivers-and-sea-data'>Find out more</a>
 `
