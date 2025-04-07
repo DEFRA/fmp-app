@@ -758,33 +758,67 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  // Listen to map queries
-  floodMap.addEventListener('query', async e => {
+  const getQueryContentHeader = async (e) => {
+    // const response = {}
     const { coord, features } = e.detail
     if (!features || !coord) {
-      return
+      return {}
     }
-    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
       ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
     ]
+    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
+    const floodZone = feature && feature._symbol !== undefined && floodZoneSymbolIndex[feature._symbol]
+
+    if (floodZone) {
+      listContents.push(['Flood zone', floodZone])
+      const attributes = await getFloodZoneAttributes(coord, feature)
+      if (attributes && attributes.flood_source) {
+        listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
+      }
+    }
 
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
 
-    if (feature && feature._symbol !== undefined) {
-      // This part is currently only applicable to Flood_Zones
-      const floodZone = floodZoneSymbolIndex[feature._symbol]
-      if (floodZone) {
-        listContents.push(['Flood zone', floodZone])
+    return { listContents, floodZone, vtLayer }
+  }
 
-        const attributes = await getFloodZoneAttributes(coord, feature)
+  const getClimateChangeExtraContent = () => (mapState.segments.includes('cl'))
+    ? `
+    <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class='govuk-body-s'>
+        these have been taken from the Environment Agency's 
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+          Flood risk assessment: climate change allowances
+        </a>
+      </li>
+      <li class='govuk-body-s'>
+        river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
+      </li>
+      <li class='govuk-body-s'>
+        sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
+      </li>
+    </ul>`
+    : ''
 
-        if (attributes && attributes.flood_source) {
-          listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
-        }
-      }
-    } else {
+  const getFloodZonesExtraContent = () => (mapState.segments.includes('fz'))
+    ? `
+    <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+    <p class="govuk-body-s">
+      Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+    </p>`
+    : ''
+
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { listContents, floodZone, vtLayer } = await getQueryContentHeader()
+    if (!listContents) {
+      return
+    }
+
+    if (!floodZone) {
       if (mapState.segments.includes('fz')) {
         // This part is applicable for Flood_Zones, when an area outside
         // of a zone has been clicked
@@ -808,35 +842,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       }
     }
 
-    let extraContent = ''
-    if (vtLayer?.additionalInfo) {
-      extraContent += vtLayer.additionalInfo
-    }
-    if (mapState.segments.includes('cl')) {
-      extraContent += `
-          <h2 class="govuk-heading-s">Climate change allowances</h2>
-          <ul class="govuk-list govuk-list--bullet">
-            <li class='govuk-body-s'>
-              these have been taken from the Environment Agency's 
-              <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
-                Flood risk assessment: climate change allowances
-              </a>
-            </li>
-            <li class='govuk-body-s'>
-              river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
-            </li>
-            <li class='govuk-body-s'>
-              sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
-            </li>
-          </ul>`
-    }
-    if (mapState.segments.includes('fz')) {
-      extraContent += `
-      <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-      <p class="govuk-body-s">
-        Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
-      </p>`
-    }
+    let extraContent = vtLayer?.additionalInfo || ''
+    extraContent += getClimateChangeExtraContent()
+    extraContent += getFloodZonesExtraContent()
 
     floodMap.setInfo(renderInfo(renderList(listContents), extraContent))
   })
