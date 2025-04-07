@@ -69,7 +69,7 @@ const initialiseRiversAndSeasWarnings = (mapState, floodMap) => {
   onRiversAndSeasMenuItem()
 }
 
-const onRiversAndSeasMenuItem = (selected) => {
+const onRiversAndSeasMenuItem = () => {
   showBanner(isRiversAndSeas())
   if (isRiversAndSeas() && !state.infoDismissed) {
     showInfoPanel()
