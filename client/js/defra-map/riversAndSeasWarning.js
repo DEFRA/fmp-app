@@ -52,8 +52,8 @@ const showInfoPanel = () => {
 
 document.addEventListener('click', e => {
   const elementClicked = e.target
-  if (elementClicked.classList.contains('fm-c-btn--close-panel' &&
-    elementClicked.parentElement.parentElement.querySelector('#rivers-and-seas-disclaimer-panel'))) {
+  if (elementClicked.classList.contains('fm-c-btn--close-panel') &&
+    elementClicked.parentElement.parentElement.querySelector('#rivers-and-seas-disclaimer-panel')) {
     state.infoDismissed = true
     onRiversAndSeasMenuItem()
   }
