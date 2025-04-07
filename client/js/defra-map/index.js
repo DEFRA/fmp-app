@@ -759,7 +759,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const getQueryContentHeader = async (e) => {
-    // const response = {}
     const { coord, features } = e.detail
     if (!features || !coord) {
       return {}
@@ -769,19 +768,42 @@ getDefraMapConfig().then((defraMapConfig) => {
       ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
     ]
     const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
-    const floodZone = feature && feature._symbol !== undefined && floodZoneSymbolIndex[feature._symbol]
+    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
+    return { listContents, vtLayer, coord, feature }
+  }
 
-    if (floodZone) {
-      listContents.push(['Flood zone', floodZone])
+  const addQueryFloodZonesContent = async (listContents, feature, coord) => {
+    if (!mapState.segments.includes('fz')) {
+      return false
+    }
+    const floodZone = floodZoneSymbolIndex[feature?._symbol] || '1'
+    listContents.push(['Flood zone', floodZone])
+
+    if (floodZone !== '1') {
       const attributes = await getFloodZoneAttributes(coord, feature)
       if (attributes && attributes.flood_source) {
         listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
       }
     }
+    return floodZone
+  }
 
-    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
-
-    return { listContents, floodZone, vtLayer }
+  const addQueryNonFloodZonesContent = (listContents, vtLayer) => {
+    // This part is applicable for non Flood_Zones layers, when an area outside
+    // of a zone has been clicked
+    const dataset = getDataset()
+    if (dataset) {
+      listContents.push(['Dataset', dataset])
+    }
+    if (vtLayer?.likelihoodLabel) {
+      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
+    }
+    if (vtLayer?.chanceLabel) {
+      listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
+    }
+    if (vtLayer?.likelihoodchanceLabel) {
+      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
+    }
   }
 
   const getClimateChangeExtraContent = () => (mapState.segments.includes('cl'))
@@ -811,41 +833,24 @@ getDefraMapConfig().then((defraMapConfig) => {
     </p>`
     : ''
 
-  // Listen to map queries
-  floodMap.addEventListener('query', async e => {
-    const { listContents, floodZone, vtLayer } = await getQueryContentHeader()
-    if (!listContents) {
-      return
-    }
-
-    if (!floodZone) {
-      if (mapState.segments.includes('fz')) {
-        // This part is applicable for Flood_Zones, when an area outside
-        // of a zone has been clicked
-        listContents.push(['Flood zone', '1'])
-      } else {
-        // This part is applicable for non Flood_Zones layers, when an area outside
-        // of a zone has been clicked
-        const dataset = getDataset()
-        if (dataset) {
-          listContents.push(['Dataset', dataset])
-        }
-        if (vtLayer?.likelihoodLabel) {
-          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
-        }
-        if (vtLayer?.chanceLabel) {
-          listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
-        }
-        if (vtLayer?.likelihoodchanceLabel) {
-          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
-        }
-      }
-    }
-
+  const getQueryExtraContent = (vtLayer) => {
     let extraContent = vtLayer?.additionalInfo || ''
     extraContent += getClimateChangeExtraContent()
     extraContent += getFloodZonesExtraContent()
+    return extraContent
+  }
 
-    floodMap.setInfo(renderInfo(renderList(listContents), extraContent))
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { listContents, vtLayer, feature, coord } = await getQueryContentHeader(e)
+    if (!listContents) {
+      return
+    }
+    const floodZone = await addQueryFloodZonesContent(listContents, feature, coord)
+    if (!floodZone) {
+      addQueryNonFloodZonesContent(listContents, vtLayer)
+    }
+
+    floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(vtLayer)))
   })
 })
