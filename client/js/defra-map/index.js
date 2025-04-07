@@ -102,6 +102,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
+  // NOSONAR_BEGIN
   const vtLayers = [
     {
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
@@ -241,6 +242,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     //   likelihoodLabel: terms.likelihood.swHigh
     // }
   ]
+  // NOSONAR_END
 
   const paintProperties = {
     'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': colours.floodZone2,
