@@ -33,7 +33,7 @@ const terms = {
     swLow: '1 in 1000'
   },
   likelihoodchance: {
-    rsHigh: `<p class="govuk-body-s">3.3% (1 in 30)</br>chance of flooding each year</p>`,
+    rsHigh: '<p class="govuk-body-s">3.3% (1 in 30)</br>chance of flooding each year</p>',
     rsMedium: '<p class="govuk-body-s">Rivers 1% (1 in 100)</br>Sea 0.5% (1 in 200)</br>chance of flooding each year</p>',
     rsLow: '<p class="govuk-body-s">0.1% (1 in 1000)</br>chance of flooding each year</p>',
     swHigh: '3.3% (1 in 30)</br>chance of flooding each year',
