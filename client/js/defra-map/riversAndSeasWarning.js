@@ -49,15 +49,15 @@ const showInfoPanel = () => {
 
 document.addEventListener('click', e => {
   const elementClicked = e.target
-  if (elementClicked.classList.contains('fm-c-btn--close-panel')) {
-    if (elementClicked.parentElement.parentElement.querySelector('#rivers-and-seas-disclaimer-panel')) {
+  if (elementClicked.classList.contains('fm-c-btn--close-panel'
+    && elementClicked.parentElement.parentElement.querySelector('#rivers-and-seas-disclaimer-panel'))) {
       state.infoDismissed = true
       onRiversAndSeasMenuItem()
     }
   }
-})
+)
 
-const isRiversAndSeas = () => state?.mapState?.segments && state?.mapState?.segments.find((item) => item === 'rsd' || item === 'rsu')
+const isRiversAndSeas = () => state?.mapState?.segments.find((item) => item === 'rsd' || item === 'rsu')
 
 const initialiseRiversAndSeasWarnings = (mapState, floodMap) => {
   Object.assign(state, { mapState, floodMap })
