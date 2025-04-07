@@ -27,7 +27,6 @@ bannerElement.setAttribute('class', 'govuk-warning-text')
 bannerElement.setAttribute('id', 'rivers-and-seas-banner')
 bannerElement.setAttribute('role', 'status')
 
-
 const showBanner = (show) => {
   const mapElement = document.querySelector('#map')
   if (show) {
@@ -37,7 +36,6 @@ const showBanner = (show) => {
     bannerElement.innerHTML = ''
     mapElement.classList.remove('rivers-and-seas-disclaimer')
   }
-  // bannerElement.style.display = show ? 'flex' : 'none'
 }
 
 showBanner(false)

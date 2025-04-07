@@ -165,7 +165,6 @@ body.js-enabled:not([data-fm-error]) {
   background-color: white;
   align-items: center;
   .govuk-warning-text__icon {
-    // left: 4px;
     position: relative;
     height: 35px;
     width: 35px;
@@ -176,10 +175,6 @@ body.js-enabled:not([data-fm-error]) {
     display: inline;
     padding-left: 0;
   }
-  .govuk-warning-text__inner {
-
-  }
-
 }
 .fm-mobile {
   #rivers-and-seas-banner {
@@ -194,11 +189,6 @@ body.js-enabled:not([data-fm-error]) {
       flex-shrink: 0;
     }
   }
-}
-
-#rivers-and-seas-link {
-  // color: #1d70b8;
-  // padding: 3px 4px 0px 4px
 }
 
 .rivers-and-seas-disclaimer {
