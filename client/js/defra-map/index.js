@@ -671,7 +671,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapState.isDark = style.name === 'dark' || style === 'dark'
     }
     mapState.isRamp = layers.includes('md')
-    console.log('onChange mapState', mapState, e.detail)
+    console.log('onChange mapState', mapState)
     if (['layer', 'segment'].includes(type)) {
       floodMap.setInfo(null)
     }
