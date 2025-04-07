@@ -25,7 +25,8 @@ const routes = [].concat(
   require('../routes/404'),
   require('../routes/order-not-submitted'),
   require('../routes/health-check'),
-  require('../routes/about')
+  require('../routes/about'),
+  require('../routes/how-to-use-rivers-and-sea-data')
 )
 
 module.exports = {

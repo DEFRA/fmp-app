@@ -13,6 +13,7 @@ const CYLTFRIURL = 'https://www.gov.uk/check-long-term-flood-risk'
 const FLOOD_HISTORY_URL = 'https://www.gov.uk/request-flooding-history'
 const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
 const FLOOD_ZONE_RESULTS_EXPLAINED = 'flood-zone-results-explained'
+const HOW_TO_USE_RIVERS_AND_SEA_DATA = 'how-to-use-rivers-and-sea-data'
 
 const views = {
   HOME,
@@ -24,7 +25,8 @@ const views = {
   CONTACT,
   CHECK_YOUR_DETAILS,
   CONFIRMATION,
-  FLOOD_ZONE_RESULTS_EXPLAINED
+  FLOOD_ZONE_RESULTS_EXPLAINED,
+  HOW_TO_USE_RIVERS_AND_SEA_DATA
 }
 
 const routes = {
