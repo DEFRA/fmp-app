@@ -9,6 +9,10 @@ describe('home route', () => {
     document.body.innerHTML = response.payload
   })
 
+  it('should match snapshot', () => {
+    expect(response.result).toMatchSnapshot()
+  })
+
   it('should return a 200 status code', async () => {
     expect(response.statusCode).toEqual(200)
   })
