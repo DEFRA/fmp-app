@@ -13,13 +13,6 @@ bannerElement.setAttribute('class', 'govuk-warning-text')
 bannerElement.setAttribute('id', 'rivers-and-seas-banner')
 bannerElement.innerHTML = bannerMarkUp
 
-bannerElement.addEventListener('click', (event) => {
-  if (event.target.id === 'rivers-and-seas-link') {
-    onRiversAndSeasMenuItem()
-  }
-  event.preventDefault()
-})
-
 const showBanner = (show) => {
   const mapElement = document.querySelector('#map')
   if (show) {
@@ -47,14 +40,5 @@ const initialiseRiversAndSeasWarnings = (mapState) => {
 const onRiversAndSeasMenuItem = (selected) => {
   showBanner(isRiversAndSeas())
 }
-
-document.addEventListener('click', e => {
-  const elementClicked = e.target
-  if (elementClicked.classList.contains('fm-c-btn--close-panel')) {
-    if (elementClicked.parentElement.parentElement.querySelector('#rivers-and-seas-disclaimer-panel')) {
-      onRiversAndSeasMenuItem()
-    }
-  }
-})
 
 export { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings }
