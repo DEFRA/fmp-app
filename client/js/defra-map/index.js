@@ -102,147 +102,145 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
-  // NOSONAR_BEGIN
-  const vtLayers = [
-    {
-      name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
-      q: 'fz',
-      styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1'
-      ]
-    },
-    {
-      name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: '', // Implies disabled for now
-      styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
-        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
-      ]
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
-      q: '', // Implies disabled for now
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh,
-      additionalInfo: terms.additionalInfo.rsHighDefended
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents',
-      q: 'rsdpdhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh,
-      additionalInfo: terms.additionalInfo.rsHighDefended
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents',
-      q: 'rsdpdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium,
-      additionalInfo: terms.additionalInfo.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents',
-      q: 'rsupdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium,
-      additionalInfo: terms.additionalInfo.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents',
-      q: 'rsdpdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow,
-      additionalInfo: terms.additionalInfo.rsLow
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents',
-      q: 'rsupdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow,
-      additionalInfo: terms.additionalInfo.rsLow
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
-      q: '', // Implies disabled for now
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh,
-      additionalInfo: terms.additionalInfo.rsHighDefended
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents_CCP1',
-      q: 'rsdclhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh,
-      additionalInfo: terms.additionalInfo.rsHighDefended
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents_CCP1',
-      q: 'rsdclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium,
-      additionalInfo: terms.additionalInfo.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents_CCP1',
-      q: 'rsuclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium,
-      additionalInfo: terms.additionalInfo.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents_CCP1',
-      q: 'rsdcllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow,
-      additionalInfo: terms.additionalInfo.rsLow
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents_CCP1',
-      q: 'rsucllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow,
-      additionalInfo: terms.additionalInfo.rsLow
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_Low',
-      q: 'swlr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swLow
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_Medium',
-      q: 'swmr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swMedium
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_High',
-      q: 'swhr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swHigh
-    }
-    // ,
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low',
-    //   q: 'swcllr',
-    //   styleLayers: surfaceWaterCcLowStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swLow
-    // },
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',
-    //   q: 'swclmr',
-    //   styleLayers: surfaceWaterStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swMedium
-    // },
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',
-    //   q: 'swclhr',
-    //   styleLayers: surfaceWaterStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swHigh
-    // }
-  ]
-  // NOSONAR_END
+  const vtLayers = [ // NOSONAR
+    { // NOSONAR
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea', // NOSONAR
+      q: 'fz', // NOSONAR
+      styleLayers: [ // NOSONAR
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', // NOSONAR
+        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1' // NOSONAR
+      ] // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1', // NOSONAR
+      q: '', // Implies disabled for now  // NOSONAR
+      styleLayers: [ // NOSONAR
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1', // NOSONAR
+        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1' // NOSONAR
+      ] // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended', // NOSONAR
+      q: '', // Implies disabled for now  // NOSONAR
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsHigh, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsHighDefended // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents', // NOSONAR
+      q: 'rsdpdhr', // NOSONAR
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsHigh, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsHighDefended // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents', // NOSONAR
+      q: 'rsdpdmr', // NOSONAR
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsMedium, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsMedium // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents', // NOSONAR
+      q: 'rsupdmr', // NOSONAR
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsMedium, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsMedium // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents', // NOSONAR
+      q: 'rsdpdlr', // NOSONAR
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsLow, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsLow // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents', // NOSONAR
+      q: 'rsupdlr', // NOSONAR
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsLow, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsLow // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1', // NOSONAR
+      q: '', // Implies disabled for now  // NOSONAR
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsHigh, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsHighDefended // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents_CCP1', // NOSONAR
+      q: 'rsdclhr', // NOSONAR
+      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsHigh, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsHighDefended // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents_CCP1', // NOSONAR
+      q: 'rsdclmr', // NOSONAR
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsMedium, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsMedium // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents_CCP1', // NOSONAR
+      q: 'rsuclmr', // NOSONAR
+      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsMedium, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsMedium // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents_CCP1', // NOSONAR
+      q: 'rsdcllr', // NOSONAR
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsLow, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsLow // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents_CCP1', // NOSONAR
+      q: 'rsucllr', // NOSONAR
+      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1'], // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.rsLow, // NOSONAR
+      additionalInfo: terms.additionalInfo.rsLow // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Risk_of_Flooding_from_Surface_Water_Low', // NOSONAR
+      q: 'swlr', // NOSONAR
+      styleLayers: surfaceWaterStyleLayers, // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.swLow // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Risk_of_Flooding_from_Surface_Water_Medium', // NOSONAR
+      q: 'swmr', // NOSONAR
+      styleLayers: surfaceWaterStyleLayers, // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.swMedium // NOSONAR
+    }, // NOSONAR
+    { // NOSONAR
+      name: 'Risk_of_Flooding_from_Surface_Water_High', // NOSONAR
+      q: 'swhr', // NOSONAR
+      styleLayers: surfaceWaterStyleLayers, // NOSONAR
+      likelihoodchanceLabel: terms.likelihoodchance.swHigh // NOSONAR
+    } // NOSONAR
+    // ,  // NOSONAR
+    // {  // NOSONAR
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low', // NOSONAR
+    //   q: 'swcllr', // NOSONAR
+    //   styleLayers: surfaceWaterCcLowStyleLayers, // NOSONAR
+    //   likelihoodLabel: terms.likelihood.swLow  // NOSONAR
+    // }, // NOSONAR
+    // {  // NOSONAR
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',  // NOSONAR
+    //   q: 'swclmr', // NOSONAR
+    //   styleLayers: surfaceWaterStyleLayers,  // NOSONAR
+    //   likelihoodLabel: terms.likelihood.swMedium // NOSONAR
+    // }, // NOSONAR
+    // {  // NOSONAR
+    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',  // NOSONAR
+    //   q: 'swclhr', // NOSONAR
+    //   styleLayers: surfaceWaterStyleLayers,  // NOSONAR
+    //   likelihoodLabel: terms.likelihood.swHigh // NOSONAR
+    // }  // NOSONAR
+  ] // NOSONAR
 
   const paintProperties = {
     'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': colours.floodZone2,
