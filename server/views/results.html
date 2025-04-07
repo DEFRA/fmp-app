@@ -110,6 +110,7 @@
                         </ul>
                       </div>
                     </details>
+                    {% include "./partials/rivers-and-sea-data-inconsistencies.html" %}
                   {% endif %}
                   {% if floodData.riversAndSeaUndefendedCC.riskBandPercent %}
                     <h3 class="govuk-heading-s" data-testid="rofrs-cc-undefended">Without defences (undefended)</h3>
@@ -131,6 +132,7 @@
                         </ul>
                       </div>
                     </details>
+                    {% include "./partials/rivers-and-sea-data-inconsistencies.html" %}
                   {% endif %}
                   <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" data-testid="cc-allowances">
                     Find out more about climate change allowances.
@@ -161,6 +163,7 @@
                     </ul>
                   </div>
                 </details>
+                {% include "./partials/rivers-and-sea-data-inconsistencies.html" %}
               {% endif %}
               {% if floodData.riversAndSeaUndefended.riskBandPercent %}
                 <h3 class="govuk-heading-s" data-testid="rofrs-undefended">Without defences (undefended)</h3>
@@ -177,6 +180,7 @@
                     </ul>
                   </div>
                 </details>
+                {% include "./partials/rivers-and-sea-data-inconsistencies.html" %}
               {% endif %}
               </dd>
             </div>
