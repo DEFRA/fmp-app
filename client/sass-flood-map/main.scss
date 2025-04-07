@@ -170,10 +170,15 @@ body.js-enabled:not([data-fm-error]) {
     left: 4px;
   }
 }
+.fm-mobile {
+  #rivers-and-seas-banner {
+    left: 0;
+  }
+}
 
 #rivers-and-seas-link {
   color: #1d70b8;
-  padding: 0px 4px 0px 4px
+  padding: 3px 4px 0px 4px
 }
 
 .rivers-and-seas-disclaimer {
