@@ -159,29 +159,57 @@ body.js-enabled:not([data-fm-error]) {
 #rivers-and-seas-banner {
   position: absolute;
   top: 0;
-  left: 285px;
+  left: 280px;
   z-index: 1000;
-  display: none;
+  display: flex;
   background-color: white;
-  padding: 10px 44px 12px 6px;
+  align-items: center;
   .govuk-warning-text__icon {
-    left: 4px;
+    // left: 4px;
+    position: relative;
+    height: 35px;
+    width: 35px;
+    margin: 0 10px;
+    flex-shrink: 0;
   }
+  .govuk-warning-text__text {
+    display: inline;
+    padding-left: 0;
+  }
+  .govuk-warning-text__inner {
+
+  }
+
 }
 .fm-mobile {
   #rivers-and-seas-banner {
     left: 0;
+    align-items: center;
+    .govuk-warning-text__link {
+      .fm-mobile {
+        display: block; 
+      }
+    }
+    .govuk-warning-text__icon {
+      flex-shrink: 0;
+    }
   }
 }
 
 #rivers-and-seas-link {
-  color: #1d70b8;
-  padding: 3px 4px 0px 4px
+  // color: #1d70b8;
+  // padding: 3px 4px 0px 4px
 }
 
 .rivers-and-seas-disclaimer {
   .fm-o-main, fm-o-inner {
-    height: calc(100% - 47px);
-    top: 47px;
+    height: calc(100% - 55px);
+    top: 55px;
+  }
+  .fm-mobile {
+    .fm-o-main, fm-o-inner {
+      height: calc(100% - 95px);
+      top: 95px;
+    }
   }
 }
