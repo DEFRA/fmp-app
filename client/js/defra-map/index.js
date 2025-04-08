@@ -521,7 +521,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
-    onRiversAndSeasMenuItem()
+    if (type === 'segment') {
+      onRiversAndSeasMenuItem()
+    }
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
