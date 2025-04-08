@@ -268,7 +268,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Inform a Flood risk assessment
+          Inform a flood risk assessment
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body">You can use all the data layers to inform a flood risk assessment.</p>
@@ -382,7 +382,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
           Data that can be used to trigger this process
         </dt>
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">Subject to applying the process set out in <a href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a></p>
+          <p class="govuk-body">Subject to applying the process set out in <a href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a>:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>flood zones</li>
           <li>main rivers</li>
@@ -467,7 +467,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
         1 in 30 defended extents being bigger than 1 in 100 defended extents 
       </li>
       <li>
-        Defended extents being larger than undefended extents
+        defended extents being larger than undefended extents
       </li>
     </ul>
 
@@ -475,7 +475,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
       These issues only exist in some locations. 
     </p>
     <p class="govuk-body">
-      The Flood Zones are not affected by these issues. 
+      The flood zones are not affected by these issues. 
     </p>
 
     <p class="govuk-body">
