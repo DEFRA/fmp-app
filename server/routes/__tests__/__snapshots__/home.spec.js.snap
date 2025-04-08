@@ -251,9 +251,13 @@ Flood map for planning - GOV.UK
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        In some locations the rivers and sea data layers may show inconsistent results.  
-        <br><br>
+        In some locations the rivers and sea supporting data may show inconsistent results.  
+      </p>
+      <p class="govuk-body">
         <a href="/how-to-use-rivers-and-sea-data">Find out more about this data and how it should be used</a> 
+      </p>
+      <p class="govuk-body">
+        The flood zones are not affected by this issue.
       </p>
     </div>
 
