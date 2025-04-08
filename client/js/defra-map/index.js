@@ -5,6 +5,8 @@ import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
+import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
+import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
 
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -55,23 +57,6 @@ const keyItemDefinitions = {
 // after a data upload to arcGis
 const floodZoneSymbolIndex = ['3', '2']
 
-const surfaceWaterStyleLayers = [
-  'Risk of Flooding from Surface Water Depth > 0mm/1',
-  'Risk of Flooding from Surface Water Depth > 200mm/1',
-  'Risk of Flooding from Surface Water Depth > 300mm/1',
-  'Risk of Flooding from Surface Water Depth > 600mm/1',
-  'Risk of Flooding from Surface Water Depth > 900mm/1',
-  'Risk of Flooding from Surface Water Depth > 1200mm/1'
-]
-// const surfaceWaterCcLowStyleLayers = [
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 0mm/1',
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 200mm/1',
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 300mm/1',
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 600mm/1',
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 900mm/1',
-//   'Risk of Flooding from Surface Water Depth CCSW1 > 1200mm/1'
-// ]
-
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
 const calculateExtent = (polygonToCalculate) => {
@@ -101,133 +86,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
-  const vtLayers = [
-    {
-      name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
-      q: 'fz',
-      styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
-        'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1'
-      ]
-    },
-    {
-      name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: '', // Implies disabled for now
-      styleLayers: [
-        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
-        'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
-      ]
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended',
-      q: '', // Implies disabled for now
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents',
-      q: 'rsdpdhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents',
-      q: 'rsdpdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents',
-      q: 'rsupdmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents',
-      q: 'rsdpdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents',
-      q: 'rsupdlr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_CCP1',
-      q: '', // Implies disabled for now
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh
-    },
-    {
-      name: 'Rivers_1_in_30_Sea_1_in_30_Defended_Extents_CCP1',
-      q: 'rsdclhr',
-      styleLayers: ['Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsHigh
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Defended_Extents_CCP1',
-      q: 'rsdclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_100_Sea_1_in_200_Undefended_Extents_CCP1',
-      q: 'rsuclmr',
-      styleLayers: ['Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsMedium
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Defended_Extents_CCP1',
-      q: 'rsdcllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow
-    },
-    {
-      name: 'Rivers_1_in_1000_Sea_1_in_1000_Undefended_Extents_CCP1',
-      q: 'rsucllr',
-      styleLayers: ['Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1'],
-      likelihoodchanceLabel: terms.likelihoodchance.rsLow
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_Low',
-      q: 'swlr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swLow
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_Medium',
-      q: 'swmr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swMedium
-    },
-    {
-      name: 'Risk_of_Flooding_from_Surface_Water_High',
-      q: 'swhr',
-      styleLayers: surfaceWaterStyleLayers,
-      likelihoodchanceLabel: terms.likelihoodchance.swHigh
-    }
-    // ,
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Low',
-    //   q: 'swcllr',
-    //   styleLayers: surfaceWaterCcLowStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swLow
-    // },
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_Medium',
-    //   q: 'swclmr',
-    //   styleLayers: surfaceWaterStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swMedium
-    // },
-    // {
-    //   name: 'Risk_of_Flooding_from_Surface_Water_CCSW1_High',
-    //   q: 'swclhr',
-    //   styleLayers: surfaceWaterStyleLayers,
-    //   likelihoodLabel: terms.likelihood.swHigh
-    // }
-  ]
 
   const paintProperties = {
     'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': colours.floodZone2,
@@ -645,6 +503,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.isRamp = layers.includes('md')
     console.log('ready mapState', mapState)
     await addLayers()
+    initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
   })
 
@@ -662,6 +521,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
+    onRiversAndSeasMenuItem()
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
@@ -743,83 +603,99 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  // Listen to map queries
-  floodMap.addEventListener('query', async e => {
+  const getQueryContentHeader = async (e) => {
     const { coord, features } = e.detail
     if (!features || !coord) {
-      return
+      return {}
     }
-    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
       ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
     ]
-
+    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
+    return { listContents, vtLayer, coord, feature }
+  }
 
-    if (feature && feature._symbol !== undefined) {
-      // This part is currently only applicable to Flood_Zones
-      const floodZone = floodZoneSymbolIndex[feature._symbol]
-      if (floodZone) {
-        listContents.push(['Flood zone', floodZone])
+  const addQueryFloodZonesContent = async (listContents, feature, coord) => {
+    if (!mapState.segments.includes('fz')) {
+      return false
+    }
+    const floodZone = floodZoneSymbolIndex[feature?._symbol] || '1'
+    listContents.push(['Flood zone', floodZone])
 
-        const attributes = await getFloodZoneAttributes(coord, feature)
-
-        if (attributes && attributes.flood_source) {
-          listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
-        }
-      }
-    } else {
-      if (mapState.segments.includes('fz')) {
-        // This part is applicable for Flood_Zones, when an area outside
-        // of a zone has been clicked
-        listContents.push(['Flood zone', '1'])
-      } else {
-        // This part is applicable for non Flood_Zones layers, when an area outside
-        // of a zone has been clicked
-        const dataset = getDataset()
-        if (dataset) {
-          listContents.push(['Dataset', dataset])
-        }
-        if (vtLayer?.likelihoodLabel) {
-          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
-        }
-        if (vtLayer?.chanceLabel) {
-          listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
-        }
-        if (vtLayer?.likelihoodchanceLabel) {
-          listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
-        }
+    if (floodZone !== '1') {
+      const attributes = await getFloodZoneAttributes(coord, feature)
+      if (attributes && attributes.flood_source) {
+        listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
       }
     }
+    return floodZone
+  }
 
-    let extraContent = ''
-    if (mapState.segments.includes('cl')) {
-      extraContent += `
-          <h2 class="govuk-heading-s">Climate change allowances</h2>
-          <ul class="govuk-list govuk-list--bullet">
-            <li class='govuk-body-s'>
-              these have been taken from the Environment Agency's 
-              <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
-                Flood risk assessment: climate change allowances
-              </a>
-            </li>
-            <li class='govuk-body-s'>
-              river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
-            </li>
-            <li class='govuk-body-s'>
-              sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
-            </li>
-          </ul>`
+  const addQueryNonFloodZonesContent = (listContents, vtLayer) => {
+    // This part is applicable for non Flood_Zones layers, when an area outside
+    // of a zone has been clicked
+    const dataset = getDataset()
+    if (dataset) {
+      listContents.push(['Dataset', dataset])
     }
-    if (mapState.segments.includes('fz')) {
-      extraContent += `
-      <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-      <p class="govuk-body-s">
-        Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
-      </p>`
+    if (vtLayer?.likelihoodLabel) {
+      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
+    }
+    if (vtLayer?.chanceLabel) {
+      listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
+    }
+    if (vtLayer?.likelihoodchanceLabel) {
+      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
+    }
+  }
+
+  const getClimateChangeExtraContent = () => (mapState.segments.includes('cl'))
+    ? `
+    <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class='govuk-body-s'>
+        these have been taken from the Environment Agency's 
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+          Flood risk assessment: climate change allowances
+        </a>
+      </li>
+      <li class='govuk-body-s'>
+        river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
+      </li>
+      <li class='govuk-body-s'>
+        sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
+      </li>
+    </ul>`
+    : ''
+
+  const getFloodZonesExtraContent = () => (mapState.segments.includes('fz'))
+    ? `
+    <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+    <p class="govuk-body-s">
+      Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+    </p>`
+    : ''
+
+  const getQueryExtraContent = (vtLayer) => {
+    let extraContent = vtLayer?.additionalInfo || ''
+    extraContent += getClimateChangeExtraContent()
+    extraContent += getFloodZonesExtraContent()
+    return extraContent
+  }
+
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { listContents, vtLayer, feature, coord } = await getQueryContentHeader(e)
+    if (!listContents) {
+      return
+    }
+    const floodZone = await addQueryFloodZonesContent(listContents, feature, coord)
+    if (!floodZone) {
+      addQueryNonFloodZonesContent(listContents, vtLayer)
     }
 
-    floodMap.setInfo(renderInfo(renderList(listContents), extraContent))
+    floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(vtLayer)))
   })
 })
