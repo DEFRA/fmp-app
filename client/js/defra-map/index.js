@@ -521,7 +521,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
-    onRiversAndSeasMenuItem()
+    if (type === 'segment') {
+      onRiversAndSeasMenuItem()
+    }
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
@@ -680,6 +682,11 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getQueryExtraContent = (vtLayer) => {
     let extraContent = vtLayer?.additionalInfo || ''
+    if (!vtLayer && mapState?.segments.find((item) => item === 'rsd' || item === 'rsu')) {
+      // Ensure the Caveat shows for Rivers and Seas - even if a non RS area is clicked
+      extraContent = terms.additionalInfo.rsHigh
+    }
+
     extraContent += getClimateChangeExtraContent()
     extraContent += getFloodZonesExtraContent()
     return extraContent
