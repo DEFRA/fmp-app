@@ -19,7 +19,7 @@ const floodZone3bNotice = `
     <span class="govuk-details__summary-text">3.3% (1 in 30) and flood zone 3b</span>
   </summary>
   <div class="govuk-details__text">
-    This data is shown to help local authorities define the functional flood plain, flood zone 3b
+    This data is shown to help local authorities define the functional floodplain, flood zone 3b
   </div>
 </details>`
 
