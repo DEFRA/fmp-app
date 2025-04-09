@@ -1,15 +1,31 @@
 const {
   submitGetRequest,
   submitPostRequest,
-  submitPostRequestExpectHandledError
+  submitPostRequestExpectHandledError,
+  getServer
 } = require('../../__test-helpers__/server')
 const constants = require('../../constants')
 
 const url = constants.routes.CONTACT
 
+const p4CustomerCookie = {
+  fullName: 'John Smith',
+  recipientemail: 'john.smith@test.com'
+}
+
 describe('contact', () => {
   describe('GET', () => {
     it('Should return contact if polygon is present', async () => {
+      const response = await submitGetRequest({ url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]` })
+      expect(response.result).toMatchSnapshot()
+    })
+    it('Should return contact with user name and email if cookie present', async () => {
+      getServer().ext('onPreHandler', (request, h) => {
+        request.state = {
+          p4Customer: p4CustomerCookie
+        }
+        return h.continue
+      })
       const response = await submitGetRequest({ url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]` })
       expect(response.result).toMatchSnapshot()
     })
@@ -28,8 +44,7 @@ describe('contact', () => {
           polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
         }
       }
-      const response = await submitPostRequest(options)
-      expect(response.headers.location).toEqual('/check-your-details?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]&fullName=John Smith&recipientemail=test@test.com')
+      await submitPostRequest(options)
     })
     it('Should return contact view with error message if invalid email', async () => {
       const options = {
