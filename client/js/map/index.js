@@ -683,6 +683,13 @@ getDefraMapConfig().then((defraMapConfig) => {
       const url = new URL(window.location)
       const polygon = getPolygon()
       url.searchParams.set('polygon', JSON.stringify(polygon))
+      url.search = decodeURIComponent(url.search)
+      window.history.replaceState(null, '', url)
+    }
+    if (type === 'deletePolygon') {
+      const url = new URL(window.location)
+      url.searchParams.delete('polygon')
+      url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
   })
