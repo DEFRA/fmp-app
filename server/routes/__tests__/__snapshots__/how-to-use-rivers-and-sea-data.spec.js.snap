@@ -1,0 +1,660 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`how to use rivers and sea data route should match snapshot 1`] = `
+"<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <meta charset="utf-8">
+    <title>
+How to use rivers and sea data - Flood map for planning - GOV.UK
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0c0c">
+
+    
+      <link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
+      <link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
+      <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
+      <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
+      <link rel="manifest" href="/assets/manifest.json">
+    
+
+    
+  <meta property="fb:app_id" content="replace_this"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="http://dummyuri/how-to-use-rivers-and-sea-data"/>
+  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
+  <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
+  <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
+  <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
+  
+    <meta name="robots" content="noindex"/>
+  
+  <link href="/assets/application.css" rel="stylesheet"/>
+
+    
+  </head>
+  <body class="govuk-template__body">
+    <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
+    
+  
+
+
+
+
+<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+  
+  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        
+        <h2 class="govuk-cookie-banner__heading govuk-heading-m">
+          Cookies on Flood Map For Planning
+        </h2>
+        
+        <div class="govuk-cookie-banner__content">
+          
+          <p class="govuk-body">We use analytics cookies to help understand how users use our service.</p>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="govuk-button-group">
+    
+      
+      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
+        Accept analytics cookies
+      </button>
+    
+      
+      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
+        Reject analytics cookies
+      </button>
+    
+      
+      <a class="govuk-link" href="cookies">View cookie preferences</a>
+    
+    </div>
+    
+
+  </div>
+  
+  <div class="govuk-cookie-banner__message js-cookies-accepted govuk-width-container" role="alert" hidden>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        
+        <div class="govuk-cookie-banner__content">
+          
+          <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="govuk-button-group">
+    
+      
+      <button type="button" class="govuk-button" data-module="govuk-button">
+        Hide this message
+      </button>
+    
+    </div>
+    
+
+  </div>
+  
+  <div class="govuk-cookie-banner__message js-cookies-rejected govuk-width-container" role="alert" hidden>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        
+        <div class="govuk-cookie-banner__content">
+          
+          <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="govuk-button-group">
+    
+      
+      <button type="button" class="govuk-button" data-module="govuk-button">
+        Hide this message
+      </button>
+    
+    </div>
+    
+
+  </div>
+  
+</div>
+
+
+
+
+    
+      <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+
+    
+
+    
+  <header class="govuk-header" data-module="govuk-header">
+  <div class="govuk-header__container govuk-width-container">
+    <div class="govuk-header__logo">
+      <a href="https://www.gov.uk/" class="govuk-header__link govuk-header__link--homepage">
+        <svg
+          focusable="false"
+          role="img"
+          class="govuk-header__logotype"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 148 30"
+          height="30"
+          width="148"
+          aria-label="GOV.UK"
+        >
+          <title>GOV.UK</title>
+          <path d="M22.6 10.4c-1 .4-2-.1-2.4-1-.4-.9.1-2 1-2.4.9-.4 2 .1 2.4 1s-.1 2-1 2.4m-5.9 6.7c-.9.4-2-.1-2.4-1-.4-.9.1-2 1-2.4.9-.4 2 .1 2.4 1s-.1 2-1 2.4m10.8-3.7c-1 .4-2-.1-2.4-1-.4-.9.1-2 1-2.4.9-.4 2 .1 2.4 1s0 2-1 2.4m3.3 4.8c-1 .4-2-.1-2.4-1-.4-.9.1-2 1-2.4.9-.4 2 .1 2.4 1s-.1 2-1 2.4M17 4.7l2.3 1.2V2.5l-2.3.7-.2-.2.9-3h-3.4l.9 3-.2.2c-.1.1-2.3-.7-2.3-.7v3.4L15 4.7c.1.1.1.2.2.2l-1.3 4c-.1.2-.1.4-.1.6 0 1.1.8 2 1.9 2.2h.7c1-.2 1.9-1.1 1.9-2.1 0-.2 0-.4-.1-.6l-1.3-4c-.1-.2 0-.2.1-.3m-7.6 5.7c.9.4 2-.1 2.4-1 .4-.9-.1-2-1-2.4-.9-.4-2 .1-2.4 1s0 2 1 2.4m-5 3c.9.4 2-.1 2.4-1 .4-.9-.1-2-1-2.4-.9-.4-2 .1-2.4 1s.1 2 1 2.4m-3.2 4.8c.9.4 2-.1 2.4-1 .4-.9-.1-2-1-2.4-.9-.4-2 .1-2.4 1s0 2 1 2.4m14.8 11c4.4 0 8.6.3 12.3.8 1.1-4.5 2.4-7 3.7-8.8l-2.5-.9c.2 1.3.3 1.9 0 2.7-.4-.4-.8-1.1-1.1-2.3l-1.2 4c.7-.5 1.3-.8 2-.9-1.1 2.5-2.6 3.1-3.5 3-1.1-.2-1.7-1.2-1.5-2.1.3-1.2 1.5-1.5 2.1-.1 1.1-2.3-.8-3-2-2.3 1.9-1.9 2.1-3.5.6-5.6-2.1 1.6-2.1 3.2-1.2 5.5-1.2-1.4-3.2-.6-2.5 1.6.9-1.4 2.1-.5 1.9.8-.2 1.1-1.7 2.1-3.5 1.9-2.7-.2-2.9-2.1-2.9-3.6.7-.1 1.9.5 2.9 1.9l.4-4.3c-1.1 1.1-2.1 1.4-3.2 1.4.4-1.2 2.1-3 2.1-3h-5.4s1.7 1.9 2.1 3c-1.1 0-2.1-.2-3.2-1.4l.4 4.3c1-1.4 2.2-2 2.9-1.9-.1 1.5-.2 3.4-2.9 3.6-1.9.2-3.4-.8-3.5-1.9-.2-1.3 1-2.2 1.9-.8.7-2.3-1.2-3-2.5-1.6.9-2.2.9-3.9-1.2-5.5-1.5 2-1.3 3.7.6 5.6-1.2-.7-3.1 0-2 2.3.6-1.4 1.8-1.1 2.1.1.2.9-.3 1.9-1.5 2.1-.9.2-2.4-.5-3.5-3 .6 0 1.2.3 2 .9l-1.2-4c-.3 1.1-.7 1.9-1.1 2.3-.3-.8-.2-1.4 0-2.7l-2.9.9C1.3 23 2.6 25.5 3.7 30c3.7-.5 7.9-.8 12.3-.8m28.3-11.6c0 .9.1 1.7.3 2.5.2.8.6 1.5 1 2.2.5.6 1 1.1 1.7 1.5.7.4 1.5.6 2.5.6.9 0 1.7-.1 2.3-.4s1.1-.7 1.5-1.1c.4-.4.6-.9.8-1.5.1-.5.2-1 .2-1.5v-.2h-5.3v-3.2h9.4V28H55v-2.5c-.3.4-.6.8-1 1.1-.4.3-.8.6-1.3.9-.5.2-1 .4-1.6.6s-1.2.2-1.8.2c-1.5 0-2.9-.3-4-.8-1.2-.6-2.2-1.3-3-2.3-.8-1-1.4-2.1-1.8-3.4-.3-1.4-.5-2.8-.5-4.3s.2-2.9.7-4.2c.5-1.3 1.1-2.4 2-3.4.9-1 1.9-1.7 3.1-2.3 1.2-.6 2.6-.8 4.1-.8 1 0 1.9.1 2.8.3.9.2 1.7.6 2.4 1s1.4.9 1.9 1.5c.6.6 1 1.3 1.4 2l-3.7 2.1c-.2-.4-.5-.9-.8-1.2-.3-.4-.6-.7-1-1-.4-.3-.8-.5-1.3-.7-.5-.2-1.1-.2-1.7-.2-1 0-1.8.2-2.5.6-.7.4-1.3.9-1.7 1.5-.5.6-.8 1.4-1 2.2-.3.8-.4 1.9-.4 2.7zM71.5 6.8c1.5 0 2.9.3 4.2.8 1.2.6 2.3 1.3 3.1 2.3.9 1 1.5 2.1 2 3.4s.7 2.7.7 4.2-.2 2.9-.7 4.2c-.4 1.3-1.1 2.4-2 3.4-.9 1-1.9 1.7-3.1 2.3-1.2.6-2.6.8-4.2.8s-2.9-.3-4.2-.8c-1.2-.6-2.3-1.3-3.1-2.3-.9-1-1.5-2.1-2-3.4-.4-1.3-.7-2.7-.7-4.2s.2-2.9.7-4.2c.4-1.3 1.1-2.4 2-3.4.9-1 1.9-1.7 3.1-2.3 1.2-.5 2.6-.8 4.2-.8zm0 17.6c.9 0 1.7-.2 2.4-.5s1.3-.8 1.7-1.4c.5-.6.8-1.3 1.1-2.2.2-.8.4-1.7.4-2.7v-.1c0-1-.1-1.9-.4-2.7-.2-.8-.6-1.6-1.1-2.2-.5-.6-1.1-1.1-1.7-1.4-.7-.3-1.5-.5-2.4-.5s-1.7.2-2.4.5-1.3.8-1.7 1.4c-.5.6-.8 1.3-1.1 2.2-.2.8-.4 1.7-.4 2.7v.1c0 1 .1 1.9.4 2.7.2.8.6 1.6 1.1 2.2.5.6 1.1 1.1 1.7 1.4.6.3 1.4.5 2.4.5zM88.9 28 83 7h4.7l4 15.7h.1l4-15.7h4.7l-5.9 21h-5.7zm28.8-3.6c.6 0 1.2-.1 1.7-.3.5-.2 1-.4 1.4-.8.4-.4.7-.8.9-1.4.2-.6.3-1.2.3-2v-13h4.1v13.6c0 1.2-.2 2.2-.6 3.1s-1 1.7-1.8 2.4c-.7.7-1.6 1.2-2.7 1.5-1 .4-2.2.5-3.4.5-1.2 0-2.4-.2-3.4-.5-1-.4-1.9-.9-2.7-1.5-.8-.7-1.3-1.5-1.8-2.4-.4-.9-.6-2-.6-3.1V6.9h4.2v13c0 .8.1 1.4.3 2 .2.6.5 1 .9 1.4.4.4.8.6 1.4.8.6.2 1.1.3 1.8.3zm13-17.4h4.2v9.1l7.4-9.1h5.2l-7.2 8.4L148 28h-4.9l-5.5-9.4-2.7 3V28h-4.2V7zm-27.6 16.1c-1.5 0-2.7 1.2-2.7 2.7s1.2 2.7 2.7 2.7 2.7-1.2 2.7-2.7-1.2-2.7-2.7-2.7z"></path>
+        </svg>
+        
+      </a>
+    </div>
+  
+    <div class="govuk-header__content">
+    
+      
+      <a href="/" class="govuk-header__link govuk-header__service-name">
+        Flood map for planning
+      </a>
+      
+    
+    
+    </div>
+  
+  </div>
+</header>
+
+
+
+<div class="govuk-phase-banner govuk-width-container">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      beta
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+
+
+
+    
+      <div class="govuk-width-container">
+        
+  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+
+
+        <main class="govuk-main-wrapper" id="main-content">
+          
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+
+    <h1 class="govuk-heading-l">
+      How to use rivers and sea data 
+    </h1>
+
+    <p class="govuk-body">
+      Rivers and sea supporting data is given to help you further investigate flood risk.
+    </p>
+    <p class="govuk-body">
+      In some locations the rivers and sea supporting layers may show inconsistent results.  
+    </p>
+
+    <h2 class="govuk-heading-m">
+      What are the rivers and sea supporting layers? 
+    </h2>
+
+    <p class="govuk-body">
+      For the first time, we have published additional layers showing rivers and sea flood risk alongside the flood zones.  
+    </p>
+    <p class="govuk-body">
+      These show flood risk with defences and without defences, for the present day and with climate change.
+    </p>
+    <p class="govuk-body">
+      The new data supports developers to meet the requirements of national planning policy and guidance.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      How should the data be used? 
+    </h2>
+
+    <p class="govuk-body">
+      The table below explains how the datasets shown on the flood map should be used in planning.  
+    </p>
+
+  </div>
+</div>
+
+<div class="govuk-summary-card govuk-!-margin-top-3">          
+  <div class="govuk-summary-card__title-wrapper vlow">
+    <h2 class="govuk-summary-card__title">Flood risk assessment</h2>
+    <ul class="govuk-summary-card__actions">
+    </ul>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for flood risk assessment
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for a flood risk assessment use: </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>water storage areas</li>
+            <li>all rivers and sea, and surface water layers</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Inform a flood risk assessment
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">You can use all the data layers to inform a flood risk assessment.</p>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="govuk-summary-card govuk-!-margin-top-3">          
+  <div class="govuk-summary-card__title-wrapper vlow">
+    <h2 class="govuk-summary-card__title">Sequential and exception tests</h2>
+    <ul class="govuk-summary-card__actions">
+    </ul>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for the sequential test
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for the sequential test use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>water storage areas (if the local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+            <li>all rivers and sea, and surface water layers</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for the exception test
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for the exception test use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>water storage areas (if the local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+            <li>rivers and sea with defences 1 in 30 (if the local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Inform application of the sequential and exception tests
+        </dt>
+        <dd class="govuk-summary-list__value">
+        <p class="govuk-body">To inform application of the sequential and exception tests use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>defences</li>
+            <li>all rivers and sea, and surface water layers</li>
+            <li>water storage areas (if local planning authority’s strategic flood risk assessment defines as flood zone 3b)</li>
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="govuk-summary-card govuk-!-margin-top-3">          
+  <div class="govuk-summary-card__title-wrapper vlow">
+    <h2 class="govuk-summary-card__title">Local planning authority designation of 3b (functional floodplain) in strategic flood risk assessment</h2>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To inform local planning authority designation of 3b (functional floodplain), in strategic flood risk assessments, subject to local agreement with the Environment Agency, use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>water storage areas</li>
+            <li>rivers and sea with defences 1 in 30 present day</li>
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="govuk-summary-card govuk-!-margin-top-3">          
+  <div class="govuk-summary-card__title-wrapper vlow">
+    <h2 class="govuk-summary-card__title">Development incompatibility</h2>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To check development incompatibility, see <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice Guidance</a> and use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>water storage areas (if local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+            <li>rivers and sea with defences 1 in 30 present day (if local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="govuk-summary-card govuk-!-margin-top-3">          
+  <div class="govuk-summary-card__title-wrapper vlow">
+    <h2 class="govuk-summary-card__title">
+      Trigger local planning authority to consult Environment Agency or apply standing advice
+    </h2>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Data that can be used to trigger this process
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">Subject to applying the process set out in <a href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a>:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>flood zones</li>
+          <li>main rivers</li>
+        </ul>
+        <p class="govuk-body">If the local planning authority's strategic flood risk assessment defines as flood zone 3b:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>water storage areas</li>
+          <li>rivers and sea with defences 1 in 30 present day</li>
+        </ul>
+        <p class="govuk-body">All climate change rivers and sea layers if site location is flood zone 1. In which case, apply national flood risk standing advice for local planning authorities as if the site were flood zone 2.</p>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h2 class="govuk-heading-m">
+      Examples 
+    </h2>
+    <p class="govuk-body">
+      The following examples aim to help you understand the table. 
+    </p>
+    <p class="govuk-body">
+      "My site is in flood zone 1 but is within the rivers and sea 1 in 1,000 undefended climate change extent. Do I need a flood risk assessment?" 
+    </p>
+    <p class="govuk-body">
+      Yes. Development could be at risk of flooding during its lifetime, so a flood risk assessment should be carried out.
+    </p>
+
+    <p class="govuk-body">
+      "My proposed housing development is in the rivers and sea 1 in 30 defended present day extent. Can I assume this is functional floodplain (flood zone 3b) when checking if the development is incompatible?" 
+    </p>
+
+    <p class="govuk-body">
+      No, you shouldn't assume that this area is functional floodplain (flood zone 3b). You should first check the local planning authority's strategic flood risk assessment (SFRA) to see if it has designated the site functional floodplain. If the SFRA doesn't contain suitable information on functional floodplain, you’ll need to complete your own assessment, informed by the rivers and sea 1 in 30 defended present day extent and the water storage areas layer.  
+    </p>
+
+    <h2 class="govuk-heading-m">
+      Data for flood risk assessments 
+    </h2>
+
+    <p class="govuk-body">
+      Users of any flood risk data should always satisfy themselves that it is suitable for its intended use.
+    </p>
+
+    <p class="govuk-body">
+      The material displayed in this service, including maps and risk data, is provided without any guarantees, conditions or warranties as to its accuracy. See our <a href="/terms-and-conditions">terms and conditions</a> for more information. 
+    </p>
+
+    <p class="govuk-body">
+      To produce a suitable flood risk assessment, other datasets and assessments will be needed. 
+    </p>
+
+    <h2 class="govuk-heading-m">
+      Flood zones 
+    </h2>
+
+    <p class="govuk-body">
+      We continue to have a high level of confidence in the flood zones.  
+    </p>
+
+    <p class="govuk-body">
+      The flood zones are the statutory triggers for local planning authorities to check if they must consult the Environment Agency or apply standing advice.  
+    </p>
+
+    <p class="govuk-body">
+      You can find out if the Environment Agency will be consulted on your application or if flood risk standing advice applies, by visiting <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">flood risk assessments: applying for planning permission</a>.  
+    </p>
+
+    <h2 class="govuk-heading-m">
+      What inconsistent results do the layers sometimes show and why? 
+    </h2>
+
+    <p class="govuk-body">
+      In some locations the new rivers and sea supporting layers show inconsistent results. Examples include: 
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        1 in 30 defended extents being bigger than 1 in 100 defended extents 
+      </li>
+      <li>
+        defended extents being larger than undefended extents
+      </li>
+    </ul>
+
+    <p class="govuk-body">
+      These issues only exist in some locations. 
+    </p>
+    <p class="govuk-body">
+      The flood zones are not affected by these issues. 
+    </p>
+
+    <p class="govuk-body">
+      We have produced these layers using a new process as part of our new national flood risk assessment (NaFRA2). NaFRA2 brings together local modelling and national modelling. In a given location: 
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        all the layers could be from local modelling 
+      </li>
+      <li>
+        all the layers could be from national modelling  
+      </li>
+      <li>
+        some layers could be from local modelling and others from national modelling  
+      </li>
+    </ul>
+
+    <p class="govuk-body">
+      The main reasons for inconsistent results in these layers are: 
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        results showing differences in modelling (for example between national and local modelling) 
+      </li>
+      <li>
+        results showing poor data quality - in some known locations we are working on important improvements to the new supporting layers (in those locations we have retained our previous flood zones while these improvements are made) 
+      </li>
+    </ul>
+
+    <h2 class="govuk-heading-m">
+      What are we doing about the inconsistent results? 
+    </h2>
+    <p class="govuk-body">
+      We are analysing the new data to better understand these issues.  
+    </p>
+    <p class="govuk-body">
+      Improvements and updates are planned later in 2025/26, which will help to resolve many of these issues.  
+    </p>
+    <p class="govuk-body">
+      We may make further updates to the flood map for planning to highlight where we know inconsistent results exist. 
+    </p>
+  </div>
+</div>
+
+
+        </main>
+      </div>
+    
+
+    
+  
+
+<footer class="govuk-footer">
+  <div class="govuk-width-container">
+    
+    <div class="govuk-footer__meta">
+      <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+        
+        <h2 class="govuk-visually-hidden">Support links</h2>
+        
+        <ul class="govuk-footer__inline-list">
+        
+          <li class="govuk-footer__inline-list-item">
+            <a class="govuk-footer__link" href="/cookies">
+              Cookies
+            </a>
+          </li>
+        
+          <li class="govuk-footer__inline-list-item">
+            <a class="govuk-footer__link" href="/accessibility-statement">
+              Accessibility
+            </a>
+          </li>
+        
+          <li class="govuk-footer__inline-list-item">
+            <a class="govuk-footer__link" href="/terms-and-conditions">
+              Terms and conditions
+            </a>
+          </li>
+        
+          <li class="govuk-footer__inline-list-item">
+            <a class="govuk-footer__link" href="/privacy-notice">
+              Privacy notice
+            </a>
+          </li>
+        
+        </ul>
+        
+        
+        <div class="govuk-footer__meta-custom">
+          <p class="govuk-body-s">
+              Built by the
+              <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a>
+            </p>
+            <p class="govuk-body-s" style="max-width: 70ch;">
+              © Crown copyright and database rights 2025
+              <a href = "https://www.ordnancesurvey.co.uk/">Ordnance Survey(OS)</a>
+              AC0000807064. Use of the address and mapping data is subject to the
+                <a href="/os-terms">Ordnance Survey terms and conditions</a>.
+            </p>
+        </div>
+        
+        
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          class="govuk-footer__licence-logo"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 483.2 195.7"
+          height="17"
+          width="41"
+        >
+          <path
+            fill="currentColor"
+            d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+          />
+        </svg>
+        <span class="govuk-footer__licence-description">
+        
+          All content is available under the
+          <a
+            class="govuk-footer__link"
+            href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+            rel="license"
+          >Open Government Licence v3.0</a>, except where otherwise stated
+        
+        </span>
+      </div>
+      <div class="govuk-footer__meta-item">
+        <a
+          class="govuk-footer__link govuk-footer__copyright-logo"
+          href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+        >
+        
+          © Crown copyright
+        
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    
+  
+  <script src="/assets/core.js"></script>
+  <script type="module">
+    import { initAll } from '/assets/govuk-frontend.min.js'
+    initAll()
+  </script>
+  <script type="text/javascript">
+    const analyticsAccount = 'replace_this'
+    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
+
+    if (analyticsAccount && analyticsAccepted) {
+      const script = document.createElement('script')
+      script.src = \`https://www.googletagmanager.com/gtm.js?id=\${analyticsAccount}\`
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || []
+        function gtag () { window.dataLayer.push(arguments) }
+        gtag('consent', 'default', {
+          ad_storage: 'granted',
+          ad_personalization: 'granted',
+          ad_user_data: 'granted',
+          analytics_storage: 'granted'
+        })
+        window.dataLayer.push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        })
+      }
+      document.body.appendChild(script)
+    }
+  </script>
+
+  </body>
+</html>
+"
+`;
