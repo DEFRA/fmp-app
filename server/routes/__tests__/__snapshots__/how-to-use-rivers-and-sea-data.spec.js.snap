@@ -280,7 +280,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
 
 <div class="govuk-summary-card govuk-!-margin-top-3">          
   <div class="govuk-summary-card__title-wrapper vlow">
-    <h2 class="govuk-summary-card__title">Exception and sequential test</h2>
+    <h2 class="govuk-summary-card__title">Sequential and exception tests</h2>
     <ul class="govuk-summary-card__actions">
     </ul>
   </div>
@@ -314,10 +314,10 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Inform application of exception and sequential tests
+          Inform application of the sequential and exception tests
         </dt>
         <dd class="govuk-summary-list__value">
-        <p class="govuk-body">To inform application of exception and sequential test use:</p>
+        <p class="govuk-body">To inform application of the sequential and exception tests use:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones 2 and 3</li>
             <li>defences</li>
@@ -340,7 +340,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
         <dd class="govuk-summary-list__value">
           <p class="govuk-body">To inform local planning authority designation of 3b (functional floodplain), in strategic flood risk assessments, subject to local agreement with the Environment Agency, use:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>water storage area</li>
+            <li>water storage areas</li>
             <li>rivers and sea with defences 1 in 30 present day</li>
           </ul>
         </dd>
@@ -361,7 +361,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones 2 and 3</li>
             <li>water storage areas (if local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
-            <li>rivers and sea with defences 1 in 30 (if local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
+            <li>rivers and sea with defences 1 in 30 present day (if local planning authority's strategic flood risk assessment defines as flood zone 3b)</li>
           </ul>
         </dd>
       </div>
