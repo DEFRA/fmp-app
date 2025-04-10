@@ -6,6 +6,8 @@ import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 
+const mapDiv = document.getElementById('map')
+
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
   floodDefences: '/assets/images/flood-defence.svg',
@@ -665,6 +667,33 @@ getDefraMapConfig().then((defraMapConfig) => {
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
+  const getPolygon = () => {
+    const { items: layers } = floodMap.map.layers
+    const polygonLayer = layers[layers.length - 1]
+    const { graphics } = polygonLayer
+    const { items } = graphics
+    const { geometry } = items[0]
+    const { rings } = geometry
+    return roundPolygon(rings[0])
+  }
+
+  mapDiv.addEventListener('appaction', e => {
+    const { type } = e.detail
+    if (type === 'confirmPolygon' || type === 'updatePolygon') {
+      const url = new URL(window.location)
+      const polygon = getPolygon()
+      url.searchParams.set('polygon', JSON.stringify(polygon))
+      url.search = decodeURIComponent(url.search)
+      window.history.replaceState(null, '', url)
+    }
+    if (type === 'deletePolygon') {
+      const url = new URL(window.location)
+      url.searchParams.delete('polygon')
+      url.search = decodeURIComponent(url.search)
+      window.history.replaceState(null, '', url)
+    }
+  })
+
   const getDataset = () => {
     if (mapState.segments.includes('sw')) {
       return 'Surface water'
@@ -718,13 +747,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (e.target.innerText === 'Get summary report') {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
-      const { items: layers } = floodMap.map.layers
-      const polygonLayer = layers[layers.length - 1]
-      const { graphics } = polygonLayer
-      const { items } = graphics
-      const { geometry } = items[0]
-      const { rings } = geometry
-      const polygon = roundPolygon(rings[0])
+      const polygon = getPolygon()
       window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
