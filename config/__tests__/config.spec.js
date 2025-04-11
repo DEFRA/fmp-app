@@ -29,7 +29,6 @@ describe('Ensure config is correct', () => {
         osMapsUrl: 'http://dummyuri',
         osNamesUrl: 'http://dummyuri',
         osSearchKey: 'replace_this',
-        osMapsKey: 'replace_this',
         osClientId: 'replace_this',
         osClientSecret: 'replace_this'
       },
@@ -93,7 +92,6 @@ describe('Ensure config is correct', () => {
         osMapsUrl: 'http://dummyuri',
         osNamesUrl: 'http://dummyuri',
         osSearchKey: 'replace_this',
-        osMapsKey: 'replace_this',
         osClientId: 'replace_this',
         osClientSecret: 'replace_this'
       },

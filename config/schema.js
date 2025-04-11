@@ -26,7 +26,6 @@ const schema = Joi.object({
       osMapsUrl: Joi.string().uri().required(),
       osNamesUrl: Joi.string().uri().required(),
       osSearchKey: Joi.string().required().allow(''),
-      osMapsKey: Joi.string().required().allow(''),
       osClientId: Joi.string().required().allow(''),
       osClientSecret: Joi.string().required().allow('')
     }),

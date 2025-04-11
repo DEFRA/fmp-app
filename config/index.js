@@ -57,7 +57,6 @@ const config = {
     osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
     osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
     osSearchKey: process.env.ordnanceSurveyOsSearchKey,
-    osMapsKey: process.env.ordnanceSurveyOsMapsKey,
     osClientId: process.env.ordnanceSurveyOsClientId,
     osClientSecret: process.env.ordnanceSurveyOsClientSecret
   },
