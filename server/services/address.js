@@ -69,22 +69,15 @@ module.exports = {
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
     try {
-      console.log('About to: getPostcodeFromEastingorNorthing')
-      const uri = `${config.placeApi?.url}?point=${easting},${northing}&key=${config.ordnanceSurvey.osSearchKey}`
+      const uri = `${config.placeApi?.url}?point=${easting},${northing}&radius=1000&key=${config.ordnanceSurvey.osSearchKey}`
       const response = await axios.get(uri)
       if (!response?.data?.results?.[0]) {
-        console.error(
-          `=======================================unable to get postcode for easting :${easting} and northing: ${northing} but continuing operation======================`
-        )
-      } else { console.log('postcode retrieved', JSON.stringify(response?.data?.results[0])) }
-      return response?.data?.results && response?.data?.results.length > 0
-        ? response?.data?.results[0]?.DPA?.POSTCODE
-        : ''
+        console.error(`unable to get postcode for easting :${easting} and northing: ${northing}`)
+      }
+      return response?.data?.results?.[0]?.DPA?.POSTCODE || ''
     } catch (error) {
-      console.error(
-        `unable to get postcode for easting: ${easting} and northing: ${northing}`,
-        error
-      )
+      console.error(`unable to get postcode for easting: ${easting} and northing: ${northing}`, error)
+      return ''
     }
   }
 }
