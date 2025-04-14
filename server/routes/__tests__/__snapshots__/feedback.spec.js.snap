@@ -200,8 +200,7 @@ Feedback - Flood map for planning - GOV.UK
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-
+  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -552,8 +551,7 @@ Feedback - Flood map for planning - GOV.UK
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-
+  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -904,8 +902,7 @@ Feedback - Flood map for planning - GOV.UK
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-
+  <a href="http://localhost:3000/map" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1256,8 +1253,7 @@ Feedback - Flood map for planning - GOV.UK
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-
+  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
