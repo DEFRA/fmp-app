@@ -24,7 +24,7 @@ module.exports = [
       handler: async (request, h) => {
         const { polygon, fullName, recipientemail } = request.query
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
-        const contactUrl = `/contact?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`
+        const contactUrl = `/contact?polygon=${polygon}`
         const mapUrl = `/map?polygon=${polygon}`
         return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
