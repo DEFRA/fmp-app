@@ -12,7 +12,8 @@ module.exports = {
           : request.server.info.protocol + '://' + request.info.host
       return h.view(constants.views.FEEDBACK, {
         ref: encodeURIComponent(ref),
-        userAgent: encodeURIComponent(request.headers['user-agent'] || '')
+        userAgent: encodeURIComponent(request.headers['user-agent'] || ''),
+        href: ref
       })
     }
   }
