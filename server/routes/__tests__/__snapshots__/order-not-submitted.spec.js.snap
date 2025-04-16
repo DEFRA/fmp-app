@@ -99,7 +99,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -125,7 +125,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -450,7 +450,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -476,7 +476,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>

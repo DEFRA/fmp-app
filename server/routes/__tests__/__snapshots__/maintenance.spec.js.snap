@@ -101,7 +101,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -127,7 +127,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -458,7 +458,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -484,7 +484,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>

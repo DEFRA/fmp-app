@@ -99,7 +99,7 @@ exports[`contact GET Should error if no polygon is present 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -125,7 +125,7 @@ exports[`contact GET Should error if no polygon is present 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -452,7 +452,7 @@ exports[`contact GET Should return contact if polygon is present 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -478,7 +478,7 @@ exports[`contact GET Should return contact if polygon is present 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -920,7 +920,7 @@ exports[`contact GET Should return contact with user name and email if cookie pr
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -946,7 +946,7 @@ exports[`contact GET Should return contact with user name and email if cookie pr
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -1392,7 +1392,7 @@ exports[`contact POST Should return contact view with error message if blank ema
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -1418,7 +1418,7 @@ exports[`contact POST Should return contact view with error message if blank ema
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -1899,7 +1899,7 @@ exports[`contact POST Should return contact view with error message if blank nam
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -1925,7 +1925,7 @@ exports[`contact POST Should return contact view with error message if blank nam
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -2406,7 +2406,7 @@ exports[`contact POST Should return contact view with error message if invalid e
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -2432,7 +2432,7 @@ exports[`contact POST Should return contact view with error message if invalid e
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -2913,7 +2913,7 @@ exports[`contact POST Should return contact view with error message if invalid n
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -2939,7 +2939,7 @@ exports[`contact POST Should return contact view with error message if invalid n
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>

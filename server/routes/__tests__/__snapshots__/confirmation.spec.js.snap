@@ -101,7 +101,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -127,7 +127,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -514,7 +514,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -540,7 +540,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>

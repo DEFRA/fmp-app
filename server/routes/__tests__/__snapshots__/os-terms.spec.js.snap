@@ -99,7 +99,7 @@ exports[`os-terms Should return os-terms page 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -125,7 +125,7 @@ exports[`os-terms Should return os-terms page 1`] = `
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
