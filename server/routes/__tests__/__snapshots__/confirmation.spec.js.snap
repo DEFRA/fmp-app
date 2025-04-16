@@ -23,7 +23,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=1"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -436,7 +436,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=3"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>

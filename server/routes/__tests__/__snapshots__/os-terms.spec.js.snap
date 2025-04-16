@@ -5,7 +5,9 @@ exports[`os-terms Should return os-terms page 1`] = `
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title>GOV.UK - The best place to find government services and information</title>
+    <title>
+  Ordnance Survey terms and conditions - Flood map for planning - GOV.UK
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
 
@@ -21,7 +23,7 @@ exports[`os-terms Should return os-terms page 1`] = `
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/os-terms"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Ordnance Survey terms and conditions - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>

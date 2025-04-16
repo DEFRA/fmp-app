@@ -38,7 +38,7 @@ describe('Check your details page', () => {
       it(`Happy get request for a flood zone ${floodZone} information`, async () => {
         const response = await submitGetRequest({ url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, 'Check your details before requesting your data')
         document.body.innerHTML = response.payload
-        assertCopy('title', 'Check your details - Flood map for planning - GOV.UK')
+        assertCopy('title', 'Check your details before requesting your data - Flood map for planning - GOV.UK')
         assertCopy('.govuk-summary-list__row > dd.govuk-summary-list__value', user.fullName)
         assertCopy('.govuk-summary-list__row:nth-child(2) > dd.govuk-summary-list__value', user.email)
         assertCopy('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value', floodZone)

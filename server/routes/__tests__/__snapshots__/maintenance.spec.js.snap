@@ -23,7 +23,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/maintainence"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Sorry, the service is unavailable - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -208,7 +208,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
  <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <header>
-        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+        <h1 class="govuk-heading-xl">Sorry, the service is unavailable</h1>
       </header>
       <p class="govuk-body"> You will be able to use the service later. </p>
       <p class="govuk-body">
@@ -380,7 +380,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/maintenance"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Sorry, the service is unavailable - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -565,7 +565,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
  <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <header>
-        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+        <h1 class="govuk-heading-xl">Sorry, the service is unavailable</h1>
       </header>
       <p class="govuk-body"> You will be able to use the service later. </p>
       <p class="govuk-body">

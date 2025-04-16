@@ -6,7 +6,7 @@ exports[`terms-and-conditions Should return terms-and-conditions page 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-Terms and conditions - Flood map for planning - GOV.UK
+  Terms and conditions - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -23,7 +23,7 @@ Terms and conditions - Flood map for planning - GOV.UK
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/terms-and-conditions"/>
-  <meta property="og:title" content="Terms and conditions - Flood map for planning - GOV.UK - GOV.UK"/>
+  <meta property="og:title" content="Terms and conditions - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>

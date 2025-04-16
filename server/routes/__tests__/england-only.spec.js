@@ -45,7 +45,7 @@ describe('Triage Page', () => {
     it(testName, async () => {
       const response = await submitGetRequest({ url: `${url}?${new URLSearchParams(queryParams).toString()}` }, 'This service provides data for locations in England only')
       document.body.innerHTML = response.payload
-      assertCopy('title', 'This service is for England only - Flood map for planning - GOV.UK')
+      assertCopy('title', 'This service provides data for locations in England only - Flood map for planning - GOV.UK')
       assertCopy('#not-england-page > div > p:nth-child(2)', text)
     })
   })

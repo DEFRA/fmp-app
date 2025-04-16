@@ -1,11 +1,8 @@
 {% extends 'layout.html' %}
-  {% from "fieldset/macro.njk" import govukFieldset %}
-  {% from "summary-list/macro.njk" import govukSummaryList %}
-  {% from "warning-text/macro.njk" import govukWarningText %}
-
-  {% block pageTitle %}
-    Check your details - Flood map for planning - GOV.UK
-  {% endblock %}
+{% from "fieldset/macro.njk" import govukFieldset %}
+{% from "summary-list/macro.njk" import govukSummaryList %}
+{% from "warning-text/macro.njk" import govukWarningText %}
+{% set pageTitle = 'Check your details before requesting your data' %}
 
 {% block content %}
   {{ super() }}
@@ -15,7 +12,7 @@
   <div id="check-your-details-page" class="govuk-grid-row">
     <form autocomplete="off" class="form" method="post" action="/check-your-details" novalidate>
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl"> Check your details before requesting your data </h1>
+        <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
         <p class="govuk-body">
           After you have submitted your request you will not be able to change it.
