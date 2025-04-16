@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
 {% from "notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "radios/macro.njk" import govukRadios %}
-{% block pageTitle %}
-Cookies - Flood map for planning - GOV.UK
-{% endblock %}
+
+{% set pageTitle = 'Cookies' %}
 
 {% block cookie_message %}
 {% set html %}
@@ -22,7 +21,7 @@ html: html
 <div class="govuk-width-container">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">Cookies</h1>
+      <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
     </div>
   </div>
   <div class="govuk-grid-row">

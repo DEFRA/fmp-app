@@ -5,7 +5,7 @@
 {% from "button/macro.njk" import govukButton %}
 {% from "back-link/macro.njk" import govukBackLink %}
 
-{% set metaTitle = (pageTitle or model.pageTitle or 'Flood map for planning') + ' - GOV.UK' %}
+{% set metaTitle = (pageTitle or model.pageTitle) + ' - Flood map for planning - GOV.UK' %}
 {% set metaDescription = model.metadata.description | default('Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data.') %}
 {% set metaKeywords = model.metadata.keywords | default('flood,mapfor,planning,service,gov,uk') %}
 
@@ -24,6 +24,10 @@
     <meta name="robots" content="noindex"/>
   {% endif %}
   <link href="{{ assetPath }}/application.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block pageTitle %}
+  {% if errorSummary.length > 0 %}Error: {% endif %}{{ pageTitle }} - {{ serviceName }} - GOV.UK
 {% endblock %}
 
 {% block header %}

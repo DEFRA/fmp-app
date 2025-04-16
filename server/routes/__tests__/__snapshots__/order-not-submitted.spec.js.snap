@@ -5,7 +5,9 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title>GOV.UK - The best place to find government services and information</title>
+    <title>
+  Sorry, there is a problem with the page you requested - Flood map for planning - GOV.UK
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
 
@@ -21,7 +23,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content=""/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Sorry, there is a problem with the page you requested - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -99,7 +101,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -125,7 +127,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -184,10 +186,10 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
+      Beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+      This is a new service. Help us improve it and <a class="govuk-link" href="/feedback">give your feedback</a>.
     </span>
   </p>
 </div>
@@ -356,7 +358,9 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title>GOV.UK - The best place to find government services and information</title>
+    <title>
+  Sorry, there&#39;s a problem with the service - Flood map for planning - GOV.UK
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
 
@@ -372,7 +376,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/order-not-submitted?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Sorry, there&#39;s a problem with the service - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -450,7 +454,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -476,7 +480,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -535,10 +539,10 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
+      Beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+      This is a new service. Help us improve it and <a class="govuk-link" href="/feedback">give your feedback</a>.
     </span>
   </p>
 </div>
@@ -557,7 +561,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l"> Sorry, there's a problem with the service </h1>
+    <h1 class="govuk-heading-xl">Sorry, there&#39;s a problem with the service</h1>
 
     <p class="govuk-body"> Your order has not been submitted. Try again later. </p>
 

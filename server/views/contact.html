@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
-{% block pageTitle %}
-  {% if errorSummary.length > 0 %}Error: {% endif %}Request flood risk assessment data - Flood map for planning - GOV.UK
-{% endblock %}
+
+{% set pageTitle = 'Order your flood risk data' %}
+
 {% block content %}
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
@@ -18,7 +18,7 @@
           })}}
         {% endif %}
 
-        <h1 class="govuk-heading-xl">Order your flood risk data</h1>
+        <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
         <p class="govuk-body">
           Order detailed flood risk information to be used for a flood risk assessment as
           part of a planning application.

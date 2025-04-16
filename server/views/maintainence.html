@@ -1,12 +1,10 @@
 {% extends "layout.html" %}
-{% block pageTitle %}
-  Sorry, the service is unavailable - Flood map for planning - GOV.UK
-{% endblock %}
+{% set pageTitle = 'Sorry, the service is unavailable' %}
 {% block content %}
  <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <header>
-        <h1 class="govuk-heading-l" tabindex="0">Sorry, the service is unavailable</h1>
+        <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
       </header>
       <p class="govuk-body"> You will be able to use the service later. </p>
       <p class="govuk-body">
