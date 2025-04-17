@@ -10,6 +10,8 @@ import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
 
 const mapDiv = document.getElementById('map')
 
+const vtLayerIds = vtLayers.map(vtLayer => vtLayer.name)
+
 const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
   floodDefences: '/assets/images/flood-defence.svg',
@@ -507,6 +509,24 @@ getDefraMapConfig().then((defraMapConfig) => {
     await addLayers()
     initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
+
+    floodMap.view.on('pointer-move', e => {
+      floodMap.view.hitTest(e).then((response) => {
+        // Get the Ids of layers mouse has moved oved
+        const layerIds = response.results.map(result => result.layer.id)
+        // Check if any of the hits are one of the vtlayers
+        const vtLayerHit = layerIds.filter(id => vtLayerIds.includes(id))
+        // If hit then change mouse to pointer
+        if (vtLayerHit.length > 0) {
+          document.body.style.cursor = 'pointer'
+        } else {
+          document.body.style.cursor = 'default'
+        }
+      })
+    })
+    floodMap.view.on('pointer-leave', _e => {
+      document.body.style.cursor = 'default'
+    })
   })
 
   // Listen for mode, segments, layers or style changes
