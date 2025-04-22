@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 
-  {% block pageTitle %}
-Flood map for planning - GOV.UK
-{% endblock %}
+{% set pageTitle = 'Get flood risk information for planning in England' %}
 
 {% block content %}
 {{ super() }}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>
+    <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
     <p class="govuk-body">
       Use this service to get flood risk information for planning applications (also known as

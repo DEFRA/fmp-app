@@ -23,7 +23,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=1"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -101,7 +101,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -127,7 +127,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -186,10 +186,10 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
+      Beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+      This is a new service. Help us improve it and <a class="govuk-link" href="/feedback">give your feedback</a>.
     </span>
   </p>
 </div>
@@ -436,7 +436,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;zoneNumber=3"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -514,7 +514,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -540,7 +540,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -599,10 +599,10 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
+      Beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+      This is a new service. Help us improve it and <a class="govuk-link" href="/feedback">give your feedback</a>.
     </span>
   </p>
 </div>

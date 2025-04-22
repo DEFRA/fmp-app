@@ -1,8 +1,6 @@
 {% extends 'layout.html' %}
-{% set pageHeading = 'Find the location' %}
-{% block pageTitle %}
-  {% if errorSummary.length > 0 %}Error: {% endif %}{{ pageHeading }} - Flood map for planning - GOV.UK
-{% endblock %}
+{% set pageTitle = 'Find the location' %}
+
 {% block content %}
   {{ super() }}
 
@@ -106,7 +104,7 @@
           name: "findby",
           fieldset: {
             legend: {
-              text: pageHeading,
+              text: pageTitle,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--xl"
             }

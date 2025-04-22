@@ -6,7 +6,7 @@ exports[`how to use rivers and sea data route should match snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-How to use rivers and sea data - Flood map for planning - GOV.UK
+  How to use rivers and sea data - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -23,7 +23,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/how-to-use-rivers-and-sea-data"/>
-  <meta property="og:title" content="Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="How to use rivers and sea data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -101,7 +101,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -127,7 +127,7 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
     
       
       <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide this message
+        Hide cookie message
       </button>
     
     </div>
@@ -186,10 +186,10 @@ How to use rivers and sea data - Flood map for planning - GOV.UK
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
+      Beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="/feedback">feedback</a> will help us to improve it.
+      This is a new service. Help us improve it and <a class="govuk-link" href="/feedback">give your feedback</a>.
     </span>
   </p>
 </div>
