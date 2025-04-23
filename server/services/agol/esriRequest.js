@@ -3,14 +3,14 @@ const { queryFeatures } = require('@esri/arcgis-rest-feature-service')
 const { getEsriToken } = require('./getEsriToken')
 const { esriStatusCodes } = require('../../constants')
 
-const esriRequest = async (endPoint, geometry, geometryType) => {
+const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'false') => {
   const { token } = await getEsriToken()
   const requestObject = {
     url: `${config.agol.serviceUrl}${endPoint}`,
     geometry,
     geometryType,
     spatialRel: 'esriSpatialRelIntersects',
-    returnGeometry: 'false',
+    returnGeometry,
     authentication: token,
     outFields: '*'
   }
