@@ -37,7 +37,7 @@ const getCustomerTeam = (options) => {
           }))
       }
       const { attributes } = esriResult[0]
-      console.log('\ncustomerTeam Results ', esriResult)
+      // console.log('\ncustomerTeam Results ', esriResult)
       return Object.assign(response, {
         EmailAddress: attributes.contact_email,
         AreaName: attributes.area_name_1, // This will change back to area_name once Paul fixes the data.
