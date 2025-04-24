@@ -67,7 +67,7 @@ describe('esriRequestByIntersectArea', () => {
   })
 
   it('should call queryFeatures with the expected object', async () => {
-    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single reult is returned
+    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single result is returned
     queryFeatureSpy.expectParameters(expectedParameters)
     const response = await esriRequestByIntersectArea('/endpoint', geometry, 'esriGeometryPolygon')
     expect(response).toEqual('QUERY_FEATURES_RESPONSE')
