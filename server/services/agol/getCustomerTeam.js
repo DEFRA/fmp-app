@@ -13,7 +13,7 @@ const getCustomerTeam = (options) => {
 
   return esriRequestByIntersectArea(config.agol.customerTeamEndPoint, options.geometry, options.geometryType)
     .then((esriResult) => {
-    // Note This request WILL NOT return data for areas that are outside of England
+      // Note This request WILL NOT return data for areas that are outside of England
       if (!esriResult || !Array.isArray(esriResult)) {
         console.log(errorMessage, 'response was', esriResult)
         throw new Error(errorMessage)
