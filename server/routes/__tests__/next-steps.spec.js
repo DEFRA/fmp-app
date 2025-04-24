@@ -18,6 +18,7 @@ describe('next-steps on internal', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertOrderFloodRiskDataButton(true)
+    expect(response.result).toMatchSnapshot()
   })
 })
 
@@ -28,5 +29,6 @@ describe('next-steps on public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertOrderFloodRiskDataButton(false)
+    expect(response.result).toMatchSnapshot()
   })
 })
