@@ -2,6 +2,7 @@ const { esriRequest, esriRequestByIntersectArea } = require('../esriRequest')
 const { queryFeatureSpy, assertQueryFeatureCalls } = require('@esri/arcgis-rest-feature-service')
 const { _resetToken } = require('@esri/arcgis-rest-request')
 const gainsboroughCustomerQueryResults = require('./__data__/gainsboroughCustomerQueryResults.json')
+const misformedCustomerQueryResults = require('./__data__/misformedCustomerQueryResults.json')
 
 const geometry = {
   rings: [[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]],
@@ -56,6 +57,10 @@ describe('esriRequest', () => {
 })
 
 describe('esriRequestByIntersectArea', () => {
+  const gainsboroughGeometry = {
+    rings: [[[481414, 391579], [483358, 391583], [483347, 390644], [481418, 390637], [481414, 391579]]],
+    spatialReference: { wkid: 27700 }
+  }
   beforeEach(() => {
     queryFeatureSpy.reset()
     _resetToken()
@@ -71,26 +76,30 @@ describe('esriRequestByIntersectArea', () => {
 
   it('should call queryFeatures twice when the results are an array with length > 1', async () => {
     // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single reult is returned
-    const gainsboroughGeometry = {
-      rings: [[
-        [481414, 391579],
-        [483358, 391583],
-        [483347, 390644],
-        [481418, 390637],
-        [481414, 391579]
-      ]],
-      spatialReference: { wkid: 27700 }
-    }
     queryFeatureSpy.setMockResponse(gainsboroughCustomerQueryResults)
     queryFeatureSpy.expectParameters([
       { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'false' },
       { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'true' }
     ])
     const response = await esriRequestByIntersectArea('/endpoint', gainsboroughGeometry, 'esriGeometryPolygon')
-    console.log(response)
     expect(response).toEqual([
       { ...gainsboroughCustomerQueryResults[1], area: 1672930043496160 },
       { ...gainsboroughCustomerQueryResults[0], area: 583132364260349.9 }
+    ])
+    assertQueryFeatureCalls(2)
+  })
+
+  it('should cope with invalid data', async () => {
+    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single reult is returned
+    queryFeatureSpy.setMockResponse(misformedCustomerQueryResults)
+    queryFeatureSpy.expectParameters([
+      { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'false' },
+      { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'true' }
+    ])
+    const response = await esriRequestByIntersectArea('/endpoint', gainsboroughGeometry, 'esriGeometryPolygon')
+    expect(response).toEqual([
+      { ...misformedCustomerQueryResults[0], area: 0 },
+      { ...misformedCustomerQueryResults[1], area: 0 }
     ])
     assertQueryFeatureCalls(2)
   })
