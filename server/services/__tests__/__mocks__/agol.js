@@ -2,15 +2,17 @@ const agol = require('../../agol')
 jest.mock('../../../services/agol')
 
 const mockEsriRequest = (result = [{}]) => {
-  agol.esriRequest.mockImplementation(async () => {
-    return result
-  })
+  const mockImplementation = async () => result
+  agol.esriRequestByIntersectArea.mockImplementation(mockImplementation)
+  agol.esriRequest.mockImplementation(mockImplementation)
 }
 
 const mockEsriRequestWithThrow = () => {
-  agol.esriRequest.mockImplementation(async () => {
+  const mockImplementation = async () => {
     throw new Error('mocked error')
-  })
+  }
+  agol.esriRequestByIntersectArea.mockImplementation(mockImplementation)
+  agol.esriRequest.mockImplementation(mockImplementation)
 }
 
 const stopMockingEsriRequests = () => {

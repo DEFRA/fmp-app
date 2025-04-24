@@ -1,12 +1,15 @@
 let expectedParameters
 let queryFeaturesCallCount = 0
+let queryFeatureResponse = 'QUERY_FEATURES_RESPONSE'
 
 const queryFeatureSpy = {
   reset: () => {
     expectedParameters = undefined
     queryFeaturesCallCount = 0
+    queryFeatureResponse = 'QUERY_FEATURES_RESPONSE'
   },
   expectParameters: (params) => { expectedParameters = params },
+  setMockResponse: (response) => { queryFeatureResponse = response },
   throwOnce: false,
   throwUnexpected: false
 }
@@ -27,10 +30,11 @@ const queryFeatures = async (requestObject) => {
     throw (new Error('unexpected ERROR'))
   }
   if (expectedParameters) {
-    expect(requestObject).toEqual(expectedParameters)
+    const expectedParams = Array.isArray(expectedParameters) ? expectedParameters[queryFeaturesCallCount - 1] : expectedParameters
+    expect(requestObject).toEqual(expectedParams)
   }
   return {
-    features: 'QUERY_FEATURES_RESPONSE'
+    features: queryFeatureResponse
   }
 }
 

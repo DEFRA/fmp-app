@@ -1,5 +1,5 @@
 const { config } = require('../../../config')
-const { esriRequest } = require('./')
+const { esriRequestByIntersectArea } = require('./')
 
 const errorMessage = 'Invalid response from AGOL customerTeam request'
 
@@ -10,16 +10,16 @@ const getCustomerTeam = (options) => {
     AreaName: '',
     useAutomatedService: false
   }
-  return esriRequest(config.agol.customerTeamEndPoint, options.geometry, options.geometryType)
+
+  return esriRequestByIntersectArea(config.agol.customerTeamEndPoint, options.geometry, options.geometryType)
     .then((esriResult) => {
-    // Note This request WILL NOT return data for areas that are outside of England
+      // Note This request WILL NOT return data for areas that are outside of England
       if (!esriResult || !Array.isArray(esriResult)) {
         console.log(errorMessage, 'response was', esriResult)
         throw new Error(errorMessage)
       }
       response.isEngland = esriResult.length > 0
       const { attributes } = esriResult[0]
-      // console.log('\ncustomerTeam Results ', esriResult)
       return Object.assign(response, {
         EmailAddress: attributes.contact_email,
         AreaName: attributes.area_name_1, // This will change back to area_name once Paul fixes the data.
