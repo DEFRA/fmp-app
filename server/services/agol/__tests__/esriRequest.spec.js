@@ -75,7 +75,7 @@ describe('esriRequestByIntersectArea', () => {
   })
 
   it('should call queryFeatures twice when the results are an array with length > 1', async () => {
-    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single reult is returned
+    // test that esriRequestByIntersectArea functions sorts the data when a larger intersection is 2nd
     queryFeatureSpy.setMockResponse(gainsboroughCustomerQueryResults)
     queryFeatureSpy.expectParameters([
       { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'false' },
@@ -90,7 +90,9 @@ describe('esriRequestByIntersectArea', () => {
   })
 
   it('should cope with invalid data', async () => {
-    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single reult is returned
+    // test that esriRequestByIntersectArea works when the data is not suitable for the turf library
+    // - this is an edge case, but ensures that the service works as before if any errors occur in the
+    // area sort code
     queryFeatureSpy.setMockResponse(misformedCustomerQueryResults)
     queryFeatureSpy.expectParameters([
       { ...expectedParameters, geometry: gainsboroughGeometry, returnGeometry: 'false' },
