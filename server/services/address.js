@@ -30,6 +30,7 @@ module.exports = {
     if (!response?.data?.results || response?.data?.results?.length === 0) {
       return []
     }
+    const placeRegEx = new RegExp(`^${place}.*`, 'i')
     const gazetteerEntries = response.data.results
       .map(function (item) {
         const {
@@ -64,12 +65,8 @@ module.exports = {
           exact: (NAME1 || '').toLowerCase() === place.toLowerCase() ? 1 : 0
         }
       })
-      .filter((value) => {
-        if (value.isPostCode) {
-          return value.locationDetails.replaceAll(' ', '').toLowerCase().startsWith(place.replaceAll(' ', '').toLowerCase())
-        }
-        return Boolean(value.locationDetails)
-      }).sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
+      .filter((value) => Boolean(value.locationDetails) && (!value.isPostCode || value.locationDetails.match(placeRegEx)))
+      .sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
     return gazetteerEntries
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
