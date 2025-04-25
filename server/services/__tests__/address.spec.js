@@ -4,6 +4,7 @@ const axios = require('axios')
 jest.mock('axios')
 
 const osAddressData = require('./__data__/addresses.json')
+const postcodeAddresses = require('./__data__/postcodeAddresses.json')
 const addressData = [
   {
     geometry_x: 425048,
@@ -72,5 +73,49 @@ describe('address', () => {
     })
     const postcode = await getPostcodeFromEastingorNorthing(360799, 388244)
     expect(postcode).toEqual('WA1 2NN')
+  })
+
+  it('getPostcodeFromEastingorNorthing should return an empty string if the request fails', async () => {
+    axios.get.mockImplementationOnce(() => { throw new Error('some error') })
+    const postcode = await getPostcodeFromEastingorNorthing(360799, 388244)
+    expect(postcode).toEqual('')
+  })
+
+  it('findByPlace should return 1st match of start of string when a partial postcode is searched', async () => {
+    axios.get.mockResolvedValue({ data: { results: postcodeAddresses } })
+    const places = await findByPlace('BA11 1')
+    const expectedFirstResult = {
+      exact: 0,
+      geometry_x: 377670,
+      geometry_y: 148099,
+      isPostCode: true,
+      locationDetails: 'BA11 1AB, Frome, Somerset, South West, England'
+    }
+    expect(places[0]).toEqual(expectedFirstResult)
+  })
+
+  it('findByPlace should return 1st exact match of start of string when a full postcode is searched', async () => {
+    axios.get.mockResolvedValue({ data: { results: postcodeAddresses } })
+    const places = await findByPlace('BA11 1AF')
+    const expectedFirstResult = {
+      exact: 1,
+      geometry_x: 377638,
+      geometry_y: 148059,
+      isPostCode: true,
+      locationDetails: 'BA11 1AF, Frome, Somerset, South West, England'
+    }
+    expect(places[0]).toEqual(expectedFirstResult)
+  })
+
+  it('findByPlace should not return any results when a non matching full postcode is searched', async () => {
+    axios.get.mockResolvedValue({ data: { results: postcodeAddresses } })
+    const places = await findByPlace('BT11 1AF')
+    expect(places).toEqual([])
+  })
+
+  it('findByPlace should not return any results when a non matching partial postcode is searched', async () => {
+    axios.get.mockResolvedValue({ data: { results: postcodeAddresses } })
+    const places = await findByPlace('BT11')
+    expect(places).toEqual([])
   })
 })

@@ -57,14 +57,19 @@ module.exports = {
           .join(', ') // Remove duplicate entries
 
         return {
-          geometry_x: item.GAZETTEER_ENTRY.GEOMETRY_X,
-          geometry_y: item.GAZETTEER_ENTRY.GEOMETRY_Y,
+          geometry_x: item.GAZETTEER_ENTRY?.GEOMETRY_X,
+          geometry_y: item.GAZETTEER_ENTRY?.GEOMETRY_Y,
           locationDetails,
           isPostCode: LOCAL_TYPE === 'Postcode',
           exact: (NAME1 || '').toLowerCase() === place.toLowerCase() ? 1 : 0
         }
       })
-      .sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
+      .filter((value) => {
+        if (value.isPostCode) {
+          return value.locationDetails.replaceAll(' ', '').toLowerCase().startsWith(place.replaceAll(' ', '').toLowerCase())
+        }
+        return Boolean(value.locationDetails)
+      }).sort((a, b) => b.exact - a.exact) // Sort so that exact matches come first, solves the chester returning chester-le-street issue
     return gazetteerEntries
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
