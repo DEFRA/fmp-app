@@ -1,5 +1,8 @@
 let expectedParameters
 let refreshTokenCallCount = 0
+const defaultReponse = { layers: [{ id: 0, count: 0 }, { id: 1, count: 0 }, { id: 2, count: 0 }] }
+let requestReponse = defaultReponse
+let queryFeaturesCallCount = 0
 
 const refreshToken = async () => {
   refreshTokenCallCount++
@@ -25,13 +28,23 @@ const ApplicationCredentialsManager = {
   fromCredentials: () => (response)
 }
 
+const assertRequestCalls = (expectedCallCount) => {
+  expect(queryFeaturesCallCount).toEqual(expectedCallCount)
+}
+
 const requestSpy = {
   expectParameters: (params) => { expectedParameters = params },
+  setMockResponse: (response) => { requestReponse = response },
+  reset: () => {
+    requestReponse = defaultReponse
+    queryFeaturesCallCount = 0
+  },
   throwOnce: false,
   throwUnexpected: false
 }
 
 const request = async (url, requestObject) => {
+  queryFeaturesCallCount++
   if (requestSpy.throwOnce) {
     requestSpy.throwOnce = false
     /* eslint-disable no-throw-literal */
@@ -43,23 +56,11 @@ const request = async (url, requestObject) => {
   }
 
   if (expectedParameters) {
-    expect(url).toEqual(expectedParameters.url)
-    expect(requestObject).toEqual(expectedParameters.requestObject)
+    const expectedParams = Array.isArray(expectedParameters) ? expectedParameters[queryFeaturesCallCount - 1] : expectedParameters
+    expect(url).toEqual(expectedParams.url)
+    expect(requestObject).toEqual(expectedParams.requestObject)
   }
-  return {
-    layers: [
-      {
-        id: 0,
-        count: 0
-      }, {
-        id: 1,
-        count: 0
-      }, {
-        id: 2,
-        count: 0
-      }
-    ]
-  }
+  return requestReponse
 }
 
 module.exports = {
@@ -68,5 +69,6 @@ module.exports = {
   _resetToken,
   request,
   requestSpy,
+  assertRequestCalls,
   getRefreshTokenCallCount
 }

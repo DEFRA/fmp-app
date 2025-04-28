@@ -7,7 +7,7 @@ const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
   const requestObject = {
-    httpMethod: 'GET',
+    httpMethod: 'POST',
     authentication: token,
     params: {
       layerDefs,

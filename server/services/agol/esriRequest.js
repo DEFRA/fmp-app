@@ -1,23 +1,26 @@
 const { config } = require('../../../config')
-const { queryFeatures } = require('@esri/arcgis-rest-feature-service')
+const { request } = require('@esri/arcgis-rest-request')
 const { getEsriToken } = require('./getEsriToken')
 const { esriStatusCodes } = require('../../constants')
 const turf = require('@turf/turf')
 
 const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'false') => {
   const { token } = await getEsriToken()
+  const url = `${config.agol.serviceUrl}${endPoint}/query`
   const requestObject = {
-    url: `${config.agol.serviceUrl}${endPoint}`,
-    geometry,
-    geometryType,
-    spatialRel: 'esriSpatialRelIntersects',
-    returnGeometry,
+    httpMethod: 'POST',
     authentication: token,
-    outFields: '*'
+    params: {
+      geometry,
+      geometryType,
+      spatialRel: 'esriSpatialRelIntersects',
+      returnGeometry,
+      outFields: '*'
+    }
   }
 
   try {
-    return (await queryFeatures(requestObject)).features
+    return (await request(url, requestObject)).features
   } catch (error) {
     if (error?.response?.error?.code !== esriStatusCodes.INVALID_TOKEN_CODE) {
       throw error
@@ -25,7 +28,7 @@ const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'f
     // If the token is invalidated, try one more time with a refrehed token before throwing
     const { token: newToken } = await getEsriToken(true) // true implies forceRefresh
     requestObject.authentication = newToken
-    return (await queryFeatures(requestObject)).features
+    return (await request(url, requestObject)).features
   }
 }
 

@@ -37,7 +37,7 @@ describe('esriRestRequest', () => {
   const expectedParameters = {
     url: `${config.agol.serviceUrl}/endpoint/query`,
     requestObject: {
-      httpMethod: 'GET',
+      httpMethod: 'POST',
       authentication: 'TEST_TOKEN',
       params
     }
@@ -52,7 +52,7 @@ describe('esriRestRequest', () => {
   it('should retry with a refreshed token after an invalid token response', async () => {
     requestSpy.throwOnce = true
     requestSpy.expectParameters(Object.assign({}, expectedParameters, {
-      requestObject: { httpMethod: 'GET', authentication: 'REFRESHED_TOKEN', params }
+      requestObject: { httpMethod: 'POST', authentication: 'REFRESHED_TOKEN', params }
     }))
     const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
     expect(response).toEqual(expectedResponse)
