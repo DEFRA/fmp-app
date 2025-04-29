@@ -1,4 +1,4 @@
-const { esriRequest, esriRequestByIntersectArea } = require('../esriRequest')
+const { esriFeatureRequest, esriRequestByIntersectArea } = require('../esriRequest')
 const { _resetToken, requestSpy, assertRequestCalls } = require('@esri/arcgis-rest-request')
 const gainsboroughCustomerQueryResults = require('./__data__/gainsboroughCustomerQueryResults.json')
 const misformedCustomerQueryResults = require('./__data__/misformedCustomerQueryResults.json')
@@ -25,20 +25,20 @@ const expectedParameters = {
   }
 }
 
-describe('esriRequest', () => {
+describe('esriFeatureRequest', () => {
   beforeEach(() => {
     requestSpy.reset()
     requestSpy.setMockResponse({ features: 'QUERY_FEATURES_RESPONSE' })
   })
 
   it('should respond with the mocked object', async () => {
-    const response = await esriRequest('/endpoint', geometry, 'esriGeometryPolygon')
+    const response = await esriFeatureRequest('/endpoint', geometry, 'esriGeometryPolygon')
     expect(response).toEqual('QUERY_FEATURES_RESPONSE')
   })
 
   it('should call arcgis-rest-request with the expected object', async () => {
     requestSpy.expectParameters(expectedParameters)
-    const response = await esriRequest('/endpoint', geometry, 'esriGeometryPolygon')
+    const response = await esriFeatureRequest('/endpoint', geometry, 'esriGeometryPolygon')
     expect(response).toEqual('QUERY_FEATURES_RESPONSE')
     assertRequestCalls(1)
   })
@@ -53,7 +53,7 @@ describe('esriRequest', () => {
       }
     })
 
-    const response = await esriRequest('/endpoint', geometry, 'esriGeometryPolygon')
+    const response = await esriFeatureRequest('/endpoint', geometry, 'esriGeometryPolygon')
     expect(response).toEqual('QUERY_FEATURES_RESPONSE')
     assertRequestCalls(2)
   })
@@ -61,7 +61,7 @@ describe('esriRequest', () => {
   it('should throw error other than invalid token response', async () => {
     requestSpy.throwUnexpected = true
     try {
-      const response = await esriRequest('/endpoint', geometry, 'esriGeometryPolygon')
+      const response = await esriFeatureRequest('/endpoint', geometry, 'esriGeometryPolygon')
       expect(response).toEqual('THIS LINE SHOULD NOT BE REACHED')
     } catch (error) {
       expect(error).toEqual(new Error('unexpected ERROR'))
@@ -82,7 +82,7 @@ describe('esriRequestByIntersectArea', () => {
   })
 
   it('should call queryFeatures with the expected object', async () => {
-    // First test that esriRequestByIntersectArea functions exactly the same as esriRequest when a single result is returned
+    // First test that esriRequestByIntersectArea functions exactly the same as esriFeatureRequest when a single result is returned
     requestSpy.expectParameters(expectedParameters)
     const response = await esriRequestByIntersectArea('/endpoint', geometry, 'esriGeometryPolygon')
     expect(response).toEqual('QUERY_FEATURES_RESPONSE')

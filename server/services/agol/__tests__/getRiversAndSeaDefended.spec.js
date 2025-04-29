@@ -79,7 +79,7 @@ describe('getRiversAndSeaDefended', () => {
     }
   })
 
-  it('getRiversAndSeaDefended should throw if esriRequest throws', async () => {
+  it('getRiversAndSeaDefended should throw if esriFeatureRequest throws', async () => {
     try {
       mockEsriRestRequestWithThrow()
       await getRiversAndSeaDefended({ polygon })

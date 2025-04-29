@@ -90,7 +90,7 @@ describe('getSurfaceWater', () => {
     })
   })
 
-  it('getSurfaceWater should throw if esriRequest throws', async () => {
+  it('getSurfaceWater should throw if esriFeatureRequest throws', async () => {
     try {
       mockEsriRequestWithThrow()
       await getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon })

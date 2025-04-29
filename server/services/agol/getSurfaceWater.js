@@ -1,5 +1,5 @@
 const { config } = require('../../../config')
-const { esriRequest, makePolygonGeometry } = require('.')
+const { esriFeatureRequest, makePolygonGeometry } = require('.')
 
 const riskBandPriority = {
   false: {
@@ -37,7 +37,7 @@ const assignResponse = (response) => {
 }
 
 const getSurfaceWater = async (options) => {
-  return esriRequest(config.agol.surfaceWaterEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  return esriFeatureRequest(config.agol.surfaceWaterEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignResponse(esriResponse))
 }
 
