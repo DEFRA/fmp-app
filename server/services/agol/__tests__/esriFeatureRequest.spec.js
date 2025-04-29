@@ -1,4 +1,4 @@
-const { esriFeatureRequest } = require('../esriRequest')
+const { esriFeatureRequest } = require('../')
 const { requestSpy, assertRequestCalls } = require('@esri/arcgis-rest-request')
 const { geometry, expectedParameters } = require('../__data__/esriRequestParameters')
 

@@ -1,4 +1,5 @@
-const { esriFeatureRequest, esriFeatureRequestByIntersectArea } = require('./esriRequest')
+const { esriFeatureRequest } = require('./esriFeatureRequest')
+const { esriFeatureRequestByIntersectArea } = require('./esriFeatureRequestByIntersectArea')
 const { esriLayerRequest } = require('./esriRestRequest')
 
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })

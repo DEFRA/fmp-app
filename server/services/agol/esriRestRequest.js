@@ -1,38 +1,42 @@
-const { config } = require('../../../config')
-const { request } = require('@esri/arcgis-rest-request')
-const { getEsriToken } = require('./getEsriToken')
-const { esriStatusCodes } = require('../../constants')
+// const { config } = require('../../../config')
+// const { request } = require('@esri/arcgis-rest-request')
+// const { getEsriToken } = require('./getEsriToken')
+// const { esriStatusCodes } = require('../../constants')
 const { esriRequest } = require('./esriRequest')
 
-// HAS layerDefs and returnCountOnly - no outfields
-// returnGeometry is false
 const esriLayerRequest = async (endPoint, geometry, geometryType, layerDefs) => {
-  const { token } = await getEsriToken()
-  const url = `${config.agol.serviceUrl}${endPoint}/query`
-  const requestObject = {
-    httpMethod: 'POST',
-    authentication: token,
-    params: {
-      layerDefs,
-      geometry,
-      geometryType,
-      spatialRel: 'esriSpatialRelIntersects',
-      returnGeometry: 'false',
-      returnCountOnly: 'true'
-    }
-  }
-
-  try {
-    return await request(url, requestObject)
-  } catch (error) {
-    if (error?.response?.error?.code !== esriStatusCodes.INVALID_TOKEN_CODE) {
-      throw error
-    }
-    // If the token is invalidated, try one more time with a refrehed token before throwing
-    const { token: newToken } = await getEsriToken(true) // true implies forceRefresh
-    requestObject.authentication = newToken
-    return request(url, requestObject)
-  }
+  return esriRequest(endPoint, geometry, geometryType, { layerDefs, returnCountOnly: 'true', returnGeometry: 'false' })
 }
+
+// // HAS layerDefs and returnCountOnly - no outfields
+// // returnGeometry is false
+// const esriLayerRequest = async (endPoint, geometry, geometryType, layerDefs) => {
+//   const { token } = await getEsriToken()
+//   const url = `${config.agol.serviceUrl}${endPoint}/query`
+//   const requestObject = {
+//     httpMethod: 'POST',
+//     authentication: token,
+//     params: {
+//       layerDefs,
+//       geometry,
+//       geometryType,
+//       spatialRel: 'esriSpatialRelIntersects',
+//       returnGeometry: 'false',
+//       returnCountOnly: 'true'
+//     }
+//   }
+
+//   try {
+//     return await request(url, requestObject)
+//   } catch (error) {
+//     if (error?.response?.error?.code !== esriStatusCodes.INVALID_TOKEN_CODE) {
+//       throw error
+//     }
+//     // If the token is invalidated, try one more time with a refrehed token before throwing
+//     const { token: newToken } = await getEsriToken(true) // true implies forceRefresh
+//     requestObject.authentication = newToken
+//     return request(url, requestObject)
+//   }
+// }
 
 module.exports = { esriLayerRequest }
