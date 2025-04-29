@@ -6,20 +6,17 @@ const turf = require('@turf/turf')
 
 // Has outFields, no layerDefs and returnCountOnly
 // returnGeometry is true OR false
-const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'false') => {
+const esriRequest = async (endPoint, geometry, geometryType, optionalParams = {}) => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
-  const requestObject = {
-    httpMethod: 'POST',
-    authentication: token,
-    params: {
-      geometry,
-      geometryType,
-      spatialRel: 'esriSpatialRelIntersects',
-      returnGeometry,
-      outFields: '*'
-    }
+  const params = {
+    ...optionalParams,
+    geometry,
+    geometryType,
+    spatialRel: 'esriSpatialRelIntersects'
   }
+
+  const requestObject = { httpMethod: 'POST', authentication: token, params }
 
   try {
     return (await request(url, requestObject)).features
@@ -34,8 +31,12 @@ const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'f
   }
 }
 
-const esriFeatureRequest = async (endPoint, geometry, geometryType, returnGeometry = 'false') => {
-  return esriRequest(endPoint, geometry, geometryType, returnGeometry)
+const esriFeatureRequest = async (endPoint, geometry, geometryType, optionalParams = { returnGeometry: 'false' }) => {
+  const params = {
+    ...optionalParams,
+    outFields: '*'
+  }
+  return esriRequest(endPoint, geometry, geometryType, params)
 }
 
 const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryType) => {
@@ -43,7 +44,7 @@ const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryTyp
   if (Array.isArray(response) && response?.length > 1) {
     // FCRM-5361 - If more than 1 result found, re-request with geometry and sort by intersecting area size
     const turfPolygon = turf.polygon(geometry.rings)
-    return esriFeatureRequest(endPoint, geometry, geometryType, 'true')
+    return esriFeatureRequest(endPoint, geometry, geometryType, { returnGeometry: 'true' })
       .then((esriResult) => esriResult.map((result) => {
         try {
           const areaPolygon = turf.polygon(result.geometry.rings)
