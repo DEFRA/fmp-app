@@ -2,28 +2,7 @@ const { esriFeatureRequestByIntersectArea } = require('../esriRequest')
 const { _resetToken, requestSpy, assertRequestCalls } = require('@esri/arcgis-rest-request')
 const gainsboroughCustomerQueryResults = require('../__data__/gainsboroughCustomerQueryResults.json')
 const misformedCustomerQueryResults = require('../__data__/misformedCustomerQueryResults.json')
-
-const geometry = {
-  rings: [[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]],
-  spatialReference: { wkid: 27700 }
-}
-
-const params = {
-  geometry,
-  geometryType: 'esriGeometryPolygon',
-  spatialRel: 'esriSpatialRelIntersects',
-  returnGeometry: 'false',
-  outFields: '*'
-}
-
-const expectedParameters = {
-  url: 'https://services1.arcgis.com/DUMMY_SERVICE_ID/arcgis/rest/services/endpoint/query',
-  requestObject: {
-    httpMethod: 'POST',
-    authentication: 'TEST_TOKEN',
-    params
-  }
-}
+const { geometry, params, expectedParameters } = require('../__data__/esriRequestParameters')
 
 describe('esriFeatureRequestByIntersectArea', () => {
   const gainsboroughGeometry = {
