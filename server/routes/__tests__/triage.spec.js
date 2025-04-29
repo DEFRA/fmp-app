@@ -76,7 +76,7 @@ describe('Triage Page', () => {
         triageOptions: ''
       }
     }
-    await submitPostRequestExpectHandledError(options, 'Please select an option to continue')
+    await submitPostRequestExpectHandledError(options, 'Choose the flood information you need to continue')
   })
 
   it('Should display error message if missing payload value', async () => {
@@ -84,6 +84,6 @@ describe('Triage Page', () => {
       url,
       payload: {}
     }
-    await submitPostRequestExpectHandledError(options, 'Please select an option to continue')
+    await submitPostRequestExpectHandledError(options, 'Choose the flood information you need to continue')
   })
 })
