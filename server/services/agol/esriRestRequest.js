@@ -2,8 +2,10 @@ const { config } = require('../../../config')
 const { request } = require('@esri/arcgis-rest-request')
 const { getEsriToken } = require('./getEsriToken')
 const { esriStatusCodes } = require('../../constants')
+const { esriRequest } = require('./esriRequest')
 
 // HAS layerDefs and returnCountOnly - no outfields
+// returnGeometry is false
 const esriLayerRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`

@@ -4,7 +4,8 @@ const { getEsriToken } = require('./getEsriToken')
 const { esriStatusCodes } = require('../../constants')
 const turf = require('@turf/turf')
 
-// Has outFields
+// Has outFields, no layerDefs and returnCountOnly
+// returnGeometry is true OR false
 const esriRequest = async (endPoint, geometry, geometryType, returnGeometry = 'false') => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
@@ -37,7 +38,7 @@ const esriFeatureRequest = async (endPoint, geometry, geometryType, returnGeomet
   return esriRequest(endPoint, geometry, geometryType, returnGeometry)
 }
 
-const esriRequestByIntersectArea = async (endPoint, geometry, geometryType) => {
+const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryType) => {
   const response = await esriFeatureRequest(endPoint, geometry, geometryType)
   if (Array.isArray(response) && response?.length > 1) {
     // FCRM-5361 - If more than 1 result found, re-request with geometry and sort by intersecting area size
@@ -58,4 +59,4 @@ const esriRequestByIntersectArea = async (endPoint, geometry, geometryType) => {
   return response
 }
 
-module.exports = { esriRequest, esriFeatureRequest, esriRequestByIntersectArea }
+module.exports = { esriRequest, esriFeatureRequest, esriFeatureRequestByIntersectArea }
