@@ -4,7 +4,7 @@ const { getEsriToken } = require('./getEsriToken')
 const { esriStatusCodes } = require('../../constants')
 
 // HAS layerDefs and returnCountOnly - no outfields
-const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
+const esriLayerRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
   const requestObject = {
@@ -33,4 +33,4 @@ const esriRestRequest = async (endPoint, geometry, geometryType, layerDefs) => {
   }
 }
 
-module.exports = { esriRestRequest }
+module.exports = { esriLayerRequest }

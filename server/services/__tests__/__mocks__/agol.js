@@ -20,13 +20,13 @@ const stopMockingEsriRequests = () => {
 }
 
 const mockEsriRestRequest = (result = [{}]) => {
-  agol.esriRestRequest.mockImplementation(async () => {
+  agol.esriLayerRequest.mockImplementation(async () => {
     return result
   })
 }
 
 const mockEsriRestRequestWithThrow = () => {
-  agol.esriRestRequest.mockImplementation(async () => {
+  agol.esriLayerRequest.mockImplementation(async () => {
     throw new Error('mocked error')
   })
 }

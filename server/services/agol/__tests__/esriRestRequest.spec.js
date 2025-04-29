@@ -1,4 +1,4 @@
-const { esriRestRequest } = require('../esriRestRequest')
+const { esriLayerRequest } = require('../esriRestRequest')
 const { requestSpy } = require('@esri/arcgis-rest-request')
 const { config } = require('../../../../config')
 
@@ -24,7 +24,7 @@ const expectedResponse = {
   ]
 }
 
-describe('esriRestRequest', () => {
+describe('esriLayerRequest', () => {
   const params = {
     layerDefs,
     geometry,
@@ -43,9 +43,9 @@ describe('esriRestRequest', () => {
     }
   }
 
-  it('should call esriRestRequest with the expected object and return mocked object', async () => {
+  it('should call esriLayerRequest with the expected object and return mocked object', async () => {
     requestSpy.expectParameters(expectedParameters)
-    const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
+    const response = await esriLayerRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
     expect(response).toEqual(expectedResponse)
   })
 
@@ -54,14 +54,14 @@ describe('esriRestRequest', () => {
     requestSpy.expectParameters(Object.assign({}, expectedParameters, {
       requestObject: { httpMethod: 'POST', authentication: 'REFRESHED_TOKEN', params }
     }))
-    const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
+    const response = await esriLayerRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
     expect(response).toEqual(expectedResponse)
   })
 
   it('should throw error other than invalid token response', async () => {
     requestSpy.throwUnexpected = true
     try {
-      const response = await esriRestRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
+      const response = await esriLayerRequest('/endpoint', geometry, 'esriGeometryPolygon', layerDefs)
       expect(response).toEqual('THIS LINE SHOULD NOT BE REACHED')
     } catch (error) {
       expect(error).toEqual(new Error('unexpected ERROR'))

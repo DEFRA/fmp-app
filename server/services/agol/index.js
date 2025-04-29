@@ -1,5 +1,5 @@
 const { esriFeatureRequest, esriRequestByIntersectArea } = require('./esriRequest')
-const { esriRestRequest } = require('./esriRestRequest')
+const { esriLayerRequest } = require('./esriRestRequest')
 
 const makePointGeometry = (x, y) => ({ x, y, spatialReference: { wkid: 27700 } })
 
@@ -14,7 +14,7 @@ const makePolygonGeometry = (polygon) => {
 module.exports = {
   esriFeatureRequest,
   esriRequestByIntersectArea,
-  esriRestRequest,
+  esriLayerRequest,
   makePointGeometry,
   makePolygonGeometry
 }
