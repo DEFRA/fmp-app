@@ -1,11 +1,7 @@
 const { esriLayerRequest } = require('../esriRestRequest')
 const { requestSpy } = require('@esri/arcgis-rest-request')
 const { config } = require('../../../../config')
-
-const geometry = {
-  rings: [[[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]]],
-  spatialReference: { wkid: 27700 }
-}
+const { geometry } = require('../__data__/esriRequestParameters')
 
 const layerDefs = { 0: '', 1: '', 2: '' }
 
