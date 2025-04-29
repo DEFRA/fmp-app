@@ -5,7 +5,7 @@ const { esriStatusCodes } = require('../../constants')
 
 // Has outFields, no layerDefs and returnCountOnly
 // returnGeometry is true OR false
-const esriRequest = async (endPoint, geometry, geometryType, optionalParams = {}) => {
+const esriRequest = async (endPoint, geometry, geometryType, optionalParams) => {
   const { token } = await getEsriToken()
   const url = `${config.agol.serviceUrl}${endPoint}/query`
   const params = {
