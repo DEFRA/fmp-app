@@ -24,7 +24,7 @@ const esriRequest = async (endPoint, geometry, geometryType, optionalParams) => 
     // If the token is invalidated, try one more time with a refrehed token before throwing
     const { token: newToken } = await getEsriToken(true) // true implies forceRefresh
     requestObject.authentication = newToken
-    return await request(url, requestObject)
+    return request(url, requestObject)
   }
 }
 
