@@ -18,7 +18,7 @@ const validatePayload = payload => {
   const redirectTo = constants.triageRoutes[payload.triageOptions]
   if (!redirectTo) {
     errorSummary.push({
-      text: 'Please select an option to continue',
+      text: 'Choose the flood information you need to continue',
       href: '#location'
     })
   }
