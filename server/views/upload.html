@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% from "fieldset/macro.njk" import govukFieldset %}
+{% from "file-upload/macro.njk" import govukFileUpload %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+
+{% set pageTitle = 'Upload a boundary' %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form autocomplete="off" id='upload-form' method="post" action="/upload" novalidate enctype="multipart/form-data">
+      {% if errorSummary.length > 0 %}
+      {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        })
+      }}
+    {% endif %}
+      {{ govukFieldset({
+        legend: {
+          text: pageTitle,
+          classes: "govuk-fieldset__legend--xl",
+          isPageHeading: true
+        }
+      }) }}
+      {{ govukFileUpload({
+        id: "boundary",
+        name: "boundary",
+        hint: {
+          text: "GeoJSON (.geojson), Geopackage (.gpkg) or Shape files (.zip) - max size 50MB - EPSG:27700"
+        },
+        errorMessage: findErrorMessageById(errorSummary, "boundary")
+      }) }}
+
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
+  </div>
+</div>
+
+{% endblock %}
