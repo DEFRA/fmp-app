@@ -7,7 +7,7 @@ USER root
 # set -xe : -e abort on error : -x verbose output
 RUN set -xe \
   && apt-get update && apt-get upgrade \
-  && mkdir -p /home/node/app \
+  && mkdir -p /home/node/app
 
 # Create app directory
 WORKDIR /home/node/app
@@ -25,7 +25,7 @@ COPY --chown=root:root ./babel.config.json ./babel.config.json
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
-RUN echo -e "module.exports = { version: '$BUILD_VERSION', revision: '$GIT_COMMIT' }" > ./version.js
+RUN echo "module.exports = { version: '$BUILD_VERSION', revision: '$GIT_COMMIT' }" > ./version.js
 
 FROM base AS development 
 
