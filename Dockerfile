@@ -1,6 +1,4 @@
-ARG PARENT_VERSION=2.2.2-node20.11.1
-
-FROM defradigital/node:${PARENT_VERSION} AS base
+FROM node:20-slim AS base
 ARG PORT=3000
 ENV PORT=${PORT}
 
@@ -8,10 +6,8 @@ USER root
 
 # set -xe : -e abort on error : -x verbose output
 RUN set -xe \
-  && apk update && apk upgrade \
-  && rm -rf /var/cache/apk/* \
+  && apt-get update && apt-get upgrade \
   && mkdir -p /home/node/app \
-  && apk add libc6-compat
 
 # Create app directory
 WORKDIR /home/node/app
