@@ -10,7 +10,8 @@ USER root
 RUN set -xe \
   && apk update && apk upgrade \
   && rm -rf /var/cache/apk/* \
-  && mkdir -p /home/node/app
+  && mkdir -p /home/node/app \
+  && apk add libc6-compat
 
 # Create app directory
 WORKDIR /home/node/app
