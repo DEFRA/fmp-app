@@ -6,7 +6,7 @@ USER root
 
 # set -xe : -e abort on error : -x verbose output
 RUN set -xe \
-  && apt-get update && apt-get upgrade \
+  && apt-get update && apt-get -y upgrade \
   && mkdir -p /home/node/app
 
 # Create app directory

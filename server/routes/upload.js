@@ -6,6 +6,7 @@ const path = require('path')
 const os = require('os')
 const proj4 = require('proj4')
 const constants = require('../constants')
+const fiftyMbInBytes = 50 * 1024 * 1024
 
 // Initialise EPSG:27700 projection for proj4
 const OSTN15Buffer = fsSync.readFileSync('OSTN15_NTv2_OSGBtoETRS.gsb').buffer
@@ -72,7 +73,7 @@ const getFile = (request) => {
       }
     })
     form.on('error', (err) => {
-      reject(err)
+      reject(new Error(err))
     })
     form.parse(request.raw.req)
   })
@@ -147,7 +148,7 @@ module.exports = [
     handler: handlers.post,
     options: {
       payload: {
-        maxBytes: 50 * 1024 * 1024, // 50mb
+        maxBytes: fiftyMbInBytes,
         multipart: true,
         output: 'stream',
         parse: false
