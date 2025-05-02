@@ -23,7 +23,6 @@ COPY --chown=root:root ./config ./config
 COPY --chown=root:root ./webpack.config.mjs ./webpack.config.mjs
 COPY --chown=root:root ./babel.config.json ./babel.config.json
 COPY --chown=root:root ./OSTN15_NTv2_OSGBtoETRS.gsb ./OSTN15_NTv2_OSGBtoETRS.gsb
-COPY --chown=root:root ./.env ./.env
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
