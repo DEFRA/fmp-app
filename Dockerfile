@@ -23,6 +23,7 @@ COPY --chown=root:root ./config ./config
 COPY --chown=root:root ./webpack.config.mjs ./webpack.config.mjs
 COPY --chown=root:root ./babel.config.json ./babel.config.json
 COPY --chown=root:root ./OSTN15_NTv2_OSGBtoETRS.gsb ./OSTN15_NTv2_OSGBtoETRS.gsb
+COPY --chown=root:root ./.env ./.env
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
 ARG GIT_COMMIT=0
@@ -32,8 +33,10 @@ FROM base AS development
 
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
-&& npm ci --omit dev \
-&& npm run build
+&& npm ci --ignore-scripts --omit dev \
+&& npm run build \
+&& cd ./node_modules/gdal-async \
+&& ./node_modules/.bin/node-pre-gyp install --fallback-to-build -j max
 
 USER node
 EXPOSE ${PORT}/tcp
@@ -43,8 +46,10 @@ FROM base AS production
 
 # Temporarily disable the postinstall NPM script
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
-&& npm ci --omit dev \
-&& npm run build
+&& npm ci --ignore-scripts --omit dev \
+&& npm run build \
+&& cd ./node_modules/gdal-async \
+&& ./node_modules/.bin/node-pre-gyp install --fallback-to-build -j max
 
 USER node
 EXPOSE ${PORT}/tcp
