@@ -200,8 +200,10 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -557,8 +559,10 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           

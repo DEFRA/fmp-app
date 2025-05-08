@@ -200,8 +200,10 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -712,8 +714,10 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           

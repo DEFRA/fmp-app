@@ -15,8 +15,17 @@ const p4CustomerCookie = {
 
 describe('contact', () => {
   describe('GET', () => {
-    it('Should return contact if polygon is present', async () => {
+    it('Should return contact if polygon is present, backlink to results', async () => {
       const response = await submitGetRequest({ url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]` })
+      expect(response.result).toMatchSnapshot()
+    })
+    it('Should return contact if polygon is present, backlink to next-steps', async () => {
+      const response = await submitGetRequest({
+        url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]`,
+        headers: {
+          referer: 'http://localhost:3000/next-steps?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+        }
+      })
       expect(response.result).toMatchSnapshot()
     })
     it('Should return contact with user name and email if cookie present', async () => {

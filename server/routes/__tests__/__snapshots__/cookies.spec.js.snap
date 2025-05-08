@@ -200,8 +200,10 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -748,8 +750,10 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1296,8 +1300,10 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
