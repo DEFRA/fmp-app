@@ -200,8 +200,10 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -613,8 +615,10 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           

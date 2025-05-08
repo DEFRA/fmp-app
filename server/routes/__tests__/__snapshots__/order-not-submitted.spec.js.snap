@@ -200,8 +200,10 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -553,8 +555,10 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
       <div class="govuk-width-container">
         
-  <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+  
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
+  
 
         <main class="govuk-main-wrapper" id="main-content">
           

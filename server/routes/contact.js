@@ -31,9 +31,11 @@ module.exports = [
     options: {
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
+        const backLinkUrl = request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?polygon=${request.query.polygon}` : `/results?polygon=${request.query.polygon}`
         return h.view(constants.views.CONTACT, {
           polygon: request.query.polygon,
-          ...request.state.p4Customer
+          ...request.state.p4Customer,
+          backLinkUrl
         })
       },
       validate: {

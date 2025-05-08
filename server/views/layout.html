@@ -39,10 +39,14 @@
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "javascript:history.back()"
-  }) }}
+  {% if backLinkUrl %}
+    <a href="{{backLinkUrl}}" class="govuk-back-link">Back</a>
+  {% else %}
+    {{ govukBackLink({
+      text: "Back",
+      href: "javascript:history.back()"
+    }) }}
+  {% endif %}
 {% endblock %}  
 
 {% block content %} 
