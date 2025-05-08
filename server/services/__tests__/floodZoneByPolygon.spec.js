@@ -14,7 +14,7 @@ describe('getFloodZoneByPolygon - Error Handling Scenarios', () => {
     }
   })
 
-  it('getFloodZoneByPolygon should throw if esriRequest throws"', async () => {
+  it('getFloodZoneByPolygon should throw if esriFeatureRequest throws"', async () => {
     try {
       await getFloodZoneByPolygon(mockPolygons.throws)
       expect('').toEqual('this line should not be reached')

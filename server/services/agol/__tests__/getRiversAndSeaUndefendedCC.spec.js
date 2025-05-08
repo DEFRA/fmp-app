@@ -1,4 +1,4 @@
-const { mockEsriRestRequest, mockEsriRestRequestWithThrow } = require('../../../services/__tests__/__mocks__/agol')
+const { mockEsriRequest, mockEsriRequestWithThrow } = require('../../../services/__tests__/__mocks__/agol')
 const { getRiversAndSeaUndefendedCC } = require('../getRiversAndSeaUndefendedCC')
 
 const layers = [{
@@ -14,7 +14,7 @@ const polygon = '[[123,456],[125,457],[125,456],[123,456]]'
 
 describe('getRiversAndSeaUndefendedCC', () => {
   it('getRiversAndSeaUndefendedCC should return data as expected for no data', async () => {
-    mockEsriRestRequest({ layers })
+    mockEsriRequest({ layers })
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 2,
@@ -25,7 +25,7 @@ describe('getRiversAndSeaUndefendedCC', () => {
 
   it('getRiversAndSeaUndefendedCC should return data as expected for low data', async () => {
     layers[1].count = 1
-    mockEsriRestRequest({ layers })
+    mockEsriRequest({ layers })
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 1,
@@ -36,7 +36,7 @@ describe('getRiversAndSeaUndefendedCC', () => {
 
   it('getRiversAndSeaUndefendedCC should return data as expected for medium data', async () => {
     layers[0].count = 1
-    mockEsriRestRequest({ layers })
+    mockEsriRequest({ layers })
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 0,
@@ -46,7 +46,7 @@ describe('getRiversAndSeaUndefendedCC', () => {
   })
 
   it('getRiversAndSeaUndefendedCC should return data if empty layers', async () => {
-    mockEsriRestRequest({ layers: [] })
+    mockEsriRequest({ layers: [] })
     const { riversAndSeaUndefendedCC } = await getRiversAndSeaUndefendedCC({ polygon })
     expect(riversAndSeaUndefendedCC).toEqual({
       riskBandId: 2,
@@ -57,7 +57,7 @@ describe('getRiversAndSeaUndefendedCC', () => {
 
   it('getRiversAndSeaUndefendedCC should throw if duff data', async () => {
     try {
-      mockEsriRestRequest(undefined)
+      mockEsriRequest(undefined)
       await getRiversAndSeaUndefendedCC({ polygon })
       expect('').toEqual('this line should not be reached')
     } catch (err) {
@@ -65,9 +65,9 @@ describe('getRiversAndSeaUndefendedCC', () => {
     }
   })
 
-  it('getRiversAndSeaUndefendedCC should throw if esriRequest throws', async () => {
+  it('getRiversAndSeaUndefendedCC should throw if esriFeatureRequest throws', async () => {
     try {
-      mockEsriRestRequestWithThrow()
+      mockEsriRequestWithThrow()
       await getRiversAndSeaUndefendedCC({ polygon })
       expect('').toEqual('this line should not be reached')
     } catch (err) {

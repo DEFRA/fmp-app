@@ -7,7 +7,7 @@ describe('is-england', () => {
 
   beforeEach(async () => {
     mockEsriRequest()
-    // isEnglandService must be required AFTER esriRequest is mocked
+    // isEnglandService must be required AFTER esriFeatureRequest is mocked
     isEnglandService = require('../../services/is-england')
     server = await createServer()
     await server.initialize()
@@ -45,7 +45,7 @@ describe('is-england', () => {
     }
   })
 
-  it('is-england with northing and easting should call esriRequest"', async () => {
+  it('is-england with northing and easting should call esriFeatureRequest"', async () => {
     const point = { northing: 388244, easting: 388244 }
     const response = await isEnglandService(point.easting, point.northing)
     expect(response).toEqual(true)

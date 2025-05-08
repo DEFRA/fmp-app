@@ -1,5 +1,5 @@
 const { config } = require('../../../config')
-const { esriRequest, makePolygonGeometry } = require('./')
+const { esriFeatureRequest, makePolygonGeometry } = require('./')
 
 const assignFloodZoneResponse = (response, results) => {
   for (const { attributes } of response) {
@@ -28,7 +28,7 @@ const getFloodZones = async (options) => {
     floodzone_3: false
   }
 
-  return esriRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  return esriFeatureRequest(config.agol.floodZonesRiversAndSeaEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignFloodZoneResponse(esriResponse, results))
 }
 

@@ -1,5 +1,5 @@
 const { config } = require('../../../config')
-const { esriRestRequest, makePolygonGeometry } = require('.')
+const { esriLayerRequest, makePolygonGeometry } = require('.')
 const { riversAndSeaUndefended: layerRiskBand } = require('./layerRiskBands')
 const { riversAndSeaUndefended: layerDefs } = require('./layerDefs')
 
@@ -13,7 +13,7 @@ const assignResponse = (response) => {
 }
 
 const getRiversAndSeaUndefended = async (options) => {
-  return esriRestRequest(config.agol.riversAndSeaUndefendedEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon', layerDefs)
+  return esriLayerRequest(config.agol.riversAndSeaUndefendedEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon', layerDefs)
     .then((esriResponse) => assignResponse(esriResponse))
 }
 
