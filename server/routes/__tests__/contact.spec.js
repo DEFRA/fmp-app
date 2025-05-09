@@ -91,16 +91,30 @@ describe('contact', () => {
       const response = await submitPostRequestExpectHandledError(options, 'Enter your full name')
       expect(response.result).toMatchSnapshot()
     })
-    it('Should return contact view with error message if invalid name', async () => {
+
+    it('Should return contact view with error message if name contains an emoji', async () => {
       const options = {
         url,
         payload: {
           recipientemail: 'test@test.com',
-          fullName: 's',
+          fullName: 'John😂Smith',
           polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
         }
       }
-      const response = await submitPostRequestExpectHandledError(options, 'Enter your full name')
+      const response = await submitPostRequestExpectHandledError(options, '>Emoji&#39;s are not allowed in the name field')
+      expect(response.result).toMatchSnapshot()
+    })
+
+    it('Should return contact view with error message if email contains an emoji', async () => {
+      const options = {
+        url,
+        payload: {
+          recipientemail: 'test😂@test.com',
+          fullName: 'John Smith',
+          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+        }
+      }
+      const response = await submitPostRequestExpectHandledError(options, '>Emoji&#39;s are not allowed in the email address')
       expect(response.result).toMatchSnapshot()
     })
   })

@@ -1,27 +1,32 @@
 const Joi = require('joi')
 const constants = require('../constants')
-const emailRegex =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const nameRegex = /[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/
+const emojiRegex = /[\p{Extended_Pictographic}\u{1F3FB}-\u{1F3FF}\u{1F9B0}-\u{1F9B3}]+/gu
+
+const schema = Joi.object({
+  fullName: Joi.string().required(),
+  recipientemail: Joi.string().email().required()
+})
 
 const validatePayload = payload => {
-  const errorSummary = []
-  // validate Name
-  if (payload.fullName.length === 0 || !nameRegex.test(payload.fullName.trim())) {
-    errorSummary.push({
-      text: 'Enter your full name',
-      href: '#fullName'
-    })
+  const { fullName, recipientemail } = payload
+  const { error } = schema.validate({ fullName, recipientemail }, { abortEarly: false })
+  const errorDetails = error?.details || []
+
+  const errorSummary = errorDetails.map(({ path: [field] }) => {
+    const text = field === 'fullName'
+      ? 'Enter your full name'
+      : 'Enter an email address in the correct format, like name@example.com'
+    return { text, href: `#${field}` }
+  })
+
+  if (recipientemail.match(emojiRegex)) {
+    errorSummary.push({ text: "Emoji's are not allowed in the email address", href: '#recipientemail' })
   }
-  if (payload.recipientemail.length === 0 || !emailRegex.test(payload.recipientemail.trim())) {
-    errorSummary.push({
-      text: 'Enter an email address in the correct format, like name@example.com',
-      href: '#recipientemail'
-    })
+
+  if (fullName.match(emojiRegex)) {
+    errorSummary.push({ text: "Emoji's are not allowed in the name field", href: '#fullName' })
   }
-  return {
-    errorSummary
-  }
+  return { errorSummary }
 }
 
 module.exports = [
