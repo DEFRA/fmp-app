@@ -101,7 +101,7 @@ describe('contact', () => {
           polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
         }
       }
-      const response = await submitPostRequestExpectHandledError(options, '>Emoji&#39;s are not allowed in the name field')
+      const response = await submitPostRequestExpectHandledError(options, '>Emojis are not allowed in the name field')
       expect(response.result).toMatchSnapshot()
     })
 
@@ -114,7 +114,7 @@ describe('contact', () => {
           polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
         }
       }
-      const response = await submitPostRequestExpectHandledError(options, '>Emoji&#39;s are not allowed in the email address')
+      const response = await submitPostRequestExpectHandledError(options, '>Emojis are not allowed in the email address')
       expect(response.result).toMatchSnapshot()
     })
   })

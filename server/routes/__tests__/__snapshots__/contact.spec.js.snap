@@ -3017,7 +3017,7 @@ exports[`contact POST Should return contact view with error message if email con
         
           <li>
           
-            <a href="#recipientemail">Emoji&#39;s are not allowed in the email address</a>
+            <a href="#recipientemail">Emojis are not allowed in the email address</a>
           
           </li>
         
@@ -3103,7 +3103,7 @@ exports[`contact POST Should return contact view with error message if email con
   
   <p id="recipientemail-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Emoji&#39;s are not allowed in the email address
+    <span class="govuk-visually-hidden">Error:</span> Emojis are not allowed in the email address
     
   </p>
 
@@ -4037,7 +4037,7 @@ exports[`contact POST Should return contact view with error message if name cont
         
           <li>
           
-            <a href="#fullName">Emoji&#39;s are not allowed in the name field</a>
+            <a href="#fullName">Emojis are not allowed in the name field</a>
           
           </li>
         
@@ -4085,7 +4085,7 @@ exports[`contact POST Should return contact view with error message if name cont
   
   <p id="fullName-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Emoji&#39;s are not allowed in the name field
+    <span class="govuk-visually-hidden">Error:</span> Emojis are not allowed in the name field
     
   </p>
 

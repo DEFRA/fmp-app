@@ -19,12 +19,14 @@ const validatePayload = payload => {
     return { text, href: `#${field}` }
   })
 
+  // Emojis pass hapi's validation, BUT they will cause a difficult to handle crash when we attempt to set them as cookies
+  // so they are explicitly rejected here.
   if (recipientemail.match(emojiRegex)) {
-    errorSummary.push({ text: "Emoji's are not allowed in the email address", href: '#recipientemail' })
+    errorSummary.push({ text: 'Emojis are not allowed in the email address', href: '#recipientemail' })
   }
 
   if (fullName.match(emojiRegex)) {
-    errorSummary.push({ text: "Emoji's are not allowed in the name field", href: '#fullName' })
+    errorSummary.push({ text: 'Emojis are not allowed in the name field', href: '#fullName' })
   }
   return { errorSummary }
 }
@@ -68,7 +70,9 @@ module.exports = [
           fullName: request.payload.fullName,
           recipientemail: request.payload.recipientemail
         })
-        return h.redirect(`${constants.routes.CHECK_YOUR_DETAILS}?polygon=${request.payload.polygon}&fullName=${request.payload.fullName}&recipientemail=${request.payload.recipientemail}`)
+        const fullName = encodeURIComponent(request.payload.fullName)
+        const recipientemail = encodeURIComponent(request.payload.recipientemail)
+        return h.redirect(`${constants.routes.CHECK_YOUR_DETAILS}?polygon=${request.payload.polygon}&fullName=${fullName}&recipientemail=${recipientemail}`)
       }
     }
   }
