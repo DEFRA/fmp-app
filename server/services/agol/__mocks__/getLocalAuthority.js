@@ -12,6 +12,7 @@ const getLocalAuthority = async (options = {}) => {
     case mockPolygons.optedOut.fz3_only:
       return bathResponse
     case mockPolygons.fz1_only:
+    case mockPolygons.fz1_only_no_la:
     case mockPolygons.inRiskAdmin.fz1_only:
     case mockPolygons.inRiskAdmin.throws:
     case mockPolygons.fz2_only:

@@ -62,6 +62,17 @@ describe('Check your details page', () => {
         expectedWreckCalls: 1
       },
       {
+        description: 'Happy post: request with p4request made with no p4Request cookie and no LA Returned',
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon: mockPolygons.fz1_only_no_la
+        },
+        expectedAppRef: '12345',
+        expectedZoneNumber: '1',
+        expectedWreckCalls: 1
+      },
+      {
         description: 'Happy post: Attempts a 2nd duplicate request and wreck should not be called to make p4',
         payload: {
           recipientemail: user.email,
@@ -103,6 +114,7 @@ describe('Check your details page', () => {
           recipientemail: payload.recipientemail,
           zoneNumber: expectedZoneNumber
         }
+        const llfa = payload.polygon === mockPolygons.fz1_only_no_la ? '' : 'North Yorkshire'
 
         const response = await submitPostRequest(options)
         expect(response.headers.location).toEqual(`/confirmation?${new URLSearchParams(queryParams).toString()}`)
@@ -120,7 +132,7 @@ describe('Check your details page', () => {
             plotSize: '0',
             areaName: 'Yorkshire',
             psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
-            llfa: 'North Yorkshire',
+            llfa,
             postcode: 'M1 1AA'
           })
 
