@@ -11,7 +11,7 @@ describe('getEAMapsToken', () => {
     axios.post.mockResolvedValue({
       data: {
         token: expectedToken,
-        expires: 1747147870038,
+        expires: 2747147870038,
         error: undefined
       }
     })
@@ -28,7 +28,7 @@ describe('getEAMapsToken', () => {
     axios.post.mockResolvedValue({
       data: {
         token: expectedToken,
-        expires: 1747147870038,
+        expires: 2747147870038,
         error: new Error('TEST_ERROR')
       }
     })
