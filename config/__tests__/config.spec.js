@@ -11,8 +11,9 @@ describe('Ensure config is correct', () => {
   })
 
   it('test config values', () => {
+    process.env.agolRofrsDepthOrExtents = ''
+    process.env.logLevel = ''
     const { config } = require('../index')
-    delete process.env.agolRofrsDepthOrExtents
     const expectedConfig = {
       env: 'local',
       appType: 'internal',
@@ -131,6 +132,18 @@ describe('Ensure config is correct', () => {
       }
     }
     expect(config).toStrictEqual(expectedConfig)
+  })
+
+  it('test config values should throw', async () => {
+    jest.resetModules()
+    process.env.siteUrl = ''
+
+    try {
+      const { config } = require('../index')
+      expect(config).toEqual('Line should not be reached')
+    } catch (error) {
+      expect(error).toEqual(new Error('The server config is invalid. "siteUrl" is not allowed to be empty'))
+    }
   })
 })
 
