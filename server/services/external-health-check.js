@@ -11,6 +11,8 @@ const environmentName = (env) => ({
   'prod-blue': 'Production Blue'
 }[env])
 
+const NOT_AVAILABLE = 'not available'
+
 const getExternalVersion = async (url, name) => {
   try {
     const { data = {} } = await axios.get(url)
@@ -24,9 +26,9 @@ const getExternalVersion = async (url, name) => {
     console.log(`error fetching ${name} health-check`, url, error)
   }
   return {
-    version: 'not available',
-    revision: 'not available',
-    environment: 'not available'
+    version: NOT_AVAILABLE,
+    revision: NOT_AVAILABLE,
+    environment: NOT_AVAILABLE
   }
 }
 
