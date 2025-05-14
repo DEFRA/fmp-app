@@ -14,7 +14,7 @@ const environmentName = (env) => ({
 const getExternalVersion = async (url, name) => {
   try {
     const { data = {} } = await axios.get(url)
-    const { version = '', revision = '', environment } = data
+    const { version = '', revision = '', environment = '' } = data
     return {
       version,
       revision: revision.substring(0, GIT_REVISION_LENGTH),
