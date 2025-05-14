@@ -67,24 +67,24 @@ const assertFZ3Copy = (expected = true) => {
 
 const assertROFRSDefCCCopy = (band, odds, expected = true) => {
   assertCopy('[data-testid="rofrs-cc"]', expected && 'Climate change: projected chance of flooding')
-  assertCopy('[data-testid="rofrs-cc-defended-probability"]', expected && `Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of flooding each year:`)
+  assertCopy('[data-testid="rofrs-cc-defended-probability"]', expected && `Taking flood defences into account, there could be a ${band}% (${odds}) chance of flooding each year:`)
 }
 
 const assertROFRSUnDefCCCopy = (band, odds, expected = true) => {
   assertCopy('[data-testid="rofrs-cc-undefended"]', expected && 'Without defences (undefended)')
-  assertCopy('[data-testid="rofrs-cc-undefended"] + p', expected && 'We have not modelled the 3.3% AEP event for an undefended scenario')
-  assertCopy('[data-testid="rofrs-cc-undefended"] + p + p', expected && `Without flood defences, there could be a ${band}% AEP (${odds}) chance of flooding each year:`)
+  assertCopy('[data-testid="rofrs-cc-undefended"] + p', expected && 'We have not modelled the 3.3% event for an undefended scenario')
+  assertCopy('[data-testid="rofrs-cc-undefended"] + p + p', expected && `Without flood defences, there could be a ${band}% (${odds}) chance of flooding each year:`)
 }
 
 const assertROFRSDefCopy = (band, odds, expected = true) => {
   assertCopy('[data-testid="rofrs"] > dt', expected && 'Present day chance of flooding')
   assertCopy('[data-testid="rofrs-defended"]', expected && 'With defences (defended)')
-  assertCopy('[data-testid="rofrs-defended"] + p', expected && `Taking flood defences into account, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`)
+  assertCopy('[data-testid="rofrs-defended"] + p', expected && `Taking flood defences into account, there could be a ${band}% (${odds}) chance of a flood at this location each year.`)
 }
 
 const assertROFRSUnDefCopy = (band, odds, expected = true) => {
   assertCopy('[data-testid="rofrs-undefended"]', expected && 'Without defences (undefended)')
-  assertCopy('[data-testid="rofrs-undefended"] + p', expected && `Without flood defences, there could be a ${band}% AEP (${odds}) chance of a flood at this location each year.`)
+  assertCopy('[data-testid="rofrs-undefended"] + p', expected && `Without flood defences, there could be a ${band}% (${odds}) chance of a flood at this location each year.`)
 }
 
 const assertSWCopy = (band, odds, expected = true) => {
