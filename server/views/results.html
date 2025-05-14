@@ -89,7 +89,10 @@
                 <dd class="govuk-summary-list__value">
                   {% if floodData.riversAndSeaDefendedCC.riskBandPercent %}
                     <h3 class="govuk-heading-s">With defences (defended)</h3>
-                    <p class="govuk-body" data-testid="rofrs-cc-defended-probability">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:</p>
+                    <p class="govuk-body" data-testid="rofrs-cc-defended-probability">
+                      Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefendedCC.riskBandPercent }}%
+                      ({{ floodData.riversAndSeaDefendedCC.riskBandOdds }}) chance of flooding each year:
+                    </p>
                     <ul class="govuk-list govuk-list--bullet">
                       <li>from rivers for the period 2070 to 2125</li>
                       <li>from the sea (tidal flooding) by the year 2125</li>
@@ -112,8 +115,11 @@
                   {% endif %}
                   {% if floodData.riversAndSeaUndefendedCC.riskBandPercent %}
                     <h3 class="govuk-heading-s" data-testid="rofrs-cc-undefended">Without defences (undefended)</h3>
-                    <p class="govuk-body">We have not modelled the 3.3% AEP event for an undefended scenario.</p>
-                    <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefendedCC.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefendedCC.riskBandOdds }}) chance of flooding each year: </p>
+                    <p class="govuk-body">We have not modelled the 3.3% event for an undefended scenario.</p>
+                    <p class="govuk-body">
+                      Without flood defences, there could be a {{ floodData.riversAndSeaUndefendedCC.riskBandPercent }}%
+                      ({{ floodData.riversAndSeaUndefendedCC.riskBandOdds }}) chance of flooding each year:
+                    </p>
                     <ul class="govuk-list govuk-list--bullet">
                       <li>from rivers for the period 2070 to 2125</li>
                       <li>from the sea (tidal flooding) by the year 2125</li>
@@ -146,7 +152,10 @@
               <dd class="govuk-summary-list__value">
               {% if floodData.riversAndSeaDefended.riskBandPercent %}
                 <h3 class="govuk-heading-s" data-testid="rofrs-defended">With defences (defended)</h3>
-                <p class="govuk-body">Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaDefended.riskBandOdds }}) chance of a flood at this location each year.</p>
+                <p class="govuk-body">
+                  Taking flood defences into account, there could be a {{ floodData.riversAndSeaDefended.riskBandPercent }}%
+                  ({{ floodData.riversAndSeaDefended.riskBandOdds }}) chance of a flood at this location each year.
+                </p>
                 <details class="govuk-details">
                   <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
@@ -165,7 +174,10 @@
               {% endif %}
               {% if floodData.riversAndSeaUndefended.riskBandPercent %}
                 <h3 class="govuk-heading-s" data-testid="rofrs-undefended">Without defences (undefended)</h3>
-                <p class="govuk-body">Without flood defences, there could be a {{ floodData.riversAndSeaUndefended.riskBandPercent }}% AEP ({{ floodData.riversAndSeaUndefended.riskBandOdds }}) chance of a flood at this location each year.</p>
+                <p class="govuk-body">
+                  Without flood defences, there could be a {{ floodData.riversAndSeaUndefended.riskBandPercent }}%
+                  ({{ floodData.riversAndSeaUndefended.riskBandOdds }}) chance of a flood at this location each year.
+                </p>
                 <details class="govuk-details">
                   <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
