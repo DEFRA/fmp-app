@@ -3,9 +3,6 @@ const axios = require('axios')
 jest.mock('axios')
 const expectedToken = 'MY_TEST_TOKEN'
 
-// uncovered was
-// 13-14,19-24,28-53
-//             44-46, 52-53
 describe('getEAMapsToken', () => {
   it('should call axios.post', async () => {
     axios.post.mockResolvedValue({
