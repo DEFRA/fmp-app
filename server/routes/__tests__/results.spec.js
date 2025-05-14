@@ -41,7 +41,14 @@ const assertFZ1lt1haCopy = (expected = true) => {
 
 const assertFZ1gt1haCopy = (expected = true) => {
   assertCopy('[data-testid="fz1-gt1ha-fra"]', expected && 'Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).')
-  assertCopy('[data-testid="fz1-gt1ha-area"]', expected && 'The site you have drawn is 123.43ha.')
+}
+
+const assertFZ1gt1haOrfz1lt1haFRA = (expected = true) => {
+  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is 123.43ha.')
+}
+
+const assertFZ1lt1haFRA = (expected = true) => {
+  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is 0ha.')
 }
 
 const assertFraCopy = (expected = true) => {
@@ -102,6 +109,8 @@ describe('Results Page On Public', () => {
     assertFZ1Copy()
     assertFZ1lt1haCopy()
     assertFZ1gt1haCopy(false)
+    assertFZ1gt1haOrfz1lt1haFRA(false)
+    assertFZ1lt1haFRA(false)
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertSWCopy('', '', false)
@@ -131,6 +140,7 @@ describe('Results Page On Public', () => {
       assertFZ1Copy()
       assertFZ1lt1haCopy(polygon === mockPolygons.fz1_only_lt_1_ha_sw)
       assertFZ1gt1haCopy(false)
+      assertFZ1lt1haFRA(polygon !== mockPolygons.fz1_only_lt_1_ha_sw)
       assertFZ2Copy(false)
       assertFZ3Copy(false)
       assertCoreCopy()
@@ -148,6 +158,7 @@ describe('Results Page On Public', () => {
     assertFZ1Copy()
     assertFZ1lt1haCopy(false)
     assertFZ1gt1haCopy()
+    assertFZ1gt1haOrfz1lt1haFRA()
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertSWCopy('', '', false)
@@ -169,6 +180,7 @@ describe('Results Page On Public', () => {
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
+    assertFZ1lt1haFRA(false)
     assertFZ2Copy()
     assertFZ3Copy(false)
     assertSWCopy('0.1', '1 in 1000', true)
@@ -189,6 +201,7 @@ describe('Results Page On Public', () => {
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
+    assertFZ1lt1haFRA(false)
     assertFZ2Copy()
     assertFZ3Copy(false)
     assertSWCopy('1', '1 in 100', true)
@@ -209,6 +222,7 @@ describe('Results Page On Public', () => {
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
+    assertFZ1lt1haFRA(false)
     assertFZ2Copy(false)
     assertFZ3Copy()
     assertSWCopy('3.3', '1 in 30', true)
