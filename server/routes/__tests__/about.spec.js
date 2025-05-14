@@ -11,6 +11,7 @@ describe('About Page', () => {
     assertCopy('#fmp-app-type', 'internal')
     assertCopy('#fmp-api-version', 'Version: v8.8.8')
     assertCopy('#fmp-api-revision', 'Revision: 9988776')
+    assertCopy('#environment', 'Test')
   })
 
   it('/about page should contain version numbers as expected when a tag build', async () => {
@@ -21,5 +22,6 @@ describe('About Page', () => {
     assertCopy('#fmp-app-type', 'internal')
     assertCopy('#fmp-api-version', 'Version: v8.8.8')
     assertCopy('#fmp-api-revision', 'Revision: 9988776')
+    assertCopy('#environment', 'Test')
   })
 })
