@@ -4,7 +4,7 @@ const constants = require('../../constants')
 
 const url = constants.routes.ENGLAND_ONLY
 
-describe('Triage Page', () => {
+describe('England Only Page', () => {
   const getQueries = [{
     testName: 'Happy get: with postcode',
     queryParams: {
@@ -48,5 +48,10 @@ describe('Triage Page', () => {
       assertCopy('title', 'This service provides data for locations in England only - Flood map for planning - GOV.UK')
       assertCopy('#not-england-page > div > p:nth-child(2)', text)
     })
+  })
+
+  it('england-only with no params', async () => {
+    const response = await submitGetRequest({ url: `${url}?${new URLSearchParams({}).toString()}` }, 'This service provides data for locations in England only')
+    expect(response.result).toMatchSnapshot()
   })
 })

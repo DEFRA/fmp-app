@@ -16,6 +16,7 @@ const getRiversAndSeaDefended = async (options) => {
         riversAndSeaDefended: { riskBandId: 0, riskBandPercent: '3.3', riskBandOdds: '1 in 30' }
       }
     case mockPolygons.fz1_only:
+    case mockPolygons.fz1_only_no_la:
     case mockPolygons.fz1_only_gt_1_ha:
     case mockPolygons.fz1_only_lt_1_ha_sw:
     case mockPolygons.fz1_only_lt_1_ha_rsd_cc:
