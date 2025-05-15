@@ -539,7 +539,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
     floodMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (now - lastHit < throttleMs || floodMap.view.scale > minScale) return
+      if (now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+        return
+      }
       lastHit = now
       floodMap.view.hitTest(e, { include: [visibleVtLayer] }).then((response) => {
         document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
