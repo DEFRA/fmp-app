@@ -8,6 +8,8 @@ import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
 
+let visibleVtLayer
+
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -269,6 +271,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
       setStylePaintProperties(vtLayer, layer, isDark)
+      visibleVtLayer = isVisible ? layer : visibleVtLayer
     })
     fLayers.forEach(fLayer => {
       const layer = map.findLayerById(fLayer.name)
@@ -507,6 +510,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     await addLayers()
     initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
+    initPointerMove()
   })
 
   // Listen for mode, segments, layers or style changes
@@ -528,6 +532,26 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
+
+  const initPointerMove = () => {
+    let lastHit = 0
+    const throttleMs = 20 // Throttle to reduce hitTest usage
+    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
+    floodMap.view.on('pointer-move', e => {
+      const now = Date.now()
+      if (now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+        return
+      }
+      lastHit = now
+      floodMap.view.hitTest(e, { include: [visibleVtLayer] }).then((response) => {
+        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
+      })
+    })
+
+    floodMap.view.on('pointer-leave', _e => {
+      document.body.style.cursor = 'default'
+    })
+  }
 
   const getPolygon = () => {
     const { items: layers } = floodMap.map.layers
