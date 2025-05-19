@@ -36,7 +36,7 @@ const assertFZ1Copy = (expected = true) => {
 
 const assertFZ1lt1haCopy = (expected = true) => {
   assertCopy('[data-testid="fz1-lt1ha-fra"]', expected && 'Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:')
-  assertCopy('[data-testid="fz1-lt1ha-area"]', expected && 'The site you have drawn is 0ha.')
+  assertCopy('[data-testid="fz1-lt1ha-area"]', expected && 'The site you have drawn is less than 0.1ha.')
 }
 
 const assertFZ1gt1haCopy = (expected = true) => {
@@ -48,7 +48,7 @@ const assertFZ1gt1haOrfz1lt1haFRA = (expected = true) => {
 }
 
 const assertFZ1lt1haFRA = (expected = true) => {
-  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is 0ha.')
+  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is less than 0.1ha.')
 }
 
 const assertFraCopy = (expected = true) => {
