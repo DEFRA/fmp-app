@@ -22,7 +22,7 @@ module.exports = [
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
-        floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.1'
+        floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         const isRiversAndSea =
           floodData.riversAndSeaDefended.riskBandPercent ||
           floodData.riversAndSeaUndefended.riskBandPercent ||
