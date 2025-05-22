@@ -741,10 +741,13 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
+    floodMap.map.findLayerById('graphicslayer').visible = false
     const { listContents, vtLayer, feature, coord } = await getQueryContentHeader(e)
-    if (!listContents) {
+    if (!listContents || !feature) {
+      floodMap.setInfo()
       return
     }
+    floodMap.map.findLayerById('graphicslayer').visible = true
     const floodZone = await addQueryFloodZonesContent(listContents, feature, coord)
     if (!floodZone) {
       addQueryNonFloodZonesContent(listContents, vtLayer)
