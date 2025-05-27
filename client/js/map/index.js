@@ -533,12 +533,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
-  const enableGetFeatureInformationButton = (enable) => {
-    const mobileFeatureInfoButton = document.querySelector('.fm-o-actions--has-actions button:last-child')
-    if (mobileFeatureInfoButton?.innerHTML === 'Get feature information') {
-      mobileFeatureInfoButton.setAttribute('aria-disabled', !enable)
-    }
-  }
+  // const enableGetFeatureInformationButton = (enable) => {
+  //   const mobileFeatureInfoButton = document.querySelector('.fm-o-actions--has-actions button:last-child')
+  //   if (mobileFeatureInfoButton?.innerHTML === 'Get feature information') {
+  //     mobileFeatureInfoButton.setAttribute('aria-disabled', !enable)
+  //   }
+  // }
 
   const getEventXY = (event) => {
     return event
