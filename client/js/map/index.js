@@ -533,31 +533,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
-  // const enableGetFeatureInformationButton = (enable) => {
-  //   const mobileFeatureInfoButton = document.querySelector('.fm-o-actions--has-actions button:last-child')
-  //   if (mobileFeatureInfoButton?.innerHTML === 'Get feature information') {
-  //     mobileFeatureInfoButton.setAttribute('aria-disabled', !enable)
-  //   }
-  // }
-
-  const getEventXY = (event) => {
-    return event
-    // still to do - the [x, y] values in cz below are eastingsNorthings,
-    // but they need transforming into floodMap.view coords, so that the hitTest will work
-    // https://eaflood.atlassian.net/browse/FCRM-5976 is raised for this
-
-    // if (event.pointerType === 'mouse') {
-    //   return event
-    // }
-    // try {
-    //   const [x, y] = (new URLSearchParams(window.location.search)).get('cz').split(',')
-    // THESE x,y values NEED CONVERTING HERE
-    //   return { x, y }
-    // } catch (_error) {
-    //   return event // In case of error, return the event which will contain x,y coords
-    // }
-  }
-
   const initPointerMove = () => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
@@ -568,12 +543,8 @@ getDefraMapConfig().then((defraMapConfig) => {
         return
       }
       lastHit = now
-      const eventCoords = getEventXY(e)
-      floodMap.view.hitTest(eventCoords, { include: [visibleVtLayer] }).then((response) => {
-        const allowInfoPanel = response?.results?.length > 0
-        // FCRM-5976 is raised to fix enableGetFeatureInformationButton
-        // enableGetFeatureInformationButton(allowInfoPanel)
-        document.body.style.cursor = allowInfoPanel ? 'pointer' : 'default'
+      floodMap.view.hitTest(e, { include: [visibleVtLayer] }).then((response) => {
+        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
       })
     })
 
