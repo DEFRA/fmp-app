@@ -21,6 +21,7 @@ const ORDER_NOT_SUBMITTED = 'order-not-submitted'
 const OS_TERMS = 'os-terms'
 const TERMS_AND_CONDITIONS = 'terms-and-conditions'
 const HOW_TO_USE_RIVERS_AND_SEA_DATA = 'how-to-use-rivers-and-sea-data'
+const UPLOAD = 'upload'
 
 const views = {
   HOME,
@@ -40,7 +41,8 @@ const views = {
   ORDER_NOT_SUBMITTED,
   OS_TERMS,
   TERMS_AND_CONDITIONS,
-  HOW_TO_USE_RIVERS_AND_SEA_DATA
+  HOW_TO_USE_RIVERS_AND_SEA_DATA,
+  UPLOAD
 }
 
 const routes = {
