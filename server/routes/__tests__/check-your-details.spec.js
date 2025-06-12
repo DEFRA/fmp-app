@@ -136,7 +136,7 @@ describe('Check your details page', () => {
             postcode: 'M1 1AA'
           })
 
-          expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
+          expect(postSpy).toHaveBeenCalledWith('http://dummyuri/request-product-four', { json: true, payload: expectedPayload })
         }
       })
     })

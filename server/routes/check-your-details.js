@@ -1,6 +1,6 @@
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
-const publishToQueueURL = config.functionAppUrl + '/order-product-four'
+const publishToQueueURL = config.functionAppUrl + '/request-product-four'
 const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
 
