@@ -632,15 +632,13 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const addQueryFloodZonesContent = (listContents, feature) => {
     if (!mapState.segments.includes('fz')) {
-      return false
+      return ''
     }
     const floodZone = floodZoneSymbolIndex[feature?._symbol] || '1'
     listContents.push(['Flood zone', floodZone])
 
-    if (floodZone !== '1') {
-      if (feature.flood_source) {
-        listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
-      }
+    if (floodZone !== '1' && feature.flood_source) {
+      listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
   }
