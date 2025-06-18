@@ -330,7 +330,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
                 Add a reference
               </label>
             </h3>
-            <p>
+            <p class="govuk-body">
               <span id="reference-hint" class="govuk-hint govuk-hint--block">
                 Optional. This is chosen by you to help you find the report
                 later and should be less than 25 characters.
@@ -343,7 +343,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
             <h3 class="govuk-label-wrapper">
               <label class="govuk-label--m" for="scale"> Scale </label>
             </h3>
-            <p>
+            <p class="govuk-body">
               <span id="scale-hint" class="govuk-hint govuk-hint--block">
                 Select the scale of the map shown in the report
               </span>
@@ -848,7 +848,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
                 Add a reference
               </label>
             </h3>
-            <p>
+            <p class="govuk-body">
               <span id="reference-hint" class="govuk-hint govuk-hint--block">
                 Optional. This is chosen by you to help you find the report
                 later and should be less than 25 characters.
@@ -861,7 +861,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
             <h3 class="govuk-label-wrapper">
               <label class="govuk-label--m" for="scale"> Scale </label>
             </h3>
-            <p>
+            <p class="govuk-body">
               <span id="scale-hint" class="govuk-hint govuk-hint--block">
                 Select the scale of the map shown in the report
               </span>
