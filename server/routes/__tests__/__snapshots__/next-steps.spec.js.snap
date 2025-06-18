@@ -329,22 +329,26 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
               <label class="govuk-label--m" for="reference">
                 Add a reference
               </label>
-              <span class="govuk-hint govuk-hint--block">
+            </h3>
+            <p>
+              <span id="reference-hint" class="govuk-hint govuk-hint--block">
                 Optional. This is chosen by you to help you find the report
                 later and should be less than 25 characters.
               </span>
-            </h3>
-            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" />
+            </p>
+            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
           </div>
 
           <div class="govuk-form-group">
             <h3 class="govuk-label-wrapper">
               <label class="govuk-label--m" for="scale"> Scale </label>
-              <span class="govuk-hint govuk-hint--block">
+            </h3>
+            <p>
+              <span id="scale-hint" class="govuk-hint govuk-hint--block">
                 Select the scale of the map shown in the report
               </span>
-            </h3>
-            <select class="govuk-select" id="scale" name="scale">
+            </p>
+            <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
               <option value="2500">1:2500</option>
               <option value="10000">1:10000</option>
               <option value="25000">1:25000</option>
@@ -843,22 +847,26 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
               <label class="govuk-label--m" for="reference">
                 Add a reference
               </label>
-              <span class="govuk-hint govuk-hint--block">
+            </h3>
+            <p>
+              <span id="reference-hint" class="govuk-hint govuk-hint--block">
                 Optional. This is chosen by you to help you find the report
                 later and should be less than 25 characters.
               </span>
-            </h3>
-            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" />
+            </p>
+            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
           </div>
 
           <div class="govuk-form-group">
             <h3 class="govuk-label-wrapper">
               <label class="govuk-label--m" for="scale"> Scale </label>
-              <span class="govuk-hint govuk-hint--block">
+            </h3>
+            <p>
+              <span id="scale-hint" class="govuk-hint govuk-hint--block">
                 Select the scale of the map shown in the report
               </span>
-            </h3>
-            <select class="govuk-select" id="scale" name="scale">
+            </p>
+            <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
               <option value="2500">1:2500</option>
               <option value="10000">1:10000</option>
               <option value="25000">1:25000</option>
