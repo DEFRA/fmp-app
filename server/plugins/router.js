@@ -25,7 +25,8 @@ const routes = [].concat(
   require('../routes/public'),
   require('../routes/results'),
   require('../routes/terms-and-conditions'),
-  require('../routes/triage')
+  require('../routes/triage'),
+  require('../routes/upload')
 )
 
 module.exports = {
