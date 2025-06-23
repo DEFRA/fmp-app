@@ -8,6 +8,10 @@ import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
 
+// Todo change text to a button with value tritanopia
+// const other = document.querySelector('#map-styles button[value="tritanopia"]')
+// other.innerHTML += 'Greyscale'
+
 let visibleVtLayer
 
 const mapDiv = document.getElementById('map')
@@ -315,6 +319,16 @@ getDefraMapConfig().then((defraMapConfig) => {
         name: 'dark',
         url: '/map/styles/base-map-dark',
         attribution: osAttributionHyperlink
+      },
+      {
+        name: 'tritanopia',
+        url: '/map/styles/base-map-greyscale',
+        attribution: osAttributionHyperlink
+      },
+      {
+        name: 'deuteranopia',
+        url: '/map/styles/base-map-light',
+        attribution: osAttributionHyperlink
       }
     ],
     search: {
@@ -478,7 +492,18 @@ getDefraMapConfig().then((defraMapConfig) => {
           name: 'dark',
           url: '/map/styles/polygon-dark',
           attribution: osMasterMapAttributionHyperlink
+        },
+        {
+          name: 'tritanopia', // AKA 'Blue-yellow enhanced' - actually greyscale
+          url: '/map/styles/polygon-default',
+          attribution: osAttributionHyperlink
+        },
+        {
+          name: 'deuteranopia', // AKA 'Green-red enhanced' - actually light
+          url: '/map/styles/polygon-default',
+          attribution: osAttributionHyperlink
         }
+
       ],
       feature: featureQuery // feature derived from polygon query string or null if not present
     },
