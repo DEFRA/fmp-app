@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
+import { setUpBaseMaps } from './baseMap.js'
 
 // Todo change text to a button with value tritanopia
 // const other = document.querySelector('#map-styles button[value="tritanopia"]')
@@ -287,38 +288,8 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
+  const { baseMapStyles, digitisingMapStyles } = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
-  const osAccountNumber = defraMapConfig.OS_ACCOUNT_NUMBER
-  const currentYear = new Date().getFullYear()
-  const osAttributionHyperlink = `<a href="/os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
-  const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
-
-  // TEMPORARY HACK while we await https://eaflood.atlassian.net/browse/FMC-188
-  const replaceButtonText = (element, value, replaceText) => {
-    if (!element) {
-      return
-    }
-    const buttonElement = element.querySelector(`button[value="${value}"]`)
-    if (buttonElement) {
-      const textNode = [...buttonElement.childNodes].find((node) => node.nodeType === window.Node.TEXT_NODE)
-      if (textNode) {
-        textNode.textContent = replaceText
-      }
-    }
-  }
-  const observer = new window.MutationObserver((mutations) => {
-    const addedNodes = mutations.map(({ addedNodes }) => addedNodes)
-    const mapPanelElement = addedNodes
-      .filter((nodeList) => [...nodeList]
-        .find((element) => element.id === 'map-panel-style'))?.[0]?.[0]
-    replaceButtonText(mapPanelElement, 'tritanopia', 'Greyscale')
-    const divElement = addedNodes
-      .filter((nodeList) => [...nodeList]
-        .find((element) => element.nodeName === 'DIV'))?.[0]?.[0]
-    replaceButtonText(divElement, 'deuteranopia', 'Light')
-  })
-  observer.observe(document, { attributes: false, childList: true, characterData: false, subtree: true })
-  // END OF TEMPORARY HACK
 
   const floodMap = new FloodMap('map', {
     behaviour: 'inline',
@@ -336,28 +307,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     transformSearchRequest: getRequest,
     interceptorsCallback: getInterceptors,
     tokenCallback: getEsriToken,
-    styles: [
-      {
-        name: 'default',
-        url: '/map/styles/base-map-default',
-        attribution: osAttributionHyperlink
-      },
-      {
-        name: 'dark',
-        url: '/map/styles/base-map-dark',
-        attribution: osAttributionHyperlink
-      },
-      {
-        name: 'tritanopia',
-        url: '/map/styles/base-map-greyscale',
-        attribution: osAttributionHyperlink
-      },
-      {
-        name: 'deuteranopia',
-        url: '/map/styles/base-map-light',
-        attribution: osAttributionHyperlink
-      }
-    ],
+    styles: baseMapStyles,
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -509,29 +459,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       html: siteBoundaryHelp,
       minZoom: 17,
       maxZoom: 21,
-      styles: [
-        {
-          name: 'default',
-          url: '/map/styles/polygon-default',
-          attribution: osMasterMapAttributionHyperlink
-        },
-        {
-          name: 'dark',
-          url: '/map/styles/polygon-dark',
-          attribution: osMasterMapAttributionHyperlink
-        },
-        {
-          name: 'tritanopia', // AKA 'Blue-yellow enhanced' - actually greyscale
-          url: '/map/styles/polygon-default',
-          attribution: osAttributionHyperlink
-        },
-        {
-          name: 'deuteranopia', // AKA 'Green-red enhanced' - actually light
-          url: '/map/styles/polygon-default',
-          attribution: osAttributionHyperlink
-        }
-
-      ],
+      styles: digitisingMapStyles,
       feature: featureQuery // feature derived from polygon query string or null if not present
     },
     queryLocation: {
