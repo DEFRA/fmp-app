@@ -78,7 +78,15 @@ const setUpBaseMaps = (osAccountNumber) => {
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/polygon-default',
       digitisingAttribution: osMasterMapAttributionHyperlink
+    },
+    map3D: {
+      displayName: '3D',
+      url: '/map/styles/base-map-3D',
+      attribution: osAttributionHyperlink,
+      digitisingUrl: '/map/styles/polygon-default',
+      digitisingAttribution: osMasterMapAttributionHyperlink
     }
+
   })
 
   const baseMapStyles = Object.entries(mapStyles)
