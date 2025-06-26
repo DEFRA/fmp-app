@@ -3,6 +3,8 @@ const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
 const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
+const constants = require('../constants')
+const { validateContactData } = require('./validateContactData')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
@@ -22,7 +24,17 @@ module.exports = [
     options: {
       description: 'Application Review Summary',
       handler: async (request, h) => {
-        const { polygon, fullName, recipientemail } = request.query
+        const { polygon, fullName = '', recipientemail = '' } = request.query
+        const { errorSummary } = validateContactData({ fullName, recipientemail })
+        if (errorSummary.length > 0) {
+          return h.view(constants.views.CONTACT, {
+            errorSummary,
+            polygon,
+            fullName,
+            recipientemail
+          })
+        }
+
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         const contactUrl = `/contact?polygon=${polygon}`
         const mapUrl = `/map?polygon=${polygon}`

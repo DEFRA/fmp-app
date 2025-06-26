@@ -117,5 +117,19 @@ describe('contact', () => {
       const response = await submitPostRequestExpectHandledError(options, '>Emojis are not allowed in the email address')
       expect(response.result).toMatchSnapshot()
     })
+
+    it('Should return contact view with error message if fullname is > 200 chars', async () => {
+      const fullName = 'test'.repeat(51)
+      const options = {
+        url,
+        payload: {
+          recipientemail: 'test@test.com',
+          fullName,
+          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+        }
+      }
+      const response = await submitPostRequestExpectHandledError(options, '>Your full name must be less than 200 characters long')
+      expect(response.result).toMatchSnapshot()
+    })
   })
 })
