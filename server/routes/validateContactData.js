@@ -11,7 +11,6 @@ const validateContactData = payload => {
   const { fullName, recipientemail } = payload
   const { error } = schema.validate({ fullName, recipientemail }, { abortEarly: false })
   const errorDetails = error?.details || []
-  console.log('errorDetails\n', errorDetails)
 
   const errorSummary = errorDetails.map(({ path: [field], type }) => {
     const response = { href: `#${field}` }
