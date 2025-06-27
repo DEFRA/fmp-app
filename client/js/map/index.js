@@ -291,7 +291,10 @@ getDefraMapConfig().then((defraMapConfig) => {
       }
       const id = vtLayer.name
       const layer = map.findLayerById(id)
-      const isVisible = !isDrawMode && segments.join('') === vtLayer.q // HERE
+      let isVisible = !isDrawMode && segments.join('') === vtLayer.q // HERE
+      if (!isDrawMode && segments.join('') === 'fzfzcl' && vtLayer.q === 'fzfzpd') {
+        isVisible = true
+      }
       layer.visible = isVisible
       setStylePaintProperties(vtLayer, layer, isDark)
       visibleVtLayer = isVisible ? layer : visibleVtLayer
@@ -463,6 +466,8 @@ getDefraMapConfig().then((defraMapConfig) => {
           heading: 'Map features',
           parentIds: ['fzcl'],
           items: [
+            keyItemDefinitions.floodZone2,
+            keyItemDefinitions.floodZone3,
             keyItemDefinitions.floodZone3CC,
             keyItemDefinitions.floodZoneNoData,
             keyItemDefinitions.waterStorageAreas,
