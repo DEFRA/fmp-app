@@ -20,7 +20,7 @@ const surfaceWaterStyleLayers = [
 const vtLayers = [
   {
     name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
-    q: 'fz',
+    q: 'fzfzpd',
     styleLayers: [
       'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
       'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1'
@@ -28,10 +28,11 @@ const vtLayers = [
   },
   {
     name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-    q: '', // Implies disabled for now
+    q: 'fzfzcl',
     styleLayers: [
-      'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1',
-      'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1'
+      'Flood Zones 2 and 3 Rivers and Sea CCP1/FZ2/1',
+      'Flood Zones 2 and 3 Rivers and Sea CCP1/FZ3/1',
+      'Flood Zones 2 and 3 Rivers and Sea CCP1/No Data/1'
     ]
   },
   {
