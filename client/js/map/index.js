@@ -6,7 +6,7 @@ import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
-import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
+import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 
 let visibleVtLayer
@@ -29,6 +29,14 @@ const keyItemDefinitions = {
     // id: 'fz2',
     label: 'Flood zone 3',
     fill: getKeyItemFill(colours.floodZone3)
+  },
+  floodZone3CC: {
+    label: 'Flood zones plus climate change',
+    fill: getKeyItemFill(colours.floodZoneCC)
+  },
+  floodZoneNoData: {
+    label: 'No data available',
+    fill: getKeyItemFill(colours.floodZoneNoData)
   },
   waterStorageAreas: {
     id: 'fsa',
@@ -61,6 +69,15 @@ const keyItemDefinitions = {
 // On a previous data set, these values were in the reverse order so we need to verify that they remain correct
 // after a data upload to arcGis
 const floodZoneSymbolIndex = ['3', '2']
+const floodZoneCCSymbolIndex = ['2', '3', 'No data available']
+
+const getFloodZoneFromFeature = (feature, mapState) => {
+  if (feature.flood_zone === 'FZ2') { return '2' }
+  if (feature.flood_zone === 'FZ3') { return '3' }
+  if (feature.flood_zone) { return 'No data available' }
+  const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
+  return symbolIndex[feature._symbol]
+}
 
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
@@ -91,37 +108,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
-
-  const paintProperties = {
-    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1': colours.floodZone2,
-    'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1': colours.floodZone3,
-    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 3/1': colours.floodZone3,
-    'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zone 2/1': colours.floodZone2,
-    'Rivers 1 in 30 Sea 1 in 30 Defended/1': colours.nonFloodZone,
-    'Rivers 1 in 30 Sea 1 in 30 Defended Extents/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Defended Extents/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Extents/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Extents/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents/1': colours.nonFloodZone,
-    'Rivers 1 in 30 Sea 1 in 30 Defended CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 30 Sea 1 in 30 Defended Extents CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Defended Extents CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 100 Sea 1 in 200 Undefended Extents CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Defended Extents CCP1/1': colours.nonFloodZone,
-    'Rivers 1 in 1000 Sea 1 in 1000 Undefended Extents CCP1/1': colours.nonFloodZone,
-    [surfaceWaterStyleLayers[0]]: colours.nonFloodZone,
-    [surfaceWaterStyleLayers[1]]: colours.nonFloodZone,
-    [surfaceWaterStyleLayers[2]]: colours.nonFloodZone,
-    [surfaceWaterStyleLayers[3]]: colours.nonFloodZone,
-    [surfaceWaterStyleLayers[4]]: colours.nonFloodZone,
-    [surfaceWaterStyleLayers[5]]: colours.nonFloodZone
-    // , [surfaceWaterCcLowStyleLayers[0]]: [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]],
-    // [surfaceWaterCcLowStyleLayers[1]]: [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
-    // [surfaceWaterCcLowStyleLayers[2]]: [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
-    // [surfaceWaterCcLowStyleLayers[3]]: [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
-    // [surfaceWaterCcLowStyleLayers[4]]: [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
-    // [surfaceWaterCcLowStyleLayers[5]]: [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]]
-  }
 
   const mapFeatureRenderers = {
     floodDefences: {
@@ -190,7 +176,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getMapFeatureRenderer = (name) => {
     const mode = mapState.isDark ? 'dark' : 'default'
-    return mapFeatureRenderers[name][mode]
+    return mapFeatureRenderers[name]?.[mode]
   }
 
   const fLayers = [
@@ -212,10 +198,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   ]
 
   const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
-    vtLayer.styleLayers.forEach((styleLayerName) => {
+    vtLayer.styleLayers.forEach(([styleLayerName, paintProperties]) => {
       const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
       if (layerPaintProperties) {
-        const fillColour = paintProperties[styleLayerName][isDark ? 1 : 0]
+        const fillColour = paintProperties[isDark ? 1 : 0]
         layerPaintProperties['fill-color'] = fillColour
         vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
       }
@@ -233,22 +219,28 @@ getDefraMapConfig().then((defraMapConfig) => {
     return Promise.all([
       /* eslint-disable */
       import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js')
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
+      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js'),
       /* eslint-enable */
     ]).then(modules => {
       const VectorTileLayer = modules[0].default
       const FeatureLayer = modules[1].default
+      const GroupLayer = modules[2].default
       vtLayers.forEach((vtLayer) => {
         if (!vtLayer.q) {
           return
         }
-        const vectorTileLayer = new VectorTileLayer({
-          id: vtLayer.name,
-          url: getVectorTileUrl(vtLayer.name),
-          opacity: 0.75,
-          visible: false
-        })
-        floodMap.map.add(vectorTileLayer)
+        if (vtLayer.getVtLayer) {
+          floodMap.map.add(vtLayer.getVtLayer(getVectorTileUrl, VectorTileLayer, GroupLayer))
+        } else {
+          const vectorTileLayer = new VectorTileLayer({
+            id: vtLayer.name,
+            url: getVectorTileUrl(vtLayer.name),
+            opacity: 0.75,
+            visible: false
+          })
+          floodMap.map.add(vectorTileLayer)
+        }
       })
       fLayers.forEach(fLayer => {
         floodMap.map.add(new FeatureLayer({
@@ -271,7 +263,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
-      setStylePaintProperties(vtLayer, layer, isDark)
+      const layers = layer.allLayers || [layer]
+      layers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
       visibleVtLayer = isVisible ? layer : visibleVtLayer
     })
     fLayers.forEach(fLayer => {
@@ -343,7 +336,22 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'tf',
-        heading: 'Time frame',
+        heading: 'Climate change',
+        parentIds: ['fz'],
+        items: [
+          {
+            id: 'fzpd',
+            label: 'Present day'
+          },
+          {
+            id: 'fzcl',
+            label: 'Flood zones with climate change'
+          }
+        ]
+      },
+      {
+        id: 'tf',
+        heading: 'Climate change',
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -352,7 +360,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'cl',
-            label: 'Climate change'
+            label: 'Years 2070 to 2125'
           }
         ]
       },
@@ -413,10 +421,23 @@ getDefraMapConfig().then((defraMapConfig) => {
       key: [
         {
           heading: 'Map features',
-          parentIds: ['fz'],
+          parentIds: ['fzpd'],
           items: [
             keyItemDefinitions.floodZone2,
             keyItemDefinitions.floodZone3,
+            keyItemDefinitions.waterStorageAreas,
+            keyItemDefinitions.floodDefences,
+            keyItemDefinitions.mainRivers
+          ]
+        },
+        {
+          heading: 'Map features',
+          parentIds: ['fzcl'],
+          items: [
+            keyItemDefinitions.floodZone2,
+            keyItemDefinitions.floodZone3,
+            keyItemDefinitions.floodZone3CC,
+            keyItemDefinitions.floodZoneNoData,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
             keyItemDefinitions.mainRivers
@@ -471,18 +492,25 @@ getDefraMapConfig().then((defraMapConfig) => {
     isDark: false,
     isRamp: false,
     layers: [],
-    segments: []
+    segments: [],
+    isClimateChange: false,
+    isFloodZone: false
+  }
+
+  const updateMapState = (segments, layers, style) => {
+    mapState.segments = segments
+    mapState.layers = layers
+    mapState.isDark = style ? style === 'dark' || style?.name === 'dark' : mapState.isDark
+    mapState.isRamp = layers.includes('md')
+    mapState.isClimateChange = segments.includes('cl') || segments.includes('fzcl')
+    mapState.isFloodZone = segments.includes('fz') || segments.includes('fzcl') || segments.includes('fzpd')
   }
 
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
-    mapState.segments = segments
-    mapState.layers = layers
-    mapState.isDark = style?.name === 'dark'
-    mapState.isRamp = layers.includes('md')
-    console.log('ready mapState', mapState)
+    updateMapState(segments, layers, style)
     await addLayers()
     initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
@@ -492,13 +520,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   // Listen for mode, segments, layers or style changes
   floodMap.addEventListener('change', e => {
     const { type, mode, segments, layers, style } = e.detail
-    mapState.segments = segments
-    mapState.layers = layers
-    if (style) {
-      mapState.isDark = style.name === 'dark' || style === 'dark'
-    }
-    mapState.isRamp = layers.includes('md')
-    console.log('onChange mapState', mapState)
+    updateMapState(segments, layers, style)
     if (['layer', 'segment'].includes(type)) {
       floodMap.setInfo(null)
     }
@@ -599,7 +621,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
-      ['Timeframe', mapState.segments.includes('cl') ? 'Climate change' : 'Present day']
+      ['Timeframe', mapState.isClimateChange ? 'Climate change' : 'Present day']
     ]
     const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
@@ -607,13 +629,13 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const addQueryFloodZonesContent = (listContents, feature) => {
-    if (!mapState.segments.includes('fz')) {
+    if (!mapState.isFloodZone) {
       return ''
     }
-    const floodZone = floodZoneSymbolIndex[feature?._symbol] || '1'
+    const floodZone = getFloodZoneFromFeature(feature, mapState)
     listContents.push(['Flood zone', floodZone])
 
-    if (floodZone !== '1' && feature.flood_source) {
+    if (floodZone !== 'No data available' && feature.flood_source) {
       listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
@@ -637,7 +659,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = () => (mapState.segments.includes('cl'))
+  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone !== 'No data available')
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <ul class="govuk-list govuk-list--bullet">
@@ -656,23 +678,40 @@ getDefraMapConfig().then((defraMapConfig) => {
     </ul>`
     : ''
 
-  const getFloodZonesExtraContent = () => (mapState.segments.includes('fz'))
-    ? `
-    <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-    <p class="govuk-body-s">
-      Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
-    </p>`
-    : ''
+  const getFloodZonesExtraContent = (floodZone) => {
+    if (!mapState.isFloodZone) {
+      return ''
+    }
+    if (floodZone === 'No data available') {
+      return `<h2 class="govuk-heading-s">No data available</h2>
+        <p class="govuk-body-s">
+          Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
+        </p>`
+    } else if (mapState.isClimateChange) {
+      return `<h2 class="govuk-heading-s">How to use flood zones with climate change</h2>
+        <p class="govuk-body-s">
+          Flood zones plus climate change are given to help you further investigate flood risk. 
+        </p>
+        <p class="govuk-body-s"> 
+          <a href="#">Find out more about this data and how it should be used</a>
+        </p>`
+    } else {
+      return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+        <p class="govuk-body-s">
+          Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+        </p>`
+    }
+  }
 
-  const getQueryExtraContent = (vtLayer) => {
+  const getQueryExtraContent = (vtLayer, floodZone) => {
     let extraContent = vtLayer?.additionalInfo || ''
     if (!vtLayer && mapState?.segments.find((item) => item === 'rsd' || item === 'rsu')) {
       // Ensure the Caveat shows for Rivers and Seas - even if a non RS area is clicked
       extraContent = terms.additionalInfo.rsHigh
     }
 
-    extraContent += getClimateChangeExtraContent()
-    extraContent += getFloodZonesExtraContent()
+    extraContent += getClimateChangeExtraContent(floodZone)
+    extraContent += getFloodZonesExtraContent(floodZone)
     return extraContent
   }
 
@@ -688,6 +727,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       addQueryNonFloodZonesContent(listContents, vtLayer)
     }
 
-    floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(vtLayer)))
+    floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(vtLayer, floodZone)))
   })
 })
