@@ -15,7 +15,7 @@ const replaceButtonText = (buttonElement, replaceText) => {
 }
 
 const observer = new window.MutationObserver((mutations) => {
-  // addedNodes is an Array of NodeLists, which is an Array of Nodes
+  // addedNodes is an array of NodeLists, which is an array of Nodes
   const addedNodes = mutations.map(({ addedNodes }) => addedNodes)
   // reduce the addedNodes to the buttons we require
   const buttons = [
@@ -38,7 +38,7 @@ const setUpBaseMaps = (osAccountNumber) => {
   const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
   Object.assign(mapStyles, {
     default: {
-      displayName: 'Default',
+      displayName: 'Outdoor',
       url: '/map/styles/base-map-default',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/polygon-default',
@@ -51,42 +51,14 @@ const setUpBaseMaps = (osAccountNumber) => {
       digitisingUrl: '/map/styles/polygon-default',
       digitisingAttribution: osMasterMapAttributionHyperlink
     },
-    tritanopia: {
-      displayName: 'Greyscale',
-      url: '/map/styles/base-map-greyscale',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
-    },
-    deuteranopia: {
-      displayName: 'Light',
-      url: '/map/styles/base-map-3D',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
-    },
     blackAndWhite: {
-      displayName: 'Black and White',
+      displayName: 'Black and white',
+      // TODO replace with open version of map and apply over-zoom and wonky road name changes
       url: '/map/styles/base-map-black-and-white',
       attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
-    },
-    road: {
-      displayName: 'Road',
-      url: '/map/styles/base-map-road',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
-    },
-    map3D: {
-      displayName: '3D',
-      url: '/map/styles/base-map-3D',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
+      digitisingUrl: '/map/styles/base-map-black-and-white',
       digitisingAttribution: osMasterMapAttributionHyperlink
     }
-
   })
 
   const baseMapStyles = Object.entries(mapStyles)
@@ -95,12 +67,15 @@ const setUpBaseMaps = (osAccountNumber) => {
   const digitisingMapStyles = Object.entries(mapStyles)
     .map(([name, { digitisingUrl: url, digitisingAttribution: attribution }]) => ({ name, url, attribution }))
 
-  // Build the selector for the names we need to change
+  // TEMPORARY HACK while we await https://eaflood.atlassian.net/browse/FMC-188
+  // Build the selector for the names we need to change at runtime
   mapStylesSelector = Object.keys(mapStyles)
     .reduce((selector, styleName) => selector.concat(`button[value="${styleName}"]`), []).join()
   // Start the observer to capture any mutations to the DOM
   // and then replace the hard coded component names, with our names
   observer.observe(document, { attributes: false, childList: true, characterData: false, subtree: true })
+  // END OF TEMPORARY HACK
+
   return { mapStyles, baseMapStyles, digitisingMapStyles }
 }
 
