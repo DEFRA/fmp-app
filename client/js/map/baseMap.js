@@ -51,7 +51,9 @@ const setUpBaseMaps = (osAccountNumber) => {
       digitisingUrl: '/map/styles/polygon-default',
       digitisingAttribution: osMasterMapAttributionHyperlink
     },
-    blackAndWhite: {
+    // ideally we change this from tritanopia to blackAndWhite.
+    // But we have to use tritanopia, otherwise the MC forgets the setting
+    tritanopia: {
       displayName: 'Black and white',
       // TODO replace with open version of map and apply over-zoom and wonky road name changes
       url: '/map/styles/base-map-black-and-white',
