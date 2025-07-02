@@ -9,10 +9,6 @@ import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './rive
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 
-// Todo change text to a button with value tritanopia
-// const other = document.querySelector('#map-styles button[value="tritanopia"]')
-// other.innerHTML += 'Greyscale'
-
 let visibleVtLayer
 
 const mapDiv = document.getElementById('map')
