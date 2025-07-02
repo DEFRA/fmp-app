@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
+import { setUpBaseMaps } from './baseMap.js'
 
 let visibleVtLayer
 
@@ -283,11 +284,8 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
+  const { baseMapStyles, digitisingMapStyles } = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
-  const osAccountNumber = defraMapConfig.OS_ACCOUNT_NUMBER
-  const currentYear = new Date().getFullYear()
-  const osAttributionHyperlink = `<a href="/os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
-  const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
 
   const floodMap = new FloodMap('map', {
     behaviour: 'inline',
@@ -305,18 +303,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     transformSearchRequest: getRequest,
     interceptorsCallback: getInterceptors,
     tokenCallback: getEsriToken,
-    styles: [
-      {
-        name: 'default',
-        url: '/map/styles/base-map-default',
-        attribution: osAttributionHyperlink
-      },
-      {
-        name: 'dark',
-        url: '/map/styles/base-map-dark',
-        attribution: osAttributionHyperlink
-      }
-    ],
+    styles: baseMapStyles,
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -468,18 +455,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       html: siteBoundaryHelp,
       minZoom: 17,
       maxZoom: 21,
-      styles: [
-        {
-          name: 'default',
-          url: '/map/styles/polygon-default',
-          attribution: osMasterMapAttributionHyperlink
-        },
-        {
-          name: 'dark',
-          url: '/map/styles/polygon-dark',
-          attribution: osMasterMapAttributionHyperlink
-        }
-      ],
+      styles: digitisingMapStyles,
       feature: featureQuery // feature derived from polygon query string or null if not present
     },
     queryLocation: {
