@@ -16,7 +16,7 @@ const replaceButtonText = (buttonElement, replaceText) => {
 
 const observer = new window.MutationObserver((mutations) => {
   // addedNodes is an array of NodeLists, which is an array of Nodes
-  const addedNodes = mutations.map(({ addedNodes }) => addedNodes)
+  const addedNodes = mutations.map(({ addedNodes: sonarAddedNodes }) => sonarAddedNodes)
   // reduce the addedNodes to the buttons we require
   const buttons = [
     ...addedNodes.reduce((foundButtons, nodeList) =>
@@ -55,7 +55,7 @@ const setUpBaseMaps = (osAccountNumber) => {
     // But we have to use tritanopia, otherwise the MC forgets the setting
     tritanopia: {
       displayName: 'Black and white',
-      // TODO replace with open version of map and apply over-zoom and wonky road name changes
+      // will be replaced with open version of map and apply over-zoom and wonky road name changes
       url: '/map/styles/base-map-black-and-white',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/base-map-black-and-white',
