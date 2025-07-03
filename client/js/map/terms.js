@@ -27,7 +27,10 @@ const terms = {
   labels: {
     noData: 'No data available',
     climateChange: 'Climate change',
-    presentDay: 'Present day'
+    presentDay: 'Present day',
+    mapFeatures: 'Map features',
+    annualLikelihood: 'Annual likelihood of flooding',
+    aep: 'Annual exceedance probability (AEP)'
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
