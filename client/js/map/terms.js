@@ -24,6 +24,9 @@ const floodZone3bNotice = `
 </details>`
 
 const terms = {
+  labels: {
+    noData: 'No data available'
+  },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
     rsMedium: 'Rivers 1 in 100, Sea 1 in 200',

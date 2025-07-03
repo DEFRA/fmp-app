@@ -35,7 +35,7 @@ const keyItemDefinitions = {
     fill: getKeyItemFill(colours.floodZoneCC)
   },
   floodZoneNoData: {
-    label: 'No data available',
+    label: terms.labels.noData,
     fill: getKeyItemFill(colours.floodZoneNoData)
   },
   waterStorageAreas: {
@@ -69,12 +69,12 @@ const keyItemDefinitions = {
 // On a previous data set, these values were in the reverse order so we need to verify that they remain correct
 // after a data upload to arcGis
 const floodZoneSymbolIndex = ['3', '2']
-const floodZoneCCSymbolIndex = ['2', '3', 'No data available']
+const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
 
 const getFloodZoneFromFeature = (feature, mapState) => {
   if (feature.flood_zone === 'FZ2') { return '2' }
   if (feature.flood_zone === 'FZ3') { return '3' }
-  if (feature.flood_zone) { return 'No data available' }
+  if (feature.flood_zone) { return terms.labels.noData }
   const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
   return symbolIndex[feature._symbol]
 }
@@ -635,7 +635,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     const floodZone = getFloodZoneFromFeature(feature, mapState)
     listContents.push(['Flood zone', floodZone])
 
-    if (floodZone !== 'No data available' && feature.flood_source) {
+    if (floodZone !== terms.labels.noData && feature.flood_source) {
       listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
@@ -659,7 +659,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone !== 'No data available')
+  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone !== terms.labels.noData)
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <ul class="govuk-list govuk-list--bullet">
@@ -682,7 +682,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (!mapState.isFloodZone) {
       return ''
     }
-    if (floodZone === 'No data available') {
+    if (floodZone === terms.labels.noData) {
       return `<h2 class="govuk-heading-s">No data available</h2>
         <p class="govuk-body-s">
           Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
