@@ -336,7 +336,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'tf',
-        heading: 'Climate change',
+        heading: terms.labels.climateChange,
         parentIds: ['fz'],
         items: [
           {
@@ -351,7 +351,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'tf',
-        heading: 'Climate change',
+        heading: terms.labels.climateChange,
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -621,7 +621,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
-      ['Timeframe', mapState.isClimateChange ? 'Climate change' : 'Present day']
+      ['Timeframe', mapState.isClimateChange ? terms.labels.climateChange : 'Present day']
     ]
     const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
