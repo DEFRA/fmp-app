@@ -263,8 +263,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       const layer = map.findLayerById(id)
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
-      const layers = layer.allLayers || [layer]
-      layers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
+      const allLayers = layer.allLayers || [layer]
+      allLayers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
       visibleVtLayer = isVisible ? layer : visibleVtLayer
     })
     fLayers.forEach(fLayer => {
