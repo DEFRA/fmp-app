@@ -341,7 +341,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'fzpd',
-            label: 'Present day'
+            label: terms.labels.presentDay
           },
           {
             id: 'fzcl',
@@ -356,7 +356,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         items: [
           {
             id: 'pd',
-            label: 'Present day'
+            label: terms.labels.presentDay
           },
           {
             id: 'cl',
@@ -366,7 +366,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'af1',
-        heading: 'Annual likelihood of flooding',
+        heading: terms.labels.annualLikelihood,
         parentIds: ['rsd'],
         items: [
           {
@@ -385,7 +385,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'sw1',
-        heading: 'Annual likelihood of flooding',
+        heading: terms.labels.annualLikelihood,
         parentIds: ['sw'],
         items: [
           {
@@ -404,7 +404,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       },
       {
         id: 'af2',
-        heading: 'Annual likelihood of flooding',
+        heading: terms.labels.annualLikelihood,
         parentIds: ['rsu'],
         items: [
           {
@@ -420,7 +420,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       ],
       key: [
         {
-          heading: 'Map features',
+          heading: terms.labels.mapFeatures,
           parentIds: ['fzpd'],
           items: [
             keyItemDefinitions.floodZone2,
@@ -431,7 +431,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           ]
         },
         {
-          heading: 'Map features',
+          heading: terms.labels.mapFeatures,
           parentIds: ['fzcl'],
           items: [
             keyItemDefinitions.floodZone2,
@@ -444,7 +444,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           ]
         },
         {
-          heading: 'Map features',
+          heading: terms.labels.mapFeatures,
           parentIds: ['rsd', 'rsu', 'sw'],
           items: [
             keyItemDefinitions.floodExtents,
@@ -454,7 +454,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           ]
         },
         {
-          heading: 'Map features',
+          heading: terms.labels.mapFeatures,
           parentIds: ['mo'],
           items: [
             keyItemDefinitions.waterStorageAreas,
@@ -621,7 +621,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
-      ['Timeframe', mapState.isClimateChange ? terms.labels.climateChange : 'Present day']
+      ['Timeframe', mapState.isClimateChange ? terms.labels.climateChange : terms.labels.presentDay]
     ]
     const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
@@ -649,13 +649,13 @@ getDefraMapConfig().then((defraMapConfig) => {
       listContents.push(['Dataset', dataset])
     }
     if (vtLayer?.likelihoodLabel) {
-      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodLabel])
+      listContents.push([terms.labels.aep, vtLayer.likelihoodLabel])
     }
     if (vtLayer?.chanceLabel) {
-      listContents.push(['Annual likelihood of flooding', vtLayer.chanceLabel])
+      listContents.push([terms.labels.annualLikelihood, vtLayer.chanceLabel])
     }
     if (vtLayer?.likelihoodchanceLabel) {
-      listContents.push(['Annual exceedance probability (AEP)', vtLayer.likelihoodchanceLabel])
+      listContents.push([terms.labels.aep, vtLayer.likelihoodchanceLabel])
     }
   }
 

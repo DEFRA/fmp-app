@@ -25,7 +25,9 @@ const floodZone3bNotice = `
 
 const terms = {
   labels: {
-    noData: 'No data available'
+    noData: 'No data available',
+    climateChange: 'Climate change',
+    presentDay: 'Present day'
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
