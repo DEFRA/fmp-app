@@ -19,7 +19,7 @@ module.exports = [
             'server/public/static',
             'server/public/build',
             'server/public/assets',
-            'node_modules/govuk-frontend/dist/govuk/assets',
+            'node_modules/govuk-frontend/dist/govuk/assets/rebrand',
             'node_modules/nunjucks/browser'
           ]
         }
