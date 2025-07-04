@@ -1,35 +1,6 @@
 const Joi = require('joi')
 const constants = require('../constants')
-const emojiRegex = /[\p{Extended_Pictographic}\u{1F3FB}-\u{1F3FF}\u{1F9B0}-\u{1F9B3}]+/gu
-
-const schema = Joi.object({
-  fullName: Joi.string().required(),
-  recipientemail: Joi.string().email().required()
-})
-
-const validatePayload = payload => {
-  const { fullName, recipientemail } = payload
-  const { error } = schema.validate({ fullName, recipientemail }, { abortEarly: false })
-  const errorDetails = error?.details || []
-
-  const errorSummary = errorDetails.map(({ path: [field] }) => {
-    const text = field === 'fullName'
-      ? 'Enter your full name'
-      : 'Enter an email address in the correct format, like name@example.com'
-    return { text, href: `#${field}` }
-  })
-
-  // Emojis pass hapi's validation, BUT they will cause a difficult to handle crash when we attempt to set them as cookies
-  // so they are explicitly rejected here.
-  if (recipientemail.match(emojiRegex)) {
-    errorSummary.push({ text: 'Emojis are not allowed in the email address', href: '#recipientemail' })
-  }
-
-  if (fullName.match(emojiRegex)) {
-    errorSummary.push({ text: 'Emojis are not allowed in the name field', href: '#fullName' })
-  }
-  return { errorSummary }
-}
+const { validateContactData } = require('./validateContactData')
 
 module.exports = [
   {
@@ -58,7 +29,7 @@ module.exports = [
     options: {
       description: 'submits contact details to the check your details page',
       handler: async (request, h) => {
-        const { errorSummary } = validatePayload(request.payload)
+        const { errorSummary } = validateContactData(request.payload)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,

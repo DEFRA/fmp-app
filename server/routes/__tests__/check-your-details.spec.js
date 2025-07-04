@@ -44,6 +44,25 @@ describe('Check your details page', () => {
         assertCopy('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value', floodZone)
       })
     })
+    const longFullName = 'test'.repeat(51)
+    const tests = [
+      [
+        'Should serve contact view with error message if fullname in url is > 200 chars',
+        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${longFullName}&recipientemail=${user.email}`
+      ], [
+        'Should serve contact view with error message if fullname is missing',
+        `${url}?polygon=${mockPolygons.fz1_only}&recipientemail=${user.email}`
+      ], [
+        'Should serve contact view with error message if recipientemail is missing',
+        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${user.fullName}`
+      ]
+    ]
+    tests.forEach(([description, checkYourDetailsUrl]) => {
+      it(description, async () => {
+        const response = await submitGetRequest({ url: checkYourDetailsUrl }, 'Order your flood risk data')
+        expect(response.result).toMatchSnapshot()
+      })
+    })
   })
 
   describe('POST', () => {
