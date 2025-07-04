@@ -35,7 +35,7 @@
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon={{ polygon }}" novalidate>
 
         {{ govukInput({
           label: {

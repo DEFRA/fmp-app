@@ -1,12 +1,14 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
-import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, isInvalidTokenError } from './tokens.js'
+import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers, surfaceWaterStyleLayers } from './vtLayers.js'
+
+let visibleVtLayer
 
 const mapDiv = document.getElementById('map')
 
@@ -269,6 +271,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       const isVisible = !isDrawMode && segments.join('') === vtLayer.q
       layer.visible = isVisible
       setStylePaintProperties(vtLayer, layer, isDark)
+      visibleVtLayer = isVisible ? layer : visibleVtLayer
     })
     fLayers.forEach(fLayer => {
       const layer = map.findLayerById(fLayer.name)
@@ -507,6 +510,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     await addLayers()
     initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
+    initPointerMove()
   })
 
   // Listen for mode, segments, layers or style changes
@@ -528,6 +532,26 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
+
+  const initPointerMove = () => {
+    let lastHit = 0
+    const throttleMs = 20 // Throttle to reduce hitTest usage
+    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
+    floodMap.view.on('pointer-move', e => {
+      const now = Date.now()
+      if (now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+        return
+      }
+      lastHit = now
+      floodMap.view.hitTest(e, { include: [visibleVtLayer] }).then((response) => {
+        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
+      })
+    })
+
+    floodMap.view.on('pointer-leave', _e => {
+      document.body.style.cursor = 'default'
+    })
+  }
 
   const getPolygon = () => {
     const { items: layers } = floodMap.map.layers
@@ -569,28 +593,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     return undefined
   }
 
-  const getModelFeatureLayer = async (coords, layerName) => {
-    const [{ default: FeatureLayer }, { default: Point }] = await Promise.all([
-      /* eslint-disable */
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/geometry/Point.js')
-      /* eslint-enable */
-    ])
-
-    const model = new FeatureLayer({ url: getModelFeatureLayerUrl(layerName) })
-
-    const results = await model.queryFeatures({
-      geometry: new Point({ x: coords[0], y: coords[1], spatialReference: 27700 }),
-      outFields: ['*'],
-      spatialRelationship: 'intersects',
-      distance: 1,
-      units: 'meters',
-      returnGeometry: false
-    })
-    const attributes = results.features.length ? results.features[0].attributes : undefined
-    return attributes
-  }
-
   const formatFloodSource = (floodSource = '') => {
     if (floodSource === 'Coastal') {
       return 'Sea'
@@ -614,21 +616,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
-  const getFloodZoneAttributes = async (coord, feature) => {
-    try {
-      return await getModelFeatureLayer(coord, feature.layer)
-    } catch (error) {
-      if (isInvalidTokenError(error)) {
-        const { token } = await getEsriToken(true) // forceRefresh = true
-        mapState.esriConfig.apiKey = token
-        return getModelFeatureLayer(coord, feature.layer)
-      }
-      console.log('unexpected error caught when calling getModelFeatureLayer', error)
-      return undefined
-    }
-  }
-
-  const getQueryContentHeader = async (e) => {
+  const getQueryContentHeader = (e) => {
     const { coord, features } = e.detail
     if (!features || !coord) {
       return {}
@@ -642,18 +630,15 @@ getDefraMapConfig().then((defraMapConfig) => {
     return { listContents, vtLayer, coord, feature }
   }
 
-  const addQueryFloodZonesContent = async (listContents, feature, coord) => {
+  const addQueryFloodZonesContent = (listContents, feature) => {
     if (!mapState.segments.includes('fz')) {
-      return false
+      return ''
     }
     const floodZone = floodZoneSymbolIndex[feature?._symbol] || '1'
     listContents.push(['Flood zone', floodZone])
 
-    if (floodZone !== '1') {
-      const attributes = await getFloodZoneAttributes(coord, feature)
-      if (attributes && attributes.flood_source) {
-        listContents.push(['Flood source', formatFloodSource(attributes.flood_source)])
-      }
+    if (floodZone !== '1' && feature.flood_source) {
+      listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
   }
@@ -716,12 +701,13 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   // Listen to map queries
-  floodMap.addEventListener('query', async e => {
-    const { listContents, vtLayer, feature, coord } = await getQueryContentHeader(e)
-    if (!listContents) {
+  floodMap.addEventListener('query', e => {
+    const { listContents, vtLayer, feature } = getQueryContentHeader(e)
+    if (!listContents || !feature) {
+      floodMap.setInfo(null)
       return
     }
-    const floodZone = await addQueryFloodZonesContent(listContents, feature, coord)
+    const floodZone = addQueryFloodZonesContent(listContents, feature)
     if (!floodZone) {
       addQueryNonFloodZonesContent(listContents, vtLayer)
     }

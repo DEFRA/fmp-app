@@ -10,6 +10,9 @@ module.exports = async () => {
       '__mocks__',
       '__test-helpers__'
     ],
+    coveragePathIgnorePatterns: [
+      '__test-helpers__'
+    ],
     testEnvironment: 'jsdom',
     globals: {
       setImmediate
