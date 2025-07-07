@@ -24,6 +24,14 @@ const floodZone3bNotice = `
 </details>`
 
 const terms = {
+  labels: {
+    noData: 'No data available',
+    climateChange: 'Climate change',
+    presentDay: 'Present day',
+    mapFeatures: 'Map features',
+    annualLikelihood: 'Annual likelihood of flooding',
+    aep: 'Annual exceedance probability (AEP)'
+  },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
     rsMedium: 'Rivers 1 in 100, Sea 1 in 200',
