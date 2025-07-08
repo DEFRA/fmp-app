@@ -24,6 +24,7 @@ COPY --chown=root:root ./server ./server
 COPY --chown=root:root ./bin ./bin
 COPY --chown=root:root ./config ./config
 COPY --chown=root:root ./webpack.config.mjs ./webpack.config.mjs
+COPY --chown=root:root ./webpack.configBuilder.mjs ./webpack.configBuilder.mjs
 COPY --chown=root:root ./babel.config.json ./babel.config.json
 
 ARG BUILD_VERSION=v3.0.0-1-g6666666
