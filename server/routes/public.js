@@ -26,5 +26,17 @@ module.exports = [
       },
       tags: ['asset']
     }
+  },
+  {
+    method: 'GET',
+    path: '/files/{path*}',
+    options: {
+      handler: {
+        directory: {
+          path: ['server/public/files']
+        }
+      },
+      tags: ['files']
+    }
   }
 ]
