@@ -14,7 +14,7 @@
     "build:jsAndCss-submodule": "webpack --config webpack.submodule.mjs",
     "build": "npm run copy && npm run build:jsAndCss",
     "build-submodule": "npm run copy && npm run build:jsAndCss-submodule ",
-    "setup-submodule": "cd defra-map && npm ci && cd ..",
+    "setup-submodule": "cd defra-map && npm ci --ignore-scripts && cd ..",
     "lint": "standard",
     "eslint": "eslint --cache --ext .js .",
     "unit-test": "lab --verbose -l -c -r console -o stdout -r lcov -o lcov.info",

@@ -38,7 +38,7 @@ FROM base AS development
 RUN npm pkg set scripts.postinstall="echo no-postinstall" \
 && npm ci --ignore-scripts --omit dev \
 && npm run setup-submodule \
-&& npm run build
+&& npm run build-submodule
 
 USER node
 EXPOSE ${PORT}/tcp
