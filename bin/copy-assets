@@ -5,3 +5,7 @@ rm -rf server/public/assets
 mkdir -p server/public/assets
 mkdir -p server/public/assets/images
 cp -R client/images/* server/public/assets/images
+
+rm -rf server/public/files
+mkdir -p server/public/files
+cp -R client/files/* server/public/files
