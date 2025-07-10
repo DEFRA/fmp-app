@@ -11,29 +11,32 @@ const setUpBaseMaps = (osAccountNumber) => {
       url: '/map/styles/base-map-black-and-white',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/base-map-black-and-white',
-      digitisingAttribution: osMasterMapAttributionHyperlink
+      digitisingAttribution: osMasterMapAttributionHyperlink,
+      iconUrl: '/assets/images/black-and-white-map-icon.jpg'
     },
     dark: {
       displayName: 'Dark',
       url: '/map/styles/base-map-dark',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
+      digitisingAttribution: osMasterMapAttributionHyperlink,
+      iconUrl: '/assets/images/dark-map-icon.jpg'
     },
     outdoor: {
       displayName: 'Outdoor',
       url: '/map/styles/base-map-default',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/polygon-default',
-      digitisingAttribution: osMasterMapAttributionHyperlink
+      digitisingAttribution: osMasterMapAttributionHyperlink,
+      iconUrl: '/assets/images/outdoor-map-icon.jpg'
     }
   })
 
   const baseMapStyles = Object.entries(mapStyles)
-    .map(([name, { url, attribution, displayName }]) => ({ name, url, attribution, displayName }))
+    .map(([name, { url, attribution, displayName, iconUrl }]) => ({ name, url, attribution, displayName, iconUrl }))
 
   const digitisingMapStyles = Object.entries(mapStyles)
-    .map(([name, { digitisingUrl: url, digitisingAttribution: attribution, displayName }]) => ({ name, url, attribution, displayName }))
+    .map(([name, { digitisingUrl: url, digitisingAttribution: attribution, displayName, iconUrl }]) => ({ name, url, attribution, displayName, iconUrl }))
 
   return { mapStyles, baseMapStyles, digitisingMapStyles }
 }
