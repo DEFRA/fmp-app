@@ -230,8 +230,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
       </h1>
 
       <p class="govuk-body">
-        This accessibility statement applies to the flood map for planning service at
-        flood-map-for-planning.service.gov.uk.
+        This accessibility statement applies to flood-map-for-planning.service.gov.uk.
       </p>
 
       <p class="govuk-body">
@@ -357,9 +356,9 @@ exports[`cookies Should return accessibility statement page 1`] = `
       </p>
 
       <p class="govuk-body">
-        This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/" class="govuk-link">Web
+        This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG22/" class="govuk-link">Web
           Content Accessibility
-          Guidelines version 2.1 AA standard</a>, due to the non-compliances and exemptions listed below.
+          Guidelines version 2.2 AA standard</a>, due to the non-compliances and exemptions listed below.
       </p>
 
       <h3 class="govuk-heading-m">
@@ -530,7 +529,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
       </h2>
 
       <p class="govuk-body">
-        This statement was prepared on 30 March 2022. It was last reviewed on 22 May 2025.
+        This statement was prepared on 30 March 2022. It was last reviewed on 2 May 2025.
       </p>
 
       <p class="govuk-body">
