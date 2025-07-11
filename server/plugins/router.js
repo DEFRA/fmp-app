@@ -13,7 +13,6 @@ const routes = [].concat(
   require('../routes/feedback'),
   require('../routes/flood-zone-results-explained'),
   require('../routes/health-check'),
-  require('../routes/how-to-use-rivers-and-sea-data'),
   require('../routes/home'),
   require('../routes/location'),
   require('../routes/maintenance'),
