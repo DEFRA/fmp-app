@@ -5,7 +5,6 @@ import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
-import { onRiversAndSeasMenuItem, initialiseRiversAndSeasWarnings } from './riversAndSeasWarning.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 
@@ -316,14 +315,15 @@ getDefraMapConfig().then((defraMapConfig) => {
             id: 'fz',
             label: 'Flood zones 2 and 3'
           },
-          {
-            id: 'rsd',
-            label: 'River and sea with defences'
-          },
-          {
-            id: 'rsu',
-            label: 'River and sea without defences'
-          },
+          // Left in place for reinstating later
+          // {
+          //   id: 'rsd',
+          //   label: 'River and sea with defences'
+          // },
+          // {
+          //   id: 'rsu',
+          //   label: 'River and sea without defences'
+          // },
           {
             id: 'sw',
             label: 'Surface water'
@@ -512,7 +512,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     await addLayers()
-    initialiseRiversAndSeasWarnings(mapState, floodMap)
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
   })
@@ -525,9 +524,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       floodMap.setInfo(null)
     }
     const map = floodMap.map
-    if (type === 'segment') {
-      onRiversAndSeasMenuItem()
-    }
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
   })
 
@@ -704,12 +700,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const getQueryExtraContent = (vtLayer, floodZone) => {
-    let extraContent = vtLayer?.additionalInfo || ''
-    if (!vtLayer && mapState?.segments.find((item) => item === 'rsd' || item === 'rsu')) {
-      // Ensure the Caveat shows for Rivers and Seas - even if a non RS area is clicked
-      extraContent = terms.additionalInfo.rsHigh
-    }
-
+    let extraContent = ''
     extraContent += getClimateChangeExtraContent(floodZone)
     extraContent += getFloodZonesExtraContent(floodZone)
     return extraContent
