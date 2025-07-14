@@ -30,7 +30,7 @@ const keyItemDefinitions = {
     fill: getKeyItemFill(colours.floodZone3)
   },
   floodZone3CC: {
-    label: 'Flood zones plus climate change',
+    label: terms.labels.fzClimateChange,
     fill: getKeyItemFill(colours.floodZoneCC)
   },
   floodZoneNoData: {
@@ -345,7 +345,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'fzcl',
-            label: 'Flood zones with climate change'
+            label: terms.labels.fzClimateChange
           }
         ]
       },
