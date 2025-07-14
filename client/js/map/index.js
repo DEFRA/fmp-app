@@ -683,7 +683,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone !== terms.labels.noData)
+  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && !floodZone)
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <ul class="govuk-list govuk-list--bullet">
