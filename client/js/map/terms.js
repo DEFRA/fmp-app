@@ -2,6 +2,7 @@ const terms = {
   labels: {
     noData: 'No data available',
     climateChange: 'Climate change',
+    fzClimateChange: '2070 to 2125',
     presentDay: 'Present day',
     mapFeatures: 'Map features',
     annualLikelihood: 'Annual likelihood of flooding',

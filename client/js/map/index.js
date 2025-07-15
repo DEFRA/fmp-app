@@ -30,7 +30,7 @@ const keyItemDefinitions = {
     fill: getKeyItemFill(colours.floodZone3)
   },
   floodZone3CC: {
-    label: 'Flood zones plus climate change',
+    label: terms.labels.fzClimateChange,
     fill: getKeyItemFill(colours.floodZoneCC)
   },
   floodZoneNoData: {
@@ -73,6 +73,7 @@ const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
 const getFloodZoneFromFeature = (feature, mapState) => {
   if (feature.flood_zone === 'FZ2') { return '2' }
   if (feature.flood_zone === 'FZ3') { return '3' }
+  if (feature.flood_zone === 'FZCC') { return '' }
   if (feature.flood_zone) { return terms.labels.noData }
   const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
   return symbolIndex[feature._symbol]
@@ -345,7 +346,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'fzcl',
-            label: 'Flood zones with climate change'
+            label: terms.labels.fzClimateChange
           }
         ]
       },
@@ -609,17 +610,42 @@ getDefraMapConfig().then((defraMapConfig) => {
       window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
+  const getTimeFrame = (feature) => {
+    if (mapState.isClimateChange) {
+      if (mapState.isFloodZone && feature.flood_zone !== 'FZCC') {
+        return terms.labels.presentDay
+      }
+      return terms.labels.climateChange
+    }
+    return terms.labels.presentDay
+  }
+
+  const transformFeature = (features) => {
+    if (!features.isPixelFeaturesAtPixel) {
+      return null
+    }
+    const feature = { ...features.items[0] }
+    if (mapState.isFloodZone && mapState.isClimateChange && feature.origin !== 'modelled') {
+      // This Implies we have clicked on  CC ZONE
+      delete feature.flood_source
+      feature.flood_zone = 'FZCC'
+    }
+    return feature
+  }
 
   const getQueryContentHeader = (e) => {
     const { coord, features } = e.detail
     if (!features || !coord) {
       return {}
     }
+    const feature = transformFeature(features)
+
+    const timeFrame = getTimeFrame(feature)
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
-      ['Timeframe', mapState.isClimateChange ? terms.labels.climateChange : terms.labels.presentDay]
+      ['Timeframe', timeFrame]
     ]
-    const feature = features.isPixelFeaturesAtPixel ? features.items[0] : null
+
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
     return { listContents, vtLayer, coord, feature }
   }
@@ -629,7 +655,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       return ''
     }
     const floodZone = getFloodZoneFromFeature(feature, mapState)
-    listContents.push(['Flood zone', floodZone])
+    if (floodZone) {
+      listContents.push(['Flood zone', floodZone])
+    }
 
     if (floodZone !== terms.labels.noData && feature.flood_source) {
       listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
@@ -655,7 +683,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone !== terms.labels.noData)
+  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && !floodZone)
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <ul class="govuk-list govuk-list--bullet">
