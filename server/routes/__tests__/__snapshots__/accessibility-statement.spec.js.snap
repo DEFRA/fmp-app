@@ -235,7 +235,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
 
       <p class="govuk-body">
         This website is run by the Environment Agency. We want as many people as possible to be able to use this
-        website. For example, that means that you should be able to:
+        website. For example, that means you should be able to:
       </p>
 
       <ul class="govuk-list govuk-list--bullet">
@@ -246,7 +246,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
           zoom in up to 400% without the text spilling off the screen
         </li>
         <li>
-          navigate most of the website using just a keyboard or speech recognition software
+          navigate most of the website using a keyboard or speech recognition software
         </li>
         <li>
           listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and
@@ -274,7 +274,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
 
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          the mapping, and the tools that are part of it, are not accessible for those using assistive technology. Also
+          the mapping, and the tools that are part of it, are not fully accessible for those using assistive technology. Also
           in some situations the contrast of colours is not high enough to be legible to all users
         </li>
         <li>
@@ -358,7 +358,7 @@ exports[`cookies Should return accessibility statement page 1`] = `
       <p class="govuk-body">
         This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG22/" class="govuk-link">Web
           Content Accessibility
-          Guidelines version 2.2 AA standard</a>, due to the non-compliances and exemptions listed below.
+          Guidelines version 2.2</a> AA standard, due to the non-compliances and exemptions listed below.
       </p>
 
       <h3 class="govuk-heading-m">
