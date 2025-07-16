@@ -5,14 +5,13 @@ const setUpBaseMaps = (osAccountNumber) => {
   const osAttributionHyperlink = `<a href="/os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
   const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
   Object.assign(mapStyles, {
-    blackAndWhite: {
-      displayName: 'Black and white',
-      // will be replaced with open version of map and apply over-zoom and wonky road name changes
-      url: '/map/styles/base-map-black-and-white',
+    outdoor: {
+      displayName: 'Outdoor',
+      url: '/map/styles/base-map-default',
       attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/base-map-black-and-white',
+      digitisingUrl: '/map/styles/polygon-default',
       digitisingAttribution: osMasterMapAttributionHyperlink,
-      iconUrl: '/assets/images/black-and-white-map-icon.jpg'
+      iconUrl: '/assets/images/outdoor-map-icon.jpg'
     },
     dark: {
       displayName: 'Dark',
@@ -22,13 +21,14 @@ const setUpBaseMaps = (osAccountNumber) => {
       digitisingAttribution: osMasterMapAttributionHyperlink,
       iconUrl: '/assets/images/dark-map-icon.jpg'
     },
-    outdoor: {
-      displayName: 'Outdoor',
-      url: '/map/styles/base-map-default',
+    blackAndWhite: {
+      displayName: 'Black and white',
+      // will be replaced with open version of map and apply over-zoom and wonky road name changes
+      url: '/map/styles/base-map-black-and-white',
       attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
+      digitisingUrl: '/map/styles/base-map-black-and-white',
       digitisingAttribution: osMasterMapAttributionHyperlink,
-      iconUrl: '/assets/images/outdoor-map-icon.jpg'
+      iconUrl: '/assets/images/black-and-white-map-icon.jpg'
     }
   })
 
