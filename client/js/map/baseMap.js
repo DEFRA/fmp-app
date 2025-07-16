@@ -23,8 +23,7 @@ const setUpBaseMaps = (osAccountNumber) => {
     },
     blackAndWhite: {
       displayName: 'Black and white',
-      // will be replaced with open version of map and apply over-zoom and wonky road name changes
-      url: '/map/styles/base-map-black-and-white',
+      url: '/map/styles/base-map-black-and-white-open',
       attribution: osAttributionHyperlink,
       digitisingUrl: '/map/styles/base-map-black-and-white',
       digitisingAttribution: osMasterMapAttributionHyperlink,
