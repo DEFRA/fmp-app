@@ -1,4 +1,10 @@
 const terms = {
+  keys: {
+    fz2: 'FZ2',
+    fz3: 'FZ3',
+    fzCC: 'FZCC',
+    fzNoData: 'FZNODATA'
+  },
   labels: {
     noData: 'No data available',
     climateChange: 'Climate change',
