@@ -41,9 +41,10 @@ const vtLayers = [
     styleLayers: [
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/FZ2/1', colours.floodZoneCC],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/FZ3/1', colours.floodZoneCC],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/No Data/1', colours.floodZoneNoData]
+      ['Flood Zones plus climate change/1', colours.floodZoneCC],
+      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0', colours.floodZoneNoData],
+      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', colours.floodZoneNoData],
+      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', colours.floodZoneNoData]
     ]
   },
   {
