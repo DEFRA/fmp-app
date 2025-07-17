@@ -36,7 +36,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
-    "@defra/flood-map": "^0.6.3",
+    "@defra/flood-map": "^0.6.4",
     "@esri/arcgis-rest-request": "^4.2.3",
     "@hapi/boom": "^9.1.4",
     "@hapi/catbox": "^12.1.1",
