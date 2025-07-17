@@ -11,7 +11,7 @@ const colours = { // [default, dark]
   floodZone2: [floodZone2Light, floodZone2Dark],
   floodZone3: [floodZone3Light, floodZone3Dark],
   floodZoneCC: ['#F4A582', '#BF3D4A'],
-  floodZoneNoData: ['#D8D9DA', '#FFFFBF'],
+  floodZoneNoData: ['#000000', '#FFFFFF'],
   waterStorageAreas: ['#12393d', white],
   mainRivers: ['#12393d', white],
   floodDefences: ['#f47738', '#f47738'],

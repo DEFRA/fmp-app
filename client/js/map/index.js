@@ -71,10 +71,10 @@ const floodZoneSymbolIndex = ['3', '2']
 const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
 
 const getFloodZoneFromFeature = (feature, mapState) => {
-  if (feature.flood_zone === 'FZ2') { return '2' }
-  if (feature.flood_zone === 'FZ3') { return '3' }
-  if (feature.flood_zone === 'FZCC') { return '' }
-  if (feature.flood_zone) { return terms.labels.noData }
+  if (feature.flood_zone === terms.keys.fz2) { return '2' }
+  if (feature.flood_zone === terms.keys.fz3) { return '3' }
+  if (feature.flood_zone === terms.keys.fzCC) { return terms.keys.fzCC }
+  if (feature.flood_zone === terms.keys.fzNoData) { return terms.keys.fzNoData }
   const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
   return symbolIndex[feature._symbol]
 }
@@ -206,6 +206,10 @@ getDefraMapConfig().then((defraMapConfig) => {
         vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
       }
     })
+    if (vtLayer.setStyleProperties) {
+      vtLayer.setStyleProperties(vectorTileLayer, isDark)
+    }
+
     // Un comment this section to infer the styleLayers for each vector layer
     // They don't seem to be defined anywhere server side, so Paul is anxious that
     // they may change when new layers are published.
@@ -534,11 +538,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
     floodMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!visibleVtLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
         return
       }
       lastHit = now
-      floodMap.view.hitTest(e, { include: [visibleVtLayer] }).then((response) => {
+      const layersToTest = visibleVtLayer.allLayers || [visibleVtLayer]
+      floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
         document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
       })
     })
@@ -612,7 +617,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
   const getTimeFrame = (feature) => {
     if (mapState.isClimateChange) {
-      if (mapState.isFloodZone && feature.flood_zone !== 'FZCC') {
+      if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
         return terms.labels.presentDay
       }
       return terms.labels.climateChange
@@ -625,21 +630,27 @@ getDefraMapConfig().then((defraMapConfig) => {
       return null
     }
     const feature = { ...features.items[0] }
-    if (mapState.isFloodZone && mapState.isClimateChange && feature.origin !== 'modelled') {
+    feature.name = feature.name || feature.Name
+    feature.flood_source = feature.flood_source || feature.Flood_source
+    if (mapState.isFloodZone && mapState.isClimateChange) {
       // This Implies we have clicked on  CC ZONE
-      delete feature.flood_source
-      feature.flood_zone = 'FZCC'
+      // delete feature.flood_source -- awaiting confirmation from Lloyd on whether to show or hide this if available
+      if (feature.name === 'Flood Zones plus climate change') {
+        feature.flood_zone = terms.keys.fzCC
+      }
+      if (feature.name === 'Unavailable') {
+        feature.flood_zone = terms.keys.fzNoData
+      }
     }
     return feature
   }
 
   const getQueryContentHeader = (e) => {
     const { coord, features } = e.detail
-    if (!features || !coord) {
+    if (!features || !coord || !features.isPixelFeaturesAtPixel) {
       return {}
     }
     const feature = transformFeature(features)
-
     const timeFrame = getTimeFrame(feature)
     const listContents = [
       ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
@@ -655,11 +666,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       return ''
     }
     const floodZone = getFloodZoneFromFeature(feature, mapState)
-    if (floodZone) {
+    if (floodZone !== terms.keys.fzNoData && floodZone !== terms.keys.fzCC) {
       listContents.push(['Flood zone', floodZone])
     }
 
-    if (floodZone !== terms.labels.noData && feature.flood_source) {
+    if (floodZone !== terms.keys.fzNoData && feature.flood_source) {
       listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
@@ -683,7 +694,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && !floodZone)
+  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone === terms.keys.fzCC)
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <ul class="govuk-list govuk-list--bullet">
@@ -706,13 +717,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (!mapState.isFloodZone) {
       return ''
     }
-    if (floodZone === terms.labels.noData) {
+    if (floodZone === terms.keys.fzNoData) {
       return `<h2 class="govuk-heading-s">No data available</h2>
         <p class="govuk-body-s">
+          FINAL TEXT TO BE CONFIRMED:
           Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
         </p>`
     } else if (mapState.isClimateChange) {
-      return `<h2 class="govuk-heading-s">How to use flood zones with climate change</h2>
+      return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
           Flood zones plus climate change are given to help you further investigate flood risk. 
         </p>
@@ -729,8 +741,8 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getQueryExtraContent = (vtLayer, floodZone) => {
     let extraContent = ''
-    extraContent += getClimateChangeExtraContent(floodZone)
     extraContent += getFloodZonesExtraContent(floodZone)
+    extraContent += getClimateChangeExtraContent(floodZone)
     return extraContent
   }
 
