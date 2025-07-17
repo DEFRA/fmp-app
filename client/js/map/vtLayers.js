@@ -33,18 +33,29 @@ const getFloodZoneCCGroupLayer = (getVectorTileUrl, VectorTileLayer, GroupLayer)
   return floodZoneCCGroupLayer
 }
 
+const setFloodZoneCCGroupLayerStyles = (vectorTileLayer, isDark) => {
+  // Show / Hide the image layer for Flood_Zones_2_and_3_Rivers_and_Sea_CCP1
+  vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', isDark ? 'none' : 'visible')
+  vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', isDark ? 'visible' : 'none')
+  const lineStyleLayerName = 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0'
+  const lineLayerPaintProperties = vectorTileLayer.getPaintProperties(lineStyleLayerName)
+  if (lineLayerPaintProperties) {
+    const lineColour = colours.floodZoneNoData[isDark ? 1 : 0]
+    lineLayerPaintProperties['line-color'] = lineColour
+    vectorTileLayer.setPaintProperties(lineStyleLayerName, lineLayerPaintProperties)
+  }
+}
+
 const vtLayers = [
   {
     name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
     q: 'fzfzcl',
     getVtLayer: getFloodZoneCCGroupLayer,
+    setStyleProperties: setFloodZoneCCGroupLayerStyles,
     styleLayers: [
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3],
-      ['Flood Zones plus climate change/1', colours.floodZoneCC],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0', colours.floodZoneNoData],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', colours.floodZoneNoData],
-      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', colours.floodZoneNoData]
+      ['Flood Zones plus climate change/1', colours.floodZoneCC]
     ]
   },
   {

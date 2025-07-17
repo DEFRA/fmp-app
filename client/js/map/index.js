@@ -206,19 +206,23 @@ getDefraMapConfig().then((defraMapConfig) => {
         vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
       }
       // Show / Hide the image layer for Flood_Zones_2_and_3_Rivers_and_Sea_CCP1
-      if (vtLayer.name === 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1') {
-        vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', isDark ? 'none' : 'visible')
-        vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', isDark ? 'visible' : 'none')
-        if (styleLayerName === 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0') {
-          const lineLayerPaintProperties = vectorTileLayer.getPaintProperties('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0')
-          if (lineLayerPaintProperties) {
-            const lineColour = paintProperties[isDark ? 1 : 0]
-            lineLayerPaintProperties['line-color'] = lineColour
-            vectorTileLayer.setPaintProperties(styleLayerName, lineLayerPaintProperties)
-          }
-        }
-      }
+      // if (vtLayer.name === 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1') {
+      //   vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', isDark ? 'none' : 'visible')
+      //   vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', isDark ? 'visible' : 'none')
+      //   if (styleLayerName === 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0') {
+      //     const lineLayerPaintProperties = vectorTileLayer.getPaintProperties('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0')
+      //     if (lineLayerPaintProperties) {
+      //       const lineColour = paintProperties[isDark ? 1 : 0]
+      //       lineLayerPaintProperties['line-color'] = lineColour
+      //       vectorTileLayer.setPaintProperties(styleLayerName, lineLayerPaintProperties)
+      //     }
+      //   }
+      // }
     })
+    if (vtLayer.setStyleProperties) {
+      vtLayer.setStyleProperties(vectorTileLayer, isDark)
+    }
+
     // Un comment this section to infer the styleLayers for each vector layer
     // They don't seem to be defined anywhere server side, so Paul is anxious that
     // they may change when new layers are published.
