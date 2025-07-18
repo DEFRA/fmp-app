@@ -2,6 +2,7 @@ const { submitGetRequest } = require('../../__test-helpers__/server')
 const baseMapDefault = require('../defra-map/styles/OS_VTS_27700_Open_Outdoor.json')
 const baseMapDark = require('../defra-map/styles/OS_VTS_27700_Open_Dark.json')
 const baseMapBlackAndWhite = require('../defra-map/styles/OS_VTS_27700_Black_and_White.json')
+const baseMapBlackAndWhiteOpen = require('../defra-map/styles/OS_VTS_27700_Open_Black_and_White.json')
 const polygonDefault = require('../defra-map/styles/OS_VTS_27700_Outdoor.json')
 const polygonDark = require('../defra-map/styles/OS_VTS_27700_Dark.json')
 const openTile = require('../defra-map/styles/open-tile.json')
@@ -14,6 +15,7 @@ describe('map style routes', () => {
     ['/map/styles/base-map-default', baseMapDefault],
     ['/map/styles/base-map-dark', baseMapDark],
     ['/map/styles/base-map-black-and-white', baseMapBlackAndWhite],
+    ['/map/styles/base-map-black-and-white-open', baseMapBlackAndWhiteOpen],
     ['/map/styles/polygon-default', polygonDefault],
     ['/map/styles/polygon-dark', polygonDark]
   ]
