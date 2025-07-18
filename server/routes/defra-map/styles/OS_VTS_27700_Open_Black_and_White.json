@@ -5,9 +5,7 @@
   "sources": {
     "esri": {
       "type": "vector",
-      "tiles": [
-        "https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
-      ],
+      "url": "open-tile.json",
       "maxzoom": 11
     }
   },
