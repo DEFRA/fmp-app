@@ -17,7 +17,7 @@ const setUpBaseMaps = (osAccountNumber) => {
       displayName: 'Dark',
       url: '/map/styles/base-map-dark',
       attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
+      digitisingUrl: '/map/styles/polygon-dark',
       digitisingAttribution: osMasterMapAttributionHyperlink,
       iconUrl: '/assets/images/dark-map-icon.jpg'
     },
