@@ -6,7 +6,8 @@
     "esri": {
       "type": "vector",
       "url": "open-tile.json",
-      "maxzoom": 11
+      "maxzoom": 15,
+      "minzoom": 0
     }
   },
   "layers": [
@@ -3693,6 +3694,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 9,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -3748,6 +3750,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 8,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -4049,6 +4052,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 10,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -4135,6 +4139,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 9,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -4557,6 +4562,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 9,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -4643,6 +4649,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 8,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
@@ -4721,6 +4728,7 @@
       "source": "esri",
       "source-layer": "Roads/label",
       "minzoom": 9,
+      "maxzoom": 12,
       "filter": [
         "==",
         "_label_class",
