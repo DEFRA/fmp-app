@@ -1,4 +1,5 @@
 const { getFloodZones } = require('./agol/getFloodZones')
+const { getFloodZonesClimateChange } = require('./agol/getFloodZonesClimateChange')
 const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
 const { getRiversAndSeaDefended } = require('./agol/getRiversAndSeaDefended')
 const { getRiversAndSeaUndefended } = require('./agol/getRiversAndSeaUndefended')
@@ -15,6 +16,7 @@ const getFloodDataByPolygon = async (polygon) => {
 
     await Promise.all([
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
+      getFloodZonesClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
       getRiversAndSeaDefended({ geometryType: 'esriGeometryPolygon', polygon }),
       getRiversAndSeaUndefended({ geometryType: 'esriGeometryPolygon', polygon }),
       getRiversAndSeaDefendedCC({ geometryType: 'esriGeometryPolygon', polygon }),

@@ -44,6 +44,7 @@ const schema = Joi.object({
     localAuthorityEndPoint: Joi.string().required(),
     isEnglandEndPoint: Joi.string().required(),
     floodZonesRiversAndSeaEndPoint: Joi.string().required(),
+    floodZonesClimateChangeEndPoint: Joi.string().required(),
     riversAndSeaDefendedEndPoint: Joi.string().required(),
     riversAndSeaUndefendedEndPoint: Joi.string().required(),
     riversAndSeaDefendedCCP1EndPoint: Joi.string().required(),

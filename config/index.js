@@ -9,6 +9,7 @@ const agolEndpoints = {
   localAuthorityEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/1',
   isEnglandEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/2',
   floodZonesRiversAndSeaEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_NON_PRODUCTION/FeatureServer/0',
+  floodZonesClimateChangeEndPoint: '/Flood_Zones_2_and_3_Rivers_and_Sea_CCP1_NON_PRODUCTION/FeatureServer/0',
 
   riversAndSeaDefendedEndPoint: `/Rivers_and_Sea_Defended_${agolRofrsDepthOrExtents}_NON_PRODUCTION/FeatureServer`,
   riversAndSeaUndefendedEndPoint: `/Rivers_and_Sea_Undefended_${agolRofrsDepthOrExtents}_NON_PRODUCTION/FeatureServer`,
@@ -75,6 +76,7 @@ const config = {
     localAuthorityEndPoint: productioniseEndpoint(agolEndpoints.localAuthorityEndPoint),
     isEnglandEndPoint: productioniseEndpoint(agolEndpoints.isEnglandEndPoint),
     floodZonesRiversAndSeaEndPoint: productioniseEndpoint(agolEndpoints.floodZonesRiversAndSeaEndPoint),
+    floodZonesClimateChangeEndPoint: productioniseEndpoint(agolEndpoints.floodZonesClimateChangeEndPoint),
     riversAndSeaDefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedEndPoint),
     riversAndSeaUndefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedEndPoint),
     riversAndSeaDefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedCCP1EndPoint),
