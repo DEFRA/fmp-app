@@ -36,10 +36,6 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChangeNoData: false,
       floodZoneLevel: 'high',
       isRiskAdminArea: false,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -54,10 +50,6 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: true,
       isRiskAdminArea: false,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -72,10 +64,6 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: false,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -92,10 +80,6 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: true,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: true,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -110,10 +94,6 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: true,
       isRiskAdminArea: true,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -128,10 +108,6 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: true,
-      riversAndSeaDefended: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaDefendedCC: { riskBandId: 3, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefended: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
-      riversAndSeaUndefendedCC: { riskBandId: 2, riskBandPercent: false, riskBandOdds: false },
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
