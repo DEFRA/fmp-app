@@ -18,7 +18,6 @@ const getFloodDataByPolygon = async (polygon) => {
     ]).then((responseArray) => {
       return Object.assign(results, ...responseArray)
     })
-    console.log('results', results)
     return results
   } catch (error) {
     console.log('caught getFloodDataByPolygon ERROR', error)
