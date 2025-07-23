@@ -728,16 +728,44 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (floodZone === terms.keys.fzNoData) {
       return `<h2 class="govuk-heading-s">No data available</h2>
         <p class="govuk-body-s">
-          FINAL TEXT TO BE CONFIRMED:
-          Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
-        </p>`
+          In this location, all or part of the site is included in a location where we hold limited flood risk information. 
+        </p>
+        <p class="govuk-body-s">
+          No data in this location does not mean there is no flood risk. Further assessment is needed to 
+          understand the flood risk in this location.
+        </p>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              What does 'no data available' mean?
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <p class="govuk-body">
+              In some locations, we have chosen to remove datasets because of missing data, low confidence in the datasets
+              or potential data inconsistencies.
+            </p>
+            <p class="govuk-body">
+              The Environment Agency may still hold flood risk information that can be used to inform or prepare a flood risk assessment, which can be requested through the flood map for planning service.
+            </p>
+            <p class="govuk-body">
+              'No data available' locations are currently under review.
+            </p>
+            <p class="govuk-body">
+              As new models, data and information become available that meet our quality assurance standards, we will add these to the flood map for planning.
+            </p>
+          </div>
+        </details>
+        `
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
-          Flood zones plus climate change are given to help you further investigate flood risk. 
+          Flood zones plus climate change are given to help you further investigate flood risk.
         </p>
         <p class="govuk-body-s"> 
-          <a href="#">Find out more about this data and how it should be used</a>
+          <a href="/how-to-use-flood-zone-plus-climate-change">
+            Find out more about this data and how it should be used
+          </a>
         </p>`
     } else {
       return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
