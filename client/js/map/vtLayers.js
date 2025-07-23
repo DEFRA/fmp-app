@@ -55,7 +55,7 @@ const vtLayers = [
     styleLayers: [
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3],
-      ['Flood Zones plus climate change/1', colours.floodZoneCC]
+      ['Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1', colours.floodZoneCC]
     ]
   },
   {
