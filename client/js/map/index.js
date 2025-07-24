@@ -21,17 +21,23 @@ const symbols = {
 
 const keyItemDefinitions = {
   floodZone2: {
-    // id: 'fz2',
     label: 'Flood zone 2',
     fill: getKeyItemFill(colours.floodZone2)
   },
   floodZone3: {
-    // id: 'fz2',
     label: 'Flood zone 3',
     fill: getKeyItemFill(colours.floodZone3)
   },
+  floodZone2PresentDay: {
+    label: 'Flood zone 2 (present day)',
+    fill: getKeyItemFill(colours.floodZone2)
+  },
+  floodZone3PresentDay: {
+    label: 'Flood zone 3 (present day)',
+    fill: getKeyItemFill(colours.floodZone3)
+  },
   floodZone3CC: {
-    label: terms.labels.fzClimateChange,
+    label: 'Climate change (2070 to 2125)', // terms.labels.fzClimateChange
     fill: getKeyItemFill(colours.floodZoneCC)
   },
   floodZoneNoData: {
@@ -441,8 +447,8 @@ getDefraMapConfig().then((defraMapConfig) => {
           heading: terms.labels.mapFeatures,
           parentIds: ['fzcl'],
           items: [
-            keyItemDefinitions.floodZone2,
-            keyItemDefinitions.floodZone3,
+            keyItemDefinitions.floodZone2PresentDay,
+            keyItemDefinitions.floodZone3PresentDay,
             keyItemDefinitions.floodZone3CC,
             keyItemDefinitions.floodZoneNoData,
             keyItemDefinitions.waterStorageAreas,
@@ -748,6 +754,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     return extraContent
   }
 
+  const getTitle = (floodZone) => {
+    switch (floodZone) {
+      case terms.keys.fzNoData:
+      case terms.keys.fzCC:
+        return 'Flood zones plus climate change'
+      case '2':
+      case '3':
+        return 'Flood zones'
+      default:
+        return getDataset()
+    }
+  }
+
   // Listen to map queries
   floodMap.addEventListener('query', e => {
     const { listContents, vtLayer, feature } = getQueryContentHeader(e)
@@ -760,6 +779,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       addQueryNonFloodZonesContent(listContents, vtLayer)
     }
 
-    floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(vtLayer, floodZone)))
+    const title = getTitle(floodZone)
+
+    floodMap.setInfo(
+      renderInfo(renderList(listContents),
+        getQueryExtraContent(vtLayer, floodZone),
+        title))
   })
 })
