@@ -19,7 +19,6 @@ describe('Ensure config is correct', () => {
       appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
-      allowProduct1: true, // This covers when the value is NOT in the config, defaults true
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
@@ -76,14 +75,12 @@ describe('Ensure config is correct', () => {
     jest.resetModules()
     process.env.ENV = 'prod'
     process.env.agolRofrsDepthOrExtents = 'Extents'
-    process.env.allowProduct1 = 'false'
     const { config } = require('../index')
     const expectedConfig = {
       env: 'prod',
       appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
-      allowProduct1: false, // This covers when the value is in the config and set to 'false'
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
