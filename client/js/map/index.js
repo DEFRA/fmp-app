@@ -725,7 +725,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           FINAL TEXT TO BE CONFIRMED:
           Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
         </p>`
-    } else if (mapState.isClimateChange) {
+    } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
           Flood zones plus climate change are given to help you further investigate flood risk. 
