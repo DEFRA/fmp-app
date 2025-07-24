@@ -19,10 +19,9 @@ module.exports = [
         )
 
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        const showProduct1Button = config.allowProduct1
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isRiskAdminArea = isRiskAdmin
-        return h.view('next-steps', { polygon, floodData, contactData, showOrderProduct4Button, showProduct1Button })
+        return h.view('next-steps', { polygon, floodData, contactData, showOrderProduct4Button })
       }
     }
   }

@@ -48,7 +48,6 @@ const config = {
   views: {
     isCached: toBool(process.env.viewsIsCached)
   },
-  allowProduct1: !(process.env.allowProduct1 === 'false'),
   analyticsAccount: process.env.analyticsAccount,
   googleVerification: process.env.googleVerification,
   fbAppId: process.env.fbAppId,
