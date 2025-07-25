@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development
     tags:
       - "v*.*.*"
   workflow_dispatch:
@@ -52,6 +53,7 @@ jobs:
           tags: |
             type=semver,event=tag,priority=900,pattern={{version}},value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=raw,priority=800,value=${{ steps.raw-tag.outputs.raw_tag }},enable=${{ github.ref == format('refs/heads/{0}', 'development') }}
             type=raw,event=branch,value={{branch}}-{{sha}},enable=${{ startsWith(github.ref, 'refs/heads/F') }}
 
           labels: |
