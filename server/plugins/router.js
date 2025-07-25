@@ -12,7 +12,7 @@ const routes = [].concat(
   require('../routes/error'),
   require('../routes/feedback'),
   require('../routes/flood-zone-results-explained'),
-  require('../routes/how-to-use-flood-zone-plus-climate-change'),
+  require('../routes/how-to-use-flood-map-for-planning-data'),
   require('../routes/health-check'),
   require('../routes/home'),
   require('../routes/location'),

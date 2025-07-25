@@ -730,7 +730,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       return ''
     }
     const $findOutMoreLink = `<p class="govuk-body-s"> 
-      <a href="/how-to-use-flood-zone-plus-climate-change">
+      <a href="/how-to-use-flood-map-for-planning-data">
         Find out more about flood map for planning data and how it should be used
       </a>
     </p>`
