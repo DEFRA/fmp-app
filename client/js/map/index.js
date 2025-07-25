@@ -705,40 +705,47 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone === terms.keys.fzCC)
     ? `
     <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <p class="govuk-body-s">
+      Flood zones plus climate change uses the following climate change allowances:
+    </p>
     <ul class="govuk-list govuk-list--bullet">
       <li class='govuk-body-s'>
-        these have been taken from the Environment Agency's 
+        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch
+      </li>
+      <li class='govuk-body-s'>
+        sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
+      </li>
+    </ul>
+    <p class="govuk-body-s">
+      These have been taken from the Environment Agency's 
         <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
           Flood risk assessment: climate change allowances
         </a>
-      </li>
-      <li class='govuk-body-s'>
-        river flooding uses the 'central' allowance, based on the 50th percentile for the 2080s epoch
-      </li>
-      <li class='govuk-body-s'>
-        sea and tidal flooding uses the 'upper end' allowance, based on the 95th percentile for 2125
-      </li>
-    </ul>`
+    </p>
+    `
     : ''
 
   const getFloodZonesExtraContent = (floodZone) => {
     if (!mapState.isFloodZone) {
       return ''
     }
+    const $findOutMoreLink = `<p class="govuk-body-s"> 
+      <a href="/how-to-use-flood-map-for-planning-data">
+        Find out more about flood map for planning data and how it should be used
+      </a>
+    </p>`
     if (floodZone === terms.keys.fzNoData) {
-      return `<h2 class="govuk-heading-s">No data available</h2>
+      return `<h2 class="govuk-heading-s">Climate change data unavailable</h2>
         <p class="govuk-body-s">
-          FINAL TEXT TO BE CONFIRMED:
-          Climate change data is currently unavailable at this location. We will publish the data when it becomes available.
-        </p>`
+          In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
+        </p>
+        ${$findOutMoreLink}`
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
-          Flood zones plus climate change are given to help you further investigate flood risk. 
+          Flood zones plus climate change data is provided to help you further investigate flood risk.
         </p>
-        <p class="govuk-body-s"> 
-          <a href="#">Find out more about this data and how it should be used</a>
-        </p>`
+        ${$findOutMoreLink}`
     } else {
       return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
         <p class="govuk-body-s">
