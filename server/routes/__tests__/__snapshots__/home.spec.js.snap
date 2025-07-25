@@ -237,7 +237,12 @@ exports[`home route should match snapshot 1`] = `
       <li>download a printable flood map for planning </li>
       <li>request flood risk data </li>
     </ul>
-
+    
+    <p class="govuk-body"> 
+      <a href="/how-to-use-flood-map-for-planning-data">
+        Find out more about flood map for planning data and how it should be used
+      </a>
+    </p>
 
     <p class="govuk-body">
       There are different services to get information on the
