@@ -21,9 +21,10 @@
           </p>
         </div>
       {% endif %}
-      {% if floodData.surfaceWater.riskBand %}
+      {% if floodData.surfaceWater.riskBand or floodData.riversAndSea %}
         <p class="govuk-body">In your proposed development site there is a risk of flooding from:</p>
         <ul class="govuk-list govuk-list--bullet">
+          {% if floodData.riversAndSea %}<li>rivers and the sea</li>{% endif %}
           {% if floodData.surfaceWater.riskBand %}<li>surface water</li>{% endif %}
         </ul>
       {% endif %}
@@ -38,7 +39,7 @@
         </ul>
         <p class="govuk-body" data-testid="fz1-lt1ha-area">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
       {% endif %}
-      
+   
       {% if floodData.floodzone_2 or floodData.floodzone_3 or floodData.isFZ1Andgt1ha %}
         <p class="govuk-body" data-testid="fra">Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
       {% endif %}
@@ -49,9 +50,9 @@
       {% endif %}
 
       <p class="govuk-body">
-        If the flood risk to your site is affected by flood defences, 
-        you will also need to assess <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41">residual risk</a> 
-        from flood defence breach in this location. If available, 
+        If the flood risk to your site is affected by flood defences,
+        you will also need to assess <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41">residual risk</a>
+        from flood defence breach in this location. If available,
         we will provide breach hazard mapping data to help you do this.
       </p>
       <p class="govuk-body">Review the flood risks for your location then complete the next steps for your planning application.</p>
@@ -80,6 +81,62 @@
                 <p class="govuk-body"><a href="/flood-zone-results-explained">Find out more about flood zones and what they mean.</a></p>
               </dd>
             </div>
+          {% if floodData.floodZoneClimateChange %}
+            <!-- Flood Zone Climate Change summary list card -->
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key" data-testid="fz-description">
+                Climate change: projected chance of flooding
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body">
+                  This location is at risk from flooding from rivers or the sea when climate change is taken into account:
+                  <ul class="govuk-list govuk-list--bullet">
+                    <li>from rivers for the period 2070 to 2125 </li>
+                    <li>from the sea (tidal flooding) by the year 2125</li>
+                  </ul>
+                </p>
+                <p class="govuk-body">
+                  <a href="/how-to-use-flood-map-for-planning-data">
+                    Find out more about this data and how it should be used
+                  </a>
+                </p>
+              </dd>
+            </div>
+          <!-- Flood Zone Climate Change summary list card -->
+          {% endif %}
+          {% if floodData.floodZoneClimateChangeNoData %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <h3 class="govuk-heading-s">Climate change data unavailable</h3>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body">
+                  In this location, all or part of the site is included in an area where flood zones
+                  plus climate change data is not currently available while we make important improvements to our data.
+                </p>
+
+                <p class="govuk-body"></p>
+                  For development sites falling within these locations, further assessment is needed to inform:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                  <li>the application of the sequential and exception tests</li>
+                  <li>the need for a flood risk assessment (FRA)</li>
+                </ul>
+
+                <p class="govuk-body"></p>
+                  The Environment Agency may still hold other flood risk information that can be used to inform
+                  a flood risk assessment. Strategic flood risk assessments should also be checked for relevant
+                  information in these locations.
+                </p>
+
+                <p class="govuk-body">
+                  <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+                    Find out more about this data and how it should be used
+                  </a>
+                </p>
+              </dd>
+            </div>
+          {% endif %}
           </dl>
         </div>
       </div>
@@ -175,7 +232,7 @@
                 </ul>
                 <p class="govuk-body">
                   The material displayed, including maps and risk data, is provided without any guarantees,
-                  conditions or warranties as to its accuracy. See our 
+                  conditions or warranties as to its accuracy. See our
                   <a href="/terms-and-conditions">terms and conditions</a> for more information.
                 </p>
               </dd>
