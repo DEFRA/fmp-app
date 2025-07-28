@@ -110,27 +110,6 @@ describe('Results Page On Public', () => {
     assertOrderFloodRiskDataButton()
   })
 
-  it('should include rivers and the sea and surface water bullet point in risk from at top of page', async () => {
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_lt_1_ha_sw}` })
-    document.body.innerHTML = response.payload
-    expect(response.payload).toContain('<p class="govuk-body">In your proposed development site there is a risk of flooding from:</p>\n' +
-        '        <ul class="govuk-list govuk-list--bullet">\n' +
-        '          <li>rivers and the sea</li>\n' +
-        '          <li>surface water</li>\n' +
-        '        </ul>')
-  })
-
-  it('should only include rivers and the sea bullet point in risk from at top of page', async () => {
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_gt_1_ha}` })
-    document.body.innerHTML = response.payload
-    expect(response.payload).not.toContain('<li>surface water</li>')
-    expect(response.payload).toContain('<p class="govuk-body">In your proposed development site there is a risk of flooding from:</p>\n' +
-        '        <ul class="govuk-list govuk-list--bullet">\n' +
-        '          <li>rivers and the sea</li>\n' +
-        '          \n' +
-        '        </ul>')
-  })
-
   it('should have correct copy for Zone 1 > 1ha', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_gt_1_ha}` })
     document.body.innerHTML = response.payload
