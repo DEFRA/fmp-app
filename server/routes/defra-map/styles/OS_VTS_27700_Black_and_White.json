@@ -5,7 +5,7 @@
     "sources": {
         "esri": {
             "type": "vector",
-            "url": "https://api.os.uk/maps/vector/v1/vts"
+            "url": "vts-tile.json"
         }
     },
     "layers": [
