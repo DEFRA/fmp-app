@@ -559,6 +559,9 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
       we make important improvements to our data.
     </p>
     <p class="govuk-body">
+      These locations are shown as dotted areas on the flood map for planning. See the map key.
+    </p>
+    <p class="govuk-body">
       For development sites falling within these locations, further assessment is needed to inform:
     </p>
 
