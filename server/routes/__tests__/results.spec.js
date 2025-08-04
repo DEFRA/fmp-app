@@ -18,6 +18,10 @@ const assertRiskAdminCopy = (expected) => {
   )
 }
 
+const assertRiskOfFloodingListHasRiversAndSea = (expected) => {
+  assertCopy('[data-testid="risk-list-rivers-and-sea"]', expected && 'rivers and the sea')
+}
+
 const assertOrderFloodRiskDataButton = (expected = true) => {
   assertCopy('[data-testid="order-product4"]', expected && 'Order flood risk data')
   // Below email contact is hidden if the button is visible
@@ -43,12 +47,12 @@ const assertFZ1gt1haCopy = (expected = true) => {
   assertCopy('[data-testid="fz1-gt1ha-fra"]', expected && 'Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).')
 }
 
-const assertFZ1gt1haOrfz1lt1haFRA = (expected = true) => {
-  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is 123.43ha.')
+const assertFZ1gt1haHasPlotSize = (expected = true) => {
+  assertCopy('[data-testid="fz1-gt1ha-area"]', expected && 'The site you have drawn is 123.43ha.')
 }
 
-const assertFZ1lt1haFRA = (expected = true) => {
-  assertCopy('[data-testid="fz1-gt1ha-area-or-lt1haFRA"]', expected && 'The site you have drawn is less than 0.01ha.')
+const assertFZ1GreaterThan1haHasPlotSize = (expected = true) => {
+  assertCopy('[data-testid="fz1-gt1ha-area"]', expected && 'The site you have drawn is less than 0.01ha.')
 }
 
 const assertFraCopy = (expected = true) => {
@@ -80,12 +84,13 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertFraCopy(false)
     assertFZ1Copy()
     assertFZ1lt1haCopy()
     assertFZ1gt1haCopy(false)
-    assertFZ1gt1haOrfz1lt1haFRA(false)
-    assertFZ1lt1haFRA(false)
+    assertFZ1gt1haHasPlotSize(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertSWCopy('', '', false)
@@ -102,7 +107,7 @@ describe('Results Page On Public', () => {
     assertFZ1Copy()
     assertFZ1lt1haCopy(true)
     assertFZ1gt1haCopy(false)
-    assertFZ1lt1haFRA(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertCoreCopy()
@@ -114,11 +119,12 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_gt_1_ha}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
+    assertRiskOfFloodingListHasRiversAndSea(false)
     assertFraCopy()
     assertFZ1Copy()
     assertFZ1lt1haCopy(false)
     assertFZ1gt1haCopy()
-    assertFZ1gt1haOrfz1lt1haFRA()
+    assertFZ1gt1haHasPlotSize()
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertSWCopy('', '', false)
@@ -131,14 +137,49 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz2_low}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(2)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertCoreCopy()
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
-    assertFZ1lt1haFRA(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
     assertFZ2Copy()
     assertFZ3Copy(false)
     assertSWCopy('0.1', '1 in 1000', true)
+    assertRiskAdminCopy(false)
+    assertOrderFloodRiskDataButton()
+  })
+
+  it('Should have correct copy for Zone 1 with climate change', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
+    document.body.innerHTML = response.payload
+    assertRiskOfFloodingListHasRiversAndSea(true)
+    assertFloodZoneCopy(1)
+    assertCoreCopy()
+    assertFraCopy(false)
+    assertFZ1Copy(true)
+    assertFZ1lt1haCopy(true)
+    assertFZ1GreaterThan1haHasPlotSize(false)
+    assertFZ2Copy(false)
+    assertFZ3Copy(false)
+    assertSWCopy('0.1', '1 in 1000', false)
+    assertRiskAdminCopy(false)
+    assertOrderFloodRiskDataButton()
+  })
+
+  it('Should have correct copy for Zone 1 with no-data', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_no_la}` })
+    document.body.innerHTML = response.payload
+    assertRiskOfFloodingListHasRiversAndSea(true)
+    assertFloodZoneCopy(1)
+    assertCoreCopy()
+    assertFraCopy(false)
+    assertFZ1Copy(true)
+    assertFZ1lt1haCopy(true)
+    assertFZ1GreaterThan1haHasPlotSize(false)
+    assertFZ2Copy(false)
+    assertFZ3Copy(false)
+    assertSWCopy('0.1', '1 in 1000', false)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton()
   })
@@ -151,7 +192,7 @@ describe('Results Page On Public', () => {
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
-    assertFZ1lt1haFRA(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
     assertFZ2Copy()
     assertFZ3Copy(false)
     assertSWCopy('1', '1 in 100', true)
@@ -167,7 +208,7 @@ describe('Results Page On Public', () => {
     assertFraCopy()
     assertFZ1Copy(false)
     assertFZ1lt1haCopy(false)
-    assertFZ1lt1haFRA(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
     assertFZ2Copy(false)
     assertFZ3Copy()
     assertSWCopy('3.3', '1 in 30', true)
