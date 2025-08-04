@@ -103,6 +103,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_lt_1_ha_sw}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
+    assertRiskOfFloodingListHasRiversAndSea(false)
     assertFraCopy(false)
     assertFZ1Copy()
     assertFZ1lt1haCopy(true)
@@ -188,6 +189,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz2_medium}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(2)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertCoreCopy()
     assertFraCopy()
     assertFZ1Copy(false)
@@ -204,6 +206,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz3_high}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(3)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertCoreCopy()
     assertFraCopy()
     assertFZ1Copy(false)
@@ -220,6 +223,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.inRiskAdmin.fz1_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
+    assertRiskOfFloodingListHasRiversAndSea(false)
     assertRiskAdminCopy(true)
     assertOrderFloodRiskDataButton()
   })
@@ -228,6 +232,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(3)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton(false)
   })
@@ -236,6 +241,7 @@ describe('Results Page On Public', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz1_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(1)
+    assertRiskOfFloodingListHasRiversAndSea(false)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton(false)
   })
@@ -247,6 +253,7 @@ describe('Results Page On Internal', () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertFloodZoneCopy(3)
+    assertRiskOfFloodingListHasRiversAndSea(true)
     assertRiskAdminCopy(false)
     assertOrderFloodRiskDataButton(true)
   })
