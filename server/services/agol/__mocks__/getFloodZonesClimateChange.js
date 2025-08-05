@@ -13,12 +13,12 @@ const getFloodZonesClimateChange = async (options) => {
     case mockPolygons.fz1_only_lt_1_ha_rs_cc:
     case mockPolygons.inRiskAdmin.throws:
       return both
+    case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_no_la:
     case mockPolygons.fz2_only:
     case mockPolygons.inRiskAdmin.fz2_only:
     case mockPolygons.fz2_medium:
       return noDataOnly
-    case mockPolygons.fz1_only:
     case mockPolygons.fz3_only:
     case mockPolygons.inRiskAdmin.fz3_only:
     case mockPolygons.optedOut.fz3_only:

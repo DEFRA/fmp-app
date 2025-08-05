@@ -30,7 +30,7 @@
       {% endif %}
 
       <h2 class="govuk-heading-m">Flood risk assessments</h2>
-      {% if floodData.isFZ1Andlt1ha %}
+      {% if floodData.isFZ1Andlt1ha and not floodData.floodZoneClimateChange %}
         <p class="govuk-body" data-testid="fz1-lt1ha-fra">Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>land has been identified as having critical drainage problems</li>
@@ -40,8 +40,11 @@
         <p class="govuk-body" data-testid="fz1-lt1ha-area">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
       {% endif %}
    
-      {% if floodData.floodzone_2 or floodData.floodzone_3 or floodData.isFZ1Andgt1ha %}
+      {% if floodData.floodzone_2 or floodData.floodzone_3 or floodData.isFZ1Andgt1ha or floodData.floodZoneClimateChange %}
         <p class="govuk-body" data-testid="fra">Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
+        {% if floodData.isFZ1Andlt1ha %}
+        <p class="govuk-body" data-testid="fz1-lt1ha-area-cc">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
+        {% endif %}
       {% endif %}
 
       {% if floodData.isFZ1Andgt1ha %}
