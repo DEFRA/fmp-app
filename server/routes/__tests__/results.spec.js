@@ -34,6 +34,7 @@ const assertCoreCopy = () => {
 }
 
 const assertFZ1Copy = (expected = true) => {
+  assertCopy('[data-testid="fz1-probability"]', expected && 'Land within flood zone 1 has a low probability of flooding from rivers and the sea.')
   assertCopy('[data-testid="fz1-order-product4"]', expected && 'Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it')
 }
 
