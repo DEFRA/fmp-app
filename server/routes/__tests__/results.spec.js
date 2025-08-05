@@ -34,13 +34,17 @@ const assertCoreCopy = () => {
 }
 
 const assertFZ1Copy = (expected = true) => {
-  assertCopy('[data-testid="fz1-probability"]', expected && 'Land within flood zone 1 has a low probability of flooding from rivers and the sea.')
   assertCopy('[data-testid="fz1-order-product4"]', expected && 'Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it')
 }
 
 const assertFZ1lt1haCopy = (expected = true) => {
   assertCopy('[data-testid="fz1-lt1ha-fra"]', expected && 'Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where:')
   assertCopy('[data-testid="fz1-lt1ha-area"]', expected && 'The site you have drawn is less than 0.01ha.')
+}
+
+const assertFZ1lt1haCcCopy = (expected = true) => {
+  assertCopy('[data-testid="fra"]', expected && 'Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
+  assertCopy('[data-testid="fz1-lt1ha-area-cc"]', expected && 'The site you have drawn is less than 0.01ha.')
 }
 
 const assertFZ1gt1haCopy = (expected = true) => {
@@ -161,6 +165,24 @@ describe('Results Page On Public', () => {
     assertFZ1Copy(true)
     assertFZ1lt1haCopy(true)
     assertFZ1GreaterThan1haHasPlotSize(false)
+    assertFZ2Copy(false)
+    assertFZ3Copy(false)
+    assertSWCopy('0.1', '1 in 1000', false)
+    assertRiskAdminCopy(false)
+    assertOrderFloodRiskDataButton()
+  })
+
+  it('Should have FRA required for Zone 1 with climate change < 1ha', async () => {
+    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_lt_1_ha_rs_cc}` })
+    document.body.innerHTML = response.payload
+    assertRiskOfFloodingListHasRiversAndSea(true)
+    assertFloodZoneCopy(1)
+    assertCoreCopy()
+    assertFraCopy(true)
+    assertFZ1Copy(true)
+    assertFZ1lt1haCopy(false)
+    assertFZ1GreaterThan1haHasPlotSize(false)
+    assertFZ1lt1haCcCopy(true)
     assertFZ2Copy(false)
     assertFZ3Copy(false)
     assertSWCopy('0.1', '1 in 1000', false)
