@@ -322,58 +322,56 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
         Download a flood map for this location
       </h3>
 
-      
-  <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
-    data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Add a reference to the flood map and set the scale
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <form class="form" id="product-1-form" method="POST" action="product-1">
-        <input name="polygon" type="hidden" value="[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" />
-        <input name="isRiskAdminArea" type="hidden" value="false" />
-        <input name="floodZone" type="hidden" value="3" />
+      <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
+  data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Add a reference to the flood map and set the scale
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <form class="form" id="product-1-form" method="POST" action="product-1">
+      <input name="polygon" type="hidden" value="[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" />
+      <input name="isRiskAdminArea" type="hidden" value="false" />
+      <input name="floodZone" type="hidden" value="3" />
 
-          <div class="govuk-form-group">
-            <h3 class="govuk-label-wrapper">
-              <label class="govuk-label--m" for="reference">
-                Add a reference
-              </label>
-            </h3>
-            <p class="govuk-body">
-              <span id="reference-hint" class="govuk-hint govuk-hint--block">
-                Optional. This is chosen by you to help you find the report
-                later and should be less than 25 characters.
-              </span>
-            </p>
-            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
-          </div>
+        <div class="govuk-form-group">
+          <h3 class="govuk-label-wrapper">
+            <label class="govuk-label--m" for="reference">
+              Add a reference
+            </label>
+          </h3>
+          <p class="govuk-body">
+            <span id="reference-hint" class="govuk-hint govuk-hint--block">
+              Optional. This is chosen by you to help you find the report
+              later and should be less than 25 characters.
+            </span>
+          </p>
+          <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
+        </div>
 
-          <div class="govuk-form-group">
-            <h3 class="govuk-label-wrapper">
-              <label class="govuk-label--m" for="scale"> Scale </label>
-            </h3>
-            <p class="govuk-body">
-              <span id="scale-hint" class="govuk-hint govuk-hint--block">
-                Select the scale of the map shown in the report
-              </span>
-            </p>
-            <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
-              <option value="2500">1:2500</option>
-              <option value="10000">1:10000</option>
-              <option value="25000">1:25000</option>
-              <option value="50000">1:50000</option>
-            </select>
-          </div>
-        </form>
-      </div>
-    </details>
-    <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
-      Download flood map for this location (PDF)
-    </button>
-  
+        <div class="govuk-form-group">
+          <h3 class="govuk-label-wrapper">
+            <label class="govuk-label--m" for="scale"> Scale </label>
+          </h3>
+          <p class="govuk-body">
+            <span id="scale-hint" class="govuk-hint govuk-hint--block">
+              Select the scale of the map shown in the report
+            </span>
+          </p>
+          <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
+            <option value="2500">1:2500</option>
+            <option value="10000">1:10000</option>
+            <option value="25000">1:25000</option>
+            <option value="50000">1:50000</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </details>
+  <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
+    Download flood map for this location (PDF)
+  </button>
 
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
@@ -879,58 +877,56 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
         Download a flood map for this location
       </h3>
 
-      
-  <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
-    data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Add a reference to the flood map and set the scale
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <form class="form" id="product-1-form" method="POST" action="product-1">
-        <input name="polygon" type="hidden" value="[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" />
-        <input name="isRiskAdminArea" type="hidden" value="false" />
-        <input name="floodZone" type="hidden" value="3" />
+      <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
+  data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Add a reference to the flood map and set the scale
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <form class="form" id="product-1-form" method="POST" action="product-1">
+      <input name="polygon" type="hidden" value="[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" />
+      <input name="isRiskAdminArea" type="hidden" value="false" />
+      <input name="floodZone" type="hidden" value="3" />
 
-          <div class="govuk-form-group">
-            <h3 class="govuk-label-wrapper">
-              <label class="govuk-label--m" for="reference">
-                Add a reference
-              </label>
-            </h3>
-            <p class="govuk-body">
-              <span id="reference-hint" class="govuk-hint govuk-hint--block">
-                Optional. This is chosen by you to help you find the report
-                later and should be less than 25 characters.
-              </span>
-            </p>
-            <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
-          </div>
+        <div class="govuk-form-group">
+          <h3 class="govuk-label-wrapper">
+            <label class="govuk-label--m" for="reference">
+              Add a reference
+            </label>
+          </h3>
+          <p class="govuk-body">
+            <span id="reference-hint" class="govuk-hint govuk-hint--block">
+              Optional. This is chosen by you to help you find the report
+              later and should be less than 25 characters.
+            </span>
+          </p>
+          <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
+        </div>
 
-          <div class="govuk-form-group">
-            <h3 class="govuk-label-wrapper">
-              <label class="govuk-label--m" for="scale"> Scale </label>
-            </h3>
-            <p class="govuk-body">
-              <span id="scale-hint" class="govuk-hint govuk-hint--block">
-                Select the scale of the map shown in the report
-              </span>
-            </p>
-            <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
-              <option value="2500">1:2500</option>
-              <option value="10000">1:10000</option>
-              <option value="25000">1:25000</option>
-              <option value="50000">1:50000</option>
-            </select>
-          </div>
-        </form>
-      </div>
-    </details>
-    <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
-      Download flood map for this location (PDF)
-    </button>
-  
+        <div class="govuk-form-group">
+          <h3 class="govuk-label-wrapper">
+            <label class="govuk-label--m" for="scale"> Scale </label>
+          </h3>
+          <p class="govuk-body">
+            <span id="scale-hint" class="govuk-hint govuk-hint--block">
+              Select the scale of the map shown in the report
+            </span>
+          </p>
+          <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
+            <option value="2500">1:2500</option>
+            <option value="10000">1:10000</option>
+            <option value="25000">1:25000</option>
+            <option value="50000">1:50000</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </details>
+  <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
+    Download flood map for this location (PDF)
+  </button>
 
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
