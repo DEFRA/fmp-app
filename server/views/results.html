@@ -24,7 +24,7 @@
       {% if floodData.surfaceWater.riskBand or floodData.riversAndSea %}
         <p class="govuk-body">In your proposed development site there is a risk of flooding from:</p>
         <ul class="govuk-list govuk-list--bullet">
-          {% if floodData.riversAndSea %}<li>rivers and the sea</li>{% endif %}
+          {% if floodData.riversAndSea %}<li data-testid="risk-list-rivers-and-sea">rivers and the sea</li>{% endif %}
           {% if floodData.surfaceWater.riskBand %}<li>surface water</li>{% endif %}
         </ul>
       {% endif %}
@@ -49,13 +49,13 @@
 
       {% if floodData.isFZ1Andgt1ha %}
         <p class="govuk-body" data-testid="fz1-gt1ha-fra">Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).</p>
-        <p class="govuk-body" data-testid="fz1-gt1ha-area-or-lt1haFRA">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
+        <p class="govuk-body" data-testid="fz1-gt1ha-area">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
       {% endif %}
 
       <p class="govuk-body">
         If the flood risk to your site is affected by flood defences,
         you will also need to assess <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para41">residual risk</a>
-        from flood defence breach in this location. If available,
+        from flood defence breach in this location. If available,
         we will provide breach hazard mapping data to help you do this.
       </p>
       <p class="govuk-body">Review the flood risks for your location then complete the next steps for your planning application.</p>
