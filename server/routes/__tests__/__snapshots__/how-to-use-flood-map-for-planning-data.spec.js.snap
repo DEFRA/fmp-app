@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`home route should match snapshot 1`] = `
+exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-map-for-planning-data page 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template govuk-template--rebranded">
   <head>
     <meta charset="utf-8">
     <title>
-  Get flood risk information for planning in England - Flood map for planning - GOV.UK
+  How to use flood map for planning data - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#1d70b8">
@@ -22,14 +22,14 @@ exports[`home route should match snapshot 1`] = `
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri"/>
-  <meta property="og:title" content="Get flood risk information for planning in England - Flood map for planning - GOV.UK"/>
+  <meta property="og:url" content="http://dummyuri/how-to-use-flood-map-for-planning-data"/>
+  <meta property="og:title" content="How to use flood map for planning data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
-    <meta name="robots" content="all"/>
+    <meta name="robots" content="noindex"/>
   
   <link href="/assets/application.css" rel="stylesheet"/>
 
@@ -219,136 +219,370 @@ exports[`home route should match snapshot 1`] = `
 
         <main class="govuk-main-wrapper" id="main-content">
           
- 
-
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Get flood risk information for planning in England</h1>
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      How to use flood map for planning data
+    </h1>
 
     <p class="govuk-body">
-      Use this service to get flood risk information for planning applications (also known as
-      planning permission).
+      On this page:
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a href="#howToUseTitle">how should the data be used?</a></li>
+        <li><a href="#whatAreFZCCTitle">what are ‘flood zones plus climate change’?</a></li>
+        <li><a href="#WhatDoesCCUnavailableMean">what does ‘climate change data unavailable’ mean?</a></li>
+      </ul>
     </p>
 
-    <p class="govuk-body">You can use this service to:</p>
+    <h2 id="howToUseTitle" class="govuk-heading-m"> How should the data be used? </h2>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>find out if you need a flood risk assessment as part of a planning application </li>
-      <li>download a printable flood map for planning </li>
-      <li>request flood risk data </li>
-    </ul>
-    
-    <p class="govuk-body"> 
-      <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how it should be used
-      </a>
-    </p>
-
+    <p class="govuk-body">The data shown on the flood map for planning should be used alongside strategic flood risk assessments (SFRAs). </p>
+    <p class="govuk-body">Users of these datasets should always check they are suitable for the intended use.</p>
     <p class="govuk-body">
-      There are different services to get information on the
-      <a
-        href="http://www.sepa.org.uk/environment/water/flooding"
-        class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Scotland">
-        flood risk in Scotland
-      </a>,
-      <a
-        href="https://naturalresources.wales"
-        class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Wales">
-        flood risk in Wales</a> or
-      <a
-        href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area"
-        class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Northern-Ireland"
-        >flood risk in Northern Ireland</a>.
+      See how to 
+      <a href="https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment">prepare a strategic flood risk assessment</a>
+      for further advice on using these datasets in SFRAs. 
     </p>
-
-    <a href="triage" role="button" draggable="false"
-      class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
-      data-journey-click="Home-Page:Internal-Link:Start-Now"
-      data-module="govuk-button">
-      Start now
-      <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
-        viewBox="0 0 33 40" role="presentation" focusable="false">
-        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-      </svg>
-    </a>
-
-        <h2 class="govuk-heading-m">Before you start</h2>
-
-        <p class="govuk-body">
-          If you need to see flood risk information for a specific location, you will need one of the following:
-        </p>
-
-        <ul class="govuk-list govuk-list--bullet">
-          <li>
-            postcode
-          </li>
-          <li>
-            place
-          </li>
-          <li>
-            national grid reference (NGR)
-          </li>
-          <li>
-            easting and northing coordinates
-          </li>
-        </ul>
-
-        <p class="govuk-body">
-          You can also use the map to scope a site without location details. 
-        </p>
-
-        <p class="govuk-body">
-          <a
-            class="govuk-link"
-            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-a-flood-risk-assessment"
-            data-journey-click="Home-Page:External-Link:Find-Out-More-About-FRA-for-Planning"
-          >
-          Find out more about flood risk assessments for planning permission</a>.
-        </p>
-
-        <p class="govuk-body">You’ll usually need a flood risk consultant to carry out a flood risk assessment. If it’s
-          for a simple, low risk development like a house extension you may be able to do it yourself.
-        </p>
-
-        <p class="govuk-body">If you’re unsure 
-          <a
-            class="govuk-link"
-            data-journey-click="Home-Page:External-Link:FRA-for-Planning-Contact"
-            href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact-the-environment-agency">
-              contact the Environment Agency
-          </a>.
-        </p>
-        <p class="govuk-body">
-          <div class="govuk-inset-text">
-            <p>
-              The material displayed in this service, including maps and risk data, is provided without any guarantees,
-              conditions or warranties as to its accuracy. See our
-              <a href="/terms-and-conditions" class="govuk-link"> terms and conditions </a>
-              for more information.
-            </p>
-          </div>
-        </p>
-        <h2 class="govuk-heading-m">Other ways to get this information</h2>
-        <p class="govuk-body">
-          For help getting flood risk information, contact the Environment Agency.
-        </p>
-        <p class="govuk-body">
-          Environment Agency <br />
-          Telephone: 03708 506 506<br />
-          Monday to Friday, 8am to 6pm<br />
-          <a class="govuk-link" href="https://www.gov.uk/call-charges">
-            Find out about call charges
-          </a>
-       </p>
+    <p class="govuk-body">The table below explains how the datasets shown on the flood map should be used in planning.</p>
   </div>
 </div>
 
+<!-- Flood risk assessment -->
+<div class="govuk-summary-card govuk-!-margin-top-3">
+
+  <div class="govuk-summary-card__title-wrapper vlow">
+
+    <h2 class="govuk-summary-card__title">Flood risk assessment</h2>
+    <ul class="govuk-summary-card__actions">
+
+    </ul>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for flood risk assessment
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for a flood risk assessment use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>flood zones plus climate change </li>
+            <li>water storage areas</li>
+            <li>surface water layers</li>
+          </ul>
+          <p class="govuk-body">
+  Only present day surface water flood risk is shown. Refer to the 
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+    suitability of datasets for development planning (PDF) 
+  </a>
+  for further guidance on using this alongside other surface water information.
+</p>
+        </dd>
+
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Inform a Flood risk assessment
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">
+            You can use all the data layers to inform a flood risk assessment. 
+            We often hold additional information, which can help you produce a 
+            flood risk assessment. You can order flood risk data through the 
+            flood map for planning service.
+          </p>
+        </dd>
+      </div>
+  </div>
+</div>
+
+
+<!-- Sequential and exception tests -->
+<div class="govuk-summary-card govuk-!-margin-top-3">
+
+  <div class="govuk-summary-card__title-wrapper vlow">
+
+    <h2 class="govuk-summary-card__title">Sequential and exception tests </h2>
+    <ul class="govuk-summary-card__actions">
+
+    </ul>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for the sequential test
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for the sequential test use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>flood zones plus climate change</li>
+            <li>
+              water storage areas (if the local planning authority's strategic flood 
+              risk assessment defines as flood zone 3b)
+            </li>
+            <li>surface water flood risk layers </li>
+          </ul>
+          <p class="govuk-body">
+  Only present day surface water flood risk is shown. Refer to the 
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+    suitability of datasets for development planning (PDF) 
+  </a>
+  for further guidance on using this alongside other surface water information.
+</p>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Identify the need for the exception test
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To identify the need for the exception test use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>
+              water storage areas (if the local planning authority's strategic flood 
+              risk assessment defines as flood zone 3b)
+            </li>
+          </ul>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Inform application of sequential and exception tests
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To inform application of sequential and exception tests use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+
+            <li>flood zones 2 and 3</li>
+            <li>flood zones plus climate change</li>
+            <li>defences</li>
+            <li>
+              water storage areas (if local planning authority's strategic flood risk assessment 
+              defines as flood zone 3b)
+            </li>
+            <li>surface water flood risk layers</li>
+          </ul>
+          <p class="govuk-body">
+  Only present day surface water flood risk is shown. Refer to the 
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+    suitability of datasets for development planning (PDF) 
+  </a>
+  for further guidance on using this alongside other surface water information.
+</p>
+          <p class="govuk-body">
+            We recommend that those producing local plans and ranking methodologies should discuss
+            this with the Environment Agency. Additional supporting datasets are available through
+            the data services platform, which may further help local planning authorities producing
+            a ranking methodology.
+          </p>
+        </dd>
+      </div>
+  </div>
+
+</div>
+
+<!-- Development Incompatibility -->
+<div class="govuk-summary-card govuk-!-margin-top-3">
+
+  <div class="govuk-summary-card__title-wrapper vlow">
+
+    <h2 class="govuk-summary-card__title">Development incompatibility</h2>
+    <ul class="govuk-summary-card__actions">
+
+    </ul>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+
+
+      <div class="govuk-summary-list__row">
+
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">To check development incompatibility, see <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice
+              Guidance</a> and use:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones 2 and 3</li>
+            <li>water storage areas (if local planning authority's strategic flood risk assessment defines as flood zone
+              3b) </li>
+            <li>functional floodplain (flood zone 3b) designated in the local planning authority's strategic flood risk
+              assessment </li>
+          </ul>
+        </dd>
+      </div>
+  </div>
+</div>
+
+<!-- Trigger local planning authority -->
+<div class="govuk-summary-card govuk-!-margin-top-3">
+
+  <div class="govuk-summary-card__title-wrapper vlow">
+
+    <h2 class="govuk-summary-card__title">
+      Trigger local planning authority to consult Environment Agency or apply standing advice
+    </h2>
+    <ul class="govuk-summary-card__actions">
+    </ul>
+  </div>
+
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Data that can be used to trigger this process
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body">Subject to applying the process set out in <a
+              href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk
+              standing advice for local planning authorities</a>:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>flood zones</li>
+            <li>main rivers</li>
+            <li>water storage areas (if the local planning authority's strategic flood risk assessment defines as flood
+              zone 3b) </li>
+            <li>functional floodplain (flood zone 3b) designated in the local planning authority's strategic flood risk
+              assessment </li>
+          </ul>
+
+          <p class="govuk-body">
+            Local planning authorities should also refer to ‘flood zones plus climate change’ when deciding whether
+            to consult the Environment Agency or follow standing advice. Flood zone 1 sites that are within the 
+            ‘flood zones plus climate change’ extent should be treated as if they were in flood zone 2.
+          </p>
+
+          <p class="govuk-body">
+            You can find out if the Environment Agency will be consulted on your application or if flood risk standing 
+            advice applies by visiting 
+            <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">
+              flood risk assessments: applying for planning permission.
+            </a>
+          </p>
+        </dd>
+
+      </div>
+  </div>
+</div>
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-full">
+
+    <p class="govuk-body">
+      The material displayed in this service, including maps and risk data, is provided without any guarantees,
+      conditions or warranties as to its accuracy. See our 
+      <a href="https://flood-map-for-planning.service.gov.uk/terms-and-conditions">
+        terms and conditions
+      </a>
+      for more information.
+    </p>
+    <p class="govuk-body">
+      To produce a suitable flood risk assessment, other datasets and assessments will be needed.
+    </p>
+
+<!-- flood zones plus climate change -->
+    <h2 id="whatAreFZCCTitle" class="govuk-heading-m">
+      What are ‘flood zones plus climate change’?
+    </h2>
+
+    <p class="govuk-body">
+      Flood zones plus climate change data is provided to help you further investigate flood risk. 
+    </p>
+
+    <p class="govuk-body">
+      The flood zones plus climate change dataset shows how the combined extent of flood zones 2 and 3
+      could increase with climate change over the next century, ignoring the benefits of any existing
+      flood defences.
+    </p>
+
+    <p class="govuk-body">
+      We have assumed no changes to flood defences or land-use that could occur in future.
+    </p>
+
+    <p class="govuk-body">
+      The effects of climate change on future flood risk could be different to the risk shown in this dataset.
+    </p>
+
+    <p class="govuk-body">
+      We have used climate change allowances that will be suitable
+      for most common development types, as set out in the
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+        flood risk assessments climate change allowances guidance.
+      </a>
+    </p>
+
+<!-- climate change allowances -->
+    <h2 class="govuk-heading-m">Climate change allowances</h2>
+    <p class="govuk-body">
+      Flood zones plus climate change uses the following climate change allowances:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class='govuk-body'>
+        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch
+      </li>
+      <li class='govuk-body'>
+        sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
+      </li>
+    </ul>
+
+    <p class="govuk-body">
+      Some developments may need to carry out further assessment of the effect of climate change. 
+      <br />For example:
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          nationally significant infrastructure projects (NSIPs) that may need to consider a credible 
+          maximum scenario in line with the relevant national policy statement
+        </li>
+        <li>
+          developments with significantly longer or shorter lifetimes than the time horizons we have used
+        </p>
+      </ul>
+
+    </p>    
+
+    <p class="govuk-body">
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+        More information on when to use other climate change allowances.
+      </a>
+    </p>
+
+  <!-- What does climate change data unavailable mean? -->
+    <h2 id="WhatDoesCCUnavailableMean" class="govuk-heading-m">
+      What does ‘climate change data unavailable’ mean?
+    </h2>
+    <p class="govuk-body">
+      In some locations flood zones plus climate change data is not currently available while 
+      we make important improvements to our data.
+    </p>
+    <p class="govuk-body">
+      These locations are shown as dotted areas on the flood map for planning. See the map key.
+    </p>
+    <p class="govuk-body">
+      For development sites falling within these locations, further assessment is needed to inform:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li> the application of the sequential and exception tests </li>
+      <li> the need for a Flood Risk Assessment (FRA) </li>
+    </ul>
+
+    <p class="govuk-body">
+      The Environment Agency may still hold other flood risk information that can be used to inform 
+      a flood risk assessment, which can be requested through the flood map for planning service.
+      Strategic flood risk assessments should also be checked for relevant information in these locations. 
+    </p>
+
+    <p class="govuk-body">
+      As new models, data and information become available that meet our quality assurance standards, we will add these
+      to the flood map for planning.
+    </p>
+    
+  </div>
+</div>
 
         </main>
       </div>
