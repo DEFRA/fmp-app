@@ -23,6 +23,7 @@
     "unit-test-quiet": "lab -l -s",
     "test": "npm run lint && npm run unit-jest",
     "jest": "jest",
+    "jest-watch": "jest --watch",
     "test-bail": "lab -l --bail",
     "postinstall": "npm run build",
     "kill": "sudo kill -9 $(sudo lsof -t -i:3000)",

@@ -7,6 +7,7 @@ const MAP = 'map'
 const RESULTS = 'results'
 const CONTACT = 'contact'
 const CHECK_YOUR_DETAILS = 'check-your-details'
+const HOW_TO_USE_FLOOD_MAP_FOR_PLANNING_DATA = 'how-to-use-flood-map-for-planning-data'
 const CONFIRMATION = 'confirmation'
 const OS_ACCOUNT_NUMBER = 'AC0000807064'
 const CYLTFRIURL = 'https://www.gov.uk/check-long-term-flood-risk'
@@ -30,6 +31,7 @@ const views = {
   RESULTS,
   CONTACT,
   CHECK_YOUR_DETAILS,
+  HOW_TO_USE_FLOOD_MAP_FOR_PLANNING_DATA,
   CONFIRMATION,
   FLOOD_ZONE_RESULTS_EXPLAINED,
   COOKIES,
