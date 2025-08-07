@@ -522,7 +522,7 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li class='govuk-body'>
-        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch
+        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
       </li>
       <li class='govuk-body'>
         sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
