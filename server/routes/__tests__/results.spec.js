@@ -141,49 +141,48 @@ describe('Results Page On Public', () => {
       expectOrderP4Button()
     })
 
+    it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
+      const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
+      document.body.innerHTML = response.payload
+      expectRSBulletPoint(true)
+      expectGenericFloodZoneText(1)
+      expectRSTitles()
+      expectFRARequired(false)
+      expectFZ1LowProb(true)
+      expectFZ1lt1haNoFRA(true)
+      expectFZ1lt1haHasDrawnSiteText(false)
+      expectFZ2MedProbFRA(false)
+      expectFZ3HighProbFRA(false)
+      expectSWInfo('0.1', '1 in 1000', false)
+      expectAdminUpdateText(false)
+      expectOrderP4Button()
+    })
 
-  it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only}` })
-    document.body.innerHTML = response.payload
-    expectRSBulletPoint(true)
-    expectGenericFloodZoneText(1)
-    expectRSTitles()
-    expectFRARequired(false)
-    expectFZ1LowProb(true)
-    expectFZ1lt1haNoFRA(true)
-    expectFZ1lt1haHasDrawnSiteText(false)
-    expectFZ2MedProbFRA(false)
-    expectFZ3HighProbFRA(false)
-    expectSWInfo('0.1', '1 in 1000', false)
-    expectAdminUpdateText(false)
-    expectOrderP4Button()
-  })
+    it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with no data zone', async () => {
+      const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_no_la}` })
+      document.body.innerHTML = response.payload
+      expectRSBulletPoint(true)
+      expectGenericFloodZoneText(1)
+      expectRSTitles()
+      expectFRARequired(false)
+      expectFZ1LowProb(true)
+      expectFZ1lt1haNoFRA(true)
+      expectFZ1lt1haHasDrawnSiteText(false)
+      expectFZ2MedProbFRA(false)
+      expectFZ3HighProbFRA(false)
+      expectSWInfo('0.1', '1 in 1000', false)
+      expectAdminUpdateText(false)
+      expectOrderP4Button()
+    })
 
-  it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with no data zone', async () => {
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz1_only_no_la}` })
-    document.body.innerHTML = response.payload
-    expectRSBulletPoint(true)
-    expectGenericFloodZoneText(1)
-    expectRSTitles()
-    expectFRARequired(false)
-    expectFZ1LowProb(true)
-    expectFZ1lt1haNoFRA(true)
-    expectFZ1lt1haHasDrawnSiteText(false)
-    expectFZ2MedProbFRA(false)
-    expectFZ3HighProbFRA(false)
-    expectSWInfo('0.1', '1 in 1000', false)
-    expectAdminUpdateText(false)
-    expectOrderP4Button()
-  })
-
-  it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.inRiskAdmin.fz1_only}` })
-    document.body.innerHTML = response.payload
-    expectGenericFloodZoneText(1)
-    expectRSBulletPoint(false)
-    expectAdminUpdateText(true)
-    expectOrderP4Button()
-  })
+    it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
+      const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.inRiskAdmin.fz1_only}` })
+      document.body.innerHTML = response.payload
+      expectGenericFloodZoneText(1)
+      expectRSBulletPoint(false)
+      expectAdminUpdateText(true)
+      expectOrderP4Button()
+    })
   })
 
   describe('Flood zone 2', () => {
@@ -203,7 +202,7 @@ describe('Results Page On Public', () => {
       expectAdminUpdateText(false)
       expectOrderP4Button()
     })
-    
+
     it('should show RS title and bullet point, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
       const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.fz2_medium}` })
       document.body.innerHTML = response.payload
