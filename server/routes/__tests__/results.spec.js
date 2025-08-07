@@ -9,7 +9,7 @@ const url = '/results'
 /*
 This test file is used to check the dynamic content on the results page html.
 It is useful as we need to test the nunjuck logic.
-'gt' stands for 'greater than' and 'lt' stands for 'lt'
+'gt' stands for 'greater than' and 'lt' stands for 'lt'.
 */
 
 const expectGenericFloodZoneText = (floodZone) => {
