@@ -743,7 +743,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
-          Flood zones plus climate change data is provided to help you further investigate flood risk.
+          The flood zones plus climate change dataset shows how the combined extent of flood
+          zones 2 and 3 could increase with climate change over the next century, ignoring the
+          benefits of any existing flood defences.
         </p>
         ${$findOutMoreLink}`
     } else {
