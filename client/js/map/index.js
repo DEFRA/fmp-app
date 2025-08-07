@@ -710,7 +710,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li class='govuk-body-s'>
-        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch
+        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
       </li>
       <li class='govuk-body-s'>
         sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
