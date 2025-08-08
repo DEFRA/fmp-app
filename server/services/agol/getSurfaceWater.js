@@ -1,5 +1,6 @@
 const { config } = require('../../../config')
 const { esriFeatureRequest, makePolygonGeometry } = require('.')
+const { PerformanceLogger } = require('../utils/performanceLogger')
 
 const riskBandPriority = {
   false: {
@@ -37,8 +38,11 @@ const assignResponse = (response) => {
 }
 
 const getSurfaceWater = async (options) => {
-  return esriFeatureRequest(config.agol.surfaceWaterEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  const performanceLogger = new PerformanceLogger('           getSurfaceWater')
+  const result = await esriFeatureRequest(config.agol.surfaceWaterEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignResponse(esriResponse))
+  performanceLogger.logTime()
+  return result
 }
 
 module.exports = { getSurfaceWater }

@@ -6,14 +6,16 @@ const https = require('https')
 const protocol = new URL(riskAdminApiUrl).protocol
 const httpAgent = protocol === 'http:' ? new http.Agent({ keepAlive: true }) : undefined
 const httpsAgent = protocol === 'https:' ? new https.Agent({ keepAlive: true }) : undefined
-
+const { PerformanceLogger } = require('../utils/performanceLogger')
 const PAUSE_TIME = 50
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const doRequest = async (url) => {
+  const performanceLogger = new PerformanceLogger('           isRiskAdminArea')
   const { data } = await axios.get(url, { httpsAgent, httpAgent })
   const { intersects } = data
   if (intersects !== undefined) {
+    performanceLogger.logTime()
     return { isRiskAdminArea: intersects }
   }
   console.log('riskadmin-api response data:\n', data)

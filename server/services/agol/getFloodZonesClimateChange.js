@@ -1,5 +1,6 @@
 const { config } = require('../../../config')
 const { esriFeatureRequest, makePolygonGeometry } = require('.')
+const { PerformanceLogger } = require('../utils/performanceLogger')
 
 const assignFloodZoneResponse = (response, results) => {
   for (const { attributes } of response) {
@@ -13,12 +14,15 @@ const assignFloodZoneResponse = (response, results) => {
 }
 
 const getFloodZonesClimateChange = async (options) => {
+  const performanceLogger = new PerformanceLogger('getFloodZonesClimateChange')
   const results = {
     floodZoneClimateChange: false,
     floodZoneClimateChangeNoData: false
   }
-  return esriFeatureRequest(config.agol.floodZonesClimateChangeEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
+  const result = await esriFeatureRequest(config.agol.floodZonesClimateChangeEndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
     .then((esriResponse) => assignFloodZoneResponse(esriResponse, results))
+  performanceLogger.logTime()
+  return result
 }
 
 module.exports = { getFloodZonesClimateChange }
