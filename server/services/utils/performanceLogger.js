@@ -6,8 +6,8 @@ class PerformanceLogger {
     this.startTime = performance.now()
   }
 
-  logTime () {
-    console.log(`${this.processName} time in seconds: `, Math.round(1000 * (performance.now() - this.startTime) / 1000) / 1000)
+  logTime (extraText = '') {
+    console.log(`${this.processName} ${extraText}time in seconds: `, Math.round(1000 * (performance.now() - this.startTime) / 1000) / 1000)
   }
 }
 
