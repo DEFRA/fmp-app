@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { performance } = require('node:perf_hooks')
 
 const polygon = [
   [510214.3, 168078.28],
@@ -24,16 +25,16 @@ const getRandomPolygon = (polygon) => {
 const makeMultiRequests = async (count) => {
   let totalTime = 0
   for (let i = 0; i < count; i++) {
-    const url = `https://fmp2-tst.aws-int.defra.cloud/results?polygon=${JSON.stringify(getRandomPolygon(polygon))}`
+    const url = `https://fmp2-dev.aws-int.defra.cloud/results?polygon=${JSON.stringify(getRandomPolygon(polygon))}`
 
     const startTime = performance.now()
     await axios.get(url)
     const endTime = performance.now()
     const time = endTime - startTime
     totalTime += time
-    console.log('Request time = ', time/1000)
+    console.log('Request time = ', time / 1000)
   }
-  console.log('Request total time = ', totalTime/1000)
+  console.log('Request total time = ', totalTime / 1000)
 }
 
-makeMultiRequests(2)
+makeMultiRequests(10)
