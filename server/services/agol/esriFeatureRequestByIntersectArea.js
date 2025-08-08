@@ -10,7 +10,7 @@ const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryTyp
     const performanceLoggerWithGeom = new PerformanceLogger(loggingText + ' with geom')
     // FCRM-5361 - If more than 1 result found, re-request with geometry and sort by intersecting area size
     const turfPolygon = turf.polygon(geometry.rings)
-    const results = await esriFeatureRequest(endPoint, geometry, geometryType, { returnGeometry: 'true' })
+    const results = await esriFeatureRequest(endPoint, geometry, geometryType, { returnGeometry: 'true', maxAllowableOffset: 100 })
       .then((esriResult) => esriResult.map((result) => {
         try {
           performanceLoggerWithGeom.logTime('response ')
