@@ -3,6 +3,7 @@ const {
   getAreaInHectares,
   getCentreOfPolygon
 } = require('../services/shape-utils')
+const { PerformanceLogger } = require('../services/utils/performanceLogger')
 
 module.exports = [
   {
@@ -11,6 +12,7 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
+        const performanceLogger = new PerformanceLogger('resultsPage')
         const { polygon } = request.query
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
@@ -23,6 +25,7 @@ module.exports = [
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
+        performanceLogger.logTime()
         return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
     }
