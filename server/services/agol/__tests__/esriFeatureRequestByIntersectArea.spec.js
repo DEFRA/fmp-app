@@ -32,7 +32,7 @@ describe('esriFeatureRequestByIntersectArea', () => {
   const expectedParameters2 = {
     ...expectedParameters,
     requestObject: {
-      ...expectedParameters.requestObject, params: { ...params, geometry: gainsboroughGeometry, returnGeometry: 'true' }
+      ...expectedParameters.requestObject, params: { ...params, geometry: gainsboroughGeometry, returnGeometry: 'true', maxAllowableOffset: 100 }
     }
   }
 

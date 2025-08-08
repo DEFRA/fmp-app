@@ -6,7 +6,7 @@ const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryTyp
   if (Array.isArray(response) && response?.length > 1) {
     // FCRM-5361 - If more than 1 result found, re-request with geometry and sort by intersecting area size
     const turfPolygon = turf.polygon(geometry.rings)
-    return esriFeatureRequest(endPoint, geometry, geometryType, { returnGeometry: 'true' })
+    return esriFeatureRequest(endPoint, geometry, geometryType, { returnGeometry: 'true', maxAllowableOffset: 100 })
       .then((esriResult) => esriResult.map((result) => {
         try {
           const areaPolygon = turf.polygon(result.geometry.rings)
