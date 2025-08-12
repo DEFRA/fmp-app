@@ -3,7 +3,7 @@ const {
   submitPostRequest,
   submitPostRequestExpectHandledError
 } = require('../../__test-helpers__/server')
-const { expectedContent } = require('../../__test-helpers__/copy')
+const { assertCopy } = require('../../__test-helpers__/copy')
 
 const constants = require('../../constants')
 
@@ -64,8 +64,8 @@ describe('Triage Page', () => {
     it(`Item ${id} should contain label ${expectedLabel} and hint: ${expectedHint}`, async () => {
       const response = await submitGetRequest({ url }, 'What flood information do you need?')
       document.body.innerHTML = response.payload
-      expectedContent(`[for=${id}]`, expectedLabel)
-      expectedContent(`#${id}-item-hint`, expectedHint)
+      assertCopy(`[for=${id}]`, expectedLabel)
+      assertCopy(`#${id}-item-hint`, expectedHint)
     })
   })
 

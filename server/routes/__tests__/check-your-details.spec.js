@@ -1,4 +1,4 @@
-const { expectedContent } = require('../../__test-helpers__/copy')
+const { assertCopy } = require('../../__test-helpers__/copy')
 const {
   submitGetRequest,
   submitPostRequest,
@@ -38,10 +38,10 @@ describe('Check your details page', () => {
       it(`Happy get request for a flood zone ${floodZone} information`, async () => {
         const response = await submitGetRequest({ url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, 'Check your details before requesting your data')
         document.body.innerHTML = response.payload
-        expectedContent('title', 'Check your details before requesting your data - Flood map for planning - GOV.UK')
-        expectedContent('.govuk-summary-list__row > dd.govuk-summary-list__value', user.fullName)
-        expectedContent('.govuk-summary-list__row:nth-child(2) > dd.govuk-summary-list__value', user.email)
-        expectedContent('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value', floodZone)
+        assertCopy('title', 'Check your details before requesting your data - Flood map for planning - GOV.UK')
+        assertCopy('.govuk-summary-list__row > dd.govuk-summary-list__value', user.fullName)
+        assertCopy('.govuk-summary-list__row:nth-child(2) > dd.govuk-summary-list__value', user.email)
+        assertCopy('.govuk-summary-list__row:nth-child(4) > dd.govuk-summary-list__value', floodZone)
       })
     })
     const longFullName = 'test'.repeat(51)

@@ -1,4 +1,4 @@
-const expectedContent = (selector, expectedCopy) => {
+const assertCopy = (selector, expectedCopy) => {
   try {
     const element = document.querySelector(selector)
     if (expectedCopy) {
@@ -17,4 +17,4 @@ const expectedContent = (selector, expectedCopy) => {
   }
 }
 
-module.exports = { expectedContent }
+module.exports = { assertCopy }

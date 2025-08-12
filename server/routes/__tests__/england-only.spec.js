@@ -1,5 +1,5 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
-const { expectedContent } = require('../../__test-helpers__/copy')
+const { assertCopy } = require('../../__test-helpers__/copy')
 const constants = require('../../constants')
 
 const url = constants.routes.ENGLAND_ONLY
@@ -45,8 +45,8 @@ describe('England Only Page', () => {
     it(testName, async () => {
       const response = await submitGetRequest({ url: `${url}?${new URLSearchParams(queryParams).toString()}` }, 'This service provides data for locations in England only')
       document.body.innerHTML = response.payload
-      expectedContent('title', 'This service provides data for locations in England only - Flood map for planning - GOV.UK')
-      expectedContent('#not-england-page > div > p:nth-child(2)', text)
+      assertCopy('title', 'This service provides data for locations in England only - Flood map for planning - GOV.UK')
+      assertCopy('#not-england-page > div > p:nth-child(2)', text)
     })
   })
 
