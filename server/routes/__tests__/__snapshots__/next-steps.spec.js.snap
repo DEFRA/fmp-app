@@ -381,7 +381,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
   
   <br>
-  <a href="contact?polygon=[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+  <a id="orderP4Button" href="contact?polygon=[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
 
@@ -943,7 +943,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
     <li>a map showing the site boundary</li>
   </ul>
   
-    <p class="govuk-body">We aim to email you the data within 20 working days.</p>
+    <p id="p4EmailIn20Days" class="govuk-body">We aim to email you the data within 20 working days.</p>
     <p class="govuk-body">Depending on the information that's available, your flood risk data could include:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>a flood zone map (flood map for planning)</li>

@@ -22,6 +22,7 @@ const getContacts = async (options = {}) => {
     case mockPolygons.optedOut.fz3_only:
       return optedOutResponse
     case mockPolygons.fz1_only:
+    case mockPolygons.fz1_only_lt_1_ha:
     case mockPolygons.inRiskAdmin.fz1_only:
     case mockPolygons.inRiskAdmin.throws:
     case mockPolygons.fz2_only:
