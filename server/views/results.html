@@ -6,7 +6,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+      <h1 id="heading" class="govuk-heading-xl">{{ pageTitle }}</h1>
       {% if floodData.isRiskAdminArea %}
         <div class="govuk-warning-text">
           <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>

@@ -268,7 +268,7 @@ const removeHtmlGaps = (text) => {
 // If not element is found in a scenario it returns false (ie. element should not be on page).
 const getElementByIdAndFormat = (payload) => {
   document.body.innerHTML = payload
-  const heading = document.querySelector('.govuk-heading-xl').textContent ? document.querySelector('.govuk-heading-xl').textContent : false
+  const heading = document.getElementById('heading').textContent ? document.getElementById('heading').textContent : false
   const fzMeaningDescription = removeHtmlGaps(document.getElementById('fzMeaningDescription').textContent)
   const rsBulletPoint = document.getElementById('rsBulletPoint') ? removeHtmlGaps(document.getElementById('rsBulletPoint').textContent) : false
   const fz1DataUnlikely = document.getElementById('fz1DataUnlikely') ? removeHtmlGaps(document.getElementById('fz1DataUnlikely').textContent) : false
