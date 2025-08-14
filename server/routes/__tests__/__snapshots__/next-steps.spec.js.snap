@@ -943,7 +943,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
     <li>a map showing the site boundary</li>
   </ul>
   
-    <p class="govuk-body">We aim to email you the data within 20 working days.</p>
+    <p id="p4EmailIn20Days" class="govuk-body">We aim to email you the data within 20 working days.</p>
     <p class="govuk-body">Depending on the information that's available, your flood risk data could include:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>a flood zone map (flood map for planning)</li>

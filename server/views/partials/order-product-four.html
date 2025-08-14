@@ -18,9 +18,9 @@
     <li>a map showing the site boundary</li>
   </ul>
   {% if floodData.floodZone === '1'%}
-    <p class="govuk-body">Your site is in flood zone 1, so it is unlikely we'll have any flood risk data for it. You can place an order and we will email you if none are available. </p>
+    <p id="p4FZ1UnlikleyData" class="govuk-body">Your site is in flood zone 1, so it is unlikely we'll have any flood risk data for it. You can place an order and we will email you if none are available. </p>
   {% else %}
-    <p class="govuk-body">We aim to email you the data within 20 working days.</p>
+    <p id="p4EmailIn20Days" class="govuk-body">We aim to email you the data within 20 working days.</p>
     <p class="govuk-body">Depending on the information that's available, your flood risk data could include:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>a flood zone map (flood map for planning)</li>
