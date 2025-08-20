@@ -376,7 +376,6 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
       </h3>
-
       
   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
   
@@ -931,7 +930,6 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
       </h3>
-
       
   <p class="govuk-body" data-testid="order-product4-email">
     To order flood risk data for this site, contact the Environment Agency team in Wessex at
