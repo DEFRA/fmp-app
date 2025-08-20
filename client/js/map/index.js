@@ -524,6 +524,19 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
+
+    floodMap.setInfo({
+      width: '360px',
+      label: 'Map hints',
+      html: `<div>
+        <p class="govuk-body-s govuk-!-margin-top-4"><strong>How to query the map</p class="govuk-body-s"></strong>
+        <p class="govuk-body">If using a mouse click on a point to find out more about the flood data held on that location.</p>
+        <p class="govuk-body">If using a keyboard, navigate to the point, centering the crosshair at the location, then press enter.</p>
+        <p class="govuk-body-s"><strong>Keyboard map controls</p class="govuk-body-s"></strong>
+        <p class="govuk-body">Tab to the map and press Alt+K to view keyboard controls</p>
+      </div>`
+    })
+
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
@@ -710,7 +723,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li class='govuk-body-s'>
-        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch
+        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
       </li>
       <li class='govuk-body-s'>
         sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
@@ -743,7 +756,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
-          Flood zones plus climate change data is provided to help you further investigate flood risk.
+          The flood zones plus climate change dataset shows how the combined extent of flood
+          zones 2 and 3 could increase with climate change over the next century, ignoring the
+          benefits of any existing flood defences.
         </p>
         ${$findOutMoreLink}`
     } else {
