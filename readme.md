@@ -2,7 +2,7 @@
 
 # Flood Map for Planning (FMP) App Front end application
 
-This repository is part of the CYLTFR service which also includes:\
+This repository is part of the FMP service which also includes:\
 <https://github.com/DEFRA/fmp-riskadmin-api> - checks for holding comments and intersections\
 <https://github.com/DEFRA/fmp-api> (private) - Deals with product 4s \
 <https://github.com/DEFRA/fmp-api/admin> - Admin app to restart P4 jobs and frontend for querying db \
