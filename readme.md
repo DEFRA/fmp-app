@@ -3,10 +3,11 @@
 # Flood Map for Planning (FMP) App Front end application
 
 This repository is part of the CYLTFR service which also includes:\
-<https://github.com/DEFRA/fmp-riskadmin-api>\
-<https://github.com/DEFRA/fmp-api> (private)\
-<https://github.com/DEFRA/fmp-service>\
-<https://github.com/DEFRA/fmp-admin>
+<https://github.com/DEFRA/fmp-riskadmin-api> - checks for holding comments and intersections\
+<https://github.com/DEFRA/fmp-api> (private) - Deals with product 4s \
+<https://github.com/DEFRA/fmp-api/admin> - Admin app to restart P4 jobs and frontend for querying db \
+<https://github.com/DEFRA/fmp-api/riskadmin> - Frontend to upload shapefiles \
+<https://github.com/DEFRA/fmp-service> - (no longer in use)\
 
 ## Prerequisites
 Node v18.x\
@@ -51,13 +52,28 @@ Node v18.x\
 | agolClientId                | ESRI Client ID                          |   yes     |             |                             |       |
 | agolClientSecret            | ESRI Client Secret                      |   yes     |             |                             |       |
 | agolServiceId               | ESRI service ID                         |   yes     |             |                             |       |
+| agolServiceUrl              | ESRI service API URL                    |   yes     |             |                             |       |
+| vectorTileUrl               | Vector Tile URL                         |   yes     |             |                             |       |
+| customerTeamEndPoint        | Customer Service query endpoint         |   yes     |             |                             |       |
+| localAuthorityEndPoint      | LLFA query endpoint                     |   yes     |             |                             |       |
+| isEnglandEndPoint           | Is in England endpoint                  |   yes     |             |                             |       |
+| floodZonesRiversAndSeaEndPoint| Rivers and the sea endpoint           |   yes     |             |                             |       |
+| floodZonesClimateChangeEndPoint| Climate change enpoint               |   yes     |             |                             |       |
+| riversAndSeaDefendedEndPoint| Rivers and the sea, defended endpoint   |   yes     |             |                             |       |
+| riversAndSeaUndefendedEndPoint| River and the sea, undefended endpoint|   yes     |             |                             |       |
+| riversAndSeaDefendedCCP1EndPoint| Climate change, defended endpoint   |   yes     |             |                             |       |
+| riversAndSeaUndefendedCCP1EndPoint| Climate change, undefended endpoint|   yes    |             |                             |       |
+| surfaceWaterEndPoint        | Surface water endpoint                  |   yes     |             |                             |       |
+| agolRofrsDepthOrExtents     | ESRI Rivers and Sea layers Depth or Extent|    no   | depth       |                             |       |
 | eamapsServiceUrl            | EA ESRI Map server URL                  |   yes     |             |                             |       |
 | eamapsProduct1User          | Internal user for product 1 map         |   yes     |             |                             |       |
 | eamapsProduct1Password      | Internal user password for P1           |   yes     |             |                             |       |
-| layerNameSuffix             | Layer name to use on map                |   yes     |             |_NON_PRODUCTION,_Tile_Layer  |       |
+| product1EndPoint            | P1 URL endpoint                         |   yes     |             |                             |       |
+| tokenEndPoint               | Token generating for P1 endpoin         |   yes     |             |                             |       |
+| layerNameSuffix             | Layer name to use on DEFRA map          |   yes     |             |_NON_PRODUCTION,_Tile_Layer  |       |
 | build_map_as_submodule      | True will build the map component module|   yes     | false       |                             |       |
 | riskAdminApiUrl             | Risk admin API URL                      |   yes     |             |                             |       |
-| forceRiskAdminApiResponse   | Toggle mock risk admin API response     |    no     | false       |                             |       |
+| forceRiskAdminApiResponse   | Toggle mock risk admin API response     |   yes     | false       |                             |       |
 
 ## Contributing to this project
 
