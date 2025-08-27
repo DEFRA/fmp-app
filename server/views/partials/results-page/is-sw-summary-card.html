@@ -1,6 +1,6 @@
 <div class="govuk-summary-card" data-testid="sw">
   <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title">
+    <h2 id="swSummaryTitle" class="govuk-summary-card__title">
       Surface water for planning
     </h2>
     <ul class="govuk-summary-card__actions">
@@ -13,11 +13,11 @@
   <div class="govuk-summary-card__content">
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt id="swSummaryKeyCC" class="govuk-summary-list__key">
           Climate change: projected chance of flooding
         </dt>
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">We do not currently show climate change scenarios for surface water.</p>
+          <p id="swDoNotShowCC" class="govuk-body">We do not currently show climate change scenarios for surface water.</p>
           <p class="govuk-body">You can see climate change and depth scenarios on the <a
               href="https://www.gov.uk/check-long-term-flood-risk">check the long term flood risk for an area in
               England</a> service. The data shown in that service fall short of what is required to assess planned
@@ -31,7 +31,7 @@
         <dt class="govuk-summary-list__key">
           Present day chance of flooding
         </dt>
-        <dd class="govuk-summary-list__value" data-testid="sw-probability">
+        <dd id="swProbability" class="govuk-summary-list__value" data-testid="sw-probability">
           The chance of surface water flooding at this location could be more than {{
           floodData.surfaceWater.riskBandPercent }}% ({{ floodData.surfaceWater.riskBandOdds }}) each year.
         </dd>
