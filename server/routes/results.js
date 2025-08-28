@@ -17,21 +17,13 @@ module.exports = [
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        const showProduct1Button = config.allowProduct1
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
-        const isRiversAndSea =
-          floodData.riversAndSeaDefended.riskBandPercent ||
-          floodData.riversAndSeaUndefended.riskBandPercent ||
-          floodData.riversAndSeaDefendedCC.riskBandPercent ||
-          floodData.riversAndSeaUndefendedCC.riskBandPercent
-        floodData.hasROFRSRiskBand = isRiversAndSea
-        floodData.isFZ1Andlt1haShowFRA = floodData.isFZ1Andlt1ha && isRiversAndSea
-
-        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button, showProduct1Button })
+        floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
+        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
       }
     }
   }

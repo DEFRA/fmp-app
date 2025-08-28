@@ -6,7 +6,7 @@ const terms = {
     fzNoData: 'FZNODATA'
   },
   labels: {
-    noData: 'No data available',
+    noData: 'Climate change data unavailable',
     climateChange: 'Climate change',
     fzClimateChange: '2070 to 2125',
     presentDay: 'Present day',

@@ -1,10 +1,6 @@
 const { getFloodZones } = require('./agol/getFloodZones')
 const { getFloodZonesClimateChange } = require('./agol/getFloodZonesClimateChange')
 const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
-const { getRiversAndSeaDefended } = require('./agol/getRiversAndSeaDefended')
-const { getRiversAndSeaUndefended } = require('./agol/getRiversAndSeaUndefended')
-const { getRiversAndSeaDefendedCC } = require('./agol/getRiversAndSeaDefendedCC')
-const { getRiversAndSeaUndefendedCC } = require('./agol/getRiversAndSeaUndefendedCC')
 const { getSurfaceWater } = require('./agol/getSurfaceWater')
 
 const getFloodDataByPolygon = async (polygon) => {
@@ -17,10 +13,6 @@ const getFloodDataByPolygon = async (polygon) => {
     await Promise.all([
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
       getFloodZonesClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaDefended({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaUndefended({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaDefendedCC({ geometryType: 'esriGeometryPolygon', polygon }),
-      getRiversAndSeaUndefendedCC({ geometryType: 'esriGeometryPolygon', polygon }),
       getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon }),
       isRiskAdminArea(polygon)
     ]).then((responseArray) => {
@@ -35,7 +27,7 @@ const getFloodDataByPolygon = async (polygon) => {
 
 const expiresIn = 600000 // 10 minutes
 const staleIn = 540000 // 9 minutes
-const generateTimeout = 10000 // 10 seconds
+const generateTimeout = 20000 // 20 seconds
 const staleTimeout = 59000 // 59 seconds
 
 module.exports = {

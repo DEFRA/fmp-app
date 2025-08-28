@@ -1,0 +1,4 @@
+<p id="fraRequired" class="govuk-body" data-testid="fra">Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.</p>
+{% if floodData.isFZ1Andlt1ha %}
+<p id="siteDrawnIsLessThanCC" class="govuk-body" data-testid="fz1-lt1ha-area-cc">The site you have drawn is {{ floodData.areaInHectares }}ha.</p>
+{% endif %}
