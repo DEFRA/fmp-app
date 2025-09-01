@@ -1,8 +1,5 @@
 const { mockPolygons } = require('./__mocks__/floodDataByPolygonMock')
-const {
-  method: getFloodDataByPolygon,
-  options: { generateKey }
-} = require('../../../server/services/floodDataByPolygon')
+const { getFloodDataByPolygon } = require('../../../server/services/floodDataByPolygon')
 
 describe('getFloodDataByPolygon - Error Handling Scenarios', () => {
   it('getFloodDataByPolygon without polygon should throw "No Polygon provided"', async () => {
@@ -110,11 +107,5 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       isRiskAdminArea: true,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
-  })
-})
-
-describe('generateKey', () => {
-  it('generateKey should stringify a polygon', async () => {
-    expect(generateKey([123, 456])).toEqual('[123,456]')
   })
 })

@@ -31,10 +31,14 @@ async function createServer () {
   })
 
   // Cached server methods
-  await server.method(require('./services/pso-contact'))
-  await server.method(require('./services/pso-contact-by-polygon'))
-  await server.method(require('./services/floodDataByPolygon'))
-  await server.method(require('./services/floodZoneByPolygon'))
+  // Register the server methods
+  const serverMethods = require('./server-methods/server-methods')
+
+  for (const method of serverMethods) {
+    server.method(method.name, method.method, method.options)
+  }
+  server.method(require('./services/pso-contact'))
+  server.method(require('./services/floodZoneByPolygon'))
 
   // Register the plugins
   await server.register(require('@hapi/inert'))
