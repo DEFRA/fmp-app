@@ -41,9 +41,10 @@ describe('Results Page On Public', () => {
           riskBandId: -1,
           riskBand: false,
           riskBandPercent: null,
-          riskBandOdds: null 
+          riskBandOdds: null
         },
-        isRiskAdminArea: false })
+        isRiskAdminArea: false
+      })
       getAreaInHectaresSpy.mockReturnValue(0)
       const response = await submitGetRequest({ url: `${url}` })
       const pageContent = getElementByIdAndFormat(response.payload)
@@ -302,7 +303,7 @@ describe('Results Page On Public', () => {
       expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
       expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
     })
-  
+
     it('should show RS title and bullet point, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
       getPsoContactsByPolygon.mockResolvedValue({
         isEngland: true,
