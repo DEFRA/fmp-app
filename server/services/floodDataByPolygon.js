@@ -9,7 +9,6 @@ const getFloodDataByPolygon = async (polygon) => {
   }
   try {
     const results = {}
-
     await Promise.all([
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
       getFloodZonesClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
@@ -25,22 +24,4 @@ const getFloodDataByPolygon = async (polygon) => {
   }
 }
 
-const expiresIn = 600000 // 10 minutes
-const staleIn = 540000 // 9 minutes
-const generateTimeout = 20000 // 20 seconds
-const staleTimeout = 59000 // 59 seconds
-
-module.exports = {
-  name: 'getFloodDataByPolygon',
-  method: getFloodDataByPolygon,
-  options: {
-    cache: {
-      cache: 'FMFP',
-      expiresIn,
-      staleIn,
-      generateTimeout,
-      staleTimeout
-    },
-    generateKey: (polygon) => JSON.stringify(polygon)
-  }
-}
+module.exports = { getFloodDataByPolygon }
