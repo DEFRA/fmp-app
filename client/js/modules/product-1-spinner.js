@@ -41,7 +41,13 @@ if (form) {
       body: new URLSearchParams(new window.FormData(event.target)) // event.target is the form
     })
 
-    await downloadP1(response)
+    if (response.status === 200) {
+      await downloadP1(response)
+    } else {
+      const downloadP1Failed = document.getElementById('downloadP1Failed')
+      downloadP1Failed.classList.remove('hidden')
+    }
+
     onCompletedP1Generation()
   })
 }

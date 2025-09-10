@@ -77,6 +77,10 @@ h1.heading-xlarge {
     margin-bottom: 0;
     padding: 1rem .5rem .5rem .75rem;
   }
+
+  .hidden {
+    display: none;
+  }
   
   .visually-hidden {
       position: absolute !important;
@@ -182,6 +186,8 @@ h1.heading-xlarge {
     border-radius: 50%;
     animation: button-loading-spinner 1s linear infinite;
   }
+
+  
 
   @keyframes button-loading-spinner {
     from {
