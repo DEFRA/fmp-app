@@ -14,7 +14,7 @@ Node v18.x\
 
 ### Install packages
 
-`npm i`
+`npm ci`
 
 ### Build app
 
