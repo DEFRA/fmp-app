@@ -517,6 +517,16 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.isRamp = layers.includes('md')
     mapState.isClimateChange = segments.includes('cl') || segments.includes('fzcl')
     mapState.isFloodZone = segments.includes('fz') || segments.includes('fzcl') || segments.includes('fzpd')
+    mapState.isSurfaceWater = segments.includes('sw')
+    if (segments.includes('lr')) {
+      mapState.riskLevel = 'low'
+    } else if (segments.includes('mr')) {
+      mapState.riskLevel = 'medium'
+    } else if (segments.includes('hr')) {
+      mapState.riskLevel = 'high'
+    } else {
+      mapState.riskLevel = ''
+    }
   }
 
   // Component is ready and we have access to map
@@ -528,7 +538,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     floodMap.setInfo({
       width: '360px',
       label: 'Map hints',
-      html: `<div>
+      html: `<div id="help-map-hints">
         <p class="govuk-body-s govuk-!-margin-top-4"><strong>How to query the map</p class="govuk-body-s"></strong>
         <p class="govuk-body">If using a mouse click on a point to find out more about the flood data held on that location.</p>
         <p class="govuk-body">If using a keyboard, navigate to the point, centering the crosshair at the location, then press enter.</p>
@@ -663,6 +673,18 @@ getDefraMapConfig().then((defraMapConfig) => {
         feature.flood_zone = terms.keys.fzNoData
       }
     }
+    // add a gaId tag for identifying which feature has been clicked
+    feature.gaId = 'info'
+    if (mapState.isFloodZone) {
+      feature.gaId += `-${feature.flood_zone}`
+      if (feature.flood_source) {
+        feature.gaId += `-${feature.flood_source.replaceAll(' ', '-')}`
+      }
+    } else if (mapState.isSurfaceWater) {
+      feature.gaId += `-sw-${mapState.riskLevel}`
+    }
+    feature.gaId = feature.gaId.toLowerCase()
+
     return feature
   }
 
@@ -674,7 +696,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     const feature = transformFeature(features)
     const timeFrame = getTimeFrame(feature)
     const listContents = [
-      ['Easting and northing', `${Math.round(coord[0])},${Math.round(coord[1])}`],
+      ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],
       ['Timeframe', timeFrame]
     ]
 
