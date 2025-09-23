@@ -1,5 +1,6 @@
 const form = document.getElementById('product-1-form')
 const product1Button = document.getElementById('product-1-button')
+const HttpResponseOk = 200
 
 const onStartP1Generation = () => {
   product1Button.blur()
@@ -41,7 +42,7 @@ if (form) {
       body: new URLSearchParams(new window.FormData(event.target)) // event.target is the form
     })
 
-    if (response.status === 200) {
+    if (response.status === HttpResponseOk) {
       await downloadP1(response)
     } else {
       const downloadP1Failed = document.getElementById('downloadP1Failed')
