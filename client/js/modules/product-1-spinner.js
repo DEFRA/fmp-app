@@ -30,6 +30,7 @@ const downloadP1 = async (response) => {
   document.body.removeChild(downloadElement)
 }
 if (form) {
+  const downloadP1Failed = document.getElementById('downloadP1Failed')
   form.addEventListener('submit', async (event) => {
     event.preventDefault()
     if (product1Button.classList.contains('loading')) {
@@ -47,7 +48,6 @@ if (form) {
       await downloadP1(response)
     } else {
       setTimeout(() => {
-        const downloadP1Failed = document.getElementById('downloadP1Failed')
         downloadP1Failed.classList.remove('hidden')
       }, 500)
     }
