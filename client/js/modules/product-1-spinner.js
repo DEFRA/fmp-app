@@ -1,5 +1,7 @@
 const form = document.getElementById('product-1-form')
 const product1Button = document.getElementById('product-1-button')
+const HttpResponseOk = 200
+const pdfDownloadFailedDelay = 500
 
 const onStartP1Generation = () => {
   product1Button.blur()
@@ -29,19 +31,28 @@ const downloadP1 = async (response) => {
   document.body.removeChild(downloadElement)
 }
 if (form) {
+  const downloadP1Failed = document.getElementById('downloadP1Failed')
   form.addEventListener('submit', async (event) => {
     event.preventDefault()
     if (product1Button.classList.contains('loading')) {
       return
     }
     onStartP1Generation()
+    downloadP1Failed.classList.add('hidden')
 
     const response = await window.fetch(event.target.action, {
       method: 'POST',
       body: new URLSearchParams(new window.FormData(event.target)) // event.target is the form
     })
 
-    await downloadP1(response)
+    if (response.status === HttpResponseOk) {
+      await downloadP1(response)
+    } else {
+      setTimeout(() => {
+        downloadP1Failed.classList.remove('hidden')
+      }, pdfDownloadFailedDelay)
+    }
+
     onCompletedP1Generation()
   })
 }
