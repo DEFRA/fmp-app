@@ -1,6 +1,7 @@
 const form = document.getElementById('product-1-form')
 const product1Button = document.getElementById('product-1-button')
 const HttpResponseOk = 200
+const pdfDownloadFailedDelay = 500
 
 const onStartP1Generation = () => {
   product1Button.blur()
@@ -49,7 +50,7 @@ if (form) {
     } else {
       setTimeout(() => {
         downloadP1Failed.classList.remove('hidden')
-      }, 500)
+      }, pdfDownloadFailedDelay)
     }
 
     onCompletedP1Generation()
