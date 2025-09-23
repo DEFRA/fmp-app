@@ -36,6 +36,7 @@ if (form) {
       return
     }
     onStartP1Generation()
+    downloadP1Failed.classList.add('hidden')
 
     const response = await window.fetch(event.target.action, {
       method: 'POST',
@@ -45,8 +46,10 @@ if (form) {
     if (response.status === HttpResponseOk) {
       await downloadP1(response)
     } else {
-      const downloadP1Failed = document.getElementById('downloadP1Failed')
-      downloadP1Failed.classList.remove('hidden')
+      setTimeout(() => {
+        const downloadP1Failed = document.getElementById('downloadP1Failed')
+        downloadP1Failed.classList.remove('hidden')
+      }, 500)
     }
 
     onCompletedP1Generation()
