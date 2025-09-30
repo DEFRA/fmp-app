@@ -131,7 +131,7 @@ describe('Check your details page', () => {
           applicationReferenceNumber: expectedAppRef,
           polygon,
           recipientemail: payload.recipientemail,
-          zoneNumber: expectedZoneNumber
+          floodZone: expectedZoneNumber
         }
         const llfa = payload.polygon === mockPolygons.fz1_only_no_la ? '' : 'North Yorkshire'
 

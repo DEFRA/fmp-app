@@ -6,7 +6,7 @@
 
 <div id="confirmation-page" class="govuk-grid-row">
   <div class="hide"
-       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{zoneNumber}}","AREA":"{{areaName}}"}}'></div>
+       data-journey='{"event":"REQUEST_P4","parameters":{"ZONE":"{{floodZone}}","AREA":"{{areaName}}"}}'></div>
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-panel govuk-panel--confirmation">
       <h1 class="govuk-panel__title">
@@ -17,7 +17,7 @@
         <bold>{{applicationReferenceNumber}}</bold>
       </div>
     </div>
-    {% if zoneNumber === '1' %}
+    {% if floodZone === '1' %}
       <h2 class="govuk-heading-m">
         What happens next
       </h2>
