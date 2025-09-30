@@ -13,7 +13,7 @@ const assertOrderFloodRiskDataButton = (expected = true) => {
 }
 
 describe('next-steps on internal', () => {
-  beforeAll(() => { config.appType = 'internal' })
+  beforeAll(() => { config.requestType = 'internal' })
   it('should show the "Order flood risk data" for opted out areas on internal', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
@@ -23,8 +23,8 @@ describe('next-steps on internal', () => {
 })
 
 describe('next-steps on public', () => {
-  beforeAll(() => { config.appType = 'public' })
-  afterAll(() => { config.appType = 'internal' })
+  beforeAll(() => { config.requestType = 'public' })
+  afterAll(() => { config.requestType = 'internal' })
   it('should show the "Order flood risk data" for opted out areas on internal', async () => {
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload

@@ -59,7 +59,7 @@ module.exports = [
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
-            requestType: config.appType,
+            requestType: config.requestType,
             name: fullName,
             customerEmail: recipientemail,
             x: coordinates.x,

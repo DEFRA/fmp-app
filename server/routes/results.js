@@ -16,7 +16,7 @@ module.exports = [
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
-        const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
+        const showOrderProduct4Button = config.requestType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
