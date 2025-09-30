@@ -50,7 +50,7 @@ module.exports = [
       handler: async (request, h) => {
         const { recipientemail, fullName, polygon } = request.payload
         const coordinates = getCentreOfPolygon(polygon)
-        const { floodZone: zoneNumber } = await request.server.methods.getFloodZoneByPolygon(polygon)
+        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
 
         // Check if p4Request is duplicate
@@ -59,13 +59,13 @@ module.exports = [
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
-            appType: config.appType,
+            requestType: config.appType,
             name: fullName,
             customerEmail: recipientemail,
             x: coordinates.x,
             y: coordinates.y,
             polygon: `[${polygon}]`,
-            zoneNumber,
+            floodZone,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,
@@ -96,7 +96,7 @@ module.exports = [
           applicationReferenceNumber,
           polygon,
           recipientemail,
-          zoneNumber
+          floodZone
         }
         // During serializing, the UTF-8 encoding format is used to encode any character that requires percent-encoding.
         const query = new URLSearchParams(queryParams).toString()

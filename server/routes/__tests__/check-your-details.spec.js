@@ -131,7 +131,7 @@ describe('Check your details page', () => {
           applicationReferenceNumber: expectedAppRef,
           polygon,
           recipientemail: payload.recipientemail,
-          zoneNumber: expectedZoneNumber
+          floodZone: expectedZoneNumber
         }
         const llfa = payload.polygon === mockPolygons.fz1_only_no_la ? '' : 'North Yorkshire'
 
@@ -141,13 +141,13 @@ describe('Check your details page', () => {
         expect(wreck.post).toHaveBeenCalledTimes(expectedWreckCalls)
         if (expectedWreckCalls) {
           const expectedPayload = JSON.stringify({
-            appType: 'internal',
+            requestType: 'internal',
             name: user.fullName,
             customerEmail: user.email,
             x,
             y,
             polygon: `[${polygon}]`,
-            zoneNumber: expectedZoneNumber,
+            floodZone: expectedZoneNumber,
             plotSize: '0',
             areaName: 'Yorkshire',
             psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
