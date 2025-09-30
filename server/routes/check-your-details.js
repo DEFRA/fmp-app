@@ -8,11 +8,11 @@ const { validateContactData } = require('./validateContactData')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
-  const postCode = await addressService.getPostcodeFromEastingorNorthing(
+  const postcode = await addressService.getPostcodeFromEastingorNorthing(
     payload?.x,
     payload?.y
   )
-  payload.postCode = postCode
+  payload.postcode = postcode
 
   return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }

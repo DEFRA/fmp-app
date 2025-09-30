@@ -152,7 +152,7 @@ describe('Check your details page', () => {
             areaName: 'Yorkshire',
             psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
             llfa,
-            postCode: 'M1 1AA'
+            postcode: 'M1 1AA'
           })
 
           expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
