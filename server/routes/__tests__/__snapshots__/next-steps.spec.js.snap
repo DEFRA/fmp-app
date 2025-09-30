@@ -372,6 +372,12 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
   <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
     Download flood map for this location (PDF)
   </button>
+  <div id="downloadP1Failed" class="govuk-warning-text hidden">
+    <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
+    <p class="govuk-warning-text__text">
+      Sorry, we were unable to generate the flood map you requested. Try again later. It could take up to 24 hours for this to be resolved.
+    </p>
+  </div>
 
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
@@ -926,6 +932,12 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
   <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
     Download flood map for this location (PDF)
   </button>
+  <div id="downloadP1Failed" class="govuk-warning-text hidden">
+    <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
+    <p class="govuk-warning-text__text">
+      Sorry, we were unable to generate the flood map you requested. Try again later. It could take up to 24 hours for this to be resolved.
+    </p>
+  </div>
 
       <h3 class="govuk-heading-m">
         Order flood risk data for rivers and the sea
