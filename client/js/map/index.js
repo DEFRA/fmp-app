@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
+import { encode } from '@mapbox/polyline'
 
 let visibleVtLayer
 
@@ -642,8 +643,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (e.target.innerText === 'Get summary report') {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
+      // const polygonStringify = JSON.stringify(polygon)
+      // window.location = `/results?polygon=${encodeURIComponent(polygonStringify)}`
       const polygon = getPolygon()
-      window.location = `/results?polygon=${JSON.stringify(polygon)}`
+      console.log(typeof polygon)
+      const encodedPolygon = encode(polygon)
+      console.log('encodedPolygon: ', typeof encodedPolygon)
+      window.location = `/results?polygon=${encodedPolygon}`
+      // window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
   const getTimeFrame = (feature) => {
