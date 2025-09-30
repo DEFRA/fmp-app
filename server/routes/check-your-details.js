@@ -8,11 +8,11 @@ const { validateContactData } = require('./validateContactData')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
-  const postcode = await addressService.getPostcodeFromEastingorNorthing(
+  const postCode = await addressService.getPostcodeFromEastingorNorthing(
     payload?.x,
     payload?.y
   )
-  payload.postcode = postcode
+  payload.postCode = postCode
 
   return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }
@@ -59,13 +59,13 @@ module.exports = [
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
-            appType: config.appType,
+            requestType: config.appType,
             name: fullName,
             customerEmail: recipientemail,
             x: coordinates.x,
             y: coordinates.y,
             polygon: `[${polygon}]`,
-            zoneNumber,
+            floodZone: zoneNumber,
             plotSize,
             areaName: psoResults.AreaName,
             psoEmailAddress: psoResults.EmailAddress,

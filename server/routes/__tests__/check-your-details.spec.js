@@ -141,18 +141,18 @@ describe('Check your details page', () => {
         expect(wreck.post).toHaveBeenCalledTimes(expectedWreckCalls)
         if (expectedWreckCalls) {
           const expectedPayload = JSON.stringify({
-            appType: 'internal',
+            requestType: 'internal',
             name: user.fullName,
             customerEmail: user.email,
             x,
             y,
             polygon: `[${polygon}]`,
-            zoneNumber: expectedZoneNumber,
+            floodZone: expectedZoneNumber,
             plotSize: '0',
             areaName: 'Yorkshire',
             psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
             llfa,
-            postcode: 'M1 1AA'
+            postCode: 'M1 1AA'
           })
 
           expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
