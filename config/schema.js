@@ -8,7 +8,7 @@ const serverSchema = Joi.object()
 
 const schema = Joi.object({
   env: Joi.string().required().valid('local', 'development', 'test', 'pre-prod', 'prod'),
-  requestType: Joi.string().required().valid('internal', 'public'),
+  appType: Joi.string().required().valid('internal', 'public'),
   server: serverSchema,
   logLevel: Joi.string().valid('error', 'warn', 'info', 'debug').default('error'),
   views: Joi.object().required().keys({

@@ -18,8 +18,8 @@ It is useful as we need to test the nunjuck logic.
 */
 
 describe('Results Page On Public', () => {
-  beforeAll(() => { config.requestType = 'public' })
-  afterAll(() => { config.requestType = 'internal' })
+  beforeAll(() => { config.appType = 'public' })
+  afterAll(() => { config.appType = 'internal' })
 
   describe('Flood zone 1', () => {
     it('should show FZ1 title and RS bullet point, zone 1 relevant text (no FRA) when <1ha drawn', async () => {
@@ -462,7 +462,7 @@ describe('Results Page On Public', () => {
 })
 
 describe('Results Page On Internal', () => {
-  beforeAll(() => { config.requestType = 'internal' })
+  beforeAll(() => { config.appType = 'internal' })
   it('should show the "Order flood risk data" for opted out areas on internal', async () => {
     getPsoContactsByPolygon.mockResolvedValue({
       isEngland: true,

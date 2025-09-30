@@ -40,7 +40,7 @@ const getProduct1EndPoint = () => {
 
 const config = {
   env: process.env.ENV,
-  requestType: process.env.fmpAppType,
+  appType: process.env.fmpAppType,
   server: {
     port: process.env.PORT
   },

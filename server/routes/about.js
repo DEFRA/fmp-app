@@ -17,7 +17,7 @@ module.exports = {
         fmpApp: {
           version: version.substring(0, version.lastIndexOf('-')) || version,
           revision: revision.substring(0, GIT_REVISION_LENGTH),
-          requestType: config.requestType
+          appType: config.appType
         },
         fmpApi
       }

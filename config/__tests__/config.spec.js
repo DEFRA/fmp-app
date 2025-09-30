@@ -16,7 +16,7 @@ describe('Ensure config is correct', () => {
     const { config } = require('../index')
     const expectedConfig = {
       env: 'local',
-      requestType: 'internal',
+      appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
       analyticsAccount: 'replace_this',
@@ -78,7 +78,7 @@ describe('Ensure config is correct', () => {
     const { config } = require('../index')
     const expectedConfig = {
       env: 'prod',
-      requestType: 'internal',
+      appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
       analyticsAccount: 'replace_this',
