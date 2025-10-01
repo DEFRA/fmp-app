@@ -86,6 +86,9 @@ const decodePolygonToArray = (polygonString) => {
   } catch {
     return decode(polygonString)
   }
+  const errorMsg = `Error - unhandled polygon array ${polygonString}`
+  console.log(errorMsg)
+  throw new Error(errorMsg)
 }
 
 const decodePolygon = (polygonString) => {
@@ -100,7 +103,7 @@ const validatePolygon = (polygonArray) => {
     throw new Error('Polygon must have a length of at least 4')
   }
   const first = polygonArray[0]
-  const last = polygonArray[polygonArray.length - 1]
+  const last = polygonArray.at(polygonArray.length - 1)
   // first coordinates must match last
   if (first[0] !== last[0] || first[1] !== last[1]) {
     throw new Error('First and last coordinates should match')

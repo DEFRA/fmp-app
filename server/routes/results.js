@@ -25,7 +25,7 @@ module.exports = [
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
-        return h.view('results', { decodedPolygon, floodData, contactData, showOrderProduct4Button })
+        return h.view('results', { polygon: decodedPolygon, floodData, contactData, showOrderProduct4Button })
       }
     }
   }
