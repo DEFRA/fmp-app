@@ -644,11 +644,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
       const polygon = getPolygon()
-      console.log(typeof polygon)
       const encodedPolygon = encode(polygon)
-      console.log('encodedPolygon: ', typeof encodedPolygon)
       window.location = `/results?polygon=${encodedPolygon}`
-      // window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
   const getTimeFrame = (feature) => {
