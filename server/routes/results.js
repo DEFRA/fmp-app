@@ -3,7 +3,7 @@ const {
   getAreaInHectares,
   getCentreOfPolygon
 } = require('../services/shape-utils')
-const { decodePolygon } = require('../services/param-polygon-decoder')
+const { decodePolygon } = require('../services/shape-utils')
 
 module.exports = [
   {
@@ -14,7 +14,6 @@ module.exports = [
       handler: async (request, h) => {
         const { polygon } = request.query
         const decodedPolygon = decodePolygon(polygon)
-        
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(decodedPolygon),
           request.server.methods.getFloodDataByPolygon(decodedPolygon)]
