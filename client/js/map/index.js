@@ -643,8 +643,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (e.target.innerText === 'Get summary report') {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
-      // const polygonStringify = JSON.stringify(polygon)
-      // window.location = `/results?polygon=${encodeURIComponent(polygonStringify)}`
       const polygon = getPolygon()
       const encodedPolygon = encode(polygon)
       window.location = `/results?polygon=${encodedPolygon}`
