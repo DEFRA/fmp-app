@@ -11,7 +11,7 @@ module.exports = {
         polygon,
         recipientemail,
         applicationReferenceNumber,
-        zoneNumber
+        floodZone
       } = request.query
 
       const {
@@ -26,7 +26,7 @@ module.exports = {
         psoEmailAddress,
         areaName: punctuateAreaName(areaName),
         localAuthority,
-        zoneNumber,
+        floodZone,
         polygon
       }
       return h.view('confirmation', model)
@@ -36,7 +36,7 @@ module.exports = {
         polygon: Joi.string().required(),
         recipientemail: Joi.string().email().required(),
         applicationReferenceNumber: Joi.string().required(),
-        zoneNumber: Joi.string().required()
+        floodZone: Joi.string().required()
       })
     }
   }
