@@ -646,11 +646,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       // const polygonStringify = JSON.stringify(polygon)
       // window.location = `/results?polygon=${encodeURIComponent(polygonStringify)}`
       const polygon = getPolygon()
-      console.log(typeof polygon)
       const encodedPolygon = encode(polygon)
-      console.log('encodedPolygon: ', typeof encodedPolygon)
       window.location = `/results?polygon=${encodedPolygon}`
-      // window.location = `/results?polygon=${JSON.stringify(polygon)}`
     }
   })
   const getTimeFrame = (feature) => {
