@@ -22,7 +22,7 @@ module.exports = {
           floodZone
         } = request.payload
         const isRiskAdminArea = request.payload.isRiskAdminArea === 'true'
-
+        console.log('P1 download requested, GA ID: ', request.state?._ga ?? 'Not tracking analytics', ', polygon: ', polygon)
         const product1 = await getProduct1(polygon, reference, scale, isRiskAdminArea, floodZone)
         const date = new Date().toISOString()
         return h
