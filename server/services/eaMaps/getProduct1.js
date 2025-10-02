@@ -32,7 +32,9 @@ const parseEaMapsProduct1Response = (response) => {
 const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments, floodZone) => {
   try {
     const token = await getEAMapsToken()
-    const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
+    // const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
+    const pdfUrl = 'https://services10.arcgis.com/arcgis/rest/services' + config.eamaps.product1EndPoint
+
     const geometry = JSON.stringify(makePolygonGeometry(polygon))
     // _holdingComments is awaiting an implementation for FMP2
 
