@@ -36,8 +36,6 @@ const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments, fl
     const geometry = JSON.stringify(makePolygonGeometry(polygon))
     // _holdingComments is awaiting an implementation for FMP2
 
-    console.log('P1 download requested, polygon: ', polygon)
-
     const formData = {
       geometry,
       referenceNumber: referenceNumber || 'Unspecified',
