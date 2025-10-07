@@ -274,7 +274,7 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
           </ul>
           <p class="govuk-body">
   Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
     suitability of datasets for development planning (PDF) 
   </a>
   for further guidance on using this alongside other surface water information.
@@ -329,11 +329,16 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
           </ul>
           <p class="govuk-body">
   Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
     suitability of datasets for development planning (PDF) 
   </a>
   for further guidance on using this alongside other surface water information.
 </p>
+          <p class="govuk-body">
+            Exemptions from the sequential test are set out in the 
+            <a href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
+            <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para27">planning practice guidance</a>.
+          </p>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -349,6 +354,10 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
               risk assessment defines as flood zone 3b)
             </li>
           </ul>
+          <p class="govuk-body">Exemptions from the exception test are set out in the 
+            <a href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
+            <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para35">planning practice guidance</a>.
+          </p>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -370,7 +379,7 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
           </ul>
           <p class="govuk-body">
   Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-1.pdf">
+  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
     suitability of datasets for development planning (PDF) 
   </a>
   for further guidance on using this alongside other surface water information.
