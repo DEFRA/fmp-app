@@ -12,7 +12,7 @@ module.exports = [
       handler: async (request, h) => {
         const polygon = request.query.polygon
         const decodedPolygon = decodePolygon(polygon)
-        const backLinkUrl = request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?polygon=${decodedPolygon}` : `/results?polygon=${decodedPolygon}`
+        const backLinkUrl = request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?polygon=${polygon}` : `/results?polygon=${polygon}`
         return h.view(constants.views.CONTACT, {
           decodedPolygon,
           polygon,

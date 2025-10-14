@@ -607,7 +607,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to ne
       <div class="govuk-width-container">
         
   
-    <a href="/next-steps?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" class="govuk-back-link">Back</a>
+    <a href="/next-steps?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
 
         <main class="govuk-main-wrapper" id="main-content">
@@ -720,9 +720,9 @@ exports[`contact GET Should return contact if polygon is present, backlink to ne
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
-        <input type="hidden" value="/next-steps?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="backLinkUrl"/>
+        <input type="hidden" value="/next-steps?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -1116,7 +1116,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to re
       <div class="govuk-width-container">
         
   
-    <a href="/results?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" class="govuk-back-link">Back</a>
+    <a href="/results?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
 
         <main class="govuk-main-wrapper" id="main-content">
@@ -1229,9 +1229,9 @@ exports[`contact GET Should return contact if polygon is present, backlink to re
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="backLinkUrl"/>
+        <input type="hidden" value="/results?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -1625,7 +1625,7 @@ exports[`contact GET Should return contact with user name and email if cookie pr
       <div class="govuk-width-container">
         
   
-    <a href="/results?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" class="govuk-back-link">Back</a>
+    <a href="/results?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
 
         <main class="govuk-main-wrapper" id="main-content">
@@ -1742,9 +1742,9 @@ exports[`contact GET Should return contact with user name and email if cookie pr
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="backLinkUrl"/>
+        <input type="hidden" value="/results?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -2291,7 +2291,7 @@ exports[`contact POST Should return contact view with error message if blank ema
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -2840,7 +2840,7 @@ exports[`contact POST Should return contact view with error message if blank nam
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -3389,7 +3389,7 @@ exports[`contact POST Should return contact view with error message if email con
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -3938,7 +3938,7 @@ exports[`contact POST Should return contact view with error message if fullname 
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -4487,7 +4487,7 @@ exports[`contact POST Should return contact view with error message if invalid e
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -5036,7 +5036,7 @@ exports[`contact POST Should return contact view with error message if name cont
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
