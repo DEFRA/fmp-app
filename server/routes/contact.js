@@ -11,7 +11,6 @@ module.exports = [
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
         const polygon = request.query.polygon
-        console.log('here', polygon)
         const decodedPolygon = decodePolygon(polygon)
         const backLinkUrl = request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?polygon=${decodedPolygon}` : `/results?polygon=${decodedPolygon}`
         return h.view(constants.views.CONTACT, {
