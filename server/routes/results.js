@@ -1,9 +1,9 @@
 const { config } = require('../../config')
 const {
   getAreaInHectares,
-  getCentreOfPolygon
+  getCentreOfPolygon,
+  decodePolygon
 } = require('../services/shape-utils')
-const { decodePolygon } = require('../services/shape-utils')
 
 module.exports = [
   {

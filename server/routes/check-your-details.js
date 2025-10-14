@@ -1,11 +1,10 @@
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
-const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
+const { getAreaInHectares, getCentreOfPolygon, decodePolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
-const { decodePolygon } = require('../services/shape-utils')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
