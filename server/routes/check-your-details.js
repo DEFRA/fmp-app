@@ -5,6 +5,7 @@ const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-uti
 const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
+const { decodePolygon } = require('../services/shape-utils')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
@@ -25,20 +26,22 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { polygon, fullName = '', recipientemail = '' } = request.query
+        const decodedPolygon = decodePolygon(polygon)
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,
             polygon,
+            decodedPolygon,
             fullName,
             recipientemail
           })
         }
 
-        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
+        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(decodedPolygon)
         const contactUrl = `/contact?polygon=${polygon}`
-        const mapUrl = `/map?polygon=${polygon}`
-        return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
+        const mapUrl = `/map?polygon=${decodedPolygon}`
+        return h.view('check-your-details', { polygon: decodedPolygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
     }
   },

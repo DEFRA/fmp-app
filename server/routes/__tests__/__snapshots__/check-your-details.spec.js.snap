@@ -22,7 +22,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=oydslomAornvvtcA_r%7BbzA??~q%7BbzA~q%7BbzA??_r%7BbzA&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -269,7 +269,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA" novalidate>
 
         
 
@@ -366,7 +366,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[421515.13,368719.87],[421992.87,368719.87],[421992.87,368242.13],[421515.13,368242.13],[421515.13,368719.87]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -571,7 +571,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=oydslomAornvvtcA_r%7BbzA??~q%7BbzA~q%7BbzA??_r%7BbzA&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -818,7 +818,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA" novalidate>
 
         
 
@@ -915,7 +915,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[421515.13,368719.87],[421992.87,368719.87],[421992.87,368242.13],[421515.13,368242.13],[421515.13,368719.87]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -1120,7 +1120,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;fullName=John%20Smith"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=oydslomAornvvtcA_r%7BbzA??~q%7BbzA~q%7BbzA??_r%7BbzA&amp;fullName=John%20Smith"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1367,7 +1367,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA" novalidate>
 
         
 
@@ -1464,7 +1464,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[421515.13,368719.87],[421992.87,368719.87],[421992.87,368242.13],[421515.13,368242.13],[421515.13,368719.87]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 

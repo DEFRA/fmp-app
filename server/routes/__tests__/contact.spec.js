@@ -5,7 +5,9 @@ const {
   getServer
 } = require('../../__test-helpers__/server')
 const constants = require('../../constants')
+const { encode } = require('@mapbox/polyline')
 
+const encodedPolygon = encode([[111,111],[111,112],[112,112],[112,111],[111,111]])
 const url = constants.routes.CONTACT
 
 const p4CustomerCookie = {
@@ -16,14 +18,14 @@ const p4CustomerCookie = {
 describe('contact', () => {
   describe('GET', () => {
     it('Should return contact if polygon is present, backlink to results', async () => {
-      const response = await submitGetRequest({ url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]` })
+      const response = await submitGetRequest({ url: `${url}?polygon=${encodedPolygon}` })
       expect(response.result).toMatchSnapshot()
     })
     it('Should return contact if polygon is present, backlink to next-steps', async () => {
       const response = await submitGetRequest({
-        url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]`,
+        url: `${url}?polygon=${encodedPolygon}`,
         headers: {
-          referer: 'http://localhost:3000/next-steps?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          referer: `http://localhost:3000/next-steps?polygon=${encodedPolygon}`
         }
       })
       expect(response.result).toMatchSnapshot()
@@ -35,7 +37,7 @@ describe('contact', () => {
         }
         return h.continue
       })
-      const response = await submitGetRequest({ url: `${url}?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]` })
+      const response = await submitGetRequest({ url: `${url}?polygon=${encodedPolygon}` })
       expect(response.result).toMatchSnapshot()
     })
     it('Should error if no polygon is present', async () => {
@@ -50,7 +52,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'test@test.com',
           fullName: 'John Smith',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       await submitPostRequest(options)
@@ -61,7 +63,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'sdf',
           fullName: 'John Smith',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, 'Enter an email address in the correct format, like name@example.com')
@@ -73,7 +75,7 @@ describe('contact', () => {
         payload: {
           recipientemail: '',
           fullName: 'John Smith',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, 'Enter an email address in the correct format, like name@example.com')
@@ -85,7 +87,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'test@test.com',
           fullName: '',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, 'Enter your full name')
@@ -98,7 +100,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'test@test.com',
           fullName: 'John😂Smith',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, '>Emojis are not allowed in the name field')
@@ -111,7 +113,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'test😂@test.com',
           fullName: 'John Smith',
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, '>Emojis are not allowed in the email address')
@@ -125,7 +127,7 @@ describe('contact', () => {
         payload: {
           recipientemail: 'test@test.com',
           fullName,
-          polygon: '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+          polygon: `${encodedPolygon}`
         }
       }
       const response = await submitPostRequestExpectHandledError(options, '>Your full name must be less than 200 characters long')

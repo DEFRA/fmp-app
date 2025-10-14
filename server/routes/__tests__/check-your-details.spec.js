@@ -48,13 +48,13 @@ describe('Check your details page', () => {
     const tests = [
       [
         'Should serve contact view with error message if fullname in url is > 200 chars',
-        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${longFullName}&recipientemail=${user.email}`
+        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&fullName=${longFullName}&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if fullname is missing',
-        `${url}?polygon=${mockPolygons.fz1_only}&recipientemail=${user.email}`
+        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if recipientemail is missing',
-        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${user.fullName}`
+        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&fullName=${user.fullName}`
       ]
     ]
     tests.forEach(([description, checkYourDetailsUrl]) => {

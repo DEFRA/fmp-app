@@ -416,7 +416,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to ne
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -639,7 +639,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to ne
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -925,7 +925,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to re
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1148,7 +1148,7 @@ exports[`contact GET Should return contact if polygon is present, backlink to re
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -1434,7 +1434,7 @@ exports[`contact GET Should return contact with user name and email if cookie pr
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1657,7 +1657,7 @@ exports[`contact GET Should return contact with user name and email if cookie pr
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -2194,7 +2194,7 @@ exports[`contact POST Should return contact view with error message if blank ema
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -2743,7 +2743,7 @@ exports[`contact POST Should return contact view with error message if blank nam
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -3292,7 +3292,7 @@ exports[`contact POST Should return contact view with error message if email con
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -3841,7 +3841,7 @@ exports[`contact POST Should return contact view with error message if fullname 
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -4390,7 +4390,7 @@ exports[`contact POST Should return contact view with error message if invalid e
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -4939,7 +4939,7 @@ exports[`contact POST Should return contact view with error message if name cont
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
