@@ -7,7 +7,7 @@ const {
 const constants = require('../../constants')
 const { encode } = require('@mapbox/polyline')
 
-const encodedPolygon = encode([[111,111],[111,112],[112,112],[112,111],[111,111]])
+const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
 const url = constants.routes.CONTACT
 
 const p4CustomerCookie = {
