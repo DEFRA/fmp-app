@@ -103,15 +103,15 @@ const calculateExtent = (polygonToCalculate) => {
 }
 let featureQuery, extent
 if (queryParams.get('polygon')) {
-  const decodedPolygon = decodePolygon(queryParams.get('polygon'))
+  const polygon = decodePolygon(queryParams.get('polygon'))
   featureQuery = {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(decodedPolygon)
+      coordinates: JSON.parse(polygon)
     }
   }
-  extent = calculateExtent(JSON.parse(decodedPolygon))
+  extent = calculateExtent(JSON.parse(polygon))
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -601,13 +601,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
       const polygon = getPolygon()
-      url.searchParams.set('polygon', encode(polygon))
+      url.searchParams.set('encodedPolygon', encode(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
     if (type === 'deletePolygon') {
       const url = new URL(window.location)
-      url.searchParams.delete('polygon')
+      url.searchParams.delete('encodedPolygon')
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
@@ -646,7 +646,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       // hack the polygon layer like this.
       const polygon = getPolygon()
       const encodedPolygon = encode(polygon)
-      window.location = `/results?polygon=${encodedPolygon}`
+      window.location = `/results?encodedPolygon=${encodedPolygon}`
     }
   })
   const getTimeFrame = (feature) => {
