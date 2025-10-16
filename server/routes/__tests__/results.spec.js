@@ -27,30 +27,30 @@ describe('Results page', () => {
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
     getPsoContactsByPolygon.mockResolvedValue({
-          isEngland: true,
-          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-          AreaName: 'East Midlands',
-          useAutomatedService: true,
-          LocalAuthorities: 'Derbyshire Dales'
-        })
-        getFloodDataByPolygon.mockResolvedValue({
-          floodzone_2: false,
-          floodzone_3: false,
-          floodZone: '1',
-          floodZoneLevel: 'low',
-          floodZoneClimateChange: false,
-          floodZoneClimateChangeNoData: true,
-          surfaceWater: {
-            riskBandId: -1,
-            riskBand: false,
-            riskBandPercent: null,
-            riskBandOdds: null
-          },
-          isRiskAdminArea: false
-        })
-        getAreaInHectaresSpy.mockReturnValue(0)
+      isEngland: true,
+      EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+      AreaName: 'East Midlands',
+      useAutomatedService: true,
+      LocalAuthorities: 'Derbyshire Dales'
+    })
+    getFloodDataByPolygon.mockResolvedValue({
+      floodzone_2: false,
+      floodzone_3: false,
+      floodZone: '1',
+      floodZoneLevel: 'low',
+      floodZoneClimateChange: false,
+      floodZoneClimateChangeNoData: true,
+      surfaceWater: {
+        riskBandId: -1,
+        riskBand: false,
+        riskBandPercent: null,
+        riskBandOdds: null
+      },
+      isRiskAdminArea: false
+    })
+    getAreaInHectaresSpy.mockReturnValue(0)
     const response = await submitGetRequest({ url: `${url}?${queryParam}` })
-    
+
     expect(response.statusCode).toEqual(200)
   })
 
