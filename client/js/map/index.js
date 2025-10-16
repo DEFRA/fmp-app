@@ -8,6 +8,7 @@ import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { encode } from '@mapbox/polyline'
+import { decodePolygon } from '../../../server/services/shape-utils.js'
 
 let visibleVtLayer
 
@@ -88,8 +89,15 @@ const getFloodZoneFromFeature = (feature, mapState) => {
   return symbolIndex[feature._symbol]
 }
 
+const checkForPolygonParams = () => {
+  if (window.location.search.includes('results')) {
+    return new URLSearchParams(decodePolygon(window.location.search))
+  } else {
+    return new URLSearchParams(window.location.search)
+  }
+}
 // capture polygon from query string
-const queryParams = new URLSearchParams(window.location.search)
+const queryParams = checkForPolygonParams()
 const calculateExtent = (polygonToCalculate) => {
   const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
     acc[0] = Math.min(acc[0], x)
@@ -107,10 +115,10 @@ if (polygonQuery) {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(polygonQuery)
+      coordinates: JSON.parse(decodePolygon(polygonQuery))
     }
   }
-  extent = calculateExtent(JSON.parse(polygonQuery))
+  extent = calculateExtent(JSON.parse(decodePolygon(polygonQuery)))
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -600,7 +608,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
       const polygon = getPolygon()
-      url.searchParams.set('polygon', JSON.stringify(polygon))
+      url.searchParams.set('polygon', encode(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }

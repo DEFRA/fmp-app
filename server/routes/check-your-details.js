@@ -39,7 +39,7 @@ module.exports = [
 
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(decodedPolygon)
         const contactUrl = `/contact?polygon=${polygon}`
-        const mapUrl = `/map?polygon=${decodedPolygon}`
+        const mapUrl = `/map?polygon=${polygon}`
         return h.view('check-your-details', { polygon: decodedPolygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
     }
