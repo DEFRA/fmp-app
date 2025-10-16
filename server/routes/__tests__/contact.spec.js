@@ -7,7 +7,9 @@ const {
 const constants = require('../../constants')
 const { encode } = require('@mapbox/polyline')
 
+const polygon = '[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]'
 const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
+const queryParams = [polygon, encodedPolygon]
 const url = constants.routes.CONTACT
 
 const p4CustomerCookie = {
@@ -17,32 +19,34 @@ const p4CustomerCookie = {
 
 describe('contact', () => {
   describe('GET', () => {
-    it('Should return contact if polygon is present, backlink to results', async () => {
-      const response = await submitGetRequest({ url: `${url}?polygon=${encodedPolygon}` })
-      expect(response.result).toMatchSnapshot()
-    })
-    it('Should return contact if polygon is present, backlink to next-steps', async () => {
-      const response = await submitGetRequest({
-        url: `${url}?polygon=${encodedPolygon}`,
-        headers: {
-          referer: `http://localhost:3000/next-steps?polygon=${encodedPolygon}`
-        }
+    queryParams.forEach((queryParam) => {
+      it('Should return contact if polygon is present, backlink to results', async () => {
+        const response = await submitGetRequest({ url: `${url}?polygon=${queryParam}` })
+        expect(response.result).toMatchSnapshot()
       })
-      expect(response.result).toMatchSnapshot()
-    })
-    it('Should return contact with user name and email if cookie present', async () => {
-      getServer().ext('onPreHandler', (request, h) => {
-        request.state = {
-          p4Customer: p4CustomerCookie
-        }
-        return h.continue
+      it('Should return contact if polygon is present, backlink to next-steps', async () => {
+        const response = await submitGetRequest({
+          url: `${url}?polygon=${encodedPolygon}`,
+          headers: {
+            referer: `http://localhost:3000/next-steps?polygon=${queryParam}`
+          }
+        })
+        expect(response.result).toMatchSnapshot()
       })
-      const response = await submitGetRequest({ url: `${url}?polygon=${encodedPolygon}` })
-      expect(response.result).toMatchSnapshot()
-    })
-    it('Should error if no polygon is present', async () => {
-      const response = await submitGetRequest({ url: `${url}` }, '', 400)
-      expect(response.result).toMatchSnapshot()
+      it('Should return contact with user name and email if cookie present', async () => {
+        getServer().ext('onPreHandler', (request, h) => {
+          request.state = {
+            p4Customer: p4CustomerCookie
+          }
+          return h.continue
+        })
+        const response = await submitGetRequest({ url: `${url}?polygon=${queryParam}` })
+        expect(response.result).toMatchSnapshot()
+      })
+      it('Should error if no polygon is present', async () => {
+        const response = await submitGetRequest({ url: `${url}` }, '', 400)
+        expect(response.result).toMatchSnapshot()
+      })
     })
   })
   describe('POST', () => {

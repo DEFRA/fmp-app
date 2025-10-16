@@ -89,15 +89,8 @@ const getFloodZoneFromFeature = (feature, mapState) => {
   return symbolIndex[feature._symbol]
 }
 
-const checkForPolygonParams = () => {
-  if (window.location.search.includes('results')) {
-    return new URLSearchParams(decodePolygon(window.location.search))
-  } else {
-    return new URLSearchParams(window.location.search)
-  }
-}
 // capture polygon from query string
-const queryParams = checkForPolygonParams()
+const queryParams = new URLSearchParams(window.location.search)
 const calculateExtent = (polygonToCalculate) => {
   const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
     acc[0] = Math.min(acc[0], x)
@@ -108,17 +101,17 @@ const calculateExtent = (polygonToCalculate) => {
   }, [Infinity, Infinity, -Infinity, -Infinity])
   return calculatedExtent
 }
-const polygonQuery = queryParams.get('polygon')
 let featureQuery, extent
-if (polygonQuery) {
+if (queryParams.get('polygon')) {
+  const decodedPolygon = decodePolygon(queryParams.get('polygon'))
   featureQuery = {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(decodePolygon(polygonQuery))
+      coordinates: JSON.parse(decodedPolygon)
     }
   }
-  extent = calculateExtent(JSON.parse(decodePolygon(polygonQuery)))
+  extent = calculateExtent(JSON.parse(decodedPolygon))
 }
 
 getDefraMapConfig().then((defraMapConfig) => {

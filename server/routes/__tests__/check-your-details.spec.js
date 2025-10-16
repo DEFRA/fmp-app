@@ -14,6 +14,7 @@ const user = {
   email: 'john.smith@email.com'
 }
 const url = '/check-your-details'
+const { encode } = require('@mapbox/polyline')
 let postSpy
 
 describe('Check your details page', () => {
@@ -34,6 +35,7 @@ describe('Check your details page', () => {
       { polygon: mockPolygons.fz2_only, floodZone: '2' },
       { polygon: mockPolygons.fz3_only, floodZone: '3' }
     ]
+    const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
     floodZoneGets.forEach(({ polygon, floodZone }) => {
       it(`Happy get request for a flood zone ${floodZone} information`, async () => {
         const response = await submitGetRequest({ url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, 'Check your details before requesting your data')
@@ -48,13 +50,22 @@ describe('Check your details page', () => {
     const tests = [
       [
         'Should serve contact view with error message if fullname in url is > 200 chars',
-        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&fullName=${longFullName}&recipientemail=${user.email}`
+        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${longFullName}&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if fullname is missing',
-        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&recipientemail=${user.email}`
+        `${url}?polygon=${mockPolygons.fz1_only}&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if recipientemail is missing',
-        `${url}?polygon=oydslomAornvvtcA_r{bzA??~q{bzA~q{bzA??_r{bzA&fullName=${user.fullName}`
+        `${url}?polygon=${mockPolygons.fz1_only}&fullName=${user.fullName}`
+      ], [
+        'Should serve contact view with error message if fullname in url is > 200 chars, url polygon encoded',
+        `${url}?polygon=${encodedPolygon}&fullName=${longFullName}&recipientemail=${user.email}`
+      ], [
+        'Should serve contact view with error message if fullname is missing, url polygon encoded',
+        `${url}?polygon=${encodedPolygon}&recipientemail=${user.email}`
+      ], [
+        'Should serve contact view with error message if recipientemail is missing, url polygon encoded',
+        `${url}?polygon=${encodedPolygon}&fullName=${user.fullName}`
       ]
     ]
     tests.forEach(([description, checkYourDetailsUrl]) => {
