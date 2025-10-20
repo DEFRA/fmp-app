@@ -1,3 +1,4 @@
+@use '../../../node_modules/sass-mq/mq';
 $govuk-assets-path: "/govuk/assets/";
 $govuk-fonts-path: "/assets/fonts/";
 $govuk-images-path: "/assets/images/";
@@ -27,14 +28,14 @@ strong {
   height: 100vh;
 
   .govuk-header {
-    @include mq ($until: tablet) {
+    @include mq.mq ($until: tablet) {
       padding-left: 0.75em;
       padding-right: 0.75em;
     }
   }
 
   .govuk-header__container {
-    @include mq ($from: tablet) {
+    @include mq.mq ($from: tablet) {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -60,7 +61,7 @@ strong {
 .flood-map-main {
   padding: 0.75em;
 
-  @include mq ($from: tablet) {
+  @include mq.mq ($from: tablet) {
     flex: 1 1 auto;
     min-height: 0;
     height: 100%;
@@ -69,13 +70,13 @@ strong {
 }
 
 .flood-map-target {
-  @include mq ($from: tablet) {
+  @include mq.mq ($from: tablet) {
     height: 100%;
   }
 }
 
 .govuk-header__container {
-  @include mq ($from: tablet) {
+  @include mq.mq ($from: tablet) {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -131,7 +132,7 @@ body.js-enabled:not([data-fm-error]) {
   .govuk-header,
   .govuk-skip-link,
   main > .govuk-heading-l {
-      @include mq ($until: tablet) {
+      @include mq.mq ($until: tablet) {
           display: none;
       }
   }

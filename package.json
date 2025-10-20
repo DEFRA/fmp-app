@@ -1,11 +1,10 @@
 {
   "name": "fmfp",
-  "version": "2.9.0",
-  "dataVersion": "2.5.1",
+  "version": "3.5.0",
   "description": "Flood map for planning",
   "main": "index.js",
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=24.10.0"
   },
   "scripts": {
     "start": "node index.js",
@@ -74,7 +73,9 @@
     "preact": "^10.24.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sass": "^1.93.2",
     "sass-loader": "^16.0.3",
+    "sass-mq": "^7.0.0",
     "sinon": "^13.0.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.96.1",
