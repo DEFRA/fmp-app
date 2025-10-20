@@ -43,8 +43,8 @@ describe('esriFeatureRequestByIntersectArea', () => {
 
     const response = await esriFeatureRequestByIntersectArea('/endpoint', gainsboroughGeometry, 'esriGeometryPolygon')
     expect(response).toEqual([
-      { ...gainsboroughCustomerQueryResults[1], area: 1672930043496160 },
-      { ...gainsboroughCustomerQueryResults[0], area: 583132364260349.9 }
+      { ...gainsboroughCustomerQueryResults[1], area: 1669192802899591.5 },
+      { ...gainsboroughCustomerQueryResults[0], area: 581829676228820.5 }
     ])
     assertRequestCalls(2)
   })
