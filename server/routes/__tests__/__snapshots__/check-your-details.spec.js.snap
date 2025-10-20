@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Check your details page GET Should serve contact view with error message if fullname in url is > 200 chars 1`] = `
 "<!DOCTYPE html>

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`healthcheck Should get /health-check successfully 1`] = `"{"name":"fmp-app","version":"v3.0.0-1","revision":"925617123"}"`;
 
