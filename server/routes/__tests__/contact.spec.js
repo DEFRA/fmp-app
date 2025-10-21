@@ -45,7 +45,7 @@ describe('contact', () => {
       })
     })
     it('Should error if no polygon is present', async () => {
-      const response = await submitGetRequest({ url: `${url}` }, '', 500)
+      const response = await submitGetRequest({ url: `${url}` }, '', 400)
       expect(response.result).toMatchSnapshot()
     })
   })

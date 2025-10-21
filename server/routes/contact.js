@@ -13,9 +13,6 @@ module.exports = [
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = request.query
-        if (!polygon && !encodedPolygon) {
-          throw new Error('A polygon or encoded polygon must be included in the query.')
-        }
         const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
         const backLinkUrl =
         request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}` : `/results?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
@@ -27,8 +24,12 @@ module.exports = [
       },
       validate: {
         query: Joi.object({
-          encodedPolygon: Joi.string(),
-          polygon: Joi.string()
+          polygon: Joi.string(),
+          encodedPolygon: Joi.string()
+        })
+        .or('polygon', 'encodedPolygon') // Require at least one of them
+        .messages({
+          'object.missing': 'You must include either polygon or encodedPolygon in the query parameters.'
         })
       }
     }
