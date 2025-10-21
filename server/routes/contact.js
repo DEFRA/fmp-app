@@ -15,7 +15,7 @@ module.exports = [
         const { polygon, encodedPolygon } = request.query
         const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
         const backLinkUrl =
-        request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}` : `/results?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
+          request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}` : `/results?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
         return h.view(constants.views.CONTACT, {
           processedPolygonQuery,
           ...request.state.p4Customer,
@@ -27,10 +27,10 @@ module.exports = [
           polygon: Joi.string(),
           encodedPolygon: Joi.string()
         })
-        .or('polygon', 'encodedPolygon') // Require at least one of them
-        .messages({
-          'object.missing': 'You must include either polygon or encodedPolygon in the query parameters.'
-        })
+          .or('polygon', 'encodedPolygon') // Require at least one of them
+          .messages({
+            'object.missing': 'You must include either polygon or encodedPolygon in the query parameters.'
+          })
       }
     }
   },
