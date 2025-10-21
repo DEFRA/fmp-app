@@ -22,7 +22,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;floodZone=1"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=1"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -283,7 +283,7 @@ exports[`confirmation Should return content correctly based on flood zone 1 1`] 
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?&polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
+      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
@@ -476,7 +476,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;floodZone=3"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=3"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -740,7 +740,7 @@ exports[`confirmation Should return content correctly based on flood zone 3 1`] 
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?&polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
+      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>

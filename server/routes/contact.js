@@ -1,7 +1,9 @@
 const Joi = require('joi')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
-const { decodePolygon } = require('../services/shape-utils')
+const { checkParamsForPolygon } = require('../services/shape-utils')
+
+// NOTE TO SELF JUST CHANGED ALL RESULT PAGE LINK URLS TO ENCODED POLYGON THIS WILL NEED TO BE UPDATED ON ALL PAGES!!
 
 module.exports = [
   {
@@ -10,19 +12,23 @@ module.exports = [
     options: {
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
-        const polygon = request.query.polygon
-        const decodedPolygon = decodePolygon(polygon)
-        const backLinkUrl = request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?polygon=${polygon}` : `/results?polygon=${polygon}`
+        const { polygon, encodedPolygon } = request.query
+        if (!polygon && !encodedPolygon) {
+          throw new Error('A polygon or encoded polygon must be included in the query.')
+        }
+        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
+        const backLinkUrl =
+        request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}` : `/results?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
         return h.view(constants.views.CONTACT, {
-          decodedPolygon,
-          polygon,
+          processedPolygonQuery,
           ...request.state.p4Customer,
           backLinkUrl
         })
       },
       validate: {
         query: Joi.object({
-          polygon: Joi.string().required()
+          encodedPolygon: Joi.string(),
+          polygon: Joi.string()
         })
       }
     }
@@ -33,13 +39,13 @@ module.exports = [
     options: {
       description: 'submits contact details to the check your details page',
       handler: async (request, h) => {
-        const polygon = request.payload.polygon
-        const decodedPolygon = decodePolygon(polygon)
+        const { polygon, encodedPolygon } = request.payload
+        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
         const { errorSummary } = validateContactData(request.payload)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,
-            decodedPolygon,
+            processedPolygonQuery,
             ...request.payload
           })
         }
@@ -50,7 +56,7 @@ module.exports = [
         })
         const fullName = encodeURIComponent(request.payload.fullName)
         const recipientemail = encodeURIComponent(request.payload.recipientemail)
-        return h.redirect(`${constants.routes.CHECK_YOUR_DETAILS}?polygon=${polygon}&fullName=${fullName}&recipientemail=${recipientemail}`)
+        return h.redirect(`${constants.routes.CHECK_YOUR_DETAILS}?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}&fullName=${fullName}&recipientemail=${recipientemail}`)
       }
     }
   }

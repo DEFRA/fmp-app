@@ -2,7 +2,7 @@ const { config } = require('../../config')
 const {
   getAreaInHectares,
   getCentreOfPolygon,
-  decodePolygon
+  checkParamsForPolygon
 } = require('../services/shape-utils')
 
 module.exports = [
@@ -13,22 +13,19 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = request.query
-        let decodedPolygon
-        if (encodedPolygon) {
-          decodedPolygon = decodePolygon(encodedPolygon)
-        }
+        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
         const [contactData, floodData] = await Promise.all([
-          request.server.methods.getPsoContactsByPolygon(decodedPolygon || polygon),
-          request.server.methods.getFloodDataByPolygon(decodedPolygon || polygon)]
+          request.server.methods.getPsoContactsByPolygon(processedPolygonQuery.polygonArray),
+          request.server.methods.getFloodDataByPolygon(processedPolygonQuery.polygonArray)]
         )
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        floodData.areaInHectares = getAreaInHectares(decodedPolygon || polygon)
-        floodData.centreOfPolygon = getCentreOfPolygon(decodedPolygon || polygon)
+        floodData.areaInHectares = getAreaInHectares(processedPolygonQuery.polygonArray)
+        floodData.centreOfPolygon = getCentreOfPolygon(processedPolygonQuery.polygonArray)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
-        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button, decodedPolygon })
+        return h.view('results', { floodData, contactData, showOrderProduct4Button, processedPolygonQuery })
       }
     }
   }

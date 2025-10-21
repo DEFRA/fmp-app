@@ -4,7 +4,7 @@
     <p id="fz1DataUnlikely" class="govuk-body" data-testid="fz1-order-product4">Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. You can place an order and we'll email you if none is available.</p>
   {% endif %}
   <br>
-  <a id="orderP4Button" href="contact?polygon={{polygon}}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+  <a id="orderP4Button" href="contact?encodedPolygon={{ processedPolygonQuery.encodedPolygonParam }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
 {% else %}

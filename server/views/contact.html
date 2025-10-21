@@ -35,7 +35,7 @@
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon={{ polygon }}" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon={{ processedPolygonQuery.encodedPolygonParam }}" novalidate>
 
         {{ govukInput({
           label: {
@@ -64,7 +64,7 @@
         }) }}
 
         <div id="location-context">
-          <input type="hidden" value="{{ polygon }}" name="polygon"/>
+          <input type="hidden" value="{{ processedPolygonQuery.polygonArray }}" name="polygon"/>
         </div>
         <input type="hidden" value="{{ backLinkUrl }}" name="backLinkUrl"/>
 

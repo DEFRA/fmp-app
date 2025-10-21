@@ -71,7 +71,7 @@
         ] 
       }) }}
 
-      {% if not polygon %}
+      {% if not processedPolygonQuery.polygonArray %}
         {{ govukWarningText({
           text: "You need to draw the boundary of your site on the map below so we can give you accurate flood risk information.",
           iconFallbackText: "Warning"
@@ -79,7 +79,7 @@
       {% endif %}
         
         <div id="summary-review-context">
-          <input type="hidden" value="{{polygon}}" name="polygon"/>
+          <input type="hidden" value="{{processedPolygonQuery.polygonArray}}" name="polygon"/>
           <input type="hidden" value="{{recipientemail}}" name="recipientemail"/>
           <input type="hidden" value="{{fullName}}" name="fullName"/>
         </div>
@@ -108,7 +108,7 @@
   <script src="{{ assetPath }}/check-your-details.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      showMap({{ polygon }})
+      showMap({{ processedPolygonQuery.polygonArray }})
     })
   </script>
 {% endblock %}

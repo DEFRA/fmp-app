@@ -5,7 +5,7 @@ const {
   getServer
 } = require('../../__test-helpers__/server')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZoneByPolygonMock')
-const { getCentreOfPolygon } = require('../../services/shape-utils')
+const { getCentreOfPolygon, encodePolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
 jest.mock('../../services/address')
 const wreck = require('@hapi/wreck')
@@ -59,13 +59,13 @@ describe('Check your details page', () => {
         `${url}?polygon=${mockPolygons.fz1_only}&fullName=${user.fullName}`
       ], [
         'Should serve contact view with error message if fullname in url is > 200 chars, url polygon encoded',
-        `${url}?polygon=${encodedPolygon}&fullName=${longFullName}&recipientemail=${user.email}`
+        `${url}?encodedPolygon=${encodedPolygon}&fullName=${longFullName}&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if fullname is missing, url polygon encoded',
-        `${url}?polygon=${encodedPolygon}&recipientemail=${user.email}`
+        `${url}?encodedPolygon=${encodedPolygon}&recipientemail=${user.email}`
       ], [
         'Should serve contact view with error message if recipientemail is missing, url polygon encoded',
-        `${url}?polygon=${encodedPolygon}&fullName=${user.fullName}`
+        `${url}?encodedPolygon=${encodedPolygon}&fullName=${user.fullName}`
       ]
     ]
     tests.forEach(([description, checkYourDetailsUrl]) => {
@@ -140,7 +140,7 @@ describe('Check your details page', () => {
         const { x, y } = getCentreOfPolygon(polygon)
         const queryParams = {
           applicationReferenceNumber: expectedAppRef,
-          polygon,
+          encodedPolygon: encodePolygon(polygon),
           recipientemail: payload.recipientemail,
           floodZone: expectedZoneNumber
         }
@@ -185,7 +185,7 @@ describe('Check your details page', () => {
         throw new Error()
       })
       const response = await submitPostRequest(options)
-      expect(response.headers.location).toEqual(`/order-not-submitted?polygon=${options.payload.polygon}`)
+      expect(response.headers.location).toEqual(`/order-not-submitted?encodedPolygon=${encodePolygon(options.payload.polygon)}`)
     })
   })
 })

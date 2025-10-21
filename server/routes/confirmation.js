@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
+const { decodePolygon } = require('../services/shape-utils')
 
 module.exports = {
   method: 'GET',
@@ -8,7 +9,7 @@ module.exports = {
     description: 'Get confirmation page for product 4',
     handler: async (request, h) => {
       const {
-        polygon,
+        encodedPolygon,
         recipientemail,
         applicationReferenceNumber,
         floodZone
@@ -18,7 +19,7 @@ module.exports = {
         EmailAddress: psoEmailAddress,
         AreaName: areaName,
         LocalAuthorities: localAuthority
-      } = await request.server.methods.getPsoContactsByPolygon(polygon)
+      } = await request.server.methods.getPsoContactsByPolygon(decodePolygon(encodedPolygon))
 
       const model = {
         recipientemail,
@@ -27,13 +28,13 @@ module.exports = {
         areaName: punctuateAreaName(areaName),
         localAuthority,
         floodZone,
-        polygon
+        encodedPolygon
       }
       return h.view('confirmation', model)
     },
     validate: {
       query: Joi.object({
-        polygon: Joi.string().required(),
+        encodedPolygon: Joi.string().required(),
         recipientemail: Joi.string().email().required(),
         applicationReferenceNumber: Joi.string().required(),
         floodZone: Joi.string().required()

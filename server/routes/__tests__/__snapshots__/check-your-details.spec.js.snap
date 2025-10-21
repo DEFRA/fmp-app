@@ -269,7 +269,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -571,7 +571,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -818,7 +818,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -915,7 +915,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -1367,7 +1367,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -1669,7 +1669,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1916,7 +1916,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -2013,7 +2013,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -2465,7 +2465,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -2767,7 +2767,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -3014,7 +3014,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?polygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
 
         
 
@@ -3111,7 +3111,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
         <div id="location-context">
-          <input type="hidden" value="_undT_undT?_ibE_ibE??~hbE~hbE?" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 

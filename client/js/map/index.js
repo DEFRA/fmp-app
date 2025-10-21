@@ -102,8 +102,8 @@ const calculateExtent = (polygonToCalculate) => {
   return calculatedExtent
 }
 let featureQuery, extent
-if (queryParams.get('polygon')) {
-  const polygon = decodePolygon(queryParams.get('polygon'))
+if (queryParams.get('encodedPolygon')) {
+  const polygon = decodePolygon(queryParams.get('encodedPolygon'))
   featureQuery = {
     type: 'feature',
     geometry: {
