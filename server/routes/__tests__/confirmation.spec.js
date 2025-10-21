@@ -3,10 +3,8 @@ const {
   getServer
 } = require('../../__test-helpers__/server')
 const { encode } = require('@mapbox/polyline')
-
-
 const url = '/confirmation'
-const encodedPolygon = encode([[111,111],[111,112],[112,112],[112,111],[111,111]])
+const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
 
 describe('confirmation', () => {
   beforeEach(() => {
@@ -33,7 +31,7 @@ describe('confirmation', () => {
     '/confirmation',
     `/confirmation?applicationReferenceNumber=12345&encodedPolygon=${encodedPolygon}&floodZone=3`,
     `/confirmation?recipientemail=test@test.com&encodedPolygon=${encodedPolygon}&floodZone=3`,
-    `/confirmation?recipientemail=test@test.com&applicationReferenceNumber=12345&floodZone=3`,
+    '/confirmation?recipientemail=test@test.com&applicationReferenceNumber=12345&floodZone=3',
     `/confirmation?recipientemail=test@test.com&applicationReferenceNumber=12345&encodedPolygon=${encodedPolygon}`
   ]
   invalidUrls.forEach((invalidUrl) => {

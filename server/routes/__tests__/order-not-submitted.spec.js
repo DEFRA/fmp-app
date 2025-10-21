@@ -4,7 +4,7 @@ const {
 const constants = require('../../constants')
 const { encode } = require('@mapbox/polyline')
 const url = constants.routes.ORDER_NOT_SUBMITTED
-const encodedPolygon = encode([[111,111],[111,112],[112,112],[112,111],[111,111]])
+const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
 
 describe('order-not-submitted', () => {
   it('Should return order not submitted when polygon is provided', async () => {
