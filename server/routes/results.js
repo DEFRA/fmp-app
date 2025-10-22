@@ -12,20 +12,19 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon } = request.query
-        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
         const [contactData, floodData] = await Promise.all([
-          request.server.methods.getPsoContactsByPolygon(processedPolygonQuery.polygonArray),
-          request.server.methods.getFloodDataByPolygon(processedPolygonQuery.polygonArray)]
+          request.server.methods.getPsoContactsByPolygon(polygon),
+          request.server.methods.getFloodDataByPolygon(polygon)]
         )
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        floodData.areaInHectares = getAreaInHectares(processedPolygonQuery.polygonArray)
-        floodData.centreOfPolygon = getCentreOfPolygon(processedPolygonQuery.polygonArray)
+        floodData.areaInHectares = getAreaInHectares(polygon)
+        floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
-        return h.view('results', { floodData, contactData, showOrderProduct4Button, processedPolygonQuery })
+        return h.view('results', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon })
       }
     }
   }

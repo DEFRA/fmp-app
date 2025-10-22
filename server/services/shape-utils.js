@@ -111,22 +111,23 @@ const validatePolygon = (polygonArray) => {
 }
 
 const encodePolygon = (polygonArray) => {
+  if (typeof polygonArray !== 'string') {
+    const polygonString = JSON.stringify(polygonArray)
+    return encode(JSON.parse(polygonString))
+  }
   return encode(JSON.parse(polygonArray))
 }
 
 const checkParamsForPolygon = (polygon, encodedPolygon) => {
-  let encodedPolygonParam, polygonArray
   if (polygon) {
-    encodedPolygonParam = encodePolygon(polygon)
-    polygonArray = polygon
+    encodedPolygon = encodePolygon(polygon)
   }
   if (encodedPolygon) {
-    encodedPolygonParam = encodedPolygon
-    polygonArray = decodePolygon(encodedPolygon)
+    polygon = decodePolygon(encodedPolygon)
   }
   return {
-    encodedPolygonParam,
-    polygonArray
+    encodedPolygon,
+    polygon
   }
 }
 

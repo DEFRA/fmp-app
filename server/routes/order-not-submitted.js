@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const constants = require('../constants')
+
 module.exports = {
   method: 'GET',
   path: constants.routes.ORDER_NOT_SUBMITTED,

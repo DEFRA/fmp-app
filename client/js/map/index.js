@@ -7,8 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
-import { encode } from '@mapbox/polyline'
-import { decodePolygon } from '../../../server/services/shape-utils.js'
+import { decodePolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 
 let visibleVtLayer
 
@@ -102,8 +101,8 @@ const calculateExtent = (polygonToCalculate) => {
   return calculatedExtent
 }
 let featureQuery, extent
-if (queryParams.get('encodedPolygon')) {
-  const polygon = decodePolygon(queryParams.get('encodedPolygon'))
+if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
+  const polygon = decodePolygon(queryParams.get('encodedPolygon')) || queryParams.get('polygon')
   featureQuery = {
     type: 'feature',
     geometry: {
@@ -601,7 +600,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
       const polygon = getPolygon()
-      url.searchParams.set('encodedPolygon', encode(polygon))
+      url.searchParams.set('encodedPolygon', encodePolygon(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
@@ -645,7 +644,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
       const polygon = getPolygon()
-      const encodedPolygon = encode(polygon)
+      const encodedPolygon = encodePolygon(polygon)
       window.location = `/results?encodedPolygon=${encodedPolygon}`
     }
   })

@@ -24,22 +24,25 @@ module.exports = [
     options: {
       description: 'Application Review Summary',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon, fullName = '', recipientemail = '' } = request.query
-        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
+        const { fullName = '', recipientemail = '' } = request.query
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
         const { errorSummary } = validateContactData({ fullName, recipientemail })
+        console.log(encodedPolygon)
+        console.log(polygon)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,
-            processedPolygonQuery,
+            encodedPolygon,
+            polygon,
             fullName,
             recipientemail
           })
         }
 
-        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(processedPolygonQuery.polygonArray)
-        const contactUrl = `/contact?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
-        const mapUrl = `/map?encodedPolygon=${processedPolygonQuery.encodedPolygonParam}`
-        return h.view('check-your-details', { processedPolygonQuery, fullName, recipientemail, contactUrl, mapUrl, floodZone })
+        const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
+        const contactUrl = `/contact?encodedPolygon=${encodedPolygon}`
+        const mapUrl = `/map?encodedPolygon=${encodedPolygon}`
+        return h.view('check-your-details', { encodedPolygon, polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
     }
   },

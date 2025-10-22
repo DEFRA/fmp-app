@@ -394,7 +394,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 "
 `;
 
-exports[`order-not-submitted Should return order not submitted when polygon is provided 1`] = `
+exports[`order-not-submitted Should return order not submitted when encoded polygon is provided 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template govuk-template--rebranded">
   <head>

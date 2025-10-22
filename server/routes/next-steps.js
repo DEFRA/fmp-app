@@ -12,18 +12,17 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon } = request.query
-        const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
         const [contactData, floodData, { isRiskAdminArea: isRiskAdmin }] = await Promise.all([
-          request.server.methods.getPsoContactsByPolygon(processedPolygonQuery.polygonArray),
-          request.server.methods.getFloodZoneByPolygon(processedPolygonQuery.polygonArray),
-          isRiskAdminArea(processedPolygonQuery.polygonArray)]
+          request.server.methods.getPsoContactsByPolygon(polygon),
+          request.server.methods.getFloodZoneByPolygon(polygon),
+          isRiskAdminArea(polygon)]
         )
 
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        floodData.centreOfPolygon = getCentreOfPolygon(processedPolygonQuery.polygonArray)
+        floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isRiskAdminArea = isRiskAdmin
-        return h.view('next-steps', { floodData, contactData, showOrderProduct4Button, processedPolygonQuery })
+        return h.view('next-steps', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon })
       }
     }
   }
