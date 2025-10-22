@@ -10,7 +10,7 @@ const esriFeatureRequestByIntersectArea = async (endPoint, geometry, geometryTyp
       .then((esriResult) => esriResult.map((result) => {
         try {
           const areaPolygon = turf.polygon(result.geometry.rings)
-          const intersection = turf.intersect(turfPolygon, areaPolygon)
+          const intersection = turf.intersect(turf.featureCollection([turfPolygon, areaPolygon]))
           const area = turf.area(intersection)
           return { ...result, area }
         } catch (error) {
