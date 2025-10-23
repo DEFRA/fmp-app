@@ -30,12 +30,12 @@ const parseEaMapsProduct1Response = (response) => {
   }, { url: undefined, error: undefined })
 }
 
-const getProduct1 = async (polygon, referenceNumber, scale, _holdingComments, floodZone) => {
+const getProduct1 = async (encodedPolygon, referenceNumber, scale, _holdingComments, floodZone) => {
   try {
-    const decodedPolygon = decodePolygon(polygon)
+    const polygon = decodePolygon(encodedPolygon)
     const token = await getEAMapsToken()
     const pdfUrl = config.eamaps.serviceUrl + config.eamaps.product1EndPoint
-    const geometry = JSON.stringify(makePolygonGeometry(decodedPolygon))
+    const geometry = JSON.stringify(makePolygonGeometry(polygon))
     // _holdingComments is awaiting an implementation for FMP2
 
     const formData = {
