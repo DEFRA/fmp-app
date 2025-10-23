@@ -1,7 +1,8 @@
 const { config } = require('../../config')
 const { isRiskAdminArea } = require('../services/riskAdmin/isRiskAdminArea')
 const {
-  getCentreOfPolygon
+  getCentreOfPolygon,
+  checkParamsForPolygon
 } = require('../services/shape-utils')
 
 module.exports = [
@@ -11,7 +12,7 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        const { polygon } = request.query
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
         const [contactData, floodData, { isRiskAdminArea: isRiskAdmin }] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodZoneByPolygon(polygon),
@@ -21,7 +22,7 @@ module.exports = [
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isRiskAdminArea = isRiskAdmin
-        return h.view('next-steps', { polygon, floodData, contactData, showOrderProduct4Button })
+        return h.view('next-steps', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon })
       }
     }
   }

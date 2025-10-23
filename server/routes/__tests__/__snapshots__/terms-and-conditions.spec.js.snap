@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`terms-and-conditions Should return terms-and-conditions page 1`] = `
 "<!DOCTYPE html>

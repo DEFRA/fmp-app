@@ -1,6 +1,6 @@
 const getAreaPolygon = require('area-polygon')
 const { polygon: TurfPolygon, centroid } = require('@turf/turf')
-const { decode } = require('@mapbox/polyline')
+const { encode, decode } = require('@mapbox/polyline')
 
 const roundTo2Dp = (x) => Math.round(x * 100) / 100
 
@@ -110,6 +110,27 @@ const validatePolygon = (polygonArray) => {
   }
 }
 
+const encodePolygon = (polygonArray) => {
+  if (typeof polygonArray !== 'string') {
+    const polygonString = JSON.stringify(polygonArray)
+    return encode(JSON.parse(polygonString))
+  }
+  return encode(JSON.parse(polygonArray))
+}
+
+const checkParamsForPolygon = (polygon, encodedPolygon) => {
+  if (polygon) {
+    encodedPolygon = encodePolygon(polygon)
+  }
+  if (encodedPolygon) {
+    polygon = decodePolygon(encodedPolygon)
+  }
+  return {
+    encodedPolygon,
+    polygon
+  }
+}
+
 module.exports = {
   getArea,
   getAreaInHectares,
@@ -117,5 +138,7 @@ module.exports = {
   buffPolygon,
   polygonStartEnd,
   getCentreOfPolygon,
-  decodePolygon
+  decodePolygon,
+  encodePolygon,
+  checkParamsForPolygon
 }

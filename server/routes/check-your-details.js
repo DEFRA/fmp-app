@@ -1,7 +1,7 @@
 const { config } = require('../../config')
 const wreck = require('@hapi/wreck')
 const publishToQueueURL = config.functionAppUrl + '/order-product-four'
-const { getAreaInHectares, getCentreOfPolygon } = require('../services/shape-utils')
+const { getAreaInHectares, getCentreOfPolygon, checkParamsForPolygon, encodePolygon } = require('../services/shape-utils')
 const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
@@ -24,11 +24,15 @@ module.exports = [
     options: {
       description: 'Application Review Summary',
       handler: async (request, h) => {
-        const { polygon, fullName = '', recipientemail = '' } = request.query
+        const { fullName = '', recipientemail = '' } = request.query
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
         const { errorSummary } = validateContactData({ fullName, recipientemail })
+        console.log(encodedPolygon)
+        console.log(polygon)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,
+            encodedPolygon,
             polygon,
             fullName,
             recipientemail
@@ -36,9 +40,9 @@ module.exports = [
         }
 
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
-        const contactUrl = `/contact?polygon=${polygon}`
-        const mapUrl = `/map?polygon=${polygon}`
-        return h.view('check-your-details', { polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
+        const contactUrl = `/contact?encodedPolygon=${encodedPolygon}`
+        const mapUrl = `/map?encodedPolygon=${encodedPolygon}`
+        return h.view('check-your-details', { encodedPolygon, polygon, fullName, recipientemail, contactUrl, mapUrl, floodZone })
       }
     }
   },
@@ -48,7 +52,7 @@ module.exports = [
     options: {
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
-        const { recipientemail, fullName, polygon } = request.payload
+        const { polygon, recipientemail, fullName } = request.payload
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
@@ -84,7 +88,7 @@ module.exports = [
               data
             )
             console.log('Error\n', JSON.stringify(error))
-            const redirectURL = `/order-not-submitted?polygon=${polygon}`
+            const redirectURL = `/order-not-submitted?encodedPolygon=${encodePolygon(polygon)}`
             return h.redirect(redirectURL)
           }
         } else {
@@ -94,7 +98,7 @@ module.exports = [
         // Forward details to confirmation page
         const queryParams = {
           applicationReferenceNumber,
-          polygon,
+          encodedPolygon: encodePolygon(polygon),
           recipientemail,
           floodZone
         }
