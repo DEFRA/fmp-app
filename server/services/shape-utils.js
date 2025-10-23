@@ -123,6 +123,7 @@ const checkParamsForPolygon = (polygon, encodedPolygon) => {
     encodedPolygon = encodePolygon(polygon)
   }
   if (encodedPolygon) {
+    console.log('here')
     polygon = decodePolygon(encodedPolygon)
   }
   return {
