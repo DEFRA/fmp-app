@@ -7,7 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
-import { decodePolygon, encodePolygon } from '../../../server/services/shape-utils.js'
+import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 
 let visibleVtLayer
 
@@ -102,15 +102,16 @@ const calculateExtent = (polygonToCalculate) => {
 }
 let featureQuery, extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
-  const polygon = decodePolygon(queryParams.get('encodedPolygon')) || queryParams.get('polygon')
+  const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
+  const polygon = JSON.parse(polygonString)
   featureQuery = {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(polygon)
+      coordinates: polygon
     }
   }
-  extent = calculateExtent(JSON.parse(polygon))
+  extent = calculateExtent(polygon)
 }
 
 getDefraMapConfig().then((defraMapConfig) => {

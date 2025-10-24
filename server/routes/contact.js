@@ -10,7 +10,7 @@ module.exports = [
     options: {
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const backLinkUrl =
           request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${encodedPolygon}` : `/results?encodedPolygon=${encodedPolygon}`
         return h.view(constants.views.CONTACT, {
@@ -38,7 +38,7 @@ module.exports = [
     options: {
       description: 'submits contact details to the check your details page',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon } = checkParamsForPolygon(request.payload.polygon, request.payload.encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.payload)
         const { errorSummary } = validateContactData(request.payload)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {

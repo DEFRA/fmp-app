@@ -1434,7 +1434,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,%20111%5D,%20%5B111,%20112%5D,%20%5B112,%20112%5D,%20%5B112,%20111%5D,%20%5B111,%20111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1943,7 +1943,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,%20111%5D,%20%5B111,%20112%5D,%20%5B112,%20112%5D,%20%5B112,%20111%5D,%20%5B111,%20111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -2965,7 +2965,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,%20111%5D,%20%5B111,%20112%5D,%20%5B112,%20112%5D,%20%5B112,%20111%5D,%20%5B111,%20111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -3822,7 +3822,7 @@ exports[`contact POST Should return contact view with error message if blank ema
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -4371,7 +4371,7 @@ exports[`contact POST Should return contact view with error message if blank nam
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -4920,7 +4920,7 @@ exports[`contact POST Should return contact view with error message if email con
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -5469,7 +5469,7 @@ exports[`contact POST Should return contact view with error message if fullname 
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -6018,7 +6018,7 @@ exports[`contact POST Should return contact view with error message if invalid e
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -6567,7 +6567,7 @@ exports[`contact POST Should return contact view with error message if name cont
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]" name="polygon"/>
+          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 

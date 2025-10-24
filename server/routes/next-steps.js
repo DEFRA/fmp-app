@@ -12,7 +12,7 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const [contactData, floodData, { isRiskAdminArea: isRiskAdmin }] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodZoneByPolygon(polygon),

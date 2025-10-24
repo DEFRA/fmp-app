@@ -7,7 +7,7 @@ const {
 const constants = require('../../constants')
 const { encode } = require('@mapbox/polyline')
 
-const polygon = '[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]'
+const polygon = '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
 const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
 const queryParams = [
   ['polygon', `polygon=${polygon}`],

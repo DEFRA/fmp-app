@@ -25,7 +25,7 @@ module.exports = [
       description: 'Application Review Summary',
       handler: async (request, h) => {
         const { fullName = '', recipientemail = '' } = request.query
-        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query.polygon, request.query.encodedPolygon)
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         console.log(encodedPolygon)
         console.log(polygon)

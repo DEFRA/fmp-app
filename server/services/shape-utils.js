@@ -118,14 +118,17 @@ const encodePolygon = (polygonArray) => {
   return encode(JSON.parse(polygonArray))
 }
 
-const checkParamsForPolygon = (polygon, encodedPolygon) => {
-  if (polygon) {
-    encodedPolygon = encodePolygon(polygon)
+const encodeQueryPolygonIfRequired = (queryObject) => {
+  if (queryObject.encodedPolygon || queryObject.encode === false) {
+    return queryObject.encodedPolygon
   }
-  if (encodedPolygon) {
-    console.log('here')
-    polygon = decodePolygon(encodedPolygon)
-  }
+  return encodePolygon(queryObject.polygon)
+}
+
+// call like this: checkParamsForPolygon({...request.query, encode: false}) if you don't require an encodedPolygon
+const checkParamsForPolygon = (queryObject) => {
+  const encodedPolygon = encodeQueryPolygonIfRequired(queryObject)
+  const polygon = queryObject.polygon ? queryObject.polygon : decodePolygon(encodedPolygon)
   return {
     encodedPolygon,
     polygon

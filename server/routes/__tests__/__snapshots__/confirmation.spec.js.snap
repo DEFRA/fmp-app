@@ -737,7 +737,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=">
+      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
@@ -1651,7 +1651,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=">
+      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>

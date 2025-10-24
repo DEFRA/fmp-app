@@ -9,20 +9,18 @@ module.exports = {
     description: 'Get confirmation page for product 4',
     handler: async (request, h) => {
       const {
-        encodedPolygon,
-        polygon,
         recipientemail,
         applicationReferenceNumber,
         floodZone
       } = request.query
 
-      const processedPolygonQuery = checkParamsForPolygon(polygon, encodedPolygon)
+      const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
 
       const {
         EmailAddress: psoEmailAddress,
         AreaName: areaName,
         LocalAuthorities: localAuthority
-      } = await request.server.methods.getPsoContactsByPolygon(processedPolygonQuery.polygonArray)
+      } = await request.server.methods.getPsoContactsByPolygon(polygon)
 
       const model = {
         recipientemail,
