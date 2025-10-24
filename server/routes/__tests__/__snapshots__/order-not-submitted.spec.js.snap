@@ -394,7 +394,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 "
 `;
 
-exports[`order-not-submitted Should return order not submitted when polygon is provided 1`] = `
+exports[`order-not-submitted Should return order not submitted when encoded polygon is provided 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template govuk-template--rebranded">
   <head>
@@ -416,7 +416,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/order-not-submitted?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/order-not-submitted?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Sorry, there&#39;s a problem with the service - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -624,7 +624,7 @@ exports[`order-not-submitted Should return order not submitted when polygon is p
       We've saved your location and boundary details. You'll only need to enter your name and email address again when you order the flood risk data.</p>
       <a 
         id="continue-button" 
-        href=/results?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]] 
+        href=/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE? 
         role="button" 
         draggable="false" 
         class="govuk-button govuk-!-margin-top-7 govuk-!-margin-bottom-8 govuk-button--start" 

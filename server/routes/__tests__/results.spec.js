@@ -3,6 +3,7 @@ const { getPsoContactsByPolygon } = require('../../services/pso-contact-by-polyg
 const { getFloodDataByPolygon } = require('../../services/floodDataByPolygon')
 const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
+const { encode } = require('@mapbox/polyline')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -12,492 +13,529 @@ jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
+const url = '/results'
+const polygonQuery = 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]'
+const queryParams = [
+  ['encoded polygon', `encodedPolygon=${encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])}`],
+  ['polygon', polygonQuery]
+]
 /*
 This test file is used to check the dynamic content on the results page html.
 It is useful as we need to test the nunjuck logic.
 */
-
-describe('Results Page On Public', () => {
-  beforeAll(() => { config.appType = 'public' })
-  afterAll(() => { config.appType = 'internal' })
-
-  describe('Flood zone 1', () => {
-    it('should show FZ1 title and RS bullet point, zone 1 relevant text (no FRA) when <1ha drawn', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: true,
-        surfaceWater: {
-          riskBandId: -1,
-          riskBand: false,
-          riskBandPercent: null,
-          riskBandOdds: null
-        },
-        isRiskAdminArea: false
-      })
-      getAreaInHectaresSpy.mockReturnValue(0)
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.riskFloodingFrom).toEqual(riskFloodingFromText)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
-      expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(fz1FRAOnlyNeededWhenText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.siteDrawnIsLessThan).toEqual(siteDrawnIsLessThanText)
-      expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
-      expect(pageContent.fraRequired).toEqual(false)
-      expect(pageContent.riskWhenCC).toEqual(false)
-    })
-
-    it('should show FZ1 title, zone 1 relevant text (no FRA) when <1ha drawn with Surface Water bullet point', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '3.3',
-          riskBandOdds: '1 in 30'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(false)
-      expect(pageContent.swBulletPoint).toEqual(swBulletPointText)
-      expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-    })
-
-    it('should show RS title and bullet point, zone 1 relevant text (FRA required) when >1ha drawn', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: -1,
-          riskBand: false,
-          riskBandPercent: null,
-          riskBandOdds: null
-        },
-        isRiskAdminArea: false
-      })
-      getAreaInHectaresSpy.mockReturnValue(123.43)
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
-      expect(pageContent.fz1GreaterThan).toEqual(fz1GreaterThanText)
-      expect(pageContent.siteDrawnSize).toEqual(siteDrawnSizeText)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
-      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
-      expect(pageContent.swSummaryTitle).toEqual(false)
-      expect(pageContent.rsBulletPoint).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-    })
-
-    it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: true,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: -1,
-          riskBand: false,
-          riskBandPercent: null,
-          riskBandOdds: null
-        },
-        isRiskAdminArea: false
-      })
-      getAreaInHectaresSpy.mockReturnValue(0)
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
-      expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.riskWhenCC).toEqual(riskWhenCCText)
-      expect(pageContent.p4FZ1UnlikleyData).toEqual(false)
-      expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.swSummaryTitle).toEqual(false)
-      expect(pageContent.unavailableCCData).toEqual(false)
-    })
-
-    it('should not show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with no data zone', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: true,
-        floodZoneClimateChangeNoData: true,
-        surfaceWater: {
-          riskBandId: -1,
-          riskBand: false,
-          riskBandPercent: null,
-          riskBandOdds: null
-        },
-        isRiskAdminArea: false
-      })
-      getAreaInHectaresSpy.mockReturnValue(0)
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
-      expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.unavailableCCData).toEqual(unavailableCCDataText)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.siteDrawnSize).toEqual(false)
-    })
-
-    it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: false,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: -1,
-          riskBand: false,
-          riskBandPercent: null,
-          riskBandOdds: null
-        },
-        isRiskAdminArea: true
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.adminUpdatedData).toEqual(adminUpdatedDataText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.rsBulletPoint).toEqual(false)
-      expect(pageContent.fz23FRA).toEqual(false)
-    })
-  })
-
-  describe('Flood zone 2', () => {
-    it('should show RS title and bullet point, zone 2 low risk, 1 in 1000 SW text (FRA required)', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: true,
-        floodZone: '2',
-        floodZoneLevel: 'medium',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '0.1',
-          riskBandOdds: '1 in 1000'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
-      expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
-      expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-      expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
-      expect(pageContent.swProbability).toEqual(getSWInfoText('0.1', '1 in 1000').swProbabilityText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.fz1DataUnlikely).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
-      expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
-      expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
-    })
-
-    it('should show RS title and bullet point, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: true,
-        floodZone: '2',
-        floodZoneLevel: 'medium',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '1',
-          riskBandOdds: '1 in 100'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
-      expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
-      expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-      expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
-      expect(pageContent.swProbability).toEqual(getSWInfoText('1', '1 in 100').swProbabilityText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.fz23FRA).toEqual(fz23FRAText)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
-    })
-  })
-
-  describe('Flood zone 3', () => {
-    it('Should have correct copy for Zone 3 high risk', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: true,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: true,
-        floodZone: '3',
-        floodZoneLevel: 'high',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '3.3',
-          riskBandOdds: '1 in 30'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.fraTitle).toEqual(fraTitleText)
-      expect(pageContent.fraRequired).toEqual(fraRequiredText)
-      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
-      expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
-      expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-      expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
-      expect(pageContent.swProbability).toEqual(getSWInfoText('3.3', '1 in 30').swProbabilityText)
-      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-      expect(pageContent.fz23FRA).toEqual(fz23FRAText)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
-    })
-  })
-
-  describe('opted out area', () => {
-    it('should not show the "Order flood risk data" for opted out areas', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: false,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: true,
-        floodZone: '3',
-        floodZoneLevel: 'high',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '3.3',
-          riskBandOdds: '1 in 30'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-      expect(pageContent.p4EmailIn20Days).toEqual(p4EmailIn20DaysText)
-      expect(pageContent.orderP4Button).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-      expect(pageContent.p4FZ1UnlikleyData).toEqual(false)
-    })
-
-    it('should not show the "Order flood risk data" for opted out areas in FZ1', async () => {
-      getPsoContactsByPolygon.mockResolvedValue({
-        isEngland: true,
-        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
-        AreaName: 'East Midlands',
-        useAutomatedService: false,
-        LocalAuthorities: 'Derbyshire Dales'
-      })
-      getFloodDataByPolygon.mockResolvedValue({
-        floodzone_2: false,
-        floodzone_3: true,
-        floodZone: '1',
-        floodZoneLevel: 'low',
-        floodZoneClimateChange: false,
-        floodZoneClimateChangeNoData: false,
-        surfaceWater: {
-          riskBandId: 3,
-          riskBand: 'High',
-          riskBandPercent: '3.3',
-          riskBandOdds: '1 in 30'
-        },
-        isRiskAdminArea: false
-      })
-      const response = await submitGetRequest({ url: `${url}` })
-      const pageContent = getElementByIdAndFormat(response.payload)
-      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
-      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-      expect(pageContent.p4FZ1UnlikleyData).toEqual(p4FZ1UnlikleyDataText)
-      expect(pageContent.rsBulletPoint).toEqual(false)
-      expect(pageContent.orderP4Button).toEqual(false)
-      expect(pageContent.p4EmailIn20Days).toEqual(false)
-      expect(pageContent.adminUpdatedData).toEqual(false)
-    })
-  })
-})
-
-describe('Results Page On Internal', () => {
-  beforeAll(() => { config.appType = 'internal' })
-  it('should show the "Order flood risk data" for opted out areas on internal', async () => {
+describe('Results page', () => {
+  // Checking to ensure both standard polygons and encoded polygons work in query params.
+  it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
     getPsoContactsByPolygon.mockResolvedValue({
       isEngland: true,
       EmailAddress: 'emdenquiries@environment-agency.gov.uk',
       AreaName: 'East Midlands',
-      useAutomatedService: false,
+      useAutomatedService: true,
       LocalAuthorities: 'Derbyshire Dales'
     })
     getFloodDataByPolygon.mockResolvedValue({
       floodzone_2: false,
-      floodzone_3: true,
-      floodZone: '3',
+      floodzone_3: false,
+      floodZone: '1',
       floodZoneLevel: 'low',
       floodZoneClimateChange: false,
-      floodZoneClimateChangeNoData: false,
+      floodZoneClimateChangeNoData: true,
       surfaceWater: {
-        riskBandId: 3,
-        riskBand: 'High',
-        riskBandPercent: '3.3',
-        riskBandOdds: '1 in 30'
+        riskBandId: -1,
+        riskBand: false,
+        riskBandPercent: null,
+        riskBandOdds: null
       },
       isRiskAdminArea: false
     })
-    const response = await submitGetRequest({ url: `${url}` })
-    const pageContent = getElementByIdAndFormat(response.payload)
-    expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
-    expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-    expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
-    expect(pageContent.adminUpdatedData).toEqual(false)
-    expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+    getAreaInHectaresSpy.mockReturnValue(0)
+    const response = await submitGetRequest({ url: `${url}?${queryParam}` })
+
+    expect(response.statusCode).toEqual(200)
+  })
+
+  describe('On Public', () => {
+    beforeAll(() => { config.appType = 'public' })
+    afterAll(() => { config.appType = 'internal' })
+
+    describe('Flood zone 1', () => {
+      it('should show FZ1 title and RS bullet point, zone 1 relevant text (no FRA) when <1ha drawn', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: true,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false
+        })
+        getAreaInHectaresSpy.mockReturnValue(0)
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.riskFloodingFrom).toEqual(riskFloodingFromText)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
+        expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(fz1FRAOnlyNeededWhenText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(siteDrawnIsLessThanText)
+        expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
+        expect(pageContent.fraRequired).toEqual(false)
+        expect(pageContent.riskWhenCC).toEqual(false)
+        expect(response.statusCode).toEqual(200)
+      })
+
+      it('should show FZ1 title, zone 1 relevant text (no FRA) when <1ha drawn with Surface Water bullet point', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '3.3',
+            riskBandOdds: '1 in 30'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.swBulletPoint).toEqual(swBulletPointText)
+        expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+      })
+
+      it('should show RS title and bullet point, zone 1 relevant text (FRA required) when >1ha drawn', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false
+        })
+        getAreaInHectaresSpy.mockReturnValue(123.43)
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
+        expect(pageContent.fz1GreaterThan).toEqual(fz1GreaterThanText)
+        expect(pageContent.siteDrawnSize).toEqual(siteDrawnSizeText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+        expect(pageContent.swSummaryTitle).toEqual(false)
+        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+      })
+
+      it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: true,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false
+        })
+        getAreaInHectaresSpy.mockReturnValue(0)
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
+        expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.riskWhenCC).toEqual(riskWhenCCText)
+        expect(pageContent.p4FZ1UnlikleyData).toEqual(false)
+        expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.swSummaryTitle).toEqual(false)
+        expect(pageContent.unavailableCCData).toEqual(false)
+      })
+
+      it('should not show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with no data zone', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: true,
+          floodZoneClimateChangeNoData: true,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false
+        })
+        getAreaInHectaresSpy.mockReturnValue(0)
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
+        expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.unavailableCCData).toEqual(unavailableCCDataText)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.siteDrawnSize).toEqual(false)
+      })
+
+      it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: true
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.adminUpdatedData).toEqual(adminUpdatedDataText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.fz23FRA).toEqual(false)
+      })
+    })
+
+    describe('Flood zone 2', () => {
+      it('should show RS title and bullet point, zone 2 low risk, 1 in 1000 SW text (FRA required)', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '2',
+          floodZoneLevel: 'medium',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '0.1',
+            riskBandOdds: '1 in 1000'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
+        expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+        expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
+        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
+        expect(pageContent.swProbability).toEqual(getSWInfoText('0.1', '1 in 1000').swProbabilityText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.fz1DataUnlikely).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+        expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
+      })
+
+      it('should show RS title and bullet point, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '2',
+          floodZoneLevel: 'medium',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '1',
+            riskBandOdds: '1 in 100'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
+        expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+        expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
+        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
+        expect(pageContent.swProbability).toEqual(getSWInfoText('1', '1 in 100').swProbabilityText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.fz23FRA).toEqual(fz23FRAText)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+      })
+    })
+
+    describe('Flood zone 3', () => {
+      it('Should have correct copy for Zone 3 high risk', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '3',
+          floodZoneLevel: 'high',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '3.3',
+            riskBandOdds: '1 in 30'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
+        expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+        expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
+        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
+        expect(pageContent.swProbability).toEqual(getSWInfoText('3.3', '1 in 30').swProbabilityText)
+        expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+        expect(pageContent.fz23FRA).toEqual(fz23FRAText)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+      })
+    })
+
+    describe('opted out area', () => {
+      it('should not show the "Order flood risk data" for opted out areas', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: false,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '3',
+          floodZoneLevel: 'high',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '3.3',
+            riskBandOdds: '1 in 30'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.p4EmailIn20Days).toEqual(p4EmailIn20DaysText)
+        expect(pageContent.orderP4Button).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.p4FZ1UnlikleyData).toEqual(false)
+      })
+
+      it('should not show the "Order flood risk data" for opted out areas in FZ1', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: false,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '3.3',
+            riskBandOdds: '1 in 30'
+          },
+          isRiskAdminArea: false
+        })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
+        expect(pageContent.p4FZ1UnlikleyData).toEqual(p4FZ1UnlikleyDataText)
+        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.orderP4Button).toEqual(false)
+        expect(pageContent.p4EmailIn20Days).toEqual(false)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+      })
+    })
+  })
+
+  describe('On Internal', () => {
+    beforeAll(() => { config.appType = 'internal' })
+    it('should show the "Order flood risk data" for opted out areas on internal', async () => {
+      getPsoContactsByPolygon.mockResolvedValue({
+        isEngland: true,
+        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+        AreaName: 'East Midlands',
+        useAutomatedService: false,
+        LocalAuthorities: 'Derbyshire Dales'
+      })
+      getFloodDataByPolygon.mockResolvedValue({
+        floodzone_2: false,
+        floodzone_3: true,
+        floodZone: '3',
+        floodZoneLevel: 'low',
+        floodZoneClimateChange: false,
+        floodZoneClimateChangeNoData: false,
+        surfaceWater: {
+          riskBandId: 3,
+          riskBand: 'High',
+          riskBandPercent: '3.3',
+          riskBandOdds: '1 in 30'
+        },
+        isRiskAdminArea: false
+      })
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+      const pageContent = getElementByIdAndFormat(response.payload)
+      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+      expect(pageContent.adminUpdatedData).toEqual(false)
+      expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
+    })
   })
 })
 
 // Reused constants
-const url = '/results?polygon=[[116,116],[116,117],[117,116],[116,116]]'
 const floodZones = { 1: '1', 2: '2', 3: '3' }
 const getHeadingAndMeaningText = (floodZone) => {
   return {

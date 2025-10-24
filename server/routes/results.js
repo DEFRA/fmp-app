@@ -1,7 +1,8 @@
 const { config } = require('../../config')
 const {
   getAreaInHectares,
-  getCentreOfPolygon
+  getCentreOfPolygon,
+  checkParamsForPolygon
 } = require('../services/shape-utils')
 
 module.exports = [
@@ -11,7 +12,7 @@ module.exports = [
     options: {
       description: 'Results Page',
       handler: async (request, h) => {
-        const { polygon } = request.query
+        const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
@@ -23,7 +24,7 @@ module.exports = [
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
-        return h.view('results', { polygon, floodData, contactData, showOrderProduct4Button })
+        return h.view('results', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon })
       }
     }
   }

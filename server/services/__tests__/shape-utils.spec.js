@@ -3,9 +3,12 @@ const {
   getAreaInHectares,
   polygonToArray,
   buffPolygon,
-  polygonStartEnd
+  polygonStartEnd,
+  encodePolygon,
+  checkParamsForPolygon
 } = require('../../../server/services/shape-utils')
 const zeroAreaPolygons = require('./__mocks__/zeroAreaPolygons')
+const { encode } = require('@mapbox/polyline')
 
 describe('shape-utils - polygonToArray', () => {
   it('polygonToArray should return an array for polygon strings "[[0,0],[0,10],[10,10],[10,0]]"', async () => {
@@ -85,5 +88,28 @@ describe('shape-utils - getArea/getAreaInHectares', () => {
         expect(buffPolygon(zeroAreaPolygon)).toEqual(expectedBuffedPolygon)
       }
     )
+  })
+})
+describe('shape-utils - encode / decode polygon', () => {
+  const polygon = [[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]
+  const encodedPolygon = encode(polygon)
+  const polygonString = '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+
+  describe('shape-utils - encodePolygon', () => {
+    it('should process polygons into objects if they come through as arrays', async () => {
+      expect(encodePolygon(polygon)).toEqual(encodedPolygon)
+    })
+    it('should process string polygons into objects', async () => {
+      expect(encodePolygon(polygonString)).toEqual(encodedPolygon)
+    })
+  })
+
+  describe('shape-utils - checkParamsForPolygon', () => {
+    it('should encode polygon if a polygon array is parsed', async () => {
+      expect(checkParamsForPolygon({ polygon: polygonString })).toEqual({ encodedPolygon, polygon: polygonString })
+    })
+    it('should decode encoded polygon if a encodedPolygon is parsed', async () => {
+      expect(checkParamsForPolygon({ encodedPolygon })).toEqual({ encodedPolygon, polygon: polygonString })
+    })
   })
 })

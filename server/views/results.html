@@ -53,7 +53,7 @@
         </h2>
         <ul class="govuk-summary-card__actions">
           <li class="govuk-summary-card__action">
-            <a class="govuk-link" href="/map?polygon={{ polygon }}&seg=rsd,pd,hr">
+            <a class="govuk-link" href="/map?encodedPolygon={{ encodedPolygon }}&seg=rsd,pd,hr">
               See this risk on the map<span class="govuk-visually-hidden"> See the risk from rivers and the sea on the
                 map</span>
             </a>
@@ -111,7 +111,7 @@
               Decide what you need for your planning application
             </dt>
             <dd class="govuk-summary-list__value">
-              <a href="/next-steps?polygon={{polygon}}">I need help deciding what to include in my planning
+              <a href="/next-steps?encodedPolygon={{ encodedPolygon }}">I need help deciding what to include in my planning
                 application.</a>
             </dd>
           </div>
@@ -147,7 +147,7 @@
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--bullet">
                 <!--TODO: map needs to accept polygon to draw automatically -->
-                <li><a href="/map?polygon={{ polygon }}">Redraw the boundary of your site</a></li>
+                <li><a href="/map?encodedPolygon={{ encodedPolygon }}">Redraw the boundary of your site</a></li>
                 <li><a href="/location">Search for a different location</a></li>
               </ul>
               <p class="govuk-body">

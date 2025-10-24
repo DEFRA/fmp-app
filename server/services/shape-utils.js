@@ -1,5 +1,6 @@
 const getAreaPolygon = require('area-polygon')
 const { polygon: TurfPolygon, centroid } = require('@turf/turf')
+const { encode, decode } = require('@mapbox/polyline')
 
 const roundTo2Dp = (x) => Math.round(x * 100) / 100
 
@@ -76,11 +77,72 @@ const buffPolygon = (polygon) => {
   ]
 }
 
+const decodePolygonToArray = (polygonString) => {
+  try {
+    const polygonArray = JSON.parse(polygonString)
+    if (Array.isArray(polygonArray) && Array.isArray(polygonArray[0])) {
+      return polygonArray
+    }
+  } catch {
+    return decode(polygonString)
+  }
+  const errorMsg = `Error - unhandled polygon array ${polygonString}`
+  console.log(errorMsg)
+  throw new Error(errorMsg)
+}
+
+const decodePolygon = (polygonString) => {
+  const polygonArray = decodePolygonToArray(polygonString)
+  validatePolygon(polygonArray)
+  return JSON.stringify(polygonArray)
+}
+
+const validatePolygon = (polygonArray) => {
+  // must have at least 4 points
+  if (polygonArray.length < 4) {
+    throw new Error('Polygon must have a length of at least 4')
+  }
+  const first = polygonArray[0]
+  const last = polygonArray.at(polygonArray.length - 1)
+  // first coordinates must match last
+  if (first[0] !== last[0] || first[1] !== last[1]) {
+    throw new Error('First and last coordinates should match')
+  }
+}
+
+const encodePolygon = (polygonArray) => {
+  if (typeof polygonArray !== 'string') {
+    const polygonString = JSON.stringify(polygonArray)
+    return encode(JSON.parse(polygonString))
+  }
+  return encode(JSON.parse(polygonArray))
+}
+
+const encodeQueryPolygonIfRequired = (queryObject) => {
+  if (queryObject.encodedPolygon || queryObject.encode === false) {
+    return queryObject.encodedPolygon
+  }
+  return encodePolygon(queryObject.polygon)
+}
+
+// call like this: checkParamsForPolygon({...request.query, encode: false}) if you don't require an encodedPolygon
+const checkParamsForPolygon = (queryObject) => {
+  const encodedPolygon = encodeQueryPolygonIfRequired(queryObject)
+  const polygon = queryObject.polygon ? queryObject.polygon : decodePolygon(encodedPolygon)
+  return {
+    encodedPolygon,
+    polygon
+  }
+}
+
 module.exports = {
   getArea,
   getAreaInHectares,
   polygonToArray,
   buffPolygon,
   polygonStartEnd,
-  getCentreOfPolygon
+  getCentreOfPolygon,
+  decodePolygon,
+  encodePolygon,
+  checkParamsForPolygon
 }

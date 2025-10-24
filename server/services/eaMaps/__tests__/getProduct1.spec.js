@@ -7,7 +7,7 @@ const SCALE_2500 = 2500
 const validPostResponse = { data: { results: [{ paramName: 'pdfFile', value: { url: 'http://product1url' } }] } }
 const emptyUrlPostResponse = { data: { results: [{ paramName: 'pdfFile', value: { url: '' } }] } }
 const errorPostResponse = { data: { results: [{ paramName: 'error', value: 'there was an error' }] } }
-const p1Params = [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]], 'abc123', SCALE_2500, false, '1']
+const p1Params = ['okjhij~@otghgd{@_r{bzA??~q{bzA~q{bzA??_r{bzA', 'abc123', SCALE_2500, false, '1']
 
 describe('getProduct1', () => {
   it('should return a pdf', async () => {

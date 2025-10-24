@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
+import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 
 let visibleVtLayer
 
@@ -99,17 +100,18 @@ const calculateExtent = (polygonToCalculate) => {
   }, [Infinity, Infinity, -Infinity, -Infinity])
   return calculatedExtent
 }
-const polygonQuery = queryParams.get('polygon')
 let featureQuery, extent
-if (polygonQuery) {
+if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
+  const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
+  const polygon = JSON.parse(polygonString)
   featureQuery = {
     type: 'feature',
     geometry: {
       type: 'polygon',
-      coordinates: JSON.parse(polygonQuery)
+      coordinates: polygon
     }
   }
-  extent = calculateExtent(JSON.parse(polygonQuery))
+  extent = calculateExtent(polygon)
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -599,13 +601,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
       const polygon = getPolygon()
-      url.searchParams.set('polygon', JSON.stringify(polygon))
+      url.searchParams.set('encodedPolygon', encodePolygon(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
     if (type === 'deletePolygon') {
       const url = new URL(window.location)
-      url.searchParams.delete('polygon')
+      url.searchParams.delete('encodedPolygon')
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
@@ -643,7 +645,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       // TODO - version 0.4.0 of defra-map, will remove the need to
       // hack the polygon layer like this.
       const polygon = getPolygon()
-      window.location = `/results?polygon=${JSON.stringify(polygon)}`
+      const encodedPolygon = encodePolygon(polygon)
+      window.location = `/results?encodedPolygon=${encodedPolygon}`
     }
   })
   const getTimeFrame = (feature) => {
