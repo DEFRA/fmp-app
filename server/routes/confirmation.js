@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const { punctuateAreaName } = require('../services/punctuateAreaName')
+const { checkParamsForPolygon } = require('../services/shape-utils')
 
 module.exports = {
   method: 'GET',
@@ -8,11 +9,12 @@ module.exports = {
     description: 'Get confirmation page for product 4',
     handler: async (request, h) => {
       const {
-        polygon,
         recipientemail,
         applicationReferenceNumber,
         floodZone
       } = request.query
+
+      const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
 
       const {
         EmailAddress: psoEmailAddress,
@@ -27,17 +29,22 @@ module.exports = {
         areaName: punctuateAreaName(areaName),
         localAuthority,
         floodZone,
-        polygon
+        encodedPolygon
       }
       return h.view('confirmation', model)
     },
     validate: {
       query: Joi.object({
-        polygon: Joi.string().required(),
+        polygon: Joi.string(),
+        encodedPolygon: Joi.string(),
         recipientemail: Joi.string().email().required(),
         applicationReferenceNumber: Joi.string().required(),
         floodZone: Joi.string().required()
       })
+        .or('polygon', 'encodedPolygon')
+        .messages({
+          'object.missing': 'You must include either polygon or encodedPolygon in the query parameters.'
+        })
     }
   }
 }
