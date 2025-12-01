@@ -1,6 +1,9 @@
 const zeroPad = num => String(num).padStart(2, '0')
+const londonTimeZone = 'Europe/London'
 
-/* offsetDateIfUTC: Offset the hour by 1 if the server is in UTC time and the time is in BST.
+/* This files was copied from fmp-api, these utilities will be moved into their own package later
+*
+* offsetDateIfUTC: Offset the hour by 1 if the server is in UTC time and the time is in BST.
 * This is covered, but shows as uncovered as some lines are run locally and some are run on github
 * istanbul ignore next stops it counting as uncovered lines.
 */
@@ -8,12 +11,12 @@ const zeroPad = num => String(num).padStart(2, '0')
 const offsetDateIfUTC = (date) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const timestamp = new Date(date).getTime()
-  if (timeZone === 'Europe/London') {
+  if (timeZone === londonTimeZone) {
     // This is here so tests pass locally and on github
     // and the code works consistently on both
     return timestamp
   }
-  const offset = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long', timeZone: 'Europe/London' }).format(new Date(date)).match('BST') ? 3600000 : 0
+  const offset = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long', timeZone: londonTimeZone }).format(new Date(date)).match('BST') ? MILLISECONDS.HOUR : 0
   return timestamp - offset
 }
 
@@ -22,7 +25,7 @@ const formatUKDate = (date) => {
     if (!date) {
       return ''
     }
-    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeZone: 'Europe/London' }).format(date)
+    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeZone: londonTimeZone }).format(date)
   } catch {
     return ''
   }
@@ -33,7 +36,7 @@ const formatUKTimeToMinute = (date) => {
     if (!date) {
       return ''
     }
-    return new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', timeZone: 'Europe/London' }).format(date)
+    return new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', timeZone: londonTimeZone }).format(date)
   } catch {
     return ''
   }
@@ -49,7 +52,7 @@ const formatUKDateTime = date => {
     if (!date) {
       return ''
     }
-    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium', timeZone: 'Europe/London' }).format(date)
+    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium', timeZone: londonTimeZone }).format(date)
   } catch {
     return ''
   }
@@ -60,7 +63,7 @@ const formatUKDateTimeWithTimeZone = date => {
     if (!date) {
       return ''
     }
-    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long', timeZone: 'Europe/London' }).format(date)
+    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long', timeZone: londonTimeZone }).format(date)
   } catch {
     return ''
   }
@@ -71,7 +74,7 @@ const formatUKDateTimeToMinute = (date) => {
     if (!date) {
       return ''
     }
-    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/London' }).format(date).replace(',', '')
+    return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short', timeZone: londonTimeZone }).format(date).replace(',', '')
   } catch {
     return ''
   }
