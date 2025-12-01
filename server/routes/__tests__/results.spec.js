@@ -4,6 +4,7 @@ const { getFloodDataByPolygon } = require('../../services/floodDataByPolygon')
 const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
 const { encode } = require('@mapbox/polyline')
+const { getProductOnePause } = require('../../services/getProductOnePause')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -11,6 +12,7 @@ jest.mock('../../services/riskAdmin/isRiskAdminArea')
 jest.mock('../../services/agol/getSurfaceWater')
 jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
+jest.mock('../../services/getProductOnePause')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
@@ -26,6 +28,7 @@ It is useful as we need to test the nunjuck logic.
 describe('Results page', () => {
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: null, pauseP1DownloadTo: null })
     getPsoContactsByPolygon.mockResolvedValue({
       isEngland: true,
       EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -54,8 +57,21 @@ describe('Results page', () => {
     expect(response.statusCode).toEqual(200)
   })
 
+  describe('pause P1 download', () => {
+    it('should pass pause P1 download data to the view', async () => {
+      Date.now = jest.fn(() => 1764258880000)
+      getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
+      getPsoContactsByPolygon.mockResolvedValue({})
+      getFloodDataByPolygon.mockResolvedValue({})
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+      const pageContent = response.payload
+      expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
+    })
+  })
+
   describe('On Public', () => {
     beforeAll(() => { config.appType = 'public' })
+    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: false, pauseP1DownloadTo: null }) })
     afterAll(() => { config.appType = 'internal' })
 
     describe('Flood zone 1', () => {
@@ -501,6 +517,7 @@ describe('Results page', () => {
 
   describe('On Internal', () => {
     beforeAll(() => { config.appType = 'internal' })
+    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } }) })
     it('should show the "Order flood risk data" for opted out areas on internal', async () => {
       getPsoContactsByPolygon.mockResolvedValue({
         isEngland: true,

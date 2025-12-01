@@ -1,4 +1,6 @@
 const { config } = require('../../config')
+const pauseP1URL = config.functionAppUrl + '/product-one-config'
+const { getProductOnePause } = require('../services/getProductOnePause')
 const {
   getAreaInHectares,
   getCentreOfPolygon,
@@ -17,6 +19,7 @@ module.exports = [
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
+        const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
@@ -24,7 +27,7 @@ module.exports = [
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
         floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
         floodData.riversAndSea = floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
-        return h.view('results', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon })
+        return h.view('results', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon, pauseP1Data })
       }
     }
   }
