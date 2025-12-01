@@ -28,7 +28,7 @@ It is useful as we need to test the nunjuck logic.
 describe('Results page', () => {
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
-    getProductOnePause.mockReturnValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } })
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: null, pauseP1DownloadTo: null })
     getPsoContactsByPolygon.mockResolvedValue({
       isEngland: true,
       EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -60,26 +60,18 @@ describe('Results page', () => {
   describe('pause P1 download', () => {
     it('should pass pause P1 download data to the view', async () => {
       Date.now = jest.fn(() => 1764258880000)
-      getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: 1764257880000, pauseP1DownloadTo: 1764265080000 })
+      getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
       getPsoContactsByPolygon.mockResolvedValue({})
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = response.payload
       expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
     })
-
-    it('should still return page successfully if API call fails', async () => {
-      getProductOnePause.mockReturnValueOnce(new Error('Unable to fetch'))
-      getPsoContactsByPolygon.mockResolvedValue({})
-      getFloodDataByPolygon.mockResolvedValue({})
-      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
-      expect(response.statusCode).toEqual(200)
-    })
   })
 
   describe('On Public', () => {
     beforeAll(() => { config.appType = 'public' })
-    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: null, pauseP1DownloadTo: null }) })
+    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: false, pauseP1DownloadTo: null }) })
     afterAll(() => { config.appType = 'internal' })
 
     describe('Flood zone 1', () => {

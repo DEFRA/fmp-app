@@ -7,8 +7,7 @@ const {
   formatUKDateTimeWithTimeZone,
   calculateElapsedTime,
   markUpUkDate,
-  MILLISECONDS,
-  getPausePeriodStatus
+  MILLISECONDS
 } = require('../../../server/services/dates')
 
 const epochStartTime = 1685791103000
@@ -134,49 +133,6 @@ describe('dates', () => {
 
     it('should return empty string for invalid date', () => {
       expect(formatUKTimeAndPauseText(null)).toEqual('')
-    })
-  })
-
-  describe('getPausePeriodStatus', () => {
-    beforeEach(() => {
-      Date.now = jest.fn(() => 1764258880000)
-    })
-    it('should return true when the current date falls within the pause period', () => {
-      const pauseFrom = new Date(1764257880000)
-      const pauseTo = new Date(1764265080000)
-      expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
-        dateWithinPausePeriod: true,
-        pauseP1DownloadFrom: '3.38pm on Thursday 27 November 2025',
-        pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025'
-      })
-    })
-
-    it('should return true when the current date is after set pause from date, but to date is null (no end date)', () => {
-      const pauseFrom = new Date(1764257880000)
-      const pauseTo = null
-      expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
-        dateWithinPausePeriod: true,
-        pauseP1DownloadFrom: '3.38pm on Thursday 27 November 2025',
-        pauseP1DownloadTo: null
-      })
-    })
-
-    it('should return false when the current date falls outside the pause period', () => {
-      const pauseFrom = new Date(1764265080000)
-      const pauseTo = new Date(1764257880000)
-      expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
-        dateWithinPausePeriod: false,
-        pauseP1DownloadFrom: '5.38pm on Thursday 27 November 2025',
-        pauseP1DownloadTo: '3.38pm on Thursday 27 November 2025'
-      })
-    })
-
-    it('should return false and null values when no pause dates are provided', () => {
-      expect(getPausePeriodStatus(null, null)).toEqual({
-        dateWithinPausePeriod: false,
-        pauseP1DownloadFrom: null,
-        pauseP1DownloadTo: null
-      })
     })
   })
 })

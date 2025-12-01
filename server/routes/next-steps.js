@@ -5,7 +5,6 @@ const {
   getCentreOfPolygon,
   checkParamsForPolygon
 } = require('../services/shape-utils')
-const { getPausePeriodStatus } = require('../services/dates')
 const { getProductOnePause } = require('../services/getProductOnePause')
 
 module.exports = [
@@ -21,8 +20,7 @@ module.exports = [
           request.server.methods.getFloodZoneByPolygon(polygon),
           isRiskAdminArea(polygon)]
         )
-        const payload = await getProductOnePause(pauseP1URL)
-        const pauseP1Data = getPausePeriodStatus(payload?.pauseP1DownloadFrom, payload?.pauseP1DownloadTo)
+        const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isRiskAdminArea = isRiskAdmin

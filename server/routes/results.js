@@ -6,7 +6,6 @@ const {
   getCentreOfPolygon,
   checkParamsForPolygon
 } = require('../services/shape-utils')
-const { getPausePeriodStatus } = require('../services/dates')
 
 module.exports = [
   {
@@ -20,8 +19,7 @@ module.exports = [
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
-        const payload = await getProductOnePause(pauseP1URL)
-        const pauseP1Data = getPausePeriodStatus(payload?.pauseP1DownloadFrom, payload?.pauseP1DownloadTo)
+        const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)

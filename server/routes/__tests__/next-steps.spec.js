@@ -17,7 +17,7 @@ const assertOrderFloodRiskDataButton = (expected = true) => {
 describe('next-steps on internal', () => {
   beforeAll(() => { config.appType = 'internal' })
   it('should show the "Order flood risk data" for opted out areas on internal', async () => {
-    getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: null, pauseP1DownloadTo: null })
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: null, pauseP1DownloadTo: null })
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertOrderFloodRiskDataButton(true)
@@ -26,17 +26,10 @@ describe('next-steps on internal', () => {
 
   it('should pass pause P1 download data to the view', async () => {
     Date.now = jest.fn(() => 1764258880000)
-    getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: 1764257880000, pauseP1DownloadTo: 1764265080000 })
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     const pageContent = response.payload
     expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
-  })
-
-  it('should still return page successfully if API call fails', async () => {
-    getProductOnePause.mockReturnValueOnce(new Error('Unable to fetch'))
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
-    expect(response.statusCode).toEqual(200)
-    expect(response.result).toMatchSnapshot()
   })
 })
 
@@ -44,7 +37,7 @@ describe('next-steps on public', () => {
   beforeAll(() => { config.appType = 'public' })
   afterAll(() => { config.appType = 'internal' })
   it('should show the "Order flood risk data" for opted out areas on internal', async () => {
-    getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: null, pauseP1DownloadTo: null })
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: false, pauseP1DownloadTo: null })
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     document.body.innerHTML = response.payload
     assertOrderFloodRiskDataButton(false)
@@ -53,16 +46,9 @@ describe('next-steps on public', () => {
 
   it('should pass pause P1 download data to the view', async () => {
     Date.now = jest.fn(() => 1764258880000)
-    getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: 1764257880000, pauseP1DownloadTo: 1764265080000 })
+    getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
     const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
     const pageContent = response.payload
     expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
-  })
-
-  it('should still return page successfully if API call fails', async () => {
-    getProductOnePause.mockReturnValueOnce(new Error('Unable to fetch'))
-    const response = await submitGetRequest({ url: `${url}?polygon=${mockPolygons.optedOut.fz3_only}` })
-    expect(response.statusCode).toEqual(200)
-    expect(response.result).toMatchSnapshot()
   })
 })

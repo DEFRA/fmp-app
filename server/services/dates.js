@@ -134,20 +134,6 @@ const formatUKTimeAndPauseText = (timestamp) => {
   return `${time.split(' ').join('')} on ${dayName} ${day} ${month} ${year}`
 }
 
-const getPausePeriodStatus = (pauseFrom, pauseTo) => {
-  let dateWithinPausePeriod = false
-  const pauseP1DownloadTo = pauseTo !== null && pauseFrom !== null ? formatUKTimeAndPauseText(pauseTo) : null
-  const pauseP1DownloadFrom = pauseFrom !== null ? formatUKTimeAndPauseText(pauseFrom) : null
-  if (pauseFrom !== null) {
-    dateWithinPausePeriod = (pauseTo === null && Date.now() >= pauseFrom) || (Date.now() >= pauseFrom && Date.now() <= pauseTo)
-  }
-  return {
-    dateWithinPausePeriod,
-    pauseP1DownloadFrom,
-    pauseP1DownloadTo
-  }
-}
-
 module.exports = {
   formatUKDate,
   formatUKTimeToMinute,
@@ -158,6 +144,5 @@ module.exports = {
   calculateElapsedTime,
   formatUKDateTimeToMinute,
   MILLISECONDS,
-  offsetDateIfUTC,
-  getPausePeriodStatus
+  offsetDateIfUTC
 }
