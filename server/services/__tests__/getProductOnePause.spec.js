@@ -37,12 +37,22 @@ describe('getProductOnePause', () => {
     expect(axios.get).toHaveBeenCalledWith(pauseP1URL, { json: true })
   })
 
+  it('should return dateWithinPausePeriod as false if an empty response is returned', async () => {
+    Date.now = jest.fn(() => 1764265080000 + 1000) // set current time after pause period
+    const mockPayload = { }
+    axios.get.mockResolvedValueOnce({ data: mockPayload })
+
+    const result = await getProductOnePause(pauseP1URL)
+    expect(result).toEqual({ dateWithinPausePeriod: false, pauseP1DownloadTo: null })
+    expect(axios.get).toHaveBeenCalledWith(pauseP1URL, { json: true })
+  })
+
   it('should return default value of null for pauseP1DownloadTo, dateWithinPausePeriod as false and log an error when when API call fails', async () => {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => { })
     axios.get.mockRejectedValueOnce(new Error('Network Error'))
 
     const result = await getProductOnePause(pauseP1URL)
-    expect(result).toEqual({ dateWithinPausePeriod: false, pauseP1DownloadTo: null })
+    expect(result).toEqual({ dateWithinPausePeriod: false })
     expect(consoleSpy).toHaveBeenCalledWith('Error getting p1 pause', expect.any(Error))
 
     consoleSpy.mockRestore()
