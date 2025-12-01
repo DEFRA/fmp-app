@@ -43,7 +43,6 @@ const formatUKTimeToMinute = (date) => {
 }
 
 const formatUKTimeToMinuteThenDate = (date) => {
-  console.log('date', date)
   return formatUKDateTimeToMinute(date).split(' ').reverse().join(' on the ')
 }
 
