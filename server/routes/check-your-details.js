@@ -27,8 +27,6 @@ module.exports = [
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const { errorSummary } = validateContactData({ fullName, recipientemail })
-        console.log(encodedPolygon)
-        console.log(polygon)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
             errorSummary,

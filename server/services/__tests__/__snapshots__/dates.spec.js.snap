@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-03 12:18:23" with  elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">03/06/2023</div>
+    <div class="uk-time">
+      <div class="time">12:18:23</div>
+      <div class="zone">BST</div>
+      
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-03 12:18:24" with 00:01 elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">03/06/2023</div>
+    <div class="uk-time">
+      <div class="time">12:18:24</div>
+      <div class="zone">BST</div>
+      <div class="elapsed">[00:01]</div>
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-03 12:19:24" with 01:01 elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">03/06/2023</div>
+    <div class="uk-time">
+      <div class="time">12:19:24</div>
+      <div class="zone">BST</div>
+      <div class="elapsed">[01:01]</div>
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-03 13:19:24" with 1:01:01 elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">03/06/2023</div>
+    <div class="uk-time">
+      <div class="time">13:19:24</div>
+      <div class="zone">BST</div>
+      <div class="elapsed">[1:01:01]</div>
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-04 13:19:24" with  elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">04/06/2023</div>
+    <div class="uk-time">
+      <div class="time">13:19:24</div>
+      <div class="zone">BST</div>
+      
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-04 13:19:24" with 1:1:01:01 elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">04/06/2023</div>
+    <div class="uk-time">
+      <div class="time">13:19:24</div>
+      <div class="zone">BST</div>
+      <div class="elapsed">[1:1:01:01]</div>
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "2023-06-05 09:19:24" with 1:21:01:01 elapsed time" 1`] = `
+"<div class="uk-date ">
+    <div class="date">05/06/2023</div>
+    <div class="uk-time">
+      <div class="time">09:19:24</div>
+      <div class="zone">BST</div>
+      <div class="elapsed">[1:21:01:01]</div>
+    </div>
+  </div>"
+`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "INVALID" with  elapsed time" 1`] = `""`;
+
+exports[`dates calculateElapsedTime and markUpUkDate markUpUkDate should generate expected markup for "undefined" with  elapsed time" 1`] = `""`;
