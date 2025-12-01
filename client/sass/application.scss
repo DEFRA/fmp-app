@@ -39,6 +39,9 @@ h1.heading-xlarge {
 }
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+  .warning-padding-top {
+    padding-top: 10px;
+  }
 
   .govuk-back-link {
     position: relative;

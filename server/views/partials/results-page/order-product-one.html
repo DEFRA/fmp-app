@@ -1,7 +1,7 @@
 {% if pauseP1Data.dateWithinPausePeriod %}
 <div id="downloadP1Unavailable" class="govuk-warning-text">
-  <span class="govuk-warning-text__icon flood-risk-changed-icon {% if not pauseP1DownloadTo %}no-margin-bottom{% endif %}">!</span>
-  <p class="govuk-warning-text__text">
+  <span class="govuk-warning-text__icon flood-risk-changed-icon">!</span>
+  <p class="govuk-warning-text__text {% if not pauseP1Data.pauseP1DownloadTo %} warning-padding-top {% endif %}">
     Our product 1 service is currently undergoing updates. {% if pauseP1Data.pauseP1DownloadTo %}It will be available again at {{pauseP1Data.pauseP1DownloadTo}}.{% endif %}
   </p>
 </div>
