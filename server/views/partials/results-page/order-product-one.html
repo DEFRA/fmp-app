@@ -1,23 +1,28 @@
 {% if pauseP1Data.dateWithinPausePeriod %}
 <div id="downloadP1Unavailable" class="govuk-warning-text">
   <span class="govuk-warning-text__icon flood-risk-changed-icon">!</span>
-  <p class="govuk-warning-text__text {% if not pauseP1Data.pauseP1DownloadTo %} warning-padding-top {% endif %}">
-    Our product 1 service is currently undergoing updates. {% if pauseP1Data.pauseP1DownloadTo %}It will be available again at {{pauseP1Data.pauseP1DownloadTo}}.{% endif %}
+  <p class="govuk-warning-text__text">
+    Sorry, the product 1 service is undergoing updates.
+    {% if pauseP1Data.pauseP1DownloadTo %}
+    You will be able to use the service from {{pauseP1Data.pauseP1DownloadTo}}.
+    {% else %}
+    You will be able to use the service later.
+    {% endif %}
   </p>
 </div>
 {% else %}
 <details class="govuk-details govuk-!-margin-bottom-1" data-module="govuk-details"
   data-journey-click="Flood-Zone-Results:DETAIL-CLICK:Add-A-Reference">
-<summary class="govuk-details__summary">
-  <span class="govuk-details__summary-text">
-    Add a reference to the flood map and set the scale
-  </span>
-</summary>
-<div class="govuk-details__text">
-  <form class="form" id="product-1-form" method="POST" action="product-1">
-    <input name="polygon" type="hidden" value="{{ encodedPolygon }}" />
-    <input name="isRiskAdminArea" type="hidden" value="{{ floodData.isRiskAdminArea }}" />
-    <input name="floodZone" type="hidden" value="{{ floodData.floodZone }}" />
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Add a reference to the flood map and set the scale
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <form class="form" id="product-1-form" method="POST" action="product-1">
+      <input name="polygon" type="hidden" value="{{ encodedPolygon }}" />
+      <input name="isRiskAdminArea" type="hidden" value="{{ floodData.isRiskAdminArea }}" />
+      <input name="floodZone" type="hidden" value="{{ floodData.floodZone }}" />
 
       <div class="govuk-form-group">
         <h3 class="govuk-label-wrapper">
@@ -31,7 +36,8 @@
             later and should be less than 25 characters.
           </span>
         </p>
-        <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text" maxlength="25" aria-describedby="reference-hint" />
+        <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
+          maxlength="25" aria-describedby="reference-hint" />
       </div>
 
       <div class="govuk-form-group">
@@ -53,13 +59,15 @@
     </form>
   </div>
 </details>
-<button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary" draggable="false">
+<button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary"
+  draggable="false">
   Download flood map for this location (PDF)
 </button>
 <div id="downloadP1Failed" class="govuk-warning-text hidden">
   <span class="govuk-warning-text__icon flood-risk-changed-icon" aria-hidden="true">!</span>
   <p class="govuk-warning-text__text">
-    Sorry, we were unable to generate the flood map you requested. Try again later. It could take up to 24 hours for this to be resolved.
+    Sorry, we were unable to generate the flood map you requested. Try again later. It could take up to 24 hours for
+    this to be resolved.
   </p>
 </div>
 {% endif %}

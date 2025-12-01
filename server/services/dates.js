@@ -42,10 +42,6 @@ const formatUKTimeToMinute = (date) => {
   }
 }
 
-const formatUKTimeToMinuteThenDate = (date) => {
-  return formatUKDateTimeToMinute(date).split(' ').reverse().join(' on the ')
-}
-
 const formatUKDateTime = date => {
   try {
     if (!date) {
@@ -119,10 +115,29 @@ const calculateElapsedTime = (startTime, timeStamp) => {
   return `${days ? `${days}:` : ''}${hours ? `${hours}:` : ''}${zeroPad(minutes % 60)}:${zeroPad(seconds % 60)}`
 }
 
+const formatUKTimeAndPauseText = (timestamp) => {
+  if (!timestamp) {
+    return ''
+  }
+  const date = new Date(timestamp)
+
+  const time = date.toLocaleTimeString('en-GB', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }).toLowerCase().split(':').join('.')
+
+  const dayName = date.toLocaleDateString('en-GB', { weekday: 'long' })
+  const day = date.getDate()
+  const month = date.toLocaleDateString('en-GB', { month: 'long' })
+  const year = date.getFullYear()
+  return `${time.split(' ').join('')} on ${dayName} ${day} ${month} ${year}`
+}
+
 const getPausePeriodStatus = (pauseFrom, pauseTo) => {
   let dateWithinPausePeriod = false
-  const pauseP1DownloadTo = pauseTo !== null && pauseFrom !== null ? formatUKTimeToMinuteThenDate(pauseTo) : null
-  const pauseP1DownloadFrom = pauseFrom !== null ? formatUKTimeToMinuteThenDate(pauseFrom) : null
+  const pauseP1DownloadTo = pauseTo !== null && pauseFrom !== null ? formatUKTimeAndPauseText(pauseTo) : null
+  const pauseP1DownloadFrom = pauseFrom !== null ? formatUKTimeAndPauseText(pauseFrom) : null
   if (pauseFrom !== null) {
     dateWithinPausePeriod = (pauseTo === null && Date.now() >= pauseFrom) || (Date.now() >= pauseFrom && Date.now() <= pauseTo)
   }
@@ -136,7 +151,7 @@ const getPausePeriodStatus = (pauseFrom, pauseTo) => {
 module.exports = {
   formatUKDate,
   formatUKTimeToMinute,
-  formatUKTimeToMinuteThenDate,
+  formatUKTimeAndPauseText,
   formatUKDateTime,
   formatUKDateTimeWithTimeZone,
   markUpUkDate,

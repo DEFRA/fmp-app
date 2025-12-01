@@ -2,7 +2,7 @@ const {
   formatUKTimeToMinute,
   formatUKDate,
   formatUKDateTimeToMinute,
-  formatUKTimeToMinuteThenDate,
+  formatUKTimeAndPauseText,
   formatUKDateTime,
   formatUKDateTimeWithTimeZone,
   calculateElapsedTime,
@@ -127,13 +127,13 @@ describe('dates', () => {
     })
   })
 
-  describe('formatUKTimeToMinuteThenDate', () => {
+  describe('formatUKTimeAndPauseText', () => {
     it('should format date correctly', () => {
-      expect(formatUKTimeToMinuteThenDate(1764265080000)).toEqual('17:38 on the 27/11/2025')
+      expect(formatUKTimeAndPauseText(1764265080000)).toEqual('5.38pm on Thursday 27 November 2025')
     })
 
     it('should return empty string for invalid date', () => {
-      expect(formatUKTimeToMinuteThenDate(null)).toEqual('')
+      expect(formatUKTimeAndPauseText(null)).toEqual('')
     })
   })
 
@@ -146,8 +146,8 @@ describe('dates', () => {
       const pauseTo = new Date(1764265080000)
       expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
         dateWithinPausePeriod: true,
-        pauseP1DownloadFrom: '15:38 on the 27/11/2025',
-        pauseP1DownloadTo: '17:38 on the 27/11/2025'
+        pauseP1DownloadFrom: '3.38pm on Thursday 27 November 2025',
+        pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025'
       })
     })
 
@@ -156,7 +156,7 @@ describe('dates', () => {
       const pauseTo = null
       expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
         dateWithinPausePeriod: true,
-        pauseP1DownloadFrom: '15:38 on the 27/11/2025',
+        pauseP1DownloadFrom: '3.38pm on Thursday 27 November 2025',
         pauseP1DownloadTo: null
       })
     })
@@ -166,8 +166,8 @@ describe('dates', () => {
       const pauseTo = new Date(1764257880000)
       expect(getPausePeriodStatus(pauseFrom, pauseTo)).toEqual({
         dateWithinPausePeriod: false,
-        pauseP1DownloadFrom: '17:38 on the 27/11/2025',
-        pauseP1DownloadTo: '15:38 on the 27/11/2025'
+        pauseP1DownloadFrom: '5.38pm on Thursday 27 November 2025',
+        pauseP1DownloadTo: '3.38pm on Thursday 27 November 2025'
       })
     })
 

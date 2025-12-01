@@ -4,7 +4,7 @@ const { getFloodDataByPolygon } = require('../../services/floodDataByPolygon')
 const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
 const { encode } = require('@mapbox/polyline')
-const wreck = require('@hapi/wreck')
+const { getProductOnePause } = require('../../services/getProductOnePause')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -12,7 +12,7 @@ jest.mock('../../services/riskAdmin/isRiskAdminArea')
 jest.mock('../../services/agol/getSurfaceWater')
 jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
-jest.mock('@hapi/wreck')
+jest.mock('../../services/getProductOnePause')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
@@ -28,7 +28,7 @@ It is useful as we need to test the nunjuck logic.
 describe('Results page', () => {
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
-    wreck.get.mockResolvedValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } })
+    getProductOnePause.mockReturnValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } })
     getPsoContactsByPolygon.mockResolvedValue({
       isEngland: true,
       EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -60,29 +60,26 @@ describe('Results page', () => {
   describe('pause P1 download', () => {
     it('should pass pause P1 download data to the view', async () => {
       Date.now = jest.fn(() => 1764258880000)
-      wreck.get.mockResolvedValueOnce({ payload: { pauseP1DownloadFrom: 1764257880000, pauseP1DownloadTo: 1764265080000 } })
+      getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: 1764257880000, pauseP1DownloadTo: 1764265080000 })
       getPsoContactsByPolygon.mockResolvedValue({})
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = response.payload
-      expect(pageContent).toContain('It will be available again at 17:38 on the 27/11/2025')
+      expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
     })
 
-    it('should log error if wreck call fails', async () => {
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementationOnce(() => { })
-      wreck.get.mockRejectedValueOnce(new Error('Unable to fetch'))
+    it('should still return page successfully if API call fails', async () => {
+      getProductOnePause.mockReturnValueOnce(new Error('Unable to fetch'))
       getPsoContactsByPolygon.mockResolvedValue({})
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
-      expect(consoleSpy).toHaveBeenCalledWith('Error getting p1 pause', expect.any(Error))
       expect(response.statusCode).toEqual(200)
-      consoleSpy.mockRestore()
     })
   })
 
   describe('On Public', () => {
     beforeAll(() => { config.appType = 'public' })
-    beforeEach(() => { wreck.get.mockResolvedValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } }) })
+    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ pauseP1DownloadFrom: null, pauseP1DownloadTo: null }) })
     afterAll(() => { config.appType = 'internal' })
 
     describe('Flood zone 1', () => {
@@ -528,7 +525,7 @@ describe('Results page', () => {
 
   describe('On Internal', () => {
     beforeAll(() => { config.appType = 'internal' })
-    beforeEach(() => { wreck.get.mockResolvedValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } }) })
+    beforeEach(() => { getProductOnePause.mockReturnValueOnce({ payload: { pauseP1DownloadFrom: null, pauseP1DownloadTo: null } }) })
     it('should show the "Order flood risk data" for opted out areas on internal', async () => {
       getPsoContactsByPolygon.mockResolvedValue({
         isEngland: true,
