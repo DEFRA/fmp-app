@@ -2,30 +2,29 @@ const mapStyles = {}
 
 const setUpBaseMaps = (osAccountNumber) => {
   const currentYear = new Date().getFullYear()
-  const osAttributionHyperlink = `<a href="/os-terms" class="os-credits__link"> Contains OS data &copy; Crown copyright and database rights ${currentYear} </a>`
   const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
   Object.assign(mapStyles, {
     outdoor: {
       displayName: 'Outdoor',
-      url: '/map/styles/base-map-default',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-default',
+      url: '/map/styles/master-map',
+      attribution: osMasterMapAttributionHyperlink,
+      digitisingUrl: '/map/styles/master-map',
       digitisingAttribution: osMasterMapAttributionHyperlink,
       iconUrl: '/assets/images/outdoor-map-icon.jpg'
     },
     dark: {
       displayName: 'Dark',
-      url: '/map/styles/base-map-dark',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/polygon-dark',
+      url: '/map/styles/master-map-dark',
+      attribution: osMasterMapAttributionHyperlink,
+      digitisingUrl: '/map/styles/master-map-dark',
       digitisingAttribution: osMasterMapAttributionHyperlink,
       iconUrl: '/assets/images/dark-map-icon.jpg'
     },
     blackAndWhite: {
       displayName: 'Black and white',
-      url: '/map/styles/base-map-black-and-white-open',
-      attribution: osAttributionHyperlink,
-      digitisingUrl: '/map/styles/base-map-black-and-white',
+      url: '/map/styles/black-and-white-map',
+      attribution: osMasterMapAttributionHyperlink,
+      digitisingUrl: '/map/styles/black-and-white-map',
       digitisingAttribution: osMasterMapAttributionHyperlink,
       iconUrl: '/assets/images/black-and-white-map-icon.jpg'
     }
