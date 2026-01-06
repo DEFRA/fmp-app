@@ -1,7 +1,7 @@
 const siteBoundaryHelp = `
   <h3 class="govuk-heading-m govuk-!-font-size-16">
     For an approximate site boundary
-  </h3> 
+  </h3>
   <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
     <li>use the red square to define the boundary of your site</li>
     <li>zoom and move the map to position the square</li>
