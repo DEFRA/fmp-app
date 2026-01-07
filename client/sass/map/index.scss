@@ -61,7 +61,7 @@ strong {
 .flood-map-main {
   padding: 0.75em;
 
-  @include mq.mq ($from: tablet) {
+  @include mq.mq ($from: mobile) {
     flex: 1 1 auto;
     min-height: 0;
     height: 100%;
@@ -70,9 +70,7 @@ strong {
 }
 
 .flood-map-target {
-  @include mq.mq ($from: tablet) {
-    height: 100%;
-  }
+  height: 100%;
 }
 
 .govuk-header__container {
@@ -100,19 +98,19 @@ strong {
 
 // Application CSS
 .fm-mobile.fm-inline.fm-o-container {
-  position:fixed;
+  position: fixed;
   box-sizing: border-box;
   flex-direction: row;
   display: flex;
   justify-content: space-between;
   z-index: 999;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   border: 0;
-  background-color:var(--background-colour);
+  background-color: var(--background-colour);
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
@@ -127,21 +125,22 @@ strong {
 // The map is showing (ie no data-fm-error)
 // The device is mobile
 body.js-enabled:not([data-fm-error]) {
+
   header,
   .govuk-cookie-banner,
   .govuk-header,
   .govuk-skip-link,
-  main > .govuk-heading-l {
-      @include mq.mq ($until: tablet) {
-          display: none;
-      }
+  main>.govuk-heading-l {
+    @include mq.mq ($until: tablet) {
+      display: none;
+    }
   }
 }
 
 .govuk-heading-s,
 .govuk-body-s a,
 .govuk-heading-m,
-.govuk-list > li,
+.govuk-list>li,
 .govuk-details__text {
   color: var(--foreground-colour);
 }
