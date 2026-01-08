@@ -1,4 +1,6 @@
 const { config } = require('../../config')
+const constants = require('../constants')
+const { isEnglandService } = require('../services/is-england')
 const pauseP1URL = config.functionAppUrl + '/product-one-config'
 const { getProductOnePause } = require('../services/getProductOnePause')
 const {
@@ -15,6 +17,11 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
+        const coordinates = getCentreOfPolygon(polygon)
+        const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
+        if (isInEngland === false) {
+          return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
+        }
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
