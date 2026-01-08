@@ -5,6 +5,7 @@ const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
 const { encode } = require('@mapbox/polyline')
 const { getProductOnePause } = require('../../services/getProductOnePause')
+const { isEnglandService } = require('../../services/is-england')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -13,6 +14,7 @@ jest.mock('../../services/agol/getSurfaceWater')
 jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
 jest.mock('../../services/getProductOnePause')
+jest.mock('../../services/is-england')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
@@ -26,6 +28,13 @@ This test file is used to check the dynamic content on the results page html.
 It is useful as we need to test the nunjuck logic.
 */
 describe('Results page', () => {
+  it('should redirect to England only page if polygon is outside England', async () => {
+    isEnglandService.mockResolvedValueOnce(false)
+    const response = await submitGetRequest({ url: `${url}?${polygonQuery}` }, null, 302)
+    expect(response.statusCode).toEqual(302)
+    expect(response.headers.location).toEqual('/england-only')
+  })
+
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
     getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: null, pauseP1DownloadTo: null })
