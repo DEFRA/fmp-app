@@ -11,7 +11,7 @@ const constants = require('../../constants')
 const url = constants.routes.LOCATION
 
 jest.mock('../../services/is-england')
-const isEnglandService = require('../../services/is-england')
+const { isEnglandService } = require('../../services/is-england')
 
 describe('location route', () => {
   beforeEach(() => {
