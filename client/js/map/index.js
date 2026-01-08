@@ -4,7 +4,6 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriCo
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
-import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
@@ -76,6 +75,9 @@ const keyItemDefinitions = {
 // and it is used to infer the flood zone that has been clicked on by a user.
 // On a previous data set, these values were in the reverse order so we need to verify that they remain correct
 // after a data upload to arcGis
+// Also the climateChange data is the opposite way round from the non climatechange one
+// And  the feature sometimes contains flood_zone
+// So this is the best attempt at inferring the flood zone correctly
 const floodZoneSymbolIndex = ['3', '2']
 const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
 
@@ -320,7 +322,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     legend: {
       width: '280px',
       isVisible: true,
-      title: 'Menu',
       keyWidth: '360px',
       keyDisplay: 'min',
       segments: [{
@@ -480,18 +481,15 @@ getDefraMapConfig().then((defraMapConfig) => {
       ]
     },
     queryArea: {
+      collapse: 'collapse',
       heading: 'Get a boundary report',
-      startLabel: 'Add site boundary',
-      editLabel: 'Edit site boundary',
-      addLabel: 'Add boundary',
-      updateLabel: 'Update boundary',
       submitLabel: 'Get summary report',
-      helpLabel: 'How to draw a shape',
-      keyLabel: 'Report area',
-      html: siteBoundaryHelp,
-      minZoom: 17,
-      maxZoom: 21,
+      keyLabel: 'Site boundary',
+      summary: 'Add or edit site boundary',
+      maxZoom: 22,
       styles: digitisingMapStyles,
+      drawTools: ['polygon', 'square'],
+      areaUnits: 'hectares',
       feature: featureQuery // feature derived from polygon query string or null if not present
     },
     queryLocation: {
@@ -536,7 +534,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
-
     floodMap.setInfo({
       width: '360px',
       label: 'Map hints',
@@ -649,6 +646,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       window.location = `/results?encodedPolygon=${encodedPolygon}`
     }
   })
+
   const getTimeFrame = (feature) => {
     if (mapState.isClimateChange) {
       if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
