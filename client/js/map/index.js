@@ -4,7 +4,6 @@ import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriCo
 import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
-import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
