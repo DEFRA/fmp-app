@@ -3,7 +3,7 @@ import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
-const configBuilder = (exclusions, arcGisPackagePath, floodMapPath) => ({
+const configBuilder = (exclusions, arcGisPackagePath, floodMapPath, floodMapScssPath) => ({
   entry: {
     application: [
       path.join(__dirname, 'client/sass/application.scss')
@@ -78,6 +78,7 @@ const configBuilder = (exclusions, arcGisPackagePath, floodMapPath) => ({
     alias: {
       '/assets': path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'),
       '/flood-map': path.resolve(__dirname, floodMapPath),
+      '/flood-map-scss': floodMapScssPath,
       '/@arcgis-path': arcGisPackagePath
     }
   },
