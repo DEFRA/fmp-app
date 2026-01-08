@@ -7,16 +7,18 @@ $govuk-new-typography-scale: true;
 
 @import '../../../node_modules/govuk-frontend/dist/govuk/all';
 
-// // FloodMap css
-
 // // GOVUK Styles
 @import '../../../node_modules/govuk-frontend/dist/govuk/base';
 @import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
 @import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
 @import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
 
-// Component CSS
-@import '../../../node_modules/@defra/flood-map/src/flood-map';
+// Map Component CSS
+@import '/flood-map-scss';
+// /flood-map-scss is a webpack alias that is substituted for either 
+// @import '../../../node_modules/@defra/flood-map/src/flood-map';  // regular builds
+// @import '../../../defra-map/src/flood-map';                      // submodule builds
+
 
 strong {
   font-weight: bold;
