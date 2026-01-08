@@ -19,9 +19,7 @@ module.exports = [
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const coordinates = getCentreOfPolygon(polygon)
         const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
-        console.log('isInEngland:', isInEngland)
         if (isInEngland === false) {
-          console.log('Redirecting to England only page')
           return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
         }
         const [contactData, floodData] = await Promise.all([
