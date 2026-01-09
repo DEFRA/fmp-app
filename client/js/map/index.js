@@ -480,6 +480,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         }
       ]
     },
+    scaleBar: 'metric',
     queryArea: {
       collapse: 'collapse',
       heading: 'Get a boundary report',
