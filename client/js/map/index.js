@@ -19,6 +19,8 @@ const symbols = {
   mainRivers: '/assets/images/main-rivers.svg'
 }
 
+const MAX_POLYGON_AREA = 3000000
+
 const keyItemDefinitions = {
   floodZone2: {
     label: 'Flood zone 2',
@@ -106,6 +108,7 @@ let featureQuery, extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
   const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
   const polygon = JSON.parse(polygonString)
+
   featureQuery = {
     type: 'feature',
     geometry: {
@@ -312,6 +315,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     transformSearchRequest: getRequest,
     interceptorsCallback: getInterceptors,
     tokenCallback: getEsriToken,
+    warningPosition: 'top',
     styles: baseMapStyles,
     search: {
       label: 'Search for a place',
@@ -491,7 +495,20 @@ getDefraMapConfig().then((defraMapConfig) => {
       styles: digitisingMapStyles,
       drawTools: ['polygon', 'square'],
       areaUnits: 'hectares',
-      feature: featureQuery // feature derived from polygon query string or null if not present
+      feature: featureQuery, // feature derived from polygon query string or null if not present
+      onShapeUpdate: ({ area, geometry }) => {
+        // We seem to be getting this when we are not editing a shape = one to ask Dan about.
+        if (!area || !geometry) {
+          return {}
+        }
+        const isValid = area <= MAX_POLYGON_AREA
+        const warningText = isValid ? null : 'Boundary must be under 300 hectares to order data. You can still download a flood map.'
+        // This longer version was Rachel's initial suggestion, but was reduced to fit on screen,
+        // with css we can make it fit, but awaiting opinions from the design team.
+        // const warningText = isValid ? null : 'Reduce your boundary size to under <span>300<span> hectares to order detailed flood risk information (product 4). You can still download a flood map (product 1).'
+        mapState.shapeIsValid = isValid
+        return { warningText, allowShape: true }
+      }
     },
     queryLocation: {
       layers: vtLayers.map(vtLayer => vtLayer.name)
@@ -499,6 +516,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }, (esriMapObjects) => {
     const { esriConfig } = esriMapObjects
     mapState.esriConfig = esriConfig
+    mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
   })
 
@@ -584,26 +602,18 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const getPolygon = () => {
-    const { items: layers } = floodMap.map.layers
-    const polygonLayer = layers[layers.length - 1]
-    const { graphics } = polygonLayer
-    const { items } = graphics
-    const { geometry } = items[0]
-    const { rings } = geometry
-    return roundPolygon(rings[0])
-  }
-
   mapDiv.addEventListener('appaction', e => {
     const { type } = e.detail
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
-      const polygon = getPolygon()
+      const polygon = e.detail?.query?.geometry?.coordinates?.[0]
+      mapState.polygon = roundPolygon(polygon)
       url.searchParams.set('encodedPolygon', encodePolygon(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
     if (type === 'deletePolygon') {
+      delete mapState.polygon
       const url = new URL(window.location)
       url.searchParams.delete('encodedPolygon')
       url.search = decodeURIComponent(url.search)
@@ -640,9 +650,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   // event to fire for 'Get site report' button to non dynamic results page
   document.addEventListener('click', e => {
     if (e.target.innerText === 'Get summary report') {
-      // TODO - version 0.4.0 of defra-map, will remove the need to
-      // hack the polygon layer like this.
-      const polygon = getPolygon()
+      const polygon = mapState.polygon
       const encodedPolygon = encodePolygon(polygon)
       window.location = `/results?encodedPolygon=${encodedPolygon}`
     }

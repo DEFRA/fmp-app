@@ -154,3 +154,18 @@ body.js-enabled:not([data-fm-error]) {
 .esri-view-surface--touch-none {
   touch-action: none;
 }
+.fm-c-panel--warning-panel {
+  width: auto !important;
+}
+
+.fm-desktop{
+  .fm-c-panel--warning-panel {
+    max-width: 1080px;
+  }
+}
+
+.fm-tablet{
+  .fm-c-panel--warning-panel {
+    max-width: 1008px;
+  }
+}
