@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
+import { renderBanner } from './banner.js'
 
 let visibleVtLayer
 
@@ -553,21 +554,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
-    floodMap.setInfo({
-      width: '360px',
-      label: 'Map hints',
-      html: `<div id="help-map-hints">
-        <p class="govuk-body-s govuk-!-margin-top-4"><strong>How to query the map</p class="govuk-body-s"></strong>
-        <p class="govuk-body">If using a mouse click on a point to find out more about the flood data held on that location.</p>
-        <p class="govuk-body">If using a keyboard, navigate to the point, centering the crosshair at the location, then press enter.</p>
-        <p class="govuk-body-s"><strong>Keyboard map controls</p class="govuk-body-s"></strong>
-        <p class="govuk-body">Tab to the map and press Alt+K to view keyboard controls</p>
-      </div>`
-    })
-
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
+    renderBanner(mapState)
   })
 
   // Listen for mode, segments, layers or style changes
@@ -579,6 +569,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const map = floodMap.map
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
+    renderBanner({ ...mapState, type, mode })
   })
 
   const initPointerMove = () => {
