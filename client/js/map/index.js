@@ -282,7 +282,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (!vtLayer.q) {
         return
       }
-      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility() // segments)
+      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility()
       vtLayer.visible = isVisible
     })
     fLayers.forEach(fLayer => {
