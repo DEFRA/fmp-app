@@ -71,7 +71,52 @@ const keyItemDefinitions = {
     // id: 'fz2',
     label: 'Flood extent',
     fill: getKeyItemFill(colours.floodExtents)
-  }
+  },
+  surfaceWater0: {
+    label: '2300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[0])
+  },
+  surfaceWater1: {
+    label: '1200',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[1])
+  },
+  surfaceWater2: {
+    label: '900',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[2])
+  },
+  surfaceWater3: {
+    label: '600',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[3])
+  },
+  surfaceWater4: {
+    label: '300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[4])
+  },
+  surfaceWater5: {
+    label: '150',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[5])
+  },
+  surfaceWater6: {
+    label: '',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[6])
+  },
+  surfaceWaterDepth150: { label: terms.depth.depth150, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth300: { label: terms.depth.depth300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth600: { label: terms.depth.depth600, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth900: { label: terms.depth.depth900, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth1200: { label: terms.depth.depth1200, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth2300: { label: terms.depth.depth2300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepthOver2300: { label: terms.depth.depthOver2300, fill: getKeyItemFill(colours.nonFloodZone) }
+}
+
+keyItemDefinitions.common = {
+  heading: terms.labels.mapFeatures,
+  collapse: 'collapse',
+  items: [
+    keyItemDefinitions.waterStorageAreas,
+    keyItemDefinitions.floodDefences,
+    keyItemDefinitions.mainRivers
+  ]
 }
 
 // floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
@@ -503,16 +548,65 @@ getDefraMapConfig().then((defraMapConfig) => {
             keyItemDefinitions.mainRivers
           ]
         },
-        {
+        { // Surface Water DepthAll
           heading: terms.labels.mapFeatures,
           collapse: 'collapse',
-          parentIds: ['rsd', 'rsu', 'sw'],
+          parentIds: ['rsd', 'rsu', 'depthAll'],
           items: [
-            keyItemDefinitions.floodExtents,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
+            keyItemDefinitions.mainRivers,
+            {
+              label: 'Surface water depth in millimetres',
+              display: 'ramp',
+              numLabels: 1,
+              items: [
+                keyItemDefinitions.surfaceWater6,
+                keyItemDefinitions.surfaceWater5,
+                keyItemDefinitions.surfaceWater4,
+                keyItemDefinitions.surfaceWater3,
+                keyItemDefinitions.surfaceWater2,
+                keyItemDefinitions.surfaceWater1,
+                keyItemDefinitions.surfaceWater0
+              ]
+            }
           ]
+        },
+        // Surface Water Extents:
+        {
+          parentIds: ['depth150'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth150]
+        },
+        {
+          parentIds: ['depth300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth300]
+        },
+        {
+          parentIds: ['depth600'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth600]
+        },
+        {
+          parentIds: ['depth900'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth900]
+        },
+        {
+          parentIds: ['depth1200'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth1200]
+        },
+        {
+          parentIds: ['depth2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth2300]
+        },
+        {
+          parentIds: ['depthOver2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepthOver2300]
         },
         {
           heading: terms.labels.mapFeatures,
