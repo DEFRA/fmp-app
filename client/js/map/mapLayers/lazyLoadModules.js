@@ -1,8 +1,8 @@
 const lazyLoadModules = async () => Promise.all([
-  /* eslint-disable */
+  /* eslint-disable import/no-absolute-path */
   import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
   import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
-  import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js'),
+  import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js')
   /* eslint-enable */
 ]).then(([VectorTileLayer, FeatureLayer, GroupLayer]) => ({
   VectorTileLayer: VectorTileLayer.default,

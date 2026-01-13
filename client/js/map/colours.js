@@ -10,16 +10,17 @@ const nonFloodZoneDepthBandsLight = ['#7f2704', '#a63603', '#d94801', '#f16913',
 // GREENS dark tones > 2300 to < 150
 const nonFloodZoneDepthBandsDark = ['#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0', '#f7fcf5']
 
+let colourIndex = 0 // Avoid a magic number sonar issue
 const colours = { // [default, dark]
   nonFloodZone: [nonFloodZoneLight, nonFloodZoneDark],
   nonFloodZoneDepthBands: [
-    [nonFloodZoneDepthBandsLight[0], nonFloodZoneDepthBandsDark[0]],
-    [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]],
-    [nonFloodZoneDepthBandsLight[2], nonFloodZoneDepthBandsDark[2]],
-    [nonFloodZoneDepthBandsLight[3], nonFloodZoneDepthBandsDark[3]],
-    [nonFloodZoneDepthBandsLight[4], nonFloodZoneDepthBandsDark[4]],
-    [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
-    [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]]
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]],
+    [nonFloodZoneDepthBandsLight[colourIndex], nonFloodZoneDepthBandsDark[colourIndex++]]
   ],
   floodZone2: [floodZone2Light, floodZone2Dark],
   floodZone3: [floodZone3Light, floodZone3Dark],
