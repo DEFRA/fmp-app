@@ -167,7 +167,6 @@ if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
 
@@ -259,28 +258,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   ]
 
-  const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
-    vtLayer.styleLayers.forEach(([styleLayerName, paintProperties]) => {
-      const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
-      if (layerPaintProperties) {
-        const fillColour = paintProperties[isDark ? 1 : 0]
-        layerPaintProperties['fill-color'] = fillColour
-        vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
-      }
-    })
-    if (vtLayer.setStyleProperties) {
-      vtLayer.setStyleProperties(vectorTileLayer, isDark)
-    }
-
-    // Un comment this section to infer the styleLayers for each vector layer
-    // They don't seem to be defined anywhere server side, so Paul is anxious that
-    // they may change when new layers are published.
-    // const { styleRepository = {} } = vectorTileLayer
-    // const { layers: styleLayers = [] } = styleRepository
-    // styleLayers.forEach((styleLayer) => {
-    //   console.log(styleLayer.id)
-    // })
-  }
   const addLayers = async () => {
     vtLayers.forEach((vtLayer) => {
       if (!vtLayer.q) {
