@@ -8,6 +8,7 @@ import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { renderBanner } from './banner.js'
+import { FloodMapLayer } from './mapLayers/index.js'
 
 let visibleVtLayer
 
@@ -236,40 +237,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     // })
   }
   const addLayers = async () => {
-    return Promise.all([
-      /* eslint-disable */
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js'),
-      /* eslint-enable */
-    ]).then(modules => {
-      const VectorTileLayer = modules[0].default
-      const FeatureLayer = modules[1].default
-      const GroupLayer = modules[2].default
-      vtLayers.forEach((vtLayer) => {
-        if (!vtLayer.q) {
-          return
-        }
-        if (vtLayer.getVtLayer) {
-          floodMap.map.add(vtLayer.getVtLayer(getVectorTileUrl, VectorTileLayer, GroupLayer))
-        } else {
-          const vectorTileLayer = new VectorTileLayer({
-            id: vtLayer.name,
-            url: getVectorTileUrl(vtLayer.name),
-            opacity: 0.75,
-            visible: false
-          })
-          floodMap.map.add(vectorTileLayer)
-        }
-      })
-      fLayers.forEach(fLayer => {
-        floodMap.map.add(new FeatureLayer({
-          id: fLayer.name,
-          url: fLayer.url,
-          renderer: getMapFeatureRenderer(fLayer.name),
-          visible: false
-        }))
-      })
+    vtLayers.forEach((vtLayer) => {
+      if (!vtLayer.q) {
+        return
+      }
+      vtLayer.addToMap(floodMap.map)
+    })
+    const { FeatureLayer } = FloodMapLayer.modules
+    fLayers.forEach(fLayer => {
+      floodMap.map.add(new FeatureLayer({
+        id: fLayer.name,
+        url: fLayer.url,
+        renderer: getMapFeatureRenderer(fLayer.name),
+        visible: false
+      }))
     })
   }
 
@@ -279,13 +260,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (!vtLayer.q) {
         return
       }
-      const id = vtLayer.name
-      const layer = map.findLayerById(id)
-      const isVisible = !isDrawMode && segments.join('') === vtLayer.q
-      layer.visible = isVisible
-      const allLayers = layer.allLayers || [layer]
-      allLayers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
-      visibleVtLayer = isVisible ? layer : visibleVtLayer
+      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility() // segments)
+      vtLayer.visible = isVisible
     })
     fLayers.forEach(fLayer => {
       const layer = map.findLayerById(fLayer.name)
@@ -331,6 +307,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       keyDisplay: 'min',
       segments: [{
         heading: 'Datasets',
+        collapse: 'collapse',
         items: [
           {
             id: 'fz',
@@ -358,6 +335,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['fz'],
         items: [
           {
@@ -373,6 +351,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -386,8 +365,25 @@ getDefraMapConfig().then((defraMapConfig) => {
         ]
       },
       {
+        id: 'tf',
+        heading: terms.labels.climateChange,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'pd',
+            label: terms.labels.presentDay
+          },
+          {
+            id: 'cl',
+            label: '2061 to 2125'
+          }
+        ]
+      },
+      {
         id: 'af1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['rsd'],
         items: [
           {
@@ -407,6 +403,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'sw1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['sw'],
         items: [
           {
@@ -420,6 +417,46 @@ getDefraMapConfig().then((defraMapConfig) => {
           {
             id: 'lr',
             label: terms.chance.swLow
+          }
+        ]
+      },
+      {
+        id: 'sw2',
+        heading: terms.labels.depth,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'depthAll',
+            label: terms.depth.depthAll
+          },
+          {
+            id: 'depth150',
+            label: terms.depth.depth150
+          },
+          {
+            id: 'depth300',
+            label: terms.depth.depth300
+          },
+          {
+            id: 'depth600',
+            label: terms.depth.depth600
+          },
+          {
+            id: 'depth900',
+            label: terms.depth.depth900
+          },
+          {
+            id: 'depth1200',
+            label: terms.depth.depth1200
+          },
+          {
+            id: 'depth2300',
+            label: terms.depth.depth2300
+          },
+          {
+            id: 'depthOver2300',
+            label: terms.depth.depthOver2300
           }
         ]
       },
@@ -442,6 +479,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       key: [
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzpd'],
           items: [
             keyItemDefinitions.floodZone2,
@@ -453,6 +491,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzcl'],
           items: [
             keyItemDefinitions.floodZone2PresentDay,
@@ -466,6 +505,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['rsd', 'rsu', 'sw'],
           items: [
             keyItemDefinitions.floodExtents,
@@ -476,6 +516,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['mo'],
           items: [
             keyItemDefinitions.waterStorageAreas,
@@ -554,6 +595,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
+    await FloodMapLayer.initialise({
+      mapState,
+      config: defraMapConfig
+    })
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
