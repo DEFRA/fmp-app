@@ -72,44 +72,6 @@ const surfaceWaterCCWithDepthStyleLayersHigh = [
   ['Surface Water Spatial Planning 1 in 30 CCP1 Depths/<150mm/1', colours.nonFloodZoneDepthBands[6], surfaceWaterStyleLayerFilters[6]]
 ]
 
-/*
-const getFloodZoneCCGroupLayer = (getVectorTileUrl, VectorTileLayer, GroupLayer) => {
-  const floodZonesLayer = new VectorTileLayer({
-    id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-    url: getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea'),
-    visible: true
-  })
-
-  const floodZonesCCLayer = new VectorTileLayer({
-    id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-    url: getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea_CCP1'),
-    visible: true
-  })
-
-  const floodZoneCCGroupLayer = new GroupLayer({
-    id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-    opacity: 0.75,
-    visible: false
-  })
-  floodZoneCCGroupLayer.add(floodZonesCCLayer)
-  floodZoneCCGroupLayer.add(floodZonesLayer)
-  return floodZoneCCGroupLayer
-}
-
-const setFloodZoneCCGroupLayerStyles = (vectorTileLayer, isDark) => {
-  // Show / Hide the image layer for Flood_Zones_2_and_3_Rivers_and_Sea_CCP1
-  vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1', isDark ? 'none' : 'visible')
-  vectorTileLayer.setStyleLayerVisibility('Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2', isDark ? 'visible' : 'none')
-  const lineStyleLayerName = 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0'
-  const lineLayerPaintProperties = vectorTileLayer.getPaintProperties(lineStyleLayerName)
-  if (lineLayerPaintProperties) {
-    const lineColour = colours.floodZoneNoData[isDark ? 1 : 0]
-    lineLayerPaintProperties['line-color'] = lineColour
-    vectorTileLayer.setPaintProperties(lineStyleLayerName, lineLayerPaintProperties)
-  }
-}
-*/
-
 const vtLayers = [
   new FloodZoneCCLayer(),
   new FloodMapLayer({

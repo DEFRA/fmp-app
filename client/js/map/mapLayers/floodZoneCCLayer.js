@@ -18,34 +18,30 @@ class FloodZoneCCLayer extends FloodMapLayer {
   }
 
   addToMap (map) {
-    const { VectorTileLayer } = FloodMapLayer.modules
+    const { VectorTileLayer, GroupLayer } = FloodMapLayer.modules
     const floodZonesLayer = new VectorTileLayer({
       id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
       url: this.getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea'),
       opacity: 1,
-      visible: false
-      // visible: true // Add IN When GroupLayer can be made available
+      visible: true
     })
 
     const floodZonesCCLayer = new VectorTileLayer({
       id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
       url: this.getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea_CCP1'),
       opacity: 1,
-      visible: false
-      // visible: true // Add IN When GroupLayer can be made available
+      visible: true
     })
 
-    // const floodZoneCCGroupLayer = new GroupLayer({
-    //   id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-    //   opacity: 0.75,
-    //   visible: false
-    // })
-    // floodZoneCCGroupLayer.add(floodZonesCCLayer)
-    // floodZoneCCGroupLayer.add(floodZonesLayer)
-    // return floodZoneCCGroupLayer
-    map.add(floodZonesCCLayer)
-    map.add(floodZonesLayer)
-    this.vectorTileLayer = floodZonesLayer
+    const floodZoneCCGroupLayer = new GroupLayer({
+      id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
+      opacity: FloodMapLayer.opacity,
+      visible: false
+    })
+    floodZoneCCGroupLayer.add(floodZonesCCLayer)
+    floodZoneCCGroupLayer.add(floodZonesLayer)
+    map.add(floodZoneCCGroupLayer)
+    this.vectorTileLayer = floodZoneCCGroupLayer
     this.floodZonesCCLayer = floodZonesCCLayer
   }
 
@@ -73,7 +69,6 @@ class FloodZoneCCLayer extends FloodMapLayer {
 
   updateOpacity () {
     super.updateOpacity()
-    this.floodZonesCCLayer.opacity = FloodMapLayer.opacity
     // Set the style properties for the floodZonesCCLayer "no data" border
     this.setNoDataBorderOpacity()
   }
