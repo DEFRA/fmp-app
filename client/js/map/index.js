@@ -842,7 +842,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     return floodZone
   }
 
-  const addQueryNonFloodZonesContent = (listContents, vtLayer) => {
+  const addQueryNonFloodZonesContent = (listContents, vtLayer, feature) => {
     // This part is applicable for non Flood_Zones layers, when an area outside
     // of a zone has been clicked
     const dataset = getDataset()
@@ -857,6 +857,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     if (vtLayer?.likelihoodchanceLabel) {
       listContents.push([terms.labels.aep, vtLayer.likelihoodchanceLabel])
+    }
+    if (feature?.Depth_band) {
+      listContents.push([terms.labels.depth, feature?.Depth_band])
     }
   }
 
@@ -943,7 +946,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const floodZone = addQueryFloodZonesContent(listContents, feature)
     if (!floodZone) {
-      addQueryNonFloodZonesContent(listContents, vtLayer)
+      addQueryNonFloodZonesContent(listContents, vtLayer, feature)
     }
 
     const title = getTitle(floodZone)
