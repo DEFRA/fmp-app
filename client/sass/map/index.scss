@@ -191,3 +191,20 @@ body.js-enabled:not([data-fm-error]) {
     white-space: nowrap;
   }
 }
+
+.flood-map-target .govuk-body-s {
+    margin-bottom: 0;
+}
+
+// Start of fix of  a Map Component bug (must be fixed there)
+ .fm-o-top__column:first-child {
+     position: static;
+ }
+
+.fm-o-top__column:first-child > .fm-c-panel {
+    position: absolute;
+    left: 15px;
+    top: 70px;
+    max-height: calc(100% - 125px);
+}
+// End of fix of  a Map Component bug (must be fixed there)
