@@ -886,21 +886,22 @@ getDefraMapConfig().then((defraMapConfig) => {
     `
     : ''
 
+  const findOutMoreLink = `<p class="govuk-body-s">
+    <a href="/how-to-use-flood-map-for-planning-data">
+      Find out more about flood map for planning data and how to use it
+    </a>
+  </p>`
+
   const getFloodZonesExtraContent = (floodZone) => {
     if (!mapState.isFloodZone) {
       return ''
     }
-    const $findOutMoreLink = `<p class="govuk-body-s"> 
-      <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how to use it
-      </a>
-    </p>`
     if (floodZone === terms.keys.fzNoData) {
       return `<h2 class="govuk-heading-s">Climate change data unavailable</h2>
         <p class="govuk-body-s">
           In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
         </p>
-        ${$findOutMoreLink}`
+        ${findOutMoreLink}`
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
@@ -908,7 +909,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           zones 2 and 3 could increase with climate change over the next century, ignoring the
           benefits of any existing flood defences.
         </p>
-        ${$findOutMoreLink}`
+        ${findOutMoreLink}`
     } else {
       return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
         <p class="govuk-body-s">
@@ -916,12 +917,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         </p>`
     }
   }
-
-  const findOutMoreLink = `<p class="govuk-body-s">
-    <a href="how-to-use-flood-map-for-planning-data">
-      Find out more about flood map for planning data and how it should be used
-    </a>
-  </p>`
 
   const climateChangeAllowances = `<p class="govuk-body-s">
       <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
