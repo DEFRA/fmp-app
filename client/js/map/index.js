@@ -7,6 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
+import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
 
@@ -323,6 +324,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       country: 'england'
     },
     legend: {
+      htmlAfter: sliderMarkUp,
       width: '280px',
       isVisible: true,
       keyWidth: '360px',
@@ -673,6 +675,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
+    initialiseSlider()
     renderBanner(mapState)
   })
 
