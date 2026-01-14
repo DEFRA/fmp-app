@@ -16,8 +16,9 @@ const PAGE_DOWN_VALUE = 10
 
 const snap = (value) => Math.round(value / SNAP_VALUE) * SNAP_VALUE
 const ARIA_NOW = 'aria-valuenow'
-const ARIA_VALUE_MIN = 'aria-valuemin'
-const ARIA_VALUE_MAX = 'aria-valuemax'
+const MIN_VALUE = 0
+const MAX_VALUE = 100
+const RANGE = 100
 
 class OpacitySlider {
   constructor (domNode) {
@@ -46,12 +47,12 @@ class OpacitySlider {
     this.focusWidth = 36
     this.focusHeight = 48
 
-    this.initSliderRefs(this.slider)
+    this.initSliderRefs()
 
     document.body.addEventListener('pointerup', this.onThumbPointerUp.bind(this))
   }
 
-  initSliderRefs (sliderRef, name) {
+  initSliderRefs () {
     this.slider = {}
     const node = this.domNode.querySelector('.opacity-slider')
     this.slider.sliderNode = node
@@ -104,107 +105,78 @@ class OpacitySlider {
     this.slider.valueNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
     this.slider.sliderNode.addEventListener('pointermove', this.onThumbPointerMove.bind(this))
 
-    this.moveSliderTo(this.slider, FloodMapLayer.opacity * 100)
+    this.moveSliderTo(FloodMapLayer.opacity * 100)
   }
 
   // Get point in global SVG space
-  getSVGPoint (slider, event) {
-    slider.svgPoint.x = event.clientX
-    slider.svgPoint.y = event.clientY
-    return slider.svgPoint.matrixTransform(slider.svgNode.getScreenCTM().inverse())
+  getSVGPoint (event) {
+    this.slider.svgPoint.x = event.clientX
+    this.slider.svgPoint.y = event.clientY
+    return this.slider.svgPoint.matrixTransform(this.slider.svgNode.getScreenCTM().inverse())
   }
 
-  getValueMin (slider) {
-    return parseInt(slider.sliderNode.getAttribute(ARIA_VALUE_MIN))
+  getValueNow () {
+    return parseInt(this.slider.sliderNode.getAttribute(ARIA_NOW))
   }
 
-  getValueNow (slider) {
-    return parseInt(slider.sliderNode.getAttribute(ARIA_NOW))
-  }
+  moveSliderTo (value) {
+    const valueNow = Math.min(Math.max(value, MIN_VALUE), MAX_VALUE)
 
-  getValueMax (slider) {
-    return parseInt(slider.sliderNode.getAttribute(ARIA_VALUE_MAX))
-  }
-
-  moveSliderTo (slider, value) {
-    const valueMin = this.getValueMin(slider)
-    const valueMax = this.getValueMax(slider)
-    const valueNow = Math.min(Math.max(value, valueMin), valueMax)
-
-    slider.sliderNode.setAttribute(ARIA_NOW, valueNow)
+    this.slider.sliderNode.setAttribute(ARIA_NOW, valueNow)
 
     const offsetX = Math.round(
-      (valueNow * (this.railWidth - this.thumbWidth)) / (valueMax - valueMin)
+      (valueNow * (this.railWidth - this.thumbWidth)) / (RANGE)
     )
 
     let pos = this.railX + offsetX
 
-    slider.thumbNode.setAttribute('x', pos)
-    slider.fillNode.setAttribute('width', offsetX + this.rectRadius)
+    this.slider.thumbNode.setAttribute('x', pos)
+    this.slider.fillNode.setAttribute('width', offsetX + this.rectRadius)
 
-    slider.valueNode.textContent = valueNow
-    const valueWidth = slider.valueNode.getBBox().width
+    this.slider.valueNode.textContent = valueNow
+    const valueWidth = this.slider.valueNode.getBBox().width
 
     pos = this.railX + offsetX - (valueWidth - this.thumbWidth) / 2
-    slider.valueNode.setAttribute('x', pos)
+    this.slider.valueNode.setAttribute('x', pos)
 
     pos = this.railX + offsetX - (this.focusWidth - this.thumbWidth) / 2
-    slider.focusNode.setAttribute('x', pos)
+    this.slider.focusNode.setAttribute('x', pos)
 
     const opacity = this.slider.sliderNode.getAttribute(ARIA_NOW)
     // Change the opacity on the FloodMapLayer - which triggers a redraw
     FloodMapLayer.opacity = opacity / 100
   }
 
-  onSliderKeyDown (event) {
-    let flag = false
-
-    const valueMin = this.getValueMin(this.slider)
-    const valueNow = this.getValueNow(this.slider)
-    const valueMax = this.getValueMax(this.slider)
-
-    switch (event.key) {
+  getSliderPositionForKey (key, valueNow) {
+    switch (key) {
       case 'Left':
       case 'ArrowLeft':
       case 'Down':
       case 'ArrowDown':
-        this.moveSliderTo(this.slider, valueNow - SNAP_VALUE)
-        flag = true
-        break
-
+        return valueNow - SNAP_VALUE
       case 'Right':
       case 'ArrowRight':
       case 'Up':
       case 'ArrowUp':
-        this.moveSliderTo(this.slider, valueNow + SNAP_VALUE)
-        flag = true
-        break
-
+        return valueNow + SNAP_VALUE
       case 'PageDown':
-        this.moveSliderTo(this.slider, valueNow - PAGE_DOWN_VALUE)
-        flag = true
-        break
-
+        return valueNow - PAGE_DOWN_VALUE
       case 'PageUp':
-        this.moveSliderTo(this.slider, valueNow + PAGE_DOWN_VALUE)
-        flag = true
-        break
-
+        return valueNow + PAGE_DOWN_VALUE
       case 'Home':
-        this.moveSliderTo(this.slider, valueMin)
-        flag = true
-        break
-
+        return MIN_VALUE
       case 'End':
-        this.moveSliderTo(this.slider, valueMax)
-        flag = true
-        break
-
+        return MAX_VALUE
       default:
-        break
+        return null
     }
+  }
 
-    if (flag) {
+  onSliderKeyDown (event) {
+    const valueNow = this.getValueNow()
+    const newValue = this.getSliderPositionForKey(event.key, valueNow)
+    if (newValue !== null) {
+      this.moveSliderTo(newValue)
       event.preventDefault()
       event.stopPropagation()
     }
@@ -229,12 +201,10 @@ class OpacitySlider {
       this.pointerSlider &&
       this.pointerSlider.sliderNode.contains(event.target)
     ) {
-      const x = this.getSVGPoint(this.pointerSlider, event).x
-      const min = this.getValueMin(this.pointerSlider)
-      const max = this.getValueMax(this.pointerSlider)
+      const x = this.getSVGPoint(event).x
       const diffX = x - this.railX
-      const value = snap(Math.round((diffX * (max - min)) / this.railWidth))
-      this.moveSliderTo(this.pointerSlider, value)
+      const value = snap(Math.round((diffX * (RANGE)) / this.railWidth))
+      this.moveSliderTo(value)
 
       event.preventDefault()
       event.stopPropagation()
@@ -243,12 +213,10 @@ class OpacitySlider {
 
   // handle click event on the rail
   onRailClick (event) {
-    const x = this.getSVGPoint(this.slider, event).x
-    const min = this.getValueMin(this.slider)
-    const max = this.getValueMax(this.slider)
+    const x = this.getSVGPoint(event).x
     const diffX = x - this.railX
-    const value = snap(Math.round((diffX * (max - min)) / this.railWidth))
-    this.moveSliderTo(this.slider, value)
+    const value = snap(Math.round((diffX * (RANGE)) / this.railWidth))
+    this.moveSliderTo(value)
 
     event.preventDefault()
     event.stopPropagation()
