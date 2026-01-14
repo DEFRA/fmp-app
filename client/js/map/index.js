@@ -600,10 +600,10 @@ getDefraMapConfig().then((defraMapConfig) => {
     scaleBar: 'metric',
     queryArea: {
       collapse: 'collapse',
-      heading: 'Get a boundary report',
+      heading: 'Get data for your location',
       submitLabel: 'Get summary report',
       keyLabel: 'Site boundary',
-      summary: 'Add or edit site boundary',
+      summary: 'Add or edit a location boundary',
       maxZoom: 22,
       styles: digitisingMapStyles,
       drawTools: ['polygon', 'square'],
@@ -842,7 +842,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     return floodZone
   }
 
-  const addQueryNonFloodZonesContent = (listContents, vtLayer) => {
+  const addQueryNonFloodZonesContent = (listContents, vtLayer, feature) => {
     // This part is applicable for non Flood_Zones layers, when an area outside
     // of a zone has been clicked
     const dataset = getDataset()
@@ -857,6 +857,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     if (vtLayer?.likelihoodchanceLabel) {
       listContents.push([terms.labels.aep, vtLayer.likelihoodchanceLabel])
+    }
+    if (feature?.Depth_band) {
+      listContents.push([terms.labels.depth, feature?.Depth_band])
     }
   }
 
@@ -883,21 +886,22 @@ getDefraMapConfig().then((defraMapConfig) => {
     `
     : ''
 
+  const findOutMoreLink = `<p class="govuk-body-s">
+    <a href="/how-to-use-flood-map-for-planning-data">
+      Find out more about flood map for planning data and how to use it
+    </a>
+  </p>`
+
   const getFloodZonesExtraContent = (floodZone) => {
     if (!mapState.isFloodZone) {
       return ''
     }
-    const $findOutMoreLink = `<p class="govuk-body-s"> 
-      <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how it should be used
-      </a>
-    </p>`
     if (floodZone === terms.keys.fzNoData) {
       return `<h2 class="govuk-heading-s">Climate change data unavailable</h2>
         <p class="govuk-body-s">
           In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
         </p>
-        ${$findOutMoreLink}`
+        ${findOutMoreLink}`
     } else if (floodZone === terms.keys.fzCC) {
       return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
         <p class="govuk-body-s">
@@ -905,7 +909,7 @@ getDefraMapConfig().then((defraMapConfig) => {
           zones 2 and 3 could increase with climate change over the next century, ignoring the
           benefits of any existing flood defences.
         </p>
-        ${$findOutMoreLink}`
+        ${findOutMoreLink}`
     } else {
       return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
         <p class="govuk-body-s">
@@ -914,10 +918,37 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getQueryExtraContent = (vtLayer, floodZone) => {
+  const climateChangeAllowances = `<p class="govuk-body-s">
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+        Flood risk assessment: climate change allowances
+      </a>
+    </p>`
+
+  const getQueryExtraContent = (floodZone) => {
     let extraContent = ''
-    extraContent += getFloodZonesExtraContent(floodZone)
-    extraContent += getClimateChangeExtraContent(floodZone)
+    if (floodZone) {
+      extraContent += getFloodZonesExtraContent(floodZone)
+      extraContent += getClimateChangeExtraContent(floodZone)
+    }
+    if (mapState.isSurfaceWater) {
+      extraContent += `<p class="govuk-body-s">
+        Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+      </p>`
+    }
+
+    if (mapState.isSurfaceWater && mapState.isClimateChange) {
+      extraContent += `<h2 class="govuk-heading-s">Climate change allowances</h2>
+        <p class="govuk-body-s">
+          Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125). 
+        </p>
+
+        <p class="govuk-body-s">
+          This has been taken from the Environment Agency’s ${climateChangeAllowances}
+        </p>
+        <p class="govuk-body-s govuk-!-margin-top-4">
+          ${findOutMoreLink}
+        </p>`
+    }
     return extraContent
   }
 
@@ -943,14 +974,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const floodZone = addQueryFloodZonesContent(listContents, feature)
     if (!floodZone) {
-      addQueryNonFloodZonesContent(listContents, vtLayer)
+      addQueryNonFloodZonesContent(listContents, vtLayer, feature)
     }
 
     const title = getTitle(floodZone)
 
     floodMap.setInfo(
       renderInfo(renderList(listContents),
-        getQueryExtraContent(vtLayer, floodZone),
+        getQueryExtraContent(floodZone),
         title))
   })
 })
