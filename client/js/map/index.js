@@ -600,10 +600,10 @@ getDefraMapConfig().then((defraMapConfig) => {
     scaleBar: 'metric',
     queryArea: {
       collapse: 'collapse',
-      heading: 'Get a boundary report',
+      heading: 'Get data for your location',
       submitLabel: 'Get summary report',
       keyLabel: 'Site boundary',
-      summary: 'Add or edit site boundary',
+      summary: 'Add or edit a location boundary',
       maxZoom: 22,
       styles: digitisingMapStyles,
       drawTools: ['polygon', 'square'],
@@ -889,7 +889,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const $findOutMoreLink = `<p class="govuk-body-s"> 
       <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how it should be used
+        Find out more about flood map for planning data and how to use it
       </a>
     </p>`
     if (floodZone === terms.keys.fzNoData) {
