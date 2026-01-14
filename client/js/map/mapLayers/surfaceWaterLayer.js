@@ -14,6 +14,7 @@ class SurfaceWaterLayer extends FloodMapLayer {
     // Surface Water layers require the opacity to be set at the styleLayer level
     // but other's require it to be set at the vectorTile level (to avoid an issue)
     this.setStyleProperties()
+    this.setStyleProperties()
   }
 }
 
