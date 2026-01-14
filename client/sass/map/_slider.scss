@@ -1,0 +1,106 @@
+.opacity-viewer-sliders label {
+  display: block;
+}
+
+.opacity-viewer-sliders .opacity-box {
+  width: 200px;
+  height: 200px;
+  border: black solid medium;
+  text-align: center;
+  padding: 0.25em;
+  forced-color-adjust: none;
+}
+
+.opacity-viewer-sliders .opacity-info {
+  padding-top: 5px;
+}
+
+.opacity-viewer-sliders .opacity-info label {
+  margin-top: 0.25em;
+  display: block;
+}
+
+.opacity-slider {
+  margin: 0 0 0 -12px;
+  margin-bottom: 1em;
+  padding: 2px 0;
+  touch-action: pan-y;
+  width: 250px;
+  outline: none;
+}
+
+.opacity-slider div,
+.opacity-slider svg {
+  display: block;
+  width: 250px;
+}
+
+.opacity-slider-label {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.opacity-slider .value {
+  color: currentcolor;
+  fill: currentcolor;
+}
+
+.opacity-slider .valueBackground {
+  fill: white;
+  stroke-width: 0;
+}
+
+.opacity-slider .rail {
+  fill: #bbb;
+  stroke: currentcolor;
+  stroke-width: 2px;
+  opacity: 0.8;
+}
+
+.opacity-slider .fill {
+  stroke-width: 0;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.opacity-slider .thumb {
+  fill: #666;
+  stroke: currentcolor;
+  stroke-width: 2px;
+}
+
+.opacity-slider .focus {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 2px;
+}
+
+.opacity-slider:focus .value,
+.opacity-slider:hover .value {
+  font-weight: bold;
+}
+
+.opacity-slider:focus .fill,
+.opacity-slider:hover .fill {
+  opacity: 1;
+}
+
+.opacity-slider:focus .rail,
+.opacity-slider:hover .rail {
+  fill: transparent;
+  stroke: currentcolor;
+  opacity: 1;
+}
+
+.opacity-slider:focus .thumb,
+.opacity-slider:hover .thumb {
+  fill: #ddd;
+  stroke: currentcolor;
+  opacity: 1;
+}
+
+.opacity-slider:focus .focus,
+.opacity-slider:hover .focus {
+  stroke: currentcolor;
+}

@@ -116,15 +116,18 @@ class FloodMapLayer {
     if (this.logStyles) {
       this.logStyleLayers()
     }
-    this.styleLayers.forEach(([styleLayerName, paintProperties, styleLayerFilters]) => {
-      const layerPaintProperties = this.vectorTileLayer.getPaintProperties(styleLayerName)
-      if (layerPaintProperties) {
-        layerPaintProperties['fill-color'] = this.getFillColour(paintProperties)
-        this.vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
-        if (styleLayerFilters) {
-          layerPaintProperties['fill-opacity'] = this.isStyleLayerVisible(styleLayerFilters) ? FloodMapLayer.opacity : 0
+    const allLayers = this.vectorTileLayer.allLayers || [this.vectorTileLayer]
+    allLayers.forEach((vectorTileLayer) => {
+      this.styleLayers.forEach(([styleLayerName, paintProperties, styleLayerFilters]) => {
+        const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
+        if (layerPaintProperties) {
+          layerPaintProperties['fill-color'] = this.getFillColour(paintProperties)
+          vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
+          if (styleLayerFilters) {
+            layerPaintProperties['fill-opacity'] = this.isStyleLayerVisible(styleLayerFilters) ? FloodMapLayer.opacity : 0
+          }
         }
-      }
+      })
     })
   }
 
