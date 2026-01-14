@@ -917,10 +917,43 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getQueryExtraContent = (vtLayer, floodZone) => {
+  const findOutMoreLink = `<p class="govuk-body-s">
+    <a href="how-to-use-flood-map-for-planning-data">
+      Find out more about flood map for planning data and how it should be used
+    </a>
+  </p>`
+
+  const climateChangeAllowances = `<p class="govuk-body-s">
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+        Flood risk assessment: climate change allowances
+      </a>
+    </p>`
+
+  const getQueryExtraContent = (floodZone) => {
     let extraContent = ''
-    extraContent += getFloodZonesExtraContent(floodZone)
-    extraContent += getClimateChangeExtraContent(floodZone)
+    if (floodZone) {
+      extraContent += getFloodZonesExtraContent(floodZone)
+      extraContent += getClimateChangeExtraContent(floodZone)
+    }
+    if (mapState.isSurfaceWater) {
+      extraContent += `<p class="govuk-body-s">
+        Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+      </p>`
+    }
+
+    if (mapState.isSurfaceWater && mapState.isClimateChange) {
+      extraContent += `<h2 class="govuk-heading-s">Climate change allowances</h2>
+        <p class="govuk-body-s">
+          Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125). 
+        </p>
+
+        <p class="govuk-body-s">
+          This has been taken from the Environment Agency’s ${climateChangeAllowances}
+        </p>
+        <p class="govuk-body-s govuk-!-margin-top-4">
+          ${findOutMoreLink}
+        </p>`
+    }
     return extraContent
   }
 
@@ -953,7 +986,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
     floodMap.setInfo(
       renderInfo(renderList(listContents),
-        getQueryExtraContent(vtLayer, floodZone),
+        getQueryExtraContent(floodZone),
         title))
   })
 })
