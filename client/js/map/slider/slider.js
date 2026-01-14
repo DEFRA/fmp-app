@@ -15,6 +15,9 @@ const SNAP_VALUE = 5
 const PAGE_DOWN_VALUE = 10
 
 const snap = (value) => Math.round(value / SNAP_VALUE) * SNAP_VALUE
+const ARIA_NOW = 'aria-valuenow'
+const ARIA_VALUE_MIN = 'aria-valuemin'
+const ARIA_VALUE_MAX = 'aria-valuemax'
 
 class OpacitySlider {
   constructor (domNode) {
@@ -22,7 +25,7 @@ class OpacitySlider {
 
     this.pointerSlider = false
 
-    this.sliders = {}
+    this.slider = {}
 
     this.svgWidth = 250 // 310
     this.svgHeight = 50
@@ -43,102 +46,84 @@ class OpacitySlider {
     this.focusWidth = 36
     this.focusHeight = 48
 
-    this.initSliderRefs(this.sliders, 'opacity')
+    this.initSliderRefs(this.slider)
 
     document.body.addEventListener('pointerup', this.onThumbPointerUp.bind(this))
   }
 
   initSliderRefs (sliderRef, name) {
-    sliderRef[name] = {}
-    const node = this.domNode.querySelector('.opacity-slider.' + name)
-    sliderRef[name].sliderNode = node
+    this.slider = {}
+    const node = this.domNode.querySelector('.opacity-slider')
+    this.slider.sliderNode = node
 
-    sliderRef[name].svgNode = node.querySelector('svg')
-    sliderRef[name].svgNode.setAttribute('width', this.svgWidth)
-    sliderRef[name].svgNode.setAttribute('height', this.svgHeight)
-    sliderRef[name].svgPoint = sliderRef[name].svgNode.createSVGPoint()
+    this.slider.svgNode = node.querySelector('svg')
+    this.slider.svgNode.setAttribute('width', this.svgWidth)
+    this.slider.svgNode.setAttribute('height', this.svgHeight)
+    this.slider.svgPoint = this.slider.svgNode.createSVGPoint()
 
-    sliderRef[name].valueNode = node.querySelector('.value')
-    sliderRef[name].valueNode.setAttribute('y', this.valueY)
+    this.slider.valueNode = node.querySelector('.value')
+    this.slider.valueNode.setAttribute('y', this.valueY)
 
-    sliderRef[name].thumbNode = node.querySelector('.thumb')
-    sliderRef[name].thumbNode.setAttribute('width', this.thumbWidth)
-    sliderRef[name].thumbNode.setAttribute('height', this.thumbHeight)
-    sliderRef[name].thumbNode.setAttribute('y', this.railY)
-    sliderRef[name].thumbNode.setAttribute('rx', this.rectRadius)
+    this.slider.thumbNode = node.querySelector('.thumb')
+    this.slider.thumbNode.setAttribute('width', this.thumbWidth)
+    this.slider.thumbNode.setAttribute('height', this.thumbHeight)
+    this.slider.thumbNode.setAttribute('y', this.railY)
+    this.slider.thumbNode.setAttribute('rx', this.rectRadius)
 
-    sliderRef[name].focusNode = node.querySelector('.focus')
-    sliderRef[name].focusNode.setAttribute('width', this.focusWidth - this.borderWidth)
-    sliderRef[name].focusNode.setAttribute('height', this.focusHeight - this.borderWidth)
-    sliderRef[name].focusNode.setAttribute('y', this.focusY)
-    sliderRef[name].focusNode.setAttribute('rx', this.rectRadius)
+    this.slider.focusNode = node.querySelector('.focus')
+    this.slider.focusNode.setAttribute('width', this.focusWidth - this.borderWidth)
+    this.slider.focusNode.setAttribute('height', this.focusHeight - this.borderWidth)
+    this.slider.focusNode.setAttribute('y', this.focusY)
+    this.slider.focusNode.setAttribute('rx', this.rectRadius)
 
-    sliderRef[name].railNode = node.querySelector('.opacity-slider .rail')
-    sliderRef[name].railNode.setAttribute('x', this.railX)
-    sliderRef[name].railNode.setAttribute('y', this.railY)
-    sliderRef[name].railNode.setAttribute('width', this.railWidth)
-    sliderRef[name].railNode.setAttribute('height', this.railHeight)
-    sliderRef[name].railNode.setAttribute('rx', this.rectRadius)
+    this.slider.railNode = node.querySelector('.opacity-slider .rail')
+    this.slider.railNode.setAttribute('x', this.railX)
+    this.slider.railNode.setAttribute('y', this.railY)
+    this.slider.railNode.setAttribute('width', this.railWidth)
+    this.slider.railNode.setAttribute('height', this.railHeight)
+    this.slider.railNode.setAttribute('rx', this.rectRadius)
 
-    sliderRef[name].fillNode = node.querySelector('.opacity-slider .fill')
-    sliderRef[name].fillNode.setAttribute('x', this.railX)
-    sliderRef[name].fillNode.setAttribute('y', this.railY)
-    sliderRef[name].fillNode.setAttribute('width', this.railWidth)
-    sliderRef[name].fillNode.setAttribute('height', this.railHeight)
-    sliderRef[name].fillNode.setAttribute('rx', this.rectRadius)
+    this.slider.fillNode = node.querySelector('.opacity-slider .fill')
+    this.slider.fillNode.setAttribute('x', this.railX)
+    this.slider.fillNode.setAttribute('y', this.railY)
+    this.slider.fillNode.setAttribute('width', this.railWidth)
+    this.slider.fillNode.setAttribute('height', this.railHeight)
+    this.slider.fillNode.setAttribute('rx', this.rectRadius)
   }
 
   // Initialize slider
   init () {
-    for (const slider in this.sliders) {
-      if (this.sliders[slider].sliderNode.tabIndex !== 0) {
-        this.sliders[slider].sliderNode.tabIndex = 0
-      }
-
-      this.sliders[slider].railNode.addEventListener('click', this.onRailClick.bind(this))
-      this.sliders[slider].sliderNode.addEventListener('keydown', this.onSliderKeyDown.bind(this))
-      this.sliders[slider].sliderNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
-      this.sliders[slider].valueNode.addEventListener('keydown', this.onSliderKeyDown.bind(this))
-      this.sliders[slider].valueNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
-      this.sliders[slider].sliderNode.addEventListener('pointermove', this.onThumbPointerMove.bind(this))
-
-      this.moveSliderTo(this.sliders[slider], FloodMapLayer.opacity * 100)
+    if (this.slider.sliderNode.tabIndex !== 0) {
+      this.slider.sliderNode.tabIndex = 0
     }
+
+    this.slider.railNode.addEventListener('click', this.onRailClick.bind(this))
+    this.slider.sliderNode.addEventListener('keydown', this.onSliderKeyDown.bind(this))
+    this.slider.sliderNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
+    this.slider.valueNode.addEventListener('keydown', this.onSliderKeyDown.bind(this))
+    this.slider.valueNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
+    this.slider.sliderNode.addEventListener('pointermove', this.onThumbPointerMove.bind(this))
+
+    this.moveSliderTo(this.slider, FloodMapLayer.opacity * 100)
   }
 
   // Get point in global SVG space
   getSVGPoint (slider, event) {
     slider.svgPoint.x = event.clientX
     slider.svgPoint.y = event.clientY
-    return slider.svgPoint.matrixTransform(
-      slider.svgNode.getScreenCTM().inverse()
-    )
-  }
-
-  getSlider (domNode) {
-    if (!domNode.classList.contains('opacity-slider')) {
-      if (domNode.tagName.toLowerCase() === 'rect') {
-        domNode = domNode.parentNode.parentNode
-      } else {
-        domNode = domNode.parentNode.querySelector('.opacity-slider')
-      }
-    }
-
-    if (this.sliders.opacity.sliderNode === domNode) {
-      return this.sliders.opacity
-    }
+    return slider.svgPoint.matrixTransform(slider.svgNode.getScreenCTM().inverse())
   }
 
   getValueMin (slider) {
-    return parseInt(slider.sliderNode.getAttribute('aria-valuemin'))
+    return parseInt(slider.sliderNode.getAttribute(ARIA_VALUE_MIN))
   }
 
   getValueNow (slider) {
-    return parseInt(slider.sliderNode.getAttribute('aria-valuenow'))
+    return parseInt(slider.sliderNode.getAttribute(ARIA_NOW))
   }
 
   getValueMax (slider) {
-    return parseInt(slider.sliderNode.getAttribute('aria-valuemax'))
+    return parseInt(slider.sliderNode.getAttribute(ARIA_VALUE_MAX))
   }
 
   moveSliderTo (slider, value) {
@@ -146,7 +131,7 @@ class OpacitySlider {
     const valueMax = this.getValueMax(slider)
     const valueNow = Math.min(Math.max(value, valueMin), valueMax)
 
-    slider.sliderNode.setAttribute('aria-valuenow', valueNow)
+    slider.sliderNode.setAttribute(ARIA_NOW, valueNow)
 
     const offsetX = Math.round(
       (valueNow * (this.railWidth - this.thumbWidth)) / (valueMax - valueMin)
@@ -166,7 +151,7 @@ class OpacitySlider {
     pos = this.railX + offsetX - (this.focusWidth - this.thumbWidth) / 2
     slider.focusNode.setAttribute('x', pos)
 
-    const opacity = this.sliders.opacity.sliderNode.getAttribute('aria-valuenow')
+    const opacity = this.slider.sliderNode.getAttribute(ARIA_NOW)
     // Change the opacity on the FloodMapLayer - which triggers a redraw
     FloodMapLayer.opacity = opacity / 100
   }
@@ -174,17 +159,16 @@ class OpacitySlider {
   onSliderKeyDown (event) {
     let flag = false
 
-    const slider = this.getSlider(event.currentTarget)
-    const valueMin = this.getValueMin(slider)
-    const valueNow = this.getValueNow(slider)
-    const valueMax = this.getValueMax(slider)
+    const valueMin = this.getValueMin(this.slider)
+    const valueNow = this.getValueNow(this.slider)
+    const valueMax = this.getValueMax(this.slider)
 
     switch (event.key) {
       case 'Left':
       case 'ArrowLeft':
       case 'Down':
       case 'ArrowDown':
-        this.moveSliderTo(slider, valueNow - SNAP_VALUE)
+        this.moveSliderTo(this.slider, valueNow - SNAP_VALUE)
         flag = true
         break
 
@@ -192,27 +176,27 @@ class OpacitySlider {
       case 'ArrowRight':
       case 'Up':
       case 'ArrowUp':
-        this.moveSliderTo(slider, valueNow + SNAP_VALUE)
+        this.moveSliderTo(this.slider, valueNow + SNAP_VALUE)
         flag = true
         break
 
       case 'PageDown':
-        this.moveSliderTo(slider, valueNow - PAGE_DOWN_VALUE)
+        this.moveSliderTo(this.slider, valueNow - PAGE_DOWN_VALUE)
         flag = true
         break
 
       case 'PageUp':
-        this.moveSliderTo(slider, valueNow + PAGE_DOWN_VALUE)
+        this.moveSliderTo(this.slider, valueNow + PAGE_DOWN_VALUE)
         flag = true
         break
 
       case 'Home':
-        this.moveSliderTo(slider, valueMin)
+        this.moveSliderTo(this.slider, valueMin)
         flag = true
         break
 
       case 'End':
-        this.moveSliderTo(slider, valueMax)
+        this.moveSliderTo(this.slider, valueMax)
         flag = true
         break
 
@@ -227,7 +211,7 @@ class OpacitySlider {
   }
 
   onThumbPointerDown (event) {
-    this.pointerSlider = this.getSlider(event.currentTarget)
+    this.pointerSlider = this.slider
 
     // Set focus to the clicked on
     this.pointerSlider.sliderNode.focus()
@@ -259,20 +243,18 @@ class OpacitySlider {
 
   // handle click event on the rail
   onRailClick (event) {
-    const slider = this.getSlider(event.currentTarget)
-
-    const x = this.getSVGPoint(slider, event).x
-    const min = this.getValueMin(slider)
-    const max = this.getValueMax(slider)
+    const x = this.getSVGPoint(this.slider, event).x
+    const min = this.getValueMin(this.slider)
+    const max = this.getValueMax(this.slider)
     const diffX = x - this.railX
     const value = snap(Math.round((diffX * (max - min)) / this.railWidth))
-    this.moveSliderTo(slider, value)
+    this.moveSliderTo(this.slider, value)
 
     event.preventDefault()
     event.stopPropagation()
 
     // Set focus to the clicked handle
-    slider.sliderNode.focus()
+    this.slider.sliderNode.focus()
   }
 }
 
