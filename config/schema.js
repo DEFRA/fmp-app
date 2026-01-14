@@ -49,6 +49,9 @@ const schema = Joi.object({
     riversAndSeaDefendedCCP1EndPoint: Joi.string().required(),
     riversAndSeaUndefendedCCP1EndPoint: Joi.string().required(),
     surfaceWaterEndPoint: Joi.string().required(),
+    surfaceWaterClimateChange1In30EndPoint: Joi.string().required(),
+    surfaceWaterClimateChange1In100EndPoint: Joi.string().required(),
+    surfaceWaterClimateChange1In1000EndPoint: Joi.string().required(),
     agolRofrsDepthOrExtents: Joi.string().valid('Depth', 'Extents')
   },
   eamaps: {
