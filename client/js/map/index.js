@@ -8,6 +8,7 @@ import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { renderBanner } from './banner.js'
+import { FloodMapLayer } from './mapLayers/index.js'
 
 let visibleVtLayer
 
@@ -70,7 +71,52 @@ const keyItemDefinitions = {
     // id: 'fz2',
     label: 'Flood extent',
     fill: getKeyItemFill(colours.floodExtents)
-  }
+  },
+  surfaceWater0: {
+    label: '2300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[0])
+  },
+  surfaceWater1: {
+    label: '1200',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[1])
+  },
+  surfaceWater2: {
+    label: '900',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[2])
+  },
+  surfaceWater3: {
+    label: '600',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[3])
+  },
+  surfaceWater4: {
+    label: '300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[4])
+  },
+  surfaceWater5: {
+    label: '150',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[5])
+  },
+  surfaceWater6: {
+    label: '',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[6])
+  },
+  surfaceWaterDepth150: { label: terms.depth.depth150, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth300: { label: terms.depth.depth300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth600: { label: terms.depth.depth600, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth900: { label: terms.depth.depth900, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth1200: { label: terms.depth.depth1200, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth2300: { label: terms.depth.depth2300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepthOver2300: { label: terms.depth.depthOver2300, fill: getKeyItemFill(colours.nonFloodZone) }
+}
+
+keyItemDefinitions.common = {
+  heading: terms.labels.mapFeatures,
+  collapse: 'collapse',
+  items: [
+    keyItemDefinitions.waterStorageAreas,
+    keyItemDefinitions.floodDefences,
+    keyItemDefinitions.mainRivers
+  ]
 }
 
 // floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
@@ -121,7 +167,6 @@ if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
 
@@ -213,63 +258,21 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   ]
 
-  const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
-    vtLayer.styleLayers.forEach(([styleLayerName, paintProperties]) => {
-      const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
-      if (layerPaintProperties) {
-        const fillColour = paintProperties[isDark ? 1 : 0]
-        layerPaintProperties['fill-color'] = fillColour
-        vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
-      }
-    })
-    if (vtLayer.setStyleProperties) {
-      vtLayer.setStyleProperties(vectorTileLayer, isDark)
-    }
-
-    // Un comment this section to infer the styleLayers for each vector layer
-    // They don't seem to be defined anywhere server side, so Paul is anxious that
-    // they may change when new layers are published.
-    // const { styleRepository = {} } = vectorTileLayer
-    // const { layers: styleLayers = [] } = styleRepository
-    // styleLayers.forEach((styleLayer) => {
-    //   console.log(styleLayer.id)
-    // })
-  }
   const addLayers = async () => {
-    return Promise.all([
-      /* eslint-disable */
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js'),
-      /* eslint-enable */
-    ]).then(modules => {
-      const VectorTileLayer = modules[0].default
-      const FeatureLayer = modules[1].default
-      const GroupLayer = modules[2].default
-      vtLayers.forEach((vtLayer) => {
-        if (!vtLayer.q) {
-          return
-        }
-        if (vtLayer.getVtLayer) {
-          floodMap.map.add(vtLayer.getVtLayer(getVectorTileUrl, VectorTileLayer, GroupLayer))
-        } else {
-          const vectorTileLayer = new VectorTileLayer({
-            id: vtLayer.name,
-            url: getVectorTileUrl(vtLayer.name),
-            opacity: 0.75,
-            visible: false
-          })
-          floodMap.map.add(vectorTileLayer)
-        }
-      })
-      fLayers.forEach(fLayer => {
-        floodMap.map.add(new FeatureLayer({
-          id: fLayer.name,
-          url: fLayer.url,
-          renderer: getMapFeatureRenderer(fLayer.name),
-          visible: false
-        }))
-      })
+    vtLayers.forEach((vtLayer) => {
+      if (!vtLayer.q) {
+        return
+      }
+      vtLayer.addToMap(floodMap.map)
+    })
+    const { FeatureLayer } = FloodMapLayer.modules
+    fLayers.forEach(fLayer => {
+      floodMap.map.add(new FeatureLayer({
+        id: fLayer.name,
+        url: fLayer.url,
+        renderer: getMapFeatureRenderer(fLayer.name),
+        visible: false
+      }))
     })
   }
 
@@ -279,13 +282,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (!vtLayer.q) {
         return
       }
-      const id = vtLayer.name
-      const layer = map.findLayerById(id)
-      const isVisible = !isDrawMode && segments.join('') === vtLayer.q
-      layer.visible = isVisible
-      const allLayers = layer.allLayers || [layer]
-      allLayers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
-      visibleVtLayer = isVisible ? layer : visibleVtLayer
+      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility()
+      vtLayer.visible = isVisible
     })
     fLayers.forEach(fLayer => {
       const layer = map.findLayerById(fLayer.name)
@@ -331,6 +329,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       keyDisplay: 'min',
       segments: [{
         heading: 'Datasets',
+        collapse: 'collapse',
         items: [
           {
             id: 'fz',
@@ -358,6 +357,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['fz'],
         items: [
           {
@@ -373,6 +373,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -386,8 +387,25 @@ getDefraMapConfig().then((defraMapConfig) => {
         ]
       },
       {
+        id: 'tf',
+        heading: terms.labels.climateChange,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'pd',
+            label: terms.labels.presentDay
+          },
+          {
+            id: 'cl',
+            label: '2061 to 2125'
+          }
+        ]
+      },
+      {
         id: 'af1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['rsd'],
         items: [
           {
@@ -407,6 +425,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'sw1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['sw'],
         items: [
           {
@@ -420,6 +439,46 @@ getDefraMapConfig().then((defraMapConfig) => {
           {
             id: 'lr',
             label: terms.chance.swLow
+          }
+        ]
+      },
+      {
+        id: 'sw2',
+        heading: terms.labels.depth,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'depthAll',
+            label: terms.depth.depthAll
+          },
+          {
+            id: 'depth150',
+            label: terms.depth.depth150
+          },
+          {
+            id: 'depth300',
+            label: terms.depth.depth300
+          },
+          {
+            id: 'depth600',
+            label: terms.depth.depth600
+          },
+          {
+            id: 'depth900',
+            label: terms.depth.depth900
+          },
+          {
+            id: 'depth1200',
+            label: terms.depth.depth1200
+          },
+          {
+            id: 'depth2300',
+            label: terms.depth.depth2300
+          },
+          {
+            id: 'depthOver2300',
+            label: terms.depth.depthOver2300
           }
         ]
       },
@@ -442,6 +501,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       key: [
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzpd'],
           items: [
             keyItemDefinitions.floodZone2,
@@ -453,6 +513,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzcl'],
           items: [
             keyItemDefinitions.floodZone2PresentDay,
@@ -464,18 +525,69 @@ getDefraMapConfig().then((defraMapConfig) => {
             keyItemDefinitions.mainRivers
           ]
         },
-        {
+        { // Surface Water DepthAll
           heading: terms.labels.mapFeatures,
-          parentIds: ['rsd', 'rsu', 'sw'],
+          collapse: 'collapse',
+          parentIds: ['rsd', 'rsu', 'depthAll'],
           items: [
-            keyItemDefinitions.floodExtents,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
+            keyItemDefinitions.mainRivers,
+            {
+              label: 'Surface water depth in millimetres',
+              display: 'ramp',
+              numLabels: 1,
+              items: [
+                keyItemDefinitions.surfaceWater6,
+                keyItemDefinitions.surfaceWater5,
+                keyItemDefinitions.surfaceWater4,
+                keyItemDefinitions.surfaceWater3,
+                keyItemDefinitions.surfaceWater2,
+                keyItemDefinitions.surfaceWater1,
+                keyItemDefinitions.surfaceWater0
+              ]
+            }
           ]
+        },
+        // Surface Water Extents:
+        {
+          parentIds: ['depth150'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth150]
+        },
+        {
+          parentIds: ['depth300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth300]
+        },
+        {
+          parentIds: ['depth600'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth600]
+        },
+        {
+          parentIds: ['depth900'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth900]
+        },
+        {
+          parentIds: ['depth1200'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth1200]
+        },
+        {
+          parentIds: ['depth2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth2300]
+        },
+        {
+          parentIds: ['depthOver2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepthOver2300]
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['mo'],
           items: [
             keyItemDefinitions.waterStorageAreas,
@@ -554,6 +666,10 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
+    await FloodMapLayer.initialise({
+      mapState,
+      config: defraMapConfig
+    })
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
