@@ -2,6 +2,7 @@ const { getFloodZones } = require('./agol/getFloodZones')
 const { getFloodZonesClimateChange } = require('./agol/getFloodZonesClimateChange')
 const { isRiskAdminArea } = require('./riskAdmin/isRiskAdminArea')
 const { getSurfaceWater } = require('./agol/getSurfaceWater')
+const { getSurfaceWaterClimateChange } = require('./agol/getSurfaceWaterClimateChange')
 
 const getFloodDataByPolygon = async (polygon) => {
   if (!polygon) {
@@ -13,6 +14,7 @@ const getFloodDataByPolygon = async (polygon) => {
       getFloodZones({ geometryType: 'esriGeometryPolygon', polygon }),
       getFloodZonesClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
       getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon }),
+      getSurfaceWaterClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
       isRiskAdminArea(polygon)
     ]).then((responseArray) => {
       return Object.assign(results, ...responseArray)
