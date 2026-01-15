@@ -29,7 +29,7 @@ module.exports = [
         const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
-        const over300Hectares = floodData.areaInHectares > 300
+        const over300Hectares = floodData.areaInHectares > constants.maxAreaInHectares
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
         floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
