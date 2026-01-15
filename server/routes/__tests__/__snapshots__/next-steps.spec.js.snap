@@ -394,6 +394,12 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
   <a id="orderP4Button" href="contact?encodedPolygon=_mafqv@_m}i{F?_ibE_ibE??~hbE~hbE?" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
+  <p class="govuk-body" >If you need to order other products, email the Environment Agency team in Wessex at wessexenquiries@environment-agency.gov.uk.</p>
+  <p>
+    <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+      Find out what products are available
+    </a>
+  </p>
 
     </div>
   </div>
