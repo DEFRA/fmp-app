@@ -8,19 +8,28 @@ const getSurfaceWaterClimateChange = async (options) => {
   const surfaceWaterClimateChange1In30 = await esriFeatureRequest(config.agol.surfaceWaterClimateChange1In30EndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
   if (surfaceWaterClimateChange1In30.length > 0) {
     return {
-      surfaceWaterClimateChange: '1 in 30'
+      surfaceWaterClimateChange: {
+        riskBandPercent: '3.3',
+        riskBandOdds: '1 in 30'
+      }
     }
   }
   const surfaceWaterClimateChange1In100 = await esriFeatureRequest(config.agol.surfaceWaterClimateChange1In100EndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
   if (surfaceWaterClimateChange1In100.length > 0) {
     return {
-      surfaceWaterClimateChange: '1 in 100'
+      surfaceWaterClimateChange: {
+        riskBandPercent: '1',
+        riskBandOdds: '1 in 100'
+      }
     }
   }
   const surfaceWaterClimateChange1In1000 = await esriFeatureRequest(config.agol.surfaceWaterClimateChange1In1000EndPoint, makePolygonGeometry(options.polygon), 'esriGeometryPolygon')
   if (surfaceWaterClimateChange1In1000.length > 0) {
     return {
-      surfaceWaterClimateChange: '1 in 1000'
+      surfaceWaterClimateChange: {
+        riskBandPercent: '0.1',
+        riskBandOdds: '1 in 1000'
+      }
     }
   }
   return {
