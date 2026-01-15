@@ -35,7 +35,7 @@ class FloodZoneCCLayer extends FloodMapLayer {
 
     const floodZoneCCGroupLayer = new GroupLayer({
       id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      opacity: FloodMapLayer.opacity,
+      opacity: 1,
       visible: false
     })
     floodZoneCCGroupLayer.add(floodZonesCCLayer)
@@ -43,17 +43,6 @@ class FloodZoneCCLayer extends FloodMapLayer {
     map.add(floodZoneCCGroupLayer)
     this.vectorTileLayer = floodZoneCCGroupLayer
     this.floodZonesCCLayer = floodZonesCCLayer
-  }
-
-  setNoDataBorderOpacity () {
-    const lineStyleLayerName = 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0'
-    const lineLayerPaintProperties = this.floodZonesCCLayer.getPaintProperties(lineStyleLayerName)
-    if (lineLayerPaintProperties) {
-      const lineColour = colours.floodZoneNoData[this.isDark ? 1 : 0]
-      lineLayerPaintProperties['line-color'] = lineColour
-      lineLayerPaintProperties['line-opacity'] = FloodMapLayer.opacity
-      this.floodZonesCCLayer.setPaintProperties(lineStyleLayerName, lineLayerPaintProperties)
-    }
   }
 
   setFloodZoneCCStyleProperties () {
@@ -65,12 +54,6 @@ class FloodZoneCCLayer extends FloodMapLayer {
       layerPaintProperties['fill-color'] = fillColour
       this.floodZonesCCLayer.setPaintProperties(styleLayerName, layerPaintProperties)
     }
-  }
-
-  updateOpacity () {
-    super.updateOpacity()
-    // Set the style properties for the floodZonesCCLayer "no data" border
-    this.setNoDataBorderOpacity()
   }
 
   setStyleProperties () {
