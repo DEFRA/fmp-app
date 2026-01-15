@@ -1,7 +1,6 @@
 const { config } = require('../../../config')
 const { esriFeatureRequest, makePolygonGeometry } = require('.')
 
-// The ESRI requests have not been made consts as if will reduce the number of requests made.
 // We first check if the area has a 1 in 30 chance of surface water flooding, if not we check for 1 in 100,
 // if not we check for 1 in 1000.
 const getSurfaceWaterClimateChange = async (options) => {
