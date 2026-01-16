@@ -76,11 +76,14 @@ const triageRoutes = {
   other: FLOOD_EXTREME_WEATHER_URL
 }
 
+const maxAreaInHectares = 300
+
 module.exports = Object.freeze({
   routes,
   views,
   statusCodes,
   triageRoutes,
   esriStatusCodes,
-  OS_ACCOUNT_NUMBER
+  OS_ACCOUNT_NUMBER,
+  maxAreaInHectares
 })
