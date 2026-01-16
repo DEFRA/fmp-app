@@ -21,9 +21,8 @@ const MAX_VALUE = 100
 const RANGE = 100
 
 class OpacitySlider {
-  constructor (domNode) {
-    this.domNode = domNode
-
+  constructor (containerId) {
+    this.containerId = containerId
     this.pointerSlider = false
 
     this.slider = {}
@@ -47,9 +46,26 @@ class OpacitySlider {
     this.focusWidth = 36
     this.focusHeight = 48
 
-    this.initSliderRefs()
-
     document.body.addEventListener('pointerup', this.onThumbPointerUp.bind(this))
+  }
+
+  checkAndAttach () {
+    // This is called to ensure that the slider functionality is attached to the
+    // slider code, as and when the MC re-renders the mark up for the slider - which creates a
+    // new dom element.
+    const container = document.getElementById(this.containerId)
+    if (!container) {
+      // Nothing to attach to as the map component is not showing the panel that contains the slider.
+      return
+    }
+    const sliderNode = container.querySelector('.opacity-slider')
+    // check if the element is already attached
+    if (this.domNode !== container || sliderNode !== this.slider.sliderNode) {
+      // re-attach the slider code if it isn't attached.
+      this.domNode = container
+      this.initSliderRefs()
+      this.init()
+    }
   }
 
   initSliderRefs () {
