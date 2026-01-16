@@ -278,7 +278,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
-    const isDrawMode = ['frame', 'draw'].includes(mode)
+    const isDrawMode = ['frame', 'vertex'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
       if (!vtLayer.q) {
         return
