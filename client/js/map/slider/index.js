@@ -1,10 +1,10 @@
-import sliderMarkUp from './slider.html.js'
 import { OpacitySlider } from './slider.js'
+export { sliderMarkUp } from './slider.html.js'
 const containerId = 'opacity-control'
 let opacitySlider
 
-const mapContainerObserver = new window.MutationObserver((mutations) => {
-  const addedNodes = [...mutations.map(({ addedNodes: newNodes }) => newNodes)]
+const mapContainerObserver = new globalThis.MutationObserver((mutations) => {
+  const addedNodes = mutations.map(({ addedNodes: newNodes }) => newNodes)
   if (addedNodes.length) {
     opacitySlider.checkAndAttach()
   }
@@ -20,4 +20,4 @@ const initialiseSlider = () => {
   return opacitySlider
 }
 
-export { initialiseSlider, sliderMarkUp }
+export { initialiseSlider }

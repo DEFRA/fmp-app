@@ -7,7 +7,7 @@ import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
-import { initialiseSlider, sliderMarkUp } from './slider/index.js'
+import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
 

@@ -1,4 +1,4 @@
-export default `
+export const sliderMarkUp = `
 <div class='fm-c-segments'>
   <div id='opacity-control' class="opacity-viewer-sliders fm-c-details govuk-body-s" role="group" aria-label="Layer opacity">
     <span class="fm-c-details__label">
