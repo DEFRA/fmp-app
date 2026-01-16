@@ -149,7 +149,7 @@ class OpacitySlider {
     this.slider.thumbNode.setAttribute('x', pos)
     this.slider.fillNode.setAttribute('width', offsetX + this.rectRadius)
 
-    this.slider.valueNode.textContent = valueNow
+    this.slider.valueNode.textContent = Math.round(valueNow)
     const valueWidth = this.slider.valueNode.getBBox().width
 
     pos = this.railX + offsetX - (valueWidth - this.thumbWidth) / 2
