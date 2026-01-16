@@ -93,7 +93,7 @@
     </div>
 
     <!-- Surface water summary list card -->
-    {% if floodData.surfaceWater.riskBand %}
+    {% if floodData.hasSurfaceWater %}
     {% include "./partials/results-page/is-sw-summary-card.html" %}
     {% endif %}
 
