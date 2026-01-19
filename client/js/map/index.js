@@ -605,7 +605,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       collapse: 'collapse',
       heading: 'Get data for your location',
       submitLabel: 'Get summary report',
-      keyLabel: 'Site boundary',
+      keyLabel: 'Location boundary',
       summary: 'Add or edit a location boundary',
       maxZoom: 22,
       styles: digitisingMapStyles,
