@@ -558,6 +558,46 @@ describe('Results page', () => {
         expect(pageContent.adminUpdatedData).toEqual(false)
       })
     })
+
+    it('Should still show the opted out text if boundary is over 300ha', async () => {
+      getPsoContactsByPolygon.mockResolvedValue({
+        isEngland: true,
+        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+        AreaName: 'East Midlands',
+        useAutomatedService: false,
+        LocalAuthorities: 'Derbyshire Dales'
+      })
+      getFloodDataByPolygon.mockResolvedValue({
+        floodzone_2: false,
+        floodzone_3: true,
+        floodZone: '3',
+        floodZoneLevel: 'high',
+        floodZoneClimateChange: false,
+        floodZoneClimateChangeNoData: false,
+        surfaceWater: {
+          riskBandId: 3,
+          riskBand: 'High',
+          riskBandPercent: '3.3',
+          riskBandOdds: '1 in 30'
+        },
+        isRiskAdminArea: false
+      })
+      getAreaInHectaresSpy.mockReturnValue(350)
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+      const pageContent = getElementByIdAndFormat(response.payload)
+      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+      expect(pageContent.fraTitle).toEqual(fraTitleText)
+      expect(pageContent.fraRequired).toEqual(fraRequiredText)
+      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
+      expect(pageContent.boundaryTooBig).toEqual(false)
+      expect(pageContent.orderP4Button).toEqual(false)
+      expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+      expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
+      expect(pageContent.adminUpdatedData).toEqual(false)
+      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+    })
   })
 
   describe('On Internal', () => {

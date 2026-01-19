@@ -13,14 +13,7 @@
       Find out what products are available
     </a>
   </p>
-{% elif over300Hectares %}
-  <p class="govuk-body" id="boundaryTooBig">The boundary is too big to order detailed flood risk information (product 4). Reduce the boundary size to under 300 hectares.</p>
-  <br>
-  <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
-    Edit boundary
-  </a>
-  <p>If your boundary needs to be bigger than 300 hectares, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
-{% else %}
+{% elif not showOrderProduct4Button %}
   <p class="govuk-body" data-testid="order-product4-email">
     To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at
     <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>
@@ -43,4 +36,11 @@
       <li>flood defence breach hazard information.</li>
     </ul>
   {% endif %}
+{% elif over300Hectares %}
+  <p class="govuk-body" id="boundaryTooBig">The boundary is too big to order detailed flood risk information (product 4). Reduce the boundary size to under 300 hectares.</p>
+  <br>
+  <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+    Edit boundary
+  </a>
+  <p>If your boundary needs to be bigger than 300 hectares, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
 {% endif %}
