@@ -146,7 +146,7 @@ body.js-enabled:not([data-fm-error]) {
 .govuk-heading-m,
 .govuk-list>li,
 .govuk-details__text,
-.fm-c-panel, 
+.fm-c-panel,
 .fm-c-panel--edit {
   color: var(--foreground-colour);
 }
@@ -200,6 +200,10 @@ body.js-enabled:not([data-fm-error]) {
 }
 
 // Start of fix of  a Map Component bug (must be fixed there)
+  .fm-o-top__column:first-child:not(:has(.fm-c-search))  {
+     position: static;
+ }
+
 .fm-o-top__column:first-child > .fm-c-panel {
     position: absolute;
     left: 15px;
