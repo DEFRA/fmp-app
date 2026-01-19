@@ -4,6 +4,7 @@ const TRIAGE = 'triage'
 const LOCATION = 'location'
 const ENGLAND_ONLY = 'england-only'
 const MAP = 'map'
+const MAP_HELP = 'map-help'
 const RESULTS = 'results'
 const CONTACT = 'contact'
 const CHECK_YOUR_DETAILS = 'check-your-details'
@@ -28,6 +29,7 @@ const views = {
   LOCATION,
   ENGLAND_ONLY,
   MAP,
+  MAP_HELP,
   RESULTS,
   CONTACT,
   CHECK_YOUR_DETAILS,

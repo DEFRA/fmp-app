@@ -4,7 +4,7 @@ const constants = require('../../constants')
 
 const url = constants.routes.ACCESSIBILITY_STATEMENT
 
-describe('cookies', () => {
+describe('accessibility statement', () => {
   it('Should return accessibility statement page', async () => {
     const response = await submitGetRequest({ url }, 'Accessibility statement for flood map for planning')
     expect(response.result).toMatchSnapshot()

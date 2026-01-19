@@ -317,6 +317,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     tokenCallback: getEsriToken,
     warningPosition: 'top',
     styles: baseMapStyles,
+    helpURL: '/map-help',
     search: {
       label: 'Search for a place',
       isAutocomplete: true,

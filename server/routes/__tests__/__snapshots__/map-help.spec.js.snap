@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`error page Should return error page 1`] = `
+exports[`map-help Should return map-help page 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template govuk-template--rebranded">
   <head>
     <meta charset="utf-8">
     <title>
-  Sorry, there is a problem with the page you requested - Flood map for planning - GOV.UK
+  Accessibility statement for flood map for planning - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#1d70b8">
@@ -22,8 +22,8 @@ exports[`error page Should return error page 1`] = `
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content=""/>
-  <meta property="og:title" content="Sorry, there is a problem with the page you requested - Flood map for planning - GOV.UK"/>
+  <meta property="og:url" content="http://dummyuri/map-help"/>
+  <meta property="og:title" content="Accessibility statement for flood map for planning - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -219,16 +219,137 @@ exports[`error page Should return error page 1`] = `
 
         <main class="govuk-main-wrapper" id="main-content">
           
-  <div class="govuk-width-container">
-    <div class="govuk-main-wrapper">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h1 class="govuk-heading-xl">Sorry, there is a problem with the page you requested</h1>
-          <p class="govuk-body">We will fix this issue as soon as possible</p>
-        </div>
-      </div>
-    </div>
+ 
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+      Help using the flood map
+    </h1>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a class="govuk-link" href="#accessibility">Accessibility</a>
+      </li>
+      <li>
+        <a class="govuk-link" href="#get-more-information">Get more information about a specific location</a>
+      </li>
+      <li>
+        <a class="govuk-link" href="#draw-boundary">Draw a boundary</a>
+      </li>
+      <li>
+        <a class="govuk-link" href="#how-to-use-the-data">How to use the data</a>
+      </li>
+      <li>
+        <a class="govuk-link" href="#other-ways-to-get-info">Other ways to get flood risk information</a>
+      </li>
+    </ul>
+    <h2 id="accessibility" class="govuk-heading-m">
+      Accessibility
+    </h2>
+
+    <h3 class="govuk-heading-s">
+      Keyboard controls
+    </h3>
+
+    <p class="govuk-body">
+      Tab to the map and press Alt+K to for keyboard controls.
+    </p>
+
+    <h3 class="govuk-heading-s">
+      Accessibility statement
+    </h3>
+
+    <p class="govuk-body">
+      For more information about the accessibility of this site visit <a
+        href="/accessibility-statement">our accessibility statement</a>
+    </p>
+
+    <h2 id="get-more-information" class="govuk-heading-m">
+      Get more information about a specific location
+    </h2>
+
+    <p class="govuk-body">The map is interactive. You can get more information on a flood zone or surface water area on
+      the map using a: </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        mouse: click on a point to find out more about the flood data held on that location
+      </li>
+      <li>
+        keyboard: navigate to the point, centre the crosshair on the location, then press enter
+      </li>
+      <li>
+        smartphone or touchscreen device: tap on a point on the map
+      </li>
+    </ul>
+
+    <p class="govuk-body">To order detailed flood risk information for a specific location or site, you will need to
+      draw a site boundary on the map. </p>
+
+    <h2 id="draw-boundary" class="govuk-heading-m">
+      Draw a boundary
+    </h2>
+
+    <p class="govuk-body">
+      You can use a polygon to draw a more detailed site boundary or use a square for a simple boundary. Choose what
+      type of boundary you want to draw under ‘Get a boundary report’ on the navigation panel on the map page.
+    </p>
+    <h3 class="govuk-heading-s">
+      Using a polygon
+    </h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>click ‘Add polygon’</li>
+      <li>click or tap the screen to place the first point (or node) of your boundary</li>
+      <li>do not try to drag or swipe to draw a line, as that will move the map</li>
+      <li>click or tap the screen again to place the second point of your boundary</li>
+      <li>you should see a blue line drawn between the points</li>
+      <li>keep adding points until you have finished the boundary of your site</li>
+      <li>to finish your boundary, double click or double tap the screen </li>
+      <li>the boundary is finished when the lines turn red</li>
+      <li>click the ‘Finish’ button to set your boundary</li>
+      <li>click ‘Get summary report’ to get more detailed flood information</li>
+    </ul>
+
+    <h3 class="govuk-heading-s">
+      Using a square
+    </h3>
+    <ul class="govuk-list govuk-list--bullet">
+
+      <li>click ‘Add square’</li>
+      <li>zoom and move the map to position the square</li>
+      <li>click the ‘Finish’ button to set your boundary</li>
+      <li>click ‘Get summary report’ to get more detailed flood information</li>
+
+    </ul>
+
+    <h3 class="govuk-heading-s">
+      Edit or delete a boundary
+    </h3>
+
+    <p class="govuk-body">You can edit or delete your boundary by clicking ‘Edit shape’ or ‘Delete shape’ under ‘Get a
+      boundary report’ on the navigation panel. </p>
+
+    <h2 id="how-to-use-the-data" class="govuk-heading-m">How to use the data </h2>
+    <p class="govuk-body">
+      <a class="govuk-link" href="how-to-use-flood-map-for-planning-data">Find out more about flood map for planning data and how it to use
+        it</a>
+    </p>
+    <h2 id="other-ways-to-get-info" class="govuk-heading-m">Other ways to get flood risk information </h2>
+
+    <p class="govuk-body">For help getting flood risk information, contact the Environment Agency. </p>
+
+    <p class="govuk-body">
+      Environment Agency </br>
+      Telephone: 03708 506 506 </br>
+      Monday to Friday, 8am to 6pm </br>
+      <a class="govuk-link" href="https://www.gov.uk/call-charges">Find out about call charges</a>
+    </p>
+
   </div>
+</div>
 
         </main>
       </div>
@@ -307,9 +428,9 @@ exports[`error page Should return error page 1`] = `
               <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a>
             </p>
             <p class="govuk-body-s" style="max-width: 70ch;">
-              © Crown copyright and database rights 
+              © Crown copyright and database rights 2025
               <a href = "https://www.ordnancesurvey.co.uk/">Ordnance Survey(OS)</a>
-              . Use of the address and mapping data is subject to the
+              AC0000807064. Use of the address and mapping data is subject to the
                 <a href="/os-terms">Ordnance Survey terms and conditions</a>.
             </p>
         </div>
