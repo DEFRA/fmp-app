@@ -200,10 +200,6 @@ body.js-enabled:not([data-fm-error]) {
 }
 
 // Start of fix of  a Map Component bug (must be fixed there)
- .fm-o-top__column:first-child {
-     position: static;
- }
-
 .fm-o-top__column:first-child > .fm-c-panel {
     position: absolute;
     left: 15px;
