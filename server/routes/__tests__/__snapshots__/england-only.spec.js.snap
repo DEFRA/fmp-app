@@ -241,8 +241,8 @@ exports[`England Only Page england-only with no params 1`] = `
           data-journey-click="England-Only:External-Link:Northern-Ireland">flood risk in Northern Ireland</a>
       </li>
     </ul>
-    <p>If you want to search for a different location in England, <a href="/"
-        data-journey-click="England-Only:Internal-Link:England">return to the flood map for planning</a>.</p>
+    <p>If you want to search for a different location in England, <a href="javascript:history.back()"
+        data-journey-click="England-Only:Internal-Link:England">return to the flood map for planning</a>
     </p>
   </div>
 </div>
