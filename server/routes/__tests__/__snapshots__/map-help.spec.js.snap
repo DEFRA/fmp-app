@@ -6,7 +6,7 @@ exports[`map-help Should return map-help page 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  Accessibility statement for flood map for planning - Flood map for planning - GOV.UK
+  Help using the flood map - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#1d70b8">
@@ -23,7 +23,7 @@ exports[`map-help Should return map-help page 1`] = `
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/map-help"/>
-  <meta property="og:title" content="Accessibility statement for flood map for planning - Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="Help using the flood map - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -228,6 +228,10 @@ exports[`map-help Should return map-help page 1`] = `
       Help using the flood map
     </h1>
 
+    <p class="govuk-body">
+-     On this page:
+    </p>
+
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a class="govuk-link" href="#accessibility">Accessibility</a>
@@ -294,7 +298,7 @@ exports[`map-help Should return map-help page 1`] = `
 
     <p class="govuk-body">
       You can use a polygon to draw a more detailed site boundary or use a square for a simple boundary. Choose what
-      type of boundary you want to draw under ‘Get a boundary report’ on the navigation panel on the map page.
+      type of boundary you want to draw under ‘Get data for your location’ on the navigation panel on the map page.
     </p>
     <h3 class="govuk-heading-s">
       Using a polygon
