@@ -46,14 +46,17 @@ class SurfaceWaterLayer extends FloodMapLayer {
 
   isStyleSegmentVisible (segmentsToMatch) {
     const { segments } = this.mapState
-    if (segmentsToMatch) {
-      const isVisible = segmentsToMatch.find(segment => segments.includes(segment)) !== undefined
-      if (isVisible) {
-        this.setVisibleDepthBands(segments)
-      }
-      return isVisible
+    const isVisible = segmentsToMatch.find(segment => segments.includes(segment)) !== undefined
+    if (isVisible) {
+      this.setVisibleDepthBands(segments)
     }
-    return true
+    return isVisible
+  }
+
+  checkLayerVisibility () {
+    const { segments } = this.mapState
+    const segmentsToMatch = this.layerVisibilityFilter
+    return segmentsToMatch.every(segment => segments.includes(segment))
   }
 
   updateOpacity () {

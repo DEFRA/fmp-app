@@ -89,10 +89,6 @@ class FloodMapLayer {
 
   checkLayerVisibility () {
     const { segments } = this.mapState
-    const segmentsToMatch = this.layerVisibilityFilter
-    if (segmentsToMatch) {
-      return segmentsToMatch.every(segment => segments.includes(segment))
-    }
     return segments.join('') === this.q
   }
 
