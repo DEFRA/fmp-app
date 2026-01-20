@@ -11,8 +11,6 @@ import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
 
-let visibleVtLayer
-
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -698,11 +696,11 @@ getDefraMapConfig().then((defraMapConfig) => {
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
     floodMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (!visibleVtLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
         return
       }
       lastHit = now
-      const layersToTest = visibleVtLayer.allLayers || [visibleVtLayer]
+      const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
       floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
         document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
       })
