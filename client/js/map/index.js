@@ -11,8 +11,6 @@ import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
 
-let visibleVtLayer
-
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -698,13 +696,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
     floodMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (!visibleVtLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
         return
       }
       lastHit = now
-      const layersToTest = visibleVtLayer.allLayers || [visibleVtLayer]
+      const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
       floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
-        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
+        if (response?.results?.length > 0) {
+          // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
+          // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
+          const { layerId } = response?.results?.[0]?.graphic?.origin || {}
+          document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
+          return
+        }
+        document.body.style.cursor = 'default'
       })
     })
 
@@ -821,6 +826,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       return {}
     }
     const feature = transformFeature(features)
+    if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
+      return {}
+    }
     const timeFrame = getTimeFrame(feature)
     const listContents = [
       ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],

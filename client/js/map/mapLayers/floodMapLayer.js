@@ -87,20 +87,20 @@ class FloodMapLayer {
     map.add(this.vectorTileLayer)
   }
 
-  checkLayerVisibility (_segments) {
+  checkLayerVisibility () {
     const { segments } = this.mapState
-    const segmentsToMatch = this.layerVisibilityFilter
-    if (segmentsToMatch) {
-      return segmentsToMatch.every(segment => segments.includes(segment))
-    }
     return segments.join('') === this.q
   }
 
-  isStyleLayerVisible (segmentsToMatch) {
-    const { segments } = this.mapState
-    if (segmentsToMatch) {
-      return segmentsToMatch.find(segment => segments.includes(segment)) !== undefined
-    }
+  isDepthVisible (_depthBand) {
+    return true
+  }
+
+  isStyleLayerIdVisible (_layerId) {
+    return true
+  }
+
+  isStyleSegmentVisible () {
     return true
   }
 
@@ -118,13 +118,13 @@ class FloodMapLayer {
     }
     const allLayers = this.vectorTileLayer.allLayers || [this.vectorTileLayer]
     allLayers.forEach((vectorTileLayer) => {
-      this.styleLayers.forEach(([styleLayerName, paintProperties, styleLayerFilters]) => {
+      this.styleLayers.forEach(([styleLayerName, paintProperties, segmentFilters]) => {
         const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
         if (layerPaintProperties) {
           layerPaintProperties['fill-color'] = this.getFillColour(paintProperties)
           vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
-          if (styleLayerFilters) {
-            layerPaintProperties['fill-opacity'] = this.isStyleLayerVisible(styleLayerFilters) ? FloodMapLayer.opacity : 0
+          if (segmentFilters) {
+            layerPaintProperties['fill-opacity'] = this.isStyleSegmentVisible(segmentFilters) ? FloodMapLayer.opacity : 0
           }
         }
       })
