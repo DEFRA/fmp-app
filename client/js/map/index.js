@@ -703,7 +703,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
       floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
         if (response?.results?.length > 0) {
-          const { layerId } = response?.results?.[0]?.graphic?.origin
+          // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
+          // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
+          const { layerId } = response?.results?.[0]?.graphic?.origin || {}
           document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
           return
         }
