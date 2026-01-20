@@ -702,7 +702,12 @@ getDefraMapConfig().then((defraMapConfig) => {
       lastHit = now
       const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
       floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
-        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
+        if (response?.results?.length > 0) {
+          const { layerId } = response?.results?.[0]?.graphic?.origin
+          document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
+          return
+        }
+        document.body.style.cursor = 'default'
       })
     })
 
@@ -819,6 +824,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       return {}
     }
     const feature = transformFeature(features)
+    if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
+      return {}
+    }
     const timeFrame = getTimeFrame(feature)
     const listContents = [
       ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],
