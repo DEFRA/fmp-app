@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
-"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+"
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -9,11 +11,13 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
-        <span id="info-fz3-river">395047,341830</span>
+      <span class="govuk-body-s"id="info-fz3-river">
+        395047,341830
       </span>
     </dd>
   </div>
+
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -26,6 +30,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dd>
   </div>
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
