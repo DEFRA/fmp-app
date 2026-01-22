@@ -16,7 +16,7 @@ module.exports = {
     description: 'info panel markup for map page',
     handler: async (request, h) => {
       const params = request.query
-      const gaId = `info-fz${params.fz}-${params.fs}`.toLowerCase()
+      const gaId = `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
       const timeFrame = params.tf === 'cc' ? 'Climate change' : 'Present day'
       return h.view('info-panel', { ...params, gaId, timeFrame })
     },
