@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
-"
-<dl class="govuk-summary-list govuk-!-margin-bottom-3">
-
+exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -11,13 +9,11 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s"id="info-fz3-river">
-        395047,341830
+      <span class="govuk-body-s"id="info-fz2-sea">
+        395000,341800
       </span>
     </dd>
   </div>
-
-
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -30,7 +26,63 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dd>
   </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood zone</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s">
+        2
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s">
+        Sea
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p class="govuk-body-s">
+  Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
 
+exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s"id="info-fz3-river">
+        395047,341830
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s">
+        Present day
+      </span>
+    </dd>
+  </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -46,7 +98,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
-        <strong>Flood Source</strong>
+        <strong>Flood source</strong>
       </span>
     </dt>
     <dd class="govuk-summary-list__value">

@@ -1,54 +1,28 @@
+{%- macro listRow(title, value, id) -%}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>{{title}}</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s"{% if id %}id="{{id}}"{% endif %}>
+        {{value}}
+      </span>
+    </dd>
+  </div>
+{%- endmacro -%}
+
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key govuk-!-width-one-half">
-      <span class="govuk-body-s">
-        <strong>Easting and northing</strong>
-      </span>
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
-        <span id="info-fz3-river">395047,341830</span>
-      </span>
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key govuk-!-width-one-half">
-      <span class="govuk-body-s">
-        <strong>Timeframe</strong>
-      </span>
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
-        Present day
-      </span>
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key govuk-!-width-one-half">
-      <span class="govuk-body-s">
-        <strong>Flood zone</strong>
-      </span>
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
-        3
-      </span>
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key govuk-!-width-one-half">
-      <span class="govuk-body-s">
-        <strong>Flood Source</strong>
-      </span>
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
-        River
-      </span>
-    </dd>
-  </div>
+  {{ listRow('Easting and northing', x + ',' + y, gaId) }}
+  {{ listRow('Timeframe', timeFrame) }}
+  {{ listRow('Flood zone', fz) }}
+  {{ listRow('Flood source', fs) }}
 </dl>
+
+{%- if fz==='2' or fz==='3' %}
 <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
 <p class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>
+{%- endif -%}

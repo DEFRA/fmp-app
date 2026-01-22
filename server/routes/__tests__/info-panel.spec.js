@@ -1,19 +1,28 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
 
-const url = '/defra-map/info-panel'
+const infoPanelUrl = '/defra-map/info-panel'
 
 describe('info-panel', () => {
   // beforeEach(async () => {
   // })
 
   describe('Flood Zones', () => {
-    it('should show the info panel for flood zone 3', async () => {
-      const response = await submitGetRequest({ url: `${url}?coords=[395047,341830]&ds=fz&fz=3&fs=River` })
-      expect(response.statusCode).toEqual(200)
-      const { payload } = response
-      document.body.innerHTML = payload
-      expect(document.getElementById('info-fz3-river').textContent).toEqual('395047,341830')
-      expect(payload).toMatchSnapshot()
+    const tests = [
+      ['flood zone 2', 395000, 341800, 'fz', '2', 'Sea', 'info-fz2-sea'],
+      ['flood zone 3', 395047, 341830, 'fz', '3', 'River', 'info-fz3-river']
+    ]
+
+    tests.forEach(([description, x, y, ds, fz, fs, expectedGaId]) => {
+      it(`should show the info panel for ${description}`, async () => {
+        const expectedCoords = `${x},${y}`
+        const url = `${infoPanelUrl}?x=${x}&y=${y}&ds=${ds}&fz=${fz}&fs=${fs}`
+        const response = await submitGetRequest({ url })
+        expect(response.statusCode).toEqual(200)
+        const { payload } = response
+        document.body.innerHTML = payload
+        expect(document.getElementById(expectedGaId).textContent).toContain(expectedCoords)
+        expect(payload).toMatchSnapshot()
+      })
     })
   })
 })
