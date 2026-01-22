@@ -16,8 +16,10 @@
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   {{ listRow('Easting and northing', x + ',' + y, gaId) }}
   {{ listRow('Timeframe', timeFrame) }}
+{%- if ds === 'fz' %}
   {{ listRow('Flood zone', fz) }}
   {{ listRow('Flood source', fs) }}
+{%- endif %}
 </dl>
 
 {%- if fz==='2' or fz==='3' %}
