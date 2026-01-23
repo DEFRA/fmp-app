@@ -43,4 +43,7 @@
     Edit boundary
   </a>
   <p>If your boundary needs to be bigger than 300 hectares, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
+  {% if showOrderProduct4Button -%}
+    <p class="govuk-body" >If you need to order other products, email the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
+  {% endif %}
 {% endif %}
