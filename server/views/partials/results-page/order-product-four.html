@@ -7,7 +7,10 @@
   <a id="orderP4Button" href="contact?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
-  <p class="govuk-body" >If you need to order other products, email the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
+  <p class="govuk-body" >
+    If you need to order other products, contact the Environment Agency team in {{ contactData.AreaName }} at
+    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>.
+  </p>
   <p>
     <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
       Find out what products are available
@@ -42,13 +45,17 @@
   <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Edit boundary
   </a>
-  <p>If your boundary needs to be bigger than 300 hectares, contact the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
+  <p class="govuk-body">
+    If your boundary needs to be bigger than 300 hectares
+    {%- if showOrderProduct4Button %} or you need to order other products {%- endif -%}
+    , contact the Environment Agency team in {{ contactData.AreaName }} at
+    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>.
+  </p>
   {% if showOrderProduct4Button -%}
-    <p class="govuk-body" >If you need to order other products, email the Environment Agency team in {{ contactData.AreaName }} at {{ contactData.EmailAddress }}.</p>
     <p class="govuk-body" >
       <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
         Find out what products are available
       </a>
     </p>
-  {% endif %}
+  {% endif -%}
 {% endif %}
