@@ -246,27 +246,6 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
       <p class="govuk-body">
         Find out more about <a class="govuk-link" href="/flood-zone-results-explained">flood zones and what they mean</a>
       </p>
-      
-      <p class="govuk-body">
-        When using the surface water map on the
-        <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=1323.5&map=SurfaceWater">
-          check your long term flood risk service
-        </a>
-        the following considerations apply:
-      </p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          surface water extents are suitable for use in planning
-        </li>
-        <li>
-          surface water climate change scenarios may help to inform risk assessments, 
-          but the available data fall short of what is required to assess planned development 
-        </li>
-        <li>
-          surface water depth information should not be used for planning purposes
-        </li>
-      </ul>
 
       <p class="govuk-body">
         To find out about other factors that might affect the flood risk of this location, you should also check:
@@ -314,9 +293,11 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
 
       <p class="govuk-body">
         For help deciding what flood risk information you need, 
-        email the Environment Agency team in Wessex at
+        contact the Environment Agency team in Wessex at
         <a class="govuk-link" href="mailto:wessexenquiries@environment-agency.gov.uk">wessexenquiries@environment-agency.gov.uk</a>
       </p>
+
+      <h3 class="govuk-heading-m"> Get flood risk data </h3>
 
       <h3 class="govuk-heading-m">
         Download a flood map for this location
@@ -385,7 +366,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
 
 
       <h3 class="govuk-heading-m">
-        Order flood risk data for rivers and the sea
+        Order detailed flood risk data
       </h3>
       
   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
@@ -394,7 +375,10 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
   <a id="orderP4Button" href="contact?encodedPolygon=_mafqv@_m}i{F?_ibE_ibE??~hbE~hbE?" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
-  <p class="govuk-body" >If you need to order other products, email the Environment Agency team in Wessex at wessexenquiries@environment-agency.gov.uk.</p>
+  <p class="govuk-body" >
+    If you need to order other products, contact the Environment Agency team in Wessex at
+    <a class="govuk-link" href="mailto:wessexenquiries@environment-agency.gov.uk">wessexenquiries@environment-agency.gov.uk</a>.
+  </p>
   <p>
     <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
       Find out what products are available
@@ -817,27 +801,6 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
       <p class="govuk-body">
         Find out more about <a class="govuk-link" href="/flood-zone-results-explained">flood zones and what they mean</a>
       </p>
-      
-      <p class="govuk-body">
-        When using the surface water map on the
-        <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=1323.5&map=SurfaceWater">
-          check your long term flood risk service
-        </a>
-        the following considerations apply:
-      </p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          surface water extents are suitable for use in planning
-        </li>
-        <li>
-          surface water climate change scenarios may help to inform risk assessments, 
-          but the available data fall short of what is required to assess planned development 
-        </li>
-        <li>
-          surface water depth information should not be used for planning purposes
-        </li>
-      </ul>
 
       <p class="govuk-body">
         To find out about other factors that might affect the flood risk of this location, you should also check:
@@ -885,9 +848,11 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
 
       <p class="govuk-body">
         For help deciding what flood risk information you need, 
-        email the Environment Agency team in Wessex at
+        contact the Environment Agency team in Wessex at
         <a class="govuk-link" href="mailto:wessexenquiries@environment-agency.gov.uk">wessexenquiries@environment-agency.gov.uk</a>
       </p>
+
+      <h3 class="govuk-heading-m"> Get flood risk data </h3>
 
       <h3 class="govuk-heading-m">
         Download a flood map for this location
@@ -956,7 +921,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
 
 
       <h3 class="govuk-heading-m">
-        Order flood risk data for rivers and the sea
+        Order detailed flood risk data
       </h3>
       
   <p class="govuk-body" data-testid="order-product4-email">
