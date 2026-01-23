@@ -20,6 +20,7 @@ const epochCloseToMidnight = epochStartTime + MILLISECONDS.HOUR * 12 // 04/06/20
 const april12 = 1681337582000
 const january01 = 1672534861001
 const december12 = 1701694799000
+const timeZeroMinutes = 1769180400000
 
 const tests = [
   // epoch, formatUKTimeToMinute, formatUKDate, formatUKDateTime, formatUKDateTimeWithTimeZone, formatUKDateTimeToMinute
@@ -28,37 +29,51 @@ const tests = [
     '01/01/2023',
     '01/01/2023 01:01',
     '01/01/2023, 01:01:01',
-    '01/01/2023, 01:01:01 GMT'
+    '01/01/2023, 01:01:01 GMT',
+    '1:01am on Sunday 1 January 2023'
   ],
   [april12,
     '23:13',
     '12/04/2023',
     '12/04/2023 23:13',
     '12/04/2023, 23:13:02',
-    '12/04/2023, 23:13:02 BST'
+    '12/04/2023, 23:13:02 BST',
+    '11:13pm on Wednesday 12 April 2023'
   ],
   [december12,
     '12:59',
     '04/12/2023',
     '04/12/2023 12:59',
     '04/12/2023, 12:59:59',
-    '04/12/2023, 12:59:59 GMT'
+    '04/12/2023, 12:59:59 GMT',
+    '12:59pm on Monday 4 December 2023'
   ],
   [epochStartTime,
     '12:18',
     '03/06/2023',
     '03/06/2023 12:18',
     '03/06/2023, 12:18:23',
-    '03/06/2023, 12:18:23 BST'
+    '03/06/2023, 12:18:23 BST',
+    '12:18pm on Saturday 3 June 2023'
   ],
   [epochCloseToMidnight,
     '00:18',
     '04/06/2023',
     '04/06/2023 00:18',
     '04/06/2023, 00:18:23',
-    '04/06/2023, 00:18:23 BST'
+    '04/06/2023, 00:18:23 BST',
+    '12:18am on Sunday 4 June 2023'
+  ],
+  [timeZeroMinutes,
+    '15:00',
+    '23/01/2026',
+    '23/01/2026 15:00',
+    '23/01/2026, 15:00:00',
+    '23/01/2026, 15:00:00 GMT',
+    '3pm on Friday 23 January 2026'
   ],
   [undefined,
+    '',
     '',
     '',
     '',
@@ -66,6 +81,7 @@ const tests = [
     ''
   ],
   ['INVALID DATE',
+    '',
     '',
     '',
     '',
@@ -80,7 +96,8 @@ describe('dates', () => {
     ['formatUKDate', formatUKDate, 2],
     ['formatUKDateTimeToMinute', formatUKDateTimeToMinute, 3],
     ['formatUKDateTime', formatUKDateTime, 4],
-    ['formatUKDateTimeWithTimeZone', formatUKDateTimeWithTimeZone, 5]
+    ['formatUKDateTimeWithTimeZone', formatUKDateTimeWithTimeZone, 5],
+    ['formatUKTimeAndPauseText', formatUKTimeAndPauseText, 6]
   ])('%s', (functionName, dateFunction, expectedResultIndex) => {
     tests.forEach((test) => {
       const [date] = test
@@ -128,7 +145,15 @@ describe('dates', () => {
 
   describe('formatUKTimeAndPauseText', () => {
     it('should format date correctly', () => {
-      expect(formatUKTimeAndPauseText(1764265080000)).toEqual('5.38pm on Thursday 27 November 2025')
+      expect(formatUKTimeAndPauseText(1764265080000)).toEqual('5:38pm on Thursday 27 November 2025')
+    })
+
+    it('should format midnight correctly', () => {
+      expect(formatUKTimeAndPauseText(1769126400000)).toEqual('midnight on Friday 23 January 2026')
+    })
+
+    it('should format midday correctly', () => {
+      expect(formatUKTimeAndPauseText(1769169600000)).toEqual('midday on Friday 23 January 2026')
     })
 
     it('should return empty string for invalid date', () => {
