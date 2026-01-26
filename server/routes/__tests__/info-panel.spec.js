@@ -29,6 +29,15 @@ describe('info-panel', () => {
   const testNoData = async (expected) =>
     testTitleAndBody(expected, 'fznd', 'Climate change data unavailable')
 
+  const testHowToUseUrl = async (expected) => {
+    const titleElement = document.getElementById('info-how-to-cc-url')
+    if (expected) {
+      expect(titleElement.textContent).toContain('Find out more about flood map for planning data and how to use it')
+    } else {
+      expect(titleElement).toBeNull()
+    }
+  }
+
   describe('Flood Zones', () => {
     const tests = [
       ['flood zone 2', 395000, 341800, 'fz', '2', 'pd', 'Sea', 'info-fz2-sea'],
@@ -52,6 +61,7 @@ describe('info-panel', () => {
         await testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
         await testHowToUseFZCC(fz === 'cc')
         await testNoData(fz === 'nd')
+        await testHowToUseUrl(tf === 'cc')
       })
     })
   })

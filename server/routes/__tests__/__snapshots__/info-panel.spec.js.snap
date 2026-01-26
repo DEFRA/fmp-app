@@ -216,6 +216,11 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
   The flood zones plus climate change dataset shows how the combined extent of flood
   zones 2 and 3 could increase with climate change over the next century, ignoring the
   benefits of any existing flood defences.
+</p>
+<p id='info-how-to-cc-url' class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
 </p>"
 `;
 
@@ -251,5 +256,10 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
 <h2 id='info-fznd-title' class="govuk-heading-s">Climate change data unavailable</h2>
 <p id='info-fznd-body' class="govuk-body-s">
   In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
+</p>
+<p id='info-how-to-cc-url' class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
 </p>"
 `;
