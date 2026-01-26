@@ -51,8 +51,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
     </dd>
   </div>
 </dl>
-<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p id='info-fz-updates-body' class="govuk-body-s">
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
@@ -108,8 +108,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
     </dd>
   </div>
 </dl>
-<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p id='info-fz-updates-body' class="govuk-body-s">
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
@@ -165,8 +165,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
     </dd>
   </div>
 </dl>
-<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p id='info-fz-updates-body' class="govuk-body-s">
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
@@ -211,13 +211,13 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
     </dd>
   </div>
 </dl>
-<h2 id='info-how-to-cc-title' class="govuk-heading-s">How to use flood zones plus climate change</h2>
-<p id='info-how-to-cc-body' class="govuk-body-s">
+<h2 id="info-how-to-cc-title" class="govuk-heading-s">How to use flood zones plus climate change</h2>
+<p id="info-how-to-cc-body" class="govuk-body-s">
   The flood zones plus climate change dataset shows how the combined extent of flood
   zones 2 and 3 could increase with climate change over the next century, ignoring the
   benefits of any existing flood defences.
 </p>
-<p id='info-how-to-cc-url' class="govuk-body-s">
+<p id="info-how-to-cc-url" class="govuk-body-s">
   <a href="/how-to-use-flood-map-for-planning-data">
     Find out more about flood map for planning data and how to use it
   </a>
@@ -253,11 +253,11 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
   
   
 </dl>
-<h2 id='info-fznd-title' class="govuk-heading-s">Climate change data unavailable</h2>
-<p id='info-fznd-body' class="govuk-body-s">
+<h2 id="info-fznd-title" class="govuk-heading-s">Climate change data unavailable</h2>
+<p id="info-fznd-body" class="govuk-body-s">
   In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
 </p>
-<p id='info-how-to-cc-url' class="govuk-body-s">
+<p id="info-how-to-cc-url" class="govuk-body-s">
   <a href="/how-to-use-flood-map-for-planning-data">
     Find out more about flood map for planning data and how to use it
   </a>

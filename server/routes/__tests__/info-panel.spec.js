@@ -3,8 +3,13 @@ const { submitGetRequest } = require('../../__test-helpers__/server')
 const infoPanelUrl = '/defra-map/info-panel'
 
 describe('info-panel', () => {
-  // beforeEach(async () => {
-  // })
+  const initDocument = async (url) => {
+    const response = await submitGetRequest({ url })
+    expect(response.statusCode).toEqual(200)
+    const { payload } = response
+    document.body.innerHTML = payload
+    expect(document.body.innerHTML).toMatchSnapshot()
+  }
 
   const testGoogleAnalyticsId = async (expectedGaId) => {
     expect(document.getElementById(expectedGaId).textContent).toContain('COORDS')
@@ -71,21 +76,16 @@ describe('info-panel', () => {
 
     tests.forEach(([description, ds, fz, tf, fs, expectedGaId]) => {
       const url = `${infoPanelUrl}?ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}`
-
       it(`should show the info panel for ${description}`, async () => {
-        const response = await submitGetRequest({ url })
-        expect(response.statusCode).toEqual(200)
-        const { payload } = response
-        document.body.innerHTML = payload
-        expect(payload).toMatchSnapshot()
-        await testGoogleAnalyticsId(expectedGaId)
-        await testFLoodZoneRow(fz === '2' || fz === '3', fz)
-        await testFLoodSourceRow(Boolean(fs), fs)
-        await testFloodZoneUpdates(fz === '2' || fz === '3', fz)
-        await testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
-        await testHowToUseFZCC(fz === 'cc')
-        await testNoData(fz === 'nd')
-        await testHowToUseUrl(tf === 'cc')
+        await initDocument(url)
+        testGoogleAnalyticsId(expectedGaId)
+        testFLoodZoneRow(fz === '2' || fz === '3', fz)
+        testFLoodSourceRow(Boolean(fs), fs)
+        testFloodZoneUpdates(fz === '2' || fz === '3', fz)
+        testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
+        testHowToUseFZCC(fz === 'cc')
+        testNoData(fz === 'nd')
+        testHowToUseUrl(tf === 'cc')
       })
     })
   })
