@@ -60,6 +60,18 @@ describe('info-panel', () => {
     testListRow(expected, 'aep', aepText)
   }
 
+  const testDepthRow = async (expected, depth) => {
+    testListRow(expected, 'depth', depth)
+  }
+
+  const testSurfaceWaterBuilding = async (expected) => {
+    testListRow(
+      expected,
+      'sw-building',
+      'Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.'
+    )
+  }
+
   const testHowToUseUrl = async (expected) => {
     const titleElement = document.getElementById('info-how-to-cc-url')
     if (expected) {
@@ -91,6 +103,8 @@ describe('info-panel', () => {
         testNoData(fz === 'nd')
         testHowToUseUrl(tf === 'cc')
         testAepRow(false)
+        testDepthRow(false)
+        testSurfaceWaterBuilding(false)
       })
     })
   })
@@ -119,6 +133,8 @@ describe('info-panel', () => {
         testHowToUseUrl(tf === 'cc')
         testAepRow(true, 'chance of flooding each year')
         testAepRow(true, aepText[aep])
+        testDepthRow(true, depth)
+        testSurfaceWaterBuilding(true)
       })
     })))
   })

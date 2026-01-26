@@ -302,8 +302,22 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high dept
         3.3% (1 in 30)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
 </dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
 <p id="info-how-to-cc-url" class="govuk-body-s">
   <a href="/how-to-use-flood-map-for-planning-data">
     Find out more about flood map for planning data and how to use it
@@ -349,8 +363,22 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low depth
         0.1% (1 in 1000)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
 </dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
 <p id="info-how-to-cc-url" class="govuk-body-s">
   <a href="/how-to-use-flood-map-for-planning-data">
     Find out more about flood map for planning data and how to use it
@@ -396,8 +424,22 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium de
         1% (1 in 100)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
 </dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
 <p id="info-how-to-cc-url" class="govuk-body-s">
   <a href="/how-to-use-flood-map-for-planning-data">
     Find out more about flood map for planning data and how to use it
@@ -443,8 +485,22 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-high dept
         3.3% (1 in 30)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
-</dl>"
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-low depth: 1200-2300mm 1`] = `
@@ -485,8 +541,22 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-low depth
         0.1% (1 in 1000)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
-</dl>"
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-medium depth: 1200-2300mm 1`] = `
@@ -527,6 +597,20 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-medium de
         1% (1 in 100)<br>chance of flooding each year
       </span>
     </dd>
+  </div><div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        1200-2300mm
+      </span>
+    </dd>
   </div>
-</dl>"
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
 `;

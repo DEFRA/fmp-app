@@ -28,6 +28,9 @@
     {%- if aep==='high' -%} {%- set aepText =   "3.3% (1 in 30)"   -%} {%- endif %}
     {%- set aepText = [aepText, '<br>', 'chance of flooding each year'] | join -%}
     {{ listRow('Annual exceedance probability (AEP)', aepText, 'info-aep') }}
+  {%- endif -%}
+  {% if depth -%}
+    {{ listRow('Depth in millimetres', depth, 'info-depth') }}
   {%- endif %}
 </dl>
 
@@ -51,6 +54,12 @@
 <h2 id='info-fznd-title' class="govuk-heading-s">Climate change data unavailable</h2>
 <p id='info-fznd-body' class="govuk-body-s">
   In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
+</p>
+{%- endif -%}
+
+{%- if ds==='sw' %}
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
 </p>
 {%- endif -%}
 
