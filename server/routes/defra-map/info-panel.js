@@ -28,6 +28,7 @@ const getGaId = (params) => {
       return `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
     }
   }
+  return `info-sw-${params.aep}`
 }
 
 module.exports = {

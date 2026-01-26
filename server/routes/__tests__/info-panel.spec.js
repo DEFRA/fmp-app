@@ -56,6 +56,10 @@ describe('info-panel', () => {
   const testFLoodSourceRow = async (expected, floodSource) =>
     testListRow(expected, 'flood-source', floodSource)
 
+  const testAepRow = async (expected, aepText) => {
+    testListRow(expected, 'aep', aepText)
+  }
+
   const testHowToUseUrl = async (expected) => {
     const titleElement = document.getElementById('info-how-to-cc-url')
     if (expected) {
@@ -86,7 +90,36 @@ describe('info-panel', () => {
         testHowToUseFZCC(fz === 'cc')
         testNoData(fz === 'nd')
         testHowToUseUrl(tf === 'cc')
+        testAepRow(false)
       })
     })
+  })
+
+  describe('Surface Water', () => {
+    const aepText = {
+      low: '0.1% (1 in 1000)',
+      medium: '1% (1 in 100)',
+      high: '3.3% (1 in 30)'
+    }
+    const aeps = ['low', 'medium', 'high']
+    const depths = ['1200-2300mm']
+    const timeFrames = ['pd', 'cc']
+    aeps.forEach((aep) => depths.forEach((depth) => timeFrames.forEach((tf) => {
+      const url = `${infoPanelUrl}?ds=sw&tf=${tf}&aep=${aep}&depth=${depth}`
+      it(`should show the info panel for SW-${tf}-${aep} depth: ${depth}`, async () => {
+        await initDocument(url)
+        const expectedGaId = `info-sw-${aep}`
+        testGoogleAnalyticsId(expectedGaId)
+        testFLoodZoneRow(false)
+        testFLoodSourceRow(false)
+        testFloodZoneUpdates(false)
+        testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
+        testHowToUseFZCC(false)
+        testNoData(false)
+        testHowToUseUrl(tf === 'cc')
+        testAepRow(true, 'chance of flooding each year')
+        testAepRow(true, aepText[aep])
+      })
+    })))
   })
 })

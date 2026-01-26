@@ -7,7 +7,7 @@
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s"{% if id %} id="{{id}}"{% endif %}>
-        {{value}}
+        {{value | nl2br | safe}}
       </span>
     </dd>
   </div>
@@ -21,6 +21,13 @@
   {%- endif %}
   {% if fs -%}
     {{ listRow('Flood source', fs, 'info-flood-source') }}
+  {%- endif -%}
+  {% if aep -%}
+    {%- if aep==='low' -%} {%- set aepText =    "0.1% (1 in 1000)" -%} {%- endif %}
+    {%- if aep==='medium' -%} {%- set aepText = "1% (1 in 100)"    -%} {%- endif %}
+    {%- if aep==='high' -%} {%- set aepText =   "3.3% (1 in 30)"   -%} {%- endif %}
+    {%- set aepText = [aepText, '<br>', 'chance of flooding each year'] | join -%}
+    {{ listRow('Annual exceedance probability (AEP)', aepText, 'info-aep') }}
   {%- endif %}
 </dl>
 

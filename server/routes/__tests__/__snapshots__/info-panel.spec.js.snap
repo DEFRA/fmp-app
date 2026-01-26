@@ -263,3 +263,270 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
   </a>
 </p>"
 `;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-high depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-high">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        3.3% (1 in 30)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-low depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-low">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        0.1% (1 in 1000)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-medium depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-medium">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        1% (1 in 100)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-high depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-high">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        3.3% (1 in 30)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-low depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-low">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        0.1% (1 in 1000)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-medium depth: 1200-2300mm 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-medium">
+        COORDS
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        1% (1 in 100)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+</dl>"
+`;
