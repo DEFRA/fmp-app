@@ -6,6 +6,10 @@ describe('info-panel', () => {
   // beforeEach(async () => {
   // })
 
+  const testGoogleAnalyticsId = async (expectedGaId) => {
+    expect(document.getElementById(expectedGaId).textContent).toContain('COORDS')
+  }
+
   const testTimeFrame = async (expectedTimeFrame) => {
     const element = document.getElementById('info-timeframe')
     expect(element.textContent).toContain(expectedTimeFrame)
@@ -58,24 +62,23 @@ describe('info-panel', () => {
 
   describe('Flood Zones', () => {
     const tests = [
-      ['flood zone 2', 395000, 341800, 'fz', '2', 'pd', 'Sea', 'info-fz2-sea'],
-      ['flood zone 3', 395047, 341830, 'fz', '3', 'pd', 'River', 'info-fz3-river'],
-      ['flood zone 3', 395047, 341830, 'fz', '3', 'pd', 'River and sea', 'info-fz3-river-and-sea'],
-      ['flood zone cc', 395047, 341830, 'fz', 'cc', 'cc', 'River and sea', 'info-fzcc-river-and-sea'],
-      ['flood zone nd', 395047, 341830, 'fz', 'nd', 'cc', '', 'info-fznodata']
+      ['flood zone 2', 'fz', '2', 'pd', 'Sea', 'info-fz2-sea'],
+      ['flood zone 3', 'fz', '3', 'pd', 'River', 'info-fz3-river'],
+      ['flood zone 3', 'fz', '3', 'pd', 'River and sea', 'info-fz3-river-and-sea'],
+      ['flood zone cc', 'fz', 'cc', 'cc', 'River and sea', 'info-fzcc-river-and-sea'],
+      ['flood zone nd', 'fz', 'nd', 'cc', '', 'info-fznodata']
     ]
 
-    tests.forEach(([description, x, y, ds, fz, tf, fs, expectedGaId]) => {
-      const expectedCoords = `${x},${y}`
-      const url = `${infoPanelUrl}?x=${x}&y=${y}&ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}`
+    tests.forEach(([description, ds, fz, tf, fs, expectedGaId]) => {
+      const url = `${infoPanelUrl}?ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}`
 
       it(`should show the info panel for ${description}`, async () => {
         const response = await submitGetRequest({ url })
         expect(response.statusCode).toEqual(200)
         const { payload } = response
         document.body.innerHTML = payload
-        expect(document.getElementById(expectedGaId).textContent).toContain(expectedCoords)
         expect(payload).toMatchSnapshot()
+        await testGoogleAnalyticsId(expectedGaId)
         await testFLoodZoneRow(fz === '2' || fz === '3', fz)
         await testFLoodSourceRow(Boolean(fs), fs)
         await testFloodZoneUpdates(fz === '2' || fz === '3', fz)

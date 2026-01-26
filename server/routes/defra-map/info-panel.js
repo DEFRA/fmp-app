@@ -1,7 +1,5 @@
 const Joi = require('joi')
 /*
-  x: eastings
-  y: northings,
   tf: Timeframe - [pd:Present day, cc:Climate change]
   ds: dataset - [fz,sw,rs],
   fz: Flood zone - [2,3,nd,cc or none]
@@ -45,8 +43,6 @@ module.exports = {
     },
     validate: {
       query: Joi.object({
-        x: Joi.number(),
-        y: Joi.number(),
         tf: Joi.string().valid('pd', 'cc').required(),
         ds: Joi.string().valid('fz', 'sw', 'rs'),
         fz: Joi.string().valid('2', '3', 'nd', 'cc'),

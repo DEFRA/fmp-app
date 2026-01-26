@@ -14,7 +14,7 @@
 {%- endmacro -%}
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
-  {{ listRow('Easting and northing', x + ',' + y, gaId) }}
+  {{ listRow('Easting and northing', 'COORDS', gaId) }}
   {{ listRow('Timeframe', timeFrame, 'info-timeframe') }}
   {% if fz==='2' or fz==='3' -%}
     {{ listRow('Flood zone', fz, 'info-flood-zone')  }}
