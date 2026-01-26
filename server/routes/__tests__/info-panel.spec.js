@@ -32,6 +32,9 @@ describe('info-panel', () => {
     }
   }
 
+  const testFloodZoneUpdates = async (expected) =>
+    testTitleAndBody(expected, 'fz-updates', 'Updates to flood zones 2 and 3')
+
   const testHowToUseFZCC = async (expected) =>
     testTitleAndBody(expected, 'how-to-cc', 'How to use flood zones plus climate change')
 
@@ -75,6 +78,7 @@ describe('info-panel', () => {
         expect(payload).toMatchSnapshot()
         await testFLoodZoneRow(fz === '2' || fz === '3', fz)
         await testFLoodSourceRow(Boolean(fs), fs)
+        await testFloodZoneUpdates(fz === '2' || fz === '3', fz)
         await testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
         await testHowToUseFZCC(fz === 'cc')
         await testNoData(fz === 'nd')

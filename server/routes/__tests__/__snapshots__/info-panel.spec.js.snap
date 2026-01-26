@@ -51,8 +51,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
     </dd>
   </div>
 </dl>
-<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p class="govuk-body-s">
+<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id='info-fz-updates-body' class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
@@ -108,8 +108,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
     </dd>
   </div>
 </dl>
-<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p class="govuk-body-s">
+<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id='info-fz-updates-body' class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
@@ -165,8 +165,8 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
     </dd>
   </div>
 </dl>
-<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-<p class="govuk-body-s">
+<h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id='info-fz-updates-body' class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>"
 `;
