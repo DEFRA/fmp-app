@@ -23,11 +23,26 @@ describe('info-panel', () => {
     }
   }
 
+  const testListRow = async (expected, idPart, expectedContent) => {
+    const titleElement = document.getElementById(`info-${idPart}`)
+    if (expected) {
+      expect(titleElement.textContent).toContain(expectedContent)
+    } else {
+      expect(titleElement).toBeNull()
+    }
+  }
+
   const testHowToUseFZCC = async (expected) =>
     testTitleAndBody(expected, 'how-to-cc', 'How to use flood zones plus climate change')
 
   const testNoData = async (expected) =>
     testTitleAndBody(expected, 'fznd', 'Climate change data unavailable')
+
+  const testFLoodZoneRow = async (expected, floodZone) =>
+    testListRow(expected, 'flood-zone', floodZone)
+
+  const testFLoodSourceRow = async (expected, floodSource) =>
+    testListRow(expected, 'flood-source', floodSource)
 
   const testHowToUseUrl = async (expected) => {
     const titleElement = document.getElementById('info-how-to-cc-url')
@@ -58,6 +73,8 @@ describe('info-panel', () => {
         document.body.innerHTML = payload
         expect(document.getElementById(expectedGaId).textContent).toContain(expectedCoords)
         expect(payload).toMatchSnapshot()
+        await testFLoodZoneRow(fz === '2' || fz === '3', fz)
+        await testFLoodSourceRow(Boolean(fs), fs)
         await testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
         await testHowToUseFZCC(fz === 'cc')
         await testNoData(fz === 'nd')

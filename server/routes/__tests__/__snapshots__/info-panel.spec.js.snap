@@ -33,7 +33,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-zone">
         2
       </span>
     </dd>
@@ -45,7 +45,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-source">
         Sea
       </span>
     </dd>
@@ -90,7 +90,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-zone">
         3
       </span>
     </dd>
@@ -102,7 +102,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-source">
         River
       </span>
     </dd>
@@ -147,7 +147,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-zone">
         3
       </span>
     </dd>
@@ -159,7 +159,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-source">
         River and sea
       </span>
     </dd>
@@ -205,7 +205,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-flood-source">
         River and sea
       </span>
     </dd>

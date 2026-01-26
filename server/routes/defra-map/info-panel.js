@@ -47,7 +47,7 @@ module.exports = {
       query: Joi.object({
         x: Joi.number(),
         y: Joi.number(),
-        tf: Joi.string().valid('pd', 'cc'),
+        tf: Joi.string().valid('pd', 'cc').required(),
         ds: Joi.string().valid('fz', 'sw', 'rs'),
         fz: Joi.string().valid('2', '3', 'nd', 'cc'),
         fs: Joi.string().valid('River', 'Sea', 'River and sea').allow(''),
