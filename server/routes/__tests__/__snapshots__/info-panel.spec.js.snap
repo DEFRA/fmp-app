@@ -9,7 +9,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s"id="info-fz2-sea">
+      <span class="govuk-body-s" id="info-fz2-sea">
         395000,341800
       </span>
     </dd>
@@ -21,7 +21,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-timeframe">
         Present day
       </span>
     </dd>
@@ -66,7 +66,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s"id="info-fz3-river">
+      <span class="govuk-body-s" id="info-fz3-river">
         395047,341830
       </span>
     </dd>
@@ -78,7 +78,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-timeframe">
         Present day
       </span>
     </dd>
@@ -123,7 +123,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s"id="info-fz3-river-and-sea">
+      <span class="govuk-body-s" id="info-fz3-river-and-sea">
         395047,341830
       </span>
     </dd>
@@ -135,7 +135,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s">
+      <span class="govuk-body-s" id="info-timeframe">
         Present day
       </span>
     </dd>
@@ -168,5 +168,53 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
 <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
 <p class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fzcc-river-and-sea">
+        395047,341830
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s">
+        River and sea
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id='info-how-to-cc-title' class="govuk-heading-s">How to use flood zones plus climate change</h2>
+<p id='info-how-to-cc-body' class="govuk-body-s">
+  The flood zones plus climate change dataset shows how the combined extent of flood
+  zones 2 and 3 could increase with climate change over the next century, ignoring the
+  benefits of any existing flood defences.
 </p>"
 `;

@@ -6,7 +6,7 @@
       </span>
     </dt>
     <dd class="govuk-summary-list__value">
-      <span class="govuk-body-s"{% if id %}id="{{id}}"{% endif %}>
+      <span class="govuk-body-s"{% if id %} id="{{id}}"{% endif %}>
         {{value}}
       </span>
     </dd>
@@ -15,7 +15,7 @@
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   {{ listRow('Easting and northing', x + ',' + y, gaId) }}
-  {{ listRow('Timeframe', timeFrame) }}
+  {{ listRow('Timeframe', timeFrame, 'info-timeframe') }}
   {% if fz==='2' or fz==='3' -%}
     {{ listRow('Flood zone', fz)  }}
   {%- endif %}
@@ -28,5 +28,14 @@
 <h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
 <p class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>
+{%- endif -%}
+
+{%- if fz==='cc' %}
+<h2 id='info-how-to-cc-title' class="govuk-heading-s">How to use flood zones plus climate change</h2>
+<p id='info-how-to-cc-body' class="govuk-body-s">
+  The flood zones plus climate change dataset shows how the combined extent of flood
+  zones 2 and 3 could increase with climate change over the next century, ignoring the
+  benefits of any existing flood defences.
 </p>
 {%- endif -%}

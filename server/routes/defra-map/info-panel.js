@@ -9,6 +9,19 @@ const Joi = require('joi')
   aep: [low,medium,high or none],
   depth: [any depthband or none],
 */
+
+const getTimeFrame = (params) => {
+  const climateChange = 'Climate change'
+  const presentDay = 'Present day'
+  if (params.tf) {
+    return params.tf === 'cc' ? climateChange : presentDay
+  } else if (params.fz) {
+    return params.fz === '2' || params.fz === '3' ? presentDay : climateChange
+  } else {
+    return presentDay
+  }
+}
+
 module.exports = {
   method: 'GET',
   path: '/defra-map/info-panel',
@@ -17,7 +30,7 @@ module.exports = {
     handler: async (request, h) => {
       const params = request.query
       const gaId = `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
-      const timeFrame = params.tf === 'cc' ? 'Climate change' : 'Present day'
+      const timeFrame = getTimeFrame(params)
       return h.view('info-panel', { ...params, gaId, timeFrame })
     },
     validate: {
