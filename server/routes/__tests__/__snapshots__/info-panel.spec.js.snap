@@ -218,3 +218,38 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
   benefits of any existing flood defences.
 </p>"
 `;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`] = `
+"<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fznodata">
+        395047,341830
+      </span>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+  
+  
+</dl>
+<h2 id='info-fznd-title' class="govuk-heading-s">Climate change data unavailable</h2>
+<p id='info-fznd-body' class="govuk-body-s">
+  In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
+</p>"
+`;

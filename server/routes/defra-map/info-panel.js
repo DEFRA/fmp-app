@@ -22,6 +22,16 @@ const getTimeFrame = (params) => {
   }
 }
 
+const getGaId = (params) => {
+  if (params.ds === 'fz') {
+    if (params.fz === 'nd') {
+      return 'info-fznodata'
+    } else {
+      return `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
+    }
+  }
+}
+
 module.exports = {
   method: 'GET',
   path: '/defra-map/info-panel',
@@ -29,7 +39,7 @@ module.exports = {
     description: 'info panel markup for map page',
     handler: async (request, h) => {
       const params = request.query
-      const gaId = `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
+      const gaId = getGaId(params)
       const timeFrame = getTimeFrame(params)
       return h.view('info-panel', { ...params, gaId, timeFrame })
     },
@@ -40,7 +50,7 @@ module.exports = {
         tf: Joi.string().valid('pd', 'cc'),
         ds: Joi.string().valid('fz', 'sw', 'rs'),
         fz: Joi.string().valid('2', '3', 'nd', 'cc'),
-        fs: Joi.string().valid('River', 'Sea', 'River and sea'),
+        fs: Joi.string().valid('River', 'Sea', 'River and sea').allow(''),
         aep: Joi.string().valid('low', 'medium', 'high'),
         depth: Joi.string()
       })
