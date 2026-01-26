@@ -11,11 +11,11 @@ describe('info-panel', () => {
     expect(element.textContent).toContain(expectedTimeFrame)
   }
 
-  const testHowToUseFZCC = async (expected) => {
-    const titleElement = document.getElementById('info-how-to-cc-title')
-    const bodyElement = document.getElementById('info-how-to-cc-body')
+  const testTitleAndBody = async (expected, idPart, expectedContent) => {
+    const titleElement = document.getElementById(`info-${idPart}-title`)
+    const bodyElement = document.getElementById(`info-${idPart}-body`)
     if (expected) {
-      expect(titleElement.textContent).toContain('How to use flood zones plus climate change')
+      expect(titleElement.textContent).toContain(expectedContent)
       expect(bodyElement).toBeDefined()
     } else {
       expect(titleElement).toBeNull()
@@ -23,17 +23,11 @@ describe('info-panel', () => {
     }
   }
 
-  const testNoData = async (expected) => {
-    const titleElement = document.getElementById('info-fznd-title')
-    const bodyElement = document.getElementById('info-fznd-body')
-    if (expected) {
-      expect(titleElement.textContent).toContain('Climate change data unavailable')
-      expect(bodyElement).toBeDefined()
-    } else {
-      expect(titleElement).toBeNull()
-      expect(bodyElement).toBeNull()
-    }
-  }
+  const testHowToUseFZCC = async (expected) =>
+    testTitleAndBody(expected, 'how-to-cc', 'How to use flood zones plus climate change')
+
+  const testNoData = async (expected) =>
+    testTitleAndBody(expected, 'fznd', 'Climate change data unavailable')
 
   describe('Flood Zones', () => {
     const tests = [
