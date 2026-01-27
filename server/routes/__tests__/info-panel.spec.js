@@ -64,6 +64,9 @@ describe('info-panel', () => {
     testListRow(expected, 'depth', depth)
   }
 
+  const testSurfaceWaterClimateChange = async (expected) =>
+    testListRow(expected, 'sw-cc-allowance', 'Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125)')
+
   const testSurfaceWaterBuilding = async (expected) => {
     testListRow(
       expected,
@@ -105,6 +108,7 @@ describe('info-panel', () => {
         testAepRow(false)
         testDepthRow(false)
         testSurfaceWaterBuilding(false)
+        testSurfaceWaterClimateChange(false)
       })
     })
   })
@@ -135,6 +139,7 @@ describe('info-panel', () => {
         testAepRow(true, aepText[aep])
         testDepthRow(true, depth)
         testSurfaceWaterBuilding(true)
+        testSurfaceWaterClimateChange(tf === 'cc')
       })
     })))
   })
