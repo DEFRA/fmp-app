@@ -7,17 +7,11 @@ const Joi = require('joi')
   aep: [low,medium,high or none],
   depth: [any depthband or none],
 */
+const climateChange = 'Climate change'
+const presentDay = 'Present day'
 
 const getTimeFrame = (params) => {
-  const climateChange = 'Climate change'
-  const presentDay = 'Present day'
-  if (params.tf) {
-    return params.tf === 'cc' ? climateChange : presentDay
-  } else if (params.fz) {
-    return params.fz === '2' || params.fz === '3' ? presentDay : climateChange
-  } else {
-    return presentDay
-  }
+  return params.tf === 'cc' ? climateChange : presentDay
 }
 
 const getGaId = (params) => {
