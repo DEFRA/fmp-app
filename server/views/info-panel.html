@@ -87,3 +87,26 @@
   </a>
 </p>
 {%- endif -%}
+
+{%- if fz==='cc' %}
+<div id="info-fz-cc-allowance" style="display: contents">
+  <h2 class="govuk-heading-s">Climate change allowances</h2>
+  <p class="govuk-body-s">
+    Flood zones plus climate change uses the following climate change allowances:
+  </p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li class='govuk-body-s'>
+      peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
+    </li>
+    <li class='govuk-body-s'>
+      sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
+    </li>
+  </ul>
+  <p class="govuk-body-s">
+    These have been taken from the Environment Agency's
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+        Flood risk assessment: climate change allowances
+      </a>
+  </p>
+</div>
+{%- endif -%}
