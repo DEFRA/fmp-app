@@ -782,22 +782,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     return 'pd'
   }
 
-  const addGaIdToFeature = (feature) => {
-    // add a gaId tag for identifying which feature has been clicked
-    feature.gaId = 'info'
-    if (mapState.isFloodZone) {
-      feature.gaId += `-${feature.flood_zone}`
-      if (feature.flood_source) {
-        feature.gaId += `-${feature.flood_source.replaceAll(' ', '-')}`
-      }
-    } else if (mapState.isSurfaceWater) {
-      feature.gaId += `-sw-${mapState.riskLevel}`
-    } else {
-      feature.gaId += '-unknown'
-    }
-    feature.gaId = feature.gaId.toLowerCase()
-  }
-
   const transformFeature = (features) => {
     if (!features.isPixelFeaturesAtPixel) {
       return null
@@ -815,7 +799,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         feature.flood_zone = terms.keys.fzNoData
       }
     }
-    addGaIdToFeature(feature)
 
     return feature
   }
