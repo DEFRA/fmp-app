@@ -1,7 +1,6 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
-import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
@@ -882,95 +881,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
 
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone === terms.keys.fzCC)
-    ? `
-    <h2 class="govuk-heading-s">Climate change allowances</h2>
-    <p class="govuk-body-s">
-      Flood zones plus climate change uses the following climate change allowances:
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li class='govuk-body-s'>
-        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
-      </li>
-      <li class='govuk-body-s'>
-        sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
-      </li>
-    </ul>
-    <p class="govuk-body-s">
-      These have been taken from the Environment Agency's 
-        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
-          Flood risk assessment: climate change allowances
-        </a>
-    </p>
-    `
-    : ''
-
-  const findOutMoreLink = `<p class="govuk-body-s">
-    <a href="/how-to-use-flood-map-for-planning-data">
-      Find out more about flood map for planning data and how to use it
-    </a>
-  </p>`
-
-  const getFloodZonesExtraContent = (floodZone) => {
-    if (!mapState.isFloodZone) {
-      return ''
-    }
-    if (floodZone === terms.keys.fzNoData) {
-      return `<h2 class="govuk-heading-s">Climate change data unavailable</h2>
-        <p class="govuk-body-s">
-          In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
-        </p>
-        ${findOutMoreLink}`
-    } else if (floodZone === terms.keys.fzCC) {
-      return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
-        <p class="govuk-body-s">
-          The flood zones plus climate change dataset shows how the combined extent of flood
-          zones 2 and 3 could increase with climate change over the next century, ignoring the
-          benefits of any existing flood defences.
-        </p>
-        ${findOutMoreLink}`
-    } else {
-      return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-        <p class="govuk-body-s">
-          Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
-        </p>`
-    }
-  }
-
-  const climateChangeAllowances = `<p class="govuk-body-s">
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
-        Flood risk assessment: climate change allowances
-      </a>
-    </p>`
-
-  const getQueryExtraContent = (floodZone) => {
-    let extraContent = ''
-    if (floodZone) {
-      extraContent += getFloodZonesExtraContent(floodZone)
-      extraContent += getClimateChangeExtraContent(floodZone)
-    }
-    if (mapState.isSurfaceWater) {
-      extraContent += `<p class="govuk-body-s">
-        Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
-      </p>`
-    }
-
-    if (mapState.isSurfaceWater && mapState.isClimateChange) {
-      extraContent += `<h2 class="govuk-heading-s">Climate change allowances</h2>
-        <p class="govuk-body-s">
-          Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125). 
-        </p>
-
-        <p class="govuk-body-s">
-          This has been taken from the Environment Agency’s ${climateChangeAllowances}
-        </p>
-        <p class="govuk-body-s govuk-!-margin-top-4">
-          ${findOutMoreLink}
-        </p>`
-    }
-    return extraContent
-  }
-
   const getTitle = (floodZone) => {
     switch (floodZone) {
       case 'nd':
@@ -1004,7 +914,5 @@ getDefraMapConfig().then((defraMapConfig) => {
       label,
       html
     })
-
-    // floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(floodZone), label))
   })
 })
