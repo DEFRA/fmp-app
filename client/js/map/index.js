@@ -831,54 +831,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const tf = getTimeFrame(feature)
     const infoPanelValues = { ds: mapState.ds, tf, aep: mapState.riskLevel }
-    const listContents = [
-      ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],
-      ['Timeframe', tf]
-    ]
-
-    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
-    return { listContents, vtLayer, coord, feature, infoPanelValues }
+    return { coord, feature, infoPanelValues }
   }
 
-  const addQueryFloodZonesContent = (listContents, feature, infoPanelValues) => {
+  const addQueryFloodZonesContent = (feature, infoPanelValues) => {
     if (!mapState.isFloodZone) {
       return ''
     }
     const floodZone = getFloodZoneFromFeature(feature, mapState)
     infoPanelValues.fz = floodZone
-    if (feature.flood_source) {
+    if (floodZone !== 'nd' && feature.flood_source) {
       infoPanelValues.fs = formatFloodSource(feature.flood_source)
     }
-
-    if (floodZone !== terms.keys.fzNoData && floodZone !== terms.keys.fzCC) {
-      listContents.push(['Flood zone', floodZone])
-    }
-
-    if (floodZone !== terms.keys.fzNoData && feature.flood_source) {
-      listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
-    }
     return floodZone
-  }
-
-  const addQueryNonFloodZonesContent = (listContents, vtLayer, feature) => {
-    // This part is applicable for non Flood_Zones layers, when an area outside
-    // of a zone has been clicked
-    const dataset = getDataset()
-    if (dataset) {
-      listContents.push(['Dataset', dataset])
-    }
-    if (vtLayer?.likelihoodLabel) {
-      listContents.push([terms.labels.aep, vtLayer.likelihoodLabel])
-    }
-    if (vtLayer?.chanceLabel) {
-      listContents.push([terms.labels.annualLikelihood, vtLayer.chanceLabel])
-    }
-    if (vtLayer?.likelihoodchanceLabel) {
-      listContents.push([terms.labels.aep, vtLayer.likelihoodchanceLabel])
-    }
-    if (feature?.Depth_band) {
-      listContents.push([terms.labels.depth, feature?.Depth_band])
-    }
   }
 
   const getTitle = (floodZone) => {
@@ -896,17 +861,14 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
-    const { listContents, vtLayer, feature, infoPanelValues } = getQueryContentHeader(e)
-    if (!listContents || !feature) {
+    const { coord, feature, infoPanelValues } = getQueryContentHeader(e)
+    if (!feature) {
       floodMap.setInfo(null)
       return
     }
-    const floodZone = addQueryFloodZonesContent(listContents, feature, infoPanelValues)
-    if (!floodZone) {
-      addQueryNonFloodZonesContent(listContents, vtLayer, feature)
-    }
+    const floodZone = addQueryFloodZonesContent(feature, infoPanelValues)
     infoPanelValues.depth = feature?.Depth_band
-    const html = await getInfoPanel(infoPanelValues)
+    const html = await getInfoPanel(infoPanelValues, coord)
 
     const label = getTitle(floodZone)
     floodMap.setInfo({

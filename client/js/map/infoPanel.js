@@ -8,8 +8,7 @@
 */
 const infoPanelURL = '/defra-map/info-panel'
 
-const getInfoPanel = async (infoPanelValues) => {
-  console.log('getInfoPanel', infoPanelValues)
+const getInfoPanel = async (infoPanelValues, coord) => {
   const queryString = new URLSearchParams()
   queryString.set('ds', infoPanelValues.ds)
   queryString.set('tf', infoPanelValues.tf)
@@ -19,10 +18,11 @@ const getInfoPanel = async (infoPanelValues) => {
   if (infoPanelValues.depth) { queryString.set('depth', infoPanelValues.depth) }
 
   const url = `${infoPanelURL}?${queryString.toString()}`
-
   const response = await window.fetch(url, { method: 'GET' })
   if (response.ok) {
-    return await response.text()
+    return response.text().then((html) => {
+      return html.replace('COORDS', `${Math.round(coord[0])},${Math.round(coord[1])}`)
+    })
   }
 
   return null
