@@ -10,7 +10,7 @@ import { checkParamsForPolygon, encodePolygon } from '../../../server/services/s
 import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
-
+import { getInfoPanel } from './infoPanel.js'
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -132,8 +132,8 @@ const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
 const getFloodZoneFromFeature = (feature, mapState) => {
   if (feature.flood_zone === terms.keys.fz2) { return '2' }
   if (feature.flood_zone === terms.keys.fz3) { return '3' }
-  if (feature.flood_zone === terms.keys.fzCC) { return terms.keys.fzCC }
-  if (feature.flood_zone === terms.keys.fzNoData) { return terms.keys.fzNoData }
+  if (feature.flood_zone === terms.keys.fzCC) { return 'cc' }
+  if (feature.flood_zone === terms.keys.fzNoData) { return 'nd' }
   const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
   return symbolIndex[feature._symbol]
 }
@@ -660,6 +660,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     } else {
       mapState.riskLevel = ''
     }
+    mapState.ds = mapState.isFloodZone ? 'fz' : 'sw'
   }
 
   // Component is ready and we have access to map
@@ -775,11 +776,11 @@ getDefraMapConfig().then((defraMapConfig) => {
   const getTimeFrame = (feature) => {
     if (mapState.isClimateChange) {
       if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
-        return terms.labels.presentDay
+        return 'pd'
       }
-      return terms.labels.climateChange
+      return 'cc'
     }
-    return terms.labels.presentDay
+    return 'pd'
   }
 
   const addGaIdToFeature = (feature) => {
@@ -829,21 +830,27 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
       return {}
     }
-    const timeFrame = getTimeFrame(feature)
+    const tf = getTimeFrame(feature)
+    const infoPanelValues = { ds: mapState.ds, tf, aep: mapState.riskLevel }
     const listContents = [
       ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],
-      ['Timeframe', timeFrame]
+      ['Timeframe', tf]
     ]
 
     const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
-    return { listContents, vtLayer, coord, feature }
+    return { listContents, vtLayer, coord, feature, infoPanelValues }
   }
 
-  const addQueryFloodZonesContent = (listContents, feature) => {
+  const addQueryFloodZonesContent = (listContents, feature, infoPanelValues) => {
     if (!mapState.isFloodZone) {
       return ''
     }
     const floodZone = getFloodZoneFromFeature(feature, mapState)
+    infoPanelValues.fz = floodZone
+    if (feature.flood_source) {
+      infoPanelValues.fs = formatFloodSource(feature.flood_source)
+    }
+
     if (floodZone !== terms.keys.fzNoData && floodZone !== terms.keys.fzCC) {
       listContents.push(['Flood zone', floodZone])
     }
@@ -966,8 +973,8 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const getTitle = (floodZone) => {
     switch (floodZone) {
-      case terms.keys.fzNoData:
-      case terms.keys.fzCC:
+      case 'nd':
+      case 'cc':
         return 'Flood zones plus climate change'
       case '2':
       case '3':
@@ -978,22 +985,26 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   // Listen to map queries
-  floodMap.addEventListener('query', e => {
-    const { listContents, vtLayer, feature } = getQueryContentHeader(e)
+  floodMap.addEventListener('query', async e => {
+    const { listContents, vtLayer, feature, infoPanelValues } = getQueryContentHeader(e)
     if (!listContents || !feature) {
       floodMap.setInfo(null)
       return
     }
-    const floodZone = addQueryFloodZonesContent(listContents, feature)
+    const floodZone = addQueryFloodZonesContent(listContents, feature, infoPanelValues)
     if (!floodZone) {
       addQueryNonFloodZonesContent(listContents, vtLayer, feature)
     }
+    infoPanelValues.depth = feature?.Depth_band
+    const html = await getInfoPanel(infoPanelValues)
 
-    const title = getTitle(floodZone)
+    const label = getTitle(floodZone)
+    floodMap.setInfo({
+      width: '360px',
+      label,
+      html
+    })
 
-    floodMap.setInfo(
-      renderInfo(renderList(listContents),
-        getQueryExtraContent(floodZone),
-        title))
+    // floodMap.setInfo(renderInfo(renderList(listContents), getQueryExtraContent(floodZone), label))
   })
 })
