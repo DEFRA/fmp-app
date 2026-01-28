@@ -89,11 +89,12 @@ describe('info-panel', () => {
 
   describe('Flood Zones', () => {
     const tests = [
-      ['flood zone 2', 'fz', '2', 'pd', 'Sea', 'info-fz2-sea'],
-      ['flood zone 3', 'fz', '3', 'pd', 'River', 'info-fz3-river'],
-      ['flood zone 3', 'fz', '3', 'pd', 'River and sea', 'info-fz3-river-and-sea'],
-      ['flood zone cc', 'fz', 'cc', 'cc', 'River and sea', 'info-fzcc-river-and-sea'],
-      ['flood zone nd', 'fz', 'nd', 'cc', '', 'info-fznodata']
+      ['flood zone 2', 'fz', 'FZ2', 'pd', 'Sea', 'info-fz2-sea'],
+      ['flood zone 3', 'fz', 'FZ3', 'pd', 'River', 'info-fz3-river'],
+      ['flood zone 3', 'fz', 'FZ3', 'pd', 'River and sea', 'info-fz3-river-and-sea'],
+      ['flood zone 3 without source', 'fz', 'FZ3', 'pd', '', 'info-fz3'],
+      ['flood zone cc', 'fz', 'FZCC', 'cc', 'River and sea', 'info-fzcc-river-and-sea'],
+      ['flood zone nd', 'fz', 'FZNODATA', 'cc', '', 'info-fznodata']
     ]
 
     tests.forEach(([description, ds, fz, tf, fs, expectedGaId]) => {
@@ -101,18 +102,18 @@ describe('info-panel', () => {
       it(`should show the info panel for ${description}`, async () => {
         await initDocument(url)
         testGoogleAnalyticsId(expectedGaId)
-        testFLoodZoneRow(fz === '2' || fz === '3', fz)
+        testFLoodZoneRow(fz === 'FZ2' || fz === 'FZ3', fz.replace('FZ', ''))
         testFLoodSourceRow(Boolean(fs), fs)
-        testFloodZoneUpdates(fz === '2' || fz === '3', fz)
+        testFloodZoneUpdates(fz === 'FZ2' || fz === 'FZ3', fz)
         testTimeFrame(tf === 'cc' ? 'Climate change' : 'Present day')
-        testHowToUseFZCC(fz === 'cc')
-        testNoData(fz === 'nd')
+        testHowToUseFZCC(fz === 'FZCC')
+        testNoData(fz === 'FZNODATA')
         testHowToUseUrl(tf === 'cc')
         testAepRow(false)
         testDepthRow(false)
         testSurfaceWaterBuilding(false)
         testSurfaceWaterClimateChange(false)
-        testFloodZoneClimateChange(fz === 'cc')
+        testFloodZoneClimateChange(fz === 'FZCC')
       })
     })
   })

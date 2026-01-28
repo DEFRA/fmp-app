@@ -14,10 +14,11 @@
 {%- endmacro -%}
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  {#- COMMENT #}
   {{ listRow('Easting and northing', 'COORDS', gaId) }}
   {{ listRow('Timeframe', timeFrame, 'info-timeframe') }}
-  {% if fz==='2' or fz==='3' -%}
-    {{ listRow('Flood zone', fz, 'info-flood-zone')  }}
+  {% if fz==='FZ2' or fz==='FZ3' -%}
+    {{ listRow('Flood zone', floodZone, 'info-flood-zone')  }}
   {%- endif %}
   {% if fs -%}
     {{ listRow('Flood source', fs, 'info-flood-source') }}
@@ -34,14 +35,14 @@
   {%- endif %}
 </dl>
 
-{%- if fz==='2' or fz==='3' %}
+{%- if fz==='FZ2' or fz==='FZ3' %}
 <h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
 <p id='info-fz-updates-body' class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
 </p>
 {%- endif -%}
 
-{%- if fz==='cc' %}
+{%- if fz==='FZCC' %}
 <h2 id='info-how-to-cc-title' class="govuk-heading-s">How to use flood zones plus climate change</h2>
 <p id='info-how-to-cc-body' class="govuk-body-s">
   The flood zones plus climate change dataset shows how the combined extent of flood
@@ -50,7 +51,7 @@
 </p>
 {%- endif -%}
 
-{%- if fz==='nd' %}
+{%- if fz==='FZNODATA' %}
 <h2 id='info-fznd-title' class="govuk-heading-s">Climate change data unavailable</h2>
 <p id='info-fznd-body' class="govuk-body-s">
   In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
@@ -88,7 +89,7 @@
 </p>
 {%- endif -%}
 
-{%- if fz==='cc' %}
+{%- if fz==='FZCC' %}
 <div id="info-fz-cc-allowance" style="display: contents">
   <h2 class="govuk-heading-s">Climate change allowances</h2>
   <p class="govuk-body-s">
