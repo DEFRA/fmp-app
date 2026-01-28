@@ -117,26 +117,6 @@ keyItemDefinitions.common = {
   ]
 }
 
-// floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
-// we believe it depends on the order of the styles that are set on the flood zones vector tile layer
-// and it is used to infer the flood zone that has been clicked on by a user.
-// On a previous data set, these values were in the reverse order so we need to verify that they remain correct
-// after a data upload to arcGis
-// Also the climateChange data is the opposite way round from the non climatechange one
-// And  the feature sometimes contains flood_zone
-// So this is the best attempt at inferring the flood zone correctly
-const floodZoneSymbolIndex = ['3', '2']
-const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
-
-const getFloodZoneFromFeature = (feature, mapState) => {
-  if (feature.flood_zone === terms.keys.fz2) { return '2' }
-  if (feature.flood_zone === terms.keys.fz3) { return '3' }
-  if (feature.flood_zone === terms.keys.fzCC) { return 'cc' }
-  if (feature.flood_zone === terms.keys.fzNoData) { return 'nd' }
-  const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
-  return symbolIndex[feature._symbol]
-}
-
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
 const calculateExtent = (polygonToCalculate) => {
@@ -821,18 +801,17 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (!mapState.isFloodZone) {
       return ''
     }
-    const floodZone = getFloodZoneFromFeature(feature, mapState)
-    infoPanelValues.fz = floodZone
-    if (floodZone !== 'nd' && feature.flood_source) {
+    infoPanelValues.fz = feature.flood_zone
+    if (infoPanelValues.fz !== terms.keys.fzNoData && feature.flood_source) {
       infoPanelValues.fs = formatFloodSource(feature.flood_source)
     }
-    return floodZone
+    return infoPanelValues.fz
   }
 
   const getTitle = (floodZone) => {
     switch (floodZone) {
-      case 'nd':
-      case 'cc':
+      case terms.keys.fzNoData:
+      case terms.keys.fzCC:
         return 'Flood zones plus climate change'
       case '2':
       case '3':
