@@ -19,7 +19,8 @@ const getGaId = (params) => {
     if (params.fz === 'nd') {
       return 'info-fznodata'
     } else {
-      return `info-fz${params.fz}-${params.fs}`.toLowerCase().replaceAll(' ', '-')
+      const floodSourceSuffix = params.fs ? `-${params.fs}` : ''
+      return `info-fz${params.fz}${floodSourceSuffix}`.toLowerCase().replaceAll(' ', '-')
     }
   }
   return `info-sw-${params.aep}`
