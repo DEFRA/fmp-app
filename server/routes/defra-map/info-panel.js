@@ -34,7 +34,8 @@ module.exports = {
       const params = request.query
       const gaId = getGaId(params)
       const timeFrame = getTimeFrame(params)
-      return h.view('info-panel', { ...params, gaId, timeFrame })
+      const depth = params.ds === 'sw'
+      return h.view('info-panel', { ...params, gaId, timeFrame, depth })
     },
     validate: {
       query: Joi.object({
@@ -42,8 +43,7 @@ module.exports = {
         ds: Joi.string().valid('fz', 'sw', 'rs'),
         fz: Joi.string().valid('2', '3', 'nd', 'cc'),
         fs: Joi.string().valid('River', 'Sea', 'River and sea').allow(''),
-        aep: Joi.string().valid('low', 'medium', 'high'),
-        depth: Joi.string()
+        aep: Joi.string().valid('low', 'medium', 'high')
       })
     }
   }

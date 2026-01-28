@@ -284,7 +284,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-cc-high depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -330,7 +330,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high dept
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>
@@ -360,7 +360,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high dept
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-cc-low depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -406,7 +406,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low depth
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>
@@ -436,7 +436,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low depth
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-cc-medium depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -482,7 +482,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium de
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>
@@ -512,7 +512,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium de
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-pd-high depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -558,7 +558,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-high dept
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>
@@ -568,7 +568,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-high dept
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-pd-low depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -614,7 +614,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-low depth
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>
@@ -624,7 +624,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-low depth
 </p>"
 `;
 
-exports[`info-panel Surface Water should show the info panel for SW-pd-medium depth: 1200-2300mm 1`] = `
+exports[`info-panel Surface Water should show the info panel for SW-pd-medium 1`] = `
 "<dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -670,7 +670,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-medium de
     </dt>
     <dd class="govuk-summary-list__value">
       <span class="govuk-body-s" id="info-depth">
-        1200-2300mm
+        DEPTH
       </span>
     </dd>
   </div>

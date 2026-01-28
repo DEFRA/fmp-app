@@ -60,8 +60,8 @@ describe('info-panel', () => {
     testListRow(expected, 'aep', aepText)
   }
 
-  const testDepthRow = async (expected, depth) => {
-    testListRow(expected, 'depth', depth)
+  const testDepthRow = async (expected) => {
+    testListRow(expected, 'depth', 'DEPTH')
   }
 
   const testSurfaceWaterClimateChange = async (expected) =>
@@ -124,11 +124,10 @@ describe('info-panel', () => {
       high: '3.3% (1 in 30)'
     }
     const aeps = ['low', 'medium', 'high']
-    const depths = ['1200-2300mm']
     const timeFrames = ['pd', 'cc']
-    aeps.forEach((aep) => depths.forEach((depth) => timeFrames.forEach((tf) => {
-      const url = `${infoPanelUrl}?ds=sw&tf=${tf}&aep=${aep}&depth=${depth}`
-      it(`should show the info panel for SW-${tf}-${aep} depth: ${depth}`, async () => {
+    aeps.forEach((aep) => timeFrames.forEach((tf) => {
+      const url = `${infoPanelUrl}?ds=sw&tf=${tf}&aep=${aep}`
+      it(`should show the info panel for SW-${tf}-${aep}`, async () => {
         await initDocument(url)
         const expectedGaId = `info-sw-${aep}`
         testGoogleAnalyticsId(expectedGaId)
@@ -141,11 +140,11 @@ describe('info-panel', () => {
         testHowToUseUrl(tf === 'cc')
         testAepRow(true, 'chance of flooding each year')
         testAepRow(true, aepText[aep])
-        testDepthRow(true, depth)
+        testDepthRow(true)
         testSurfaceWaterBuilding(true)
         testSurfaceWaterClimateChange(tf === 'cc')
         testFloodZoneClimateChange(false)
       })
-    })))
+    }))
   })
 })
