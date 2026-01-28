@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -59,7 +61,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -117,7 +121,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -175,7 +181,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 without source 1`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -222,7 +230,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 with
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones plus climate change</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones plus climate change
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -296,7 +306,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`] = `
-"<div id="info-title" style="display: none">TITLE:Flood zones plus climate change</div>
+"<div id="info-title" style="display: none">
+  TITLE:Flood zones plus climate change
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -337,7 +349,9 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -414,7 +428,9 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] 
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -491,7 +507,9 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] =
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -568,7 +586,9 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -625,7 +645,9 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] 
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
@@ -682,7 +704,9 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] =
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-medium 1`] = `
-"<div id="info-title" style="display: none">TITLE:Surface water</div>
+"<div id="info-title" style="display: none">
+  TITLE:Surface water
+</div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">

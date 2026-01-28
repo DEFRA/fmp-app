@@ -830,7 +830,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     addQueryFloodZonesContent(feature, infoPanelValues)
     const html = await getInfoPanel(infoPanelValues, coord, feature?.Depth_band)
-    const label = html.match(/TITLE:(.*)<\/div>/)?.[1]
+    const label = html.match(/TITLE:(.*)/)?.[1]
     floodMap.setInfo({
       width: '360px',
       label,
