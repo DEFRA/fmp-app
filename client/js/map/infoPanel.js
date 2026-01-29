@@ -22,7 +22,7 @@ const getInfoPanel = async (event, mapState) => {
   }
   const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
   const html = await getInfoPanelMarkup(infoPanelValues)
-  const label = html.match(/TITLE:(.*)/)?.[1]
+  const label = /TITLE:(.*)/.exec(html)?.[1]
   return { width: '360px', label, html }
 }
 
@@ -59,7 +59,8 @@ const getFloodSource = (mapState, feature) => {
   }
   if (floodSource === 'Coastal') {
     return 'Sea'
-  } else if (floodSource === 'Fluvial') {
+  }
+  if (floodSource === 'Fluvial') {
     return 'River'
   }
   return floodSource[0].toUpperCase() + floodSource.slice(1)
@@ -86,22 +87,31 @@ const getTimeFrame = (mapState, feature) => {
 }
 
 const getInfoPanelMarkup = async (infoPanelValues) => {
+  let url
   const queryString = new URLSearchParams()
-  queryString.set('ds', infoPanelValues.ds)
-  queryString.set('tf', infoPanelValues.tf)
-  if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
-  if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
-  if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
-  const { coords, depth = '' } = infoPanelValues
+  try {
+    queryString.set('ds', infoPanelValues.ds)
+    queryString.set('tf', infoPanelValues.tf)
+    if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
+    if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
+    if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
+    const { coords, depth = '' } = infoPanelValues
 
-  const url = `${infoPanelURL}?${queryString.toString()}`
-  const response = await window.fetch(url, { method: 'GET' })
-  if (response.ok) {
+    url = `${infoPanelURL}?${queryString.toString()}`
+    const response = await globalThis.fetch(url, { method: 'GET' })
+    if (!response.ok) {
+      throw new Error('Failed infoPanel get request')
+    }
+
     return response.text().then((html) => {
       return html
         .replace('COORDS', coords)
         .replace('DEPTH', depth)
     })
+  } catch (error) {
+    console.log('Error fetching info panel', error)
+    console.log('url: ', url)
+    console.log('queryString: ', queryString)
   }
 
   return null
