@@ -763,20 +763,18 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const transformFeature = (features) => {
-    if (!features.isPixelFeaturesAtPixel) {
-      return null
-    }
     const feature = { ...features.items[0] }
-    feature.name = feature.name || feature.Name
-    feature.flood_source = feature.flood_source || feature.Flood_source
-    if (mapState.isFloodZone && mapState.isClimateChange) {
-      // This Implies we have clicked on  CC ZONE
-      // delete feature.flood_source -- awaiting confirmation from Lloyd on whether to show or hide this if available
-      if (feature.name === 'Flood Zones plus climate change') {
-        feature.flood_zone = terms.keys.fzCC
-      }
-      if (feature.name === 'Unavailable') {
-        feature.flood_zone = terms.keys.fzNoData
+    if (mapState.isFloodZone) {
+      const layerName = feature.name || feature.Name
+      feature.flood_source = feature.flood_source || feature.Flood_source
+      if (mapState.isClimateChange) {
+        // This Implies we have clicked on CC ZONE
+        if (layerName === 'Flood Zones plus climate change') {
+          feature.flood_zone = terms.keys.fzCC
+        }
+        if (layerName === 'Unavailable') {
+          feature.flood_zone = terms.keys.fzNoData
+        }
       }
     }
 
@@ -789,6 +787,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       return {}
     }
     const feature = transformFeature(features)
+    // Check that they haven't clicked on a hidden depth layer
+    // isDepthVisible returns true for all non SW layers
     if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
       return {}
     }
@@ -806,19 +806,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       infoPanelValues.fs = formatFloodSource(feature.flood_source)
     }
     return infoPanelValues.fz
-  }
-
-  const getTitle = (floodZone) => {
-    switch (floodZone) {
-      case terms.keys.fzNoData:
-      case terms.keys.fzCC:
-        return 'Flood zones plus climate change'
-      case '2':
-      case '3':
-        return 'Flood zones'
-      default:
-        return getDataset()
-    }
   }
 
   // Listen to map queries
