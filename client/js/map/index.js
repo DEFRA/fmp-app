@@ -717,28 +717,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
-  const getDataset = () => {
-    if (mapState.segments.includes('sw')) {
-      return 'Surface water'
-    }
-    if (mapState.segments.includes('rsd')) {
-      return 'River and sea with defences'
-    }
-    if (mapState.segments.includes('rsu')) {
-      return 'River and sea without defences'
-    }
-    return undefined
-  }
-
-  const formatFloodSource = (floodSource = '') => {
-    if (floodSource === 'Coastal') {
-      return 'Sea'
-    } else if (floodSource === 'Fluvial') {
-      return 'River'
-    }
-    return floodSource[0].toUpperCase() + floodSource.slice(1)
-  }
-
   const roundPolygon = (polygon) => {
     return polygon.map(([x, y]) => [Math.round(x * 100) / 100, Math.round(y * 100) / 100])
   }
@@ -752,6 +730,46 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
+  // Listen to map queries
+  floodMap.addEventListener('query', async e => {
+    const { coord, feature } = getQueryContentHeader(e)
+    if (!feature) {
+      floodMap.setInfo(null)
+      return
+    }
+    const infoPanelValues = {
+      ds: mapState.ds,
+      tf: getTimeFrame(feature),
+      aep: mapState.riskLevel,
+      fz: getFloodZone(feature),
+      fs: getFloodSource(feature),
+      depth: feature?.Depth_band,
+      coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
+    }
+
+    const html = await getInfoPanel(infoPanelValues)
+    const label = html.match(/TITLE:(.*)/)?.[1]
+    floodMap.setInfo({
+      width: '360px',
+      label,
+      html
+    })
+  })
+
+  const getQueryContentHeader = (e) => {
+    const { coord, features } = e.detail
+    if (!features || !coord || !features.isPixelFeaturesAtPixel) {
+      return {}
+    }
+    const feature = { ...features.items[0] }
+    // Check that they haven't clicked on a hidden depth layer
+    // isDepthVisible returns true for all non SW layers
+    if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
+      return {}
+    }
+    return { coord, feature }
+  }
+
   const getTimeFrame = (feature) => {
     if (mapState.isClimateChange) {
       if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
@@ -762,64 +780,33 @@ getDefraMapConfig().then((defraMapConfig) => {
     return 'pd'
   }
 
-  const addFloodZoneAndSourceToFeature = (feature) => {
-    if (mapState.isFloodZone) {
-      const layerName = feature.name || feature.Name
-      feature.flood_source = feature.flood_source || feature.Flood_source
-      if (mapState.isClimateChange) {
-        // This Implies we have clicked on CC ZONE
-        if (layerName === 'Flood Zones plus climate change') {
-          feature.flood_zone = terms.keys.fzCC
-        }
-        if (layerName === 'Unavailable') {
-          feature.flood_zone = terms.keys.fzNoData
-        }
-      }
-    }
-  }
-
-  const getQueryContentHeader = (e) => {
-    const { coord, features } = e.detail
-    if (!features || !coord || !features.isPixelFeaturesAtPixel) {
-      return {}
-    }
-    const feature = { ...features.items[0] }
-    addFloodZoneAndSourceToFeature(feature)
-    // Check that they haven't clicked on a hidden depth layer
-    // isDepthVisible returns true for all non SW layers
-    if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
-      return {}
-    }
-    const tf = getTimeFrame(feature)
-    const infoPanelValues = { ds: mapState.ds, tf, aep: mapState.riskLevel }
-    return { coord, feature, infoPanelValues }
-  }
-
-  const addQueryFloodZonesContent = (feature, infoPanelValues) => {
+  const getFloodZone = (feature) => {
     if (!mapState.isFloodZone) {
-      return ''
+      return null
     }
-    infoPanelValues.fz = feature.flood_zone
-    if (infoPanelValues.fz !== terms.keys.fzNoData && feature.flood_source) {
-      infoPanelValues.fs = formatFloodSource(feature.flood_source)
+    if (mapState.isClimateChange) {
+      const layerName = feature.name || feature.Name
+      // This Implies we have clicked on CC ZONE
+      if (layerName === 'Flood Zones plus climate change') {
+        return terms.keys.fzCC
+      }
+      if (layerName === 'Unavailable') {
+        return terms.keys.fzNoData
+      }
+      return feature.flood_zone
     }
-    return infoPanelValues.fz
   }
 
-  // Listen to map queries
-  floodMap.addEventListener('query', async e => {
-    const { coord, feature, infoPanelValues } = getQueryContentHeader(e)
-    if (!feature) {
-      floodMap.setInfo(null)
-      return
+  const getFloodSource = (feature) => {
+    const floodSource = feature.flood_source || feature.Flood_source
+    if (!(floodSource && mapState.isFloodZone)) {
+      return null
     }
-    addQueryFloodZonesContent(feature, infoPanelValues)
-    const html = await getInfoPanel(infoPanelValues, coord, feature?.Depth_band)
-    const label = html.match(/TITLE:(.*)/)?.[1]
-    floodMap.setInfo({
-      width: '360px',
-      label,
-      html
-    })
-  })
+    if (floodSource === 'Coastal') {
+      return 'Sea'
+    } else if (floodSource === 'Fluvial') {
+      return 'River'
+    }
+    return floodSource[0].toUpperCase() + floodSource.slice(1)
+  }
 })
