@@ -762,8 +762,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     return 'pd'
   }
 
-  const transformFeature = (features) => {
-    const feature = { ...features.items[0] }
+  const addFloodZoneAndSourceToFeature = (feature) => {
     if (mapState.isFloodZone) {
       const layerName = feature.name || feature.Name
       feature.flood_source = feature.flood_source || feature.Flood_source
@@ -777,8 +776,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         }
       }
     }
-
-    return feature
   }
 
   const getQueryContentHeader = (e) => {
@@ -786,7 +783,8 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (!features || !coord || !features.isPixelFeaturesAtPixel) {
       return {}
     }
-    const feature = transformFeature(features)
+    const feature = { ...features.items[0] }
+    addFloodZoneAndSourceToFeature(feature)
     // Check that they haven't clicked on a hidden depth layer
     // isDepthVisible returns true for all non SW layers
     if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
