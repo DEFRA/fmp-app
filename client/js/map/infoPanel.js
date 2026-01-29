@@ -1,3 +1,6 @@
+import { FloodMapLayer } from './mapLayers/index.js'
+import { terms } from './terms.js'
+
 /*
   tf: Timeframe - [pd:Present day, cc:Climate change]
   ds: dataset - [fz,sw,rs],
@@ -7,7 +10,82 @@
 */
 const infoPanelURL = '/defra-map/info-panel'
 
-const getInfoPanel = async (infoPanelValues) => {
+const getInfoPanel = async (event, mapState) => {
+  const { coords, feature } = getFeatureAndCoordsFromEvent(event)
+  if (!feature) {
+    return null
+  }
+  // Check that they haven't clicked on a hidden depth layer
+  // isDepthVisible returns true for all non SW layers
+  if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
+    return null
+  }
+  const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
+  const html = await getInfoPanelMarkup(infoPanelValues)
+  const label = html.match(/TITLE:(.*)/)?.[1]
+  return { width: '360px', label, html }
+}
+
+const getFeatureAndCoordsFromEvent = (event) => {
+  const { coord: coords, features } = event.detail
+  if (!features || !coords || !features.isPixelFeaturesAtPixel) {
+    return {}
+  }
+  const feature = { ...features.items[0] }
+  return { coords, feature }
+}
+
+const getFloodZone = (mapState, feature) => {
+  if (!mapState.isFloodZone) {
+    return null
+  }
+  if (mapState.isClimateChange) {
+    const layerName = feature.name || feature.Name
+    // This Implies we have clicked on CC ZONE
+    if (layerName === 'Flood Zones plus climate change') {
+      return terms.keys.fzCC
+    }
+    if (layerName === 'Unavailable') {
+      return terms.keys.fzNoData
+    }
+  }
+  return feature.flood_zone || feature.Flood_zone
+}
+
+const getFloodSource = (mapState, feature) => {
+  const floodSource = feature.flood_source || feature.Flood_source
+  if (!(floodSource && mapState.isFloodZone)) {
+    return null
+  }
+  if (floodSource === 'Coastal') {
+    return 'Sea'
+  } else if (floodSource === 'Fluvial') {
+    return 'River'
+  }
+  return floodSource[0].toUpperCase() + floodSource.slice(1)
+}
+
+const getInfoPanelValues = (mapState, feature, coord) => ({
+  ds: mapState.ds,
+  tf: getTimeFrame(mapState, feature),
+  aep: mapState.riskLevel,
+  fz: getFloodZone(mapState, feature),
+  fs: getFloodSource(mapState, feature),
+  depth: feature?.Depth_band,
+  coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
+})
+
+const getTimeFrame = (mapState, feature) => {
+  if (mapState.isClimateChange) {
+    if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
+      return 'pd'
+    }
+    return 'cc'
+  }
+  return 'pd'
+}
+
+const getInfoPanelMarkup = async (infoPanelValues) => {
   const queryString = new URLSearchParams()
   queryString.set('ds', infoPanelValues.ds)
   queryString.set('tf', infoPanelValues.tf)
