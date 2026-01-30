@@ -78,7 +78,8 @@ const getInfoPanelValues = (mapState, feature, coord) => ({
 
 const getTimeFrame = (mapState, feature) => {
   if (mapState.isClimateChange) {
-    if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
+    const layerName = feature.name || feature.Name
+    if (mapState.isFloodZone && layerName !== 'Flood Zones plus climate change' && layerName !== 'Unavailable') {
       return 'pd'
     }
     return 'cc'
