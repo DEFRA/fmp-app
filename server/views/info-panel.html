@@ -1,5 +1,5 @@
 {%- macro listRow(title, value, id) -%} {%- if value %}
-  <div class="govuk-summary-list__row">
+  <div class="govuk-summary-list__row">{% if SONAR %}<dl>{% endif %}
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
         <strong>{{title}}</strong>
@@ -9,7 +9,7 @@
       <span class="govuk-body-s"{% if id %} id="{{id}}"{% endif %}>
         {{value | nl2br | safe}}
       </span>
-    </dd>
+    </dd>{% if SONAR %}</dl>{% endif %}
   </div>
 {% endif %}{% endmacro -%}
 
