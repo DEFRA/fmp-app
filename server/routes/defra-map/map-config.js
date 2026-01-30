@@ -1,14 +1,15 @@
 const { config } = require('../../../config')
 const { defraMap: mapConfig } = config
 const { OS_ACCOUNT_NUMBER } = require('../../constants')
+const { revision } = require('../../../version')
 Object.assign(mapConfig, {
   agolServiceUrl: config.agol.serviceUrl,
   agolVectorTileUrl: config.agol.vectorTileUrl
 })
 
-// cacheNow - is used to cache bust the info panel requests
-// just enough to be unique when the server restarts
-const cacheNow = Date.now()
+// version - is used to cache-bust the info panel requests, so it is unique for each version
+// or each build when run locally
+const version = config.env === 'local' ? Date.now() : revision
 
 module.exports = {
   method: 'GET',
@@ -16,7 +17,7 @@ module.exports = {
   options: {
     description: 'config values for the defra-map component',
     handler: async (request, h) => {
-      return Object.assign({ OS_ACCOUNT_NUMBER, cacheNow }, mapConfig)
+      return Object.assign({ OS_ACCOUNT_NUMBER, version }, mapConfig)
     },
     tags: ['asset']
   }

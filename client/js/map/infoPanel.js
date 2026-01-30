@@ -21,7 +21,7 @@ const getInfoPanelValues = (mapState, feature, coord) => ({
 })
 
 // getInfoPanel: returns the infoPanel object, with html markup or null
-const getInfoPanel = async (event, mapState, cacheNow) => {
+const getInfoPanel = async (event, mapState, version) => {
   const { coords, feature } = getFeatureAndCoordsFromEvent(event)
   if (!feature) {
     return null
@@ -32,13 +32,13 @@ const getInfoPanel = async (event, mapState, cacheNow) => {
     return null
   }
   const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
-  const html = await getInfoPanelMarkup(infoPanelValues, cacheNow)
+  const html = await getInfoPanelMarkup(infoPanelValues, version)
   const label = /TITLE:(.*)/.exec(html)?.[1]
   return { width: '360px', label, html }
 }
 
 // getInfoPanelMarkup: Make a cached request to get the info panel from the backend
-const getInfoPanelMarkup = async (infoPanelValues, cacheNow) => {
+const getInfoPanelMarkup = async (infoPanelValues, version) => {
   let url
   const queryString = new URLSearchParams()
   try {
@@ -47,7 +47,7 @@ const getInfoPanelMarkup = async (infoPanelValues, cacheNow) => {
     if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
     if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
     if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
-    if (cacheNow) { queryString.set('cachebust', cacheNow) }
+    if (version) { queryString.set('v', version) }
     const { coords, depth = '' } = infoPanelValues
 
     url = `${infoPanelURL}?${queryString.toString()}`
