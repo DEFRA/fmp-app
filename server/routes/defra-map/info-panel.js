@@ -10,23 +10,8 @@ const Joi = require('joi')
 const climateChange = 'Climate change'
 const presentDay = 'Present day'
 
-const titleValues = {
-  FZ2: 'Flood zones',
-  FZ3: 'Flood zones',
-  FZCC: 'Flood zones plus climate change',
-  FZNODATA: 'Flood zones plus climate change',
-  sw: 'Surface water',
-  rsd: 'River and sea with defences',
-  rsu: 'River and sea without defences'
-}
-
 const getTimeFrame = (params) => {
   return params.tf === 'cc' ? climateChange : presentDay
-}
-
-const floodZoneValues = {
-  FZ2: '2',
-  FZ3: '3'
 }
 
 const getGaId = (params) => {
@@ -47,9 +32,7 @@ module.exports = {
       const gaId = getGaId(params)
       const timeFrame = getTimeFrame(params)
       const depth = params.ds === 'sw'
-      const floodZone = floodZoneValues[params.fz]
-      const title = titleValues[params.fz || params.ds]
-      return h.view('info-panel', { ...params, gaId, timeFrame, depth, floodZone, title })
+      return h.view('info-panel', { ...params, gaId, timeFrame, depth })
     },
     validate: {
       query: Joi.object({

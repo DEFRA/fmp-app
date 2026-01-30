@@ -1,4 +1,4 @@
-{%- macro listRow(title, value, id) -%}
+{%- macro listRow(title, value, id) -%} {%- if value %}
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-half">
       <span class="govuk-body-s">
@@ -11,32 +11,64 @@
       </span>
     </dd>
   </div>
-{%- endmacro -%}
+{% endif %}{% endmacro -%}
+
+{#- ******************************** AEP TEXT ******************************** -#}
+  {%- if aep -%}
+    {%- if aep==='low' -%}
+      {%- set aepText =    "0.1% (1 in 1000)" -%}
+    {%- endif %}
+    {%- if aep==='medium' -%}
+      {%- set aepText = "1% (1 in 100)"    -%}
+    {%- endif %}
+    {%- if aep==='high' -%}
+      {%- set aepText =   "3.3% (1 in 30)"   -%}
+    {%- endif %}
+    {%- set aepText = [aepText, '<br>', 'chance of flooding each year'] | join -%}
+  {%- endif -%}
+{#- ******************************** AEP TEXT ******************************** -#}
+
+{#- *******************************   DEPTH   ******************************* -#}
+  {%- if ds==='sw' -%}
+    {%- set depth = "DEPTH" -%}
+  {%- endif -%}
+{#- *******************************   DEPTH   ******************************* -#}
+
+{#- ******************************* FLOOD ZONE ******************************* -#}
+  {%- if fz==='FZ2' -%}
+    {%- set floodZone = "2" -%}
+  {%- elseif fz==='FZ3' -%}
+    {%- set floodZone = "3" -%}
+  {%- endif -%}
+{#- ******************************* FLOOD ZONE ******************************* -#}
+
+{#- ********************************* TITLE ********************************** -#}
+  {%- if fz==='FZ2' or fz==='FZ3' -%}
+    {%- set title = "Flood zones" -%}
+  {%- elseif fz -%}
+    {%- set title = "Flood zones plus climate change" -%}
+  {%- elseif ds==='sw' -%}
+    {%- set title = "Surface water" -%}
+  {%- elseif ds==='rsd' -%}
+    {%- set title = "River and sea with defences" -%}
+  {%- elseif ds==='rsu' -%}
+    {%- set title = "River and sea without defences" -%}
+  {%- endif -%}
+{#- ********************************* TITLE ********************************** -#}
+
 <div id="info-title" style="display: none">
   TITLE:{{title}}
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
-  {{ listRow('Easting and northing', 'COORDS', gaId) }}
-  {{ listRow('Timeframe', timeFrame, 'info-timeframe') }}
-  {% if fz==='FZ2' or fz==='FZ3' -%}
-    {{ listRow('Flood zone', floodZone, 'info-flood-zone')  }}
-  {%- endif %}
-  {% if fs -%}
-    {{ listRow('Flood source', fs, 'info-flood-source') }}
-  {%- endif -%}
-  {% if aep -%}
-    {%- if aep==='low' -%} {%- set aepText =    "0.1% (1 in 1000)" -%} {%- endif %}
-    {%- if aep==='medium' -%} {%- set aepText = "1% (1 in 100)"    -%} {%- endif %}
-    {%- if aep==='high' -%} {%- set aepText =   "3.3% (1 in 30)"   -%} {%- endif %}
-    {%- set aepText = [aepText, '<br>', 'chance of flooding each year'] | join -%}
-    {{ listRow('Annual exceedance probability (AEP)', aepText, 'info-aep') }}
-  {%- endif -%}
-  {% if depth -%}
-    {{ listRow('Depth in millimetres', 'DEPTH', 'info-depth') }}
-  {%- endif %}
+  {{ listRow('Easting and northing', 'COORDS', gaId) -}}
+  {{ listRow('Timeframe', timeFrame, 'info-timeframe') -}}
+  {{ listRow('Flood zone', floodZone, 'info-flood-zone') -}}
+  {{ listRow('Flood source', fs, 'info-flood-source') -}}
+  {{ listRow('Annual exceedance probability (AEP)', aepText, 'info-aep') -}}
+  {{ listRow('Depth in millimetres', depth, 'info-depth') -}}
 </dl>
 
-{%- if fz==='FZ2' or fz==='FZ3' %}
+{%- if floodZone %}
 <h2 id='info-fz-updates-title' class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
 <p id='info-fz-updates-body' class="govuk-body-s">
   Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
