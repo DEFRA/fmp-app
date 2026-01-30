@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -65,7 +65,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -129,7 +129,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -193,7 +193,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] 
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone 3 without source 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -244,7 +244,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone 3 with
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones plus climate change
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -299,7 +299,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
     Find out more about flood map for planning data and how to use it
   </a>
 </p>
-<div id="info-fz-cc-allowance" style="display: contents">
+<div id="info-fz-cc-allowance" class="display-contents">
   <h2 class="govuk-heading-s">Climate change allowances</h2>
   <p class="govuk-body-s">
     Flood zones plus climate change uses the following climate change allowances:
@@ -322,7 +322,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`]
 `;
 
 exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Flood zones plus climate change
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -365,7 +365,7 @@ exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`]
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -425,7 +425,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] 
 <p id="info-sw-building" class="govuk-body-s">
   Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
 </p>
-  <div id="info-sw-cc-allowance" style="display: contents">
+  <div id="info-sw-cc-allowance" class="display-contents">
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <p class="govuk-body-s">
       Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
@@ -448,7 +448,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] 
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -508,7 +508,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] =
 <p id="info-sw-building" class="govuk-body-s">
   Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
 </p>
-  <div id="info-sw-cc-allowance" style="display: contents">
+  <div id="info-sw-cc-allowance" class="display-contents">
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <p class="govuk-body-s">
       Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
@@ -531,7 +531,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] =
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -591,7 +591,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`
 <p id="info-sw-building" class="govuk-body-s">
   Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
 </p>
-  <div id="info-sw-cc-allowance" style="display: contents">
+  <div id="info-sw-cc-allowance" class="display-contents">
     <h2 class="govuk-heading-s">Climate change allowances</h2>
     <p class="govuk-body-s">
       Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
@@ -614,7 +614,7 @@ exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -677,7 +677,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] 
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
@@ -740,7 +740,7 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] =
 `;
 
 exports[`info-panel Surface Water should show the info panel for SW-pd-medium 1`] = `
-"<div id="info-title" style="display: none">
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
   TITLE:Surface water
 </div>
 <dl class="govuk-summary-list govuk-!-margin-bottom-3">
