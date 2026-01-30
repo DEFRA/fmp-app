@@ -98,7 +98,7 @@ const getInfoPanelMarkup = async (infoPanelValues) => {
     const { coords, depth = '' } = infoPanelValues
 
     url = `${infoPanelURL}?${queryString.toString()}`
-    const response = await globalThis.fetch(url, { method: 'GET' })
+    const response = await globalThis.fetch(url, { method: 'GET', cache: 'force-cache' })
     if (!response.ok) {
       throw new Error('Failed infoPanel get request')
     }
