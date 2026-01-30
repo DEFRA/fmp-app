@@ -32,7 +32,8 @@ module.exports = {
         ds: Joi.string().valid('fz', 'sw', 'rs'),
         fz: Joi.string().valid('FZ2', 'FZ3', 'FZNODATA', 'FZCC'),
         fs: Joi.string().valid('River', 'Sea', 'River and sea').allow(''),
-        aep: Joi.string().valid('low', 'medium', 'high')
+        aep: Joi.string().valid('low', 'medium', 'high'),
+        cachebust: Joi.number()
       })
     }
   }

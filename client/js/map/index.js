@@ -732,7 +732,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Listen to map queries
   floodMap.addEventListener('query', async e => {
-    const infoPanel = await getInfoPanel(e, mapState)
+    const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.cacheNow)
     floodMap.setInfo(infoPanel)
   })
 })

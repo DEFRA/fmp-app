@@ -10,7 +10,18 @@ import { terms } from './terms.js'
 */
 const infoPanelURL = '/defra-map/info-panel'
 
-const getInfoPanel = async (event, mapState) => {
+const getInfoPanelValues = (mapState, feature, coord) => ({
+  ds: mapState.ds,
+  tf: getTimeFrame(mapState, feature),
+  aep: mapState.riskLevel,
+  fz: getFloodZone(mapState, feature),
+  fs: getFloodSource(mapState, feature),
+  depth: feature?.Depth_band,
+  coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
+})
+
+// getInfoPanel: returns the infoPanel object, with html markup or null
+const getInfoPanel = async (event, mapState, cacheNow) => {
   const { coords, feature } = getFeatureAndCoordsFromEvent(event)
   if (!feature) {
     return null
@@ -21,9 +32,42 @@ const getInfoPanel = async (event, mapState) => {
     return null
   }
   const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
-  const html = await getInfoPanelMarkup(infoPanelValues)
+  const html = await getInfoPanelMarkup(infoPanelValues, cacheNow)
   const label = /TITLE:(.*)/.exec(html)?.[1]
   return { width: '360px', label, html }
+}
+
+// getInfoPanelMarkup: Make a cached request to get the info panel from the backend
+const getInfoPanelMarkup = async (infoPanelValues, cacheNow) => {
+  let url
+  const queryString = new URLSearchParams()
+  try {
+    queryString.set('ds', infoPanelValues.ds)
+    queryString.set('tf', infoPanelValues.tf)
+    if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
+    if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
+    if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
+    if (cacheNow) { queryString.set('cachebust', cacheNow) }
+    const { coords, depth = '' } = infoPanelValues
+
+    url = `${infoPanelURL}?${queryString.toString()}`
+    const response = await globalThis.fetch(url, { method: 'GET', cache: 'force-cache' })
+    if (!response.ok) {
+      throw new Error('Failed infoPanel get request')
+    }
+
+    return response.text().then((html) => {
+      return html
+        .replace('COORDS', coords)
+        .replace('DEPTH', depth)
+    })
+  } catch (error) {
+    console.log('Error fetching info panel', error)
+    console.log('url: ', url)
+    console.log('queryString: ', queryString)
+  }
+
+  return null
 }
 
 const getFeatureAndCoordsFromEvent = (event) => {
@@ -66,16 +110,6 @@ const getFloodSource = (mapState, feature) => {
   return floodSource[0].toUpperCase() + floodSource.slice(1)
 }
 
-const getInfoPanelValues = (mapState, feature, coord) => ({
-  ds: mapState.ds,
-  tf: getTimeFrame(mapState, feature),
-  aep: mapState.riskLevel,
-  fz: getFloodZone(mapState, feature),
-  fs: getFloodSource(mapState, feature),
-  depth: feature?.Depth_band,
-  coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
-})
-
 const getTimeFrame = (mapState, feature) => {
   if (mapState.isClimateChange) {
     const layerName = feature.name || feature.Name
@@ -85,37 +119,6 @@ const getTimeFrame = (mapState, feature) => {
     return 'cc'
   }
   return 'pd'
-}
-
-const getInfoPanelMarkup = async (infoPanelValues) => {
-  let url
-  const queryString = new URLSearchParams()
-  try {
-    queryString.set('ds', infoPanelValues.ds)
-    queryString.set('tf', infoPanelValues.tf)
-    if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
-    if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
-    if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
-    const { coords, depth = '' } = infoPanelValues
-
-    url = `${infoPanelURL}?${queryString.toString()}`
-    const response = await globalThis.fetch(url, { method: 'GET', cache: 'force-cache' })
-    if (!response.ok) {
-      throw new Error('Failed infoPanel get request')
-    }
-
-    return response.text().then((html) => {
-      return html
-        .replace('COORDS', coords)
-        .replace('DEPTH', depth)
-    })
-  } catch (error) {
-    console.log('Error fetching info panel', error)
-    console.log('url: ', url)
-    console.log('queryString: ', queryString)
-  }
-
-  return null
 }
 
 export { getInfoPanel }
