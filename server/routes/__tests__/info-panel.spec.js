@@ -87,6 +87,10 @@ describe('info-panel', () => {
     }
   }
 
+  const testTitle = async (expectedTitle) => {
+    expect(document.getElementById('info-title').textContent).toEqual(`\n  TITLE:${expectedTitle}\n`)
+  }
+
   describe('Flood Zones', () => {
     const tests = [
       ['flood zone 2', 'fz', 'FZ2', 'pd', 'Sea', 'info-fz2-sea'],
@@ -101,6 +105,8 @@ describe('info-panel', () => {
       const url = `${infoPanelUrl}?ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}`
       it(`should show the info panel for ${description}`, async () => {
         await initDocument(url)
+        const expectedTitle = fz === 'FZ2' || fz === 'FZ3' ? 'Flood zones' : 'Flood zones plus climate change'
+        testTitle(expectedTitle)
         testGoogleAnalyticsId(expectedGaId)
         testFLoodZoneRow(fz === 'FZ2' || fz === 'FZ3', fz.replace('FZ', ''))
         testFLoodSourceRow(Boolean(fs), fs)
@@ -131,6 +137,7 @@ describe('info-panel', () => {
       it(`should show the info panel for SW-${tf}-${aep}`, async () => {
         await initDocument(url)
         const expectedGaId = `info-sw-${aep}`
+        testTitle('Surface water')
         testGoogleAnalyticsId(expectedGaId)
         testFLoodZoneRow(false)
         testFLoodSourceRow(false)
