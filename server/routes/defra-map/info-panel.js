@@ -7,12 +7,6 @@ const Joi = require('joi')
   aep: [low,medium,high or none],
   depth: [any depthband or none],
 */
-const climateChange = 'Climate change'
-const presentDay = 'Present day'
-
-const getTimeFrame = (params) => {
-  return params.tf === 'cc' ? climateChange : presentDay
-}
 
 const getGaId = (params) => {
   if (params.ds === 'fz') {
@@ -30,9 +24,7 @@ module.exports = {
     handler: async (request, h) => {
       const params = request.query
       const gaId = getGaId(params)
-      const timeFrame = getTimeFrame(params)
-      const depth = params.ds === 'sw'
-      return h.view('info-panel', { ...params, gaId, timeFrame, depth })
+      return h.view('info-panel', { ...params, gaId })
     },
     validate: {
       query: Joi.object({
