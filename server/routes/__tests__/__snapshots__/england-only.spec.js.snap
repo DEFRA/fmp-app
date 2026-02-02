@@ -6,7 +6,7 @@ exports[`England Only Page england-only with no params 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  This service provides data for locations in England only - Flood map for planning - GOV.UK
+  This service is for locations in England only - Flood map for planning - GOV.UK
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#1d70b8">
@@ -23,7 +23,7 @@ exports[`England Only Page england-only with no params 1`] = `
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="http://dummyuri/england-only"/>
-  <meta property="og:title" content="This service provides data for locations in England only - Flood map for planning - GOV.UK"/>
+  <meta property="og:title" content="This service is for locations in England only - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
@@ -219,36 +219,33 @@ exports[`England Only Page england-only with no params 1`] = `
 
         <main class="govuk-main-wrapper" id="main-content">
           
-   
+ 
 
 
-  <div id="not-england-page"  class="govuk-grid-row govuk-body">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">This service provides data for locations in England only</h1>
-      
-        
-      
-
-      <p>
-        Find 
-        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external" data-journey-click="England-Only:External-Link:Northern-Ireland">flood information for Northern Ireland</a>.
-      </p>
-      <p>
-        Find  
-        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external" data-journey-click="England-Only:External-Link:Scotland">flood information for Scotland</a>.
-      </p>
-      <p>
-        Find  
-        <a href="https://naturalresources.wales" rel="external" data-journey-click="England-Only:External-Link:Wales">flood information for Wales</a>.
-      </p>
-      <p>
-        
-          <p>In England you can get <a href="/" data-journey-click="England-Only:Internal-Link:England">flood information for planning</a></p>
-        
-      </p>
-
-    </div>
+<div id="not-england-page" class="govuk-grid-row govuk-body">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">This service is for locations in England only</h1>
+    <p>There are different services to get information in the following locations:</p>
+    <ul>
+      <li>
+        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external"
+          data-journey-click="England-Only:External-Link:Scotland">
+          flood risk in Scotland</a>
+      </li>
+      <li>
+        <a href="https://naturalresources.wales" rel="external" data-journey-click="England-Only:External-Link:Wales">
+          flood risk in Wales</a>.
+      </li>
+      <li>
+        <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" rel="external"
+          data-journey-click="England-Only:External-Link:Northern-Ireland">flood risk in Northern Ireland</a>
+      </li>
+    </ul>
+    <p>If you want to search for a different location in England, <a href="javascript:history.back()"
+        data-journey-click="England-Only:Internal-Link:England">return to the flood map for planning</a>
+    </p>
   </div>
+</div>
 
         </main>
       </div>

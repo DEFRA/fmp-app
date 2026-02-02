@@ -1,7 +1,9 @@
 const { config } = require('../../config')
+const constants = require('../constants')
 const pauseP1URL = config.functionAppUrl + '/product-one-config'
 const { isRiskAdminArea } = require('../services/riskAdmin/isRiskAdminArea')
 const {
+  getAreaInHectares,
   getCentreOfPolygon,
   checkParamsForPolygon
 } = require('../services/shape-utils')
@@ -24,7 +26,9 @@ module.exports = [
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.centreOfPolygon = getCentreOfPolygon(polygon)
         floodData.isRiskAdminArea = isRiskAdmin
-        return h.view('next-steps', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon, pauseP1Data })
+        floodData.areaInHectares = getAreaInHectares(polygon)
+        const over300Hectares = floodData.areaInHectares > constants.maxAreaInHectares
+        return h.view('next-steps', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon, pauseP1Data, over300Hectares })
       }
     }
   }

@@ -272,13 +272,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
             <li>water storage areas</li>
             <li>surface water layers</li>
           </ul>
-          <p class="govuk-body">
-  Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
-    suitability of datasets for development planning (PDF) 
-  </a>
-  for further guidance on using this alongside other surface water information.
-</p>
         </dd>
 
       </div>
@@ -328,13 +321,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
             <li>surface water flood risk layers </li>
           </ul>
           <p class="govuk-body">
-  Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
-    suitability of datasets for development planning (PDF) 
-  </a>
-  for further guidance on using this alongside other surface water information.
-</p>
-          <p class="govuk-body">
             Exemptions from the sequential test are set out in the 
             <a href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
             <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para27">planning practice guidance</a>.
@@ -377,13 +363,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
             </li>
             <li>surface water flood risk layers</li>
           </ul>
-          <p class="govuk-body">
-  Only present day surface water flood risk is shown. Refer to the 
-  <a href="https://www.tcpa.org.uk/wp-content/uploads/2025/02/Product-suitability-for-planning-diagram-V2.0-August-25.pdf">
-    suitability of datasets for development planning (PDF) 
-  </a>
-  for further guidance on using this alongside other surface water information.
-</p>
           <p class="govuk-body">
             We recommend that those producing local plans and ranking methodologies should discuss
             this with the Environment Agency. Additional supporting datasets are available through
@@ -537,6 +516,22 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
         sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
       </li>
     </ul>
+
+    <p class="govuk-body">
+      Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
+    </p>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances#using-peak-rainfall-intensity-allowances-to-assess-surface-water-flood-risk">
+        Find out more about using peak rainfall intensity allowances to assess surface water flood risk.
+      </a>
+    </p>
+
+    <p class="govuk-body">
+      Visit the <a class="govuk-link" href="https://environment.data.gov.uk/hydrology/climate-change-allowances/rainfall">
+        hydrology data explorer
+      </a> to find your peak rainfall allowance.
+    </p>
 
     <p class="govuk-body">
       Some developments may need to carry out further assessment of the effect of climate change. 

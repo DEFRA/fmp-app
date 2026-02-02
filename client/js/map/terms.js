@@ -11,6 +11,7 @@ const terms = {
     fzClimateChange: '2070 to 2125',
     presentDay: 'Present day',
     mapFeatures: 'Map features',
+    depth: 'Depth in millimetres',
     annualLikelihood: 'Annual likelihood of flooding',
     aep: 'Annual exceedance probability (AEP)'
   },
@@ -21,6 +22,16 @@ const terms = {
     swHigh: '1 in 30',
     swMedium: '1 in 100',
     swLow: '1 in 1000'
+  },
+  depth: {
+    depthAll: 'All depths',
+    depth150: 'Full extent of flooding',
+    depth300: 'Extent over 150mm',
+    depth600: 'Extent over 300mm',
+    depth900: 'Extent over 600mm',
+    depth1200: 'Extent over 900mm',
+    depth2300: 'Extent over 1200mm',
+    depthOver2300: 'Extent over 2300mm'
   },
   likelihoodchance: {
     rsHigh: '<p class="govuk-body-s">3.3% (1 in 30)</br>chance of flooding each year</p>',

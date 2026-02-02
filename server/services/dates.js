@@ -115,23 +115,39 @@ const calculateElapsedTime = (startTime, timeStamp) => {
   return `${days ? `${days}:` : ''}${hours ? `${hours}:` : ''}${zeroPad(minutes % 60)}:${zeroPad(seconds % 60)}`
 }
 
+// Returns a long date formatted eg. '1:01am on Sunday 1 January 2023'
+// See: https://www.gov.uk/guidance/style-guide/a-to-z#times
+// and the .spec file for more examples
 const formatUKTimeAndPauseText = (timestamp) => {
   if (!timestamp) {
     return ''
   }
-  const date = new Date(timestamp)
+  try {
+    const datePart = new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      timeZone: londonTimeZone
+    }).format(timestamp)
 
-  const time = date.toLocaleTimeString('en-GB', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  }).toLowerCase().split(':').join('.')
+    const timePart = new Intl.DateTimeFormat('en-GB', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hourCycle: 'h12',
+      timeZone: londonTimeZone
+    }).format(timestamp)
 
-  const dayName = date.toLocaleDateString('en-GB', { weekday: 'long' })
-  const day = date.getDate()
-  const month = date.toLocaleDateString('en-GB', { month: 'long' })
-  const year = date.getFullYear()
-  return `${time.split(' ').join('')} on ${dayName} ${day} ${month} ${year}`
+    return `${timePart} on ${datePart}`
+      .replace(',', '')
+      .replace(' pm', 'pm')
+      .replace(' am', 'am')
+      .replace(':00', '')
+      .replace('12am', 'midnight')
+      .replace('12pm', 'midday')
+  } catch {
+    return ''
+  }
 }
 
 module.exports = {

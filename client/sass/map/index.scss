@@ -1,4 +1,7 @@
 @use '../../../node_modules/sass-mq/mq';
+@use 'slider';
+@use 'banner';
+
 $govuk-assets-path: "/govuk/assets/";
 $govuk-fonts-path: "/assets/fonts/";
 $govuk-images-path: "/assets/images/";
@@ -7,16 +10,17 @@ $govuk-new-typography-scale: true;
 
 @import '../../../node_modules/govuk-frontend/dist/govuk/all';
 
-// // FloodMap css
-
 // // GOVUK Styles
 @import '../../../node_modules/govuk-frontend/dist/govuk/base';
 @import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
 @import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
 @import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
 
-// Component CSS
-@import '../../../node_modules/@defra/flood-map/src/flood-map';
+// Map Component CSS
+@import '/flood-map-scss';
+// /flood-map-scss is a webpack alias that is substituted for either 
+// @import '../../../node_modules/@defra/flood-map/src/flood-map';  // regular builds
+// @import '../../../defra-map/src/flood-map';                      // submodule builds
 
 strong {
   font-weight: bold;
@@ -61,7 +65,7 @@ strong {
 .flood-map-main {
   padding: 0.75em;
 
-  @include mq.mq ($from: tablet) {
+  @include mq.mq ($from: mobile) {
     flex: 1 1 auto;
     min-height: 0;
     height: 100%;
@@ -70,9 +74,7 @@ strong {
 }
 
 .flood-map-target {
-  @include mq.mq ($from: tablet) {
-    height: 100%;
-  }
+  height: 100%;
 }
 
 .govuk-header__container {
@@ -100,19 +102,19 @@ strong {
 
 // Application CSS
 .fm-mobile.fm-inline.fm-o-container {
-  position:fixed;
+  position: fixed;
   box-sizing: border-box;
   flex-direction: row;
   display: flex;
   justify-content: space-between;
   z-index: 999;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   border: 0;
-  background-color:var(--background-colour);
+  background-color: var(--background-colour);
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
@@ -127,22 +129,25 @@ strong {
 // The map is showing (ie no data-fm-error)
 // The device is mobile
 body.js-enabled:not([data-fm-error]) {
+
   header,
   .govuk-cookie-banner,
   .govuk-header,
   .govuk-skip-link,
-  main > .govuk-heading-l {
-      @include mq.mq ($until: tablet) {
-          display: none;
-      }
+  main>.govuk-heading-l {
+    @include mq.mq ($until: tablet) {
+      display: none;
+    }
   }
 }
 
 .govuk-heading-s,
 .govuk-body-s a,
 .govuk-heading-m,
-.govuk-list > li,
-.govuk-details__text {
+.govuk-list>li,
+.govuk-details__text,
+.fm-c-panel,
+.fm-c-panel--edit {
   color: var(--foreground-colour);
 }
 
@@ -153,3 +158,89 @@ body.js-enabled:not([data-fm-error]) {
 .esri-view-surface--touch-none {
   touch-action: none;
 }
+.fm-c-panel--warning-panel {
+  width: auto !important;
+}
+
+.fm-desktop {
+  .fm-c-panel--warning-panel {
+    max-width: 1080px;
+  }
+}
+
+.fm-tablet {
+  .fm-c-panel--warning-panel {
+    max-width: 1008px;
+  }
+}
+
+// Stop an unnecessary scroll bar when depthAll is shown
+.fm-c-layers__columns {
+  overflow-x: hidden;
+}
+
+.fm-c-layers__group--custom-labels .fm-c-layers__columns {
+  // Offset the depthAll text
+  .fm-c-layers__text {
+    text-align: right;
+    padding-right: 2.7em;
+  }
+  // last depthAll text item
+  .fm-c-layers__item:last-child .fm-c-layers__text {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    white-space: nowrap;
+  }
+}
+
+.flood-map-target .govuk-body-s {
+    margin-bottom: 0;
+}
+
+.display-contents {
+  display: contents;
+}
+
+.fm-c-panel--info {
+/* 
+  These settings are set in _typography.css, but when wrapped in a 
+  container that has style display: contents, such as .display-contents
+  the css selectors break.
+  This is a copy of the selectors, amended to cope with wrapping with 
+  an ignored container.
+*/
+  %govuk-body-m + .display-contents %govuk-heading-m:first-child,
+  %govuk-body-s + .display-contents %govuk-heading-m:first-child,
+  %govuk-list + .display-contents %govuk-heading-m:first-child,
+  %govuk-body-m + .display-contents %govuk-heading-s:first-child,
+  %govuk-body-s + .display-contents %govuk-heading-s:first-child,
+  %govuk-list + .display-contents %govuk-heading-s:first-child {
+    padding-top: govuk-spacing(1);
+
+    @media #{govuk-from-breakpoint(tablet)} {
+      padding-top: govuk-spacing(2);
+    }
+  }
+  #info-how-to-cc-url {
+    margin-top: govuk-spacing(3);
+    @media #{govuk-from-breakpoint(tablet)} {
+      margin-top: govuk-spacing(4);
+    }
+  }
+}
+
+
+// Start of fix of  a Map Component bug (must be fixed there)
+  .fm-o-top__column:first-child:not(:has(.fm-c-search))  {
+     position: static;
+ }
+
+.fm-o-top__column:first-child > .fm-c-panel {
+    position: absolute;
+    left: 15px;
+    top: 70px;
+    max-height: calc(100% - 125px);
+}
+// End of fix of  a Map Component bug (must be fixed there)
