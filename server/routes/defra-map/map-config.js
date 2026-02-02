@@ -2,6 +2,7 @@ const { config } = require('../../../config')
 const { defraMap: mapConfig } = config
 const { OS_ACCOUNT_NUMBER } = require('../../constants')
 const { revision } = require('../../../version')
+
 Object.assign(mapConfig, {
   agolServiceUrl: config.agol.serviceUrl,
   agolVectorTileUrl: config.agol.vectorTileUrl
