@@ -4,6 +4,7 @@ const TRIAGE = 'triage'
 const LOCATION = 'location'
 const ENGLAND_ONLY = 'england-only'
 const MAP = 'map'
+const MAP_HELP = 'map-help'
 const RESULTS = 'results'
 const CONTACT = 'contact'
 const CHECK_YOUR_DETAILS = 'check-your-details'
@@ -28,6 +29,7 @@ const views = {
   LOCATION,
   ENGLAND_ONLY,
   MAP,
+  MAP_HELP,
   RESULTS,
   CONTACT,
   CHECK_YOUR_DETAILS,
@@ -76,11 +78,14 @@ const triageRoutes = {
   other: FLOOD_EXTREME_WEATHER_URL
 }
 
+const maxAreaInHectares = 300
+
 module.exports = Object.freeze({
   routes,
   views,
   statusCodes,
   triageRoutes,
   esriStatusCodes,
-  OS_ACCOUNT_NUMBER
+  OS_ACCOUNT_NUMBER,
+  maxAreaInHectares
 })

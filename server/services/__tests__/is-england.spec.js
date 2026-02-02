@@ -19,35 +19,26 @@ describe('is-england', () => {
   })
 
   it('is-england without easting or northing should throw "No point provided"', async () => {
-    const point = {}
-    try {
-      await isEnglandService(point.easting, point.northing)
-    } catch (err) {
-      expect(isEnglandService).toThrow(Error, 'No point provided')
-    }
+    await expect(
+      isEnglandService.isEnglandService(undefined, undefined)
+    ).rejects.toThrow('No point provided')
   })
 
   it('is-england without easting should throw "No point provided"', async () => {
-    const point = { northing: 388244 }
-    try {
-      await isEnglandService(point.easting, point.northing)
-    } catch (err) {
-      expect(isEnglandService).toThrow(Error, 'No point provided')
-    }
+    await expect(
+      isEnglandService.isEnglandService(undefined, 388244)
+    ).rejects.toThrow('No point provided')
   })
 
   it('is-england without northing should throw "No point provided"', async () => {
-    const point = { easting: 388244 }
-    try {
-      await isEnglandService(point.easting, point.northing)
-    } catch (err) {
-      expect(isEnglandService).toThrow(Error, 'No point provided')
-    }
+    await expect(
+      isEnglandService.isEnglandService(388244, undefined)
+    ).rejects.toThrow('No point provided')
   })
 
   it('is-england with northing and easting should call esriFeatureRequest"', async () => {
     const point = { northing: 388244, easting: 388244 }
-    const response = await isEnglandService(point.easting, point.northing)
+    const response = await isEnglandService.isEnglandService(point.easting, point.northing)
     expect(response).toEqual(true)
   })
 })

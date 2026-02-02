@@ -5,6 +5,7 @@ const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
 const { encode } = require('@mapbox/polyline')
 const { getProductOnePause } = require('../../services/getProductOnePause')
+const { isEnglandService } = require('../../services/is-england')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -13,6 +14,7 @@ jest.mock('../../services/agol/getSurfaceWater')
 jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
 jest.mock('../../services/getProductOnePause')
+jest.mock('../../services/is-england')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
@@ -26,6 +28,13 @@ This test file is used to check the dynamic content on the results page html.
 It is useful as we need to test the nunjuck logic.
 */
 describe('Results page', () => {
+  it('should redirect to England only page if polygon is outside England', async () => {
+    isEnglandService.mockResolvedValueOnce(false)
+    const response = await submitGetRequest({ url: `${url}?${polygonQuery}` }, null, 302)
+    expect(response.statusCode).toEqual(302)
+    expect(response.headers.location).toEqual('/england-only')
+  })
+
   // Checking to ensure both standard polygons and encoded polygons work in query params.
   it.each(queryParams)('should return page if query includes %s', async (desc, queryParam) => {
     getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: null, pauseP1DownloadTo: null })
@@ -118,6 +127,7 @@ describe('Results page', () => {
       })
 
       it('should show FZ1 title, zone 1 relevant text (no FRA) when <1ha drawn with Surface Water bullet point', async () => {
+        getAreaInHectaresSpy.mockReturnValue(100)
         getPsoContactsByPolygon.mockResolvedValue({
           isEngland: true,
           EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -348,7 +358,6 @@ describe('Results page', () => {
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
         expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
         expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
         expect(pageContent.swProbability).toEqual(getSWInfoText('0.1', '1 in 1000').swProbabilityText)
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
         expect(pageContent.fz1DataUnlikely).toEqual(false)
@@ -392,7 +401,6 @@ describe('Results page', () => {
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(2, 'medium'))
         expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
         expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
         expect(pageContent.swProbability).toEqual(getSWInfoText('1', '1 in 100').swProbabilityText)
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
         expect(pageContent.fz23FRA).toEqual(fz23FRAText)
@@ -435,10 +443,47 @@ describe('Results page', () => {
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
         expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
         expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
-        expect(pageContent.swDoNotShowCC).toEqual(getSWInfoText().swDoNotShowCCText)
-        expect(pageContent.swProbability).toEqual(getSWInfoText('3.3', '1 in 30').swProbabilityText)
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
         expect(pageContent.fz23FRA).toEqual(fz23FRAText)
+        expect(pageContent.adminUpdatedData).toEqual(false)
+        expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+      })
+
+      it('Should include boundary to big text if boundary is over 300ha', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: true,
+          floodZone: '3',
+          floodZoneLevel: 'high',
+          floodZoneClimateChange: false,
+          floodZoneClimateChangeNoData: false,
+          surfaceWater: {
+            riskBandId: 3,
+            riskBand: 'High',
+            riskBandPercent: '3.3',
+            riskBandOdds: '1 in 30'
+          },
+          isRiskAdminArea: false
+        })
+        getAreaInHectaresSpy.mockReturnValue(350)
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+        expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.fraTitle).toEqual(fraTitleText)
+        expect(pageContent.fraRequired).toEqual(fraRequiredText)
+        expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
+        expect(pageContent.boundaryTooBig).toEqual(getSWInfoText().boundaryTooBigText)
+        expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+        expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
         expect(pageContent.adminUpdatedData).toEqual(false)
         expect(pageContent.siteDrawnIsLessThan).toEqual(false)
       })
@@ -513,6 +558,46 @@ describe('Results page', () => {
         expect(pageContent.adminUpdatedData).toEqual(false)
       })
     })
+
+    it('Should still show the opted out text if boundary is over 300ha', async () => {
+      getPsoContactsByPolygon.mockResolvedValue({
+        isEngland: true,
+        EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+        AreaName: 'East Midlands',
+        useAutomatedService: false,
+        LocalAuthorities: 'Derbyshire Dales'
+      })
+      getFloodDataByPolygon.mockResolvedValue({
+        floodzone_2: false,
+        floodzone_3: true,
+        floodZone: '3',
+        floodZoneLevel: 'high',
+        floodZoneClimateChange: false,
+        floodZoneClimateChangeNoData: false,
+        surfaceWater: {
+          riskBandId: 3,
+          riskBand: 'High',
+          riskBandPercent: '3.3',
+          riskBandOdds: '1 in 30'
+        },
+        isRiskAdminArea: false
+      })
+      getAreaInHectaresSpy.mockReturnValue(350)
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
+      const pageContent = getElementByIdAndFormat(response.payload)
+      expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
+      expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
+      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+      expect(pageContent.fraTitle).toEqual(fraTitleText)
+      expect(pageContent.fraRequired).toEqual(fraRequiredText)
+      expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
+      expect(pageContent.boundaryTooBig).toEqual(false)
+      expect(pageContent.orderP4Button).toEqual(false)
+      expect(pageContent.swSummaryTitle).toEqual(getSWInfoText().swSummaryTitleText)
+      expect(pageContent.swSummaryKeyCC).toEqual(getSWInfoText().swSummaryKeyCCText)
+      expect(pageContent.adminUpdatedData).toEqual(false)
+      expect(pageContent.siteDrawnIsLessThan).toEqual(false)
+    })
   })
 
   describe('On Internal', () => {
@@ -567,7 +652,7 @@ const getSWInfoText = (riskBandPercent, riskBandOdds) => {
   const swContent = {
     swSummaryTitleText: 'Surface water for planning',
     swSummaryKeyCCText: 'Climate change: projected chance of flooding',
-    swDoNotShowCCText: 'We do not currently show climate change scenarios for surface water.',
+    boundaryTooBigText: 'The boundary is too big to order detailed flood risk information (product 4). Reduce the boundary size to under 300 hectares.',
     swProbabilityText: `The chance of surface water flooding at this location could be more than ${riskBandPercent}% (${riskBandOdds}) each year.`
   }
 
@@ -621,7 +706,7 @@ const getElementByIdAndFormat = (payload) => {
   const swSummaryTitle = document.getElementById('swSummaryTitle') ? removeHtmlGaps(document.getElementById('swSummaryTitle').textContent) : false
   const swBulletPoint = document.getElementById('swBulletPoint') ? removeHtmlGaps(document.getElementById('swBulletPoint').textContent) : false
   const swSummaryKeyCC = document.getElementById('swSummaryKeyCC') ? removeHtmlGaps(document.getElementById('swSummaryKeyCC').textContent) : false
-  const swDoNotShowCC = document.getElementById('swDoNotShowCC') ? removeHtmlGaps(document.getElementById('swDoNotShowCC').textContent) : false
+  const boundaryTooBig = document.getElementById('boundaryTooBig') ? removeHtmlGaps(document.getElementById('boundaryTooBig').textContent) : false
   const swProbability = document.getElementById('swProbability') ? removeHtmlGaps(document.getElementById('swProbability').textContent) : false
   const riskFloodingFrom = document.getElementById('riskFloodingFrom') ? removeHtmlGaps(document.getElementById('riskFloodingFrom').textContent) : false
   const riskWhenCC = document.getElementById('riskWhenCC') ? removeHtmlGaps(document.getElementById('riskWhenCC').textContent) : false
@@ -648,7 +733,7 @@ const getElementByIdAndFormat = (payload) => {
     swSummaryTitle,
     adminUpdatedData,
     swSummaryKeyCC,
-    swDoNotShowCC,
+    boundaryTooBig,
     swProbability,
     fz23FRA,
     riskFloodingFrom,

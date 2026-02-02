@@ -8,10 +8,11 @@ dotenv.config({ path: path.join(__dirname, './.env') })
 
 const exclusions = /node_modules\/(?!@defra*)/
 const floodMapPath = 'node_modules/@defra/flood-map/src/flood-map.js'
+const floodMapScssPath = '../../../node_modules/@defra/flood-map/src/flood-map'
 
 const arcGisPackagePath = '@arcgis'
 
 console.log('Building defra-map as an npm package\n')
 
-const config = configBuilder(exclusions, arcGisPackagePath, floodMapPath)
+const config = configBuilder(exclusions, arcGisPackagePath, floodMapPath, floodMapScssPath)
 export default config

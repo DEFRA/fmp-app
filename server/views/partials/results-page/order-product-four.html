@@ -1,4 +1,4 @@
-{% if showOrderProduct4Button %}
+{% if showOrderProduct4Button and not over300Hectares %}
   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
   {% if floodData.floodZone === '1'%}
     <p id="fz1DataUnlikely" class="govuk-body" data-testid="fz1-order-product4">Your site is in flood zone 1, so it's unlikely we'll have any flood risk data for it. You can place an order and we'll email you if none is available.</p>
@@ -7,7 +7,16 @@
   <a id="orderP4Button" href="contact?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
-{% else %}
+  <p class="govuk-body" >
+    If you need to order other products, contact the Environment Agency team in {{ contactData.AreaName }} at
+    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>.
+  </p>
+  <p>
+    <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+      Find out what products are available
+    </a>
+  </p>
+{% elif not showOrderProduct4Button %}
   <p class="govuk-body" data-testid="order-product4-email">
     To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at
     <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>
@@ -30,4 +39,23 @@
       <li>flood defence breach hazard information.</li>
     </ul>
   {% endif %}
+{% elif over300Hectares %}
+  <p class="govuk-body" id="boundaryTooBig">The boundary is too big to order detailed flood risk information (product 4). Reduce the boundary size to under 300 hectares.</p>
+  <br>
+  <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+    Edit boundary
+  </a>
+  <p class="govuk-body">
+    If your boundary needs to be bigger than 300 hectares
+    {%- if showOrderProduct4Button %} or you need to order other products {%- endif -%}
+    , contact the Environment Agency team in {{ contactData.AreaName }} at
+    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>.
+  </p>
+  {% if showOrderProduct4Button -%}
+    <p class="govuk-body" >
+      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+        Find out what products are available
+      </a>
+    </p>
+  {% endif -%}
 {% endif %}

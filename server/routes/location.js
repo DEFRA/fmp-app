@@ -3,7 +3,7 @@ const addressService = require('../services/address')
 const isValidEastingNorthingService = require('../services/is-valid-easting-northing')
 const isValidNgrService = require('../services/is-valid-ngr')
 const ngrToBng = require('../services/ngr-to-bng')
-const isEnglandService = require('../services/is-england')
+const { isEnglandService } = require('../services/is-england')
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.LOCATION),

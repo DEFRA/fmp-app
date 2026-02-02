@@ -51,6 +51,9 @@ describe('Ensure config is correct', () => {
         riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
         riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Depth_CCP1_NON_PRODUCTION/FeatureServer',
         surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0',
+        surfaceWaterClimateChange1In30EndPoint: '/Surface_Water_Spatial_Planning_1_in_30_CCP1_Depths_NON_PRODUCTION/FeatureServer/0',
+        surfaceWaterClimateChange1In100EndPoint: '/Surface_Water_Spatial_Planning_1_in_100_CCP1_Depths_NON_PRODUCTION/FeatureServer/0',
+        surfaceWaterClimateChange1In1000EndPoint: '/Surface_Water_Spatial_Planning_1_in_1000_CCP1_Depths_NON_PRODUCTION/FeatureServer/0',
         agolRofrsDepthOrExtents: 'Depth'
       },
       eamaps: {
@@ -113,6 +116,9 @@ describe('Ensure config is correct', () => {
         riversAndSeaDefendedCCP1EndPoint: '/Rivers_and_Sea_Defended_Extents_CCP1/FeatureServer',
         riversAndSeaUndefendedCCP1EndPoint: '/Rivers_and_Sea_Undefended_Extents_CCP1/FeatureServer',
         surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0_mm/FeatureServer/0',
+        surfaceWaterClimateChange1In30EndPoint: '/Surface_Water_Spatial_Planning_1_in_30_CCP1_Depths/FeatureServer/0',
+        surfaceWaterClimateChange1In100EndPoint: '/Surface_Water_Spatial_Planning_1_in_100_CCP1_Depths/FeatureServer/0',
+        surfaceWaterClimateChange1In1000EndPoint: '/Surface_Water_Spatial_Planning_1_in_1000_CCP1_Depths/FeatureServer/0',
         agolRofrsDepthOrExtents: 'Extents'
       },
       eamaps: {

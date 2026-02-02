@@ -1,16 +1,15 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
-import { renderInfo, renderList } from './infoRenderer'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
-import { siteBoundaryHelp } from './markUpItems.js'
 import { vtLayers } from './vtLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
-
-let visibleVtLayer
-
+import { sliderMarkUp, initialiseSlider } from './slider/index.js'
+import { renderBanner } from './banner.js'
+import { FloodMapLayer } from './mapLayers/index.js'
+import { getInfoPanel } from './infoPanel.js'
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -19,6 +18,8 @@ const symbols = {
   floodDefences: '/assets/images/flood-defence.svg',
   mainRivers: '/assets/images/main-rivers.svg'
 }
+
+const MAX_POLYGON_AREA = 3000000
 
 const keyItemDefinitions = {
   floodZone2: {
@@ -68,24 +69,52 @@ const keyItemDefinitions = {
     // id: 'fz2',
     label: 'Flood extent',
     fill: getKeyItemFill(colours.floodExtents)
-  }
+  },
+  surfaceWater0: {
+    label: '2300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[0])
+  },
+  surfaceWater1: {
+    label: '1200',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[1])
+  },
+  surfaceWater2: {
+    label: '900',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[2])
+  },
+  surfaceWater3: {
+    label: '600',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[3])
+  },
+  surfaceWater4: {
+    label: '300',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[4])
+  },
+  surfaceWater5: {
+    label: '150',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[5])
+  },
+  surfaceWater6: {
+    label: '',
+    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[6])
+  },
+  surfaceWaterDepth150: { label: terms.depth.depth150, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth300: { label: terms.depth.depth300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth600: { label: terms.depth.depth600, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth900: { label: terms.depth.depth900, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth1200: { label: terms.depth.depth1200, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepth2300: { label: terms.depth.depth2300, fill: getKeyItemFill(colours.nonFloodZone) },
+  surfaceWaterDepthOver2300: { label: terms.depth.depthOver2300, fill: getKeyItemFill(colours.nonFloodZone) }
 }
 
-// floodZoneSymbolIndex is used to infer the _symbol value sent to the query feature when a layer is clicked
-// we believe it depends on the order of the styles that are set on the flood zones vector tile layer
-// and it is used to infer the flood zone that has been clicked on by a user.
-// On a previous data set, these values were in the reverse order so we need to verify that they remain correct
-// after a data upload to arcGis
-const floodZoneSymbolIndex = ['3', '2']
-const floodZoneCCSymbolIndex = ['2', '3', terms.labels.noData]
-
-const getFloodZoneFromFeature = (feature, mapState) => {
-  if (feature.flood_zone === terms.keys.fz2) { return '2' }
-  if (feature.flood_zone === terms.keys.fz3) { return '3' }
-  if (feature.flood_zone === terms.keys.fzCC) { return terms.keys.fzCC }
-  if (feature.flood_zone === terms.keys.fzNoData) { return terms.keys.fzNoData }
-  const symbolIndex = mapState?.isClimateChange ? floodZoneCCSymbolIndex : floodZoneSymbolIndex
-  return symbolIndex[feature._symbol]
+keyItemDefinitions.common = {
+  heading: terms.labels.mapFeatures,
+  collapse: 'collapse',
+  items: [
+    keyItemDefinitions.waterStorageAreas,
+    keyItemDefinitions.floodDefences,
+    keyItemDefinitions.mainRivers
+  ]
 }
 
 // capture polygon from query string
@@ -104,6 +133,7 @@ let featureQuery, extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
   const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
   const polygon = JSON.parse(polygonString)
+
   featureQuery = {
     type: 'feature',
     geometry: {
@@ -115,7 +145,6 @@ if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  const getVectorTileUrl = (layerName) => `${defraMapConfig.agolVectorTileUrl}/${layerName + defraMapConfig.layerNameSuffix}/VectorTileServer`
   const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
   const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
 
@@ -207,79 +236,32 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   ]
 
-  const setStylePaintProperties = (vtLayer, vectorTileLayer, isDark) => {
-    vtLayer.styleLayers.forEach(([styleLayerName, paintProperties]) => {
-      const layerPaintProperties = vectorTileLayer.getPaintProperties(styleLayerName)
-      if (layerPaintProperties) {
-        const fillColour = paintProperties[isDark ? 1 : 0]
-        layerPaintProperties['fill-color'] = fillColour
-        vectorTileLayer.setPaintProperties(styleLayerName, layerPaintProperties)
-      }
-    })
-    if (vtLayer.setStyleProperties) {
-      vtLayer.setStyleProperties(vectorTileLayer, isDark)
-    }
-
-    // Un comment this section to infer the styleLayers for each vector layer
-    // They don't seem to be defined anywhere server side, so Paul is anxious that
-    // they may change when new layers are published.
-    // const { styleRepository = {} } = vectorTileLayer
-    // const { layers: styleLayers = [] } = styleRepository
-    // styleLayers.forEach((styleLayer) => {
-    //   console.log(styleLayer.id)
-    // })
-  }
   const addLayers = async () => {
-    return Promise.all([
-      /* eslint-disable */
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/VectorTileLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/FeatureLayer.js'),
-      import(/* webpackChunkName: "esri-sdk" */ '/@arcgis-path/core/layers/GroupLayer.js'),
-      /* eslint-enable */
-    ]).then(modules => {
-      const VectorTileLayer = modules[0].default
-      const FeatureLayer = modules[1].default
-      const GroupLayer = modules[2].default
-      vtLayers.forEach((vtLayer) => {
-        if (!vtLayer.q) {
-          return
-        }
-        if (vtLayer.getVtLayer) {
-          floodMap.map.add(vtLayer.getVtLayer(getVectorTileUrl, VectorTileLayer, GroupLayer))
-        } else {
-          const vectorTileLayer = new VectorTileLayer({
-            id: vtLayer.name,
-            url: getVectorTileUrl(vtLayer.name),
-            opacity: 0.75,
-            visible: false
-          })
-          floodMap.map.add(vectorTileLayer)
-        }
-      })
-      fLayers.forEach(fLayer => {
-        floodMap.map.add(new FeatureLayer({
-          id: fLayer.name,
-          url: fLayer.url,
-          renderer: getMapFeatureRenderer(fLayer.name),
-          visible: false
-        }))
-      })
+    vtLayers.forEach((vtLayer) => {
+      if (!vtLayer.q) {
+        return
+      }
+      vtLayer.addToMap(floodMap.map)
+    })
+    const { FeatureLayer } = FloodMapLayer.modules
+    fLayers.forEach(fLayer => {
+      floodMap.map.add(new FeatureLayer({
+        id: fLayer.name,
+        url: fLayer.url,
+        renderer: getMapFeatureRenderer(fLayer.name),
+        visible: false
+      }))
     })
   }
 
   const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
-    const isDrawMode = ['frame', 'draw'].includes(mode)
+    const isDrawMode = ['frame', 'vertex'].includes(mode)
     vtLayers.forEach((vtLayer, i) => {
       if (!vtLayer.q) {
         return
       }
-      const id = vtLayer.name
-      const layer = map.findLayerById(id)
-      const isVisible = !isDrawMode && segments.join('') === vtLayer.q
-      layer.visible = isVisible
-      const allLayers = layer.allLayers || [layer]
-      allLayers.forEach((childLayer) => setStylePaintProperties(vtLayer, childLayer, isDark))
-      visibleVtLayer = isVisible ? layer : visibleVtLayer
+      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility()
+      vtLayer.visible = isVisible
     })
     fLayers.forEach(fLayer => {
       const layer = map.findLayerById(fLayer.name)
@@ -310,7 +292,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     transformSearchRequest: getRequest,
     interceptorsCallback: getInterceptors,
     tokenCallback: getEsriToken,
+    warningPosition: 'top',
     styles: baseMapStyles,
+    helpURL: '/map-help',
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -318,13 +302,14 @@ getDefraMapConfig().then((defraMapConfig) => {
       country: 'england'
     },
     legend: {
+      htmlAfter: sliderMarkUp,
       width: '280px',
       isVisible: true,
-      title: 'Menu',
       keyWidth: '360px',
       keyDisplay: 'min',
       segments: [{
         heading: 'Datasets',
+        collapse: 'collapse',
         items: [
           {
             id: 'fz',
@@ -352,6 +337,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['fz'],
         items: [
           {
@@ -367,6 +353,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'tf',
         heading: terms.labels.climateChange,
+        collapse: 'collapse',
         parentIds: ['rsd', 'rsu'],
         items: [
           {
@@ -380,8 +367,25 @@ getDefraMapConfig().then((defraMapConfig) => {
         ]
       },
       {
+        id: 'tf',
+        heading: terms.labels.climateChange,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'pd',
+            label: terms.labels.presentDay
+          },
+          {
+            id: 'cl',
+            label: '2061 to 2125'
+          }
+        ]
+      },
+      {
         id: 'af1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['rsd'],
         items: [
           {
@@ -401,6 +405,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       {
         id: 'sw1',
         heading: terms.labels.annualLikelihood,
+        collapse: 'collapse',
         parentIds: ['sw'],
         items: [
           {
@@ -414,6 +419,46 @@ getDefraMapConfig().then((defraMapConfig) => {
           {
             id: 'lr',
             label: terms.chance.swLow
+          }
+        ]
+      },
+      {
+        id: 'sw2',
+        heading: terms.labels.depth,
+        collapse: 'collapse',
+        parentIds: ['sw'],
+        items: [
+          {
+            id: 'depthAll',
+            label: terms.depth.depthAll
+          },
+          {
+            id: 'depth150',
+            label: terms.depth.depth150
+          },
+          {
+            id: 'depth300',
+            label: terms.depth.depth300
+          },
+          {
+            id: 'depth600',
+            label: terms.depth.depth600
+          },
+          {
+            id: 'depth900',
+            label: terms.depth.depth900
+          },
+          {
+            id: 'depth1200',
+            label: terms.depth.depth1200
+          },
+          {
+            id: 'depth2300',
+            label: terms.depth.depth2300
+          },
+          {
+            id: 'depthOver2300',
+            label: terms.depth.depthOver2300
           }
         ]
       },
@@ -436,6 +481,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       key: [
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzpd'],
           items: [
             keyItemDefinitions.floodZone2,
@@ -447,6 +493,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['fzcl'],
           items: [
             keyItemDefinitions.floodZone2PresentDay,
@@ -458,18 +505,69 @@ getDefraMapConfig().then((defraMapConfig) => {
             keyItemDefinitions.mainRivers
           ]
         },
-        {
+        { // Surface Water DepthAll
           heading: terms.labels.mapFeatures,
-          parentIds: ['rsd', 'rsu', 'sw'],
+          collapse: 'collapse',
+          parentIds: ['rsd', 'rsu', 'depthAll'],
           items: [
-            keyItemDefinitions.floodExtents,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
+            keyItemDefinitions.mainRivers,
+            {
+              label: 'Surface water depth in millimetres',
+              display: 'ramp',
+              numLabels: 1,
+              items: [
+                keyItemDefinitions.surfaceWater6,
+                keyItemDefinitions.surfaceWater5,
+                keyItemDefinitions.surfaceWater4,
+                keyItemDefinitions.surfaceWater3,
+                keyItemDefinitions.surfaceWater2,
+                keyItemDefinitions.surfaceWater1,
+                keyItemDefinitions.surfaceWater0
+              ]
+            }
           ]
+        },
+        // Surface Water Extents:
+        {
+          parentIds: ['depth150'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth150]
+        },
+        {
+          parentIds: ['depth300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth300]
+        },
+        {
+          parentIds: ['depth600'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth600]
+        },
+        {
+          parentIds: ['depth900'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth900]
+        },
+        {
+          parentIds: ['depth1200'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth1200]
+        },
+        {
+          parentIds: ['depth2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth2300]
+        },
+        {
+          parentIds: ['depthOver2300'],
+          ...keyItemDefinitions.common,
+          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepthOver2300]
         },
         {
           heading: terms.labels.mapFeatures,
+          collapse: 'collapse',
           parentIds: ['mo'],
           items: [
             keyItemDefinitions.waterStorageAreas,
@@ -479,20 +577,31 @@ getDefraMapConfig().then((defraMapConfig) => {
         }
       ]
     },
+    scaleBar: 'metric',
     queryArea: {
-      heading: 'Get a boundary report',
-      startLabel: 'Add site boundary',
-      editLabel: 'Edit site boundary',
-      addLabel: 'Add boundary',
-      updateLabel: 'Update boundary',
+      collapse: 'collapse',
+      heading: 'Get data for your location',
       submitLabel: 'Get summary report',
-      helpLabel: 'How to draw a shape',
-      keyLabel: 'Report area',
-      html: siteBoundaryHelp,
-      minZoom: 17,
-      maxZoom: 21,
+      keyLabel: 'Location boundary',
+      summary: 'Add or edit a location boundary',
+      maxZoom: 22,
       styles: digitisingMapStyles,
-      feature: featureQuery // feature derived from polygon query string or null if not present
+      drawTools: ['polygon', 'square'],
+      areaUnits: 'hectares',
+      feature: featureQuery, // feature derived from polygon query string or null if not present
+      onShapeUpdate: ({ area, geometry }) => {
+        // We seem to be getting this when we are not editing a shape = one to ask Dan about.
+        if (!area || !geometry) {
+          return {}
+        }
+        const isValid = area <= MAX_POLYGON_AREA
+        const warningText = isValid ? null : 'Boundary must be under 300 hectares to order data. You can still download a flood map.'
+        // This longer version was Rachel's initial suggestion, but was reduced to fit on screen,
+        // with css we can make it fit, but awaiting opinions from the design team.
+        // const warningText = isValid ? null : 'Reduce your boundary size to under <span>300<span> hectares to order detailed flood risk information (product 4). You can still download a flood map (product 1).'
+        mapState.shapeIsValid = isValid
+        return { warningText, allowShape: true }
+      }
     },
     queryLocation: {
       layers: vtLayers.map(vtLayer => vtLayer.name)
@@ -500,6 +609,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }, (esriMapObjects) => {
     const { esriConfig } = esriMapObjects
     mapState.esriConfig = esriConfig
+    mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
   })
 
@@ -529,6 +639,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     } else {
       mapState.riskLevel = ''
     }
+    mapState.ds = mapState.isFloodZone ? 'fz' : 'sw'
   }
 
   // Component is ready and we have access to map
@@ -536,22 +647,15 @@ getDefraMapConfig().then((defraMapConfig) => {
   floodMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
-
-    floodMap.setInfo({
-      width: '360px',
-      label: 'Map hints',
-      html: `<div id="help-map-hints">
-        <p class="govuk-body-s govuk-!-margin-top-4"><strong>How to query the map</p class="govuk-body-s"></strong>
-        <p class="govuk-body">If using a mouse click on a point to find out more about the flood data held on that location.</p>
-        <p class="govuk-body">If using a keyboard, navigate to the point, centering the crosshair at the location, then press enter.</p>
-        <p class="govuk-body-s"><strong>Keyboard map controls</p class="govuk-body-s"></strong>
-        <p class="govuk-body">Tab to the map and press Alt+K to view keyboard controls</p>
-      </div>`
+    await FloodMapLayer.initialise({
+      mapState,
+      config: defraMapConfig
     })
-
     await addLayers()
     setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
+    initialiseSlider()
+    renderBanner(mapState)
   })
 
   // Listen for mode, segments, layers or style changes
@@ -563,6 +667,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
     const map = floodMap.map
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
+    renderBanner({ ...mapState, type, mode })
   })
 
   const initPointerMove = () => {
@@ -571,13 +676,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
     floodMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (!visibleVtLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
         return
       }
       lastHit = now
-      const layersToTest = visibleVtLayer.allLayers || [visibleVtLayer]
+      const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
       floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
-        document.body.style.cursor = response?.results?.length > 0 ? 'pointer' : 'default'
+        if (response?.results?.length > 0) {
+          // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
+          // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
+          const { layerId } = response?.results?.[0]?.graphic?.origin || {}
+          document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
+          return
+        }
+        document.body.style.cursor = 'default'
       })
     })
 
@@ -586,54 +698,24 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const getPolygon = () => {
-    const { items: layers } = floodMap.map.layers
-    const polygonLayer = layers[layers.length - 1]
-    const { graphics } = polygonLayer
-    const { items } = graphics
-    const { geometry } = items[0]
-    const { rings } = geometry
-    return roundPolygon(rings[0])
-  }
-
   mapDiv.addEventListener('appaction', e => {
     const { type } = e.detail
     if (type === 'confirmPolygon' || type === 'updatePolygon') {
       const url = new URL(window.location)
-      const polygon = getPolygon()
+      const polygon = e.detail?.query?.geometry?.coordinates?.[0]
+      mapState.polygon = roundPolygon(polygon)
       url.searchParams.set('encodedPolygon', encodePolygon(polygon))
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
     if (type === 'deletePolygon') {
+      delete mapState.polygon
       const url = new URL(window.location)
       url.searchParams.delete('encodedPolygon')
       url.search = decodeURIComponent(url.search)
       window.history.replaceState(null, '', url)
     }
   })
-
-  const getDataset = () => {
-    if (mapState.segments.includes('sw')) {
-      return 'Surface water'
-    }
-    if (mapState.segments.includes('rsd')) {
-      return 'River and sea with defences'
-    }
-    if (mapState.segments.includes('rsu')) {
-      return 'River and sea without defences'
-    }
-    return undefined
-  }
-
-  const formatFloodSource = (floodSource = '') => {
-    if (floodSource === 'Coastal') {
-      return 'Sea'
-    } else if (floodSource === 'Fluvial') {
-      return 'River'
-    }
-    return floodSource[0].toUpperCase() + floodSource.slice(1)
-  }
 
   const roundPolygon = (polygon) => {
     return polygon.map(([x, y]) => [Math.round(x * 100) / 100, Math.round(y * 100) / 100])
@@ -642,201 +724,15 @@ getDefraMapConfig().then((defraMapConfig) => {
   // event to fire for 'Get site report' button to non dynamic results page
   document.addEventListener('click', e => {
     if (e.target.innerText === 'Get summary report') {
-      // TODO - version 0.4.0 of defra-map, will remove the need to
-      // hack the polygon layer like this.
-      const polygon = getPolygon()
+      const polygon = mapState.polygon
       const encodedPolygon = encodePolygon(polygon)
       window.location = `/results?encodedPolygon=${encodedPolygon}`
     }
   })
-  const getTimeFrame = (feature) => {
-    if (mapState.isClimateChange) {
-      if (mapState.isFloodZone && feature.flood_zone !== terms.keys.fzCC && feature.flood_zone !== terms.keys.fzNoData) {
-        return terms.labels.presentDay
-      }
-      return terms.labels.climateChange
-    }
-    return terms.labels.presentDay
-  }
-
-  const addGaIdToFeature = (feature) => {
-    // add a gaId tag for identifying which feature has been clicked
-    feature.gaId = 'info'
-    if (mapState.isFloodZone) {
-      feature.gaId += `-${feature.flood_zone}`
-      if (feature.flood_source) {
-        feature.gaId += `-${feature.flood_source.replaceAll(' ', '-')}`
-      }
-    } else if (mapState.isSurfaceWater) {
-      feature.gaId += `-sw-${mapState.riskLevel}`
-    } else {
-      feature.gaId += '-unknown'
-    }
-    feature.gaId = feature.gaId.toLowerCase()
-  }
-
-  const transformFeature = (features) => {
-    if (!features.isPixelFeaturesAtPixel) {
-      return null
-    }
-    const feature = { ...features.items[0] }
-    feature.name = feature.name || feature.Name
-    feature.flood_source = feature.flood_source || feature.Flood_source
-    if (mapState.isFloodZone && mapState.isClimateChange) {
-      // This Implies we have clicked on  CC ZONE
-      // delete feature.flood_source -- awaiting confirmation from Lloyd on whether to show or hide this if available
-      if (feature.name === 'Flood Zones plus climate change') {
-        feature.flood_zone = terms.keys.fzCC
-      }
-      if (feature.name === 'Unavailable') {
-        feature.flood_zone = terms.keys.fzNoData
-      }
-    }
-    addGaIdToFeature(feature)
-
-    return feature
-  }
-
-  const getQueryContentHeader = (e) => {
-    const { coord, features } = e.detail
-    if (!features || !coord || !features.isPixelFeaturesAtPixel) {
-      return {}
-    }
-    const feature = transformFeature(features)
-    const timeFrame = getTimeFrame(feature)
-    const listContents = [
-      ['Easting and northing', `<span id=${feature.gaId}>${Math.round(coord[0])},${Math.round(coord[1])}</span>`],
-      ['Timeframe', timeFrame]
-    ]
-
-    const vtLayer = feature && vtLayers.find(vtLayer => vtLayer.name === feature.layer)
-    return { listContents, vtLayer, coord, feature }
-  }
-
-  const addQueryFloodZonesContent = (listContents, feature) => {
-    if (!mapState.isFloodZone) {
-      return ''
-    }
-    const floodZone = getFloodZoneFromFeature(feature, mapState)
-    if (floodZone !== terms.keys.fzNoData && floodZone !== terms.keys.fzCC) {
-      listContents.push(['Flood zone', floodZone])
-    }
-
-    if (floodZone !== terms.keys.fzNoData && feature.flood_source) {
-      listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
-    }
-    return floodZone
-  }
-
-  const addQueryNonFloodZonesContent = (listContents, vtLayer) => {
-    // This part is applicable for non Flood_Zones layers, when an area outside
-    // of a zone has been clicked
-    const dataset = getDataset()
-    if (dataset) {
-      listContents.push(['Dataset', dataset])
-    }
-    if (vtLayer?.likelihoodLabel) {
-      listContents.push([terms.labels.aep, vtLayer.likelihoodLabel])
-    }
-    if (vtLayer?.chanceLabel) {
-      listContents.push([terms.labels.annualLikelihood, vtLayer.chanceLabel])
-    }
-    if (vtLayer?.likelihoodchanceLabel) {
-      listContents.push([terms.labels.aep, vtLayer.likelihoodchanceLabel])
-    }
-  }
-
-  const getClimateChangeExtraContent = (floodZone) => (mapState.isClimateChange && floodZone === terms.keys.fzCC)
-    ? `
-    <h2 class="govuk-heading-s">Climate change allowances</h2>
-    <p class="govuk-body-s">
-      Flood zones plus climate change uses the following climate change allowances:
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li class='govuk-body-s'>
-        peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
-      </li>
-      <li class='govuk-body-s'>
-        sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
-      </li>
-    </ul>
-    <p class="govuk-body-s">
-      These have been taken from the Environment Agency's 
-        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
-          Flood risk assessment: climate change allowances
-        </a>
-    </p>
-    `
-    : ''
-
-  const getFloodZonesExtraContent = (floodZone) => {
-    if (!mapState.isFloodZone) {
-      return ''
-    }
-    const $findOutMoreLink = `<p class="govuk-body-s"> 
-      <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how it should be used
-      </a>
-    </p>`
-    if (floodZone === terms.keys.fzNoData) {
-      return `<h2 class="govuk-heading-s">Climate change data unavailable</h2>
-        <p class="govuk-body-s">
-          In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
-        </p>
-        ${$findOutMoreLink}`
-    } else if (floodZone === terms.keys.fzCC) {
-      return `<h2 class="govuk-heading-s">How to use flood zones plus climate change</h2>
-        <p class="govuk-body-s">
-          The flood zones plus climate change dataset shows how the combined extent of flood
-          zones 2 and 3 could increase with climate change over the next century, ignoring the
-          benefits of any existing flood defences.
-        </p>
-        ${$findOutMoreLink}`
-    } else {
-      return `<h2 class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
-        <p class="govuk-body-s">
-          Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
-        </p>`
-    }
-  }
-
-  const getQueryExtraContent = (vtLayer, floodZone) => {
-    let extraContent = ''
-    extraContent += getFloodZonesExtraContent(floodZone)
-    extraContent += getClimateChangeExtraContent(floodZone)
-    return extraContent
-  }
-
-  const getTitle = (floodZone) => {
-    switch (floodZone) {
-      case terms.keys.fzNoData:
-      case terms.keys.fzCC:
-        return 'Flood zones plus climate change'
-      case '2':
-      case '3':
-        return 'Flood zones'
-      default:
-        return getDataset()
-    }
-  }
 
   // Listen to map queries
-  floodMap.addEventListener('query', e => {
-    const { listContents, vtLayer, feature } = getQueryContentHeader(e)
-    if (!listContents || !feature) {
-      floodMap.setInfo(null)
-      return
-    }
-    const floodZone = addQueryFloodZonesContent(listContents, feature)
-    if (!floodZone) {
-      addQueryNonFloodZonesContent(listContents, vtLayer)
-    }
-
-    const title = getTitle(floodZone)
-
-    floodMap.setInfo(
-      renderInfo(renderList(listContents),
-        getQueryExtraContent(vtLayer, floodZone),
-        title))
+  floodMap.addEventListener('query', async e => {
+    const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.version)
+    floodMap.setInfo(infoPanel)
   })
 })

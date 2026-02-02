@@ -6,6 +6,8 @@ const routes = [].concat(
   require('../routes/contact'),
   require('../routes/cookies'),
   require('../routes/defra-map'),
+  require('../routes/map-help'),
+  require('../routes/defra-map/info-panel'),
   require('../routes/defra-map/map-config'),
   require('../routes/defra-map/styles'),
   require('../routes/england-only'),

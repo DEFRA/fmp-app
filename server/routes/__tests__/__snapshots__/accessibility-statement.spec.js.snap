@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`cookies Should return accessibility statement page 1`] = `
+exports[`accessibility statement Should return accessibility statement page 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template govuk-template--rebranded">
   <head>

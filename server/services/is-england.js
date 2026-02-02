@@ -1,7 +1,7 @@
 const { config } = require('../../config')
 const { esriFeatureRequest, makePointGeometry } = require('./agol')
 
-module.exports = (easting, northing) => {
+const isEnglandService = async (easting, northing) => {
   if (!easting || !northing) {
     throw new Error('No point provided')
   }
@@ -10,3 +10,5 @@ module.exports = (easting, northing) => {
       return esriResult && Array.isArray(esriResult) && esriResult.length > 0
     })
 }
+
+module.exports = { isEnglandService }

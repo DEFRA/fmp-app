@@ -6,7 +6,7 @@ const constants = require('../../constants')
 
 const url = constants.routes.ERROR
 
-describe('cookies', () => {
+describe('error page', () => {
   it('Should return error page', async () => {
     const response = await submitGetRequest({ url }, '', 500)
     expect(response.result).toMatchSnapshot()

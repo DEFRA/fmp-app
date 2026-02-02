@@ -93,7 +93,7 @@
     </div>
 
     <!-- Surface water summary list card -->
-    {% if floodData.surfaceWater.riskBand %}
+    {% if floodData.hasSurfaceWater %}
     {% include "./partials/results-page/is-sw-summary-card.html" %}
     {% endif %}
 
@@ -112,7 +112,7 @@
             </dt>
             <dd class="govuk-summary-list__value">
               <a href="/next-steps?encodedPolygon={{ encodedPolygon }}">I need help deciding what to include in my planning
-                application.</a>
+                application</a>.
             </dd>
           </div>
 
@@ -150,16 +150,16 @@
                 <li><a href="/map?encodedPolygon={{ encodedPolygon }}">Redraw the boundary of your site</a></li>
                 <li><a href="/location">Search for a different location</a></li>
               </ul>
-              <p class="govuk-body">
-                The material displayed, including maps and risk data, is provided without any guarantees,
-                conditions or warranties as to its accuracy. See our
-                <a href="/terms-and-conditions">terms and conditions</a> for more information.
-              </p>
             </dd>
           </div>
         </dl>
       </div>
     </div>
+    <p class="govuk-body">
+      The material displayed, including maps and risk data, is provided without any guarantees,
+      conditions or warranties as to its accuracy. See our
+      <a href="/terms-and-conditions">terms and conditions</a> for more information.
+    </p>
   </div>
 </div>
 {% endblock %}

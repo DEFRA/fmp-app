@@ -13,7 +13,7 @@ describe('getProductOnePause', () => {
     axios.get.mockResolvedValueOnce({ data: mockPayload })
 
     const result = await getProductOnePause(pauseP1URL)
-    expect(result).toEqual({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
+    expect(result).toEqual({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5:38pm on Thursday 27 November 2025' })
     expect(axios.get).toHaveBeenCalledWith(pauseP1URL, { json: true })
   })
 
