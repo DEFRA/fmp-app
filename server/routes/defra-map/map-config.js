@@ -1,12 +1,12 @@
 const { config } = require('../../../config')
-const { defraMap: mapConfig } = config
 const { OS_ACCOUNT_NUMBER } = require('../../constants')
 const { revision } = require('../../../version')
 
-Object.assign(mapConfig, {
+const mapConfig = {
+  ...config.defraMap,
   agolServiceUrl: config.agol.serviceUrl,
   agolVectorTileUrl: config.agol.vectorTileUrl
-})
+}
 
 // version - is used to cache-bust the info panel requests, so it is unique for each version
 // or each build when run locally
