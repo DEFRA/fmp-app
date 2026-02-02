@@ -1,0 +1,803 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`info-panel Flood Zones should show the info panel for flood zone 2 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fz2-sea">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood zone</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-zone">
+        2
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-source">
+        Sea
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
+  Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone 3 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fz3-river">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood zone</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-zone">
+        3
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-source">
+        River
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
+  Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone 3 2`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fz3-river-and-sea">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood zone</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-zone">
+        3
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-source">
+        River and sea
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
+  Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone 3 without source 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fz3">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood zone</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-zone">
+        3
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-fz-updates-title" class="govuk-heading-s">Updates to flood zones 2 and 3</h2>
+<p id="info-fz-updates-body" class="govuk-body-s">
+  Flood zones 2 and 3 have been updated to include local detailed models, and a new improved national model.
+</p>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone cc 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones plus climate change
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fzcc-river-and-sea">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Flood source</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-flood-source">
+        River and sea
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-how-to-cc-title" class="govuk-heading-s">How to use flood zones plus climate change</h2>
+<p id="info-how-to-cc-body" class="govuk-body-s">
+  The flood zones plus climate change dataset shows how the combined extent of flood
+  zones 2 and 3 could increase with climate change over the next century, ignoring the
+  benefits of any existing flood defences.
+</p>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>
+<div id="info-fz-cc-allowance" class="display-contents">
+  <h2 class="govuk-heading-s">Climate change allowances</h2>
+  <p class="govuk-body-s">
+    Flood zones plus climate change uses the following climate change allowances:
+  </p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li class="govuk-body-s">
+      peak river flow 'central' allowance, based on the 50th percentile for the 2080s epoch (2070 to 2125)
+    </li>
+    <li class="govuk-body-s">
+      sea and tidal flooding 'upper end' allowance to account for cumulative sea level rise to 2125, based on the 95th percentile
+    </li>
+  </ul>
+  <p class="govuk-body-s">
+    These have been taken from the Environment Agency's
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
+        Flood risk assessment: climate change allowances
+      </a>
+  </p>
+</div>"
+`;
+
+exports[`info-panel Flood Zones should show the info panel for flood zone nd 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Flood zones plus climate change
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-fznodata">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+</dl>
+<h2 id="info-fznd-title" class="govuk-heading-s">Climate change data unavailable</h2>
+<p id="info-fznd-body" class="govuk-body-s">
+  In some locations flood zones plus climate change data is not currently available while we make important improvements to our data.
+</p>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-high 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-high">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        3.3% (1 in 30)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
+  <div id="info-sw-cc-allowance" class="display-contents">
+    <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <p class="govuk-body-s">
+      Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
+    </p>
+
+    <p class="govuk-body-s">
+      This has been taken from the Environment Agency’s
+      </p><p class="govuk-body-s">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+          Flood risk assessment: climate change allowances
+        </a>
+      </p>
+    <p></p>
+  </div>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-low 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-low">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        0.1% (1 in 1000)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
+  <div id="info-sw-cc-allowance" class="display-contents">
+    <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <p class="govuk-body-s">
+      Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
+    </p>
+
+    <p class="govuk-body-s">
+      This has been taken from the Environment Agency’s
+      </p><p class="govuk-body-s">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+          Flood risk assessment: climate change allowances
+        </a>
+      </p>
+    <p></p>
+  </div>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-cc-medium 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-medium">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Climate change
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        1% (1 in 100)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>
+  <div id="info-sw-cc-allowance" class="display-contents">
+    <h2 class="govuk-heading-s">Climate change allowances</h2>
+    <p class="govuk-body-s">
+      Surface water with climate change uses the ‘upper end’ allowance for the 2070s epoch (2061 to 2125).
+    </p>
+
+    <p class="govuk-body-s">
+      This has been taken from the Environment Agency’s
+      </p><p class="govuk-body-s">
+        <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
+          Flood risk assessment: climate change allowances
+        </a>
+      </p>
+    <p></p>
+  </div>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-high 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-high">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        3.3% (1 in 30)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-low 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-low">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        0.1% (1 in 1000)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
+`;
+
+exports[`info-panel Surface Water should show the info panel for SW-pd-medium 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Surface water
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-medium">
+        COORDS
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Timeframe</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-timeframe">
+        Present day
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Annual exceedance probability (AEP)</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-aep">
+        1% (1 in 100)<br>chance of flooding each year
+      </span>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Depth in millimetres</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-depth">
+        DEPTH
+      </span>
+    </dd>
+  </div>
+</dl>
+<p id="info-sw-building" class="govuk-body-s">
+  Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
+</p>"
+`;
