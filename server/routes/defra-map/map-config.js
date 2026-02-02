@@ -18,7 +18,7 @@ module.exports = {
   options: {
     description: 'config values for the defra-map component',
     handler: async (request, h) => {
-      return Object.assign({ OS_ACCOUNT_NUMBER, version }, mapConfig)
+      return { ...mapConfig, OS_ACCOUNT_NUMBER, version }
     },
     tags: ['asset']
   }
