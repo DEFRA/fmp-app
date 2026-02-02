@@ -199,6 +199,39 @@ body.js-enabled:not([data-fm-error]) {
     margin-bottom: 0;
 }
 
+.display-contents {
+  display: contents;
+}
+
+.fm-c-panel--info {
+/* 
+  These settings are set in _typography.css, but when wrapped in a 
+  container that has style display: contents, such as .display-contents
+  the css selectors break.
+  This is a copy of the selectors, amended to cope with wrapping with 
+  an ignored container.
+*/
+  %govuk-body-m + .display-contents %govuk-heading-m:first-child,
+  %govuk-body-s + .display-contents %govuk-heading-m:first-child,
+  %govuk-list + .display-contents %govuk-heading-m:first-child,
+  %govuk-body-m + .display-contents %govuk-heading-s:first-child,
+  %govuk-body-s + .display-contents %govuk-heading-s:first-child,
+  %govuk-list + .display-contents %govuk-heading-s:first-child {
+    padding-top: govuk-spacing(1);
+
+    @media #{govuk-from-breakpoint(tablet)} {
+      padding-top: govuk-spacing(2);
+    }
+  }
+  #info-how-to-cc-url {
+    margin-top: govuk-spacing(3);
+    @media #{govuk-from-breakpoint(tablet)} {
+      margin-top: govuk-spacing(4);
+    }
+  }
+}
+
+
 // Start of fix of  a Map Component bug (must be fixed there)
   .fm-o-top__column:first-child:not(:has(.fm-c-search))  {
      position: static;
