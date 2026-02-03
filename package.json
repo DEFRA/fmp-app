@@ -84,8 +84,6 @@
     "webpack-remove-empty-scripts": "^1.0.4"
   },
   "devDependencies": {
-    "@hapi/code": "^9.0.3",
-    "@hapi/lab": "^26.0.0",
     "axios-mock-adapter": "^2.1.0",
     "eslint": "^9.39.2",
     "jest": "^30.2.0",
