@@ -1,5 +1,5 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
-import { FloodMap } from '/flood-map' // eslint-disable-line import/no-absolute-path
+import { FloodMap } from '/flood-map' // eslint-disable-line import-x/no-absolute-path
 import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
