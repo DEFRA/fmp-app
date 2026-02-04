@@ -1,4 +1,4 @@
-const { dates } = require('@defra/fmp-utilities')
+const { formatUKTimeAndPauseText } = require('@defra/fmp-utilities')
 const axios = require('axios')
 
 const getProductOnePause = async (pauseP1URL) => {
@@ -9,7 +9,7 @@ const getProductOnePause = async (pauseP1URL) => {
       ? (!pauseP1DownloadTo && Date.now() >= pauseP1DownloadFrom) || (Date.now() >= pauseP1DownloadFrom && Date.now() <= pauseP1DownloadTo)
       : false
     return {
-      pauseP1DownloadTo: pauseP1DownloadTo && pauseP1DownloadFrom ? dates.formatUKTimeAndPauseText(pauseP1DownloadTo) : null,
+      pauseP1DownloadTo: pauseP1DownloadTo && pauseP1DownloadFrom ? formatUKTimeAndPauseText(pauseP1DownloadTo) : null,
       dateWithinPausePeriod
     }
   } catch (error) {
