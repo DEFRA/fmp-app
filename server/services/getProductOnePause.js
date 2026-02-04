@@ -1,4 +1,4 @@
-const { formatUKTimeAndPauseText } = require('@defra/fmp-utilities')
+const { formatUKTimeAndPauseText } = require('@defra/fmp-utilities/lib/dates')
 const axios = require('axios')
 
 const getProductOnePause = async (pauseP1URL) => {
