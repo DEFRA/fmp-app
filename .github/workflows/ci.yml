@@ -15,10 +15,10 @@ jobs:
       - name: Install nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: "18.17.x"
+          node-version: "24.10.x"
 
       - name: Install node dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run unit tests
         run: |
