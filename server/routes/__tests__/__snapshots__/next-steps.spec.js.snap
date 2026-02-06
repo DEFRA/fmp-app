@@ -248,6 +248,27 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
       </p>
 
       <p class="govuk-body">
+        When using the surface water map on the
+        <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=9323.5&northing=1323.5&map=SurfaceWater">
+          check your long term flood risk service
+        </a>
+        the following considerations apply:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          surface water extents are suitable for use in planning
+        </li>
+        <li>
+          surface water climate change scenarios may help to inform risk assessments,
+          but the available data fall short of what is required to assess planned development
+        </li>
+        <li>
+          surface water depth information should not be used for planning purposes
+        </li>
+      </ul>
+
+      <p class="govuk-body">
         To find out about other factors that might affect the flood risk of this location, you should also check:
       </p>
 
@@ -801,6 +822,27 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
       <p class="govuk-body">
         Find out more about <a class="govuk-link" href="/flood-zone-results-explained">flood zones and what they mean</a>
       </p>
+
+      <p class="govuk-body">
+        When using the surface water map on the
+        <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=9323.5&northing=1323.5&map=SurfaceWater">
+          check your long term flood risk service
+        </a>
+        the following considerations apply:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          surface water extents are suitable for use in planning
+        </li>
+        <li>
+          surface water climate change scenarios may help to inform risk assessments,
+          but the available data fall short of what is required to assess planned development
+        </li>
+        <li>
+          surface water depth information should not be used for planning purposes
+        </li>
+      </ul>
 
       <p class="govuk-body">
         To find out about other factors that might affect the flood risk of this location, you should also check:
