@@ -219,13 +219,13 @@ body.js-enabled:not([data-fm-error]) {
   %govuk-list + .display-contents %govuk-heading-s:first-child {
     padding-top: govuk-spacing(1);
 
-    @media #{govuk-from-breakpoint(tablet)} {
+    @include mq.mq ($from: tablet) {
       padding-top: govuk-spacing(2);
     }
   }
   #info-how-to-cc-url {
     margin-top: govuk-spacing(3);
-    @media #{govuk-from-breakpoint(tablet)} {
+    @include mq.mq ($from: tablet) {
       margin-top: govuk-spacing(4);
     }
   }
