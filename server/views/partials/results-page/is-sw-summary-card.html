@@ -17,28 +17,25 @@
           Climate change: projected chance of flooding
         </dt>
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">
-            Between 2061 and 2125 the chance of surface water flooding at this location could be
-            {{ floodData.surfaceWaterClimateChange.riskBandPercent }}% ({{
-            floodData.surfaceWaterClimateChange.riskBandOdds }})
-            each year.
-          </p>
-          <p class="govuk-body"><a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
-              Find out more about climate change allowances</a>.
-          </p>
+          <p id="swDoNotShowCC" class="govuk-body">We do not currently show climate change scenarios for surface water.</p>
+          <p class="govuk-body">You can see climate change and depth scenarios on the <a
+              href="https://www.gov.uk/check-long-term-flood-risk">check the long term flood risk for an area in
+              England</a> service. The data shown in that service fall short of what is required to assess planned
+            development but may help to inform risk assessments.</p>
+          <p class="govuk-body"><a
+              href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">Read when and how to
+              use climate change allowances in flood risk assessments</a></p>
         </dd>
       </div>
-      {% if floodData.surfaceWater.riskBand %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Present day chance of flooding
-          </dt>
-          <dd id="swProbability" class="govuk-summary-list__value" data-testid="sw-probability">
-            The chance of surface water flooding at this location could be more than {{
-            floodData.surfaceWater.riskBandPercent }}% ({{ floodData.surfaceWater.riskBandOdds }}) each year.
-          </dd>
-        </div>
-      {% endif %}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Present day chance of flooding
+        </dt>
+        <dd id="swProbability" class="govuk-summary-list__value" data-testid="sw-probability">
+          The chance of surface water flooding at this location could be more than {{
+          floodData.surfaceWater.riskBandPercent }}% ({{ floodData.surfaceWater.riskBandOdds }}) each year.
+        </dd>
+      </div>
     </dl>
   </div>
 </div>
