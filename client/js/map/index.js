@@ -391,7 +391,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         id: 'tf',
         heading: terms.labels.climateChange,
         collapse: 'collapse',
-        parentIds: ['sw'],
+        parentIds: ['sw-disabled'], // FCRM-6652 - temporarily disabled
         items: [
           {
             id: 'pd',
@@ -447,7 +447,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         id: 'sw2',
         heading: terms.labels.depth,
         collapse: 'collapse',
-        parentIds: ['sw'],
+        parentIds: ['sw-disabled'], // FCRM-6652 - temporarily disabled
         items: [
           {
             id: 'depthAll',
@@ -529,25 +529,27 @@ getDefraMapConfig().then((defraMapConfig) => {
         { // Surface Water DepthAll
           heading: terms.labels.mapFeatures,
           collapse: 'collapse',
-          parentIds: ['rsd', 'rsu', 'depthAll'],
+          parentIds: ['rsd', 'rsu', 'sw'], // FCRM-6652 - temporarily reverted back to sw
+          // parentIds: ['rsd', 'rsu', 'depthAll'],
           items: [
+            keyItemDefinitions.floodExtents, // FCRM-6652 - temporarily re-instated
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers,
-            {
-              label: 'Surface water depth in millimetres',
-              display: 'ramp',
-              numLabels: 1,
-              items: [
-                keyItemDefinitions.surfaceWater6,
-                keyItemDefinitions.surfaceWater5,
-                keyItemDefinitions.surfaceWater4,
-                keyItemDefinitions.surfaceWater3,
-                keyItemDefinitions.surfaceWater2,
-                keyItemDefinitions.surfaceWater1,
-                keyItemDefinitions.surfaceWater0
-              ]
-            }
+            keyItemDefinitions.mainRivers
+            // { // FCRM-6652 - temporarily removed
+            //   label: 'Surface water depth in millimetres',
+            //   display: 'ramp',
+            //   numLabels: 1,
+            //   items: [
+            //     keyItemDefinitions.surfaceWater6,
+            //     keyItemDefinitions.surfaceWater5,
+            //     keyItemDefinitions.surfaceWater4,
+            //     keyItemDefinitions.surfaceWater3,
+            //     keyItemDefinitions.surfaceWater2,
+            //     keyItemDefinitions.surfaceWater1,
+            //     keyItemDefinitions.surfaceWater0
+            //   ]
+            // }
           ]
         },
         // Surface Water Extents:
