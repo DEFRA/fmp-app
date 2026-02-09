@@ -851,7 +851,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
 
     if (floodZone !== terms.keys.fzNoData && feature.flood_source) {
-      listContents.push(['Flood Source', formatFloodSource(feature.flood_source)])
+      listContents.push(['Flood source', formatFloodSource(feature.flood_source)])
     }
     return floodZone
   }
