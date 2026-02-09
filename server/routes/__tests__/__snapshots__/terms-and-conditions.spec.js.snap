@@ -433,7 +433,7 @@ exports[`terms-and-conditions Should return terms-and-conditions page 1`] = `
             </h2>
     
             <p class="govuk-body">
-              We collect information about you in accordance with our <a href="privacy-policy">privacy policy</a> and our <a href="cookies">cookie policy</a>. By using the site, you agree to us collecting this information and confirm that any data you provide is accurate.
+              We collect information about you in accordance with our <a href="privacy-notice">privacy policy</a> and our <a href="cookies">cookie policy</a>. By using the site, you agree to us collecting this information and confirm that any data you provide is accurate.
             </p>
     
             <h2 class="govuk-heading-m">
