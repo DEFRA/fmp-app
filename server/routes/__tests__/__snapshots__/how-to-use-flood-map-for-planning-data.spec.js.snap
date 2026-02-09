@@ -463,7 +463,7 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
     <p class="govuk-body">
       The material displayed in this service, including maps and risk data, is provided without any guarantees,
       conditions or warranties as to its accuracy. See our 
-      <a href="https://flood-map-for-planning.service.gov.uk/terms-and-conditions">
+      <a href="/terms-and-conditions">
         terms and conditions
       </a>
       for more information.
