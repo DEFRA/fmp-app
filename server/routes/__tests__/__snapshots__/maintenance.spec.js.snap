@@ -229,7 +229,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
         We have not saved your search results. When the service is available you will have to start again.
       </p>
       <p class="govuk-body">
-        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">Contact the Environment Agency</a>for help getting flood risk information.
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact-the-environment-agency">Contact the Environment Agency</a>for help getting flood risk information.
       </p>
     </div>
   </div>
@@ -627,7 +627,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
         We have not saved your search results. When the service is available you will have to start again.
       </p>
       <p class="govuk-body">
-        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact">Contact the Environment Agency</a>for help getting flood risk information.
+        <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact-the-environment-agency">Contact the Environment Agency</a>for help getting flood risk information.
       </p>
     </div>
   </div>
