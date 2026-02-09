@@ -263,8 +263,8 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+        to get more information to help you complete a flood risk assessment (order products 5, 6, 7 or 8)</a>
       </li>
       <li>for general help and advice about the site you're requesting data for</li>
     </ul>
@@ -717,8 +717,8 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+        to get more information to help you complete a flood risk assessment (order products 5, 6, 7 or 8)</a>
       </li>
       <li>for general help and advice about the site you're requesting data for</li>
     </ul>
@@ -1174,8 +1174,8 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+        to get more information to help you complete a flood risk assessment (order products 5, 6, 7 or 8)</a>
       </li>
       <li>for general help and advice about the site you're requesting data for</li>
     </ul>
@@ -1631,8 +1631,8 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" data-journey-click="Confirmation:External-Link:More-Information-About-Other-Products"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-to-complete-an-assessment">
-        to get more information to help you complete a flood risk assessmment (order products 5, 6, 7 or 8)</a>
+        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra">
+        to get more information to help you complete a flood risk assessment (order products 5, 6, 7 or 8)</a>
       </li>
       <li>for general help and advice about the site you're requesting data for</li>
     </ul>

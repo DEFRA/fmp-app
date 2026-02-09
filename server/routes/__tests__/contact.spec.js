@@ -97,7 +97,7 @@ describe('contact', () => {
           polygon
         }
       }
-      const response = await submitPostRequestExpectHandledError(options, 'Enter your full name')
+      const response = await submitPostRequestExpectHandledError(options, 'Enter your name')
       expect(response.result).toMatchSnapshot()
     })
 
@@ -137,7 +137,7 @@ describe('contact', () => {
           polygon
         }
       }
-      const response = await submitPostRequestExpectHandledError(options, '>Your full name must be less than 200 characters long')
+      const response = await submitPostRequestExpectHandledError(options, '>Your name must be less than 200 characters long')
       expect(response.result).toMatchSnapshot()
     })
   })

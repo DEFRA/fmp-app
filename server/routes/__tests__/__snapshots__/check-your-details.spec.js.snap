@@ -240,7 +240,7 @@ exports[`Check your details page GET Should serve contact view with error messag
         
           <li>
           
-            <a href="#fullName">Your full name must be less than 200 characters long</a>
+            <a href="#fullName">Your name must be less than 200 characters long</a>
           
           </li>
         
@@ -280,7 +280,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group govuk-form-group--error">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 
@@ -288,7 +288,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
   <p id="fullName-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Your full name must be less than 200 characters long
+    <span class="govuk-visually-hidden">Error:</span> Your name must be less than 200 characters long
     
   </p>
 
@@ -789,7 +789,7 @@ exports[`Check your details page GET Should serve contact view with error messag
         
           <li>
           
-            <a href="#fullName">Your full name must be less than 200 characters long</a>
+            <a href="#fullName">Your name must be less than 200 characters long</a>
           
           </li>
         
@@ -829,7 +829,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group govuk-form-group--error">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 
@@ -837,7 +837,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
   <p id="fullName-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Your full name must be less than 200 characters long
+    <span class="govuk-visually-hidden">Error:</span> Your name must be less than 200 characters long
     
   </p>
 
@@ -1338,7 +1338,7 @@ exports[`Check your details page GET Should serve contact view with error messag
         
           <li>
           
-            <a href="#fullName">Enter your full name</a>
+            <a href="#fullName">Enter your name</a>
           
           </li>
         
@@ -1378,7 +1378,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group govuk-form-group--error">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 
@@ -1386,7 +1386,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
   <p id="fullName-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Enter your full name
+    <span class="govuk-visually-hidden">Error:</span> Enter your name
     
   </p>
 
@@ -1887,7 +1887,7 @@ exports[`Check your details page GET Should serve contact view with error messag
         
           <li>
           
-            <a href="#fullName">Enter your full name</a>
+            <a href="#fullName">Enter your name</a>
           
           </li>
         
@@ -1927,7 +1927,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group govuk-form-group--error">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 
@@ -1935,7 +1935,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
   <p id="fullName-error" class="govuk-error-message">
     
-    <span class="govuk-visually-hidden">Error:</span> Enter your full name
+    <span class="govuk-visually-hidden">Error:</span> Enter your name
     
   </p>
 
@@ -2474,7 +2474,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 
@@ -3023,7 +3023,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 <div class="govuk-form-group">
   <label class="govuk-label govuk-label govuk-label--m" for="fullName">
-    Full name
+    Name
   </label>
 
 

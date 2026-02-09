@@ -15,10 +15,10 @@ const validateContactData = payload => {
   const errorSummary = errorDetails.map(({ path: [field], type }) => {
     const response = { href: `#${field}` }
     if (type === 'string.max') {
-      response.text = `Your full name must be less than ${MAX_NAME_LENGTH} characters long`
+      response.text = `Your name must be less than ${MAX_NAME_LENGTH} characters long`
     } else {
       response.text = field === 'fullName'
-        ? 'Enter your full name'
+        ? 'Enter your name'
         : 'Enter an email address in the correct format, like name@example.com'
     }
     return response
