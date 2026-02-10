@@ -1,13 +1,18 @@
 const constants = require('../constants')
+const { config } = require('../../config')
 const addressService = require('../services/address')
 const isValidEastingNorthingService = require('../services/is-valid-easting-northing')
 const isValidNgrService = require('../services/is-valid-ngr')
 const ngrToBng = require('../services/ngr-to-bng')
 const { isEnglandService } = require('../services/is-england')
+const axios = require('axios')
+const shp2jsonURL = config.siteUrl + '/shp2json'
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.LOCATION),
   post: async (request, h) => {
+    await axios.post(shp2jsonURL, request.payload)
+    console.log('request.payload:', request.payload)
     // Validate and process the payload
     const { location, errorSummary } = await validatePayload(request.payload)
 

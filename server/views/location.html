@@ -9,6 +9,7 @@
   {% from "input/macro.njk" import govukInput %}
   {% from "button/macro.njk" import govukButton %}
   {% from "error-summary/macro.njk" import govukErrorSummary %}
+  {% from "components/file-upload/macro.njk" import govukFileUpload %}
 
   <div class="govuk-width-container">
     <div class="govuk-grid-row">
@@ -141,6 +142,20 @@
           ],
           errorMessage: findErrorMessageById(errorSummary, "findby")
         })}}
+
+        <div>
+        {{ govukFileUpload({
+          id: "geometry",
+          name: "geometry",
+          label: {
+            text: "Choose a shapefile (.ZIP)"
+          },
+          attributes: {
+            accept: "shp",
+            required: false
+          }
+        }) }}
+        </div>
         <p class="govuk-body">
           <a href="/map">Skip to map</a>
         </p>
