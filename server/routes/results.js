@@ -17,15 +17,23 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
-        const coordinates = getCentreOfPolygon(polygon)
-        const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
-        if (isInEngland === false) {
-          return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
-        }
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
+        if (!contactData.isEngland) {
+          // NO contactData.isEngland implies that we do not have an areaTeam
+          // so we do another check to see if the centroid is in england
+          const coordinates = getCentreOfPolygon(polygon)
+          const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
+          if (isInEngland === false) {
+            // If both checks fail, we redirect the user to the england-only page
+            return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
+            // Otherwise we continue, but we wont have an AreaName or EmailAddress
+            // and are by default opted out.
+            // So we handle that issue on the nunjucks page
+          }
+        }
         const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
         floodData.areaInHectares = getAreaInHectares(polygon)
