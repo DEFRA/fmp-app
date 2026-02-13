@@ -132,6 +132,10 @@
             </dd>
           </div>
 
+          {% if contactData.AreaName %}
+          <!-- Leave this section out for 3.6.1 if we have no area team details
+               FCRM-6704 is raised to re-instate it once copy in order-product-four.html is approved 
+          -->
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Order detailed flood risk data
@@ -140,6 +144,7 @@
               {% include "./partials/results-page/order-product-four.html" %}
             </dd>
           </div>
+          {% endif %}
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Change the location
