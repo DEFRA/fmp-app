@@ -9,6 +9,20 @@ const {
   checkParamsForPolygon
 } = require('../services/shape-utils')
 
+const checkIfInEngland = async (contactData, polygon) => {
+  if (contactData.isEngland) {
+    return true
+  }
+  // NO contactData.isEngland implies that we do not have an areaTeam
+  // so we do another check to see if the centroid is in england
+  // If both checks fail, we redirect the user to the england-only page
+  // Otherwise we continue, but we wont have an AreaName or EmailAddress
+  // and are by default opted out.
+  // So we handle that issue on the nunjucks page
+  const coordinates = getCentreOfPolygon(polygon)
+  return isEnglandService(coordinates.x, coordinates.y)
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -21,18 +35,8 @@ module.exports = [
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
-        if (!contactData.isEngland) {
-          // NO contactData.isEngland implies that we do not have an areaTeam
-          // so we do another check to see if the centroid is in england
-          const coordinates = getCentreOfPolygon(polygon)
-          const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
-          if (isInEngland === false) {
-            // If both checks fail, we redirect the user to the england-only page
-            return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
-            // Otherwise we continue, but we wont have an AreaName or EmailAddress
-            // and are by default opted out.
-            // So we handle that issue on the nunjucks page
-          }
+        if (!await checkIfInEngland(contactData, polygon)) {
+          return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
         }
         const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true

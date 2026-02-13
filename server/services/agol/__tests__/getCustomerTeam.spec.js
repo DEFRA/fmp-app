@@ -43,4 +43,16 @@ describe('getCustomerTeam', () => {
       expect(error.message).toEqual('Invalid response from AGOL customerTeam request')
     }
   })
+
+  it('should return isEngland false if no area team is returned', async () => {
+    mockEsriRequest([])
+    const response = await getCustomerTeam({})
+    expect(response.isEngland).toBe(false)
+    expect(response).toEqual({
+      isEngland: false,
+      EmailAddress: '',
+      AreaName: '',
+      useAutomatedService: false
+    })
+  })
 })

@@ -77,7 +77,7 @@ describe('Results page', () => {
     it('should pass pause P1 download data to the view', async () => {
       Date.now = jest.fn(() => 1764258880000)
       getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
-      getPsoContactsByPolygon.mockResolvedValue({})
+      getPsoContactsByPolygon.mockResolvedValue({ isEngland: true })
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = response.payload
