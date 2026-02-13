@@ -29,6 +29,13 @@ It is useful as we need to test the nunjuck logic.
 */
 describe('Results page', () => {
   it('should redirect to England only page if polygon is outside England', async () => {
+    getPsoContactsByPolygon.mockResolvedValue({
+      isEngland: false,
+      EmailAddress: '',
+      AreaName: '',
+      useAutomatedService: false,
+      LocalAuthorities: 'Derbyshire Dales'
+    })
     isEnglandService.mockResolvedValueOnce(false)
     const response = await submitGetRequest({ url: `${url}?${polygonQuery}` }, null, 302)
     expect(response.statusCode).toEqual(302)
@@ -70,7 +77,7 @@ describe('Results page', () => {
     it('should pass pause P1 download data to the view', async () => {
       Date.now = jest.fn(() => 1764258880000)
       getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
-      getPsoContactsByPolygon.mockResolvedValue({})
+      getPsoContactsByPolygon.mockResolvedValue({ isEngland: true })
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = response.payload
