@@ -46,6 +46,61 @@
           <p class="govuk-body"> {{ createdDate }} </p>
         </div>
       </div>
+      <!-- Flood Zone Heading -->
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title"
+            data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__content">
+              Your selected location is in flood zone {{ floodZone }},
+              an area with a {{ riskLikelihood }} probability of flooding.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <!-- Flood Zone 1 -->
+          {% if floodZone === '1' %}
+          <p class="govuk-body">
+            You will need to do a flood risk assessment if your site is <strong>any of the following:</strong>
+          </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              bigger than 1 hectare (ha)
+            </li>
+            <li>
+              in an area with critical drainage problems as notified by the Environment Agency
+            </li>
+            <li>
+              identified as being at increased flood risk in future by the local authority's
+              strategic flood risk assessment
+            </li>
+            <li>
+              at risk from other sources of flooding (such as surface water or reservoirs)
+              and its development would increase the vulnerability of its use (such as
+              constructing an office on an undeveloped site or converting a shop to a
+              dwelling)
+            </li>
+          </ul>
+          {% endif %}
+          <!-- Flood Zones 2 and 3 -->
+          {% if floodZone === '2' or floodZone === '3' %}
+          <h3 class="govuk-heading-s"> This means</h3>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              you must complete a flood risk assessment for development in this area
+            </li>
+            <li>
+              you should follow the Environment Agency's standing advice for carrying
+              out a flood risk assessment (see <a class="govuk-link"
+                href="https://www.gov.uk/guidance/flood-risk-assessment-standing-advice">
+                https://www.gov.uk/guidance/flood-risk-assessment-standing-advice </a>)
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
 
       <!-- Notes -->
       <div class="govuk-grid-row">

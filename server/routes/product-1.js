@@ -25,7 +25,8 @@ module.exports = [{
       const location = `${Math.round(coordinates.x)}/${Math.round(coordinates.y)}`
       const isRiskAdminArea = request.query.isRiskAdminArea === 'true'
       const createdDate = formatUKDateTimeToMinute(Date.now())
-      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location })
+      const riskLikelihood = floodZone === '1' ? 'low' : floodZone === '2' ? 'medium' : 'high'
+      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location, riskLikelihood })
     },
     validate: {
       query: Joi.object().keys({
