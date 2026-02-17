@@ -21,9 +21,11 @@ module.exports = [{
     handler: async (request, h) => {
       const { scale, reference, floodZone } = request.query
       const { polygon } = checkParamsForPolygon(request.query)
+      const coordinates = getCentreOfPolygon(polygon)
+      const location = `${Math.round(coordinates.x)}/${Math.round(coordinates.y)}`
       const isRiskAdminArea = request.query.isRiskAdminArea === 'true'
       const createdDate = formatUKDateTimeToMinute(Date.now())
-      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate })
+      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location })
     },
     validate: {
       query: Joi.object().keys({
