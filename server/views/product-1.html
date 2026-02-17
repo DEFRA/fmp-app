@@ -14,6 +14,7 @@
   <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
   <link rel="manifest" href="/assets/manifest.json">
   <link href="/assets/application.css" rel="stylesheet">
+  <link href="{{ assetPath }}/check-your-details.css" rel="stylesheet"/>
 </head>
 
 <body class="govuk-template__body js-enabled govuk-frontend-supported">
@@ -131,8 +132,22 @@
           </p>
         </div>
       </div>
+      <!-- MAP -->
+      <div class="govuk-grid-row">
+        <figure class="map-container product-1-map govuk-!-margin-bottom-6">
+          <div id="map--result" class="map--result">
+            <div id="map" class="map"></div>
+          </div>
+        </figure>
+      </div>
     </div>
   </div>
+  <script src="{{ assetPath }}/check-your-details.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      showMap({{ polygon }})
+    })
+  </script>
 </body>
 
 </html>

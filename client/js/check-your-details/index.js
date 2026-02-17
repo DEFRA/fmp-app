@@ -131,13 +131,17 @@ const showMap = async (polygonArray) => {
 }
 
 // Prevent 2nd p4 submission
-document.getElementsByTagName('form')[0].addEventListener('submit', () => {
-  document.querySelector('.order-product-four').disabled = true
-})
-// Re-enable submit button if user navigates back to page
-window.addEventListener('pageshow', () => {
-  document.querySelector('.order-product-four').disabled = false
-})
+const form = document.getElementsByTagName('form')[0]
+const submitButton = document.querySelector('.order-product-four')
+if (form && submitButton) {
+  form.addEventListener('submit', () => {
+    submitButton.disabled = true
+  })
+  // Re-enable submit button if user navigates back to page
+  window.addEventListener('pageshow', () => {
+    submitButton.disabled = false
+  })
+}
 
 // Add these as globals so they can be called from the html page, which will inject the polygon.
 // This approach avoids the need to import this as a module, which limits browser compatibility.
