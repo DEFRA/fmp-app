@@ -5,6 +5,7 @@
 }
 
 .map-container.product-1-map, .map-container.product-1-map #map {
+    page-break-before: always;
     width: 900px;
     height: 720px;
   }

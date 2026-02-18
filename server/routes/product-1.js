@@ -15,10 +15,38 @@ const SCALE_50000 = 50000
 
 module.exports = [{
   method: 'GET',
+  path: '/product-1/{encodedPolygon}/{floodZone}/{reference}/{scale}',
+  options: {
+    description: 'Get Product 1 PDF',
+    handler: async (request, h) => {
+      const { scale = SCALE_2500, reference, floodZone, encodedPolygon } = request.params
+      console.log('request.params:', request.params)
+      const { polygon } = checkParamsForPolygon({ encodedPolygon })
+      const coordinates = getCentreOfPolygon(polygon)
+      const location = `${Math.round(coordinates.x)}/${Math.round(coordinates.y)}`
+      const isRiskAdminArea = request.query.isRiskAdminArea === 'true'
+      const createdDate = formatUKDateTimeToMinute(Date.now())
+      const riskLikelihood = floodZone === '1' ? 'low' : floodZone === '2' ? 'medium' : 'high'
+      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location, riskLikelihood })
+    },
+    // validate: {
+    //   query: Joi.object().keys({
+    //     reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
+    //     scale: Joi.number().valid(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).default(SCALE_2500),
+    //     isRiskAdminArea: Joi.string().valid('true', 'false').required(),
+    //     floodZone: Joi.string().valid('1', '2', '3').required(),
+    //     encodedPolygon: Joi.string(),
+    //     polygon: Joi.string()
+    //   })
+    // }
+  }
+}, {
+  method: 'GET',
   path: '/product-1',
   options: {
     description: 'Get Product 1 PDF',
     handler: async (request, h) => {
+      console.log('request.query:', request.query)
       const { scale, reference, floodZone } = request.query
       const { polygon } = checkParamsForPolygon(request.query)
       const coordinates = getCentreOfPolygon(polygon)
@@ -28,16 +56,16 @@ module.exports = [{
       const riskLikelihood = floodZone === '1' ? 'low' : floodZone === '2' ? 'medium' : 'high'
       return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location, riskLikelihood })
     },
-    validate: {
-      query: Joi.object().keys({
-        reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
-        scale: Joi.number().valid(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).default(SCALE_2500),
-        isRiskAdminArea: Joi.string().valid('true', 'false').required(),
-        floodZone: Joi.string().valid('1', '2', '3').required(),
-        encodedPolygon: Joi.string(),
-        polygon: Joi.string()
-      })
-    }
+    // validate: {
+    //   query: Joi.object().keys({
+    //     reference: Joi.string().allow('').max(MAX_REFERENCE_WIDTH).trim(),
+    //     scale: Joi.number().valid(SCALE_2500, SCALE_10000, SCALE_25000, SCALE_50000).default(SCALE_2500),
+    //     isRiskAdminArea: Joi.string().valid('true', 'false').required(),
+    //     floodZone: Joi.string().valid('1', '2', '3').required(),
+    //     encodedPolygon: Joi.string(),
+    //     polygon: Joi.string()
+    //   })
+    // }
   }
 },
 {
