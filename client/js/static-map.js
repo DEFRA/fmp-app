@@ -8,7 +8,7 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-import { getOsToken, getEsriToken } from '../map/tokens'
+import { getOsToken, getEsriToken } from './map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
 import { whenOnce } from '@arcgis/core/core/reactiveUtils.js'
 const spatialReference = 27700
@@ -86,17 +86,6 @@ const showMap = async (polygonArray) => {
 
   const { center, extent } = getCentreAndExtents(polygonArray)
 
-  const convertToImage = async (view) => {
-    whenOnce(() => !view.updating).then(() => {
-      view.takeScreenshot().then(function (screenshot) {
-        const imageElement = document.getElementById('screenshot-image')
-        imageElement.src = screenshot.dataUrl
-        const readyElement = document.getElementById('screenshot-not-ready')
-        readyElement.id = 'screenshot-ready'
-      })
-    })
-  }
-
   const view = new MapView({
     map: myMap,
     container: 'map',
@@ -105,7 +94,6 @@ const showMap = async (polygonArray) => {
     extent,
     ui: { components: [] }, // Removes Zoom Buttons and attribution
     navigation: {
-      mouseWheelZoomEnabled: false,
       browserTouchPanEnabled: false
     },
     constraints: {
@@ -123,35 +111,30 @@ const showMap = async (polygonArray) => {
   view.on('drag', ['Shift', 'Control'], (event) => event.stopPropagation())
   view.on('double-click', (event) => event.stopPropagation())
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
+  view.on('mouse-wheel', (event) => event.stopPropagation())
 
   // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
-  view.whenLayerView(graphicsLayer).then((lyrView) => {
-    lyrView.watch('updating', (val) => {
-      if (!val) {
-        const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
-        mapDiv.removeAttribute('tabindex')
-        mapDiv.removeAttribute('role')
-      }
-    })
+  whenOnce(() => !view.updating).then(() => {
+    const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
+    mapDiv.removeAttribute('tabindex')
+    mapDiv.removeAttribute('role')
   })
 
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
-  convertToImage(view)
   return view
 }
 
-// Prevent 2nd p4 submission
-const form = document.getElementsByTagName('form')[0]
-const submitButton = document.querySelector('.order-product-four')
-if (form && submitButton) {
-  form.addEventListener('submit', () => {
-    submitButton.disabled = true
-  })
-  // Re-enable submit button if user navigates back to page
-  window.addEventListener('pageshow', () => {
-    submitButton.disabled = false
+export const convertToImage = async (view) => {
+  return whenOnce(() => !view.updating).then(() => {
+    view.takeScreenshot().then(function (screenshot) {
+      const imageElement = document.getElementById('screenshot-image')
+      imageElement.src = screenshot.dataUrl
+      const readyElement = document.getElementById('screenshot-not-ready')
+      readyElement.id = 'screenshot-ready'
+      return view
+    })
   })
 }
 
