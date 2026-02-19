@@ -10,7 +10,7 @@ import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
 import { getOsToken, getEsriToken } from '../map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
-
+import { whenOnce } from '@arcgis/core/core/reactiveUtils.js'
 const spatialReference = 27700
 
 const buffBoundingBox = (bBox) => {
@@ -86,6 +86,17 @@ const showMap = async (polygonArray) => {
 
   const { center, extent } = getCentreAndExtents(polygonArray)
 
+  const convertToImage = async (view) => {
+    whenOnce(() => !view.updating).then(() => {
+      view.takeScreenshot().then(function (screenshot) {
+        const imageElement = document.getElementById('screenshot-image')
+        imageElement.src = screenshot.dataUrl
+        const readyElement = document.getElementById('screenshot-not-ready')
+        readyElement.id = 'screenshot-ready'
+      })
+    })
+  }
+
   const view = new MapView({
     map: myMap,
     container: 'map',
@@ -127,6 +138,7 @@ const showMap = async (polygonArray) => {
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
+  convertToImage(view)
   return view
 }
 
