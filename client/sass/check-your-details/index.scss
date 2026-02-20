@@ -83,7 +83,7 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      font-size: 8pt;
+      font-size: 1em;
       line-height: 8mm;
     }
     .map-legend {
@@ -94,6 +94,44 @@
       position: absolute;
       top: 0;
       right: 0;
+      // Flex layout
+      display: flex;
+      flex-direction: column;
+      > div {
+        padding: 2px 8px;
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+      }
+      .map-legend-logo {
+        h2 {
+          color: green;
+        }
+      }
+      .map-legend-parameters {
+        .parameter {
+          display: flex;
+          flex-direction: column;
+          .govuk-heading-s {
+            margin-bottom: 8px;
+          }
+          .govuk-body {
+            margin-bottom: 8px;
+            margin-left: 8px;
+          }
+        }
+      }
+      .map-legend-values {
+        flex-basis: 100%;
+        .value {
+          display: flex;
+          flex-direction: row;
+          .img {
+            width: 10mm;
+          }
+        }
+      }
+
     }
 
   }
@@ -115,7 +153,7 @@
       .map-footer {
         width: 280mm;
         height: 5mm;
-        font-size: 8pt;
+        font-size: 9pt;
         line-height: 8mm;
       }
       .map-legend {

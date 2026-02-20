@@ -143,8 +143,54 @@
             </div>
             <img id="screenshot-image-not-ready" class="screenshot-image"/>
             <div class="map-legend">
-              <div class="map-legend-contents">
-                LEGEND HERE
+              <div class="map-legend-logo">
+                <h2 class="govuk-heading-s">Environment Agency</h2>
+              </div>
+              <div class="map-legend-parameters">
+                <div class="parameter">
+                  <h3 class="govuk-heading-s"> Your reference </h3>
+                  <p class="govuk-body"> {{ reference }} </p>
+                </div>
+                <!-- LOCATION -->
+                <div class="parameter">
+                  <h3 class="govuk-heading-s"> Location (easting/northing) </h3>
+                  <p class="govuk-body"> {{ location }} </p>
+                </div>
+                <!-- Date -->
+                <div class="parameter">
+                  <h3 class="govuk-heading-s"> Created </h3>
+                  <p class="govuk-body"> {{ createdDate }} </p>
+                </div>
+              </div>
+              <div class="map-legend-values">
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Selected area</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Flood zone 3</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Flood zone 2</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Flood zone 1</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Flood defence</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Main river</div>
+                </div>
+                <div class="value">
+                  <div class="img">XX</div>
+                  <div class="key">Water storage area</div>
+                </div>
               </div>
             </div>
             <div class="map-footer">
