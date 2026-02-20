@@ -129,10 +129,9 @@ const showMap = async (polygonArray) => {
 export const convertToImage = async (view) => {
   return whenOnce(() => !view.updating).then(() => {
     view.takeScreenshot().then(function (screenshot) {
-      const imageElement = document.getElementById('screenshot-image')
+      const imageElement = document.getElementById('screenshot-image-not-ready')
       imageElement.src = screenshot.dataUrl
-      const readyElement = document.getElementById('screenshot-not-ready')
-      readyElement.id = 'screenshot-ready'
+      imageElement.id = 'screenshot-image'
       return view
     })
   })
