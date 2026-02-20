@@ -116,7 +116,7 @@ const showMap = async (polygonArray) => {
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
-  console.log('scroll bar added')
+
   // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
   return whenOnce(() => !view.updating).then(() => {
     const mapDiv = document.getElementsByClassName('esri-view-surface')[0]

@@ -10,7 +10,22 @@
     height: 720px;
   }
 
-
 .map-container {
   margin-bottom: 0px !important;
+}
+
+.map-container.product-1-map {
+  position: relative;
+  .esri-scale-bar {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+  }
+  &.product-1-map {
+    .map--result {
+      // Make the esri map invisible, to avoid flickering
+      // while the map is converted to an image
+      visibility: hidden;
+    }
+  }
 }
