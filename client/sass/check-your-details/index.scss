@@ -5,13 +5,31 @@
 }
 
 .map-container.product-1-map, .map-container.product-1-map #map {
-    page-break-before: always;
-    width: 900px;
-    height: 720px;
+    width: 912px;
+    height: 768px;
   }
 
 .map-container {
   margin-bottom: 0px !important;
+}
+
+@media print {
+  html, body {
+    height: 100%;
+  }
+}
+
+@page {
+  size: a4 portrait;
+  margin: 10mm 10mm 10mm 10mm;
+}
+
+@page map-page {
+  size: a4 landscape;
+  margin: 0;
+}
+.print-page {
+  page-break-after: always;
 }
 
 .map-container.product-1-map {
@@ -29,3 +47,61 @@
     }
   }
 }
+
+// A4 PAGE IS 297 * 210 mm
+// map-container IS 280 * 200 mm
+// image IS 225 * 200 mm
+// legend is 55 * 200 mm
+// FOOTER is 225 * 5 mm
+#map-page {
+  page: map-page;
+  position: relative;
+  @media print {
+    width: 280mm;
+    height: 205mm;
+    padding: 0;
+    .map-container { // the figure
+      width: 280mm;
+      height: 205mm;
+      margin: 0;
+      padding: 0;
+      #screenshot-image {
+        border: 1mm solid black;
+        width: 225mm;
+        height: 200mm;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .esri-scale-bar {
+        position: absolute;
+        bottom: 7mm;
+        left: 2mm;
+      }
+      .map-footer {
+        width: 280mm;
+        height: 5mm;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 8pt;
+        line-height: 8mm;
+      }
+      .map-legend {
+        border: 1mm solid black;
+        width: 55mm;
+        height: 200mm;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    .govuk-grid-row  {
+      margin: 0;
+    }
+    .govuk-grid-column-full {
+      padding: 0;
+    }
+  }
+}
+

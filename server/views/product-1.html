@@ -20,7 +20,7 @@
 <body class="govuk-template__body js-enabled govuk-frontend-supported">
 
   <div class="govuk-width-container">
-    <div class="govuk-main-wrapper govuk-main-wrapper--l">
+    <div class="govuk-main-wrapper govuk-main-wrapper--l print-page">
       <!-- HEADING -->
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -132,14 +132,24 @@
           </p>
         </div>
       </div>
+    </div>
+    <div id="map-page" class="govuk-main-wrapper govuk-main-wrapper--l print-page">
       <!-- MAP -->
-      <div class="govuk-grid-row">
-        <figure id="map-container" class="map-container product-1-map govuk-!-margin-bottom-6">
-          <div id="map--result" class="map--result">
-            <div id="map" class="map"></div>
-          </div>
-          <img id="screenshot-image-not-ready" />
-        </figure>
+      <div  class="govuk-grid-row ">
+        <div class="govuk-grid-column-full">
+          <figure id="map-container" class="map-container product-1-map govuk-!-margin-bottom-6">
+            <div id="map--result" class="map--result">
+              <div id="map" class="map"></div>
+            </div>
+            <img id="screenshot-image-not-ready" />
+            <div class="map-legend">
+              LEGEND HERE
+            </div>
+            <div class="map-footer">
+              © Environment Agency copyright and/or database rights 2026. All rights reserved. © Crown copyright and database rights 2026 Ordnance Survey licence number AC0000807064
+            </div>
+          </figure>
+        </div>
       </div>
     </div>
   </div>
