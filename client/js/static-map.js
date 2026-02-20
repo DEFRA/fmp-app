@@ -113,25 +113,30 @@ const showMap = async (polygonArray) => {
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
   view.on('mouse-wheel', (event) => event.stopPropagation())
 
-  // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
-  whenOnce(() => !view.updating).then(() => {
-    const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
-    mapDiv.removeAttribute('tabindex')
-    mapDiv.removeAttribute('role')
-  })
-
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
-  return view
+  console.log('scroll bar added')
+  // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
+  return whenOnce(() => !view.updating).then(() => {
+    const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
+    mapDiv.removeAttribute('tabindex')
+    mapDiv.removeAttribute('role')
+    return view
+  })
 }
 
 export const convertToImage = async (view) => {
   return whenOnce(() => !view.updating).then(() => {
-    view.takeScreenshot().then(function (screenshot) {
+    return view.takeScreenshot().then(function (screenshot) {
       const imageElement = document.getElementById('screenshot-image-not-ready')
       imageElement.src = screenshot.dataUrl
       imageElement.id = 'screenshot-image'
+      // The screenshot image does not have a scaleBar.
+      // So, we move the scaleBar out of the map and after the generated image
+      // and use css to place it
+      const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
+      imageElement.after(scaleBarClone)
       return view
     })
   })
