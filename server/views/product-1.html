@@ -144,7 +144,7 @@
             <img id="screenshot-image-not-ready" class="screenshot-image"/>
             <div class="map-legend">
               <div class="map-legend-logo">
-                <h2 class="govuk-heading-s">Environment Agency</h2>
+                <h2 class="govuk-heading-m">Environment Agency</h2>
               </div>
               <div class="map-legend-parameters">
                 <div class="parameter">
@@ -204,7 +204,7 @@
   <script src="{{ assetPath }}/product-1-client.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      showMapAsImage({{ polygon }})
+      showMapAsImage({{ polygon }}, {{ noLayers }})
     })
   </script>
 </body>
