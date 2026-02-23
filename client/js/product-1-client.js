@@ -4,10 +4,7 @@ import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer.js'
 
 let layerNameSuffix, agolVectorTileUrl
 
-const addLayerToMap = (noLayers, view, layerName) => {
-  if (noLayers) {
-    return view
-  }
+const addLayerToMap = (view, layerName) => {
   const url = `${agolVectorTileUrl}/${layerName + layerNameSuffix}/VectorTileServer`
   const vectorTileLayer = new VectorTileLayer({
     id: layerName,
@@ -19,14 +16,14 @@ const addLayerToMap = (noLayers, view, layerName) => {
   return view
 }
 
-const showMapAsImage = async (polygonArray, noLayers = false) => {
+const showMapAsImage = async (polygonArray) => {
   await getDefraMapConfig().then((defraMapConfig) => {
     layerNameSuffix = defraMapConfig.layerNameSuffix
     agolVectorTileUrl = defraMapConfig.agolVectorTileUrl
   })
   console.log(layerNameSuffix)
-  return showMap(polygonArray, true) // pass useProxy: true
-    .then((view) => addLayerToMap(noLayers, view, 'Flood_Zones_2_and_3_Rivers_and_Sea'))
+  return showMap(polygonArray)
+    .then((view) => addLayerToMap(view, 'Flood_Zones_2_and_3_Rivers_and_Sea'))
     .then(convertToImage)
     .then((view) => {
       // Destroy the map to free up resources

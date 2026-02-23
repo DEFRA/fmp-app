@@ -15,18 +15,18 @@ const SCALE_50000 = 50000
 
 module.exports = [{
   method: 'GET',
-  path: '/product-1/{encodedPolygon}/{floodZone}/{reference}/{scale}/{noLayers?}',
+  path: '/product-1/{encodedPolygon}/{floodZone}/{reference}/{scale}',
   options: {
     description: 'Get Product 1 PDF',
     handler: async (request, h) => {
-      const { scale = SCALE_2500, reference, floodZone, encodedPolygon, noLayers } = request.params
+      const { scale = SCALE_2500, reference, floodZone, encodedPolygon } = request.params
       const { polygon } = checkParamsForPolygon({ encodedPolygon })
       const coordinates = getCentreOfPolygon(polygon)
       const location = `${Math.round(coordinates.x)}/${Math.round(coordinates.y)}`
       const isRiskAdminArea = request.query.isRiskAdminArea === 'true'
       const createdDate = formatUKDateTimeToMinute(Date.now())
       const riskLikelihood = floodZone === '1' ? 'low' : floodZone === '2' ? 'medium' : 'high'
-      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location, riskLikelihood, noLayers })
+      return h.view('product-1', { polygon, scale, reference, isRiskAdminArea, floodZone, createdDate, location, riskLikelihood })
     },
     // validate: {
     //   query: Joi.object().keys({
