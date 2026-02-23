@@ -179,19 +179,41 @@ exports[`contact GET Should error if no polygon is present 1`] = `
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -573,19 +595,41 @@ exports[`contact GET Should get contact page if encoded polygon query is present
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -1082,19 +1126,41 @@ exports[`contact GET Should get contact page if encoded polygon query is present
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -1591,19 +1657,41 @@ exports[`contact GET Should get contact page if polygon query is present, with a
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -2100,19 +2188,41 @@ exports[`contact GET Should get contact page if polygon query is present, with a
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -2609,19 +2719,41 @@ exports[`contact GET Should get contact page with user name and email if cookie 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -3122,19 +3254,41 @@ exports[`contact GET Should get contact page with user name and email if cookie 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -3635,19 +3789,41 @@ exports[`contact POST Should return contact view with error message if blank ema
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -4184,19 +4360,41 @@ exports[`contact POST Should return contact view with error message if blank nam
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -4733,19 +4931,41 @@ exports[`contact POST Should return contact view with error message if email con
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -5282,19 +5502,41 @@ exports[`contact POST Should return contact view with error message if fullname 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -5831,19 +6073,41 @@ exports[`contact POST Should return contact view with error message if invalid e
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 
@@ -6380,19 +6644,41 @@ exports[`contact POST Should return contact view with error message if name cont
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
+
+
+
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
+
 
 
 

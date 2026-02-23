@@ -1,9 +1,12 @@
 {{ govukHeader({
   homepageUrl: "https://www.gov.uk/",
   containerClasses: "govuk-width-container",
-  serviceName: serviceName,
-  serviceUrl: "/",
   rebrand: true
+}) }}
+
+{{ govukServiceNavigation({
+  serviceName: serviceName,
+  serviceUrl: "/"
 }) }}
 
 {{ govukPhaseBanner({
