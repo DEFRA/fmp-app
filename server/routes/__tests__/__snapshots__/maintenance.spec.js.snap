@@ -41,8 +41,6 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     </span>
   </p>
 </div>
-
 
 
 
@@ -239,9 +253,7 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -357,7 +369,6 @@ exports[`maintenance Should get /maintainence successfully 1`] = `
     </div>
   </div>
 </footer>
-
 
 
 
@@ -439,8 +450,6 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -537,7 +546,6 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -577,20 +585,38 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -603,7 +629,6 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     </span>
   </p>
 </div>
-
 
 
 
@@ -637,9 +662,7 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -755,7 +778,6 @@ exports[`maintenance Should get /maintenance successfully 1`] = `
     </div>
   </div>
 </footer>
-
 
 
 

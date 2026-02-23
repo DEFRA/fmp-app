@@ -41,8 +41,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
     </span>
   </p>
 </div>
-
 
 
 
@@ -295,9 +309,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -413,7 +425,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
     </div>
   </div>
 </footer>
-
 
 
 
@@ -495,8 +506,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -593,7 +602,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -633,20 +641,38 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -659,7 +685,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     </span>
   </p>
 </div>
-
 
 
 
@@ -749,9 +774,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -867,7 +890,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     </div>
   </div>
 </footer>
-
 
 
 
@@ -949,8 +971,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1047,7 +1067,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1087,20 +1106,38 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1113,7 +1150,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
     </span>
   </p>
 </div>
-
 
 
 
@@ -1206,9 +1242,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1324,7 +1358,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
     </div>
   </div>
 </footer>
-
 
 
 
@@ -1406,8 +1439,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1504,7 +1535,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1544,20 +1574,38 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1570,7 +1618,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     </span>
   </p>
 </div>
-
 
 
 
@@ -1663,9 +1710,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1781,7 +1826,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     </div>
   </div>
 </footer>
-
 
 
 
