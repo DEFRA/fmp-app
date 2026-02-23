@@ -4,6 +4,28 @@ const { getOsToken } = require('../../services/os/getOsToken')
 module.exports = [
   {
     method: 'GET',
+    path: '/tiles-proxy/{params?}',
+    options: {
+      description: 'arcgis tiles proxy',
+      handler:  {
+        proxy: {
+          mapUri: function (request) {
+            const { url: { href }  } = request
+            // The proxy requests that come from the esri sdk are mangled
+            // it doesn't format the query string well, so using hapi's
+            // request.query doesn't work
+            // So we split the requesting href on all instances of ? and &
+            // then rejoin them to form a well formed uri
+            const [thisUrl, esriUrl, ...queryParams] = href.split(/[?&]/)
+            const uri = esriUrl + '?' + queryParams.join('&')
+            return { uri }
+          },
+          passThrough: true
+        },
+      }
+    }
+  }, {
+    method: 'GET',
     path: '/map',
     options: {
       description: 'a POC page to display the map component',

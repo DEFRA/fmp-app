@@ -11,6 +11,10 @@ import ScaleBar from '@arcgis/core/widgets/ScaleBar'
 import { getOsToken, getEsriToken } from './map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
 import { whenOnce } from '@arcgis/core/core/reactiveUtils.js'
+// import urlUtils from '@arcgis/core/core/urlUtils.js'
+// import urlUtils doesn't work here, urlUtils is undefined for some reason
+// but require does work, so we use that instead and let the transpiler sort things out
+const urlUtils = require('@arcgis/core/core/urlUtils.js')
 const spatialReference = 27700
 
 const buffBoundingBox = (bBox) => {
@@ -35,8 +39,14 @@ const getCentreAndExtents = (polygonArray) => {
   return { center, extent }
 }
 
-const showMap = async (polygonArray) => {
+const showMap = async (polygonArray, useProxy = false) => {
   const { token: esriToken } = await getEsriToken()
+  if (useProxy) {
+    urlUtils.addProxyRule({
+      urlPrefix: 'tiles.arcgis.com',
+      proxyUrl: '/tiles-proxy'
+    })
+  }
   esriConfig.apiKey = esriToken
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',

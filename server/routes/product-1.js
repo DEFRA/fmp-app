@@ -20,7 +20,6 @@ module.exports = [{
     description: 'Get Product 1 PDF',
     handler: async (request, h) => {
       const { scale = SCALE_2500, reference, floodZone, encodedPolygon, noLayers } = request.params
-      console.log('request.params:', request.params)
       const { polygon } = checkParamsForPolygon({ encodedPolygon })
       const coordinates = getCentreOfPolygon(polygon)
       const location = `${Math.round(coordinates.x)}/${Math.round(coordinates.y)}`

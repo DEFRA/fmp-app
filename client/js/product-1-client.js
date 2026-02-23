@@ -25,7 +25,7 @@ const showMapAsImage = async (polygonArray, noLayers = false) => {
     agolVectorTileUrl = defraMapConfig.agolVectorTileUrl
   })
   console.log(layerNameSuffix)
-  return showMap(polygonArray)
+  return showMap(polygonArray, true) // pass useProxy: true
     .then((view) => addLayerToMap(noLayers, view, 'Flood_Zones_2_and_3_Rivers_and_Sea'))
     .then(convertToImage)
     .then((view) => {
