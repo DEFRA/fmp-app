@@ -183,8 +183,6 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -213,8 +211,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -760,8 +756,6 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -790,8 +784,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">

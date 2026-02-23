@@ -183,8 +183,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -213,8 +211,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -599,8 +595,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -629,8 +623,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1130,8 +1122,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1160,8 +1150,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1661,8 +1649,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1691,8 +1677,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2192,8 +2176,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -2222,8 +2204,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2723,8 +2703,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -2753,8 +2731,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -3258,8 +3234,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -3288,8 +3262,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -3793,8 +3765,6 @@ exports[`contact POST Should return contact view with error message if blank ema
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -3823,8 +3793,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -4364,8 +4332,6 @@ exports[`contact POST Should return contact view with error message if blank nam
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -4394,8 +4360,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -4935,8 +4899,6 @@ exports[`contact POST Should return contact view with error message if email con
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -4965,8 +4927,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -5506,8 +5466,6 @@ exports[`contact POST Should return contact view with error message if fullname 
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -5536,8 +5494,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -6077,8 +6033,6 @@ exports[`contact POST Should return contact view with error message if invalid e
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -6107,8 +6061,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -6648,8 +6600,6 @@ exports[`contact POST Should return contact view with error message if name cont
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -6678,8 +6628,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">

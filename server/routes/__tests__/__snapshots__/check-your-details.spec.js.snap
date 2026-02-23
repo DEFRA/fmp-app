@@ -183,8 +183,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -213,8 +211,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -754,8 +750,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -784,8 +778,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1325,8 +1317,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1355,8 +1345,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1896,8 +1884,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1926,8 +1912,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2467,8 +2451,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -2497,8 +2479,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -3038,8 +3018,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -3068,8 +3046,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">

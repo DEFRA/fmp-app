@@ -183,8 +183,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -213,8 +211,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -659,8 +655,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -689,8 +683,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1135,8 +1127,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1165,8 +1155,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1614,8 +1602,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
 </header>
 
 
-
-
   <section aria-label="Service information" 
 class="govuk-service-navigation"
 data-module="govuk-service-navigation"
@@ -1644,8 +1630,6 @@ data-module="govuk-service-navigation"
     </div>
 
   </section>
-
-
 
 
 <div class="govuk-phase-banner govuk-width-container">
