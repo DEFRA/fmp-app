@@ -1,8 +1,45 @@
 const { getEsriToken } = require('../../services/agol/getEsriToken')
 const { getOsToken } = require('../../services/os/getOsToken')
 
+/*
+'_events',              '_readableState',
+  '_maxListeners',        'socket',
+  'httpVersionMajor',     'httpVersionMinor',
+  'httpVersion',          'complete',
+  'rawHeaders',           'rawTrailers',
+  'joinDuplicateHeaders', 'aborted',
+  'upgrade',              'url',
+  'method',               'statusCode',
+  'statusMessage',        'client',
+  '_consuming',           '_dumped',
+  'req',                  '_eventsCount'
+*/
 module.exports = [
   {
+    method: 'GET',
+    path: '/js-proxy/{params?}',
+    options: {
+      description: 'arcgis js proxy',
+      handler:  {
+        proxy: {
+          mapUri: function (request) {
+            const { url: { href }  } = request
+            // The proxy requests that come from the esri sdk are mangled
+            // it doesn't format the query string well, so using hapi's
+            // request.query doesn't work
+            // So we split the requesting href on all instances of ? and &
+            // then rejoin them to form a well formed uri
+            console.log('\n js-proxy href:', href)
+            const [thisUrl, esriUrl, ...queryParams] = href.split(/[?&]/)
+            const uri = esriUrl + queryParams?.length ? '?' + queryParams.join('&') : ''
+            console.log('\n js-proxy uri:', uri)
+            return { uri }
+          },
+          passThrough: true
+        },
+      }
+    }
+  }, {
     method: 'GET',
     path: '/tiles-proxy/{params?}',
     options: {
@@ -18,6 +55,7 @@ module.exports = [
             // then rejoin them to form a well formed uri
             const [thisUrl, esriUrl, ...queryParams] = href.split(/[?&]/)
             const uri = esriUrl + '?' + queryParams.join('&')
+            // console.log('\nuri:', uri)
             return { uri }
           },
           passThrough: true

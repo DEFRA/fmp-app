@@ -46,8 +46,14 @@ const showMap = async (polygonArray, useProxy = false) => {
       urlPrefix: 'tiles.arcgis.com',
       proxyUrl: '/tiles-proxy'
     })
+    // urlUtils.addProxyRule({
+    //   urlPrefix: 'js.arcgis.com',
+    //   proxyUrl: '/js-proxy'
+    // })
+    // 'https://js.arcgis.com/4.34/@arcgis/core/assets'
   }
   esriConfig.apiKey = esriToken
+  // esriConfig.assetsPath = 'http://localhost:3001/js-proxy/'
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
     before: async params => {
@@ -123,10 +129,24 @@ const showMap = async (polygonArray, useProxy = false) => {
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
   view.on('mouse-wheel', (event) => event.stopPropagation())
 
-  const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
-  view.ui.add(scaleBar, { position: 'bottom-left' })
-  view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
+  // const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
+  // view.ui.add(scaleBar, { position: 'bottom-left' })
+  // view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
 
+  view.when(() => {
+    console.log('the view has completed')
+  }, (error) => {
+    console.log('the view has errored', error)
+    const errorElement = document.getElementById('error')
+    errorElement.textContent = 'ERROR HAPPENED in view.when: ' + error.message
+    errorElement.id = 'screenshot-image'
+    console.log(error)
+  })
+  whenOnce(() => view.fatalError).then(() => {
+    const errorElement = document.getElementById('error')
+    errorElement.textContent = 'ERROR HAPPENED in fatalError: ' + view.fatalError
+    errorElement.id = 'screenshot-image'
+  })
   // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
   return whenOnce(() => !view.updating).then(() => {
     const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
@@ -136,19 +156,27 @@ const showMap = async (polygonArray, useProxy = false) => {
   })
 }
 
+export const doScreenshot = (view) => {
+  return view.takeScreenshot().then(function (screenshot) {
+    const imageElement = document.getElementById('screenshot-image-not-ready')
+    imageElement.src = screenshot.dataUrl
+    imageElement.id = 'screenshot-image'
+    // The screenshot image does not have a scaleBar.
+    // So, we move the scaleBar out of the map and after the generated image
+    // and use css to place it
+    // const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
+    // imageElement.after(scaleBarClone)
+    return view
+  })
+}
+
 export const convertToImage = async (view) => {
+  const errorElement = document.getElementById('error')
+  errorElement.textContent += ', convertToImage called'
+
   return whenOnce(() => !view.updating).then(() => {
-    return view.takeScreenshot().then(function (screenshot) {
-      const imageElement = document.getElementById('screenshot-image-not-ready')
-      imageElement.src = screenshot.dataUrl
-      imageElement.id = 'screenshot-image'
-      // The screenshot image does not have a scaleBar.
-      // So, we move the scaleBar out of the map and after the generated image
-      // and use css to place it
-      const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
-      imageElement.after(scaleBarClone)
-      return view
-    })
+    errorElement.textContent += ', view.updating resolved'
+    return doScreenshot(view)
   })
 }
 

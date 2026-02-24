@@ -131,9 +131,7 @@
           }
         }
       }
-
     }
-
   }
   @media print {
     width: 280mm;
@@ -166,3 +164,8 @@
   }
 }
 
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
