@@ -6,7 +6,7 @@
   <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
 {% endset %}
 
-{{ govukCookieBanner({
+{{- govukCookieBanner({
   ariaLabel: "Cookies on Flood Map For Planning",    
   classes: "js-cookies-banner govuk-!-display-none",
   messages: [
@@ -55,4 +55,4 @@
       classes: "js-cookies-rejected"
     }
   ]
-}) }}
+}) -}}
