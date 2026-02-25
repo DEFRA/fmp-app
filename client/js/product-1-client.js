@@ -24,37 +24,20 @@ const showMapAsImage = async (polygonArray) => {
     agolVectorTileUrl = defraMapConfig.agolVectorTileUrl
   })
   let view
-  let timeout
   try {
     view = await showMap(polygonArray, true)
-      .then((view) => {
-        timeout = setTimeout(() => {
-          const errorElement = document.getElementById('error')
-          errorElement.textContent += ', TIMEOUT HAPPENED -- attempting screenshot'
-          // errorElement.id = 'screenshot-image'
-          doScreenshot(view)
-        }, 10000)
-        return view
-      })
       .then((view) => addLayerToMap(view, 'Flood_Zones_2_and_3_Rivers_and_Sea'))
       .then(convertToImage)
       .then((view) => {
-        clearTimeout(timeout)
         // Destroy the map to free up resources
         view.map.destroy()
         // Remove the map's container element
         document.getElementById('map--result').remove()
       }).catch((error) => {
-        const errorElement = document.getElementById('error')
-        errorElement.textContent = 'ERROR HAPPENED in Promises: ' + error.message
-        errorElement.id = 'screenshot-image'
         console.log(error)
       })
     return view
   } catch (error) {
-    const errorElement = document.getElementById('error')
-    errorElement.textContent = 'ERROR CAUGHT ' + error.message
-    errorElement.id = 'screenshot-image'
     console.log(error)
   }
 }
