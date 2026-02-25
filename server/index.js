@@ -9,7 +9,7 @@ async function createServer () {
     port: config.server.port,
     routes: {
       cors: {
-        origin: ['Access-Control-Allow-Origin', 'localhost:3000'],
+        origin: ['Access-Control-Allow-Origin', ['localhost:3000']],
         headers: ['Accept', 'Content-Type'],
         additionalHeaders: ['X-Requested-With']
       },

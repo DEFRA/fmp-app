@@ -1,7 +1,7 @@
 import { showMap, convertToImage, doScreenshot } from './static-map.js'
 import { getDefraMapConfig } from './map/tokens.js'
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer.js'
-
+import axios from 'axios'
 import '@arcgis/core/assets.js'
 // import '@arcgis/ma'
 
@@ -117,8 +117,94 @@ const showMapAsImage = async (polygonArray) => {
     console.log(error)
   }
 }
+
+// final HttpPost httpPost = new HttpPost(GUTENBERG_URL_HTML);
+//    final HttpEntity multipart = MultipartEntityBuilder.create()
+//      .addPart("files", new FileBody(htmlFile, ContentType.TEXT_HTML, htmlFile.getName()))
+//      .addPart("files", new FileBody(cssFile, ContentType.create("text/css"), cssFile.getName()))
+//      .addPart("files", new FileBody(jsFile, ContentType.create("application/javascript"), jsFile.getName()))
+//    httpPost.setEntity(multipart);
+
+const getPdf = async () => {
+  const html = getHtmlForConversion()
+  const applicationCss = await getCss('application.css')
+  const checkYourDetailsCss = await getCss('check-your-details.css')
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  const formData = new FormData()
+  formData.append('files[]', new File([html], 'index.html', { type: 'text/html' }))
+  formData.append('files[]', new File([applicationCss], 'application.css', { type: 'text/css' }))
+  formData.append('files[]', new File([checkYourDetailsCss], 'check-your-details.css', { type: 'text/css' }))
+  const gotenburgUrl = 'http://localhost:3000/forms/chromium/convert/html'
+  doAxiosPost(gotenburgUrl, formData, headers)
+  doFetchPost(gotenburgUrl, formData, headers)
+}
+
+const doAxiosPost = async (gotenburgUrl, formData, headers) => {
+  await axios.post(gotenburgUrl, formData, { responseType: 'blob' })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'file.pdf')
+      document.body.appendChild(link)
+      link.click()
+    }).catch((error) => {
+      console.log(error.message)
+    })
+}
+
+const doFetchPost = async (gotenburgUrl, formData) => {
+  try {
+    const response = await fetch(gotenburgUrl, {
+      method: 'POST',
+      body: formData
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'file.pdf')
+    document.body.appendChild(link)
+    link.click()
+  } catch (error) {
+    console.log('doFetchPost error:', error.message)
+  }
+}
+
+const getHtmlForConversion = () => {
+  const clone = document.getElementsByTagName('html')[0].cloneNode(true)
+  Array.from(clone.getElementsByTagName('script')).forEach((element) => element.remove())
+  Array.from(clone.getElementsByTagName('link')).filter((element) => {
+    if (element.getAttribute('rel') !== 'stylesheet') {
+      return true
+    }
+    if (element.getAttribute('href')?.match('node_modules')) {
+      return true
+    }
+    element.setAttribute('href', element.getAttribute('href').replace('/assets/', ''))
+    return false
+  }).forEach((element) => element.remove())
+  return clone.outerHTML
+}
+
+// <link href="/assets/application.css" rel="stylesheet">
+// <link href="/assets/check-your-details.css" rel="stylesheet"/>
+const getCss = async (cssFilename) => {
+  const response = await globalThis.fetch(`/assets/${cssFilename}`, { method: 'GET', cache: 'force-cache' })
+  const contents = await response.text()
+  return contents
+}
+
 // Add these as globals so they can be called from the html page, which will inject the polygon.
 // This approach avoids the need to import this as a module, which limits browser compatibility.
+window.getPdf = getPdf
 window.showMapAsImage = showMapAsImage
 // Also export the methods, so they can be used for unit testing
-export { showMapAsImage }
+export { showMapAsImage, getPdf }
