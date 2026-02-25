@@ -266,9 +266,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -384,7 +382,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
