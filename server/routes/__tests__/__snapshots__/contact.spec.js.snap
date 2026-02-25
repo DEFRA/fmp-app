@@ -41,8 +41,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   </div>
   
 </div>
-
 
 
 
@@ -252,9 +249,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -373,7 +368,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -450,8 +444,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -547,7 +539,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   </div>
   
 </div>
-
 
 
 
@@ -778,9 +769,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -896,7 +885,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -978,8 +966,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1073,7 +1059,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   </div>
   
 </div>
-
 
 
 
@@ -1304,9 +1289,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1425,7 +1408,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -1502,8 +1484,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -1599,7 +1579,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   </div>
   
 </div>
-
 
 
 
@@ -1830,9 +1809,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1951,7 +1928,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -2028,8 +2004,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -2125,7 +2099,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   </div>
   
 </div>
-
 
 
 
@@ -2356,9 +2329,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -2474,7 +2445,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -2556,8 +2526,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2651,7 +2619,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   </div>
   
 </div>
-
 
 
 
@@ -2886,9 +2853,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -3004,7 +2969,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -3086,8 +3050,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -3181,7 +3143,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   </div>
   
 </div>
-
 
 
 
@@ -3416,9 +3377,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -3537,7 +3496,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -3614,8 +3572,6 @@ exports[`contact POST Should return contact view with error message if blank ema
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -3711,7 +3667,6 @@ exports[`contact POST Should return contact view with error message if blank ema
   </div>
   
 </div>
-
 
 
 
@@ -3819,8 +3774,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -3842,7 +3796,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -3982,9 +3935,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -4103,7 +4054,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -4180,8 +4130,6 @@ exports[`contact POST Should return contact view with error message if blank nam
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -4277,7 +4225,6 @@ exports[`contact POST Should return contact view with error message if blank nam
   </div>
   
 </div>
-
 
 
 
@@ -4385,8 +4332,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -4408,7 +4354,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -4548,9 +4493,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -4669,7 +4612,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -4746,8 +4688,6 @@ exports[`contact POST Should return contact view with error message if email con
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -4843,7 +4783,6 @@ exports[`contact POST Should return contact view with error message if email con
   </div>
   
 </div>
-
 
 
 
@@ -4951,8 +4890,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -4974,7 +4912,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -5114,9 +5051,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -5235,7 +5170,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -5312,8 +5246,6 @@ exports[`contact POST Should return contact view with error message if fullname 
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -5409,7 +5341,6 @@ exports[`contact POST Should return contact view with error message if fullname 
   </div>
   
 </div>
-
 
 
 
@@ -5517,8 +5448,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -5540,7 +5470,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -5680,9 +5609,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -5801,7 +5728,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -5878,8 +5804,6 @@ exports[`contact POST Should return contact view with error message if invalid e
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -5975,7 +5899,6 @@ exports[`contact POST Should return contact view with error message if invalid e
   </div>
   
 </div>
-
 
 
 
@@ -6083,8 +6006,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -6106,7 +6028,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -6246,9 +6167,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -6367,7 +6286,6 @@ data-module="govuk-service-navigation"
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -6444,8 +6362,6 @@ exports[`contact POST Should return contact view with error message if name cont
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -6541,7 +6457,6 @@ exports[`contact POST Should return contact view with error message if name cont
   </div>
   
 </div>
-
 
 
 
@@ -6649,8 +6564,7 @@ data-module="govuk-service-navigation"
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -6672,7 +6586,6 @@ data-module="govuk-service-navigation"
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -6812,9 +6725,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -6930,7 +6841,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
