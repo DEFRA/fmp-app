@@ -41,8 +41,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
   </div>
   
 </div>
-
 
 
 
@@ -647,8 +644,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -742,7 +737,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
   </div>
   
 </div>
-
 
 
 
@@ -1253,8 +1247,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1348,7 +1340,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
   </div>
   
 </div>
-
 
 
 

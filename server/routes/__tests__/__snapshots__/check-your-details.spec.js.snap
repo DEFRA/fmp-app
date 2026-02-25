@@ -41,8 +41,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 
@@ -607,8 +604,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -702,7 +697,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 
@@ -1173,8 +1167,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1268,7 +1260,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 
@@ -1739,8 +1730,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1834,7 +1823,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 
@@ -2305,8 +2293,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2400,7 +2386,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 
@@ -2871,8 +2856,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2966,7 +2949,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
   
 </div>
-
 
 
 

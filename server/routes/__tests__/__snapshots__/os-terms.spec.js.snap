@@ -41,8 +41,6 @@ exports[`os-terms Should return os-terms page 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`os-terms Should return os-terms page 1`] = `
   </div>
   
 </div>
-
 
 
 

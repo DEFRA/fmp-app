@@ -41,8 +41,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   </div>
   
 </div>
-
 
 
 
@@ -452,8 +449,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -547,7 +542,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   </div>
   
 </div>
-
 
 
 
@@ -978,8 +972,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1073,7 +1065,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   </div>
   
 </div>
-
 
 
 
@@ -1504,8 +1495,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1599,7 +1588,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   </div>
   
 </div>
-
 
 
 
@@ -2030,8 +2018,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2125,7 +2111,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   </div>
   
 </div>
-
 
 
 
@@ -2556,8 +2541,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2651,7 +2634,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   </div>
   
 </div>
-
 
 
 
@@ -3086,8 +3068,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -3181,7 +3161,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   </div>
   
 </div>
-
 
 
 
@@ -3616,8 +3595,6 @@ exports[`contact POST Should return contact view with error message if blank ema
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -3711,7 +3688,6 @@ exports[`contact POST Should return contact view with error message if blank ema
   </div>
   
 </div>
-
 
 
 
@@ -4182,8 +4158,6 @@ exports[`contact POST Should return contact view with error message if blank nam
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -4277,7 +4251,6 @@ exports[`contact POST Should return contact view with error message if blank nam
   </div>
   
 </div>
-
 
 
 
@@ -4748,8 +4721,6 @@ exports[`contact POST Should return contact view with error message if email con
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -4843,7 +4814,6 @@ exports[`contact POST Should return contact view with error message if email con
   </div>
   
 </div>
-
 
 
 
@@ -5314,8 +5284,6 @@ exports[`contact POST Should return contact view with error message if fullname 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -5409,7 +5377,6 @@ exports[`contact POST Should return contact view with error message if fullname 
   </div>
   
 </div>
-
 
 
 
@@ -5880,8 +5847,6 @@ exports[`contact POST Should return contact view with error message if invalid e
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -5975,7 +5940,6 @@ exports[`contact POST Should return contact view with error message if invalid e
   </div>
   
 </div>
-
 
 
 
@@ -6446,8 +6410,6 @@ exports[`contact POST Should return contact view with error message if name cont
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -6541,7 +6503,6 @@ exports[`contact POST Should return contact view with error message if name cont
   </div>
   
 </div>
-
 
 
 
