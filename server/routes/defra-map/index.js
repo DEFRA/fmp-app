@@ -6,33 +6,11 @@ module.exports = [
     method: 'POST',
     path: '/gotenburg',
     options: {
-      description: 'arcgis js proxy',
+      description: 'gotenburg server proxy',
       handler:  {
         proxy: {
+          // TODO: add this path to the config
           uri: 'http://localhost:3000/forms/chromium/convert/html',
-          passThrough: true
-        },
-      }
-    }
-  }, {
-    method: 'GET',
-    path: '/tiles-proxy/{params?}',
-    options: {
-      description: 'arcgis tiles proxy',
-      handler:  {
-        proxy: {
-          mapUri: function (request) {
-            const { url: { href }  } = request
-            // The proxy requests that come from the esri sdk are mangled
-            // it doesn't format the query string well, so using hapi's
-            // request.query doesn't work
-            // So we split the requesting href on all instances of ? and &
-            // then rejoin them to form a well formed uri
-            const [thisUrl, esriUrl, ...queryParams] = href.split(/[?&]/)
-            const uri = esriUrl + '?' + queryParams.join('&')
-            // console.log('\nuri:', uri)
-            return { uri }
-          },
           passThrough: true
         },
       }
@@ -41,7 +19,7 @@ module.exports = [
     method: 'GET',
     path: '/map',
     options: {
-      description: 'a POC page to display the map component',
+      description: 'display the map component page',
       handler: async (_request, h) => {
         return h.view('map')
       }

@@ -138,8 +138,8 @@ export const doScreenshot = (view) => {
     // The screenshot image does not have a scaleBar.
     // So, we move the scaleBar out of the map and after the generated image
     // and use css to place it
-    // const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
-    // imageElement.after(scaleBarClone)
+    const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
+    imageElement.after(scaleBarClone)
     return view
   })
 }
