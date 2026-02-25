@@ -12,10 +12,10 @@
     <div class="govuk-grid-column-two-thirds">
 
         {% if errorSummary.length > 0 %}
-          {{ govukErrorSummary({
+          {{- govukErrorSummary({
             titleText: "There is a problem",
             errorList: errorSummary
-          })}}
+          }) -}}
         {% endif %}
 
         <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
@@ -49,7 +49,7 @@
           errorMessage: findErrorMessageById(errorSummary, "fullName")
         }) }}
 
-        {{ govukInput({
+        {{govukInput({
           label: {
           text: "Email address",
           classes:"govuk-label govuk-label--m"
@@ -61,7 +61,7 @@
           autocomplete: "email",
           errorMessage: findErrorMessageById(errorSummary, "recipientemail"),
           spellcheck: false
-        }) }}
+        })}}
 
         <div id="location-context">
           <input type="hidden" value="{{ polygon }}" name="polygon"/>

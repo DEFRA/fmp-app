@@ -41,8 +41,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -136,7 +134,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
   </div>
   
 </div>
-
 
 
 
@@ -312,9 +309,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -430,7 +425,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -512,8 +506,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -607,7 +599,6 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
   </div>
   
 </div>
-
 
 
 
@@ -783,9 +774,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -901,7 +890,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -983,8 +971,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1078,7 +1064,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
   </div>
   
 </div>
-
 
 
 
@@ -1257,9 +1242,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1375,7 +1358,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
@@ -1457,8 +1439,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1552,7 +1532,6 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
   </div>
   
 </div>
-
 
 
 
@@ -1731,9 +1710,7 @@ data-module="govuk-service-navigation"
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1849,7 +1826,6 @@ data-module="govuk-service-navigation"
     </div>
   </div>
 </footer>
-
 
 
 
