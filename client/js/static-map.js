@@ -41,19 +41,13 @@ const getCentreAndExtents = (polygonArray) => {
 
 const showMap = async (polygonArray, useProxy = false) => {
   const { token: esriToken } = await getEsriToken()
-  if (useProxy) {
-    urlUtils.addProxyRule({
-      urlPrefix: 'tiles.arcgis.com',
-      proxyUrl: '/tiles-proxy'
-    })
-    // urlUtils.addProxyRule({
-    //   urlPrefix: 'js.arcgis.com',
-    //   proxyUrl: '/js-proxy'
-    // })
-    // 'https://js.arcgis.com/4.34/@arcgis/core/assets'
-  }
+  // if (useProxy) {
+  //   urlUtils.addProxyRule({
+  //     urlPrefix: 'tiles.arcgis.com',
+  //     proxyUrl: '/tiles-proxy'
+  //   })
+  // }
   esriConfig.apiKey = esriToken
-  // esriConfig.assetsPath = 'http://localhost:3001/js-proxy/'
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
     before: async params => {
@@ -129,19 +123,19 @@ const showMap = async (polygonArray, useProxy = false) => {
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
   view.on('mouse-wheel', (event) => event.stopPropagation())
 
-  // const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
-  // view.ui.add(scaleBar, { position: 'bottom-left' })
-  // view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
+  const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
+  view.ui.add(scaleBar, { position: 'bottom-left' })
+  view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
 
-  view.when(() => {
-    console.log('the view has completed')
-  }, (error) => {
-    console.log('the view has errored', error)
-    const errorElement = document.getElementById('error')
-    errorElement.textContent = 'ERROR HAPPENED in view.when: ' + error.message
-    errorElement.id = 'screenshot-image'
-    console.log(error)
-  })
+  // view.when(() => {
+  //   console.log('the view has completed')
+  // }, (error) => {
+  //   console.log('the view has errored', error)
+  //   const errorElement = document.getElementById('error')
+  //   errorElement.textContent = 'ERROR HAPPENED in view.when: ' + error.message
+  //   errorElement.id = 'screenshot-image'
+  //   console.log(error)
+  // })
   whenOnce(() => view.fatalError).then(() => {
     const errorElement = document.getElementById('error')
     errorElement.textContent = 'ERROR HAPPENED in fatalError: ' + view.fatalError

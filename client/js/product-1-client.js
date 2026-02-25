@@ -3,64 +3,8 @@ import { getDefraMapConfig } from './map/tokens.js'
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer.js'
 import axios from 'axios'
 import '@arcgis/core/assets.js'
-// import '@arcgis/ma'
-
-// @arcgis/core
-// /node_modules/@arcgis/core/assets/
-// @arcgis/map-components
-// /node_modules/@arcgis/map-components/dist/cdn/assets/
-// @arcgis/coding-components
-// /node_modules/@arcgis/coding-components/dist/cdn/assets/
-// @esri/calcite-components
-// /node_modules/@esri/calcite-components/dist/calcite/assets/
 
 let layerNameSuffix, agolVectorTileUrl
-const consoleLog = console.log
-const consoleError = console.error
-
-window.onerror = (a, b, c, d, e) => {
-  console.log(`message: ${a}`)
-  console.log(`source: ${b}`)
-  console.log(`lineno: ${c}`)
-  console.log(`colno: ${d}`)
-  console.log(`error: ${e}`)
-}
-
-const stringify = (message) => {
-  let response = ''
-  try {
-    response += JSON.stringify(message)
-    if (message.name) {
-      response += ('NAME: ' + JSON.stringify(message.name))
-    }
-    if (message.message) {
-      response += ('MSG: ' + JSON.stringify(message.message))
-    }
-    if (message.details) {
-      response += ('DET: ' + JSON.stringify(message.details))
-    }
-  } catch (_error) {
-    response += ('NS' + message)
-  }
-  return response
-}
-
-const messageLogger = (...messages) => {
-  const errorElement = document.getElementById('error')
-  messages.forEach((message) => (errorElement.textContent += `, ${stringify(message)}`))
-}
-
-console.log = (...messages) => {
-  messageLogger('LOG')
-  messageLogger(...messages)
-  consoleLog(...messages)
-}
-
-console.error = (...errors) => {
-  messageLogger('ERR')
-  messageLogger(...errors)
-  consoleError(...errors)
-}
 
 const addLayerToMap = (view, layerName) => {
   const url = `${agolVectorTileUrl}/${layerName + layerNameSuffix}/VectorTileServer`
@@ -70,10 +14,7 @@ const addLayerToMap = (view, layerName) => {
     opacity: 0.75,
     visible: true
   })
-  // vectorTileLayer.
   view.map.layers.add(vectorTileLayer)
-  // view.map.add(vectorTileLayer)
-  console.log('map.add has been called')
   return view
 }
 
@@ -118,13 +59,6 @@ const showMapAsImage = async (polygonArray) => {
   }
 }
 
-// final HttpPost httpPost = new HttpPost(GUTENBERG_URL_HTML);
-//    final HttpEntity multipart = MultipartEntityBuilder.create()
-//      .addPart("files", new FileBody(htmlFile, ContentType.TEXT_HTML, htmlFile.getName()))
-//      .addPart("files", new FileBody(cssFile, ContentType.create("text/css"), cssFile.getName()))
-//      .addPart("files", new FileBody(jsFile, ContentType.create("application/javascript"), jsFile.getName()))
-//    httpPost.setEntity(multipart);
-
 const getPdf = async () => {
   const html = getHtmlForConversion()
   const applicationCss = await getCss('application.css')
@@ -136,9 +70,8 @@ const getPdf = async () => {
   formData.append('files[]', new File([html], 'index.html', { type: 'text/html' }))
   formData.append('files[]', new File([applicationCss], 'application.css', { type: 'text/css' }))
   formData.append('files[]', new File([checkYourDetailsCss], 'check-your-details.css', { type: 'text/css' }))
-  const gotenburgUrl = 'http://localhost:3000/forms/chromium/convert/html'
+  const gotenburgUrl = '/gotenburg'
   doAxiosPost(gotenburgUrl, formData, headers)
-  doFetchPost(gotenburgUrl, formData, headers)
 }
 
 const doAxiosPost = async (gotenburgUrl, formData, headers) => {
@@ -155,29 +88,6 @@ const doAxiosPost = async (gotenburgUrl, formData, headers) => {
     })
 }
 
-const doFetchPost = async (gotenburgUrl, formData) => {
-  try {
-    const response = await fetch(gotenburgUrl, {
-      method: 'POST',
-      body: formData
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'file.pdf')
-    document.body.appendChild(link)
-    link.click()
-  } catch (error) {
-    console.log('doFetchPost error:', error.message)
-  }
-}
-
 const getHtmlForConversion = () => {
   const clone = document.getElementsByTagName('html')[0].cloneNode(true)
   Array.from(clone.getElementsByTagName('script')).forEach((element) => element.remove())
@@ -188,14 +98,13 @@ const getHtmlForConversion = () => {
     if (element.getAttribute('href')?.match('node_modules')) {
       return true
     }
+    // Gotenburg requires all files to be at root level, so remove /assets/ from the paths
     element.setAttribute('href', element.getAttribute('href').replace('/assets/', ''))
     return false
   }).forEach((element) => element.remove())
   return clone.outerHTML
 }
 
-// <link href="/assets/application.css" rel="stylesheet">
-// <link href="/assets/check-your-details.css" rel="stylesheet"/>
 const getCss = async (cssFilename) => {
   const response = await globalThis.fetch(`/assets/${cssFilename}`, { method: 'GET', cache: 'force-cache' })
   const contents = await response.text()
