@@ -41,8 +41,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -227,8 +241,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -250,7 +263,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -390,9 +402,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -508,7 +518,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
@@ -590,8 +599,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -688,7 +695,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -728,20 +734,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -754,7 +778,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -776,8 +799,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -799,7 +821,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -939,9 +960,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1057,7 +1076,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
@@ -1139,8 +1157,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1237,7 +1253,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1277,20 +1292,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1303,7 +1336,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -1325,8 +1357,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -1348,7 +1379,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -1488,9 +1518,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1606,7 +1634,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
@@ -1688,8 +1715,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1786,7 +1811,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1826,20 +1850,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1852,7 +1894,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -1874,8 +1915,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -1897,7 +1937,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -2037,9 +2076,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -2155,7 +2192,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
@@ -2237,8 +2273,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2335,7 +2369,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -2375,20 +2408,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2401,7 +2452,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -2423,8 +2473,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -2446,7 +2495,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -2586,9 +2634,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -2704,7 +2750,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
@@ -2786,8 +2831,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2884,7 +2927,6 @@ exports[`Check your details page GET Should serve contact view with error messag
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -2924,20 +2966,38 @@ exports[`Check your details page GET Should serve contact view with error messag
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2950,7 +3010,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </span>
   </p>
 </div>
-
 
 
 
@@ -2972,8 +3031,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -2995,7 +3053,6 @@ exports[`Check your details page GET Should serve contact view with error messag
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -3135,9 +3192,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -3253,7 +3308,6 @@ exports[`Check your details page GET Should serve contact view with error messag
     </div>
   </div>
 </footer>
-
 
 
 
