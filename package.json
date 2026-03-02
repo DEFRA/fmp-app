@@ -15,6 +15,7 @@
     "build-submodule": "npm run copy && npm run build:jsAndCss-submodule ",
     "setup-submodule": "cd defra-map && npm ci --ignore-scripts && cd ..",
     "eslint": "eslint",
+    "test-timings": "jest --runInBand --verbose --collectCoverage --outputFile=test/results.json --json && node ./test/parseTestResults.js", 
     "unit-test": "lab --verbose -l -c -r console -o stdout -r lcov -o lcov.info",
     "unit-jest": "jest --runInBand --verbose --collectCoverage",
     "unit-jest-quiet": "NOLOG=true jest",
