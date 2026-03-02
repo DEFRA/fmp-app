@@ -18,20 +18,10 @@ jest.mock('../../services/is-england')
 
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
-let increment = 0
-const INCREMENT_VALUE = 100
-
-const polygon = [[11, 11], [11, 12], [12, 12], [12, 11], [11, 11]]
-
-const getUniquePolygonQuery = () => {
-  increment += INCREMENT_VALUE
-  const result = `polygon=${JSON.stringify(polygon.map(([x, y]) => [increment + x, increment + y]))}`
-  return result
-}
-
+const polygonQuery = 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]'
 const queryParams = [
   ['encoded polygon', `encodedPolygon=${encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])}`],
-  ['polygon', 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]']
+  ['polygon', polygonQuery]
 ]
 /*
 This test file is used to check the dynamic content on the results page html.
@@ -40,7 +30,7 @@ It is useful as we need to test the nunjuck logic.
 describe('Results page', () => {
   it('should redirect to England only page if polygon is outside England', async () => {
     isEnglandService.mockResolvedValueOnce(false)
-    const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` }, null, 302)
+    const response = await submitGetRequest({ url: `${url}?${polygonQuery}` }, null, 302)
     expect(response.statusCode).toEqual(302)
     expect(response.headers.location).toEqual('/england-only')
   })
@@ -82,7 +72,7 @@ describe('Results page', () => {
       getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
       getPsoContactsByPolygon.mockResolvedValue({})
       getFloodDataByPolygon.mockResolvedValue({})
-      const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = response.payload
       expect(pageContent).toContain('You will be able to use the service from 5.38pm on Thursday 27 November 2025.')
     })
@@ -118,7 +108,7 @@ describe('Results page', () => {
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(0)
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -160,7 +150,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -195,7 +185,7 @@ describe('Results page', () => {
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(123.43)
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -238,7 +228,7 @@ describe('Results page', () => {
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(0)
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -282,7 +272,7 @@ describe('Results page', () => {
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(0)
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -322,7 +312,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: true
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -357,7 +347,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
@@ -400,7 +390,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
@@ -443,7 +433,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
@@ -483,7 +473,7 @@ describe('Results page', () => {
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(350)
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
@@ -523,7 +513,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
@@ -557,7 +547,7 @@ describe('Results page', () => {
           },
           isRiskAdminArea: false
         })
-        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
@@ -593,7 +583,7 @@ describe('Results page', () => {
         isRiskAdminArea: false
       })
       getAreaInHectaresSpy.mockReturnValue(350)
-      const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = getElementByIdAndFormat(response.payload)
       expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
       expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
@@ -636,7 +626,7 @@ describe('Results page', () => {
         },
         isRiskAdminArea: false
       })
-      const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+      const response = await submitGetRequest({ url: `${url}?${polygonQuery}` })
       const pageContent = getElementByIdAndFormat(response.payload)
       expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
       expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)

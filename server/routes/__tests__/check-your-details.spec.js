@@ -178,7 +178,7 @@ describe('Check your details page', () => {
         payload: {
           recipientemail: 'john.smith@email.com',
           fullName: 'John Smith',
-          polygon: mockPolygons.fz1_only_gt_1_ha
+          polygon: mockPolygons.fz2_only
         }
       }
       wreck.post.mockImplementation(() => {

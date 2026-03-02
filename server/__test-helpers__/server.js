@@ -2,20 +2,14 @@ const constants = require('../constants')
 const createServer = require('../../server')
 let server
 
-beforeAll(async () => {
+beforeEach(async () => {
   jest.useFakeTimers({ advanceTimers: true })
   jest.setSystemTime(new Date(2025, 1, 1)) // Fix unit tests to 2025 to stop snapshots failing where there is a date displayed
   server = await createServer()
   await server.initialize()
 })
 
-beforeEach(async () => {
-})
-
 afterEach(async () => {
-})
-
-afterAll(async () => {
   jest.useRealTimers()
   await server.stop()
 })
