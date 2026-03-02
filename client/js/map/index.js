@@ -414,7 +414,8 @@ getDefraMapConfig().then((defraMapConfig) => {
           },
           {
             id: 'mr',
-            label: terms.chance.swMedium
+            label: terms.chance.swMedium,
+            isSelected: true
           },
           {
             id: 'lr',
