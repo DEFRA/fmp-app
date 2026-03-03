@@ -1,1 +1,1 @@
-require('dotenv').config({ path: 'config/.env-example' })
+require('dotenv').config({ path: 'config/.env-example', quiet: true })

@@ -49,7 +49,9 @@ async function createServer () {
   await server.register(require('blipp'))
   await server.register(require('./plugins/full-url'))
   await server.register(require('./plugins/register-cookie'))
-  await server.register(require('./plugins/logging'))
+  if (!process.env.NOLOG) {
+    await server.register(require('./plugins/logging'))
+  }
 
   server.ext('onPreResponse', async (request, h) => {
     if (!request.response.isBoom && request.response?.source?.context) {

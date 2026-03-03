@@ -24,10 +24,18 @@ describe('contact', () => {
   describe('GET', () => {
     queryParams.forEach((queryParam) => {
       it(`Should get contact page if ${queryParam[0]} query is present, with a backlink to results`, async () => {
+        getServer().ext('onPreHandler', (request, h) => {
+          request.state = {}
+          return h.continue
+        })
         const response = await submitGetRequest({ url: `${url}?${queryParam[1]}` })
         expect(response.result).toMatchSnapshot()
       })
       it(`Should get contact page if ${queryParam[0]} query is present, with a backlink to next-steps`, async () => {
+        getServer().ext('onPreHandler', (request, h) => {
+          request.state = {}
+          return h.continue
+        })
         const response = await submitGetRequest({
           url: `${url}?${queryParam[1]}`,
           headers: {
