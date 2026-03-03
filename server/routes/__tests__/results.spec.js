@@ -23,6 +23,7 @@ const INCREMENT_VALUE = 100
 
 const polygon = [[11, 11], [11, 12], [12, 12], [12, 11], [11, 11]]
 
+// getUniquePolygonQuery is used to bust the cache, so that each test uses a unique polygon
 const getUniquePolygonQuery = () => {
   increment += INCREMENT_VALUE
   const result = `polygon=${JSON.stringify(polygon.map(([x, y]) => [increment + x, increment + y]))}`

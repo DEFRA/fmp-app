@@ -9,12 +9,6 @@ beforeAll(async () => {
   await server.initialize()
 })
 
-beforeEach(async () => {
-})
-
-afterEach(async () => {
-})
-
 afterAll(async () => {
   jest.useRealTimers()
   await server.stop()
