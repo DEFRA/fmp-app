@@ -17,7 +17,7 @@
     "eslint": "eslint",
     "test": "npm run eslint && jest --runInBand --collectCoverage",
     "test-timings": "jest --runInBand --collectCoverage --outputFile=test/results.json --json && node ./test/parseTestResults.js", 
-    "test-quiet": "NOLOG=true jest --collectCoverage",
+    "test-quick": "NOLOG=true jest --collectCoverage",
     "jest-watch": "NOLOG=true jest --watch",
     "jest-watch-coverage": "NOLOG=true jest --watchAll --coverage",
     "postinstall": "npm run build",
