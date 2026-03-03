@@ -1,6 +1,11 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
-import { FloodMap } from '/flood-map' // eslint-disable-line import-x/no-absolute-path
-import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
+import InteractiveMap from '@defra/interactive-map'
+import esriProvider from '@defra/interactive-map/providers/esri'
+// import createSearchPlugin from '@defra/interactive-map/plugins/search'
+// import createInteractPlugin from '@defra/interactive-map/plugins/interact'
+// import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
+
+import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
@@ -276,7 +281,15 @@ getDefraMapConfig().then((defraMapConfig) => {
   const { baseMapStyles, digitisingMapStyles } = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
 
-  const floodMap = new FloodMap('map', {
+  const floodMap = new InteractiveMap('map', {
+    mapProvider: esriProvider({
+      setupConfig: setupEsriConfig
+    }),
+    // plugins: [
+    //   // createSearchPlugin(),
+    //   createInteractPlugin(),
+    //   // createDrawPlugin()
+    // ],
     behaviour: 'inline',
     place: 'England',
     zoom: 7.7,
