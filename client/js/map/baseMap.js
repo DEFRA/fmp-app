@@ -1,5 +1,3 @@
-const mapStyles = {}
-
 // id: 'outdoor',
 // label: 'Outdoor',
 // url: process.env.OUTDOOR_URL,
@@ -12,40 +10,32 @@ const mapStyles = {}
 const setUpBaseMaps = (osAccountNumber) => {
   const currentYear = new Date().getFullYear()
   const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
-  Object.assign(mapStyles, {
-    outdoor: {
-      label: 'Outdoor',
-      url: '/map/styles/master-map',
-      attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/master-map',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      logo: '/assets/images/outdoor-map-icon.jpg'
-    },
-    dark: {
-      label: 'Dark',
-      url: '/map/styles/master-map-dark',
-      attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/master-map-dark',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      logo: '/assets/images/dark-map-icon.jpg'
-    },
-    blackAndWhite: {
-      label: 'Black and white',
-      url: '/map/styles/black-and-white-map',
-      attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/black-and-white-map',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      logo: '/assets/images/black-and-white-map-icon.jpg'
-    }
-  })
-
-  const baseMapStyles = Object.entries(mapStyles)
-    .map(([id, { url, attribution, label, logo }]) => ({ id, url, attribution, label, logo }))
-
-  const digitisingMapStyles = Object.entries(mapStyles)
-    .map(([id, { digitisingUrl: url, digitisingAttribution: attribution, label, logo }]) => ({ id, url, attribution, label, logo }))
-
-  return { mapStyles, baseMapStyles, digitisingMapStyles }
+  const mapStyles = [{
+    id: 'outdoor',
+    label: 'Outdoor',
+    url: '/map/styles/master-map',
+    attribution: osMasterMapAttributionHyperlink,
+    thumbnail: '/assets/images/outdoor-map-icon.jpg',
+    logo: '/assets/images/outdoor-map-icon.jpg'
+  },
+  {
+    id: 'dark',
+    label: 'Dark',
+    url: '/map/styles/master-map-dark',
+    attribution: osMasterMapAttributionHyperlink,
+    thumbnail: '/assets/images/dark-map-icon.jpg',
+    logo: '/assets/images/dark-map-icon.jpg'
+  },
+  {
+    id: 'blackAndWhite',
+    label: 'Black and white',
+    url: '/map/styles/black-and-white-map',
+    attribution: osMasterMapAttributionHyperlink,
+    thumbnail: '/assets/images/black-and-white-map-icon.jpg',
+    logo: '/assets/images/black-and-white-map-icon.jpg'
+  }
+  ]
+  return mapStyles
 }
 
 export { setUpBaseMaps }

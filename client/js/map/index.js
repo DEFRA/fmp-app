@@ -2,7 +2,7 @@
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 
-import mapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
+import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 // import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 // import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
@@ -280,17 +280,28 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   }
 
-  const { baseMapStyles, digitisingMapStyles } = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
-  // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
+  const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
+  const mapStyleOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'top-right' },
+    tablet: { slot: 'top-right' },
+    mobile: { slot: 'top-right' }
+  }
+
+  const mapStylePlugin = createMapStylesPlugin({
+    mapStyles,
+    manifest: {
+      buttons: [mapStyleOverrides],
+      panels: [mapStyleOverrides]
+    }
+  })
 
   const floodMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
     plugins: [
-      mapStylesPlugin({
-        mapStyles: baseMapStyles
-      }),
+      mapStylePlugin
     //   // createSearchPlugin(),
     //   createInteractPlugin(),
     //   // createDrawPlugin()
@@ -311,7 +322,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     interceptorsCallback: getInterceptors,
     tokenCallback: getEsriToken,
     warningPosition: 'top',
-    styles: baseMapStyles,
     helpURL: '/map-help',
     search: {
       label: 'Search for a place',
@@ -604,7 +614,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       keyLabel: 'Location boundary',
       summary: 'Add or edit a location boundary',
       maxZoom: 22,
-      styles: digitisingMapStyles,
       drawTools: ['polygon', 'square'],
       areaUnits: 'hectares',
       feature: featureQuery, // feature derived from polygon query string or null if not present
