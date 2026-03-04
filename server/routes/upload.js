@@ -1,12 +1,17 @@
-// const multiparty = require('multiparty')
+const multiparty = require('multiparty')
 // const gdal = require('gdal-async')
 // const fsSync = require('fs')
-// const fs = require('fs/promises')
-// const path = require('path')
-// const os = require('os')
-// const proj4 = require('proj4')
+const fs = require('fs/promises')
+const path = require('path')
+const os = require('os')
+const proj4 = require('proj4')
 const constants = require('../constants')
-// const fiftyMbInBytes = 50 * 1024 * 1024
+const fiftyMbInBytes = 50 * 1024 * 1024
+// if (typeof self === 'undefined') {
+//   global.self = global
+// }
+// const shp = require('shpjs').default
+// console.log('Upload route loaded: ', shp)
 
 // // Initialise EPSG:27700 projection for proj4
 // const OSTN15Buffer = fsSync.readFileSync('OSTN15_NTv2_OSGBtoETRS.gsb').buffer
@@ -15,123 +20,135 @@ const constants = require('../constants')
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD),
-  //   post: async (request, h) => {
-  //     const file = await getFile(request)
-  //     const errorSummary = validateFile(file)
-  //     if (errorSummary.length > 0) {
-  //       return h.view(constants.views.UPLOAD, {
-  //         errorSummary
-  //       })
-  //     }
+  post: async (request, h) => {
+    const file = await getFile(request)
+    const errorSummary = validateFile(file)
+    if (errorSummary.length > 0) {
+      return h.view(constants.views.UPLOAD, {
+        errorSummary
+      })
+    }
 
-  //     const buffer = await streamToBuffer(file)
-  //     let tmpDir, vsizipPath
+    const buffer = await streamToBuffer(file)
+    let tmpDir
 
-  //     // If we have a zip file we need to save to a temp dir and read via gdal vsizip
-  //     const isZip = file.filename.split('.').pop() === 'zip'
-  //     if (isZip) {
-  //       tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'shpzip-'))
-  //       const zipPath = path.join(tmpDir, file.filename)
-  //       await fs.writeFile(zipPath, buffer)
-  //       vsizipPath = `/vsizip/${zipPath}`
-  //     }
+    // Because shpjs is only in ESM format we need to import it dynamically, and we have to read the file into a buffer first to pass it to shpjs 
+    const { default: shp } = await import('shpjs')
+    const geojson = await shp(buffer)
+    const boundaryErrorSummary = validateGeoJSON(geojson)
 
-  //     // Either open the temp stored zip file or the buffer
-  //     const ds = await gdal.openAsync(vsizipPath || buffer)
+    if (boundaryErrorSummary.length > 0) {
+      return h.view(constants.views.UPLOAD, {
+        errorSummary: boundaryErrorSummary
+      })
+    }
 
-  //     const boundaryErrorSummary = validateDataset(ds)
-  //     if (boundaryErrorSummary.length > 0) {
-  //       return h.view(constants.views.UPLOAD, {
-  //         errorSummary: boundaryErrorSummary
-  //       })
-  // }
+    const polygon = geojson.features[0].geometry.coordinates[0]
+    console.log('Polygon coordinates: ', polygon)
 
-  //     const srs = ds.layers.get(0).srs.getAuthorityCode()
+    // const polygon = JSON.parse(ds.layers.get(0).features.first().getGeometry().toJSON()).coordinates[0].map(coordinate => {
+    //   return transformPointToOSGB([coordinate[0], coordinate[1]], srs)
+    // })
 
-  //     const polygon = JSON.parse(ds.layers.get(0).features.first().getGeometry().toJSON()).coordinates[0].map(coordinate => {
-  //       return transformPointToOSGB([coordinate[0], coordinate[1]], srs)
-  //     })
+    // Clean up temp file
+    if (tmpDir) {
+      await fs.rm(tmpDir, { recursive: true, force: true })
+    }
 
-  //     // Clean up temp file
-  //     if (tmpDir) {
-  //       await fs.rm(tmpDir, { recursive: true, force: true })
-  //     }
-
-  //     return h.redirect(`${constants.routes.MAP}?polygon=${JSON.stringify(polygon)}`)
-  //   }
+    return h.redirect(`${constants.routes.MAP}?polygon=${JSON.stringify(polygon)}`)
+  }
 }
 
-// const getFile = (request) => {
-//   const form = new multiparty.Form()
-//   return new Promise((resolve, reject) => {
-//     form.on('part', (part) => {
-//       if (!part.filename) {
-//         reject(new Error('Non file received'))
-//       } else {
-//         console.log(`file uploaded: ${part.filename}`)
-//         resolve(part)
-//       }
-//     })
-//     form.on('error', (err) => {
-//       reject(new Error(err))
-//     })
-//     form.parse(request.raw.req)
-//   })
-// }
+const getFile = (request) => {
+  const form = new multiparty.Form()
+  return new Promise((resolve, reject) => {
+    form.on('part', (part) => {
+      if (!part.filename) {
+        reject(new Error('Non file received'))
+      } else {
+        console.log(`file uploaded: ${part.filename}`)
+        resolve(part)
+      }
+    })
+    form.on('error', (err) => {
+      reject(new Error(err))
+    })
+    form.parse(request.raw.req)
+  })
+}
 
-// const streamToBuffer = async (stream) => {
-//   const chunks = []
-//   for await (const chunk of stream) {
-//     chunks.push(chunk)
-//   }
-//   return Buffer.concat(chunks)
-// }
+const streamToBuffer = async (stream) => {
+  const chunks = []
+  for await (const chunk of stream) {
+    chunks.push(chunk)
+  }
+  return Buffer.concat(chunks)
+}
 
-// const transformPointToOSGB = (point, srs) => {
-//   if (srs === '4326' || srs === '3857') {
-//     return proj4(`EPSG:${srs}`, 'EPSG:27700', point)
-//   }
-//   return point
-// }
+const transformPointToOSGB = (point, srs) => {
+  if (srs === '4326' || srs === '3857') {
+    return proj4(`EPSG:${srs}`, 'EPSG:27700', point)
+  }
+  return point
+}
 
-// const validateFile = (file) => {
-//   const errorSummary = []
-//   const fileExt = file.filename.split('.').pop()
-//   if (fileExt !== 'zip' && fileExt !== 'gpkg' && fileExt !== 'geojson') {
-//     errorSummary.push({
-//       text: 'Only upload a GeoJSON file (.geojson), Geopackage (.gpkg) or Shape files (.zip)',
-//       href: '#boundary'
-//     })
-//   }
+const validateFile = (file) => {
+  const errorSummary = []
+  const fileExt = file.filename.split('.').pop()
+  if (fileExt !== 'zip' && fileExt !== 'gpkg' && fileExt !== 'geojson') {
+    errorSummary.push({
+      text: 'Only upload a GeoJSON file (.geojson), Geopackage (.gpkg) or Shape files (.zip)',
+      href: '#boundary'
+    })
+  }
 
-//   return errorSummary
-// }
+  return errorSummary
+}
 
-// const validateDataset = (ds) => {
-//   const errorSummary = []
-//   if (ds.layers.count() !== 1 || ds.layers.get(0).features.count() !== 1) {
-//     errorSummary.push({
-//       text: 'Only upload a shape with a single layer and single feature',
-//       href: '#boundary'
-//     })
-//   }
+const validateDataset = (ds) => {
+  const errorSummary = []
+  if (ds.layers.count() !== 1 || ds.layers.get(0).features.count() !== 1) {
+    errorSummary.push({
+      text: 'Only upload a shape with a single layer and single feature',
+      href: '#boundary'
+    })
+  }
 
-//   if (ds.layers.get(0).features.first().getGeometry().toString() !== 'Polygon') {
-//     errorSummary.push({
-//       text: 'Feature must be a single polygon',
-//       href: '#boundary'
-//     })
-//   }
+  if (ds.layers.get(0).features.first().getGeometry().toString() !== 'Polygon') {
+    errorSummary.push({
+      text: 'Feature must be a single polygon',
+      href: '#boundary'
+    })
+  }
 
-//   if (ds.layers.get(0).srs.getAuthorityCode() !== '27700' && ds.layers.get(0).srs.getAuthorityCode() !== '4326' && ds.layers.get(0).srs.getAuthorityCode() !== '3857') {
-//     errorSummary.push({
-//       text: 'Coordinate system must be OSGB36, WGS84 or Web Mercator',
-//       href: '#boundary'
-//     })
-//   }
+  if (ds.layers.get(0).srs.getAuthorityCode() !== '27700' && ds.layers.get(0).srs.getAuthorityCode() !== '4326' && ds.layers.get(0).srs.getAuthorityCode() !== '3857') {
+    errorSummary.push({
+      text: 'Coordinate system must be OSGB36, WGS84 or Web Mercator',
+      href: '#boundary'
+    })
+  }
 
-//   return errorSummary
-// }
+  return errorSummary
+}
+
+const validateGeoJSON = (geojson) => {
+  const errorSummary = []
+  if (!geojson || !geojson.features || geojson.features.length !== 1) {
+    errorSummary.push({
+      text: 'Only upload a GeoJSON with a single feature.',
+      href: '#boundary',
+    })
+  }
+
+  if (geojson.features[0].geometry.type !== 'Polygon') {
+    errorSummary.push({
+      text: 'Feature must be a single polygon.',
+      href: '#boundary',
+    })
+  }
+
+  return errorSummary
+}
 
 module.exports = [
   {
@@ -142,17 +159,17 @@ module.exports = [
       handler: handlers.get
     }
   },
-  //   {
-  //     method: 'POST',
-  //     path: constants.routes.UPLOAD,
-  //     handler: handlers.post,
-  //     options: {
-  //       payload: {
-  //         maxBytes: fiftyMbInBytes,
-  //         multipart: true,
-  //         output: 'stream',
-  //         parse: false
-  //       }
-  //     }
-  //   }
+  {
+    method: 'POST',
+    path: constants.routes.UPLOAD,
+    handler: handlers.post,
+    options: {
+      payload: {
+        maxBytes: fiftyMbInBytes,
+        multipart: true,
+        output: 'stream',
+        parse: false
+      }
+    }
+  }
 ]
