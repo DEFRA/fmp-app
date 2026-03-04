@@ -25,6 +25,14 @@ export const getOsToken = async () => {
   return osAuth
 }
 
+export const setupEsriConfig = async (esriConfig) => {
+  // Set ESRI API key (using cached token)
+  esriConfig.apiKey = await getEsriToken()
+
+  // Add OS Maps token interceptor
+  getInterceptors().forEach((interceptor) => esriConfig.request.interceptors.push(interceptor))
+}
+
 export const getInterceptors = () => {
   return [{
     urls: 'https://api.os.uk/maps/vector/v1/vts',

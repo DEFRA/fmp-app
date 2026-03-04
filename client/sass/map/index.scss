@@ -17,7 +17,9 @@ $govuk-new-typography-scale: true;
 @import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
 
 // Map Component CSS
-@import '/flood-map-scss';
+// @import '/flood-map-scss';
+@import '../../../node_modules/@defra/interactive-map/src/scss/main.scss';
+
 // /flood-map-scss is a webpack alias that is substituted for either 
 // @import '../../../node_modules/@defra/flood-map/src/flood-map';  // regular builds
 // @import '../../../defra-map/src/flood-map';                      // submodule builds

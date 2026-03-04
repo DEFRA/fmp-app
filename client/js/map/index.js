@@ -1,6 +1,8 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
+
+import mapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 // import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 // import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
@@ -285,11 +287,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
-    // plugins: [
+    plugins: [
+      mapStylesPlugin({
+        mapStyles: baseMapStyles
+      }),
     //   // createSearchPlugin(),
     //   createInteractPlugin(),
     //   // createDrawPlugin()
-    // ],
+    ],
     behaviour: 'inline',
     place: 'England',
     zoom: 7.7,
@@ -298,7 +303,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     center: !extent && [340367, 322766],
     maxExtent: [0, 0, 700000, 1300000],
     extent, // extent taken from polygon to fit map to drawn feature or null if not present
-    height: '100%',
+    containerHeight: '100%',
     hasGeoLocation: false,
     framework: 'esri',
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
@@ -626,6 +631,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
   })
+  floodMap.addEventListener = () => console.log('TODO - fix the listeners')
 
   const mapState = {
     isDark: false,
