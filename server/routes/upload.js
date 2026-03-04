@@ -17,6 +17,20 @@ const fiftyMbInBytes = 50 * 1024 * 1024
 // const OSTN15Buffer = fsSync.readFileSync('OSTN15_NTv2_OSGBtoETRS.gsb').buffer
 // proj4.nadgrid('OSTN15_NTv2_OSGBtoETRS', OSTN15Buffer)
 // proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=OSTN15_NTv2_OSGBtoETRS')
+const bngProjection = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs'
+
+const FIVE_DP = 100000
+const roundToFiveDp = val => Math.round(val * FIVE_DP) / FIVE_DP
+
+const toLongLat = (bngstring) => {
+  try {
+    const [easting, northing] = bngstring.split(',')
+    const [longitude, latitude] = proj4(bngProjection, proj4.defs('EPSG:4326'), [Number(easting), Number(northing)])
+    return [roundToFiveDp(longitude), roundToFiveDp(latitude)]
+  } catch (err) {
+    return ['', '']
+  }
+}
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD),
@@ -44,7 +58,15 @@ const handlers = {
     }
 
     const polygon = geojson.features[0].geometry.coordinates[0]
-    console.log('Polygon coordinates: ', polygon)
+
+    const eastingNorthings = polygon.map(coord =>
+      proj4(
+        '+proj=longlat +datum=WGS84 +no_defs',
+        '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs',
+        coord
+      )
+    )
+    console.log('eastingNorthings: ', eastingNorthings)
 
     // const polygon = JSON.parse(ds.layers.get(0).features.first().getGeometry().toJSON()).coordinates[0].map(coordinate => {
     //   return transformPointToOSGB([coordinate[0], coordinate[1]], srs)
@@ -55,7 +77,7 @@ const handlers = {
       await fs.rm(tmpDir, { recursive: true, force: true })
     }
 
-    return h.redirect(`${constants.routes.MAP}?polygon=${JSON.stringify(polygon)}`)
+    return h.redirect(`${constants.routes.MAP}?polygon=${JSON.stringify(eastingNorthings)}`)
   }
 }
 
