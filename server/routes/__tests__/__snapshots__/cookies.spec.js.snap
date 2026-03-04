@@ -41,8 +41,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
     </span>
   </p>
 </div>
-
 
 
 
@@ -430,9 +444,7 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -548,7 +560,6 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
     </div>
   </div>
 </footer>
-
 
 
 
@@ -630,8 +641,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -728,7 +737,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -768,20 +776,38 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -794,7 +820,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
     </span>
   </p>
 </div>
-
 
 
 
@@ -1019,9 +1044,7 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1137,7 +1160,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
     </div>
   </div>
 </footer>
-
 
 
 
@@ -1219,8 +1241,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1317,7 +1337,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1357,20 +1376,38 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1383,7 +1420,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
     </span>
   </p>
 </div>
-
 
 
 
@@ -1608,9 +1644,7 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1726,7 +1760,6 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
     </div>
   </div>
 </footer>
-
 
 
 

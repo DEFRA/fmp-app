@@ -41,8 +41,6 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     </span>
   </p>
 </div>
-
 
 
 
@@ -235,9 +249,7 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -356,7 +368,6 @@ exports[`order-not-submitted Should return 400 error when no polgyon provided 1`
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -433,8 +444,6 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -533,7 +542,6 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -573,20 +581,38 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -599,7 +625,6 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
     </span>
   </p>
 </div>
-
 
 
 
@@ -638,9 +663,7 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -756,7 +779,6 @@ exports[`order-not-submitted Should return order not submitted when encoded poly
     </div>
   </div>
 </footer>
-
 
 
 

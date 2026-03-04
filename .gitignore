@@ -18,3 +18,5 @@ jsconfig.json
 .env
 dist/
 coverage/
+fmfp-refresh-tests/
+test/results.json

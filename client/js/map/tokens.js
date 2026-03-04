@@ -50,6 +50,10 @@ export const getRequest = async (url) => {
   let options = {}
 
   // OS Open Names
+  if (url.startsWith('https://api.os.uk/search/names/v1/nearest')) {
+    return null
+  }
+
   if (url.startsWith('https://api.os.uk')) {
     if (!url.match('suburban_area%20')) {
       // Temp Fix until FMC-71 is implemented in the map component

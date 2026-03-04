@@ -41,8 +41,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
     </span>
   </p>
 </div>
-
 
 
 
@@ -593,9 +607,7 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -711,7 +723,6 @@ exports[`how-to-use-flood-map-for-planning-data Should return how-to-use-flood-m
     </div>
   </div>
 </footer>
-
 
 
 

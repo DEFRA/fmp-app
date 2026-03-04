@@ -41,8 +41,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -139,7 +137,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -179,20 +176,38 @@ exports[`contact GET Should error if no polygon is present 1`] = `
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -205,7 +220,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
     </span>
   </p>
 </div>
-
 
 
 
@@ -235,9 +249,7 @@ exports[`contact GET Should error if no polygon is present 1`] = `
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -356,7 +368,6 @@ exports[`contact GET Should error if no polygon is present 1`] = `
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -433,8 +444,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -533,7 +542,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -573,20 +581,38 @@ exports[`contact GET Should get contact page if encoded polygon query is present
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -599,7 +625,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     </span>
   </p>
 </div>
-
 
 
 
@@ -744,9 +769,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -862,7 +885,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     </div>
   </div>
 </footer>
-
 
 
 
@@ -944,8 +966,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -1042,7 +1062,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1082,20 +1101,38 @@ exports[`contact GET Should get contact page if encoded polygon query is present
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1108,7 +1145,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     </span>
   </p>
 </div>
-
 
 
 
@@ -1253,9 +1289,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1374,7 +1408,6 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -1451,8 +1484,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -1551,7 +1582,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -1591,20 +1621,38 @@ exports[`contact GET Should get contact page if polygon query is present, with a
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -1617,7 +1665,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     </span>
   </p>
 </div>
-
 
 
 
@@ -1762,9 +1809,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -1883,7 +1928,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -1960,8 +2004,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -2060,7 +2102,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -2100,20 +2141,38 @@ exports[`contact GET Should get contact page if polygon query is present, with a
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2126,7 +2185,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     </span>
   </p>
 </div>
-
 
 
 
@@ -2271,9 +2329,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -2389,7 +2445,6 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     </div>
   </div>
 </footer>
-
 
 
 
@@ -2471,8 +2526,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -2569,7 +2622,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -2609,20 +2661,38 @@ exports[`contact GET Should get contact page with user name and email if cookie 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -2635,7 +2705,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     </span>
   </p>
 </div>
-
 
 
 
@@ -2784,9 +2853,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -2902,7 +2969,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     </div>
   </div>
 </footer>
-
 
 
 
@@ -2984,8 +3050,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   
 
 
-
-
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
   
   <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
@@ -3082,7 +3146,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -3122,20 +3185,38 @@ exports[`contact GET Should get contact page with user name and email if cookie 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -3148,7 +3229,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     </span>
   </p>
 </div>
-
 
 
 
@@ -3297,9 +3377,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -3418,7 +3496,6 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -3495,8 +3572,6 @@ exports[`contact POST Should return contact view with error message if blank ema
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -3595,7 +3670,6 @@ exports[`contact POST Should return contact view with error message if blank ema
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -3635,20 +3709,38 @@ exports[`contact POST Should return contact view with error message if blank ema
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -3661,7 +3753,6 @@ exports[`contact POST Should return contact view with error message if blank ema
     </span>
   </p>
 </div>
-
 
 
 
@@ -3683,8 +3774,7 @@ exports[`contact POST Should return contact view with error message if blank ema
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -3706,7 +3796,6 @@ exports[`contact POST Should return contact view with error message if blank ema
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -3846,9 +3935,7 @@ exports[`contact POST Should return contact view with error message if blank ema
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -3967,7 +4054,6 @@ exports[`contact POST Should return contact view with error message if blank ema
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -4044,8 +4130,6 @@ exports[`contact POST Should return contact view with error message if blank nam
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -4144,7 +4228,6 @@ exports[`contact POST Should return contact view with error message if blank nam
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -4184,20 +4267,38 @@ exports[`contact POST Should return contact view with error message if blank nam
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -4210,7 +4311,6 @@ exports[`contact POST Should return contact view with error message if blank nam
     </span>
   </p>
 </div>
-
 
 
 
@@ -4232,8 +4332,7 @@ exports[`contact POST Should return contact view with error message if blank nam
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -4255,7 +4354,6 @@ exports[`contact POST Should return contact view with error message if blank nam
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -4395,9 +4493,7 @@ exports[`contact POST Should return contact view with error message if blank nam
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -4516,7 +4612,6 @@ exports[`contact POST Should return contact view with error message if blank nam
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -4593,8 +4688,6 @@ exports[`contact POST Should return contact view with error message if email con
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -4693,7 +4786,6 @@ exports[`contact POST Should return contact view with error message if email con
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -4733,20 +4825,38 @@ exports[`contact POST Should return contact view with error message if email con
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -4759,7 +4869,6 @@ exports[`contact POST Should return contact view with error message if email con
     </span>
   </p>
 </div>
-
 
 
 
@@ -4781,8 +4890,7 @@ exports[`contact POST Should return contact view with error message if email con
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -4804,7 +4912,6 @@ exports[`contact POST Should return contact view with error message if email con
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -4944,9 +5051,7 @@ exports[`contact POST Should return contact view with error message if email con
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -5065,7 +5170,6 @@ exports[`contact POST Should return contact view with error message if email con
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -5142,8 +5246,6 @@ exports[`contact POST Should return contact view with error message if fullname 
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -5242,7 +5344,6 @@ exports[`contact POST Should return contact view with error message if fullname 
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -5282,20 +5383,38 @@ exports[`contact POST Should return contact view with error message if fullname 
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -5308,7 +5427,6 @@ exports[`contact POST Should return contact view with error message if fullname 
     </span>
   </p>
 </div>
-
 
 
 
@@ -5330,8 +5448,7 @@ exports[`contact POST Should return contact view with error message if fullname 
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -5353,7 +5470,6 @@ exports[`contact POST Should return contact view with error message if fullname 
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -5493,9 +5609,7 @@ exports[`contact POST Should return contact view with error message if fullname 
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -5614,7 +5728,6 @@ exports[`contact POST Should return contact view with error message if fullname 
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -5691,8 +5804,6 @@ exports[`contact POST Should return contact view with error message if invalid e
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -5791,7 +5902,6 @@ exports[`contact POST Should return contact view with error message if invalid e
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -5831,20 +5941,38 @@ exports[`contact POST Should return contact view with error message if invalid e
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -5857,7 +5985,6 @@ exports[`contact POST Should return contact view with error message if invalid e
     </span>
   </p>
 </div>
-
 
 
 
@@ -5879,8 +6006,7 @@ exports[`contact POST Should return contact view with error message if invalid e
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -5902,7 +6028,6 @@ exports[`contact POST Should return contact view with error message if invalid e
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -6042,9 +6167,7 @@ exports[`contact POST Should return contact view with error message if invalid e
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -6163,7 +6286,6 @@ exports[`contact POST Should return contact view with error message if invalid e
 
 
 
-
     
   
   <script src="/assets/core.js"></script>
@@ -6240,8 +6362,6 @@ exports[`contact POST Should return contact view with error message if name cont
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
-
-
 
 
 <div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
@@ -6340,7 +6460,6 @@ exports[`contact POST Should return contact view with error message if name cont
 
 
 
-
     
       <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
@@ -6380,20 +6499,38 @@ exports[`contact POST Should return contact view with error message if name cont
       </a>
     </div>
   
-    <div class="govuk-header__content">
-    
-      
-      <a href="/" class="govuk-header__link govuk-header__service-name">
-        Flood map for planning
-      </a>
-      
-    
-    
-    </div>
-  
   </div>
 </header>
 
+
+  <section aria-label="Service information" 
+class="govuk-service-navigation"
+data-module="govuk-service-navigation"
+>
+    
+  <div class="govuk-width-container">
+
+    <div class="govuk-service-navigation__container">
+      
+      
+        <span class="govuk-service-navigation__service-name">
+          
+            <a href="/" class="govuk-service-navigation__link">
+              Flood map for planning
+            </a>
+          
+        </span>
+      
+
+      
+      
+      
+      
+    </div>
+
+    </div>
+
+  </section>
 
 
 <div class="govuk-phase-banner govuk-width-container">
@@ -6406,7 +6543,6 @@ exports[`contact POST Should return contact view with error message if name cont
     </span>
   </p>
 </div>
-
 
 
 
@@ -6428,8 +6564,7 @@ exports[`contact POST Should return contact view with error message if name cont
   <div id="contact-page" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">
       There is a problem
@@ -6451,7 +6586,6 @@ exports[`contact POST Should return contact view with error message if name cont
   </div>
 </div>
 
-        
 
         <h1 class="govuk-heading-xl">Order your flood risk data</h1>
         <p class="govuk-body">
@@ -6591,9 +6725,7 @@ exports[`contact POST Should return contact view with error message if name cont
     
 
     
-  
-
-<footer class="govuk-footer">
+  <footer class="govuk-footer">
   <div class="govuk-width-container">
     
 
@@ -6709,7 +6841,6 @@ exports[`contact POST Should return contact view with error message if name cont
     </div>
   </div>
 </footer>
-
 
 
 

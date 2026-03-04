@@ -23,7 +23,7 @@
           You should receive your data within 20 working days.
         </p>
 
-        {{ govukSummaryList({
+        {{- govukSummaryList({
           rows: [{
             key: { text: "Name" },
             value: { text: fullName },
@@ -69,7 +69,7 @@
             value: { text: floodZone }
           }
         ] 
-      }) }}
+      }) -}}
 
       {% if not polygon %}
         {{ govukWarningText({
