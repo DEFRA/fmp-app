@@ -287,12 +287,18 @@ getDefraMapConfig().then((defraMapConfig) => {
     tablet: { slot: 'top-right' },
     mobile: { slot: 'top-right' }
   }
+  const mapStylePanelOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'banner' },
+    tablet: { slot: 'banner' },
+    mobile: { slot: 'banner' }
+  }
 
   const mapStylePlugin = createMapStylesPlugin({
     mapStyles,
     manifest: {
       buttons: [mapStyleOverrides],
-      panels: [mapStyleOverrides]
+      panels: [mapStylePanelOverrides]
     }
   })
 
