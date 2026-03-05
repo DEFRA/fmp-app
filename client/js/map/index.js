@@ -17,6 +17,15 @@ import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
 import { FloodMapLayer } from './mapLayers/index.js'
 import { getInfoPanel } from './infoPanel.js'
+
+// <InteractiveMapHelpers>
+import { renderMenuHTML, hideMenu, addMenuClickHandlers, toggleButtonState } from './interactive-map-helpers/menu.js'
+import { renderKeyHTML, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
+import { getGeometryShape, getQueryParam } from './interactive-map-helpers/utils.js'
+// </InteractiveMapHelpers>
+
+const feature = null// TODO - make this non global
+
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -248,11 +257,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (!vtLayer.q) {
         return
       }
-      vtLayer.addToMap(floodMap.map)
+      vtLayer.addToMap(interactiveMap.map)
     })
     const { FeatureLayer } = FloodMapLayer.modules
     fLayers.forEach(fLayer => {
-      floodMap.map.add(new FeatureLayer({
+      interactiveMap.map.add(new FeatureLayer({
         id: fLayer.name,
         url: fLayer.url,
         renderer: getMapFeatureRenderer(fLayer.name),
@@ -302,7 +311,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   })
 
-  const floodMap = new InteractiveMap('map', {
+  const interactiveMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
@@ -644,7 +653,40 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
   })
-  floodMap.addEventListener = () => console.log('TODO - fix the listeners')
+  interactiveMap.addEventListener = () => console.log('TODO - fix the listeners')
+
+  interactiveMap.on('app:ready', function (e) {
+    interactiveMap.addButton('menu', {
+      label: 'Menu',
+      panelId: 'menu',
+      iconSvgContent: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+      mobile: { slot: 'top-left', order: 1, showLabel: false },
+      tablet: { slot: 'top-left', order: 2 },
+      desktop: { slot: 'top-left', order: 2 }
+    })
+    interactiveMap.addButton('key', {
+      label: 'Key',
+      panelId: 'key',
+      iconSvgContent: '<path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/>',
+      mobile: { slot: 'top-left', order: 2, showLabel: false },
+      tablet: { slot: 'top-left', order: 3 },
+      desktop: { slot: 'top-left', order: 3 }
+    })
+    interactiveMap.addPanel('menu', {
+      label: 'Menu',
+      html: renderMenuHTML(feature),
+      mobile: { slot: 'side', modal: true, open: false, dismissible: true },
+      tablet: { slot: 'side', width: '260px', open: true, dismissible: true },
+      desktop: { slot: 'side', width: '280px', open: true, dismissible: false }
+    })
+    interactiveMap.addPanel('key', {
+      label: 'Key',
+      html: renderKeyHTML(),
+      mobile: { slot: 'bottom', open: false, exclusive: true },
+      tablet: { slot: 'inset', width: '260px', open: false, exclusive: true },
+      desktop: { slot: 'inset', width: '280px', open: false, exclusive: false }
+    })
+  })
 
   const mapState = {
     isDark: false,
@@ -677,7 +719,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
-  floodMap.addEventListener('ready', async e => {
+  interactiveMap.addEventListener('ready', async e => {
     const { mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     await FloodMapLayer.initialise({
@@ -685,20 +727,20 @@ getDefraMapConfig().then((defraMapConfig) => {
       config: defraMapConfig
     })
     await addLayers()
-    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
+    setTimeout(() => toggleVisibility(null, mode, segments, layers, interactiveMap.map, mapState.isDark), 1000)
     initPointerMove()
     initialiseSlider()
     renderBanner(mapState)
   })
 
   // Listen for mode, segments, layers or style changes
-  floodMap.addEventListener('change', e => {
+  interactiveMap.addEventListener('change', e => {
     const { type, mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     if (['layer', 'segment'].includes(type)) {
-      floodMap.setInfo(null)
+      interactiveMap.setInfo(null)
     }
-    const map = floodMap.map
+    const map = interactiveMap.map
     toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
     renderBanner({ ...mapState, type, mode })
   })
@@ -707,14 +749,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
-    floodMap.view.on('pointer-move', e => {
+    interactiveMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || interactiveMap.view.scale > minScale) {
         return
       }
       lastHit = now
       const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
-      floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
+      interactiveMap.view.hitTest(e, { include: layersToTest }).then((response) => {
         if (response?.results?.length > 0) {
           // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
           // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
@@ -726,7 +768,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       })
     })
 
-    floodMap.view.on('pointer-leave', _e => {
+    interactiveMap.view.on('pointer-leave', _e => {
       document.body.style.cursor = 'default'
     })
   }
@@ -764,8 +806,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   // Listen to map queries
-  floodMap.addEventListener('query', async e => {
+  interactiveMap.addEventListener('query', async e => {
     const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.version)
-    floodMap.setInfo(infoPanel)
+    interactiveMap.setInfo(infoPanel)
   })
 })
