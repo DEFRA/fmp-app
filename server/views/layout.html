@@ -25,7 +25,9 @@
   {% else %}
     <meta name="robots" content="noindex"/>
   {% endif %}
+  {%- if not excludeApplicationCss -%}
   <link href="{{ assetPath }}/application.css" rel="stylesheet"/>
+  {%- endif -%}
 {% endblock %}
 
 {% block pageTitle %}
