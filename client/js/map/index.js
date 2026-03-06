@@ -3,6 +3,7 @@ import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
+import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 // import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 // import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
@@ -316,7 +317,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       setupConfig: setupEsriConfig
     }),
     plugins: [
-      mapStylePlugin
+      mapStylePlugin,
+      createScaleBarPlugin({ units: 'metric' })
     //   // createSearchPlugin(),
     //   createInteractPlugin(),
     //   // createDrawPlugin()
