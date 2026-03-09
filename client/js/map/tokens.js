@@ -73,7 +73,7 @@ export const getRequest = async ({ url }) => {
     url = `${url}&token=${token}`
   }
 
-  return new window.Request(url, options)
+  return new window.Request(url.toString(), options)
 }
 
 export const getEsriToken = async (refresh = false) => {
