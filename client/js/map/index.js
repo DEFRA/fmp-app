@@ -299,9 +299,9 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
   const mapStylePanelOverrides = {
     id: 'mapStyles',
-    desktop: { slot: 'map-styles-button' },
-    tablet: { slot: 'map-styles-button' },
-    mobile: { slot: 'map-styles-button' }
+    desktop: { slot: 'map-styles-button', width: '400px', modal: true },
+    tablet: { slot: 'map-styles-button', modal: true },
+    mobile: { slot: 'map-styles-button', modal: true }
   }
 
   const mapStylePlugin = createMapStylesPlugin({
