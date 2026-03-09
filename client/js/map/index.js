@@ -8,7 +8,7 @@ import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 // import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 
-import { setupEsriConfig, transformGeocodeRequest, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
+import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
@@ -293,15 +293,15 @@ getDefraMapConfig().then((defraMapConfig) => {
   const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   const mapStyleOverrides = {
     id: 'mapStyles',
-    desktop: { slot: 'top-right' },
-    tablet: { slot: 'top-right' },
-    mobile: { slot: 'top-right' }
+    desktop: { slot: 'right-top' },
+    tablet: { slot: 'right-top' },
+    mobile: { slot: 'right-top' }
   }
   const mapStylePanelOverrides = {
     id: 'mapStyles',
-    desktop: { slot: 'banner' },
-    tablet: { slot: 'banner' },
-    mobile: { slot: 'banner' }
+    desktop: { slot: 'map-styles-button' },
+    tablet: { slot: 'map-styles-button' },
+    mobile: { slot: 'map-styles-button' }
   }
 
   const mapStylePlugin = createMapStylesPlugin({
@@ -320,7 +320,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
-        transformRequest: transformGeocodeRequest, // getRequest,
+        transformRequest: getRequest,
         osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
         regions: ['england'],
         width: '300px',
@@ -332,11 +332,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     ],
     behaviour: 'inline',
     place: 'England',
-    zoom: 2,
-    minZoom: 2,
+    minZoom: 6,
     maxZoom: 20,
-    center: !extent && [340367, 322766], // 339356.16, 560011.09
-    extent: extent || [140037, 560012, 653700, 560012],
+    extent: extent || [50000, 10000, 400000, 650000],
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
@@ -665,7 +663,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.addEventListener = () => console.log('TODO - fix the listeners')
 
   interactiveMap.on('app:ready', function (e) {
-    getOsToken() // temporary - while awaiting IM fix to make this call async
     interactiveMap.addButton('menu', {
       label: 'Menu',
       panelId: 'menu',
