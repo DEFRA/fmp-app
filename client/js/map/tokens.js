@@ -54,7 +54,7 @@ export const getInterceptors = () => {
 }
 
 // All other requests can be asyncronous and return a request object itself
-export const getRequest = async (url) => {
+export const getRequest = async ({ url }) => {
   let options = {}
 
   // OS Open Names
@@ -65,9 +65,10 @@ export const getRequest = async (url) => {
   if (url.startsWith('https://api.os.uk')) {
     if (!url.match('suburban_area%20')) {
       // Temp Fix until FMC-71 is implemented in the map component
+      // 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:other_settlement&maxresults=8',
       url = url.replace('local_type:city%20', 'local_type:city%20local_type:suburban_area%20')
     }
-    const token = (await getOsToken()).token
+    const token = (getOsToken()).token
     options = { headers: { Authorization: 'Bearer ' + token } }
   }
 

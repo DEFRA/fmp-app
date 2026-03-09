@@ -4,11 +4,11 @@ import esriProvider from '@defra/interactive-map/providers/esri'
 
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
-// import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 // import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 
-import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
+import { setupEsriConfig, transformGeocodeRequest, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { vtLayers } from './vtLayers.js'
@@ -318,8 +318,15 @@ getDefraMapConfig().then((defraMapConfig) => {
     }),
     plugins: [
       mapStylePlugin,
-      createScaleBarPlugin({ units: 'metric' })
-    //   // createSearchPlugin(),
+      createScaleBarPlugin({ units: 'metric' }),
+      createSearchPlugin({
+        transformRequest: transformGeocodeRequest, // getRequest,
+        osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
+        regions: ['england'],
+        width: '300px',
+        showMarker: true,
+        // expanded: true
+      }),
     //   createInteractPlugin(),
     //   // createDrawPlugin()
     ],
@@ -333,9 +340,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    transformSearchRequest: getRequest,
-    interceptorsCallback: getInterceptors,
-    tokenCallback: getEsriToken,
+    // transformSearchRequest: getRequest,
+    // interceptorsCallback: getInterceptors,
+    // tokenCallback: getEsriToken,
     warningPosition: 'top',
     helpURL: '/map-help',
     search: {
@@ -658,6 +665,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.addEventListener = () => console.log('TODO - fix the listeners')
 
   interactiveMap.on('app:ready', function (e) {
+    getOsToken() // temporary - while awaiting IM fix to make this call async
     interactiveMap.addButton('menu', {
       label: 'Menu',
       panelId: 'menu',
