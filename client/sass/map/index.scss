@@ -10,11 +10,11 @@ $govuk-new-typography-scale: true;
 
 @import '../../../node_modules/govuk-frontend/dist/govuk/all';
 
-// // GOVUK Styles
-@import '../../../node_modules/govuk-frontend/dist/govuk/base';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
-@import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
+// // // GOVUK Styles
+// @import '../../../node_modules/govuk-frontend/dist/govuk/base';
+// @import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
+// @import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
+// @import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
 
 // Map Component CSS
 // @import '/flood-map-scss';
@@ -162,9 +162,9 @@ body.js-enabled:not([data-fm-error]) {
   color: var(--foreground-colour);
 }
 
-#map-panel-legend-label {
-  @extend .govuk-visually-hidden;
-}
+// #map-panel-legend-label {
+//   @extend .govuk-visually-hidden;
+// }
 
 .esri-view-surface--touch-none {
   touch-action: none;
