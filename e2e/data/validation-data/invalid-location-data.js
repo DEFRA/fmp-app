@@ -3,6 +3,8 @@
 // It is a copy of the original file with the following changes:
 // - The invalid location data has been updated to include new test cases.
 
+const loremIpsum = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma'
+
 export const invalidLocationData = {
   nonEnglandSearchData: [
     // must include Welsh, Scottish, NI and Rest of World searches
@@ -15,7 +17,7 @@ export const invalidLocationData = {
     { search: '' },
     { search: ':::JHDRNTY$W%' },
     { search: 'https://flood-k/' },
-    { search: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma' },
+    { search: loremIpsum },
   ],
 
   noAddressFoundSearchData: [ // Returns 'No address found for that place name or postcode' error
@@ -38,7 +40,7 @@ export const invalidLocationData = {
     { search: '12345678911111111' },
     { search: '123ER5^&&**(((' },
     { search: 'https://flood-/' },
-    { search: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma' }
+    { search: loremIpsum }
   ],
 
   nonEnglandEastingData: [
@@ -56,7 +58,7 @@ export const invalidLocationData = {
   invalidCharactersEastingNorthingData: [
     { searchEasting: '123ER5^&&**(((', searchNorthing: '123ER5^&&**(((' },
     { searchEasting: 'https://flood-/', searchNorthing: 'https://flood-/' },
-    { searchEasting: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma', searchNorthing: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma' },
+    { searchEasting: loremIpsum, searchNorthing: loremIpsum },
     { searchEasting: '', searchNorthing: '' }
   ]
 }

@@ -9,7 +9,9 @@ import path from 'node:path'
 export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
   const matches = []
   try {
-    if (!fs.existsSync(rootDir)) return matches
+    if (!fs.existsSync(rootDir)) { 
+      return matches
+    }
 
     const walk = (dir) => {
       for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -18,9 +20,12 @@ export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
           walk(full)
           continue
         }
-        if (!entry.isFile()) continue
-        if (!full.endsWith('.js') && !full.endsWith('.mjs')) continue
-
+        if (!entry.isFile()) {
+          continue
+        }
+        if (!full.endsWith('.js') && !full.endsWith('.mjs')) {
+          continue
+        }
         const content = fs.readFileSync(full, 'utf8')
         const re = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
         if (re.test(content)) {
