@@ -1,0 +1,37 @@
+Back
+Flood risk information for this location
+!
+Warning
+You may need to carry out a flood risk assessment.
+Your development is in flood zone 1. This means it has a low probability of flooding from rivers and the sea.
+Not a flood risk expert? Find out what this means, and what you should do next.
+Download printable map (PDF)
+A Map showing the flood zone results
+Contains OS data © Crown copyright and database rights 2022
++
+−
+i
+100 m
+Selected location
+Main river
+Flood zone 1
+Flood zone 2
+Flood zone 3
+Flood defence
+Areas benefitting from flood defences
+Water storage area
+You will need to do a flood risk assessment if your development is any of the following:
+bigger than 1 hectare (ha)
+in an area with critical drainage problems as notified by the Environment Agency
+a change of use in development type to a more vulnerable category (for example from commercial to residential) and in an area that could be affected by sources of flooding other than rivers and the sea (such as surface water or reservoirs)
+If your development does not fall into any of these categories, you only need to download the flood map for planning on this page showing your flood zone to include in your planning application.
+You can still use this service to request flood risk data (also known as a product 4). You should receive your data within 20 working days. However, as your site is in flood zone 1, it’s unlikely there will be any data available.
+You should also check the risk from surface water and other sources of flooding when doing a flood risk assessment.
+Request your flood risk assessment data
+More help and advice
+Contact the Environment Agency team in Hertfordshire and North London at hnlenquiries@environment-agency.gov.uk for:
+more information about getting a product 5, 6, 7 or 8
+general help and advice about the site you're requesting data for
+Change location
+Reposition the marker or change boundary
+Search for a different location
