@@ -1,4 +1,4 @@
-import { getQueryParam, setQueryParam } from './utils.js'
+import { getQueryParam, setQueryParam } from './queryParams'
 
 /* ==========================================================================
    Menu utilities

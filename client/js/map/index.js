@@ -21,7 +21,6 @@ import { getInfoPanel } from './infoPanel.js'
 // <InteractiveMapHelpers>
 import { renderMenuHTML, hideMenu, addMenuClickHandlers, toggleButtonState } from './interactive-map-helpers/menu.js'
 import { renderKeyHTML, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
-import { getGeometryShape, getQueryParam } from './interactive-map-helpers/utils.js'
 import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
 
 // </InteractiveMapHelpers>
@@ -137,6 +136,7 @@ keyItemDefinitions.common = {
 
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
+
 const calculateExtent = (polygonToCalculate) => {
   const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
     acc[0] = Math.min(acc[0], x)
@@ -147,6 +147,7 @@ const calculateExtent = (polygonToCalculate) => {
   }, [Infinity, Infinity, -Infinity, -Infinity])
   return calculatedExtent
 }
+
 let featureQuery, extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
   const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
