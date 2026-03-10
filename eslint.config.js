@@ -1,18 +1,19 @@
 'use strict'
 
-module.exports = require('neostandard')({
-  env: ['jest', 'node'],
-  ignores: [
-    '**/_results_/',
-    '**/defra-map/',
-    '**/server/public/'
-  ],
-  overrides: [
-    {
-      files: 'e2e/**',
-      env: {
-        browser: true
-      },
+const neostandard = require('neostandard')
+
+module.exports = [
+  ...neostandard({
+    env: ['jest', 'node'],
+    ignores: [
+      '**/_results_/',
+      '**/defra-map/',
+      '**/server/public/'
+    ]
+  }),
+  {
+    files: ['e2e/**'],
+    languageOptions: {
       globals: {
         browser: 'readonly',
         $: 'readonly',
@@ -20,5 +21,5 @@ module.exports = require('neostandard')({
         baseUrl: 'readonly'
       }
     }
-  ]
-})
+  }
+]
