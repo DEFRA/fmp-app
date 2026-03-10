@@ -53,7 +53,6 @@ export const getInterceptors = () => {
   }]
 }
 
-// All other requests can be asyncronous and return a request object itself
 export const getRequest = async ({ url }) => {
   let options = {}
 
@@ -72,9 +71,7 @@ export const getRequest = async ({ url }) => {
     const token = (await getEsriToken()).token
     url = `${url}&token=${token}`
   }
-  // return new window.Request(url.toString(), options)
-  // const request = new window.Request(url.toString(), options)
-  return { url, options } // Todo - make this return request once IM supports it
+  return new window.Request(url, options)
 }
 
 export const getEsriToken = async (refresh = false) => {
