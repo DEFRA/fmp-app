@@ -6,7 +6,6 @@ import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 // import createInteractPlugin from '@defra/interactive-map/plugins/interact'
-// import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 
 import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
 import { terms } from './terms.js'
@@ -23,6 +22,8 @@ import { getInfoPanel } from './infoPanel.js'
 import { renderMenuHTML, hideMenu, addMenuClickHandlers, toggleButtonState } from './interactive-map-helpers/menu.js'
 import { renderKeyHTML, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
 import { getGeometryShape, getQueryParam } from './interactive-map-helpers/utils.js'
+import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
+
 // </InteractiveMapHelpers>
 
 const feature = null// TODO - make this non global
@@ -327,8 +328,9 @@ getDefraMapConfig().then((defraMapConfig) => {
         showMarker: true,
         // expanded: true
       }),
+      drawPlugin,
+      framePlugin,
     //   createInteractPlugin(),
-    //   // createDrawPlugin()
     ],
     behaviour: 'inline',
     place: 'England',
@@ -660,7 +662,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
   })
-  interactiveMap.addEventListener = () => console.log('TODO - fix the listeners')
+  let reported = false
+  interactiveMap.addEventListener = () => {
+    if (!reported) {
+      console.log('TODO - fix the listeners')
+      reported = true
+    }
+  }
+  attachDrawPluginHandlers(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('menu', {
