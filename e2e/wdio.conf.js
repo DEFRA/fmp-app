@@ -75,7 +75,7 @@ const browserCapability = (() => {
 const videoFramesDir = path.join(os.tmpdir(), 'wdio-video-reporter-frames')
 
 // Where to keep final artifacts in the workspace
-const resultsDir = path.resolve(__dirname, '_results_')
+const resultsDir = path.resolve(fileDir, '_results_')
 const screenshotsDir = path.join(resultsDir, 'screenshots')
 
 // use util to detect focused `.only` markers in specs
