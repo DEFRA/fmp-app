@@ -8,6 +8,10 @@ import path from 'node:path'
  */
 export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
   const matches = []
+  const focusedMarkerRe = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
+  const isScriptFile = (entry, fullPath) => entry.isFile() && (fullPath.endsWith('.js') || fullPath.endsWith('.mjs'))
+  const hasFocusedMarker = (fullPath) => focusedMarkerRe.test(fs.readFileSync(fullPath, 'utf8'))
+
   try {
     if (!fs.existsSync(rootDir)) {
       return matches
@@ -18,13 +22,13 @@ export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
         const full = path.join(dir, entry.name)
         if (entry.isDirectory()) {
           walk(full)
-        } else if (entry.isFile() && (full.endsWith('.js') || full.endsWith('.mjs'))) {
-          const content = fs.readFileSync(full, 'utf8')
-          const re = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
-          if (re.test(content)) {
+        } else if (isScriptFile(entry, full)) {
+          if (hasFocusedMarker(full)) {
             const rel = './' + path.relative(baseDir, full).replaceAll('\\', '/')
             matches.push(rel)
           }
+        } else {
+          // Ignore non-script entries.
         }
       }
     }
