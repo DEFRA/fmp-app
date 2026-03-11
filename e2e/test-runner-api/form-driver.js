@@ -106,8 +106,8 @@ export class FormDriver {
 
   async assertMainContainsText (expectedText) {
     const actual = await this.getMainText()
-    const actualTrimmed = actual.toString().replace(/\s/g, '')
-    const expectedTrimmed = expectedText.toString().replace(/\s/g, '')
+    const actualTrimmed = actual.toString().replaceAll(/\s/g, '')
+    const expectedTrimmed = expectedText.toString().replaceAll(/\s/g, '')
     expect(actualTrimmed).toContain(expectedTrimmed)
   }
 
@@ -158,10 +158,11 @@ export class FormDriver {
     expect(url).toContain(expectedSubstring)
   }
 
-  // TODO: This needs to be more robust. It should check the URL
-  // of the new window and wait for it to load, rather than just switching immediately
-  // after detecting a new window handle. It should also handle the case where multiple
-  // windows are opened and ensure it switches to the correct one.
+  // Harden this helper.
+  // Current behavior: switch to the first non-original window handle and wait
+  // for URL to move away from about:blank.
+  // Future behavior: select the correct window when multiple open, and support
+  // expected URL/title checks to make external navigation assertions deterministic.
   async switchToNewWindow () {
     const originalHandle = await browser.getWindowHandle()
     // Wait for new window to appear

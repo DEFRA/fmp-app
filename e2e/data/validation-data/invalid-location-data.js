@@ -4,6 +4,7 @@
 // - The invalid location data has been updated to include new test cases.
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma'
+const specialCharacters = ':::JHDRNTY$W%'
 
 export const invalidLocationData = {
   nonEnglandSearchData: [
@@ -15,7 +16,7 @@ export const invalidLocationData = {
 
   invalidPostcodeSearchData: [ // Returns 'Enter a real place name or postcode' error
     { search: '' },
-    { search: ':::JHDRNTY$W%' },
+    { search: specialCharacters },
     { search: 'https://flood-k/' },
     { search: loremIpsum },
   ],
@@ -38,7 +39,7 @@ export const invalidLocationData = {
     { search: 'ERRORNRG' },
     { search: '' },
     { search: '12345678911111111' },
-    { search: '123ER5^&&**(((' },
+    { search: specialCharacters },
     { search: 'https://flood-/' },
     { search: loremIpsum }
   ],
@@ -56,7 +57,7 @@ export const invalidLocationData = {
   ],
 
   invalidCharactersEastingNorthingData: [
-    { searchEasting: '123ER5^&&**(((', searchNorthing: '123ER5^&&**(((' },
+    { searchEasting: specialCharacters, searchNorthing: specialCharacters },
     { searchEasting: 'https://flood-/', searchNorthing: 'https://flood-/' },
     { searchEasting: loremIpsum, searchNorthing: loremIpsum },
     { searchEasting: '', searchNorthing: '' }
