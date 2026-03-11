@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url'
 import allureReporter from '@wdio/allure-reporter'
 import findFilesWithOnly from './utils/find-specs-with-only.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const fileName = fileURLToPath(import.meta.url)
+const fileDir = path.dirname(fileName)
 
 const isCi = Boolean(process.env.CI)
 const baseUrl = process.env.INTERNAL ? process.env.INTERNAL_BASE_URL : process.env.BASE_URL
@@ -17,13 +17,15 @@ if (!baseUrl) {
 const selectedBrowser = (process.env.BROWSER || 'chrome').toLowerCase()
 
 const isHeadless = String(process.env.HEADLESS ?? 'true').toLowerCase() !== 'false'
+const TIMEOUT_MINUTES = 20
+const MS_PER_MINUTE = 60 * 1000
 
 const useLocalChromeDriver = !isCi
-const localChromeDriverPath = path.resolve(__dirname, 'node_modules/chromedriver/bin/chromedriver')
+const localChromeDriverPath = path.resolve(fileDir, 'node_modules/chromedriver/bin/chromedriver')
 const CI_MAX_INSTANCES = 2
 const LOCAL_MAX_INSTANCES = 5
-const REPORTER_SYNC_TIMEOUT_MS = 20 * 60 * 1000
-const VIDEO_RENDER_TIMEOUT_MS = 20 * 60 * 1000
+const REPORTER_SYNC_TIMEOUT_MS = TIMEOUT_MINUTES * MS_PER_MINUTE
+const VIDEO_RENDER_TIMEOUT_MS = TIMEOUT_MINUTES * MS_PER_MINUTE
 
 const browserCapability = (() => {
   if (selectedBrowser === 'chrome') {
@@ -79,7 +81,7 @@ const screenshotsDir = path.join(resultsDir, 'screenshots')
 // use util to detect focused `.only` markers in specs
 
 const defaultSpecs = ['./tests/**/*.js']
-const onlySpecs = findFilesWithOnly(path.resolve(__dirname, 'tests'), __dirname)
+const onlySpecs = findFilesWithOnly(path.resolve(fileDir, 'tests'), fileDir)
 
 export const config = {
   specs: onlySpecs.length ? onlySpecs : defaultSpecs,

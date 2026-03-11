@@ -174,8 +174,8 @@ export class FormDriver {
       { timeout: 5000, timeoutMsg: 'New window did not open' }
     )
 
-    const handles = await browser.getWindowHandles()
-    const newHandle = handles.find(handle => handle !== originalHandle)
+    const windowHandles = await browser.getWindowHandles()
+    const newHandle = windowHandles.find(handle => handle !== originalHandle)
     await browser.switchToWindow(newHandle)
 
     // Wait for the new window to load (not be about:blank)

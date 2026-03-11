@@ -18,19 +18,13 @@ export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
         const full = path.join(dir, entry.name)
         if (entry.isDirectory()) {
           walk(full)
-          continue
-        }
-        if (!entry.isFile()) {
-          continue
-        }
-        if (!full.endsWith('.js') && !full.endsWith('.mjs')) {
-          continue
-        }
-        const content = fs.readFileSync(full, 'utf8')
-        const re = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
-        if (re.test(content)) {
-          const rel = './' + path.relative(baseDir, full).replaceAll('\\', '/')
-          matches.push(rel)
+        } else if (entry.isFile() && (full.endsWith('.js') || full.endsWith('.mjs'))) {
+          const content = fs.readFileSync(full, 'utf8')
+          const re = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
+          if (re.test(content)) {
+            const rel = './' + path.relative(baseDir, full).replaceAll('\\', '/')
+            matches.push(rel)
+          }
         }
       }
     }

@@ -5,6 +5,7 @@
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma'
 const specialCharacters = ':::JHDRNTY$W%'
+const invalidUrl = 'https://flood-/'
 
 export const invalidLocationData = {
   nonEnglandSearchData: [
@@ -17,7 +18,7 @@ export const invalidLocationData = {
   invalidPostcodeSearchData: [ // Returns 'Enter a real place name or postcode' error
     { search: '' },
     { search: specialCharacters },
-    { search: 'https://flood-k/' },
+    { search: invalidUrl },
     { search: loremIpsum },
   ],
 
@@ -40,7 +41,7 @@ export const invalidLocationData = {
     { search: '' },
     { search: '12345678911111111' },
     { search: specialCharacters },
-    { search: 'https://flood-/' },
+    { search: invalidUrl },
     { search: loremIpsum }
   ],
 
@@ -58,7 +59,7 @@ export const invalidLocationData = {
 
   invalidCharactersEastingNorthingData: [
     { searchEasting: specialCharacters, searchNorthing: specialCharacters },
-    { searchEasting: 'https://flood-/', searchNorthing: 'https://flood-/' },
+    { searchEasting: invalidUrl, searchNorthing: invalidUrl },
     { searchEasting: loremIpsum, searchNorthing: loremIpsum },
     { searchEasting: '', searchNorthing: '' }
   ]
