@@ -1,6 +1,33 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+const focusedMarkerRe = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
+
+function isScriptFile (entryName) {
+  return entryName.endsWith('.js') || entryName.endsWith('.mjs')
+}
+
+function hasFocusedMarker (fullPath) {
+  return focusedMarkerRe.test(fs.readFileSync(fullPath, 'utf8'))
+}
+
+function toRelativeSpecPath (baseDir, fullPath) {
+  return './' + path.relative(baseDir, fullPath).replaceAll('\\', '/')
+}
+
+function collectFocusedSpecs (dir, baseDir, matches) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      collectFocusedSpecs(fullPath, baseDir, matches)
+    } else if (entry.isFile() && isScriptFile(entry.name) && hasFocusedMarker(fullPath)) {
+      matches.push(toRelativeSpecPath(baseDir, fullPath))
+    } else {
+      // Ignore non-script entries and files without focused markers.
+    }
+  }
+}
+
 /**
  * Recursively search `rootDir` for JS files containing focused test markers
  * such as `describe.only`, `it.only`, `fit`, `fdescribe`, `iit`, `ddescribe`.
@@ -8,32 +35,12 @@ import path from 'node:path'
  */
 export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
   const matches = []
-  const focusedMarkerRe = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
-  const isScriptFile = (entry, fullPath) => entry.isFile() && (fullPath.endsWith('.js') || fullPath.endsWith('.mjs'))
-  const hasFocusedMarker = (fullPath) => focusedMarkerRe.test(fs.readFileSync(fullPath, 'utf8'))
 
   try {
     if (!fs.existsSync(rootDir)) {
       return matches
     }
-
-    const walk = (dir) => {
-      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        const full = path.join(dir, entry.name)
-        if (entry.isDirectory()) {
-          walk(full)
-        } else if (isScriptFile(entry, full)) {
-          if (hasFocusedMarker(full)) {
-            const rel = './' + path.relative(baseDir, full).replaceAll('\\', '/')
-            matches.push(rel)
-          }
-        } else {
-          // Ignore non-script entries.
-        }
-      }
-    }
-
-    walk(rootDir)
+    collectFocusedSpecs(rootDir, baseDir, matches)
   } catch (err) {
     console.warn('Unable to search for focused e2e specs:', err)
   }
