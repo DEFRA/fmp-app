@@ -14,5 +14,6 @@ export const setQueryParam = (key, value) => {
   }
 
   // Update the URL without reloading
+  url.search = decodeURIComponent(url.search)
   window.history.replaceState({}, '', url.toString())
 }
