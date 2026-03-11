@@ -12,8 +12,9 @@ const getPolygonFromUrl = () => {
 }
 
 class PolygonFeature {
-  constructor () {
+  constructor (id = 'boundary') {
     this._feature = null
+    this._id = id
     // initialise the feature from the coordinates in the url, if there is one
     this.coordinates = getPolygonFromUrl()
   }
@@ -23,7 +24,7 @@ class PolygonFeature {
   }
 
   set feature (feature) {
-    this._feature = feature
+    this._feature = feature ? { ...feature, id: this._id } : null
   }
 
   get coordinates () {
@@ -32,9 +33,10 @@ class PolygonFeature {
 
   set coordinates (coordinates) {
     this._feature = {
+      id: this._id,
       type: 'feature',
       geometry: {
-        type: 'polygon',
+        type: 'Polygon',
         coordinates
       }
     }

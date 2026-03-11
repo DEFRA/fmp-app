@@ -24,6 +24,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     // Add a feature if provided
     if (polygonFeature.feature) {
       drawPlugin.addFeature(polygonFeature.feature)
+      toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
     }
 
     // Add menu click handlers
@@ -41,7 +42,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
         hideMenu(interactiveMap)
       },
       onEdit: function () {
-        if (getGeometryShape(feature.geometry) === 'square') {
+        if (getGeometryShape(polygonFeature.feature.geometry) === 'square') {
           drawPlugin.deleteFeature('boundary')
           framePlugin.editFeature(polygonFeature.feature)
         } else {
