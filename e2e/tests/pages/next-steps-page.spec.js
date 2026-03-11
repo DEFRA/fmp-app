@@ -24,42 +24,42 @@ describe('Next steps page', () => {
     })
 
     // The following tests validate that external links can be reached.
-    it('navigates to Flood risk assessments: climate change allowances page when clicking the link @routing', async () => {
+    it('navigates to Flood risk assessments: climate change allowances page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.takeIntoAccountClimateChangeAllowancesLink)
       await steps.expectUrlContains('climate-change-allowances')
     })
 
-    it('navigates to Flood risk assessments: applying for planning permission page when clicking the link @routing', async () => {
+    it('navigates to Flood risk assessments: applying for planning permission page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.howToDoAnAssessmentLink)
       await steps.expectUrlContains('for-planning-applications')
     })
 
-    it('navigates to Reservoirs map page when clicking the link @routing', async () => {
+    it('navigates to Reservoirs map page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.reservoirFloodRiskLink)
       await steps.expectUrlContains('Reservoirs')
     })
 
-    it('navigates to Groundwater flooding page when clicking the link @routing', async () => {
+    it('navigates to Groundwater flooding page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.britishGeologicalSurveyGroundwaterFloodingLink)
       await steps.expectUrlContains('groundwater-flooding')
     })
 
-    it('navigates to Groundwater: current status and flood risk page when clicking the link @routing', async () => {
+    it('navigates to Groundwater: current status and flood risk page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.groundwaterCurrentStatusAndFloodRiskLink)
       await steps.expectUrlContains('groundwater-current-status-and-flood-risk')
     })
 
-    it('navigates to Mining and groundwater constraints for development page when clicking the link @routing', async () => {
+    it('navigates to Mining and groundwater constraints for development page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.miningAndGroundwaterConstraintsForDevelopmentLink)
       await steps.expectUrlContains('mining-and-groundwater-constraints-for-development')
     })
 
-    it('navigates to Addressing residual flood riskpage when clicking the link @routing', async () => {
+    it('navigates to Addressing residual flood riskpage when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.residualRiskLink)
       await steps.expectUrlContains('flood-risk-and-coastal-change#para41')
     })
 
-    it('navigates to Get information about flood risk from rivers and the sea to help you to complete a FRA page when clicking the link @routing', async () => {
+    it('navigates to Get information about flood risk from rivers and the sea to help you to complete a FRA page when clicking the link @urlCheck', async () => {
       await steps.clickLink(pages.nextSteps.findOutWhatProductsAreAvailableLink)
       await steps.expectUrlContains('get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra')
     })

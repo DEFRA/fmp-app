@@ -14,16 +14,16 @@ describe('England only page', () => {
   })
 
   // The following tests validate that external links can be reached.
-  it('navigates to Scotland flood risk page when clicking the link @routing', async () => {
+  it('navigates to Scotland flood risk page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.home.scotlandFloodRiskLink)
     await steps.expectUrlContains('sepa.scot')
   })
-  it('navigates to Wales flood risk page when clicking the link @routing', async () => {
+  it('navigates to Wales flood risk page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.home.walesFloodRiskLink)
     await steps.expectUrlContains('naturalresources.wales')
   })
 
-  it('navigates to Northern Ireland flood risk page when clicking the link @routing', async () => {
+  it('navigates to Northern Ireland flood risk page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.home.northernIrelandFloodRiskLink)
     await steps.expectUrlContains('nidirect.gov.uk')
   })

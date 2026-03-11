@@ -9,7 +9,7 @@ import path from 'node:path'
 export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
   const matches = []
   try {
-    if (!fs.existsSync(rootDir)) { 
+    if (!fs.existsSync(rootDir)) {
       return matches
     }
 
@@ -29,14 +29,16 @@ export function findFilesWithOnly (rootDir, baseDir = process.cwd()) {
         const content = fs.readFileSync(full, 'utf8')
         const re = /(\b(?:describe|it|context|suite|test|specify)\.only\s*\(|\b(?:fit|fdescribe|iit|ddescribe)\s*\()/m
         if (re.test(content)) {
-          const rel = './' + path.relative(baseDir, full).replace(/\\/g, '/')
+          const rel = './' + path.relative(baseDir, full).replaceAll('\\', '/')
           matches.push(rel)
         }
       }
     }
 
     walk(rootDir)
-  } catch (_) { /* ignore errors */ }
+  } catch (err) {
+    console.warn('Unable to search for focused e2e specs:', err)
+  }
   return matches
 }
 

@@ -37,7 +37,7 @@ describe('Map help page', () => {
     await steps.expectOn(pages.accessibilityStatement.page)
   })
   // The following test validates that the external link can be reached.
-  it('navigates to Find out about call charges page when clicking the link @routing', async () => {
+  it('navigates to Find out about call charges page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.mapHelp.callChargesLink)
     await steps.expectUrlContains('call-charges')
   })

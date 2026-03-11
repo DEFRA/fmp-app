@@ -21,25 +21,25 @@ describe('Triage page', () => {
   })
 
   // Assert on URL rather than page title as we're navigating to external GOV.UK pages that we don't own and can't control the content of
-  it('redirects to GOV.UK long-term flood risk for buying/selling option @routing', async () => {
+  it('redirects to GOV.UK long-term flood risk for buying/selling option @urlCheck', async () => {
     await steps.choose(pages.triage.buyingSellOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/check-long-term-flood-risk')
   })
 
-  it('redirects to GOV.UK flooding history for flood history option @routing', async () => {
+  it('redirects to GOV.UK flooding history for flood history option @urlCheck', async () => {
     await steps.choose(pages.triage.floodHistoryOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/request-flooding-history')
   })
 
-  it('redirects to GOV.UK long-term flood risk for insurance option @routing', async () => {
+  it('redirects to GOV.UK long-term flood risk for insurance option @urlCheck', async () => {
     await steps.choose(pages.triage.insuranceOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/check-long-term-flood-risk')
   })
 
-  it('redirects to GOV.UK flooding and extreme weather page for other option @routing', async () => {
+  it('redirects to GOV.UK flooding and extreme weather page for other option @urlCheck', async () => {
     await steps.choose(pages.triage.otherOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/browse/environment-countryside/flooding-extreme-weather')

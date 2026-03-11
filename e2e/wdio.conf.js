@@ -21,6 +21,50 @@ const isHeadless = String(process.env.HEADLESS ?? 'true').toLowerCase() !== 'fal
 const useLocalChromeDriver = !isCi
 const localChromeDriverPath = path.resolve(__dirname, 'node_modules/chromedriver/bin/chromedriver')
 
+const browserCapability = (() => {
+  if (selectedBrowser === 'chrome') {
+    return {
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        args: [
+          ...(isHeadless ? ['--headless=new'] : []),
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--use-angle=swiftshader', // Enable WebGL in headless mode
+          '--ignore-gpu-blocklist',
+        ]
+      },
+      ...(useLocalChromeDriver
+        ? { 'wdio:chromedriverOptions': { binary: localChromeDriverPath } }
+        : {})
+    }
+  }
+
+  if (selectedBrowser === 'firefox') {
+    return {
+      browserName: 'firefox',
+      'moz:firefoxOptions': {
+        args: isHeadless ? ['-headless'] : []
+      }
+    }
+  }
+
+  if (['edge', 'msedge', 'microsoftedge'].includes(selectedBrowser)) {
+    return {
+      browserName: 'MicrosoftEdge',
+      'ms:edgeOptions': {
+        args: [
+          ...(isHeadless ? ['--headless'] : []),
+          '--window-size=1280,720',
+          '--disable-gpu'
+        ]
+      }
+    }
+  }
+
+  return { browserName: selectedBrowser }
+})()
+
 // Keep video frames off Jenkins workspace / network disk
 const videoFramesDir = path.join(os.tmpdir(), 'wdio-video-reporter-frames')
 
@@ -39,43 +83,7 @@ export const config = {
 
   maxInstances: isCi ? 2 : 5,
 
-  capabilities: [{
-    ...(selectedBrowser === 'chrome'
-      ? {
-          browserName: 'chrome',
-          'goog:chromeOptions': {
-            args: [
-              ...(isHeadless ? ['--headless=new'] : []),
-              '--no-sandbox',
-              '--disable-dev-shm-usage',
-              '--use-angle=swiftshader', // Enable WebGL in headless mode
-              '--ignore-gpu-blocklist',
-            ]
-          },
-          ...(useLocalChromeDriver
-            ? { 'wdio:chromedriverOptions': { binary: localChromeDriverPath } }
-            : {})
-        }
-      : selectedBrowser === 'firefox'
-        ? {
-            browserName: 'firefox',
-            'moz:firefoxOptions': {
-              args: isHeadless ? ['-headless'] : []
-            }
-          }
-        : ['edge', 'msedge', 'microsoftedge'].includes(selectedBrowser)
-            ? {
-                browserName: 'MicrosoftEdge',
-                'ms:edgeOptions': {
-                  args: [
-                    ...(isHeadless ? ['--headless'] : []),
-                    '--window-size=1280,720',
-                    '--disable-gpu'
-                  ]
-                }
-              }
-            : { browserName: selectedBrowser })
-  }],
+  capabilities: [browserCapability],
 
   logLevel: 'error',
   baseUrl,
@@ -152,14 +160,18 @@ export const config = {
   },
 
   before: async function () {
-    try { await browser.maximizeWindow() } catch (_) {}
+    try {
+      await browser.maximizeWindow()
+    } catch (err) {
+      console.warn('Unable to maximize browser window:', err)
+    }
   },
 
   afterTest: async function (test, context, { passed } = {}) {
     if (!passed) {
       try {
         fs.mkdirSync(screenshotsDir, { recursive: true })
-        const stamp = new Date().toISOString().replace(/[:.]/g, '-')
+        const stamp = new Date().toISOString().replaceAll(/[:.]/g, '-')
         const filename = `${test?.title || 'test'}-${stamp}.png`
         const filePath = path.join(screenshotsDir, filename)
 
@@ -169,10 +181,18 @@ export const config = {
         try {
           const buf = fs.readFileSync(filePath)
           allureReporter.addAttachment('Failure screenshot', buf, 'image/png')
-        } catch (_) { /* ignore */ }
-      } catch (_) { /* ignore */ }
+        } catch (err) {
+          console.warn('Unable to attach screenshot to Allure:', err)
+        }
+      } catch (err) {
+        console.warn('Unable to capture failure screenshot:', err)
+      }
     }
 
-    try { await browser.deleteCookies() } catch (_) {}
+    try {
+      await browser.deleteCookies()
+    } catch (err) {
+      console.warn('Unable to delete browser cookies:', err)
+    }
   }
 }

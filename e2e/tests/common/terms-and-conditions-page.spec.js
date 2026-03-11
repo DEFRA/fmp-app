@@ -31,15 +31,15 @@ describe('Terms and Conditions page', () => {
     await steps.clickLink(pages.termsAndConditions.cookiePolicyLink)
     await steps.expectOn(pages.cookies.page)
   })
-  it('navigates to the Contact us page when clicking the link @routing', async () => {
+  it('navigates to the Contact us page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.termsAndConditions.contactUsLink)
     await steps.expectUrlContains('contact')
   })
-  it('navigates to the Freedom of Information Act page when clicking the link @routing', async () => {
+  it('navigates to the Freedom of Information Act page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.termsAndConditions.freedomOfInformationActLink)
     await steps.expectUrlContains('freedom-of-information')
   })
-  it('navigates to the Data Protection Act page when clicking the link @routing', async () => {
+  it('navigates to the Data Protection Act page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.termsAndConditions.dataProtectionActLink)
     await steps.expectUrlContains('data-protection')
   })

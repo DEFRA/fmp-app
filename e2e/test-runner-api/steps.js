@@ -128,13 +128,13 @@ export class Steps {
   }
 
   validatePage (page, method) {
-    if (!page || !page.slug || !page.title) {
+    if (!page?.slug || !page?.title) {
       throw new Error(`Steps.${method}(): invalid page definition`)
     }
   }
 
   validateElement (element, method) {
-    if (!element || !element.type || !element.text) {
+    if (!element?.type || !element?.text) {
       throw new Error(`Steps.${method}(): invalid element (expected { type, text })`)
     }
   }

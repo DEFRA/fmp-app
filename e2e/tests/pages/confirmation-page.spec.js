@@ -26,11 +26,11 @@ describe('Confirmation page', () => {
   })
 
   // The following tests validate that external links can be reached.
-  it('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link @routing', async () => {
+  it('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.confirmation.toGetMoreInformationLink)
     await steps.expectUrlContains('get-information-about-flood-risk')
   })
-  it('navigates to contact the Environment Agency page when clicking the link @routing', async () => {
+  it('navigates to contact the Environment Agency page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.confirmation.contactEnvironmentAgencyLink)
     await steps.expectUrlContains('contact-the-environment-agency')
   })

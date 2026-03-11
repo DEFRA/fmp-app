@@ -12,7 +12,7 @@ describe('OS Terms and conditions page', () => {
   it('displays the correct page title @validation', async () => {
     await steps.expectOn(pages.osTerms.page)
   })
-  it('navigates to Ordnance Survey page when clicking the link @routing', async () => {
+  it('navigates to Ordnance Survey page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.osTerms.osLink)
     await steps.expectUrlContains('ordnancesurvey')
   })

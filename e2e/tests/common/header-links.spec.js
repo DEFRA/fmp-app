@@ -14,7 +14,7 @@ describe('Header Links', () => {
     await steps.expectOn(pages.home.page)
   })
 
-  it('navigates to Feedback and shows correct title @routing', async () => {
+  it('navigates to Feedback and shows correct title @urlCheck', async () => {
     await steps.clickLink(pages.header.giveYourFeedbackLink)
     await steps.expectUrlContains('/feedback')
   })
