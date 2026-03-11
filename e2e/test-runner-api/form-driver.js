@@ -146,8 +146,8 @@ export class FormDriver {
   async assertUrlContains (expectedSubstring) {
     await browser.waitUntil(
       async () => {
-        const url = await browser.getUrl()
-        return url.includes(expectedSubstring)
+        const currentUrl = await browser.getUrl()
+        return currentUrl.includes(expectedSubstring)
       },
       {
         timeout: 5000,

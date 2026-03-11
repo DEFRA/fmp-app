@@ -1,7 +1,12 @@
+const FLOOD_ZONE_1 = '1'
+const FLOOD_ZONE_3 = '3'
+const ZONE2_WITH_DEFENCE_CENTRE_EASTING = 479785
+const ZONE2_WITH_DEFENCE_CENTRE_NORTHING = 472748
+
 export const locationData = {
   zone1Postcode: 'YO18 7HN',
   zone2Postcode: 'WA1 2GE',
-  zone2WithDefenceCentre: [479785, 472748],
+  zone2WithDefenceCentre: [ZONE2_WITH_DEFENCE_CENTRE_EASTING, ZONE2_WITH_DEFENCE_CENTRE_NORTHING],
   zone3Postcode: 'pickering',
   zone1PostcodeWithOptedOut: 'Enfield',
   zone3PostcodeWithOptedOut: 'Barnet',
@@ -14,12 +19,12 @@ export const locationData = {
 export const areaData = {
   Yorkshire: {
     polygon: '[[470689.97,508442.8],[470727.12,508442.8],[470727.12,508405.65],[470689.97,508405.65],[470689.97,508442.8]]',
-    floodZone: '3',
+    floodZone: FLOOD_ZONE_3,
   },
 
   HertfordshireAndNorthLondon: {
     polygon: '[[532441.17,212478.2],[532478.32,212478.2],[532478.32,212441.05],[532441.17,212441.05],[532441.17,212478.2]]',
-    floodZone: '1',
+    floodZone: FLOOD_ZONE_1,
   },
 }
 

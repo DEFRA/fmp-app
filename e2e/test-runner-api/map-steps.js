@@ -54,7 +54,7 @@ export class MapSteps {
   }
 
   validateElement (element, method) {
-    if (!element || !element.type || !element.text) {
+    if (!element?.type || !element?.text) {
       throw new Error(`MapSteps.${method}(): invalid element (expected { type, text })`)
     }
   }

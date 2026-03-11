@@ -20,6 +20,10 @@ const isHeadless = String(process.env.HEADLESS ?? 'true').toLowerCase() !== 'fal
 
 const useLocalChromeDriver = !isCi
 const localChromeDriverPath = path.resolve(__dirname, 'node_modules/chromedriver/bin/chromedriver')
+const CI_MAX_INSTANCES = 2
+const LOCAL_MAX_INSTANCES = 5
+const REPORTER_SYNC_TIMEOUT_MS = 20 * 60 * 1000
+const VIDEO_RENDER_TIMEOUT_MS = 20 * 60 * 1000
 
 const browserCapability = (() => {
   if (selectedBrowser === 'chrome') {
@@ -81,14 +85,14 @@ export const config = {
   specs: onlySpecs.length ? onlySpecs : defaultSpecs,
   exclude: [],
 
-  maxInstances: isCi ? 2 : 5,
+  maxInstances: isCi ? CI_MAX_INSTANCES : LOCAL_MAX_INSTANCES,
 
   capabilities: [browserCapability],
 
   logLevel: 'error',
   baseUrl,
 
-  reporterSyncTimeout: 20 * 60 * 1000, // 20 minutes
+  reporterSyncTimeout: REPORTER_SYNC_TIMEOUT_MS, // 20 minutes
   reporterSyncInterval: 200,
 
   // Retry failed tests in CI environment
@@ -117,7 +121,7 @@ export const config = {
       videoScale: '800:trunc(ow/a/2)*2',
       videoFormat: 'mp4',
 
-      videoRenderTimeout: 20 * 60 * 1000, // 20 minutes
+      videoRenderTimeout: VIDEO_RENDER_TIMEOUT_MS, // 20 minutes
 
       // These are the default commands that trigger a snapshot (and potential video clip split)
       snapshotCommands: [
@@ -167,7 +171,7 @@ export const config = {
     }
   },
 
-  afterTest: async function (test, context, { passed } = {}) {
+  afterTest: async function (test, { passed } = {}) {
     if (!passed) {
       try {
         fs.mkdirSync(screenshotsDir, { recursive: true })

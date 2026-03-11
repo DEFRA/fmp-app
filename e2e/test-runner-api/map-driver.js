@@ -1,8 +1,11 @@
 import { FormDriver } from './form-driver.js'
 
+const INITIAL_MAP_LOAD_PAUSE_MS = 5000
+const BETWEEN_ZOOM_PAUSE_MS = 1500
+
 export class MapDriver extends FormDriver {
   async mapLoaded () {
-    await browser.pause(5000) // Brief pause to allow map scripts to start loading
+    await browser.pause(INITIAL_MAP_LOAD_PAUSE_MS) // Brief pause to allow map scripts to start loading
     const mapElement = await $('#map-viewport')
     await mapElement.waitForExist({ timeout: 20000 })
     await mapElement.waitForDisplayed({ timeout: 20000 })
@@ -59,7 +62,7 @@ export class MapDriver extends FormDriver {
     for (let i = 0; i < times; i++) {
       await zoomInButton.waitForClickable({ timeout: 10000 })
       await zoomInButton.click()
-      await browser.pause(1500) // Pause briefly between zooms to allow map to update
+      await browser.pause(BETWEEN_ZOOM_PAUSE_MS) // Pause briefly between zooms to allow map to update
     }
   }
 }
