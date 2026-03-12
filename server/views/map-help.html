@@ -1,18 +1,7 @@
+{%- set excludeBackLink = true -%}
 {% extends "layout.html" %}
 {% set pageTitle = 'Help using the flood map' %}
-
-{% block beforeContent %}
-{%- if not excludeBackLink -%}
-  {% if backLinkUrl %}
-    <a href="{{backLinkUrl}}" class="govuk-back-link">Back</a>
-  {% else %}
-    {{ govukBackLink({
-      text: "Back",
-      href: "javascript:history.back()"
-    }) }}
-  {% endif %}  
-{% endif %}
-{% endblock %}
+{% set excludeBackLink = true %}
 
 {% block content %}
 {{ super() }}
