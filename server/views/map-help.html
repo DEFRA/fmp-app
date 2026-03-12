@@ -2,9 +2,17 @@
 {% set pageTitle = 'Help using the flood map' %}
 
 {% block beforeContent %}
-<!-- remove backlink override -->
- <!-- If any before content is added in future theen this needs updating -->
-{% endblock %}  
+{%- if not excludeBackLink -%}
+  {% if backLinkUrl %}
+    <a href="{{backLinkUrl}}" class="govuk-back-link">Back</a>
+  {% else %}
+    {{ govukBackLink({
+      text: "Back",
+      href: "javascript:history.back()"
+    }) }}
+  {% endif %}  
+{% endif %}
+{% endblock %}
 
 {% block content %}
 {{ super() }}
