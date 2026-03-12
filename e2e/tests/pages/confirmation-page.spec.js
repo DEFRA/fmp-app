@@ -1,11 +1,12 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 import { areaData } from '../../data/location-data.js'
+import { userData } from '../../data/user-data.js'
 
 describe('Confirmation page', () => {
   let steps
-  const fullName = encodeURIComponent('INTERNAL_EA_TEST_Please ignore this RFI_Do not Process')
-  const email = encodeURIComponent('test@example.com')
+  const fullName = encodeURIComponent(userData.name)
+  const email = encodeURIComponent(userData.email)
   const encodedPolygon = encodeURIComponent(areaData.Yorkshire.polygon)
 
   beforeEach(async () => {

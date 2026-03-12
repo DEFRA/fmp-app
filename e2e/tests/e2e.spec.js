@@ -2,6 +2,7 @@ import { Steps } from '../test-runner-api/steps.js'
 import { pages } from '../pages/index.js'
 import { locationData } from '../data/location-data.js'
 import { MapSteps } from '../test-runner-api/map-steps.js'
+import { userData } from '../data/user-data.js'
 
 describe('End-to-end planning journey', () => {
   const steps = new Steps()
@@ -30,8 +31,8 @@ describe('End-to-end planning journey', () => {
     await steps.clickLink(pages.results.orderFloodRiskDataButton)
 
     // Contact → Check your details
-    await steps.type(pages.contact.fullNameInput, 'INTERNAL_EA_TEST_Please ignore this RFI_Do not Process')
-    await steps.type(pages.contact.emailInput, 'test@example.com')
+    await steps.type(pages.contact.fullNameInput, userData.name)
+    await steps.type(pages.contact.emailInput, userData.email)
     await steps.submit()
 
     // Check your details → Confirmation
