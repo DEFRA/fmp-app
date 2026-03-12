@@ -226,10 +226,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  
-    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-
-  
+<!-- remove backlink override -->
 
         <main class="govuk-main-wrapper" id="main-content">
           

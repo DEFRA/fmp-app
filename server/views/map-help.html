@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% set pageTitle = 'Help using the flood map' %}
+
+{% block beforeContent %}
+<!-- remove backlink override -->
+{% endblock %}  
+
 {% block content %}
 {{ super() }}
 
