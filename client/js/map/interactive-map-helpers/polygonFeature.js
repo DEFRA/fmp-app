@@ -29,13 +29,16 @@ class PolygonFeature {
 
   set feature (feature) {
     this._feature = feature ? { ...feature, id: this._id } : null
-    const encodedPolygon = this._feature ? encodePolygon(this.coordinates[0]) : null
-    setQueryParam('encodedPolygon', encodedPolygon)
+    setQueryParam('encodedPolygon', this.encodedPolygon)
     setQueryParam('polygon', null)
   }
 
   get coordinates () {
     return this._feature?.geometry?.coordinates
+  }
+
+  get encodedPolygon () {
+    return this.coordinates ? encodePolygon(this.coordinates[0]) : null
   }
 
   set coordinates (coordinates) {

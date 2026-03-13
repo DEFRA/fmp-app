@@ -12,20 +12,28 @@ export const framePlugin = createFramePlugin({
   aspectRatio: 1.5
 })
 
-const logFeature = () => {
-  console.log('Polygon is:', !polygonFeature.coordinates ? 'undefined' : '')
-  if (polygonFeature.coordinates) {
-    console.log(JSON.stringify(polygonFeature.coordinates?.[0], { depth: null }))
-  }
-}
-
 export const attachDrawPluginHandlers = (interactiveMap) => {
+  const showHideGetSummary = (forceHide = false) => {
+    const hidden = forceHide || !polygonFeature.coordinates
+    interactiveMap.toggleButtonState('get-summary', 'hidden', hidden)
+  }
   interactiveMap.on('draw:ready', function () {
     // Add a feature if provided
     if (polygonFeature.feature) {
       drawPlugin.addFeature(polygonFeature.feature)
       toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
     }
+    interactiveMap.addButton('get-summary', {
+      label: 'Get summary report',
+      variant: 'primary',
+      onClick: (event, context) => {
+        window.location = `/results?encodedPolygon=${polygonFeature.encodedPolygon}`
+      },
+      mobile: { slot: 'actions', showLabel: true },
+      tablet: { slot: 'actions', showLabel: true },
+      desktop: { slot: 'actions', showLabel: true },
+    })
+    showHideGetSummary()
 
     // Add menu click handlers
     addMenuClickHandlers({
@@ -34,12 +42,14 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
           onGeometryChange: (geometry) => true
         })
         hideMenu(interactiveMap)
+        showHideGetSummary(true) // forceHide
       },
       onDrawFrame: function () {
         framePlugin.addFrame('boundary', {
           aspectRatio: 1
         })
         hideMenu(interactiveMap)
+        showHideGetSummary(true) // forceHide
       },
       onEdit: function () {
         if (getGeometryShape(polygonFeature.feature.geometry) === 'square') {
@@ -51,48 +61,48 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
           })
         }
         hideMenu(interactiveMap)
+        showHideGetSummary(true) // forceHide
       },
       onDelete: function () {
         drawPlugin.deleteFeature('boundary')
         polygonFeature.feature = null
+        showHideGetSummary()
         hideMenu(interactiveMap)
+        showHideGetSummary(true) // forceHide
       }
     })
   })
 
-  interactiveMap.on('draw:done', function (e) {
-    polygonFeature.feature = e.newFeature
+  interactiveMap.on('draw:done', function ({ newFeature: feature }) {
+    polygonFeature.feature = feature
+    showHideGetSummary()
     console.log('draw:done')
-    logFeature()
     toggleButtonState(['edit', 'delete'])
   })
 
-  interactiveMap.on('draw:updated', function (e) {
-    console.log('draw:updated', e)
-    logFeature()
+  interactiveMap.on('draw:updated', function (feature) {
+    console.log('draw:updated', feature)
   })
 
-  interactiveMap.on('draw:created', function (e) {
-    console.log('draw:created', e)
-    logFeature()
+  interactiveMap.on('draw:created', function (feature) {
+    console.log('draw:created', feature)
   })
 
-  interactiveMap.on('draw:cancelled', function (e) {
-    console.log('draw:cancelled', e)
-    logFeature()
+  interactiveMap.on('draw:cancelled', function (feature) {
+    console.log('draw:cancelled', feature)
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
+    showHideGetSummary()
   })
 
-  interactiveMap.on('draw:deleted', function (e) {
-    console.log('draw:deleted', e)
-    logFeature()
+  interactiveMap.on('draw:deleted', function (feature) {
+    console.log('draw:deleted', feature)
   })
 
-  interactiveMap.on('frame:done', function (e) {
-    console.log('frame:done', e)
-    drawPlugin.addFeature(e)
-    polygonFeature.feature = e
-    logFeature()
+  interactiveMap.on('frame:done', function (feature) {
+    console.log('frame:done', feature)
+    drawPlugin.addFeature(feature)
+    polygonFeature.feature = feature
+    showHideGetSummary()
     toggleButtonState(['edit', 'delete'])
   })
 
@@ -100,7 +110,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     if (polygonFeature.feature) {
       drawPlugin.addFeature(polygonFeature.feature)
     }
-    logFeature()
+    showHideGetSummary()
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
   })
 }
