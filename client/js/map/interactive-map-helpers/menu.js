@@ -77,14 +77,15 @@ const datasetsConfig = [{
   legend: 'Depth of flooding',
   name: 'depth',
   items: [
-    { id: 'bydepth', value: 'bydepth', label: 'Extent by depth' },
-    { id: 'alldepths', value: 'alldepths', label: 'All depths' },
-    { id: 'above150', value: 'above150', label: 'Above 150mm' },
-    { id: 'above300', value: 'above300', label: 'Above 300mm' },
-    { id: 'above600', value: 'above600', label: 'Above 600mm' },
-    { id: 'above900', value: 'above900', label: 'Above 900mm' },
-    { id: 'above1200', value: 'above1200', label: 'Above 1200mm' },
-    { id: 'above2300', value: 'above2300', label: 'Above 2300mm' }
+    { id: 'depthAll', value: 'depthAll', label: 'All depths' },
+    { id: 'depth150', value: 'depth150', label: 'Full extent of flooding' },
+    { id: 'depth300', value: 'depth300', label: 'Extent over 150mm' },
+    { id: 'depth600', value: 'depth600', label: 'Extent over 300mm' },
+    { id: 'depth900', value: 'depth900', label: 'Extent over 600mm' },
+    { id: 'depth1200', value: 'depth1200', label: 'Extent over 900mm' },
+    { id: 'depth2300', value: 'depth2300', label: 'Extent over 1200mm' },
+    { id: 'depthOver2300', value: 'depthOver2300', label: 'Extent over 2300mm' },
+
   ]
 }, {
   type: 'checkboxes',

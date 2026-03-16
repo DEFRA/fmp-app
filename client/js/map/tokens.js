@@ -88,7 +88,7 @@ export const getEsriToken = async (refresh = false) => {
     }
   }
 
-  return esriAuth
+  return esriAuth.token
 }
 
 let defraMapConfig

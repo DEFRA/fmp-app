@@ -89,7 +89,7 @@ class FloodMapLayer {
 
   checkLayerVisibility () {
     const { segments } = this.mapState
-    return segments.join('') === this.q
+    return segments === this.q
   }
 
   isDepthVisible (_depthBand) {

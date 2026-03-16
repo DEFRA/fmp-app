@@ -10,12 +10,11 @@ import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
-import { vtLayers } from './vtLayers.js'
+import { attachLayers, vtLayers, FloodMapLayer } from './mapLayers/index.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
-import { FloodMapLayer } from './mapLayers/index.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
@@ -671,7 +670,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
   attachDrawPluginHandlers(interactiveMap)
-
+  attachLayers(interactiveMap, defraMapConfig)
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('menu', {
       label: 'Menu',

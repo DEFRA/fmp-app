@@ -5,7 +5,7 @@ class FloodZoneCCLayer extends FloodMapLayer {
   constructor () {
     super({
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: 'fzfzcl',
+      q: 'floodzones-climatechange',
       styleLayers: [
         ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
         ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3],
