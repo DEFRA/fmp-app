@@ -19,7 +19,7 @@ const alias = {
   '@defra/interactive-map/plugins/search': path.resolve(__dirname, 'node_modules/@defra/interactive-map/plugins/search/src')
 }
 
-console.log('Building interactive-map as a submodule\n')
+console.log('Building interactive-map as a submodule', new Date().toLocaleTimeString(), '\n')
 const config = configBuilder(exclusions, arcGisPackagePath, floodMapPath, floodMapScssPath, alias)
 console.log('config:')
 console.dir(config, { depth: null })

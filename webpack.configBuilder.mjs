@@ -11,7 +11,6 @@ const configBuilder = (exclusions, arcGisPackagePath, floodMapPath, floodMapScss
     '/flood-map-scss': floodMapScssPath,
     '/@arcgis-path': arcGisPackagePath
   }
-  // console.log('alias: ', alias)
 
   return {
     entry: {

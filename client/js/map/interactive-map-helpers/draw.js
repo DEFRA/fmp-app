@@ -4,6 +4,7 @@ import { hideMenu, addMenuClickHandlers, toggleButtonState } from './menu.js'
 import { getGeometryShape } from './utils.js'
 import { polygonFeature } from './polygonFeature.js'
 import { hideAllLayers, showActiveLayers } from '../mapLayers/index.js'
+import { hideAllFeatureLayers, showActiveFeatureLayers } from '../mapLayers/featureLayers/featureLayers.js'
 
 export const drawPlugin = createDrawPlugin({
   onGeometryChange: (geometry) => true
@@ -23,6 +24,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     hideMenu(interactiveMap)
     showHideGetSummary(true) // forceHide
     hideAllLayers()
+    hideAllFeatureLayers()
   }
 
   interactiveMap.on('draw:ready', function () {
@@ -75,6 +77,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
         hideMenu(interactiveMap)
         showHideGetSummary(true) // forceHide
         showActiveLayers()
+        showActiveFeatureLayers()
       }
     })
   })
@@ -85,6 +88,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     console.log('draw:done')
     toggleButtonState(['edit', 'delete'])
     showActiveLayers()
+    showActiveFeatureLayers()
   })
 
   interactiveMap.on('draw:updated', function (feature) {
@@ -100,6 +104,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
     showHideGetSummary()
     showActiveLayers()
+    showActiveFeatureLayers()
   })
 
   interactiveMap.on('draw:deleted', function (feature) {
@@ -113,6 +118,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     showHideGetSummary()
     toggleButtonState(['edit', 'delete'])
     showActiveLayers()
+    showActiveFeatureLayers()
   })
 
   interactiveMap.on('frame:cancel', function () {
@@ -122,5 +128,6 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     showHideGetSummary()
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
     showActiveLayers()
+    showActiveFeatureLayers()
   })
 }

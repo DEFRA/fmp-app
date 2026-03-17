@@ -19,13 +19,16 @@ export const showActiveFeatureLayers = () => {
 }
 
 export const hideAllFeatureLayers = () => {
-  featureLayers.forEach(featureLayer => (featureLayer.visible = false))
+  featureLayers.forEach(({ layer }) => (layer.visible = false))
 }
 
 export const addFeatureLayers = async (interactiveMap, defraMapConfig) => {
   interactiveMap.on('map:ready', async (mapProvider) => {
     await FloodMapFeatureLayer.initialise(defraMapConfig)
     featureLayers.forEach(featureLayer => mapProvider.map.add(featureLayer.layer))
+    showActiveFeatureLayers()
+  })
+  document.addEventListener('fmp:featureschanged', () => {
     showActiveFeatureLayers()
   })
 }

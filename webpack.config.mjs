@@ -13,7 +13,7 @@ const floodMapScssPath = '../../../node_modules/@defra/flood-map/src/flood-map'
 
 const arcGisPackagePath = '@arcgis'
 
-console.log('Building interactive-map as an npm package\n')
+console.log('Building interactive-map as an npm package', new Date().toLocaleTimeString(), '\n')
 
 const config = configBuilder(exclusions, arcGisPackagePath, floodMapPath, floodMapScssPath)
 export default config
