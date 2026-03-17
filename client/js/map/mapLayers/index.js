@@ -14,6 +14,7 @@ const hideAllLayers = () => {
 
 const attachLayers = (interactiveMap, defraMapConfig) => {
   interactiveMap.on('map:ready', async (mapProvider) => {
+    mapState.isDark = mapProvider.mapStyleId === 'dark'
     await FloodMapLayer.initialise({
       mapState,
       config: defraMapConfig
@@ -21,6 +22,12 @@ const attachLayers = (interactiveMap, defraMapConfig) => {
     vtLayers.forEach(vtLayer => vtLayer.addToMap(mapProvider.map))
     showActiveLayers()
   })
+
+  interactiveMap.on('map:stylechange', async ({ mapStyleId }) => {
+    mapState.isDark = mapStyleId === 'dark'
+    showActiveLayers()
+  })
+
   document.addEventListener('fmp:datasetchanged', () => {
     showActiveLayers()
   })

@@ -77,6 +77,9 @@ class FloodMapLayer {
       opacity: 1,
       visible: false
     })
+    // trigger a call of setStyleProperties onLayerCreate so that dark mode is honoured, if set
+    const onLayerCreate = this.setStyleProperties.bind(this)
+    this.vectorTileLayer.on('layerview-create', onLayerCreate)
     map.add(this.vectorTileLayer)
   }
 

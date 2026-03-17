@@ -1,8 +1,14 @@
 import { getQueryParam } from './queryParams.js'
 
 class MapState {
+  _isDark = false
+
   get isDark () {
-    return false
+    return this._isDark
+  }
+
+  set isDark (isDark) {
+    this._isDark = isDark
   }
 
   get segments () {

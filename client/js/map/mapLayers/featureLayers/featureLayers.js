@@ -24,11 +24,16 @@ export const hideAllFeatureLayers = () => {
 
 export const addFeatureLayers = async (interactiveMap, defraMapConfig) => {
   interactiveMap.on('map:ready', async (mapProvider) => {
+    mapState.isDark = mapProvider.mapStyleId === 'dark'
     await FloodMapFeatureLayer.initialise(defraMapConfig)
     featureLayers.forEach(featureLayer => mapProvider.map.add(featureLayer.layer))
     showActiveFeatureLayers()
   })
   document.addEventListener('fmp:featureschanged', () => {
+    showActiveFeatureLayers()
+  })
+  interactiveMap.on('map:stylechange', async ({ mapStyleId }) => {
+    mapState.isDark = mapStyleId === 'dark'
     showActiveFeatureLayers()
   })
 }
