@@ -1,4 +1,5 @@
 import { getQueryParam, setQueryParam } from './queryParams'
+import { sliderMarkUp } from '../slider/index.js'
 
 /* ==========================================================================
    Menu utilities
@@ -171,7 +172,7 @@ function addDatasetChangeHandler () {
       if (!activeFormGroups.includes(fg.dataset.name) && isFormGroupVisible) {
         fg.style.display = 'none'
         const radios = fg.querySelectorAll('input[type="radio"]')
-        radios.forEach(r => r.checked = false)
+        radios.forEach(radio => (radio.checked = false))
       }
     })
   }
@@ -328,6 +329,7 @@ function renderMenuHTML (feature) {
   const html = `
     ${renderMenu(feature)}
     ${renderDatasets()}
+    ${sliderMarkUp}
   `
   addDatasetChangeHandler()
   return html

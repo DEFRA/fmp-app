@@ -577,6 +577,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'inset', width: '260px', open: false, exclusive: true },
       desktop: { slot: 'inset', width: '280px', open: false, exclusive: false }
     })
+    initialiseSlider(interactiveMap)
   })
 
   const mapState = {
