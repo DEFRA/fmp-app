@@ -669,8 +669,9 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
-  attachDrawPluginHandlers(interactiveMap)
   attachLayers(interactiveMap, defraMapConfig)
+  attachDrawPluginHandlers(interactiveMap)
+
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('menu', {
       label: 'Menu',

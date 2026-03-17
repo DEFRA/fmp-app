@@ -4,8 +4,12 @@ import { SurfaceWaterLayer } from './surfaceWaterLayer.js'
 import { vtLayers } from './vtLayers.js'
 import { mapState } from '../interactive-map-helpers/mapState.js'
 
-const setLayerVisibility = () => {
+const showActiveLayers = () => {
   vtLayers.forEach(vtLayer => (vtLayer.visible = vtLayer.checkLayerVisibility()))
+}
+
+const hideAllLayers = () => {
+  vtLayers.forEach(vtLayer => (vtLayer.visible = false))
 }
 
 const attachLayers = (interactiveMap, defraMapConfig) => {
@@ -15,11 +19,11 @@ const attachLayers = (interactiveMap, defraMapConfig) => {
       config: defraMapConfig
     })
     vtLayers.forEach(vtLayer => vtLayer.addToMap(mapProvider.map))
-    setLayerVisibility()
+    showActiveLayers()
   })
   document.addEventListener('fmp:datasetchanged', () => {
-    setLayerVisibility()
+    showActiveLayers()
   })
 }
 
-export { FloodMapLayer, FloodZoneCCLayer, SurfaceWaterLayer, attachLayers, vtLayers }
+export { FloodMapLayer, FloodZoneCCLayer, SurfaceWaterLayer, attachLayers, vtLayers, hideAllLayers, showActiveLayers }

@@ -3,6 +3,7 @@ import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { hideMenu, addMenuClickHandlers, toggleButtonState } from './menu.js'
 import { getGeometryShape } from './utils.js'
 import { polygonFeature } from './polygonFeature.js'
+import { hideAllLayers, showActiveLayers } from '../mapLayers/index.js'
 
 export const drawPlugin = createDrawPlugin({
   onGeometryChange: (geometry) => true
@@ -17,6 +18,13 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     const hidden = forceHide || !polygonFeature.coordinates
     interactiveMap.toggleButtonState('get-summary', 'hidden', hidden)
   }
+
+  const onEditCreateShape = () => {
+    hideMenu(interactiveMap)
+    showHideGetSummary(true) // forceHide
+    hideAllLayers()
+  }
+
   interactiveMap.on('draw:ready', function () {
     // Add a feature if provided
     if (polygonFeature.feature) {
@@ -41,15 +49,13 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
         drawPlugin.newPolygon('boundary', {
           onGeometryChange: (geometry) => true
         })
-        hideMenu(interactiveMap)
-        showHideGetSummary(true) // forceHide
+        onEditCreateShape()
       },
       onDrawFrame: function () {
         framePlugin.addFrame('boundary', {
           aspectRatio: 1
         })
-        hideMenu(interactiveMap)
-        showHideGetSummary(true) // forceHide
+        onEditCreateShape()
       },
       onEdit: function () {
         if (getGeometryShape(polygonFeature.feature.geometry) === 'square') {
@@ -60,8 +66,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
             onGeometryChange: (geometry) => true
           })
         }
-        hideMenu(interactiveMap)
-        showHideGetSummary(true) // forceHide
+        onEditCreateShape()
       },
       onDelete: function () {
         drawPlugin.deleteFeature('boundary')
@@ -69,6 +74,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
         showHideGetSummary()
         hideMenu(interactiveMap)
         showHideGetSummary(true) // forceHide
+        showActiveLayers()
       }
     })
   })
@@ -78,6 +84,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     showHideGetSummary()
     console.log('draw:done')
     toggleButtonState(['edit', 'delete'])
+    showActiveLayers()
   })
 
   interactiveMap.on('draw:updated', function (feature) {
@@ -92,6 +99,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     console.log('draw:cancelled', feature)
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
     showHideGetSummary()
+    showActiveLayers()
   })
 
   interactiveMap.on('draw:deleted', function (feature) {
@@ -104,6 +112,7 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     polygonFeature.feature = feature
     showHideGetSummary()
     toggleButtonState(['edit', 'delete'])
+    showActiveLayers()
   })
 
   interactiveMap.on('frame:cancel', function () {
@@ -112,5 +121,6 @@ export const attachDrawPluginHandlers = (interactiveMap) => {
     }
     showHideGetSummary()
     toggleButtonState(polygonFeature.feature ? ['edit', 'delete'] : ['shape', 'square'])
+    showActiveLayers()
   })
 }
