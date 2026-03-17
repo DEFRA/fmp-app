@@ -11,6 +11,7 @@ import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMap
 import { terms } from './terms.js'
 import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
 import { attachLayers, vtLayers, FloodMapLayer } from './mapLayers/index.js'
+import { addFeatureLayers } from './mapLayers/featureLayers/featureLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { sliderMarkUp, initialiseSlider } from './slider/index.js'
@@ -670,6 +671,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     }
   }
   attachLayers(interactiveMap, defraMapConfig)
+  addFeatureLayers(interactiveMap, defraMapConfig)
   attachDrawPluginHandlers(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {

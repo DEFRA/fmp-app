@@ -1,0 +1,31 @@
+import { FloodMapFeatureLayer } from './floodMapFeatureLayer'
+import { WaterStorageLayer } from './waterStorageLayer'
+import { FloodDefenceLayer } from './floodDefenceLayer'
+import { MainRiversLayer } from './mainRiversLayer'
+import { mapState } from '../../interactive-map-helpers/mapState.js'
+
+const featureLayers = [
+  new FloodDefenceLayer(),
+  new WaterStorageLayer(),
+  new MainRiversLayer()
+]
+
+export const showActiveFeatureLayers = () => {
+  featureLayers.forEach(featureLayer => {
+    const layer = featureLayer.layer
+    layer.visible = mapState.features.includes(featureLayer.name)
+    layer.renderer = featureLayer.renderer
+  })
+}
+
+export const hideAllFeatureLayers = () => {
+  featureLayers.forEach(featureLayer => (featureLayer.visible = false))
+}
+
+export const addFeatureLayers = async (interactiveMap, defraMapConfig) => {
+  interactiveMap.on('map:ready', async (mapProvider) => {
+    await FloodMapFeatureLayer.initialise(defraMapConfig)
+    featureLayers.forEach(featureLayer => mapProvider.map.add(featureLayer.layer))
+    showActiveFeatureLayers()
+  })
+}

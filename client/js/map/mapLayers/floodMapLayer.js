@@ -1,4 +1,5 @@
 import { lazyLoadModules } from './lazyLoadModules'
+
 class FloodMapLayer {
   constructor ({ name, q, styleLayers, layerVisibilityFilter, likelihoodchanceLabel, logStyles }) {
     this.name = name

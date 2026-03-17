@@ -6,7 +6,11 @@ class MapState {
   }
 
   get segments () {
-    return getQueryParam('dataset')
+    return getQueryParam('dataset') || 'none'
+  }
+
+  get features () {
+    return getQueryParam('features') || ''
   }
 }
 
