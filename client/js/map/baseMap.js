@@ -16,7 +16,7 @@ const setUpBaseMaps = (osAccountNumber) => {
     url: '/map/styles/master-map',
     attribution: osMasterMapAttributionHyperlink,
     thumbnail: '/assets/images/outdoor-map-icon.jpg',
-    logo: '/assets/images/outdoor-map-icon.jpg'
+    logo: '/assets/images/os-logo.svg'
   },
   {
     id: 'dark',
@@ -24,7 +24,7 @@ const setUpBaseMaps = (osAccountNumber) => {
     url: '/map/styles/master-map-dark',
     attribution: osMasterMapAttributionHyperlink,
     thumbnail: '/assets/images/dark-map-icon.jpg',
-    logo: '/assets/images/dark-map-icon.jpg'
+    logo: '/assets/images/os-logo-white.svg'
   },
   {
     id: 'blackAndWhite',
@@ -32,7 +32,7 @@ const setUpBaseMaps = (osAccountNumber) => {
     url: '/map/styles/black-and-white-map',
     attribution: osMasterMapAttributionHyperlink,
     thumbnail: '/assets/images/black-and-white-map-icon.jpg',
-    logo: '/assets/images/black-and-white-map-icon.jpg'
+    logo: '/assets/images/os-logo.svg'
   }
   ]
   return mapStyles
