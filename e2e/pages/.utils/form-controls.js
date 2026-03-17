@@ -1,0 +1,7 @@
+export const radioOption = (text) => ({ type: 'radioOption', text })
+export const checkboxOption = (text) => ({ type: 'checkboxOption', text })
+export const textInput = (text) => ({ type: 'textInput', text })
+export const link = (text, url) => ({ type: 'link', text, url: url === undefined ? undefined : url })
+export const errorText = (text) => ({ type: 'errorText', text })
+export const button = (text) => ({ type: 'button', text })
+export const selectInput = (text) => ({ type: 'selectInput', text })
