@@ -1,4 +1,4 @@
-import { lazyLoadModules } from './lazyLoadModules'
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer'
 
 class FloodMapLayer {
   constructor ({ name, q, styleLayers, layerVisibilityFilter, likelihoodchanceLabel, logStyles }) {
@@ -26,16 +26,9 @@ class FloodMapLayer {
 
   static injectedModules = {}
 
-  static get modules () {
-    return FloodMapLayer.injectedModules
-  }
-
   static async initialise ({ mapState, config }) {
     if (mapState) {
       FloodMapLayer.mapState = mapState
-    }
-    if (!FloodMapLayer.injectedModules.VectorTileLayer) {
-      FloodMapLayer.injectedModules = await lazyLoadModules()
     }
     if (config) {
       FloodMapLayer.config = config
@@ -78,7 +71,6 @@ class FloodMapLayer {
   }
 
   addToMap (map) {
-    const { VectorTileLayer } = FloodMapLayer.modules
     this.vectorTileLayer = new VectorTileLayer({
       id: this.name,
       url: this.vectorTileUrl,

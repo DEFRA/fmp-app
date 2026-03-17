@@ -164,134 +164,6 @@ if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
-  const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
-
-  const mapFeatureRenderers = {
-    floodDefences: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.floodDefences[LIGHT_INDEX]
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.floodDefences[DARK_INDEX]
-        }
-      }
-    },
-    waterStorageAreas: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-fill',
-          style: 'diagonal-cross',
-          color: colours.waterStorageAreas[LIGHT_INDEX],
-          outline: {
-            color: colours.waterStorageAreas[LIGHT_INDEX],
-            width: 1
-          }
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-fill',
-          style: 'diagonal-cross',
-          color: colours.waterStorageAreas[DARK_INDEX],
-          outline: {
-            color: colours.waterStorageAreas[DARK_INDEX],
-            width: 1
-          }
-        }
-      }
-    },
-    mainRivers: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.mainRivers[LIGHT_INDEX]
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.mainRivers[DARK_INDEX]
-        }
-      }
-    }
-  }
-
-  const getMapFeatureRenderer = (name) => {
-    const mode = mapState.isDark ? 'dark' : 'default'
-    return mapFeatureRenderers[name]?.[mode]
-  }
-
-  const fLayers = [
-    {
-      name: 'floodDefences',
-      url: getModelFeatureLayerUrl('Defences'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
-      q: 'fd'
-    },
-    {
-      name: 'waterStorageAreas',
-      url: getModelFeatureLayerUrl('Flood_Storage_Areas'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
-      q: 'fsa'
-    },
-    {
-      name: 'mainRivers',
-      url: getFeatureLayerUrl('Statutory_Main_River_Map'), // getFeatureLayerUrl doesn't add a suffix (river map uses same layer for non production and production)
-      q: 'mainr'
-    }
-  ]
-
-  const addLayers = async () => {
-    vtLayers.forEach((vtLayer) => {
-      if (!vtLayer.q) {
-        return
-      }
-      vtLayer.addToMap(interactiveMap.map)
-    })
-    const { FeatureLayer } = FloodMapLayer.modules
-    fLayers.forEach(fLayer => {
-      interactiveMap.map.add(new FeatureLayer({
-        id: fLayer.name,
-        url: fLayer.url,
-        renderer: getMapFeatureRenderer(fLayer.name),
-        visible: false
-      }))
-    })
-  }
-
-  const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
-    const isDrawMode = ['frame', 'vertex'].includes(mode)
-    vtLayers.forEach((vtLayer, i) => {
-      if (!vtLayer.q) {
-        return
-      }
-      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility()
-      vtLayer.visible = isVisible
-    })
-    fLayers.forEach(fLayer => {
-      const layer = map.findLayerById(fLayer.name)
-      const isVisible = !isDrawMode && layers.includes(fLayer.q)
-      layer.visible = isVisible
-      if (isVisible) {
-        layer.renderer = getMapFeatureRenderer(fLayer.name)
-      }
-    })
-  }
-
   const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   const mapStyleOverrides = {
     id: 'mapStyles',
@@ -739,14 +611,12 @@ getDefraMapConfig().then((defraMapConfig) => {
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   interactiveMap.addEventListener('ready', async e => {
-    const { mode, segments, layers, style } = e.detail
+    const { segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     await FloodMapLayer.initialise({
       mapState,
       config: defraMapConfig
     })
-    await addLayers()
-    setTimeout(() => toggleVisibility(null, mode, segments, layers, interactiveMap.map, mapState.isDark), 1000)
     initPointerMove()
     initialiseSlider()
     renderBanner(mapState)
@@ -759,8 +629,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (['layer', 'segment'].includes(type)) {
       interactiveMap.setInfo(null)
     }
-    const map = interactiveMap.map
-    toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
     renderBanner({ ...mapState, type, mode })
   })
 

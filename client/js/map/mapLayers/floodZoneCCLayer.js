@@ -1,5 +1,7 @@
 import { FloodMapLayer } from './floodMapLayer.js'
 import { colours } from '../colours.js'
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer'
+import GroupLayer from '@arcgis/core/layers/GroupLayer'
 
 class FloodZoneCCLayer extends FloodMapLayer {
   constructor () {
@@ -18,7 +20,6 @@ class FloodZoneCCLayer extends FloodMapLayer {
   }
 
   addToMap (map) {
-    const { VectorTileLayer, GroupLayer } = FloodMapLayer.modules
     const floodZonesLayer = new VectorTileLayer({
       id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
       url: this.getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea'),
