@@ -38,7 +38,7 @@ jobs:
           cd e2e && TEST_ENV=local npm run test:ci
 
       - name: Publish e2e test results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5 # v1.9.1
         if: always()
         with:
           name: E2E Test Results
