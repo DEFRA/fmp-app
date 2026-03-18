@@ -4,14 +4,25 @@ import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import allureReporter from '@wdio/allure-reporter'
 import findFilesWithOnly from './utils/find-specs-with-only.js'
+import environments from './environments.js'
 
 const fileName = fileURLToPath(import.meta.url)
 const fileDir = path.dirname(fileName)
 
 const isCi = Boolean(process.env.CI)
-const baseUrl = process.env.INTERNAL ? process.env.INTERNAL_BASE_URL : process.env.BASE_URL
+
+const testEnv = process.env.TEST_ENV || (isCi ? 'local' : 'tst')
+const env = environments[testEnv]
+if (!env && !process.env.BASE_URL) {
+  throw new Error(`Unknown TEST_ENV "${testEnv}". Available: ${Object.keys(environments).join(', ')}`)
+}
+
+const baseUrl = process.env.INTERNAL
+  ? (process.env.INTERNAL_BASE_URL || env?.internalBaseUrl)
+  : (process.env.BASE_URL || env?.baseUrl)
+
 if (!baseUrl) {
-  throw new Error('BASE_URL environment variable is required')
+  throw new Error('Could not determine base URL. Set TEST_ENV, BASE_URL, or INTERNAL_BASE_URL.')
 }
 
 const selectedBrowser = (process.env.BROWSER || 'chrome').toLowerCase()

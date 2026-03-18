@@ -36,14 +36,14 @@ describe('Location page', () => {
     await steps.expectOn(pages.map.page)
   })
 
-  it('shows validation error when submitting without entering postcode @validation', async () => {
+  it('shows validation error when submitting without entering postcode @validation @noDeps', async () => {
     await steps.submit()
     await steps.expectErrorText(pages.location.missingSelectionError)
   })
 
   // Data driven test for invalid postcode inputs - returns 'Enter a real place name or postcode' error
   invalidLocationData.invalidPostcodeSearchData.forEach(({ search }) => {
-    it(`shows 'Enter a real place name or postcode' error for input: "${search}" @validation`, async () => {
+    it(`shows 'Enter a real place name or postcode' error for input: "${search}" @validation @noDeps`, async () => {
       await steps.choose(pages.location.findByPostcode)
       await steps.type(pages.location.placeOrPostcodeInput, search)
       await steps.submit()
@@ -73,7 +73,7 @@ describe('Location page', () => {
 
   // Data driven test for NGR inputs that return 'Enter a real National Grid Reference (NGR)' error
   invalidLocationData.invalidNGRData.forEach(({ search }) => {
-    it(`shows 'Enter a real National Grid Reference (NGR)' error for input: "${search}" @validation`, async () => {
+    it(`shows 'Enter a real National Grid Reference (NGR)' error for input: "${search}" @validation @noDeps`, async () => {
       await steps.choose(pages.location.findByNgr)
       await steps.type(pages.location.ngrInput, search)
       await steps.submit()
@@ -93,7 +93,7 @@ describe('Location page', () => {
 
   // Data driven test for Easting and Northing inputs that return 'Enter an easting/northing' error
   invalidLocationData.invalidCharactersEastingNorthingData.forEach(({ searchEasting, searchNorthing }) => {
-    it(`shows 'Enter an easting/northing' error for Easting and Northing input with invalid characters: "${searchEasting}, ${searchNorthing}" @validation`, async () => {
+    it(`shows 'Enter an easting/northing' error for Easting and Northing input with invalid characters: "${searchEasting}, ${searchNorthing}" @validation @noDeps`, async () => {
       await steps.choose(pages.location.findByEastingNorthing)
       await steps.type(pages.location.eastingInput, searchEasting)
       await steps.type(pages.location.northingInput, searchNorthing)
@@ -105,7 +105,7 @@ describe('Location page', () => {
 
   // Data driven test for Easting and Northing inputs that return 'Enter an easting/northing in the correct format' error
   invalidLocationData.invalidEastingNorthingData.forEach(({ searchEasting, searchNorthing }) => {
-    it(`shows 'Enter an easting/northing in the correct format' error for Easting and Northing input:"${searchEasting}, ${searchNorthing}" @validation`, async () => {
+    it(`shows 'Enter an easting/northing in the correct format' error for Easting and Northing input:"${searchEasting}, ${searchNorthing}" @validation @noDeps`, async () => {
       await steps.choose(pages.location.findByEastingNorthing)
       await steps.type(pages.location.eastingInput, searchEasting)
       await steps.type(pages.location.northingInput, searchNorthing)
@@ -126,7 +126,7 @@ describe('Location page', () => {
     })
   })
   // Verifies Skip to map link is present and navigates to map page when clicked
-  it('allows users to skip location selection and go directly to map page @routing', async () => {
+  it('allows users to skip location selection and go directly to map page @routing @noDeps', async () => {
     await steps.clickLink(pages.location.skipToMapLink)
     await steps.expectOn(pages.map.page)
   })

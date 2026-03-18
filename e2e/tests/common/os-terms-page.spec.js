@@ -1,7 +1,7 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 
-describe('OS Terms and conditions page', () => {
+describe('OS Terms and conditions page @noDeps', () => {
   let steps
 
   beforeEach(async () => {

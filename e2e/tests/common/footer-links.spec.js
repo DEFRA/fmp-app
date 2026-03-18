@@ -1,7 +1,7 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 
-describe('Footer Links', () => {
+describe('Footer Links @noDeps', () => {
   let steps
 
   beforeEach(async () => {

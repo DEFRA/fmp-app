@@ -9,10 +9,9 @@ describe('Accessibility statement', () => {
     await steps.open(pages.accessibilityStatement.page)
   })
 
-  it('displays the correct page title @validation', async () => {
+  it('displays the correct page title @validation @noDeps', async () => {
     await steps.expectOn(pages.accessibilityStatement.page)
   })
-
   it('navigates to Ability Net page when clicking the link @urlCheck', async () => {
     await steps.clickLink(pages.accessibilityStatement.abilityNetLink)
     await steps.expectUrlContains('abilitynet')

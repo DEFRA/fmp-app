@@ -1,7 +1,7 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 
-describe('Map help page', () => {
+describe('Map help page @noDeps', () => {
   let steps
 
   beforeEach(async () => {

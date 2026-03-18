@@ -1,7 +1,7 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 
-describe('Cookies page', () => {
+describe('Cookies page @noDeps', () => {
   let steps
 
   beforeEach(async () => {

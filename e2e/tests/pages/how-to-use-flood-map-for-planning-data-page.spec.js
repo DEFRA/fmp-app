@@ -1,7 +1,7 @@
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 
-describe('How to use flood map for planning data page', () => {
+describe('How to use flood map for planning data page @noDeps', () => {
   let steps
 
   beforeEach(async () => {

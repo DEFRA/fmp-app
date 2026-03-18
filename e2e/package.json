@@ -11,6 +11,7 @@
     "test:public": "MOCHA_GREP='@internal|@urlCheck' MOCHA_INVERT=true npx wdio run wdio.conf.js",
     "test:internal": "INTERNAL=true MOCHA_GREP='@internal|@both' npx wdio run wdio.conf.js",
     "test:urlCheck": "MOCHA_GREP='@urlCheck' npx wdio run wdio.conf.js",
+    "test:ci": "MOCHA_GREP='@noDeps' npx wdio run wdio.conf.js",
     "test:firefox": "BROWSER=firefox npm run test",
     "test:chrome": "BROWSER=chrome npm run test",
     "allure:generate": "npx allure generate _results_/allure-raw --clean -o _results_/allure-report",
