@@ -29,13 +29,21 @@ jobs:
         run: npm run build
 
       - name: Install e2e dependencies
-        run: cd e2e && npm ci
+        run: cd e2e && npm ci --ignore-scripts
 
       - name: Run e2e tests
         run: |
           npm start &
           npx wait-on http://localhost:8050 --timeout 30000
           cd e2e && TEST_ENV=local npm run test:ci
+
+      - name: Publish e2e test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: E2E Test Results
+          path: e2e/_results_/junit/*.xml
+          reporter: java-junit
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
