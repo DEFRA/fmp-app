@@ -1,4 +1,5 @@
 import { COLOURS } from './colours.js'
+import { mapState } from './mapState.js'
 
 /* -------------------------------
    SVG generators
@@ -211,6 +212,7 @@ function toggleKeyItemVisibility (e) {
     const allRequiresMet = requires.every(part => visibleItems.includes(part))
     const noExcludesPresent = excludes.every(part => !visibleItems.includes(part))
     keyItem.classList.toggle('fmp-key--hidden', !(allRequiresMet && noExcludesPresent))
+    // keyItem.classList.toggle('fmp-key--hidden', false)
   })
 
   document.querySelectorAll('.fmp-key__subheading').forEach(subheading => {
@@ -303,8 +305,24 @@ function renderKeyHTML () {
   `
 }
 
+const attachKeyHandlers = async (interactiveMap) => {
+  interactiveMap.on('map:ready', async (mapProvider) => {
+    const { features: mapFeatures, dataset } = mapState
+
+    toggleKeyItemVisibility({ mapFeatures, dataset })
+    document.addEventListener('fmp:datasetchanged', (e) => {
+      toggleKeyItemVisibility(e.detail)
+    })
+
+    document.addEventListener('fmp:featureschanged', (e) => {
+      toggleKeyItemVisibility(e.detail)
+    })
+  })
+}
+
 export {
   renderKeyHTML,
+  attachKeyHandlers,
   toggleKeyItemVisibility,
   updateKeyColours
 }

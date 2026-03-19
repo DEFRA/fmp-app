@@ -11,7 +11,11 @@ class MapState {
     this._isDark = isDark
   }
 
-  get segments () {
+  get segments () { // TODO - remove this 
+    return this.dataset
+  }
+
+  get dataset () {
     return getQueryParam('dataset') || 'none'
   }
 

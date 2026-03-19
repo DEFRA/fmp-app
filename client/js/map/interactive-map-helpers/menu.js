@@ -70,7 +70,7 @@ const datasetsConfig = [{
   name: 'likelihood',
   items: [
     { id: 'high', value: 'high', label: '1 in 30' },
-    { id: 'medium', value: 'medium', label: '1 in 100' },
+    { id: 'medium', value: 'medium', label: '1 in 100', default: true }, // set default: true if the 1st item is not the default
     { id: 'low', value: 'low', label: '1 in 1000' }
   ]
 }, {
@@ -162,7 +162,7 @@ function addDatasetChangeHandler () {
       // Show fieldset and check first radio
       if (activeFormGroups.includes(fg.dataset.name) && !isFormGroupVisible) {
         fg.style.display = 'block'
-        const firstRadio = fg.querySelector('input[type="radio"]')
+        const firstRadio = fg.querySelector('input[type="radio"].default-radio') || fg.querySelector('input[type="radio"]')
         if (firstRadio) {
           firstRadio.checked = true
         }
@@ -283,7 +283,7 @@ function renderRadios ({ legend, name, items, visible, checkedValue }) {
         <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
           ${items.map(i => `
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="${i.id}" name="${name}" type="radio" value="${i.value}" ${i.value === checkedValue ? 'checked' : ''}>
+              <input class="govuk-radios__input${i.default ? ' default-radio' : ''}" id="${i.id}" name="${name}" type="radio" value="${i.value}" ${i.value === checkedValue ? 'checked' : ''}>
               <label class="govuk-label govuk-radios__label" for="${i.id}">${i.label}</label>
             </div>
           `).join('')}

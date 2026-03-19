@@ -20,7 +20,7 @@ import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
 import { renderMenuHTML, hideMenu, addMenuClickHandlers, toggleButtonState } from './interactive-map-helpers/menu.js'
-import { renderKeyHTML, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
+import { renderKeyHTML, attachKeyHandlers, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
 import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
 
 // </InteractiveMapHelpers>
@@ -199,6 +199,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         regions: ['england'],
         width: '300px',
         showMarker: true,
+        label: 'Search for a place in england',
         // expanded: true
       }),
       drawPlugin,
@@ -544,6 +545,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
   attachLayers(interactiveMap, defraMapConfig)
   addFeatureLayers(interactiveMap, defraMapConfig)
+  attachKeyHandlers(interactiveMap)
   attachDrawPluginHandlers(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {
@@ -575,7 +577,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       html: renderKeyHTML(),
       mobile: { slot: 'bottom', open: false, exclusive: true },
       tablet: { slot: 'inset', width: '260px', open: false, exclusive: true },
-      desktop: { slot: 'inset', width: '280px', open: false, exclusive: false }
+      desktop: { slot: 'left-top', width: '280px', open: true, exclusive: false }
     })
     initialiseSlider(interactiveMap)
   })
