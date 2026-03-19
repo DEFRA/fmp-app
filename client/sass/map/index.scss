@@ -249,3 +249,20 @@ body.js-enabled:not([data-fm-error]) {
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
+#map-panel-menu {
+  .fmp-datasets {
+    margin-bottom: 106px;
+  }
+  #opacity-control {
+    position: fixed;
+    bottom: 20px;
+    height: 106px;
+    width: 266px;
+    background-color: var(--background-color);
+    margin-bottom: -20px;
+    left: 0;
+    width: 266px;
+    padding: 15px;
+    border-top: 1px solid var(--content-border-color);
+  }
+}
