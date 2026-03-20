@@ -12,7 +12,8 @@ test.describe('Results page', () => {
   })
 
   Object.values(areaData).forEach(({ polygon, floodZone }, index) => {
-    test(`displays correct flood zone information for area ${index + 1} @validation`, async () => {
+
+    test(`displays correct flood zone information for area ${index + 1}`, async () => {
       await steps.open({
         ...pages.results.pageWithZone(floodZone),
         slug: slug(polygon)
@@ -21,7 +22,7 @@ test.describe('Results page', () => {
     })
   })
 
-  test('has link to order flood risk data when in an opted-in area', { tag: '@validation' }, async () => {
+  test('has link to order flood risk data when in an opted-in area', async () => {
     const polygon = areaData.Yorkshire.polygon
     await steps.open({
       ...pages.results.pageWithZone(areaData.Yorkshire.floodZone),
@@ -30,7 +31,7 @@ test.describe('Results page', () => {
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
   })
 
-  test('does not show order flood risk data link when in an opted-out area', { tag: '@validation' }, async () => {
+  test('does not show order flood risk data link when in an opted-out area', async () => {
     const polygon = areaData.HertfordshireAndNorthLondon.polygon
     await steps.open({
       ...pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone),

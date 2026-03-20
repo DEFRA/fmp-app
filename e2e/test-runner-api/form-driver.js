@@ -19,9 +19,12 @@ export class FormDriver {
     await button.click()
   }
 
-  async clickLink (linkText) {
-    const link = this.page.getByRole('link', { name: linkText, exact: true })
-    await link.click()
+  async clickLink (link) {
+    if (link.type === 'footerLink') {
+      await this.page.locator('footer').getByRole('link', { name: link.text, exact: true }).click()
+    } else {
+      await this.page.getByRole('main').getByRole('link', { name: link.text, exact: true }).click()
+    }
   }
 
   async selectRadioByLabel (optionText) {
@@ -33,22 +36,7 @@ export class FormDriver {
   }
 
   async enterTextByLabel (labelText, value) {
-    // GDS conditional reveal patterns can result in multiple labels with the same text
-    // (one for the radio, one for the revealed text input). Filter to non-radio/checkbox inputs.
-    const input = this.page.getByLabel(labelText, { exact: true }).and(
-      this.page.locator('input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]), textarea')
-    )
-    const target = input
-    try {
-      await target.fill(String(value))
-    } catch (err) {
-      // Playwright can reject non-numeric strings for input[type=number].
-      // Fall back to key entry so validation-path tests can proceed.
-      await target.click()
-      await target.press('ControlOrMeta+A')
-      await target.press('Backspace')
-      await target.pressSequentially(String(value))
-    }
+    await this.page.getByLabel(labelText, { exact: true }).fill(String(value))
   }
 
   async selectDropdownByLabel (labelText, optionValue) {
@@ -74,7 +62,10 @@ export class FormDriver {
   }
 
   async assertLinkPresence (link, shouldExist = true) {
-    const linkElement = this.page.getByRole('link', { name: link.text, exact: true })
+    const linkElement = link.type === 'footerLink'
+      ? this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
+      : this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+
     if (shouldExist) {
       await expect(linkElement).toBeVisible()
       if (link.url) {

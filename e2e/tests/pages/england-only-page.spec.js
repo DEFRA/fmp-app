@@ -10,15 +10,17 @@ test.describe('England only page', { tag: '@noDeps' }, () => {
     await steps.open(pages.englandOnly.page)
   })
 
-  test('displays the correct page title', { tag: '@validation' }, async () => {
+  test('displays the correct page title', async () => {
     await steps.expectOn(pages.englandOnly.page)
   })
 
   // The following tests validate that external links can be reached.
+
   test('navigates to Scotland flood risk page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.home.scotlandFloodRiskLink)
     await steps.expectUrlContains('sepa.scot')
   })
+
   test('navigates to Wales flood risk page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.home.walesFloodRiskLink)
     await steps.expectUrlContains('naturalresources.wales')

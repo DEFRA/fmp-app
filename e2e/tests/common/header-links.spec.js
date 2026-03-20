@@ -10,7 +10,7 @@ test.describe('Header Links', { tag: '@noDeps' }, () => {
     await steps.open(pages.home.page)
   })
 
-  test('navigates to Flood map for planning and shows correct title', { tag: '@routing' }, async () => {
+  test('navigates to Flood map for planning and shows correct title', async () => {
     await steps.clickLink(pages.header.floodMapForPlanningLink)
     await steps.expectOn(pages.home.page)
   })

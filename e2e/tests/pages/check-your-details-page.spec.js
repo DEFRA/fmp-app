@@ -18,17 +18,19 @@ test.describe('Check your details page', () => {
     })
   })
 
-  test('confirms the change name link is present', { tag: '@routing' }, async () => {
+  test('confirms the change name link is present', async () => {
     await steps.expectLinkExists(pages.checkYourDetails.changeNameLink)
   })
-  test('confirms the change email link is present', { tag: '@routing' }, async () => {
+
+  test('confirms the change email link is present', async () => {
     await steps.expectLinkExists(pages.checkYourDetails.changeEmailLink)
   })
-  test('confirms the change location link is present', { tag: '@routing' }, async () => {
+
+  test('confirms the change location link is present', async () => {
     await steps.expectLinkExists(pages.checkYourDetails.changeLocationLink)
   })
 
-  test('navigates to confirmation page after clicking order button', { tag: '@routing' }, async () => {
+  test('navigates to confirmation page after clicking order button', async () => {
     await steps.clickButton(pages.checkYourDetails.orderButton)
     await steps.expectOn(pages.confirmation.page)
   })

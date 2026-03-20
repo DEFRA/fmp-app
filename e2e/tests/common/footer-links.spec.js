@@ -10,22 +10,22 @@ test.describe('Footer Links', { tag: '@noDeps' }, () => {
     await steps.open(pages.home.page)
   })
 
-  test('navigates to Accessibility statement and shows correct title', { tag: '@routing' }, async () => {
+  test('navigates to Accessibility statement and shows correct title', async () => {
     await steps.clickLink(pages.footer.accessibilityStatementLink)
     await steps.expectOn(pages.accessibilityStatement.page)
   })
 
-  test('navigates to Cookies and shows correct title', { tag: '@routing' }, async () => {
+  test('navigates to Cookies and shows correct title', async () => {
     await steps.clickLink(pages.footer.cookiesLink)
     await steps.expectOn(pages.cookies.page)
   })
 
-  test('navigates to Privacy notice and shows correct title', { tag: '@routing' }, async () => {
+  test('navigates to Privacy notice and shows correct title', async () => {
     await steps.clickLink(pages.footer.privacyNoticeLink)
     await steps.expectOn(pages.privacyNotice.page)
   })
 
-  test('navigates to Ordnance Survey terms and conditions and shows correct title', { tag: '@routing' }, async () => {
+  test('navigates to Ordnance Survey terms and conditions and shows correct title', async () => {
     await steps.clickLink(pages.footer.osTermsLink)
     await steps.expectOn(pages.osTerms.page)
   })

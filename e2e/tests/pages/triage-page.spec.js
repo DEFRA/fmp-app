@@ -10,18 +10,19 @@ test.describe('Triage page', { tag: '@noDeps' }, () => {
     await steps.open(pages.triage.page)
   })
 
-  test('navigates to location page after selecting planning option and submitting', { tag: '@routing' }, async () => {
+  test('navigates to location page after selecting planning option and submitting', async () => {
     await steps.choose(pages.triage.planningOption)
     await steps.submit()
     await steps.expectOn(pages.location.page)
   })
 
-  test('shows validation error when submitting without selecting an option', { tag: '@validation' }, async () => {
+  test('shows validation error when submitting without selecting an option', async () => {
     await steps.submit()
     await steps.expectErrorText(pages.triage.missingSelectionError)
   })
 
   // Assert on URL rather than page title as we're navigating to external GOV.UK pages that we don't own and can't control the content of
+
   test('redirects to GOV.UK long-term flood risk for buying/selling option', { tag: '@urlCheck' }, async () => {
     await steps.choose(pages.triage.buyingSellOption)
     await steps.submit()

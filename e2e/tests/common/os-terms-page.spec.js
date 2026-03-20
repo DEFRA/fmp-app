@@ -10,9 +10,10 @@ test.describe('OS Terms and conditions page', { tag: '@noDeps' }, () => {
     await steps.open(pages.osTerms.page)
   })
 
-  test('displays the correct page title', { tag: '@validation' }, async () => {
+  test('displays the correct page title', async () => {
     await steps.expectOn(pages.osTerms.page)
   })
+
   test('navigates to Ordnance Survey page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.osTerms.osLink)
     await steps.expectUrlContains('ordnancesurvey')

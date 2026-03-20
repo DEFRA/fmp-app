@@ -15,16 +15,17 @@ test.describe('Next steps page', () => {
       await steps.open({ ...pages.nextSteps.page, slug: slug(polygon) })
     })
 
-    test('displays next steps information', { tag: '@validation' }, async () => {
+    test('displays next steps information', async () => {
       await steps.expectText('Next steps for your planning application')
     })
 
-    test('navigates to the Flood zones and what they mean page when clicking the link', { tag: '@routing' }, async () => {
+    test('navigates to the Flood zones and what they mean page when clicking the link', async () => {
       await steps.clickLink(pages.nextSteps.floodZonesAndWhatTheyMeanLink)
       await steps.expectOn(pages.floodZoneResultsExplained.page)
     })
 
     // The following tests validate that external links can be reached.
+
     test('navigates to Flood risk assessments: climate change allowances page when clicking the link', { tag: '@urlCheck' }, async () => {
       await steps.clickLink(pages.nextSteps.takeIntoAccountClimateChangeAllowancesLink)
       await steps.expectUrlContains('climate-change-allowances')
@@ -72,7 +73,8 @@ test.describe('Next steps page', () => {
     })
 
     // The following tests validate the presence of the order flood risk data link based size of polygon and whether the area is opted-in or opted-out.
-    test('has link to order flood risk data when in an opted-in area under 300 hectares', { tag: '@validation' }, async () => {
+
+    test('has link to order flood risk data when in an opted-in area under 300 hectares', async () => {
       const polygon = floodZonedata.polygon300
       await steps.open({
         ...pages.nextSteps.page,
@@ -81,7 +83,7 @@ test.describe('Next steps page', () => {
       await steps.expectLinkExists(pages.nextSteps.orderFloodRiskDataButton)
     })
 
-    test('does not show order flood risk data link when in an opted-in area over 300 hectares', { tag: '@validation' }, async () => {
+    test('does not show order flood risk data link when in an opted-in area over 300 hectares', async () => {
       const polygon = floodZonedata.polygon300_01
       await steps.open({
         ...pages.nextSteps.page,
@@ -90,7 +92,7 @@ test.describe('Next steps page', () => {
       await steps.expectLinkNotExists(pages.nextSteps.orderFloodRiskDataButton)
     })
 
-    test('shows an Edit boundary button which can be clicked to navigate back to the map page when in an opted-in area over 300 hectares', { tag: '@validation' }, async () => {
+    test('shows an Edit boundary button which can be clicked to navigate back to the map page when in an opted-in area over 300 hectares', async () => {
       const polygon = floodZonedata.polygon300_01
       await steps.open({
         ...pages.nextSteps.page,
@@ -101,7 +103,7 @@ test.describe('Next steps page', () => {
       await steps.expectOn(pages.map.page)
     })
 
-    test('does not show order flood risk data link when in an opted-out area', { tag: '@validation' }, async () => {
+    test('does not show order flood risk data link when in an opted-out area', async () => {
       const { polygon } = areaData.HertfordshireAndNorthLondon
       await steps.open({
         ...pages.nextSteps.page,

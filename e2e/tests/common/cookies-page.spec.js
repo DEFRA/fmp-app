@@ -9,18 +9,22 @@ test.describe('Cookies page', { tag: '@noDeps' }, () => {
     steps = new Steps(page)
     await steps.open(pages.cookies.page)
   })
-  test('displays the correct page title', { tag: '@validation' }, async () => {
+
+  test('displays the correct page title', async () => {
     await steps.expectOn(pages.cookies.page)
   })
-  test('navigates to the privacy notice page when clicking the link', { tag: '@routing' }, async () => {
+
+  test('navigates to the privacy notice page when clicking the link', async () => {
     await steps.clickLink(pages.cookies.privacyNoticeLink)
     await steps.expectOn(pages.privacyNotice.page)
   })
-  test('navigates to the terms and conditions page when clicking the link', { tag: '@routing' }, async () => {
+
+  test('navigates to the terms and conditions page when clicking the link', async () => {
     await steps.clickLink(pages.cookies.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
-  test('rejects the option to Do you want to accept analytics cookies?', { tag: '@routing' }, async ({ page }) => {
+
+  test('rejects the option to Do you want to accept analytics cookies?', async ({ page }) => {
     await steps.choose(pages.cookies.rejectAnalyticsCookies)
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects rejection
@@ -28,7 +32,8 @@ test.describe('Cookies page', { tag: '@noDeps' }, () => {
     const gaCookieAfterReject = cookies.find(c => c.name === 'GA')
     expect(gaCookieAfterReject?.value).toEqual('Reject')
   })
-  test('accepts the option to Do you want to accept analytics cookies?', { tag: '@routing' }, async ({ page }) => {
+
+  test('accepts the option to Do you want to accept analytics cookies?', async ({ page }) => {
     await steps.choose(pages.cookies.acceptAnalyticsCookies)
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects acceptance

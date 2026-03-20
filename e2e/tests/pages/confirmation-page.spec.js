@@ -20,18 +20,21 @@ test.describe('Confirmation page', () => {
     await steps.clickButton(pages.checkYourDetails.orderButton)
   })
 
-  test('confirms the link to the results page is present', { tag: '@routing' }, async () => {
+  test('confirms the link to the results page is present', async () => {
     await steps.expectLinkExists(pages.confirmation.goBackToYourFloodInformationSummaryPageLink)
   })
-  test('confirms the link to the area team email is present', { tag: '@routing' }, async () => {
+
+  test('confirms the link to the area team email is present', async () => {
     await steps.expectLinkExists(pages.confirmation.contactEnvironmentAgencyLink, '@environment-agency.gov.uk')
   })
 
   // The following tests validate that external links can be reached.
+
   test('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.confirmation.toGetMoreInformationLink)
     await steps.expectUrlContains('get-information-about-flood-risk')
   })
+
   test('navigates to contact the Environment Agency page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.confirmation.contactEnvironmentAgencyLink)
     await steps.expectUrlContains('contact-the-environment-agency')

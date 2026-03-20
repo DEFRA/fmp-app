@@ -10,26 +10,27 @@ test.describe('Start now page', { tag: '@noDeps' }, () => {
     await steps.open(pages.home.page)
   })
 
-  test('displays the correct page title', { tag: '@validation' }, async () => {
+  test('displays the correct page title', async () => {
     await steps.expectOn(pages.home.page)
   })
 
-  test('navigates to triage page after clicking start now', { tag: '@routing' }, async () => {
+  test('navigates to triage page after clicking start now', async () => {
     await steps.clickButton(pages.home.startButton)
     await steps.expectOn(pages.triage.page)
   })
 
-  test('navigates to how to use data page when clicking the link', { tag: '@routing' }, async () => {
+  test('navigates to how to use data page when clicking the link', async () => {
     await steps.clickLink(pages.home.howToUseDataLink)
     await steps.expectOn(pages.howToUseFloodMapForPlanningData.page)
   })
 
-  test('navigates to terms and conditions page when clicking the link', { tag: '@routing' }, async () => {
+  test('navigates to terms and conditions page when clicking the link', async () => {
     await steps.clickLink(pages.home.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
 
   // The following tests validate that external links can be reached.
+
   test('navigates to Scotland flood risk page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.home.scotlandFloodRiskLink)
     await steps.expectUrlContains('sepa.scot')
