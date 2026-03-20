@@ -20,6 +20,9 @@ fi
 
 export HEADLESS
 
+TEST_ENV_VALUE=${TEST_ENV:-tst}
+BROWSER_VALUE=${BROWSER:-chrome}
+
 # initialize exit code trackers
 PUBLIC_EXIT=0
 INTERNAL_EXIT=0
@@ -28,11 +31,11 @@ echo "🧹 Cleaning up old test results..."
 rm -rf _results_
 
 echo ""
-echo "🧪 Running public tests (excluding @internal)... (HEADLESS=$HEADLESS)"
+echo "🧪 Running public tests (excluding @internal)... (TEST_ENV=$TEST_ENV_VALUE, BROWSER=$BROWSER_VALUE, HEADLESS=$HEADLESS)"
 npm run test:public || PUBLIC_EXIT=$?
 
 echo ""
-echo "🧪 Running internal tests (@internal and @both)... (HEADLESS=$HEADLESS)"
+echo "🧪 Running internal tests (@internal and @both)... (TEST_ENV=$TEST_ENV_VALUE, BROWSER=$BROWSER_VALUE, HEADLESS=$HEADLESS)"
 npm run test:internal || INTERNAL_EXIT=$?
 
 echo ""
@@ -45,12 +48,9 @@ else
 fi
 
 echo ""
-echo "📊 Generating Allure report..."
-npm run allure:generate
-
+echo "📊 Opening Playwright HTML report..."
 if [[ -z "$CI" ]]; then
-  echo "👀 Opening Allure report..."
-  npm run allure:open
+  npm run report:open
 else
   echo "ℹ️  In CI mode - skipping report viewer"
 fi

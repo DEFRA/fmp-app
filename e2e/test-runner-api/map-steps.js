@@ -1,8 +1,8 @@
 import { MapDriver } from './map-driver.js'
 
 export class MapSteps {
-  constructor ({ driver = new MapDriver() } = {}) {
-    this.driver = driver
+  constructor (page, { driver } = {}) {
+    this.driver = driver || new MapDriver(page)
   }
 
   async waitForMapToLoad () {

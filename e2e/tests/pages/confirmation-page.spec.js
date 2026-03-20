@@ -1,16 +1,17 @@
+import { test } from '@playwright/test'
 import { Steps } from '../../test-runner-api/steps.js'
 import { pages } from '../../pages/index.js'
 import { areaData } from '../../data/location-data.js'
 import { userData } from '../../data/user-data.js'
 
-describe('Confirmation page', () => {
+test.describe('Confirmation page', () => {
   let steps
   const fullName = encodeURIComponent(userData.name)
   const email = encodeURIComponent(userData.email)
   const encodedPolygon = encodeURIComponent(areaData.Yorkshire.polygon)
 
-  beforeEach(async () => {
-    steps = new Steps()
+  test.beforeEach(async ({ page }) => {
+    steps = new Steps(page)
     // Complete the journey to reach confirmation page legitimately
     await steps.open({
       ...pages.checkYourDetails.page,
@@ -19,19 +20,19 @@ describe('Confirmation page', () => {
     await steps.clickButton(pages.checkYourDetails.orderButton)
   })
 
-  it('confirms the link to the results page is present @routing', async () => {
+  test('confirms the link to the results page is present', { tag: '@routing' }, async () => {
     await steps.expectLinkExists(pages.confirmation.goBackToYourFloodInformationSummaryPageLink)
   })
-  it('confirms the link to the area team email is present @routing', async () => {
+  test('confirms the link to the area team email is present', { tag: '@routing' }, async () => {
     await steps.expectLinkExists(pages.confirmation.contactEnvironmentAgencyLink, '@environment-agency.gov.uk')
   })
 
   // The following tests validate that external links can be reached.
-  it('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link @urlCheck', async () => {
+  test('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.confirmation.toGetMoreInformationLink)
     await steps.expectUrlContains('get-information-about-flood-risk')
   })
-  it('navigates to contact the Environment Agency page when clicking the link @urlCheck', async () => {
+  test('navigates to contact the Environment Agency page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.confirmation.contactEnvironmentAgencyLink)
     await steps.expectUrlContains('contact-the-environment-agency')
   })

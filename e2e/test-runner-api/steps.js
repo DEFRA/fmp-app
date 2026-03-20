@@ -1,8 +1,8 @@
 import { FormDriver } from './form-driver.js'
 
 export class Steps {
-  constructor ({ driver = new FormDriver() } = {}) {
-    this.driver = driver
+  constructor (page, { driver } = {}) {
+    this.driver = driver || new FormDriver(page)
   }
 
   async open (page) {
