@@ -218,7 +218,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     // interceptorsCallback: getInterceptors,
     // tokenCallback: getEsriToken,
     warningPosition: 'top',
-    helpURL: '/map-help',
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -549,6 +548,14 @@ getDefraMapConfig().then((defraMapConfig) => {
   attachDrawPluginHandlers(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {
+    interactiveMap.addButton('help', {
+      label: 'Help',
+      href: '/map-help',
+      iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+      mobile: { slot: 'right-top', showLabel: false },
+      tablet: { slot: 'right-top', showLabel: false, order: 1 },
+      desktop: { slot: 'right-top', showLabel: true, order: 1 }
+    })
     interactiveMap.addButton('menu', {
       label: 'Menu',
       panelId: 'menu',
