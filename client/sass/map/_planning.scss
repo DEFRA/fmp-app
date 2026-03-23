@@ -1,0 +1,140 @@
+// ===================================================
+// Component: Menu
+// ===================================================
+
+.fmp-menu {
+  border-top: 1px solid var(--content-border-color);
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.fmp-menu .govuk-heading-s {
+  font-size: 1rem;
+  color: var(--foreground-color);
+}
+
+.fmp-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fmp-menu-item {
+  display: flex;
+  margin-top: 20px;
+}
+
+.fmp-menu-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  outline: 3px solid transparent;
+
+  svg {
+    color: var(--foreground-color);
+  }
+
+  svg + .fmp-menu-button__label {
+    margin-left: 7px;
+  }
+
+  .fmp-menu-button__label {
+    color: var(--content-link-color);
+  }
+
+  &:hover > .fmp-menu-button__label,
+  &:focus-visible > .fmp-menu-button__label {
+    color: var(--foreground-color);
+  }
+
+  &:focus-visible {
+    color: var(--foreground-color);
+    background-color: var(--focus-outline-color);
+    box-shadow: 0 -2px var(--focus-outline-color), 0 4px var(--foreground-color);
+    text-decoration: none;
+  }
+
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+  }
+}
+
+// ===================================================
+// Component: Key
+// ===================================================
+
+.fmp-key {
+  margin: 0;
+  padding: 0;
+}
+
+.fmp-key__group:not(.fmp-key--hidden) + .fmp-key__group {
+  margin-top: 20px;
+}
+
+.fmp-key__heading.govuk-heading-s {
+  font-size: 1rem;
+  color: var(--foreground-color);
+}
+
+.fmp-key__subheading {
+  color: var(--secondary-text-color);
+}
+
+.fmp-key__item {
+  display: flex;
+  align-items: start;
+  padding: 0;
+  margin-top: 20px;
+  align-self: auto;
+  font-size: 1rem;
+
+  &--last {
+    padding-bottom: 2px;
+  }
+}
+
+.fmp-key__group--no-heading .fmp-key__item--first {
+  margin-top: 10px;
+}
+
+.fmp-key__item svg {
+  position: relative;
+  flex-shrink: 0;
+  margin: 0px 13px 0px 2px;
+}
+
+.fmp-key--hidden {
+  display: none;
+}
+
+// ===================================================
+// Component: Datasets
+// ===================================================
+
+.fmp-datasets {
+  padding-top: 5px;
+}
+
+// GOVUK fieldset overrides
+.fmp-datasets .govuk-form-group {
+  border-top: 1px solid var(--content-border-color);
+    padding-bottom: 10px;
+}
+
+.fmp-datasets .govuk-heading-s,
+.fmp-datasets .govuk-radios__label,
+.fmp-datasets .govuk-checkboxes__label {
+  font-size: 1rem;
+  color: var(--foreground-color);
+}
+
+.fmp-datasets .govuk-fieldset__legend {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}

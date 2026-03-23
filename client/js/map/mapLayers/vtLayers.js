@@ -1,6 +1,10 @@
-import { terms } from './terms.js'
-import { colours } from './colours.js'
-import { FloodMapLayer, FloodZoneCCLayer, SurfaceWaterLayer } from './mapLayers/index.js'
+import { terms } from '../terms.js'
+import { colours } from '../colours.js'
+import { FloodMapLayer, FloodZoneCCLayer, SurfaceWaterLayer } from './index.js'
+
+// surfacewater-climatechange-high-depthAll
+// surfacewater-climatechange-high-alldepths
+// surfacewater-climatechange-high-depth150
 
 const surfaceWaterStyleLayerFilters = [
   ['depthAll', 'depth150', 'depth300', 'depth600', 'depth900', 'depth1200', 'depth2300', 'depthOver2300'],
@@ -76,7 +80,7 @@ const vtLayers = [
   new FloodZoneCCLayer(),
   new FloodMapLayer({
     name: 'Flood_Zones_2_and_3_Rivers_and_Sea',
-    q: 'fzfzpd',
+    q: 'floodzones-presentday',
     styleLayers: [
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
       ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3]
@@ -85,42 +89,42 @@ const vtLayers = [
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_1000_Depths',
     q: 'swpdlr',
-    layerVisibilityFilter: ['sw', 'pd', 'lr'],
+    layerVisibilityFilter: ['surfacewater', 'presentday', 'low'],
     styleLayers: surfaceWaterWithDepthStyleLayersLow,
     likelihoodchanceLabel: terms.likelihoodchance.swLow
   }),
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_100_Depths',
     q: 'swpdmr',
-    layerVisibilityFilter: ['sw', 'pd', 'mr'],
+    layerVisibilityFilter: ['surfacewater', 'presentday', 'medium'],
     styleLayers: surfaceWaterWithDepthStyleLayersMedium,
     likelihoodchanceLabel: terms.likelihoodchance.swMedium
   }),
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_30_Depths',
     q: 'swpdhr',
-    layerVisibilityFilter: ['sw', 'pd', 'hr'],
+    layerVisibilityFilter: ['surfacewater', 'presentday', 'high'],
     styleLayers: surfaceWaterWithDepthStyleLayersHigh,
     likelihoodchanceLabel: terms.likelihoodchance.swHigh
   }),
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_1000_CCP1_Depths',
     q: 'swcllr',
-    layerVisibilityFilter: ['sw', 'cl', 'lr'],
+    layerVisibilityFilter: ['surfacewater', 'climatechange', 'low'],
     styleLayers: surfaceWaterCCWithDepthStyleLayersLow,
     likelihoodchanceLabel: terms.likelihoodchance.swLow
   }),
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_100_CCP1_Depths',
     q: 'swclmr',
-    layerVisibilityFilter: ['sw', 'cl', 'mr'],
+    layerVisibilityFilter: ['surfacewater', 'climatechange', 'medium'],
     styleLayers: surfaceWaterCCWithDepthStyleLayersMedium,
     likelihoodchanceLabel: terms.likelihoodchance.swMedium
   }),
   new SurfaceWaterLayer({
     name: 'Surface_Water_Spatial_Planning_1_in_30_CCP1_Depths',
     q: 'swclhr',
-    layerVisibilityFilter: ['sw', 'cl', 'hr'],
+    layerVisibilityFilter: ['surfacewater', 'climatechange', 'high'],
     styleLayers: surfaceWaterCCWithDepthStyleLayersHigh,
     likelihoodchanceLabel: terms.likelihoodchance.swHigh
   })
