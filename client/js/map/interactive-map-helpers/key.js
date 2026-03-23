@@ -197,12 +197,12 @@ let visibleDatasets = []
 let visibleMapFeatures = []
 let mapStyleId = 'outdoor'
 
-function toggleKeyItemVisibility (e) {
-  if (e.dataset != null) {
-    visibleDatasets = e.dataset.split('-').filter(Boolean)
+function toggleKeyItemVisibility ({ dataset, mapFeatures }) {
+  if (dataset) {
+    visibleDatasets = dataset.split('-').filter(Boolean)
   }
-  if (e.mapFeatures != null) {
-    visibleMapFeatures = e.mapFeatures.split(',').filter(Boolean)
+  if (mapFeatures) {
+    visibleMapFeatures = mapFeatures.split(',').filter(Boolean)
   }
   const visibleItems = visibleDatasets.concat(visibleMapFeatures)
 
@@ -310,12 +310,12 @@ const attachKeyHandlers = async (interactiveMap) => {
     const { features: mapFeatures, dataset } = mapState
 
     toggleKeyItemVisibility({ mapFeatures, dataset })
-    document.addEventListener('fmp:datasetchanged', (e) => {
-      toggleKeyItemVisibility(e.detail)
+    document.addEventListener('fmp:datasetchanged', ({ detail: { dataset, mapFeatures } }) => {
+      toggleKeyItemVisibility({ dataset, mapFeatures })
     })
 
-    document.addEventListener('fmp:featureschanged', (e) => {
-      toggleKeyItemVisibility(e.detail)
+    document.addEventListener('fmp:featureschanged', ({ detail: { dataset, mapFeatures } }) => {
+      toggleKeyItemVisibility({ dataset, mapFeatures })
     })
   })
 }
