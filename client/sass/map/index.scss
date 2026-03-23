@@ -250,7 +250,7 @@ body.js-enabled:not([data-fm-error]) {
 }
 // End of fix of  a Map Component bug (must be fixed there)
 #map-panel-menu {
-  .fmp-datasets {
+  .im-c-panel__body {
     margin-bottom: 106px;
   }
   #opacity-control {
