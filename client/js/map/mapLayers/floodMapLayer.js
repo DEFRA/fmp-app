@@ -1,4 +1,5 @@
-import { lazyLoadModules } from './lazyLoadModules'
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer'
+
 class FloodMapLayer {
   constructor ({ name, q, styleLayers, layerVisibilityFilter, likelihoodchanceLabel, logStyles }) {
     this.name = name
@@ -25,16 +26,9 @@ class FloodMapLayer {
 
   static injectedModules = {}
 
-  static get modules () {
-    return FloodMapLayer.injectedModules
-  }
-
   static async initialise ({ mapState, config }) {
     if (mapState) {
       FloodMapLayer.mapState = mapState
-    }
-    if (!FloodMapLayer.injectedModules.VectorTileLayer) {
-      FloodMapLayer.injectedModules = await lazyLoadModules()
     }
     if (config) {
       FloodMapLayer.config = config
@@ -77,19 +71,21 @@ class FloodMapLayer {
   }
 
   addToMap (map) {
-    const { VectorTileLayer } = FloodMapLayer.modules
     this.vectorTileLayer = new VectorTileLayer({
       id: this.name,
       url: this.vectorTileUrl,
       opacity: 1,
       visible: false
     })
+    // trigger a call of setStyleProperties onLayerCreate so that dark mode is honoured, if set
+    const onLayerCreate = this.setStyleProperties.bind(this)
+    this.vectorTileLayer.on('layerview-create', onLayerCreate)
     map.add(this.vectorTileLayer)
   }
 
   checkLayerVisibility () {
     const { segments } = this.mapState
-    return segments.join('') === this.q
+    return segments === this.q
   }
 
   isDepthVisible (_depthBand) {
