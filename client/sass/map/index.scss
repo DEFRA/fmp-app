@@ -8,19 +8,23 @@ $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 $govuk-new-typography-scale: true;
 
-@import '../../../node_modules/govuk-frontend/dist/govuk/all';
-
-// // GOVUK Styles
-@import '../../../node_modules/govuk-frontend/dist/govuk/base';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
-@import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
+@import '../../../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css';
 
 // Map Component CSS
-@import '/flood-map-scss';
+// @import '/flood-map-scss';
 // /flood-map-scss is a webpack alias that is substituted for either 
 // @import '../../../node_modules/@defra/flood-map/src/flood-map';  // regular builds
 // @import '../../../defra-map/src/flood-map';                      // submodule builds
+
+@import '../../../node_modules/@defra/interactive-map/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/search/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/map-styles/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/scale-bar/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/interact/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css';
+
+@import 'planning';
 
 strong {
   font-weight: bold;
@@ -99,6 +103,9 @@ strong {
     }
   }
 }
+.im-o-app {
+  border-width: 0;
+}
 
 // Application CSS
 .fm-mobile.fm-inline.fm-o-container {
@@ -151,9 +158,9 @@ body.js-enabled:not([data-fm-error]) {
   color: var(--foreground-colour);
 }
 
-#map-panel-legend-label {
-  @extend .govuk-visually-hidden;
-}
+// #map-panel-legend-label {
+//   @extend .govuk-visually-hidden;
+// }
 
 .esri-view-surface--touch-none {
   touch-action: none;
@@ -244,3 +251,21 @@ body.js-enabled:not([data-fm-error]) {
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
+
+#map-panel-menu {
+  .im-c-panel__body {
+    margin-bottom: 106px;
+  }
+  #opacity-control {
+    position: fixed;
+    bottom: 20px;
+    height: 106px;
+    width: 266px;
+    background-color: var(--background-color);
+    margin-bottom: -20px;
+    left: 0;
+    width: 266px;
+    padding: 15px;
+    border-top: 1px solid var(--content-border-color);
+  }
+}
