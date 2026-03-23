@@ -43,6 +43,7 @@
 {% endblock %}
 
 {% block beforeContent %}
+{%- if not excludeBackLink -%}
   {% if backLinkUrl %}
     <a href="{{backLinkUrl}}" class="govuk-back-link">Back</a>
   {% else %}
@@ -50,7 +51,8 @@
       text: "Back",
       href: "javascript:history.back()"
     }) }}
-  {% endif %}
+  {% endif %}  
+{%- endif -%}
 {% endblock %}  
 
 {% block content %} 

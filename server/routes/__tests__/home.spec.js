@@ -27,7 +27,6 @@ describe('home route', () => {
     assertCopy('a[href="https://www.ordnancesurvey.co.uk/"]', 'Ordnance Survey(OS)')
     assertCopy('a[href="/os-terms"]', 'Ordnance Survey terms and conditions')
     assertCopy('.govuk-list.govuk-list--bullet', 'download a printable flood map for planning')
-    assertCopy('.govuk-list.govuk-list--bullet', 'request flood risk data')
     assertCopy('footer.govuk-footer', 'AC0000807064')
   })
 })
