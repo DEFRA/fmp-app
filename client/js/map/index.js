@@ -5,7 +5,7 @@ import esriProvider from '@defra/interactive-map/providers/esri'
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
-// import createInteractPlugin from '@defra/interactive-map/plugins/interact'
+import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
 import { terms } from './terms.js'
@@ -204,7 +204,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       }),
       drawPlugin,
       framePlugin,
-    //   createInteractPlugin(),
+      interactPlugin,
     ],
     behaviour: 'inline',
     place: 'England',
@@ -546,6 +546,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   addFeatureLayers(interactiveMap, defraMapConfig)
   attachKeyHandlers(interactiveMap)
   attachDrawPluginHandlers(interactiveMap)
+  attachInteractPlugin(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('help', {
@@ -587,6 +588,14 @@ getDefraMapConfig().then((defraMapConfig) => {
       desktop: { slot: 'left-top', width: '280px', open: true, exclusive: false }
     })
     initialiseSlider(interactiveMap)
+  })
+
+  interactiveMap.on('interact:markerchange', function (e) {
+    interactiveMap.addPanel('info', {
+      label: 'Info',
+      html: '<p>Some info</p>',
+      visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
+    })
   })
 
   const mapState = {
