@@ -22,6 +22,8 @@ $govuk-new-typography-scale: true;
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/scale-bar/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/interact/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css';
+
 @import 'planning';
 
 strong {
@@ -249,6 +251,7 @@ body.js-enabled:not([data-fm-error]) {
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
+
 #map-panel-menu {
   .im-c-panel__body {
     margin-bottom: 106px;
