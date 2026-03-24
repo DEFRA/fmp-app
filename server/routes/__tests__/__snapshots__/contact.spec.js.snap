@@ -30,9 +30,7 @@ exports[`contact GET Should error if no polygon is present 1`] = `
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -433,9 +431,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -951,9 +947,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -1469,9 +1463,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -1987,9 +1979,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -2505,9 +2495,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -3027,9 +3015,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -3549,9 +3535,7 @@ exports[`contact POST Should return contact view with error message if blank ema
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -4105,9 +4089,7 @@ exports[`contact POST Should return contact view with error message if blank nam
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -4661,9 +4643,7 @@ exports[`contact POST Should return contact view with error message if email con
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -5217,9 +5197,7 @@ exports[`contact POST Should return contact view with error message if fullname 
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -5773,9 +5751,7 @@ exports[`contact POST Should return contact view with error message if invalid e
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -6329,9 +6305,7 @@ exports[`contact POST Should return contact view with error message if name cont
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
