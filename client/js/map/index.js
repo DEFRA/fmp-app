@@ -7,9 +7,9 @@ import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
-import { setupEsriConfig, getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig, getOsToken } from './tokens.js'
+import { setupEsriConfig, getRequest, getDefraMapConfig, setEsriConfig } from './tokens.js'
 import { terms } from './terms.js'
-import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
+import { colours, getKeyItemFill } from './colours.js'
 import { attachLayers, vtLayers, FloodMapLayer } from './mapLayers/index.js'
 import { addFeatureLayers } from './mapLayers/featureLayers/featureLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
@@ -19,8 +19,8 @@ import { renderBanner } from './banner.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
-import { renderMenuHTML, hideMenu, addMenuClickHandlers, toggleButtonState } from './interactive-map-helpers/menu.js'
-import { renderKeyHTML, attachKeyHandlers, toggleKeyItemVisibility, updateKeyColours } from './interactive-map-helpers/key.js'
+import { renderMenuHTML } from './interactive-map-helpers/menu.js'
+import { renderKeyHTML, attachKeyHandlers } from './interactive-map-helpers/key.js'
 import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
 
 // </InteractiveMapHelpers>
@@ -216,7 +216,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
     // transformSearchRequest: getRequest,
     // interceptorsCallback: getInterceptors,
-    // tokenCallback: getEsriToken,
     warningPosition: 'top',
     search: {
       label: 'Search for a place',

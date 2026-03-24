@@ -30,9 +30,7 @@ exports[`cookies Should return cookies page successfully with cookies accepted o
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -628,9 +626,7 @@ exports[`cookies Should return cookies page successfully with cookies rejected b
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -1226,9 +1222,7 @@ exports[`cookies Should return cookies page successfully with cookies rejected o
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
