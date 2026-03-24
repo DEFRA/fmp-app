@@ -24,6 +24,9 @@ module.exports = [
     options: {
       description: 'Application Review Summary',
       handler: async (request, h) => {
+        if (!request.state.p4Customer) {
+          return h.redirect('/')
+        }
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
         const { errorSummary } = validateContactData({ fullName, recipientemail })

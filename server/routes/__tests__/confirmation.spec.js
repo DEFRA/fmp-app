@@ -24,8 +24,15 @@ describe('confirmation', () => {
   ]
 
   queryParams.forEach(queryParam => {
-    it(`Should return content correctly based on flood zone 1, ${queryParam[0]} param given`, async () => {
-      const response = await submitGetRequest({ url: `${url}?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam[1]}&floodZone=1` })
+    it.only(`Should return content correctly based on flood zone 1, ${queryParam[0]} param given`, async () => {
+      const response = await submitGetRequest({
+        url:`${url}?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam[1]}&floodZone=1`,
+        headers: {
+          cookie: {
+            p4Customer: 'true'
+          }
+        }
+      })
       expect(response.result).toMatchSnapshot()
     })
 

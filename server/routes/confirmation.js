@@ -8,6 +8,12 @@ module.exports = {
   options: {
     description: 'Get confirmation page for product 4',
     handler: async (request, h) => {
+      console.log('request.state', request.state)
+      console.log('request.state.p4Customer', request.state.p4Customer)
+      if (!request.state.p4Customer) {
+        return h.redirect('/')
+      }
+
       const {
         recipientemail,
         applicationReferenceNumber,
