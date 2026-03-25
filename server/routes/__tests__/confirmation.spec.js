@@ -24,15 +24,8 @@ describe('confirmation', () => {
   ]
 
   queryParams.forEach(queryParam => {
-    it.only(`Should return content correctly based on flood zone 1, ${queryParam[0]} param given`, async () => {
-      const response = await submitGetRequest({
-        url:`${url}?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam[1]}&floodZone=1`,
-        headers: {
-          cookie: {
-            p4Customer: 'true'
-          }
-        }
-      })
+    it(`Should return content correctly based on flood zone 1, ${queryParam[0]} param given`, async () => {
+      const response = await submitGetRequest({ url: `${url}?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam[1]}&floodZone=1` })
       expect(response.result).toMatchSnapshot()
     })
 
@@ -49,8 +42,8 @@ describe('confirmation', () => {
       `/confirmation?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam}`
     ]
     invalidUrls.forEach((invalidUrl) => {
-      it(`Should error on invalid query string, ${queryParam[0]} param given`, async () => {
-        await submitGetRequest({ url: invalidUrl }, '', 400)
+      it(`Should redirect to home on invalid query string, ${queryParam[0]} param given`, async () => {
+        await submitGetRequest({ url: invalidUrl }, '', 302)
       })
     })
 
