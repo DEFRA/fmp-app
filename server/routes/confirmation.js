@@ -45,7 +45,7 @@ module.exports = {
         .messages({
           'object.missing': 'You must include either polygon or encodedPolygon in the query parameters.'
         }),
-      failAction: (request, h, err) => {
+      failAction: (_request, h, _err) => {
         // redirect instead of default 400 error
         return h.redirect('/').takeover()
       }
