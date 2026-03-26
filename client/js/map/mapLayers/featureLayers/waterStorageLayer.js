@@ -1,6 +1,6 @@
 import { FloodMapFeatureLayer } from './floodMapFeatureLayer'
 import { mapState } from '../../interactive-map-helpers/mapState.js'
-import { colours, LIGHT_INDEX, DARK_INDEX } from '../../colours'
+import { COLOURS } from '../../colours'
 
 export class WaterStorageLayer extends FloodMapFeatureLayer {
   constructor () {
@@ -11,7 +11,7 @@ export class WaterStorageLayer extends FloodMapFeatureLayer {
   }
 
   get renderer () {
-    const color = mapState.isDark ? colours.waterStorageAreas[DARK_INDEX] : colours.waterStorageAreas[LIGHT_INDEX]
+    const color = mapState.isDark ? COLOURS.waterStorageAreas.default : COLOURS.waterStorageAreas.dark
     return {
       type: 'simple',
       symbol: {

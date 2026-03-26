@@ -57,12 +57,12 @@ const keyItemDefinitions = {
   },
   floodZone3CC: {
     label: 'Climate change (2070 to 2125)', // terms.labels.fzClimateChange
-    fill: getKeyItemFill(colours.floodZoneCC)
+    fill: getKeyItemFill(colours.floodZoneClimateChange)
   },
-  floodZoneNoData: {
+  floodZoneClimateChangeNoData: {
     label: terms.labels.noData,
     icon: symbols.noData,
-    fill: getKeyItemFill(colours.floodZoneNoData)
+    fill: getKeyItemFill(colours.floodZoneClimateChangeNoData)
   },
   waterStorageAreas: {
     id: 'fsa',
@@ -422,7 +422,7 @@ getDefraMapConfig().then((defraMapConfig) => {
             keyItemDefinitions.floodZone2PresentDay,
             keyItemDefinitions.floodZone3PresentDay,
             keyItemDefinitions.floodZone3CC,
-            keyItemDefinitions.floodZoneNoData,
+            keyItemDefinitions.floodZoneClimateChangeNoData,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
             keyItemDefinitions.mainRivers
@@ -583,7 +583,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       label: 'Key',
       html: renderKeyHTML(),
       mobile: { slot: 'bottom', open: false, exclusive: true },
-      tablet: { slot: 'inset', width: '260px', open: false, exclusive: true },
+      tablet: { slot: 'left-top', width: '260px', open: false, exclusive: true },
       desktop: { slot: 'left-top', width: '280px', open: true, exclusive: false }
     })
     initialiseSlider(interactiveMap)

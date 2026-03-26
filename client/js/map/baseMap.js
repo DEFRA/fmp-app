@@ -22,6 +22,8 @@ const setUpBaseMaps = (osAccountNumber) => {
     id: 'dark',
     label: 'Dark',
     url: '/map/styles/master-map-dark',
+    mapColorScheme: 'dark',
+    appColorScheme: 'dark',
     attribution: osMasterMapAttributionHyperlink,
     thumbnail: '/assets/images/dark-map-icon.jpg',
     logo: '/assets/images/os-logo-white.svg'

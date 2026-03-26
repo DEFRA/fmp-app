@@ -1,4 +1,4 @@
-import { COLOURS } from './colours.js'
+import { COLOURS } from '../colours.js'
 import { mapState } from './mapState.js'
 
 /* -------------------------------
@@ -35,7 +35,7 @@ function dottedSvg (colour) {
 
 function getSvgContent (colourKey, svgType, styleId) {
   const colourSet = COLOURS[colourKey]
-  const colour = colourSet[styleId] ?? colourSet['outdoor']
+  const colour = colourSet[styleId] ?? colourSet['default']
   switch (svgType) {
     case 'line': return lineSvg(colour)
     case 'hatched': return hatchedSvg(colour)
@@ -86,7 +86,7 @@ const keyItems = [{
   group: 'model-data',
   requires: ['surfacewater'],
   excludes: ['depthAll'],
-  colourKey: 'extent',
+  colourKey: 'floodExtents',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -100,7 +100,7 @@ const keyItems = [{
   label: 'Above 2300mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '>2300mm',
+  colourKey: 'depthOver2300',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -108,7 +108,7 @@ const keyItems = [{
   label: '1200mm to 2300mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '1200-2300mm',
+  colourKey: 'depth2300',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -116,7 +116,7 @@ const keyItems = [{
   label: '900mm to 1200mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '900-1200mm',
+  colourKey: 'depth1200',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -124,7 +124,7 @@ const keyItems = [{
   label: '600mm to 900mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '600-900mm',
+  colourKey: 'depth900',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -132,7 +132,7 @@ const keyItems = [{
   label: '300mm to 600mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '300-600mm',
+  colourKey: 'depth900',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -140,7 +140,7 @@ const keyItems = [{
   label: '150mm to 300mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '150-300mm',
+  colourKey: 'depth300',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -148,7 +148,7 @@ const keyItems = [{
   label: 'Below 150mm',
   group: 'model-data',
   requires: ['surfacewater', 'depthAll'],
-  colourKey: '<150mm',
+  colourKey: 'depth150',
   svgType: 'fill',
   symbolDescription: 'Symbol description',
 }, {
@@ -156,7 +156,7 @@ const keyItems = [{
   label: 'Water storage',
   group: 'map-features',
   requires: ['waterstorage'],
-  colourKey: 'waterStorage',
+  colourKey: 'waterStorageAreas',
   svgType: 'hatched',
   symbolDescription: 'Symbol description',
 }, {
@@ -317,6 +317,10 @@ const attachKeyHandlers = async (interactiveMap) => {
     document.addEventListener('fmp:featureschanged', ({ detail: { dataset, mapFeatures } }) => {
       toggleKeyItemVisibility({ dataset, mapFeatures })
     })
+  })
+
+  interactiveMap.on('map:stylechange', function ({ mapStyleId }) {
+    updateKeyColours(mapStyleId)
   })
 }
 
