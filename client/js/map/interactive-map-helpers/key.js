@@ -1,5 +1,6 @@
 import { COLOURS } from '../colours.js'
 import { mapState } from './mapState.js'
+import { terms } from '../terms.js'
 
 /* -------------------------------
    SVG generators
@@ -47,135 +48,137 @@ function getSvgContent (colourKey, svgType, styleId) {
 /* -------------------------------
    Key configuration
 -------------------------------- */
-
-const keyItems = [{
-  id: 'floodZone2',
-  label: 'Flood zone 2',
-  group: 'model-data',
-  requires: ['floodzones'],
-  colourKey: 'floodZone2',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZone3',
-  label: 'Flood zone 3',
-  group: 'model-data',
-  requires: ['floodzones'],
-  colourKey: 'floodZone3',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZoneClimateChange',
-  label: 'Flood zones with climate change (2070 to 2125)',
-  group: 'model-data',
-  requires: ['floodzones', 'climatechange'],
-  colourKey: 'floodZoneClimateChange',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZoneClimateChangeNoData',
-  label: 'Climate change data unavailable',
-  group: 'model-data',
-  requires: ['floodzones', 'climatechange'],
-  colourKey: 'floodZoneClimateChangeNoData',
-  svgType: 'dotted',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodExtent',
-  label: 'Flood extent',
-  group: 'model-data',
-  requires: ['surfacewater'],
-  excludes: ['depthAll'],
-  colourKey: 'floodExtents',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'subheading-depthAll',
-  label: 'Flood extent by depth',
-  group: 'model-data',
-  itemType: 'subheading',
-  requires: ['surfacewater', 'depthAll'],
-}, {
-  id: 'depth-gt2300mm',
-  label: 'Above 2300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depthOver2300',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-1200-2300mm',
-  label: '1200mm to 2300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth2300',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-900-1200mm',
-  label: '900mm to 1200mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth1200',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-600-900mm',
-  label: '600mm to 900mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth900',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-300-600mm',
-  label: '300mm to 600mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth900',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-150-300mm',
-  label: '150mm to 300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth300',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-lt150mm',
-  label: 'Below 150mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: 'depth150',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'waterStorage',
-  label: 'Water storage',
-  group: 'map-features',
-  requires: ['waterstorage'],
-  colourKey: 'waterStorageAreas',
-  svgType: 'hatched',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodDefence',
-  label: 'Flood defence',
-  group: 'map-features',
-  requires: ['flooddefence'],
-  colourKey: 'floodDefences',
-  svgType: 'line',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'mainRivers',
-  label: 'Main rivers',
-  group: 'map-features',
-  requires: ['mainrivers'],
-  colourKey: 'mainRivers',
-  svgType: 'line',
-  symbolDescription: 'Symbol description',
-}]
+const keyItems = [
+  {
+    id: 'floodZone2',
+    label: 'Flood zone 2',
+    group: 'model-data',
+    requires: ['floodzones', 'presentday'],
+    colourKey: 'floodZone2',
+    svgType: 'fill',
+    // symbolDescription: undefined, // Optional screen reader text, eg dark blue or hatched lines.
+  }, {
+    id: 'floodZone3',
+    label: 'Flood zone 3',
+    group: 'model-data',
+    requires: ['floodzones', 'presentday'],
+    colourKey: 'floodZone3',
+    svgType: 'fill',
+  }, {
+    id: 'floodZone2-climate-change',
+    label: 'Flood zone 2 (present day)',
+    group: 'model-data',
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZone2',
+    svgType: 'fill',
+  }, {
+    id: 'floodZone3-climate-change',
+    label: 'Flood zone 3 (present day)',
+    group: 'model-data',
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZone3',
+    svgType: 'fill',
+  },
+  {
+    id: 'floodZoneClimateChange',
+    label: 'Climate change (2070 to 2125)',
+    group: 'model-data',
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZoneClimateChange',
+    svgType: 'fill',
+  }, {
+    id: 'floodZoneClimateChangeNoData',
+    label: terms.labels.noData,
+    group: 'model-data',
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZoneClimateChangeNoData',
+    svgType: 'dotted',
+  }, {
+    id: 'floodExtent',
+    label: 'Flood extent',
+    group: 'model-data',
+    requires: ['surfacewater'],
+    excludes: ['depthAll'],
+    colourKey: 'floodExtents',
+    svgType: 'fill',
+  }, {
+    id: 'subheading-depthAll',
+    label: terms.depth.depthAll,
+    group: 'model-data',
+    itemType: 'subheading',
+    requires: ['surfacewater', 'depthAll'],
+  }, {
+    id: 'depth-gt2300mm',
+    label: terms.depth.depthOver2300,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depthOver2300',
+    svgType: 'fill',
+  }, {
+    id: 'depth-1200-2300mm',
+    label: terms.depth.depth2300,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth2300',
+    svgType: 'fill',
+  }, {
+    id: 'depth-900-1200mm',
+    label: terms.depth.depth1200,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth1200',
+    svgType: 'fill',
+  }, {
+    id: 'depth-600-900mm',
+    label: terms.depth.depth900,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth900',
+    svgType: 'fill',
+  }, {
+    id: 'depth-300-600mm',
+    label: terms.depth.depth600,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth900',
+    svgType: 'fill',
+  }, {
+    id: 'depth-150-300mm',
+    label: terms.depth.depth300,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth300',
+    svgType: 'fill',
+  }, {
+    id: 'depth-lt150mm',
+    label: terms.depth.depth150,
+    group: 'model-data',
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth150',
+    svgType: 'fill',
+  }, {
+    id: 'waterStorage',
+    label: 'Water storage',
+    group: 'map-features',
+    requires: ['waterstorage'],
+    colourKey: 'waterStorageAreas',
+    svgType: 'hatched',
+  }, {
+    id: 'floodDefence',
+    label: 'Flood defence',
+    group: 'map-features',
+    requires: ['flooddefence'],
+    colourKey: 'floodDefences',
+    svgType: 'line',
+  }, {
+    id: 'mainRivers',
+    label: 'Main rivers',
+    group: 'map-features',
+    requires: ['mainrivers'],
+    colourKey: 'mainRivers',
+    svgType: 'line',
+  }
+]
 
 const keyGroups = [
   {
