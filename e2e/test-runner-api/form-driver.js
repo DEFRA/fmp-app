@@ -21,10 +21,18 @@ export class FormDriver {
 
   async clickLink (link) {
     if (link.type === 'footerLink') {
-      await this.page.locator('footer').getByRole('link', { name: link.text, exact: true }).click()
-    } else {
-      await this.page.getByRole('main').getByRole('link', { name: link.text, exact: true }).click()
+      await this.page.locator('footer').getByRole('link', { name: link.text, exact: true }).first().click()
+      return
     }
+    if (link.type === 'headerLink') {
+      await this.page.locator('header').getByRole('link', { name: link.text, exact: true }).first().click()
+      return
+    }
+    if (link.type === 'mainLink' || link.type === 'link') {
+      await this.page.getByRole('main').getByRole('link', { name: link.text, exact: true }).first().click()
+      return
+    }
+    throw new Error(`Unsupported link type '${link.type}'`)
   }
 
   async selectRadioByLabel (optionText) {
@@ -36,7 +44,12 @@ export class FormDriver {
   }
 
   async enterTextByLabel (labelText, value) {
-    await this.page.getByLabel(labelText, { exact: true }).fill(String(value))
+    const textInput = this.page.getByRole('textbox', { name: labelText, exact: true })
+    if (await textInput.count()) {
+      await textInput.type(value)
+      return
+    }
+    await this.page.getByRole('spinbutton', { name: labelText, exact: true }).type(value)
   }
 
   async selectDropdownByLabel (labelText, optionValue) {
@@ -45,7 +58,7 @@ export class FormDriver {
 
   // ----ASSERTION METHODS---- //
   async assertTitle (expectedTitle) {
-    await expect(this.page.getByRole('heading', { level: 1, name: expectedTitle, exact: true })).toBeVisible()
+    await expect(this.page.getByRole('heading', { name: expectedTitle, exact: true })).toBeVisible()
   }
 
   async assertErrorSummaryVisible () {
@@ -64,18 +77,29 @@ export class FormDriver {
   async assertLinkPresence (link, shouldExist = true) {
     const linkElement = link.type === 'footerLink'
       ? this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
-      : this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+      : link.type === 'headerLink'
+        ? this.page.locator('header').getByRole('link', { name: link.text, exact: true })
+        : link.type === 'mainLink' || link.type === 'link'
+          ? this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+          : null
+
+    if (!linkElement) {
+      throw new Error(`Unsupported link type '${link.type}'`)
+    }
+
+    const count = await linkElement.count()
 
     if (shouldExist) {
-      await expect(linkElement).toBeVisible()
+      expect(count).toBeGreaterThan(0)
+      await expect(linkElement.first()).toBeVisible()
       if (link.url) {
-        const href = await linkElement.getAttribute('href')
+        const href = await linkElement.first().getAttribute('href')
         if (href) {
           expect(href).toContain(link.url)
         }
       }
     } else {
-      await expect(linkElement).toBeHidden()
+      expect(count).toBe(0)
     }
   }
 

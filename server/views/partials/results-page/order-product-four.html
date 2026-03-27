@@ -42,9 +42,7 @@
 {% elif over300Hectares %}
   <p class="govuk-body" id="boundaryTooBig">The boundary is too big to order detailed flood risk information (product 4). Reduce the boundary size to under 300 hectares.</p>
   <br>
-  <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
-    Edit boundary
-  </a>
+  <a id="backToMap" href="map?encodedPolygon={{ encodedPolygon }}" class="govuk-button" data-module="govuk-button" data-testid="order-product4">Edit boundary</a>
   <p class="govuk-body">
     If your boundary needs to be bigger than 300 hectares
     {%- if showOrderProduct4Button %} or you need to order other products {%- endif -%}

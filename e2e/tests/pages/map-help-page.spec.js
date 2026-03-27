@@ -43,8 +43,8 @@ test.describe('Map help page', { tag: '@noDeps' }, () => {
     await steps.clickLink(pages.mapHelp.ourAccessibilityStatementLink)
     await steps.expectOn(pages.accessibilityStatement.page)
   })
-  // The following test validates that the external link can be reached.
 
+  // The following test validates that the external link can be reached.
   test('navigates to Find out about call charges page when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.mapHelp.callChargesLink)
     await steps.expectUrlContains('call-charges')

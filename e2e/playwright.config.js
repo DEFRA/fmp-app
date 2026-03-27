@@ -1,35 +1,27 @@
 import path from 'node:path'
 import { defineConfig } from '@playwright/test'
-import environments from './environments.js'
+import { environments } from './environments.js'
 
 const isCi = Boolean(process.env.CI)
 const selectedEnv = process.env.TEST_ENV || (isCi ? 'local' : 'tst')
 const env = environments[selectedEnv]
 
-if (!env && !process.env.BASE_URL && !process.env.INTERNAL_BASE_URL) {
+if (!env) {
   throw new Error(`Unknown TEST_ENV "${selectedEnv}". Available: ${Object.keys(environments).join(', ')}`)
 }
 
-const baseURL = process.env.INTERNAL
-  ? (process.env.INTERNAL_BASE_URL || env?.internalBaseUrl)
-  : (process.env.BASE_URL || env?.baseUrl)
+const publicBaseURL = env.baseUrl
+const internalBaseURL = env.internalBaseUrl
 
-if (!baseURL) {
-  throw new Error('Could not determine base URL. Set TEST_ENV, BASE_URL, or INTERNAL_BASE_URL.')
+if (!publicBaseURL || !internalBaseURL) {
+  throw new Error(`Missing base URL config for TEST_ENV "${selectedEnv}". Check environments.js.`)
 }
 
-const browserKey = (process.env.BROWSER || 'chrome').toLowerCase()
-const browserConfigByKey = {
-  chrome: { browserName: 'chromium', channel: 'chrome' },
-  firefox: { browserName: 'firefox' },
-  edge: { browserName: 'chromium', channel: 'msedge' },
-  msedge: { browserName: 'chromium', channel: 'msedge' },
-  microsoftedge: { browserName: 'chromium', channel: 'msedge' },
-}
-const browserConfig = browserConfigByKey[browserKey] || { browserName: 'chromium' }
-
-const isHeadless = String(process.env.HEADLESS ?? 'true').toLowerCase() !== 'false'
-const resultsDir = '_results_'
+const browserProjects = [
+  { suffix: 'chromium', use: { browserName: 'chromium' } },
+  { suffix: 'firefox', use: { browserName: 'firefox' } },
+  { suffix: 'webkit', use: { browserName: 'webkit' } },
+]
 
 export default defineConfig({
   testDir: './tests',
@@ -41,13 +33,12 @@ export default defineConfig({
 
   reporter: [
     ['list'],
-    ['junit', { outputFile: path.join(resultsDir, 'junit', 'playwright-junit.xml') }],
-    ['html', { open: 'never', outputFolder: path.join(resultsDir, 'html-report') }],
+    ['junit', { outputFile: path.join('playwright-report', 'playwright-junit.xml') }],
+    ['html', { open: isCi ? 'never' : 'always' }],
   ],
 
   use: {
-    baseURL,
-    headless: isHeadless,
+    headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -55,13 +46,43 @@ export default defineConfig({
   },
 
   projects: [
+    ...browserProjects.flatMap((browserProject) => [
+      {
+        name: `public-${browserProject.suffix}`,
+        grepInvert: /@internal|@urlCheck/,
+        use: {
+          ...browserProject.use,
+          baseURL: publicBaseURL,
+        },
+      },
+      {
+        name: `internal-${browserProject.suffix}`,
+        grep: /@internal|@both/,
+        grepInvert: /@urlCheck/,
+        use: {
+          ...browserProject.use,
+          baseURL: internalBaseURL,
+        },
+      },
+    ]),
     {
-      name: browserConfig.browserName,
+      name: 'noDeps-local-chrome',
+      grep: /@noDeps/,
+      grepInvert: /@urlCheck|@internal|@both/,
       use: {
-        ...browserConfig,
+        browserName: 'chromium',
+        channel: 'chrome',
+        baseURL: publicBaseURL,
+      },
+    },
+    {
+      name: 'urlCheck-chrome',
+      grep: /@urlCheck/,
+      use: {
+        browserName: 'chromium',
+        channel: 'chrome',
+        baseURL: publicBaseURL,
       },
     },
   ],
-
-  outputDir: path.join(resultsDir, 'test-output'),
 })

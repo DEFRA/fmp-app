@@ -12,7 +12,6 @@ test.describe('Results page', () => {
   })
 
   Object.values(areaData).forEach(({ polygon, floodZone }, index) => {
-
     test(`displays correct flood zone information for area ${index + 1}`, async () => {
       await steps.open({
         ...pages.results.pageWithZone(floodZone),

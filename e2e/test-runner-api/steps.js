@@ -43,7 +43,7 @@ export class Steps {
 
   async clickLink (element) {
     this.validateElement(element, 'clickLink')
-    if (!['link', 'footerLink'].includes(element.type)) {
+    if (!['link', 'mainLink', 'headerLink', 'footerLink'].includes(element.type)) {
       throw new Error(`Steps.clickLink(): unsupported handle type '${element.type}'`)
     }
     return this.driver.clickLink(element)
@@ -89,7 +89,7 @@ export class Steps {
 
   async expectLinkExists (element) {
     this.validateElement(element, 'expectLinkExists')
-    if (!['link', 'footerLink'].includes(element.type)) {
+    if (!['link', 'mainLink', 'headerLink', 'footerLink'].includes(element.type)) {
       throw new Error(`Steps.expectLinkExists(): unsupported handle type '${element.type}'`)
     }
     return this.driver.assertLinkPresence(element, true)
@@ -97,7 +97,7 @@ export class Steps {
 
   async expectLinkNotExists (element) {
     this.validateElement(element, 'expectLinkNotExists')
-    if (!['link', 'footerLink'].includes(element.type)) {
+    if (!['link', 'mainLink', 'headerLink', 'footerLink'].includes(element.type)) {
       throw new Error(`Steps.expectLinkNotExists(): unsupported handle type '${element.type}'`)
     }
     return this.driver.assertLinkPresence(element, false)

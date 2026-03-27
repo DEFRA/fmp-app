@@ -18,7 +18,7 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
     await steps.expectLinkExists(pages.howToUseFloodMapForPlanningData.howToUseDataLink)
   })
 
-  test('confirms the what are ‘flood zones plus climate change’? link is present', async () => {
+  test('confirms the "what are flood zones plus climate change"? link is present', async () => {
     await steps.expectLinkExists(pages.howToUseFloodMapForPlanningData.floodZonesPlusClimateChangeLink)
   })
 
