@@ -53,25 +53,17 @@ const datasetsConfig = [{
   legend: 'Datasets',
   name: 'datasets',
   items: [
-    { id: 'floodzones', value: 'floodzones', label: 'Flood zones 2 and 3', formGroups: ['datasets', 'fzTimeFrame'] },
-    { id: 'surfacewater', value: 'surfacewater', label: 'Surface water', formGroups: ['datasets', 'swTimeFrame', 'likelihood', 'depth'] },
+    { id: 'floodzones', value: 'floodzones', label: 'Flood zones 2 and 3', formGroups: ['datasets', 'scenario'] },
+    { id: 'surfacewater', value: 'surfacewater', label: 'Surface water', formGroups: ['datasets', 'scenario', 'likelihood', 'depth'] },
     { id: 'none', value: 'none', label: 'None', formGroups: ['datasets'] }
   ]
 }, {
   type: 'radios',
   legend: 'Climate change',
-  name: 'fzTimeFrame',
+  name: 'scenario',
   items: [
-    { id: 'fzpresentday', value: 'fzpresentday', label: terms.labels.presentDay },
-    { id: 'fzclimatechange', value: 'fzclimatechange', label: terms.labels.floodZoneClimateChange }
-  ]
-}, {
-  type: 'radios',
-  legend: 'Climate change',
-  name: 'swTimeFrame',
-  items: [
-    { id: 'swpresentday', value: 'swpresentday', label: terms.labels.presentDay },
-    { id: 'swclimatechange', value: 'swclimatechange', label: terms.labels.surfaceWaterClimateChange }
+    { id: 'presentday', value: 'presentday', label: terms.labels.presentDay },
+    { id: 'climatechange', value: 'climatechange', label: terms.labels.floodZoneClimateChange }
   ]
 }, {
   type: 'radios',
@@ -232,7 +224,7 @@ function parseDatasetQuery (value) {
   return value.split('-').filter(Boolean)
 }
 
-const datasetQuery = getQueryParam('dataset', 'floodzones-fzpresentday')
+const datasetQuery = getQueryParam('dataset', 'floodzones-presentday')
 const datasetState = parseDatasetQuery(datasetQuery)
 
 const featuresQuery = getQueryParam('features', '')
