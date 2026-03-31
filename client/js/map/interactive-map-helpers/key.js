@@ -48,11 +48,12 @@ function getSvgContent (colourKey, svgType, styleId) {
 /* -------------------------------
    Key configuration
 -------------------------------- */
+const modelDataGroupId = 'model-data'
 const keyItems = [
   {
     id: 'floodZone2',
     label: terms.labels.floodZone2,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'presentday'],
     colourKey: 'floodZone2',
     svgType: 'fill',
@@ -60,21 +61,21 @@ const keyItems = [
   }, {
     id: 'floodZone3',
     label: terms.labels.floodZone3,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'presentday'],
     colourKey: 'floodZone3',
     svgType: 'fill',
   }, {
     id: 'floodZone2-climate-change',
     label: terms.labels.floodZone2PresentDay,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZone2',
     svgType: 'fill',
   }, {
     id: 'floodZone3-climate-change',
     label: terms.labels.floodZone3PresentDay,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZone3',
     svgType: 'fill',
@@ -82,21 +83,21 @@ const keyItems = [
   {
     id: 'floodZoneClimateChange',
     label: `${terms.labels.climateChange} (${terms.labels.floodZoneClimateChange})`,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZoneClimateChange',
     svgType: 'fill',
   }, {
     id: 'floodZoneClimateChangeNoData',
     label: terms.labels.noData,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZoneClimateChangeNoData',
     svgType: 'dotted',
   }, {
     id: 'floodExtent',
     label: 'Flood extent',
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater'],
     excludes: ['depthAll'],
     colourKey: 'floodExtents',
@@ -104,55 +105,55 @@ const keyItems = [
   }, {
     id: 'subheading-depthAll',
     label: terms.depth.key.depthAll,
-    group: 'model-data',
+    group: modelDataGroupId,
     itemType: 'subheading',
     requires: ['surfacewater', 'depthAll'],
   }, {
     id: 'depth150',
     label: terms.depth.key.depth150,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth150',
     svgType: 'fill',
   }, {
     id: 'depth300',
     label: terms.depth.key.depth300,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth300',
     svgType: 'fill',
   }, {
     id: 'depth600',
     label: terms.depth.key.depth600,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth900',
     svgType: 'fill',
   }, {
     id: 'depth900',
     label: terms.depth.key.depth900,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth900',
     svgType: 'fill',
   }, {
     id: 'depth1200',
     label: terms.depth.key.depth1200,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth1200',
     svgType: 'fill',
   }, {
     id: 'depth2300',
     label: terms.depth.key.depth2300,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depth2300',
     svgType: 'fill',
   }, {
     id: 'depthOver2300',
     label: terms.depth.key.depthOver2300,
-    group: 'model-data',
+    group: modelDataGroupId,
     requires: ['surfacewater', 'depthAll'],
     colourKey: 'depthOver2300',
     svgType: 'fill',
@@ -182,7 +183,7 @@ const keyItems = [
 
 const keyGroups = [
   {
-    id: 'model-data',
+    id: modelDataGroupId,
     label: 'Flood model data',
     conditionalLabels: [
       { requires: ['floodzones'], label: terms.labels.floodZones, visuallyHidden: true },

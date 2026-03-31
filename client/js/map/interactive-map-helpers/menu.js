@@ -70,7 +70,7 @@ const datasetsConfig = [{
   legend: 'Annual likelihood of flooding',
   name: 'likelihood',
   items: [
-    { id: 'high', value: 'high', label: terms.chance.swHigh, default: true }, // set default: true if the 1st item is not the default
+    { id: 'high', value: 'high', label: terms.chance.swHigh },
     { id: 'medium', value: 'medium', label: terms.chance.swMedium, default: true }, // set default: true if the 1st item is not the default
     { id: 'low', value: 'low', label: terms.chance.swLow }
   ]
