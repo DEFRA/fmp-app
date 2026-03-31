@@ -51,7 +51,7 @@ function getSvgContent (colourKey, svgType, styleId) {
 const keyItems = [
   {
     id: 'floodZone2',
-    label: 'Flood zone 2',
+    label: terms.labels.floodZone2,
     group: 'model-data',
     requires: ['floodzones', 'presentday'],
     colourKey: 'floodZone2',
@@ -59,21 +59,21 @@ const keyItems = [
     // symbolDescription: undefined, // Optional screen reader text, eg dark blue or hatched lines.
   }, {
     id: 'floodZone3',
-    label: 'Flood zone 3',
+    label: terms.labels.floodZone3,
     group: 'model-data',
     requires: ['floodzones', 'presentday'],
     colourKey: 'floodZone3',
     svgType: 'fill',
   }, {
     id: 'floodZone2-climate-change',
-    label: 'Flood zone 2 (present day)',
+    label: terms.labels.floodZone2PresentDay,
     group: 'model-data',
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZone2',
     svgType: 'fill',
   }, {
     id: 'floodZone3-climate-change',
-    label: 'Flood zone 3 (present day)',
+    label: terms.labels.floodZone3PresentDay,
     group: 'model-data',
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZone3',
@@ -81,7 +81,7 @@ const keyItems = [
   },
   {
     id: 'floodZoneClimateChange',
-    label: 'Climate change (2070 to 2125)',
+    label: `${terms.labels.climateChange} (${terms.labels.floodZoneClimateChange})`,
     group: 'model-data',
     requires: ['floodzones', 'climatechange'],
     colourKey: 'floodZoneClimateChange',
@@ -158,21 +158,21 @@ const keyItems = [
     svgType: 'fill',
   }, {
     id: 'waterStorage',
-    label: 'Water storage',
+    label: terms.labels.waterStorage,
     group: 'map-features',
     requires: ['waterstorage'],
     colourKey: 'waterStorageAreas',
     svgType: 'hatched',
   }, {
     id: 'floodDefence',
-    label: 'Flood defence',
+    label: terms.labels.floodDefence,
     group: 'map-features',
     requires: ['flooddefence'],
     colourKey: 'floodDefences',
     svgType: 'line',
   }, {
     id: 'mainRivers',
-    label: 'Main rivers',
+    label: terms.labels.mainRivers,
     group: 'map-features',
     requires: ['mainrivers'],
     colourKey: 'mainRivers',
@@ -185,8 +185,8 @@ const keyGroups = [
     id: 'model-data',
     label: 'Flood model data',
     conditionalLabels: [
-      { requires: ['floodzones'], label: 'Flood zones', visuallyHidden: true },
-      { requires: ['surfacewater'], label: 'Surface water' },
+      { requires: ['floodzones'], label: terms.labels.floodZones, visuallyHidden: true },
+      { requires: ['surfacewater'], label: terms.labels.surfaceWater, visuallyHidden: true },
     ]
   },
   { id: 'map-features', label: 'Map features' },

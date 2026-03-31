@@ -56,7 +56,7 @@ const keyItemDefinitions = {
     fill: getKeyItemFill(colours.floodZone3)
   },
   floodZone3CC: {
-    label: 'Climate change (2070 to 2125)', // terms.labels.fzClimateChange
+    label: terms.labels.floodZoneClimateChange,
     fill: getKeyItemFill(colours.floodZoneClimateChange)
   },
   floodZoneClimateChangeNoData: {
