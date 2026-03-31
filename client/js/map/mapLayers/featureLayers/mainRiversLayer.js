@@ -1,6 +1,6 @@
 import { FloodMapFeatureLayer } from './floodMapFeatureLayer'
 import { mapState } from '../../interactive-map-helpers/mapState.js'
-import { colours, LIGHT_INDEX, DARK_INDEX } from '../../colours'
+import { COLOURS } from '../../colours'
 
 export class MainRiversLayer extends FloodMapFeatureLayer {
   constructor () {
@@ -12,7 +12,7 @@ export class MainRiversLayer extends FloodMapFeatureLayer {
   }
 
   get renderer () {
-    const colour = mapState.isDark ? colours.mainRivers[DARK_INDEX] : colours.mainRivers[LIGHT_INDEX]
+    const colour = mapState.isDark ? COLOURS.mainRivers.default : COLOURS.mainRivers.dark
     return {
       type: 'simple',
       symbol: {

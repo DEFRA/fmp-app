@@ -1,5 +1,6 @@
-import { COLOURS } from './colours.js'
+import { COLOURS } from '../colours.js'
 import { mapState } from './mapState.js'
+import { terms } from '../terms.js'
 
 /* -------------------------------
    SVG generators
@@ -35,7 +36,7 @@ function dottedSvg (colour) {
 
 function getSvgContent (colourKey, svgType, styleId) {
   const colourSet = COLOURS[colourKey]
-  const colour = colourSet[styleId] ?? colourSet['outdoor']
+  const colour = colourSet[styleId] ?? colourSet['default']
   switch (svgType) {
     case 'line': return lineSvg(colour)
     case 'hatched': return hatchedSvg(colour)
@@ -47,143 +48,146 @@ function getSvgContent (colourKey, svgType, styleId) {
 /* -------------------------------
    Key configuration
 -------------------------------- */
-
-const keyItems = [{
-  id: 'floodZone2',
-  label: 'Flood zone 2',
-  group: 'model-data',
-  requires: ['floodzones'],
-  colourKey: 'floodZone2',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZone3',
-  label: 'Flood zone 3',
-  group: 'model-data',
-  requires: ['floodzones'],
-  colourKey: 'floodZone3',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZoneClimateChange',
-  label: 'Flood zones with climate change (2070 to 2125)',
-  group: 'model-data',
-  requires: ['floodzones', 'climatechange'],
-  colourKey: 'floodZoneClimateChange',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodZoneClimateChangeNoData',
-  label: 'Climate change data unavailable',
-  group: 'model-data',
-  requires: ['floodzones', 'climatechange'],
-  colourKey: 'floodZoneClimateChangeNoData',
-  svgType: 'dotted',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodExtent',
-  label: 'Flood extent',
-  group: 'model-data',
-  requires: ['surfacewater'],
-  excludes: ['depthAll'],
-  colourKey: 'extent',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'subheading-depthAll',
-  label: 'Flood extent by depth',
-  group: 'model-data',
-  itemType: 'subheading',
-  requires: ['surfacewater', 'depthAll'],
-}, {
-  id: 'depth-gt2300mm',
-  label: 'Above 2300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '>2300mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-1200-2300mm',
-  label: '1200mm to 2300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '1200-2300mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-900-1200mm',
-  label: '900mm to 1200mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '900-1200mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-600-900mm',
-  label: '600mm to 900mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '600-900mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-300-600mm',
-  label: '300mm to 600mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '300-600mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-150-300mm',
-  label: '150mm to 300mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '150-300mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'depth-lt150mm',
-  label: 'Below 150mm',
-  group: 'model-data',
-  requires: ['surfacewater', 'depthAll'],
-  colourKey: '<150mm',
-  svgType: 'fill',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'waterStorage',
-  label: 'Water storage',
-  group: 'map-features',
-  requires: ['waterstorage'],
-  colourKey: 'waterStorage',
-  svgType: 'hatched',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'floodDefence',
-  label: 'Flood defence',
-  group: 'map-features',
-  requires: ['flooddefence'],
-  colourKey: 'floodDefences',
-  svgType: 'line',
-  symbolDescription: 'Symbol description',
-}, {
-  id: 'mainRivers',
-  label: 'Main rivers',
-  group: 'map-features',
-  requires: ['mainrivers'],
-  colourKey: 'mainRivers',
-  svgType: 'line',
-  symbolDescription: 'Symbol description',
-}]
+const modelDataGroupId = 'model-data'
+const keyItems = [
+  {
+    id: 'floodZone2',
+    label: terms.labels.floodZone2,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'presentday'],
+    colourKey: 'floodZone2',
+    svgType: 'fill',
+    // symbolDescription: undefined, // Optional screen reader text, eg dark blue or hatched lines.
+  }, {
+    id: 'floodZone3',
+    label: terms.labels.floodZone3,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'presentday'],
+    colourKey: 'floodZone3',
+    svgType: 'fill',
+  }, {
+    id: 'floodZone2-climate-change',
+    label: terms.labels.floodZone2PresentDay,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZone2',
+    svgType: 'fill',
+  }, {
+    id: 'floodZone3-climate-change',
+    label: terms.labels.floodZone3PresentDay,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZone3',
+    svgType: 'fill',
+  },
+  {
+    id: 'floodZoneClimateChange',
+    label: `${terms.labels.climateChange} (${terms.labels.floodZoneClimateChange})`,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZoneClimateChange',
+    svgType: 'fill',
+  }, {
+    id: 'floodZoneClimateChangeNoData',
+    label: terms.labels.noData,
+    group: modelDataGroupId,
+    requires: ['floodzones', 'climatechange'],
+    colourKey: 'floodZoneClimateChangeNoData',
+    svgType: 'dotted',
+  }, {
+    id: 'floodExtent',
+    label: 'Flood extent',
+    group: modelDataGroupId,
+    requires: ['surfacewater'],
+    excludes: ['depthAll'],
+    colourKey: 'floodExtents',
+    svgType: 'fill',
+  }, {
+    id: 'subheading-depthAll',
+    label: terms.depth.key.depthAll,
+    group: modelDataGroupId,
+    itemType: 'subheading',
+    requires: ['surfacewater', 'depthAll'],
+  }, {
+    id: 'depth150',
+    label: terms.depth.key.depth150,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth150',
+    svgType: 'fill',
+  }, {
+    id: 'depth300',
+    label: terms.depth.key.depth300,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth300',
+    svgType: 'fill',
+  }, {
+    id: 'depth600',
+    label: terms.depth.key.depth600,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth900',
+    svgType: 'fill',
+  }, {
+    id: 'depth900',
+    label: terms.depth.key.depth900,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth900',
+    svgType: 'fill',
+  }, {
+    id: 'depth1200',
+    label: terms.depth.key.depth1200,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth1200',
+    svgType: 'fill',
+  }, {
+    id: 'depth2300',
+    label: terms.depth.key.depth2300,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depth2300',
+    svgType: 'fill',
+  }, {
+    id: 'depthOver2300',
+    label: terms.depth.key.depthOver2300,
+    group: modelDataGroupId,
+    requires: ['surfacewater', 'depthAll'],
+    colourKey: 'depthOver2300',
+    svgType: 'fill',
+  }, {
+    id: 'waterStorage',
+    label: terms.labels.waterStorage,
+    group: 'map-features',
+    requires: ['waterstorage'],
+    colourKey: 'waterStorageAreas',
+    svgType: 'hatched',
+  }, {
+    id: 'floodDefence',
+    label: terms.labels.floodDefence,
+    group: 'map-features',
+    requires: ['flooddefence'],
+    colourKey: 'floodDefences',
+    svgType: 'line',
+  }, {
+    id: 'mainRivers',
+    label: terms.labels.mainRivers,
+    group: 'map-features',
+    requires: ['mainrivers'],
+    colourKey: 'mainRivers',
+    svgType: 'line',
+  }
+]
 
 const keyGroups = [
   {
-    id: 'model-data',
+    id: modelDataGroupId,
     label: 'Flood model data',
     conditionalLabels: [
-      { requires: ['floodzones'], label: 'Flood zones', visuallyHidden: true },
-      { requires: ['surfacewater'], label: 'Surface water' },
+      { requires: ['floodzones'], label: terms.labels.floodZones, visuallyHidden: true },
+      { requires: ['surfacewater'], label: terms.labels.surfaceWater, visuallyHidden: true },
     ]
   },
   { id: 'map-features', label: 'Map features' },
@@ -317,6 +321,10 @@ const attachKeyHandlers = async (interactiveMap) => {
     document.addEventListener('fmp:featureschanged', ({ detail: { dataset, mapFeatures } }) => {
       toggleKeyItemVisibility({ dataset, mapFeatures })
     })
+  })
+
+  interactiveMap.on('map:stylechange', function ({ mapStyleId }) {
+    updateKeyColours(mapStyleId)
   })
 }
 

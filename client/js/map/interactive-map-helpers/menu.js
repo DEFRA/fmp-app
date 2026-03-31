@@ -1,5 +1,6 @@
 import { getQueryParam, setQueryParam } from './queryParams'
 import { sliderMarkUp } from '../slider/index.js'
+import { terms } from '../terms'
 
 /* ==========================================================================
    Menu utilities
@@ -61,31 +62,31 @@ const datasetsConfig = [{
   legend: 'Climate change',
   name: 'scenario',
   items: [
-    { id: 'presentday', value: 'presentday', label: 'Present day' },
-    { id: 'climatechange', value: 'climatechange', label: '2070 to 2125' }
+    { id: 'presentday', value: 'presentday', label: terms.labels.presentDay },
+    { id: 'climatechange', value: 'climatechange', label: terms.labels.floodZoneClimateChange }
   ]
 }, {
   type: 'radios',
   legend: 'Annual likelihood of flooding',
   name: 'likelihood',
   items: [
-    { id: 'high', value: 'high', label: '1 in 30' },
-    { id: 'medium', value: 'medium', label: '1 in 100', default: true }, // set default: true if the 1st item is not the default
-    { id: 'low', value: 'low', label: '1 in 1000' }
+    { id: 'high', value: 'high', label: terms.chance.swHigh },
+    { id: 'medium', value: 'medium', label: terms.chance.swMedium, default: true }, // set default: true if the 1st item is not the default
+    { id: 'low', value: 'low', label: terms.chance.swLow }
   ]
 }, {
   type: 'radios',
   legend: 'Depth of flooding',
   name: 'depth',
   items: [
-    { id: 'depthAll', value: 'depthAll', label: 'All depths' },
-    { id: 'depth150', value: 'depth150', label: 'Full extent of flooding' },
-    { id: 'depth300', value: 'depth300', label: 'Extent over 150mm' },
-    { id: 'depth600', value: 'depth600', label: 'Extent over 300mm' },
-    { id: 'depth900', value: 'depth900', label: 'Extent over 600mm' },
-    { id: 'depth1200', value: 'depth1200', label: 'Extent over 900mm' },
-    { id: 'depth2300', value: 'depth2300', label: 'Extent over 1200mm' },
-    { id: 'depthOver2300', value: 'depthOver2300', label: 'Extent over 2300mm' },
+    { id: 'depthAll', value: 'depthAll', label: terms.depth.depthAll },
+    { id: 'depth150', value: 'depth150', label: terms.depth.depth150 },
+    { id: 'depth300', value: 'depth300', label: terms.depth.depth300 },
+    { id: 'depth600', value: 'depth600', label: terms.depth.depth600 },
+    { id: 'depth900', value: 'depth900', label: terms.depth.depth900 },
+    { id: 'depth1200', value: 'depth1200', label: terms.depth.depth1200 },
+    { id: 'depth2300', value: 'depth2300', label: terms.depth.depth2300 },
+    { id: 'depthOver2300', value: 'depthOver2300', label: terms.depth.depthOver2300 },
 
   ]
 }, {
@@ -93,9 +94,9 @@ const datasetsConfig = [{
   legend: 'Map features',
   name: 'mapFeatures',
   items: [
-    { id: 'waterstorage', value: 'waterstorage', label: 'Water storage' },
-    { id: 'flooddefence', value: 'flooddefence', label: 'Flood defence' },
-    { id: 'mainrivers', value: 'mainrivers', label: 'Main rivers' }
+    { id: 'waterstorage', value: 'waterstorage', label: terms.labels.waterStorage },
+    { id: 'flooddefence', value: 'flooddefence', label: terms.labels.floodDefence },
+    { id: 'mainrivers', value: 'mainrivers', label: terms.labels.mainRivers }
   ]
 }]
 
@@ -187,7 +188,7 @@ function addDatasetChangeHandler () {
 
       toggleFormGroupVisibility(activeFormGroups)
 
-      const checkedIds = Array.from(document.querySelectorAll('.fmp-datasets input[type="radio"]')).filter(r => r.checked).map(r => r.id)
+      const checkedIds = Array.from(document.querySelectorAll('.fmp-datasets input[type="radio"]')).filter(r => r.checked).map(r => r.value)
 
       const dataset = checkedIds.join('-')
       setQueryParam('dataset', dataset)
