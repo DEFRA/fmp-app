@@ -12,28 +12,38 @@ const assignFloodZoneResponse = (response, results) => {
       break // We can stop early once we find FZs 2, 3, river and sea sources
     }
   }
-  if (results.floodzone_3) {
-    results.floodZone = '3'
-    results.floodZoneLevel = 'high'
-  } else if (results.floodzone_2) {
-    results.floodZone = '2'
-    results.floodZoneLevel = 'medium'
-  } else {
-    results.floodZone = '1'
-    results.floodZoneLevel = 'low'
-  }
+  const zone = results.floodzone_3 ? '3' : results.floodzone_2 ? '2' : '1'
+  results.floodZone = zone
+  results.floodZoneLevel = getFloodZonesLevels(results.floodzone_2, results.floodzone_3)
 
   if ((results.hasRiversSource && results.hasSeaSource) || results.hasRiversAndSeaSource) {
     results.hasRiversAndSeaSource = true
   }
-  results.floodSource = (results.hasRiversSource && results.hasSeaSource) || results.hasRiversAndSeaSource
-    ? 'rivers and the sea'
-    : results.hasRiversSource
-      ? 'rivers'
-      : results.hasSeaSource
-        ? 'the sea'
-        : null
+  results.floodSource = getFloodSource(results)
   return results
+}
+
+const getFloodZonesLevels = (floodzone2, floodzone3) => {
+  if (floodzone3) {
+    return 'high'
+  }
+  if (floodzone2) {
+    return 'medium'
+  }
+  return 'low'
+}
+
+const getFloodSource = ({ hasRiversSource, hasSeaSource, hasRiversAndSeaSource }) => {
+  if (hasRiversAndSeaSource || (hasRiversSource && hasSeaSource)) {
+    return 'rivers and the sea'
+  }
+  if (hasRiversSource) {
+    return 'rivers'
+  }
+  if (hasSeaSource) {
+    return 'the sea'
+  }
+  return null
 }
 
 const getFloodZones = async (options) => {
