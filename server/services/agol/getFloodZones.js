@@ -15,9 +15,11 @@ const shouldBreak = (response) =>
 const assignFloodZoneResponse = (response, results) => {
   assignFloodAttributesFromFeatures(response, results)
   let zone
-  if (results.floodzone_3) zone = '3'
-  else if (results.floodzone_2) zone = '2'
-  else zone = '1'
+  if (results.floodzone_3) {
+    zone = '3'
+  } else if (results.floodzone_2) {
+    zone = '2'
+  } else { zone = '1' }
   results.floodZone = zone
   results.floodZoneLevel = getFloodZonesLevels(results.floodzone_2, results.floodzone_3)
 
@@ -30,13 +32,13 @@ const assignFloodZoneResponse = (response, results) => {
 
 const assignFloodAttributesFromFeatures = (response, results) => {
   for (const { attributes } of response) {
-    if (isFz2(attributes)) results.floodzone_2 = true
-    if (isFz3(attributes)) results.floodzone_3 = true
-    if (isRiver(attributes)) results.hasRiversSource = true
-    if (isSea(attributes)) results.hasSeaSource = true
-    if (isRiverAndSea(attributes)) results.hasRiversAndSeaSource = true
+    if (isFz2(attributes)) { results.floodzone_2 = true }
+    if (isFz3(attributes)) { results.floodzone_3 = true }
+    if (isRiver(attributes)) { results.hasRiversSource = true }
+    if (isSea(attributes)) { results.hasSeaSource = true }
+    if (isRiverAndSea(attributes)) { results.hasRiversAndSeaSource = true }
 
-    if (shouldBreak(results)) break
+    if (shouldBreak(results)) { break }
   }
 }
 
