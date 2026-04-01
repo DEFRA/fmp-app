@@ -6,8 +6,8 @@
     <p id="riskWhenCC" class="govuk-body">
       This location is at risk from flooding from {{ floodData.floodSource }} when climate change is taken into account:
     <ul class="govuk-list govuk-list--bullet">
-      {% if floodData.hasRiversAndSeaSource %}<li>from rivers for the period 2070 to 2125 </li>
-      {% elif floodData.hasRiversAndSeaSource0fgrthjq12. }<li>from the sea (tidal flooding) by the year 2125</li>
+      {%if floodData.hasRiversSource or floodData.hasRiversAndSeaSource %}<li>from rivers for the period 2070 to 2125 </li>{% endif %}
+      {%if floodData.hasSeaSource or floodData.hasRiversAndSeaSource %}<li>from the sea (tidal flooding) by the year 2125</li>{% endif %}
     </ul>
     </p>
     <p class="govuk-body">
