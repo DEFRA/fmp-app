@@ -1,9 +1,23 @@
 const { config } = require('../../../config')
 const { esriFeatureRequest, makePolygonGeometry } = require('./')
 
+const isFz2 = (attribute) => attribute.flood_zone === 'FZ2'
+const isFz3 = (attribute) => attribute.flood_zone === 'FZ3'
+const isRiver = (attribute) => attribute.flood_source === 'river'
+const isSea = (attribute) => attribute.flood_source === 'sea'
+const isRiverAndSea = (attribute) => attribute.flood_source === 'river and sea'
+
+const shouldBreak = (response) =>
+  response.floodzone_2 &&
+  response.floodzone_3 &&
+  (response.hasRiversAndSeaSource || (response.hasRiversSource && response.hasSeaSource))
+
 const assignFloodZoneResponse = (response, results) => {
   assignFloodAttributesFromFeatures(response, results)
-  const zone = results.floodzone_3 ? '3' : results.floodzone_2 ? '2' : '1'
+  let zone
+  if (results.floodzone_3) zone = '3'
+  else if (results.floodzone_2) zone = '2'
+  else zone = '1'
   results.floodZone = zone
   results.floodZoneLevel = getFloodZonesLevels(results.floodzone_2, results.floodzone_3)
 
@@ -16,14 +30,13 @@ const assignFloodZoneResponse = (response, results) => {
 
 const assignFloodAttributesFromFeatures = (response, results) => {
   for (const { attributes } of response) {
-    results.floodzone_2 = results.floodzone_2 || (attributes.flood_zone === 'FZ2')
-    results.floodzone_3 = results.floodzone_3 || (attributes.flood_zone === 'FZ3')
-    results.hasRiversSource = results.hasRiversSource || attributes.flood_source === 'river'
-    results.hasSeaSource = results.hasSeaSource || attributes.flood_source === 'sea'
-    results.hasRiversAndSeaSource = results.hasRiversAndSeaSource || attributes.flood_source === 'river and sea'
-    if ((results.floodzone_2 && results.floodzone_3) && ((results.hasRiversSource && results.hasSeaSource) || results.hasRiversAndSeaSource)) {
-      break // We can stop early once we find FZs 2, 3, river and sea sources
-    }
+    if (isFz2(attributes)) results.floodzone_2 = true
+    if (isFz3(attributes)) results.floodzone_3 = true
+    if (isRiver(attributes)) results.hasRiversSource = true
+    if (isSea(attributes)) results.hasSeaSource = true
+    if (isRiverAndSea(attributes)) results.hasRiversAndSeaSource = true
+
+    if (shouldBreak(results)) break
   }
 }
 
