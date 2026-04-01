@@ -2,6 +2,19 @@ const { config } = require('../../../config')
 const { esriFeatureRequest, makePolygonGeometry } = require('./')
 
 const assignFloodZoneResponse = (response, results) => {
+  assignFloodAttributesFromFeatures(response, results)
+  const zone = results.floodzone_3 ? '3' : results.floodzone_2 ? '2' : '1'
+  results.floodZone = zone
+  results.floodZoneLevel = getFloodZonesLevels(results.floodzone_2, results.floodzone_3)
+
+  if ((results.hasRiversSource && results.hasSeaSource) || results.hasRiversAndSeaSource) {
+    results.hasRiversAndSeaSource = true
+  }
+  results.floodSource = getFloodSource(results)
+  return results
+}
+
+const assignFloodAttributesFromFeatures = (response, results) => {
   for (const { attributes } of response) {
     results.floodzone_2 = results.floodzone_2 || (attributes.flood_zone === 'FZ2')
     results.floodzone_3 = results.floodzone_3 || (attributes.flood_zone === 'FZ3')
@@ -12,15 +25,6 @@ const assignFloodZoneResponse = (response, results) => {
       break // We can stop early once we find FZs 2, 3, river and sea sources
     }
   }
-  const zone = results.floodzone_3 ? '3' : results.floodzone_2 ? '2' : '1'
-  results.floodZone = zone
-  results.floodZoneLevel = getFloodZonesLevels(results.floodzone_2, results.floodzone_3)
-
-  if ((results.hasRiversSource && results.hasSeaSource) || results.hasRiversAndSeaSource) {
-    results.hasRiversAndSeaSource = true
-  }
-  results.floodSource = getFloodSource(results)
-  return results
 }
 
 const getFloodZonesLevels = (floodzone2, floodzone3) => {
