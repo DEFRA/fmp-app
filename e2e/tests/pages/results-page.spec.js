@@ -1,18 +1,12 @@
-import { test } from '@playwright/test'
-import { Steps } from '../../test-runner-api/steps.js'
+import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 import { areaData } from '../../data/location-data.js'
 
 test.describe('Results page', () => {
-  let steps
   const slug = (polygon) => `/results?encodedPolygon=${encodeURIComponent(polygon)}`
 
-  test.beforeEach(async ({ page }) => {
-    steps = new Steps(page)
-  })
-
   Object.values(areaData).forEach(({ polygon, floodZone }, index) => {
-    test(`displays correct flood zone information for area ${index + 1}`, async () => {
+    test(`displays correct flood zone information for area ${index + 1}`, async ({ steps }) => {
       await steps.open({
         ...pages.results.pageWithZone(floodZone),
         slug: slug(polygon)
@@ -21,7 +15,7 @@ test.describe('Results page', () => {
     })
   })
 
-  test('has link to order flood risk data when in an opted-in area', async () => {
+  test('has link to order flood risk data when in an opted-in area', async ({ steps }) => {
     const polygon = areaData.Yorkshire.polygon
     await steps.open({
       ...pages.results.pageWithZone(areaData.Yorkshire.floodZone),
@@ -30,7 +24,7 @@ test.describe('Results page', () => {
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
   })
 
-  test('does not show order flood risk data link when in an opted-out area', async () => {
+  test('does not show order flood risk data link when in an opted-out area', async ({ steps }) => {
     const polygon = areaData.HertfordshireAndNorthLondon.polygon
     await steps.open({
       ...pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone),
@@ -40,7 +34,7 @@ test.describe('Results page', () => {
     await steps.expectLinkNotExists(pages.results.orderFloodRiskDataButton)
   })
 
-  test('has link to order flood risk data link when in an opted-out area', { tag: '@internal' }, async () => {
+  test('has link to order flood risk data link when in an opted-out area', { tag: '@internal' }, async ({ steps }) => {
     const polygon = areaData.HertfordshireAndNorthLondon.polygon
     await steps.open({
       ...pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone),

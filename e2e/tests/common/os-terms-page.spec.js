@@ -1,20 +1,16 @@
-import { test } from '@playwright/test'
-import { Steps } from '../../test-runner-api/steps.js'
+import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 
 test.describe('OS Terms and conditions page', { tag: '@noDeps' }, () => {
-  let steps
-
-  test.beforeEach(async ({ page }) => {
-    steps = new Steps(page)
+  test.beforeEach(async ({ steps }) => {
     await steps.open(pages.osTerms.page)
   })
 
-  test('displays the correct page title', async () => {
+  test('displays the correct page title', async ({ steps }) => {
     await steps.expectOn(pages.osTerms.page)
   })
 
-  test('navigates to Ordnance Survey page when clicking the link', { tag: '@urlCheck' }, async () => {
+  test('navigates to Ordnance Survey page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
     await steps.clickLink(pages.osTerms.osLink)
     await steps.expectUrlContains('ordnancesurvey')
   })

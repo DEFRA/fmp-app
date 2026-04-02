@@ -1,19 +1,19 @@
 import { expect } from '@playwright/test'
 import { FormDriver } from './form-driver.js'
+import * as mapPage from '../pages/map.page.js'
 
 const INITIAL_MAP_LOAD_PAUSE_MS = 5000
 const BETWEEN_ZOOM_PAUSE_MS = 1500
 const ARIA_DISABLED = 'aria-disabled'
 
 export class MapDriver extends FormDriver {
-  async mapLoaded () {
+  async waitForMapToLoad () {
     await this.page.waitForTimeout(INITIAL_MAP_LOAD_PAUSE_MS)
-    const mapElement = this.page.locator('#map-viewport')
-    await expect(mapElement).toBeVisible()
+    await expect(this.page.locator('#map-viewport')).toBeVisible()
   }
 
-  async clickButton (buttonText) {
-    const text = (buttonText || '').trim()
+  async clickButton (element) {
+    const text = element.text.trim()
     const button = this.page.getByRole('button', { name: text, exact: true }).first()
     await expect(async () => {
       expect(await button.isVisible()).toBe(true)
@@ -22,23 +22,25 @@ export class MapDriver extends FormDriver {
     await button.click()
   }
 
-  async expandMenuSection (sectionTitle) {
-    const text = (sectionTitle || '').trim()
-    const sectionTitleElement = this.page.getByRole('button', { name: text }).first()
-    await sectionTitleElement.click()
+  async expandMenuSection (element) {
+    const text = element.text.trim()
+    await this.page.getByRole('button', { name: text }).first().click()
   }
 
-  async selectMenuButtonOption (optionText) {
-    const optionElement = this.page.getByRole('button', { name: optionText, exact: true }).first()
-    await optionElement.click()
-  }
-
-  async selectMenuRadioOption (optionText) {
-    await this.page.getByRole('radio', { name: optionText, exact: true }).check()
-  }
-
-  async selectMenuCheckboxOption (optionText) {
-    await this.page.getByRole('checkbox', { name: optionText, exact: true }).check()
+  async chooseMenuOption (element) {
+    if (element.type === 'menuButtonOption') {
+      await this.page.getByRole('button', { name: element.text, exact: true }).first().click()
+      return
+    }
+    if (element.type === 'menuRadioOption') {
+      await this.page.getByRole('radio', { name: element.text, exact: true }).check()
+      return
+    }
+    if (element.type === 'menuCheckboxOption') {
+      await this.page.getByRole('checkbox', { name: element.text, exact: true }).check()
+      return
+    }
+    throw new Error(`chooseMenuOption(): unsupported element type '${element.type}'`)
   }
 
   async zoomIn (times = 3) {
@@ -49,13 +51,21 @@ export class MapDriver extends FormDriver {
         expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
       }).toPass()
       await zoomInButton.click()
-      // Wait for the map to settle after zooming before attempting the next click
       await this.page.waitForLoadState('networkidle')
       await this.page.waitForTimeout(BETWEEN_ZOOM_PAUSE_MS)
-      // Confirm the button is ready again before the next iteration
       await expect(async () => {
         expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
       }).toPass()
     }
+  }
+
+  async addSquare () {
+    await this.expandMenuSection(mapPage.locationMenuSection)
+    await this.chooseMenuOption(mapPage.addSquareOption)
+  }
+
+  async confirmBoundaryAndContinue () {
+    await this.clickButton(mapPage.finishButton)
+    await this.clickButton(mapPage.getSummaryReportButton)
   }
 }

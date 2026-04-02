@@ -1,15 +1,10 @@
-import { test } from '@playwright/test'
-import { Steps } from '../test-runner-api/steps.js'
+import { test } from '../fixtures.js'
 import { pages } from '../pages/index.js'
 import { locationData } from '../data/location-data.js'
-import { MapSteps } from '../test-runner-api/map-steps.js'
 import { userData } from '../data/user-data.js'
 
 test.describe('End-to-end planning journey', () => {
-  test('completes the journey from home to confirmation', { tag: '@both' }, async ({ page }) => {
-    const steps = new Steps(page)
-    const mapSteps = new MapSteps(page)
-
+  test('completes the journey from home to confirmation', { tag: '@both' }, async ({ steps, mapSteps }) => {
     // Home → Triage
     await steps.open(pages.home.page)
     await steps.clickButton(pages.home.startButton)
