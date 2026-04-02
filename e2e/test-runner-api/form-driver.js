@@ -20,19 +20,8 @@ export class FormDriver {
   }
 
   async clickLink (link) {
-    if (link.type === 'footerLink') {
-      await this.page.locator('footer').getByRole('link', { name: link.text, exact: true }).first().click()
-      return
-    }
-    if (link.type === 'headerLink') {
-      await this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true }).first().click()
-      return
-    }
-    if (link.type === 'mainLink' || link.type === 'link') {
-      await this.page.getByRole('main').getByRole('link', { name: link.text, exact: true }).first().click()
-      return
-    }
-    throw new Error(`Unsupported link type '${link.type}'`)
+    const linkElement = this.#getLinkLocator(link)
+    await linkElement.click()
   }
 
   async selectRadioByLabel (optionText) {
