@@ -53,7 +53,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040
         if: always()
         with:
-          files: e2e/playwright-report/junit.xml
+          files: e2e/test-results/junit.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
