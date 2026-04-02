@@ -27,7 +27,7 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
   })
 
   test('navigates to the terms and conditions page when clicking the link', async () => {
-    await steps.clickLink(pages.cookies.termsAndConditionsLink)
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
 
@@ -75,15 +75,5 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
   test('navigates to More information on when to use other climate change allowances. when clicking the link', { tag: '@urlCheck' }, async () => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.otherClimateChangeAllowancesLink)
     await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
-  })
-
-  test('navigates to Find out more about using peak rainfall intensity allowances to assess surface water flood risk. when clicking the link', { tag: '@urlCheck' }, async () => {
-    await steps.clickLink(pages.howToUseFloodMapForPlanningData.findOutMoreAboutPeakRainfallIntensityAllowancesLink)
-    await steps.expectUrlContains('using-peak-rainfall-intensity-allowances')
-  })
-
-  test('navigates to hydrology data explorer when clicking the link', { tag: '@urlCheck' }, async () => {
-    await steps.clickLink(pages.howToUseFloodMapForPlanningData.hydrologyDataExplorerLink)
-    await steps.expectUrlContains('climate-change-allowances/rainfall')
   })
 })

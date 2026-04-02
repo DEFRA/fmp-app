@@ -23,7 +23,7 @@ export class MapDriver extends FormDriver {
 
   async expandMenuSection (sectionTitle) {
     const text = (sectionTitle || '').trim()
-    const sectionTitleElement = this.page.getByRole('button', { name: text, exact: true }).first()
+    const sectionTitleElement = this.page.getByRole('button', { name: text }).first()
     await sectionTitleElement.click()
   }
 
@@ -41,10 +41,20 @@ export class MapDriver extends FormDriver {
   }
 
   async zoomIn (times = 3) {
-    const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
     for (let i = 0; i < times; i++) {
+      const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
+      await expect(async () => {
+        expect(await zoomInButton.isVisible()).toBe(true)
+        expect(await zoomInButton.getAttribute('aria-disabled')).not.toBe('true')
+      }).toPass()
       await zoomInButton.click()
+      // Wait for the map to settle after zooming before attempting the next click
+      await this.page.waitForLoadState('networkidle')
       await this.page.waitForTimeout(BETWEEN_ZOOM_PAUSE_MS)
+      // Confirm the button is ready again before the next iteration
+      await expect(async () => {
+        expect(await zoomInButton.getAttribute('aria-disabled')).not.toBe('true')
+      }).toPass()
     }
   }
 }

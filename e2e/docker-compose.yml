@@ -1,0 +1,10 @@
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    ipc: host
+    volumes:
+      - ./playwright-report:/app/playwright-report
+    command: ["npm", "run", "test"]

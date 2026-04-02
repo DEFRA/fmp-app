@@ -47,7 +47,6 @@ test.describe('Location page', () => {
 
   // Data driven test for invalid postcode inputs - returns 'Enter a real place name or postcode' error
   invalidLocationData.invalidPostcodeSearchData.forEach(({ search }) => {
-
     test(`shows 'Enter a real place name or postcode' error for input: "${search}" @noDeps`, async () => {
       await steps.choose(pages.location.findByPostcode)
       await steps.type(pages.location.placeOrPostcodeInput, search)
@@ -58,7 +57,6 @@ test.describe('Location page', () => {
 
   // Data driven test for inputs that return 'No address found for that place name or postcode' error
   invalidLocationData.noAddressFoundSearchData.forEach(({ search }) => {
-
     test(`shows 'No address found for that place name or postcode' error for input: "${search}"`, async () => {
       await steps.choose(pages.location.findByPostcode)
       await steps.type(pages.location.placeOrPostcodeInput, search)
@@ -69,7 +67,6 @@ test.describe('Location page', () => {
 
   // Data driven test for non-England postcode inputs
   invalidLocationData.nonEnglandSearchData.forEach(({ search }) => {
-
     test(`shows 'England only' page for input: "${search}"`, async () => {
       await steps.choose(pages.location.findByPostcode)
       await steps.type(pages.location.placeOrPostcodeInput, search)
@@ -80,7 +77,6 @@ test.describe('Location page', () => {
 
   // Data driven test for NGR inputs that return 'Enter a real National Grid Reference (NGR)' error
   invalidLocationData.invalidNGRData.forEach(({ search }) => {
-
     test(`shows 'Enter a real National Grid Reference (NGR)' error for input: "${search}" @noDeps`, async () => {
       await steps.choose(pages.location.findByNgr)
       await steps.type(pages.location.ngrInput, search)
@@ -91,7 +87,6 @@ test.describe('Location page', () => {
 
   // Data driven test for non-England NGR inputs
   invalidLocationData.nonEnglandNGRData.forEach(({ search }) => {
-
     test(`shows 'England only' page for NGR input:"${search}"`, async () => {
       await steps.choose(pages.location.findByNgr)
       await steps.type(pages.location.ngrInput, search)
@@ -102,7 +97,6 @@ test.describe('Location page', () => {
 
   // Data driven test for Easting and Northing inputs that return 'Enter an easting/northing' error
   invalidLocationData.invalidCharactersEastingNorthingData.forEach(({ searchEasting, searchNorthing }) => {
-
     test(`shows 'Enter an easting/northing' error for Easting and Northing input with invalid characters: "${searchEasting}, ${searchNorthing}" @noDeps`, async () => {
       await steps.choose(pages.location.findByEastingNorthing)
       await steps.type(pages.location.eastingInput, searchEasting)
@@ -115,7 +109,6 @@ test.describe('Location page', () => {
 
   // Data driven test for Easting and Northing inputs that return 'Enter an easting/northing in the correct format' error
   invalidLocationData.invalidEastingNorthingData.forEach(({ searchEasting, searchNorthing }) => {
-
     test(`shows 'Enter an easting/northing in the correct format' error for Easting and Northing input:"${searchEasting}, ${searchNorthing}" @noDeps`, async () => {
       await steps.choose(pages.location.findByEastingNorthing)
       await steps.type(pages.location.eastingInput, searchEasting)
@@ -128,7 +121,6 @@ test.describe('Location page', () => {
 
   // Data driven test for non-England Easting and Northing inputs
   invalidLocationData.nonEnglandEastingData.forEach(({ searchEasting, searchNorthing }) => {
-
     test(`shows 'England only' page for Easting and Northing input:"${searchEasting}, ${searchNorthing}"`, async () => {
       await steps.choose(pages.location.findByEastingNorthing)
       await steps.type(pages.location.eastingInput, searchEasting)

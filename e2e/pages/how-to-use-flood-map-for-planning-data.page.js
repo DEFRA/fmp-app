@@ -8,9 +8,9 @@ export const page = definePage({
 })
 // Internal links
 export const howToUseDataLink = link('how should the data be used?')
-export const floodZonesPlusClimateChangeLink = link('flood zones plus climate change')
+export const floodZonesPlusClimateChangeLink = link('what are ‘flood zones plus climate change’?')
 export const climateChangeDataUnavailableLink = link('what does ‘climate change data unavailable’ mean?')
-export const termsAndConditionsLink = link('Terms and conditions')
+export const termsAndConditionsLink = link('terms and conditions')
 
 // External links
 export const prepareStrategicFloodRiskAssessmentLink = link('prepare a strategic flood risk assessment')
@@ -22,5 +22,3 @@ export const nationalFloodRiskStandingAdviceLink = link('national flood risk sta
 export const applyingForPlanningPermissionLink = link('flood risk assessments: applying for planning permission.')
 export const climateChangeAllowancesGuidanceLink = link('flood risk assessments climate change allowances guidance.')
 export const otherClimateChangeAllowancesLink = link('More information on when to use other climate change allowances.')
-export const findOutMoreAboutPeakRainfallIntensityAllowancesLink = link('Find out more about using peak rainfall intensity allowances to assess surface water flood risk.')
-export const hydrologyDataExplorerLink = link('hydrology data explorer')

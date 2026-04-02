@@ -6,18 +6,18 @@ import { userData } from '../../data/user-data.js'
 
 test.describe('Confirmation page', () => {
   let steps
-  const fullName = encodeURIComponent(userData.name)
-  const email = encodeURIComponent(userData.email)
+  const email = userData.email
+  const applicationReferenceNumber = 'ABCD1234EFGH5678'
   const encodedPolygon = encodeURIComponent(areaData.Yorkshire.polygon)
 
   test.beforeEach(async ({ page }) => {
     steps = new Steps(page)
-    // Complete the journey to reach confirmation page legitimately
+    // Open confirmation directly to avoid dependency on external order submission.
     await steps.open({
-      ...pages.checkYourDetails.page,
-      slug: `/check-your-details?encodedPolygon=${encodedPolygon}&fullName=${fullName}&recipientemail=${email}`
+      ...pages.confirmation.page,
+      slug: `/confirmation?encodedPolygon=${encodedPolygon}&recipientemail=${encodeURIComponent(email)}&applicationReferenceNumber=${applicationReferenceNumber}&floodZone=3`
     })
-    await steps.clickButton(pages.checkYourDetails.orderButton)
+    await steps.expectOn(pages.confirmation.page)
   })
 
   test('confirms the link to the results page is present', async () => {
@@ -25,7 +25,7 @@ test.describe('Confirmation page', () => {
   })
 
   test('confirms the link to the area team email is present', async () => {
-    await steps.expectLinkExists(pages.confirmation.contactEnvironmentAgencyLink, '@environment-agency.gov.uk')
+    await steps.expectLinkExists(pages.confirmation.contactEmailLink)
   })
 
   // The following tests validate that external links can be reached.

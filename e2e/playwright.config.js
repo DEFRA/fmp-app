@@ -13,12 +13,26 @@ if (!env) {
 const publicBaseURL = env.baseUrl
 const internalBaseURL = env.internalBaseUrl
 
+const chromeConfig = {
+  browserName: 'chromium',
+  channel: 'chrome',
+  ignoreDefaultArgs: ['--disable-gpu'],
+  launchOptions: {
+    args: [
+      '--enable-webgl',
+      '--ignore-gpu-blocklist',
+      '--use-angle=swiftshader',
+      '--enable-unsafe-swiftshader'
+    ],
+  },
+}
+
 if (!publicBaseURL || !internalBaseURL) {
   throw new Error(`Missing base URL config for TEST_ENV "${selectedEnv}". Check environments.js.`)
 }
 
 const browserProjects = [
-  { suffix: 'chromium', use: { browserName: 'chromium' } },
+  { suffix: 'chromium', use: chromeConfig },
   { suffix: 'firefox', use: { browserName: 'firefox' } },
   { suffix: 'webkit', use: { browserName: 'webkit' } },
 ]
@@ -70,8 +84,7 @@ export default defineConfig({
       grep: /@noDeps/,
       grepInvert: /@urlCheck|@internal|@both/,
       use: {
-        browserName: 'chromium',
-        channel: 'chrome',
+        ...chromeConfig,
         baseURL: publicBaseURL,
       },
     },
@@ -79,8 +92,7 @@ export default defineConfig({
       name: 'urlCheck-chrome',
       grep: /@urlCheck/,
       use: {
-        browserName: 'chromium',
-        channel: 'chrome',
+        ...chromeConfig,
         baseURL: publicBaseURL,
       },
     },

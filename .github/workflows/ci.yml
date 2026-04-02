@@ -29,20 +29,23 @@ jobs:
         run: npm run build
 
       - name: Install e2e dependencies
-        run: cd e2e && npm ci --ignore-scripts
+        run: cd e2e && npm ci
+
+      - name: Install Playwright browsers
+        run: cd e2e && npx playwright install --with-deps chromium
 
       - name: Run e2e tests
         run: |
           npm start &
-          npx wait-on http://localhost:8050 --timeout 30000
-          cd e2e && TEST_ENV=local npm run test:ci
+          npx --yes wait-on http://localhost:8050 --timeout 30000
+          cd e2e && npm run test:local
 
       - name: Publish e2e test results
         uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5 # v1.9.1
         if: always()
         with:
           name: E2E Test Results
-          path: e2e/_results_/junit/*.xml
+          path: e2e/playwright-report/playwright-junit.xml
           reporter: java-junit
 
       - name: SonarCloud Scan

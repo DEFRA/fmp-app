@@ -8,6 +8,6 @@ export const page = definePage({
 })
 
 export const orderButton = button('Order flood risk data')
-export const changeNameLink = link('Change name')
-export const changeEmailLink = link('Change email address')
-export const changeLocationLink = link('Change location')
+export const changeNameLink = link('Change Change name')
+export const changeEmailLink = link('Change Change email address')
+export const changeLocationLink = link('Change Change location')

@@ -26,7 +26,6 @@ test.describe('Contact page', () => {
   })
 
   invalidEmails.forEach((invalidEmail) => {
-
     test(`shows validation error when entering invalid email '${invalidEmail}' @noDeps`, async () => {
       await steps.type(pages.contact.fullNameInput, 'Test User')
       await steps.type(pages.contact.emailInput, invalidEmail)

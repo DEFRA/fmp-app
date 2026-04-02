@@ -1,18 +1,50 @@
 # FMFP End-to-End Tests
 
-UI end-to-end test suite for the Flood Map for Planning (FMFP) application, built with Playwright.
+UI end-to-end test suite for the Flood Map for Planning (FMFP) application, built with [Playwright](https://playwright.dev/).
 
-This suite leverages a "test-runner API" pattern (see [fmfp-refresh-tests/test-runner-api](fmfp-refresh-tests/test-runner-api)) to standardize how runs are invoked and reported. The pattern isolates runner concerns from spec code, making tests easier to maintain and reproducible across environments.
+## Architecture
+
+The suite uses a layered test architecture to keep specs readable and maintainable:
+
+```
+tests/*.spec.js          ← Test specifications (what to test)
+  ↓
+test-runner-api/          ← Steps & MapSteps (domain-level actions)
+  ↓
+test-runner-api/          ← FormDriver & MapDriver (Playwright locator logic)
+  ↓
+pages/                    ← Page objects & form control definitions
+```
+
+### Page Objects (`pages/`)
+
+Each page is defined with `definePage({ key, slug, title })` and exports typed form control handles:
+
+- `link(text)` / `mainLink(text)` — links scoped to `<main>`
+- `footerLink(text)` — links scoped to `<footer>`
+- `headerLink(text)` — links scoped to header/service navigation
+- `textInput(text)`, `radioOption(text)`, `checkboxOption(text)`, `button(text)`, `errorText(text)`
+
+### Drivers (`test-runner-api/form-driver.js`, `map-driver.js`)
+
+Low-level Playwright interactions. `FormDriver` handles standard GOV.UK form pages. `MapDriver` extends it with map-specific actions (zoom, draw boundary, menu interactions).
+
+Key behaviours:
+- **Link matching** uses `exact: true` with `.first()` to prevent substring ambiguity while handling pages with genuinely duplicated links.
+- **Text input** uses `textbox.or(spinbutton)` with `toBeVisible()` to wait for the element before filling, avoiding race conditions on page transitions.
+- **Map zoom** waits for `networkidle` and re-checks button readiness between each zoom click to avoid flaky interactions with tile loading.
+- **Link presence assertions** use `exact: true` and fall back to `.first()` only when `count > 1` (genuine duplicates), preserving strict-mode protection for single matches.
+
+### Steps (`test-runner-api/steps.js`, `map-steps.js`)
+
+Domain-level API used in specs. `Steps` wraps `FormDriver` for standard page interactions. `MapSteps` wraps `MapDriver` for map-specific flows like `addSquare()` and `confirmBoundaryAndContinue()`.
 
 ## Prerequisites
 
 - Node.js 18+ (LTS recommended)
-- A local browser installed (Chrome or Firefox currently)
-- macOS/Linux terminal or Windows PowerShell/Git Bash
+- Chrome installed locally (required for chromium projects)
 
 ## Install
-
-From the root folder:
 
 ```bash
 npm install
@@ -20,85 +52,143 @@ npm install
 
 ## Configuration
 
-The test runner is configured via environment variables and [playwright.config.js](playwright.config.js).
+### Environments
 
-- `BASE_URL`: Target base URL for public environments.
-- `INTERNAL`: When set (e.g. `INTERNAL=true`), tests use `INTERNAL_BASE_URL`.
-- `INTERNAL_BASE_URL`: Base URL for internal environments.
-- `BROWSER`: Browser to run tests (`chrome` | `firefox` | `edge`). Defaults to `chrome`.
-- `HEADLESS`: Headless mode. Defaults to headless; set `HEADLESS=false` to show the browser.
-- `PLAYWRIGHT_GREP`: Filter tests by Playwright tag (for example: `@noDeps`, `@internal`, `@urlCheck`).
-- `PLAYWRIGHT_GREP_INVERT`: Invert grep selection.
-- `CI`: In CI, failed specs retry automatically.
+Target environment is set via `TEST_ENV` (defaults to `tst` locally, `local` in CI):
 
-Reports are written to:
+| Environment | Variable     | Public URL | Internal URL |
+|-------------|-------------|------------|-------------|
+| local       | `TEST_ENV=local` | `http://localhost:8050` | `http://localhost:8050` |
+| dev         | `TEST_ENV=dev`   | `https://fmp2-dev.aws-int.defra.cloud/` | `https://fmp2-internal-dev.aws-int.defra.cloud/` |
+| tst         | `TEST_ENV=tst`   | `https://fmp2-tst.aws-int.defra.cloud/` | `https://fmp2-internal-tst.aws-int.defra.cloud/` |
 
-- HTML: `_results_/html-report/`
-- JUnit XML: `_results_/junit/playwright-junit.xml`
-- Test artifacts (screenshots/videos/traces): `_results_/test-output/`
+### Playwright Projects
 
-## Quick Start
+Tests are organised into projects via tags:
 
-Run the default test flow (Chrome, headless):
+| Project | Tags included | Tags excluded | Base URL |
+|---------|--------------|---------------|----------|
+| `public-chromium` | (all) | `@internal`, `@urlCheck` | Public |
+| `internal-chromium` | `@internal`, `@both` | `@urlCheck` | Internal |
+| `noDeps-local-chrome` | `@noDeps` | `@urlCheck`, `@internal`, `@both` | Public |
+| `urlCheck-chrome` | `@urlCheck` | (none) | Public |
+
+Firefox and WebKit variants follow the same pattern as chromium.
+
+### Test Tags
+
+- `@noDeps` — Tests with no external dependencies (can run against any environment).
+- `@internal` — Tests that require the internal URL.
+- `@both` — Tests that run against both public and internal URLs.
+- `@urlCheck` — Tests that verify external links resolve correctly. Excluded from default runs to avoid flakiness from third-party sites.
+
+### Settings
+
+| Setting | Local | CI |
+|---------|-------|----|
+| Workers | 5 | 2 |
+| Retries | 0 | 2 |
+| Timeout | 60s | 60s |
+| Action timeout | 5s | 5s |
+
+Artifacts (screenshots, video, traces) are retained on failure.
+
+## Running Tests
+
+### Default run (public + internal chromium)
 
 ```bash
 npm run test
 ```
 
-Run in a specific browser:
+### URL check tests (external link validation)
 
 ```bash
-# Firefox
+npm run test:urlCheck
+```
+
+### Local environment
+
+```bash
+npm run test:local
+```
+
+### Other environments
+
+```bash
+npm run test:tst
+npm run test:dev
+```
+
+### Other browsers
+
+```bash
 npm run test:firefox
-
-# Chrome
-npm run test:chrome
+npm run test:all-browsers
 ```
 
-Show the browser (disable headless):
+### Interactive UI mode
 
 ```bash
-HEADLESS=false npm run test
+npm run test:ui
 ```
 
-Target internal environment:
+### Filtering
+
+Run a single spec:
 
 ```bash
-INTERNAL=true INTERNAL_BASE_URL="https://internal.example" npm run test
+npx playwright test tests/e2e.spec.js
 ```
 
-Filter by tag and run a single spec:
+Run specific projects:
 
 ```bash
-npx playwright test --grep @both tests/e2e.spec.js
+npx playwright test --project=public-chromium tests/pages/location-page.spec.js
 ```
 
-Run a specific spec without grep:
+Filter by tag:
 
 ```bash
-npx playwright test tests/path/to/spec-file.spec.js
-```
-
-Select browser and show UI in one go:
-
-```bash
-HEADLESS=false BROWSER=firefox npx playwright test tests/e2e.spec.js
+npx playwright test --grep @noDeps
 ```
 
 ## Project Structure
 
-- `tests/` — Test specifications.
-- `pages/` — Page objects and helpers.
-- `data/` — Test data and fixtures.
-- `_results_/` — Test execution artifacts (HTML, JUnit, screenshots, videos, traces).
+```
+e2e/
+├── tests/
+│   ├── common/          # Shared page tests (cookies, footer, accessibility, etc.)
+│   ├── pages/           # Page-specific tests
+│   └── e2e.spec.js      # Full end-to-end journey test
+├── pages/
+│   ├── .utils/          # definePage(), form control factories
+│   ├── common/          # Shared page objects (cookies, privacy, T&C, etc.)
+│   └── *.page.js        # Page-specific objects
+├── test-runner-api/
+│   ├── form-driver.js   # Playwright form interactions
+│   ├── map-driver.js    # Map-specific Playwright interactions
+│   ├── steps.js         # Domain-level form steps
+│   └── map-steps.js     # Domain-level map steps
+├── data/                # Test data (locations, users, validation inputs)
+├── environments.js      # Environment URL configuration
+├── playwright.config.js # Playwright configuration
+└── package.json
+```
+
+## Reports
+
+After a test run, the HTML report opens automatically (locally) or can be viewed with:
+
+```bash
+npm run report:open
+```
+
+Reports and artifacts are written to `playwright-report/` and `test-results/`.
 
 ## Troubleshooting
 
-- "BASE_URL environment variable is required": set `BASE_URL` (or `INTERNAL=true` and `INTERNAL_BASE_URL`).
-- Browser doesn't open: set `HEADLESS=false` to debug visually.
-- Long waits/timeouts: check Playwright timeout settings in `playwright.config.js` and target environment readiness.
-
-## References
-
-- Runner config: [fmfp-refresh-tests/playwright.config.js](playwright.config.js)
-- Scripts and reporters: [fmfp-refresh-tests/package.json](package.json)
+- **"Unknown TEST_ENV"** — Set `TEST_ENV` to one of: `local`, `dev`, `tst`.
+- **"Missing base URL config"** — The chosen environment is missing `baseUrl` or `internalBaseUrl` in `environments.js`.
+- **Timeouts on map tests** — Map interactions depend on tile loading; ensure the target environment is responsive.
+- **Strict mode violations** — A link's text matches multiple elements. Update the page object to use the exact link text, or check if the page content has changed.

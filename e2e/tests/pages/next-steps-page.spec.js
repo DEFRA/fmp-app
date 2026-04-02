@@ -98,8 +98,8 @@ test.describe('Next steps page', () => {
         ...pages.nextSteps.page,
         slug: slug(polygon)
       })
-      await steps.expectButtonExists(pages.nextSteps.editBoundaryButton)
-      await steps.clickButton(pages.nextSteps.editBoundaryButton)
+      await steps.expectLinkExists(pages.nextSteps.editBoundaryLink)
+      await steps.clickLink(pages.nextSteps.editBoundaryLink)
       await steps.expectOn(pages.map.page)
     })
 

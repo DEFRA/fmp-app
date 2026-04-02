@@ -25,7 +25,7 @@ export class FormDriver {
       return
     }
     if (link.type === 'headerLink') {
-      await this.page.locator('header').getByRole('link', { name: link.text, exact: true }).first().click()
+      await this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true }).first().click()
       return
     }
     if (link.type === 'mainLink' || link.type === 'link') {
@@ -44,12 +44,15 @@ export class FormDriver {
   }
 
   async enterTextByLabel (labelText, value) {
-    const textInput = this.page.getByRole('textbox', { name: labelText, exact: true })
-    if (await textInput.count()) {
-      await textInput.type(value)
-      return
+    const textbox = this.page.getByRole('textbox', { name: labelText })
+    const spinbutton = this.page.getByRole('spinbutton', { name: labelText })
+    const target = textbox.or(spinbutton)
+    await expect(target).toBeVisible()
+    if (await textbox.count()) {
+      await textbox.fill(value)
+    } else {
+      await spinbutton.pressSequentially(String(value))
     }
-    await this.page.getByRole('spinbutton', { name: labelText, exact: true }).type(value)
   }
 
   async selectDropdownByLabel (labelText, optionValue) {
@@ -78,7 +81,7 @@ export class FormDriver {
     const linkElement = link.type === 'footerLink'
       ? this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
       : link.type === 'headerLink'
-        ? this.page.locator('header').getByRole('link', { name: link.text, exact: true })
+        ? this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true })
         : link.type === 'mainLink' || link.type === 'link'
           ? this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
           : null
@@ -91,9 +94,13 @@ export class FormDriver {
 
     if (shouldExist) {
       expect(count).toBeGreaterThan(0)
-      await expect(linkElement.first()).toBeVisible()
+      // Use .first() only when there are genuine duplicates (e.g. same email
+      // link repeated in different sections) to avoid Playwright strict-mode
+      // errors while still getting strict-mode protection for single matches.
+      const target = count > 1 ? linkElement.first() : linkElement
+      await expect(target).toBeVisible()
       if (link.url) {
-        const href = await linkElement.first().getAttribute('href')
+        const href = await target.getAttribute('href')
         if (href) {
           expect(href).toContain(link.url)
         }

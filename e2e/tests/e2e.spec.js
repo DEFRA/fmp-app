@@ -6,7 +6,6 @@ import { MapSteps } from '../test-runner-api/map-steps.js'
 import { userData } from '../data/user-data.js'
 
 test.describe('End-to-end planning journey', () => {
-
   test('completes the journey from home to confirmation', { tag: '@both' }, async ({ page }) => {
     const steps = new Steps(page)
     const mapSteps = new MapSteps(page)
