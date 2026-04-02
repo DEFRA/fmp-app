@@ -78,18 +78,7 @@ export class FormDriver {
   }
 
   async assertLinkPresence (link, shouldExist = true) {
-    const linkElement = link.type === 'footerLink'
-      ? this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
-      : link.type === 'headerLink'
-        ? this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true })
-        : link.type === 'mainLink' || link.type === 'link'
-          ? this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
-          : null
-
-    if (!linkElement) {
-      throw new Error(`Unsupported link type '${link.type}'`)
-    }
-
+    const linkElement = this.#getLinkLocator(link)
     const count = await linkElement.count()
 
     if (shouldExist) {
@@ -108,6 +97,19 @@ export class FormDriver {
     } else {
       expect(count).toBe(0)
     }
+  }
+
+  #getLinkLocator (link) {
+    if (link.type === 'footerLink') {
+      return this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
+    }
+    if (link.type === 'headerLink') {
+      return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true })
+    }
+    if (link.type === 'mainLink' || link.type === 'link') {
+      return this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+    }
+    throw new Error(`Unsupported link type '${link.type}'`)
   }
 
   async assertButtonPresence (button, shouldExist = true) {

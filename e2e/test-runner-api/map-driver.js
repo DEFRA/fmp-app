@@ -3,6 +3,7 @@ import { FormDriver } from './form-driver.js'
 
 const INITIAL_MAP_LOAD_PAUSE_MS = 5000
 const BETWEEN_ZOOM_PAUSE_MS = 1500
+const ARIA_DISABLED = 'aria-disabled'
 
 export class MapDriver extends FormDriver {
   async mapLoaded () {
@@ -16,7 +17,7 @@ export class MapDriver extends FormDriver {
     const button = this.page.getByRole('button', { name: text, exact: true }).first()
     await expect(async () => {
       expect(await button.isVisible()).toBe(true)
-      expect(await button.getAttribute('aria-disabled')).not.toBe('true')
+      expect(await button.getAttribute(ARIA_DISABLED)).not.toBe('true')
     }).toPass()
     await button.click()
   }
@@ -45,7 +46,7 @@ export class MapDriver extends FormDriver {
       const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
       await expect(async () => {
         expect(await zoomInButton.isVisible()).toBe(true)
-        expect(await zoomInButton.getAttribute('aria-disabled')).not.toBe('true')
+        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
       }).toPass()
       await zoomInButton.click()
       // Wait for the map to settle after zooming before attempting the next click
@@ -53,7 +54,7 @@ export class MapDriver extends FormDriver {
       await this.page.waitForTimeout(BETWEEN_ZOOM_PAUSE_MS)
       // Confirm the button is ready again before the next iteration
       await expect(async () => {
-        expect(await zoomInButton.getAttribute('aria-disabled')).not.toBe('true')
+        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
       }).toPass()
     }
   }

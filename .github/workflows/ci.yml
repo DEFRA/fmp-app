@@ -48,12 +48,13 @@ jobs:
           path: |
             e2e/playwright-report/
             e2e/test-results/
+            e2e/playwright-junit.xml
 
       - name: Publish e2e test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: e2e/playwright-report/playwright-junit.xml
+          files: e2e/playwright-junit.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
