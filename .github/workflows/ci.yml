@@ -40,13 +40,20 @@ jobs:
           npx --yes wait-on http://localhost:8050 --timeout 30000
           cd e2e && npm run test:local
 
-      - name: Publish e2e test results
-        uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5 # v1.9.1
+      - name: Upload e2e test results
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: E2E Test Results
-          path: e2e/playwright-report/playwright-junit.xml
-          reporter: java-junit
+          name: e2e-test-results
+          path: |
+            e2e/playwright-report/
+            e2e/test-results/
+
+      - name: Publish e2e test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: e2e/playwright-report/playwright-junit.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
