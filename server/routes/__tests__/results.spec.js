@@ -119,7 +119,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         getAreaInHectaresSpy.mockReturnValue(0)
@@ -167,7 +166,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -205,7 +203,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         getAreaInHectaresSpy.mockReturnValue(123.43)
@@ -251,7 +248,6 @@ describe('Results page', () => {
           },
           hasSeaSource: true,
           hasRiversSource: false,
-          hasRiversAndSeaSource: false,
           floodSource: 'the sea',
           isRiskAdminArea: false
         })
@@ -385,7 +381,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -433,7 +428,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: true,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -482,7 +476,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -526,7 +519,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: true,
           hasRiversSource: false,
-          hasRiversAndSeaSource: false,
           floodSource: 'sea'
         })
         getAreaInHectaresSpy.mockReturnValue(350)
@@ -572,7 +564,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: true,
-          hasRiversAndSeaSource: false,
           floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -611,7 +602,6 @@ describe('Results page', () => {
           isRiskAdminArea: false,
           hasSeaSource: false,
           hasRiversSource: false,
-          hasRiversAndSeaSource: false,
           floodSource: null
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -650,7 +640,6 @@ describe('Results page', () => {
         isRiskAdminArea: false,
         hasSeaSource: false,
         hasRiversSource: true,
-        hasRiversAndSeaSource: false,
         floodSource: 'rivers'
       })
       getAreaInHectaresSpy.mockReturnValue(350)
@@ -699,7 +688,6 @@ describe('Results page', () => {
         isRiskAdminArea: false,
         hasSeaSource: false,
         hasRiversSource: true,
-        hasRiversAndSeaSource: false,
         floodSource: 'rivers'
       })
       const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
