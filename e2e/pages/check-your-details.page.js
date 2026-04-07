@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { button, link } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'CheckYourDetails',
   slug: '/check-your-details',
   title: 'Check your details before requesting your data'
 })

@@ -2,7 +2,6 @@ import { mapButton, menuButtonOption, menuSection } from './.utils/map-controls.
 import { definePage } from './.utils/page.js'
 
 export const page = definePage({
-  key: 'Map',
   slug: '/map',
   title: 'Interactive map showing flood planning data'
 })

@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { link } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'HowToUseFloodMapForPlanningData',
   slug: '/how-to-use-flood-map-for-planning-data',
   title: 'How to use flood map for planning data'
 })

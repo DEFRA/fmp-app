@@ -21,12 +21,12 @@ test.describe('Contact page', () => {
     await steps.expectErrorText(pages.contact.missingEmailError)
   })
 
-  invalidEmails.forEach((invalidEmail) => {
+  for (const invalidEmail of invalidEmails) {
     test(`shows validation error when entering invalid email '${invalidEmail}'`, { tag: '@noDeps' }, async ({ steps }) => {
       await steps.type(pages.contact.fullNameInput, 'Test User')
       await steps.type(pages.contact.emailInput, invalidEmail)
       await steps.submit()
       await steps.expectErrorText(pages.contact.missingEmailError)
     })
-  })
+  }
 })

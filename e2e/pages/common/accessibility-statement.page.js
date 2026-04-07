@@ -2,7 +2,6 @@ import { definePage } from '../.utils/page.js'
 import { link } from '../.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'AccessibilityStatement',
   slug: '/accessibility-statement',
   title: 'Accessibility statement for flood map for planning'
 })

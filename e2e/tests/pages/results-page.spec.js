@@ -5,7 +5,7 @@ import { areaData } from '../../data/location-data.js'
 test.describe('Results page', () => {
   const slug = (polygon) => `/results?encodedPolygon=${encodeURIComponent(polygon)}`
 
-  Object.values(areaData).forEach(({ polygon, floodZone }, index) => {
+  for (const [index, { polygon, floodZone }] of Object.values(areaData).entries()) {
     test(`displays correct flood zone information for area ${index + 1}`, async ({ steps }) => {
       await steps.open({
         ...pages.results.pageWithZone(floodZone),
@@ -13,7 +13,7 @@ test.describe('Results page', () => {
       })
       await steps.expectOn(pages.results.pageWithZone(floodZone))
     })
-  })
+  }
 
   test('has link to order flood risk data when in an opted-in area', async ({ steps }) => {
     const polygon = areaData.Yorkshire.polygon

@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { button, link, textInput, selectInput } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'NextSteps',
   slug: '/next-steps',
   title: 'Next steps for your planning application'
 })

@@ -90,20 +90,14 @@ export class FormDriver {
 
   async expectLinkExists (element) {
     const locator = this.#getLinkLocator(element)
-    const count = await locator.count()
-    expect(count).toBeGreaterThan(0)
-    const target = count > 1 ? locator.first() : locator
-    await expect(target).toBeVisible()
+    await expect(locator.first()).toBeVisible()
     if (element.url) {
-      const href = await target.getAttribute('href')
-      if (href) {
-        expect(href).toContain(element.url)
-      }
+      await expect(locator.first()).toHaveAttribute('href', new RegExp(element.url))
     }
   }
 
   async expectLinkNotExists (element) {
-    expect(await this.#getLinkLocator(element).count()).toBe(0)
+    await expect(this.#getLinkLocator(element)).toHaveCount(0)
   }
 
   async expectButtonExists (element) {

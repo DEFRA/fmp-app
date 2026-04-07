@@ -2,14 +2,12 @@ import { expect } from '@playwright/test'
 import { FormDriver } from './form-driver.js'
 import * as mapPage from '../pages/map.page.js'
 
-const INITIAL_MAP_LOAD_PAUSE_MS = 5000
-const BETWEEN_ZOOM_PAUSE_MS = 1500
 const ARIA_DISABLED = 'aria-disabled'
 
 export class MapDriver extends FormDriver {
   async waitForMapToLoad () {
-    await this.page.waitForTimeout(INITIAL_MAP_LOAD_PAUSE_MS)
     await expect(this.page.locator('#map-viewport')).toBeVisible()
+    await this.page.waitForLoadState('networkidle')
   }
 
   async clickButton (element) {
@@ -52,7 +50,6 @@ export class MapDriver extends FormDriver {
       }).toPass()
       await zoomInButton.click()
       await this.page.waitForLoadState('networkidle')
-      await this.page.waitForTimeout(BETWEEN_ZOOM_PAUSE_MS)
       await expect(async () => {
         expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
       }).toPass()

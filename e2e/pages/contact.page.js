@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { textInput, errorText } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'Contact',
   slug: '/contact',
   title: 'Order your flood risk data'
 })
