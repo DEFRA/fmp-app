@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     init: true
     ipc: host
+    environment:
+      - TEST_ENV=${TEST_ENV:-tst}
     volumes:
       - ./playwright-report:/app/playwright-report
     command: ["npm", "run", "test"]

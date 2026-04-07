@@ -14,7 +14,6 @@ const internalBaseURL = env.internalBaseUrl
 
 const chromeConfig = {
   browserName: 'chromium',
-  channel: 'chrome',
   ignoreDefaultArgs: ['--disable-gpu'],
   launchOptions: {
     args: [

@@ -143,13 +143,43 @@ await test.step('Home → Triage', async () => {
 ## Prerequisites
 
 - Node.js 18+ (LTS recommended)
-- Chrome installed locally (required for chromium-based projects)
+- Browsers — install whichever you need to run:
+
+  ```bash
+  npx playwright install chromium
+  npx playwright install firefox
+  npx playwright install webkit
+  ```
+
+  Or install all supported browsers at once:
+
+  ```bash
+  npx playwright install
+  ```
+
+- Docker (optional) — for running tests in a containerised environment without installing browsers locally
 
 ## Install
 
 ```bash
 npm install
-npx playwright install chromium
+npx playwright install          # all browsers, or pick one as above
+```
+
+## Docker (WIP)
+
+Tests can be run in Docker using the Playwright base image. This is a work in progress.
+
+```bash
+docker compose up --build
+```
+
+This builds from `Dockerfile`, which uses `mcr.microsoft.com/playwright:v1.58.2` with all browsers pre-installed. By default `docker compose up` runs `npm run test` (public + internal chromium against the `tst` environment). The HTML report is mounted to `./playwright-report` on the host.
+
+To target a different environment, override the `TEST_ENV` variable:
+
+```bash
+TEST_ENV=dev docker compose up --build
 ```
 
 ## Configuration
