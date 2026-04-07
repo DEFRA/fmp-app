@@ -25,18 +25,7 @@ const fz3AreaSea = {
     Shape__Length: 5098.461924182072
   }
 }
-const fz3AreaRiverAndSea = {
-  attributes: {
-    OBJECTID: 150663,
-    origin: 'modelled and recorded',
-    flood_zone: 'FZ3',
-    asset_state: 'defended & undefended',
-    flood_source: 'river and sea',
-    flood_source_and_state: 'river-and-sea-undefended-modelled_river-defended-modelled_recorded',
-    Shape__Area: 108075.19142150879,
-    Shape__Length: 5098.461924182072
-  }
-}
+
 const fz3AreaRiver = {
   attributes: {
     OBJECTID: 150663,
@@ -66,7 +55,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: true,
       hasSeaSource: false,
-      hasRiversAndSeaSource: false,
       floodSource: 'rivers'
     })
   })
@@ -81,7 +69,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'medium',
       hasRiversSource: true,
       hasSeaSource: false,
-      hasRiversAndSeaSource: false,
       floodSource: 'rivers'
     })
   })
@@ -96,7 +83,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: true,
       hasSeaSource: false,
-      hasRiversAndSeaSource: false,
       floodSource: 'rivers'
     })
   })
@@ -111,12 +97,11 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: true,
       hasSeaSource: false,
-      hasRiversAndSeaSource: false,
       floodSource: 'rivers'
     })
   })
 
-  it('getFloodZones should return hasRiverSource as true and floodSource as "the sea" for sea flood zones', async () => {
+  it('getFloodZones should return hasSeaSource as true and floodSource as "the sea" for sea flood zones', async () => {
     mockEsriRequest([fz3AreaSea, fz3AreaSea])
     const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon: '[[123,456],[125,457],[125,456],[123,456]]' })
     expect(response).toEqual({
@@ -126,38 +111,7 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: false,
       hasSeaSource: true,
-      hasRiversAndSeaSource: false,
       floodSource: 'the sea'
-    })
-  })
-
-  it('getFloodZones should return hasRiverSource as true and floodSource as "rivers and the sea" for river and sea flood zones', async () => {
-    mockEsriRequest([fz3AreaRiverAndSea, fz3AreaRiverAndSea])
-    const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon: '[[123,456],[125,457],[125,456],[123,456]]' })
-    expect(response).toEqual({
-      floodZone: '3',
-      floodzone_2: false,
-      floodzone_3: true,
-      floodZoneLevel: 'high',
-      hasRiversSource: false,
-      hasSeaSource: false,
-      hasRiversAndSeaSource: true,
-      floodSource: 'rivers and the sea'
-    })
-  })
-
-  it('getFloodZones should return hasRiversAndSeaSource as true and floodSource as "rivers and the sea" for flood zones with river and the sea mixture', async () => {
-    mockEsriRequest([fz3AreaRiver, fz3AreaSea])
-    const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon: '[[123,456],[125,457],[125,456],[123,456]]' })
-    expect(response).toEqual({
-      floodZone: '3',
-      floodzone_2: false,
-      floodzone_3: true,
-      floodZoneLevel: 'high',
-      hasRiversSource: true,
-      hasSeaSource: true,
-      hasRiversAndSeaSource: true,
-      floodSource: 'rivers and the sea'
     })
   })
 
@@ -171,7 +125,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: true,
       hasSeaSource: true,
-      hasRiversAndSeaSource: true,
       floodSource: 'rivers and the sea'
     })
   })
@@ -187,7 +140,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'low',
       hasRiversSource: false,
       hasSeaSource: false,
-      hasRiversAndSeaSource: false,
       floodSource: null
     })
   })
@@ -215,7 +167,6 @@ describe('getFloodZones', () => {
       floodZoneLevel: 'high',
       hasRiversSource: true,
       hasSeaSource: true,
-      hasRiversAndSeaSource: true,
       floodSource: 'rivers and the sea'
     })
   })

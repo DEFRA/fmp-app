@@ -298,9 +298,8 @@ describe('Results page', () => {
             riskBandOdds: null
           },
           isRiskAdminArea: false,
-          hasSeaSource: false,
-          hasRiversSource: false,
-          hasRiversAndSeaSource: true,
+          hasSeaSource: true,
+          hasRiversSource: true,
           floodSource: 'rivers and the sea'
         })
         getAreaInHectaresSpy.mockReturnValue(0)
@@ -345,9 +344,8 @@ describe('Results page', () => {
             riskBandOdds: null
           },
           isRiskAdminArea: true,
-          hasSeaSource: false,
-          hasRiversSource: false,
-          hasRiversAndSeaSource: true,
+          hasSeaSource: true,
+          hasRiversSource: true,
           floodSource: 'rivers and the sea'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
