@@ -1,9 +1,11 @@
 const formatFloodSource = (hasRiverSource, hasSeaSource) => {
   if (hasRiverSource && hasSeaSource) {
     return 'rivers and the sea'
-  } else if (hasRiverSource) {
+  }
+  if (hasRiverSource) {
     return 'rivers'
-  } else if (hasSeaSource) {
+  }
+  if (hasSeaSource) {
     return 'the sea'
   }
   return null
