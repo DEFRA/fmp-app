@@ -115,7 +115,7 @@ describe('getFloodZones', () => {
     })
   })
 
-  it('getFloodZones should return hasRiversAndSeaSource as true and floodSource as "rivers and the sea" for flood zones with river and the sea mixture', async () => {
+  it('getFloodZones should return both as true and floodSource as "rivers and the sea" for flood zones with river and the sea mixture', async () => {
     mockEsriRequest([fz3AreaRiver, fz3AreaSea,])
     const response = await getFloodZones({ geometryType: 'esriGeometryPolygon', polygon: '[[123,456],[125,457],[125,456],[123,456]]' })
     expect(response).toEqual({
