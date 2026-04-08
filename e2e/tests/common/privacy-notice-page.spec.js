@@ -44,10 +44,10 @@ test.describe('Privacy notice page', { tag: '@noDeps' }, () => {
     await steps.clickLink(pages.privacyNotice.webBrowserLink)
     await steps.expectUrlContains('browser')
   })
-  // it('navigates to the contacting us page when clicking the link', async () => {
-  //   await steps.clickLink(pages.privacyNotice.contactingUsLink)
-  //   await steps.expectUrlContains('contact-us')
-  // })
+   test('navigates to the contacting us page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+     await steps.clickLink(pages.privacyNotice.contactingUsLink)
+     await steps.expectUrlContains('contact-us')
+   })
 
   test('navigates to the European Economic Area page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
     await steps.clickLink(pages.privacyNotice.europeanEconomicAreaLink)
