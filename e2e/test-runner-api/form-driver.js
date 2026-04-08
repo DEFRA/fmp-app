@@ -57,7 +57,9 @@ export class FormDriver {
 
   async clickLink (element) {
     const locator = this.#getLinkLocator(element)
-    await locator.click()
+    // Some pages legitimately contain duplicate link text; click the first visible match.
+    await expect(locator.first()).toBeVisible()
+    await locator.first().click()
   }
 
   async switchToNewWindow () {
