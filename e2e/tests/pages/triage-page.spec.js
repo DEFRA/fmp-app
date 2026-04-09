@@ -16,28 +16,32 @@ test.describe('Triage page', { tag: '@noDeps' }, () => {
     await steps.submit()
     await steps.expectErrorText(pages.triage.missingSelectionError)
   })
+})
 
-  // Assert on URL rather than page title as we're navigating to external GOV.UK pages that we don't own and can't control the content of
+test.describe('Triage page - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.triage.page)
+  })
 
-  test('redirects to GOV.UK long-term flood risk for buying/selling option', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('redirects to GOV.UK long-term flood risk for buying/selling option', async ({ steps }) => {
     await steps.choose(pages.triage.buyingSellOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/check-long-term-flood-risk')
   })
 
-  test('redirects to GOV.UK flooding history for flood history option', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('redirects to GOV.UK flooding history for flood history option', async ({ steps }) => {
     await steps.choose(pages.triage.floodHistoryOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/request-flooding-history')
   })
 
-  test('redirects to GOV.UK long-term flood risk for insurance option', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('redirects to GOV.UK long-term flood risk for insurance option', async ({ steps }) => {
     await steps.choose(pages.triage.insuranceOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/check-long-term-flood-risk')
   })
 
-  test('redirects to GOV.UK flooding and extreme weather page for other option', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('redirects to GOV.UK flooding and extreme weather page for other option', async ({ steps }) => {
     await steps.choose(pages.triage.otherOption)
     await steps.submit()
     await steps.expectUrlContains('gov.uk/browse/environment-countryside/flooding-extreme-weather')

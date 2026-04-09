@@ -10,8 +10,14 @@ test.describe('Header Links', { tag: '@noDeps' }, () => {
     await steps.clickLink(pages.header.floodMapForPlanningLink)
     await steps.expectOn(pages.home.page)
   })
+})
 
-  test('navigates to Feedback and shows correct title', { tag: '@urlCheck' }, async ({ steps }) => {
+test.describe('Header Links - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.home.page)
+  })
+
+  test('navigates to Feedback and shows correct title', async ({ steps }) => {
     await steps.clickLink(pages.header.giveYourFeedbackLink)
     await steps.expectUrlContains('/feedback')
   })

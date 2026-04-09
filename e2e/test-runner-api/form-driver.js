@@ -98,6 +98,15 @@ export class FormDriver {
     }
   }
 
+  async expectLinkTargetReachable (element) {
+    const locator = this.#getLinkLocator(element)
+    await expect(locator.first()).toBeVisible()
+    const href = await locator.first().getAttribute('href')
+    const url = new URL(href, this.page.url())
+    const response = await this.page.request.head(url.toString())
+    expect(response.status()).toBe(200)
+  }
+
   async expectLinkNotExists (element) {
     await expect(this.#getLinkLocator(element)).toHaveCount(0)
   }

@@ -24,35 +24,39 @@ test.describe('Start now page', { tag: '@noDeps' }, () => {
     await steps.clickLink(pages.home.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
+})
 
-  // The following tests validate that external links can be reached.
+test.describe('Start now page - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.home.page)
+  })
 
-  test('navigates to Scotland flood risk page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to Scotland flood risk page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.scotlandFloodRiskLink)
     await steps.expectUrlContains('sepa.scot')
   })
 
-  test('navigates to Wales flood risk page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to Wales flood risk page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.walesFloodRiskLink)
     await steps.expectUrlContains('naturalresources.wales')
   })
 
-  test('navigates to Northern Ireland flood risk page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to Northern Ireland flood risk page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.northernIrelandFloodRiskLink)
     await steps.expectUrlContains('nidirect.gov.uk')
   })
 
-  test('navigates to flood risk assessment guidance page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to flood risk assessment guidance page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.floodRiskAssessmentGuidanceLink)
     await steps.expectUrlContains('when-you-need-a-flood-risk-assessment')
   })
 
-  test('navigates to contact Environment Agency page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to contact Environment Agency page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.contactEnvironmentAgencyLink)
     await steps.expectUrlContains('contact-the-environment-agency')
   })
 
-  test('navigates to call charges information page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to call charges information page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.home.callChargesLink)
     await steps.expectUrlContains('call-charges')
   })

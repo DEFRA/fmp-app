@@ -26,10 +26,14 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
+})
 
-  // The following tests validate that external links can be reached.
+test.describe('How to use flood map for planning data page - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.howToUseFloodMapForPlanningData.page)
+  })
 
-  test('navigates to How to prepare a strategic flood risk assessment page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to How to prepare a strategic flood risk assessment page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.prepareStrategicFloodRiskAssessmentLink)
     await steps.expectUrlContains('strategic-flood-risk-assessment')
   })
@@ -38,37 +42,37 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
     await steps.expectUrlContains('Product-suitability-for-planning')
   }) */
 
-  test('navigates to National Planning Policy Framework when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to National Planning Policy Framework when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalPlanningPolicyFrameworkLink)
     await steps.expectUrlContains('national-planning-policy-framework')
   })
 
-  test('navigates to Planning practice guidance when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to Planning practice guidance when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.planningPracticeGuidanceLink)
     await steps.expectUrlContains('flood-risk-and-coastal-change#para27')
   })
 
-  test('navigates to table 2 of Planning Practice Guidance when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to table 2 of Planning Practice Guidance when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.table2PlanningPracticeGuidanceLink)
     await steps.expectUrlContains('flood-risk-and-coastal-change#table2')
   })
 
-  test('navigates to national flood risk standing advice for local planning authorities when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to national flood risk standing advice for local planning authorities when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalFloodRiskStandingAdviceLink)
     await steps.expectUrlContains('flood-risk-assessment-local-planning-authorities')
   })
 
-  test('navigates to flood risk assessments: applying for planning permission. when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to flood risk assessments: applying for planning permission. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.applyingForPlanningPermissionLink)
     await steps.expectUrlContains('flood-risk-assessment-for-planning-applications')
   })
 
-  test('navigates to flood risk assessments climate change allowances guidance. when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to flood risk assessments climate change allowances guidance. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.climateChangeAllowancesGuidanceLink)
     await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
   })
 
-  test('navigates to More information on when to use other climate change allowances. when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+  test('navigates to More information on when to use other climate change allowances. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.otherClimateChangeAllowancesLink)
     await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
   })

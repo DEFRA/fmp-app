@@ -66,7 +66,6 @@ test.describe('Next steps page', () => {
 
   test.describe('Conditional content checks', () => {
     // The following tests validate the presence of the order flood risk data link based size of polygon and whether the area is opted-in or opted-out.
-
     test('has link to order flood risk data when in an opted-in area under 300 hectares', async ({ steps }) => {
       const polygon = floodZonedata.polygon300
       await steps.open({

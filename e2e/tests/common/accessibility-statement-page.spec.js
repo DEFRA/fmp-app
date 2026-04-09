@@ -25,10 +25,8 @@ test.describe('Accessibility statement', () => {
     await steps.expectUrlContains('w3.org/TR/WCAG22/')
   })
 
-  test('navigates to full accessibility test report when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
-    await steps.clickLink(pages.accessibilityStatement.fullAccessibilityTestReportLink)
-    await steps.switchToNewWindow()
-    await steps.expectUrlContains('accessibility-report')
+  test('confirms the full accessibility test report link is present and reachable', { tag: '@noDeps' }, async ({ steps }) => {
+    await steps.expectLinkTargetReachable(pages.accessibilityStatement.fullAccessibilityTestReportLink)
   })
 
   test('it has link to enquiries@environment-agency.gov.uk', async ({ steps }) => {

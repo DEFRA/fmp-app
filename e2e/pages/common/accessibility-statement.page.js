@@ -9,5 +9,5 @@ export const page = definePage({
 export const abilityNetLink = link('AbilityNet')
 export const equalityAdvisorySupportServiceLink = link('contact the Equality Advisory and Support Service (EASS)')
 export const webContentAccessibilityGuidelinesLink = link('Web Content Accessibility Guidelines version 2.2')
-export const fullAccessibilityTestReportLink = link('You can read the full accessibility test report (PDF).')
+export const fullAccessibilityTestReportLink = link('You can read the full accessibility test report (PDF).', 'accessibility-report')
 export const enquiriesEmailLink = link('enquiries@environment-agency.gov.uk')

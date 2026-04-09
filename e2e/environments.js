@@ -1,7 +1,9 @@
+const appPort = process.env.APP_PORT || '8050'
+
 export const environments = {
   local: {
-    baseUrl: 'http://localhost:8050',
-    internalBaseUrl: 'http://localhost:8050',
+    baseUrl: `http://localhost:${appPort}`,
+    internalBaseUrl: `http://localhost:${appPort}`,
   },
   dev: {
     baseUrl: 'https://fmp2-dev.aws-int.defra.cloud/',
