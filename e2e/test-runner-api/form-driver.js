@@ -104,7 +104,8 @@ export class FormDriver {
     const href = await locator.first().getAttribute('href')
     const url = new URL(href, this.page.url())
     const response = await this.page.request.head(url.toString())
-    expect(response.status()).toBe(200)
+    const successResponse = 200
+    expect(response.status()).toBe(successResponse)
   }
 
   async expectLinkNotExists (element) {
