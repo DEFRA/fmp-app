@@ -61,7 +61,7 @@ const showMap = async (polygonArray, useProxy = false) => {
     }
   })
 
-  const graphicsLayer = new GraphicsLayer()
+  const graphicsLayer = new GraphicsLayer({ id: 'boundary', title: 'Site Boundary' })
 
   const myMap = new Map({
     layers: [baseMapLayer, graphicsLayer]
@@ -131,7 +131,7 @@ const showMap = async (polygonArray, useProxy = false) => {
 }
 
 export const doScreenshot = (view) => {
-  return view.takeScreenshot().then(function (screenshot) {
+  return view.takeScreenshot({ format: 'png' }).then(function (screenshot) {
     const imageElement = document.getElementById('screenshot-image-not-ready')
     imageElement.src = screenshot.dataUrl
     imageElement.id = 'screenshot-image'

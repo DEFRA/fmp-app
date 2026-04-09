@@ -27,6 +27,10 @@ const showMapAsImage = async (polygonArray) => {
   try {
     view = await showMap(polygonArray, true)
       .then((view) => addLayerToMap(view, 'Flood_Zones_2_and_3_Rivers_and_Sea'))
+      .then((view) => { // Move the polygon to the top
+        view.map.reorder(view.map.allLayers.items[1], view.map.allLayers.items.length - 1)
+        return view
+      })
       .then(convertToImage)
       .then((view) => {
         // Destroy the map to free up resources
