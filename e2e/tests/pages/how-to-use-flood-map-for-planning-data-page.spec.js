@@ -37,10 +37,10 @@ test.describe('How to use flood map for planning data page - external links', { 
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.prepareStrategicFloodRiskAssessmentLink)
     await steps.expectUrlContains('strategic-flood-risk-assessment')
   })
-  /* it('navigates to Suitability of datasets for development planning (PDF) when clicking the link', async () => {
-    await steps.clickLink(pages.howToUseFloodMapForPlanningData.prepareFloodRiskAssessmentLink)
-    await steps.expectUrlContains('Product-suitability-for-planning')
-  }) */
+
+  test('confirms the Suitability of datasets for development planning (PDF)  link is present and reachable', { tag: '@noDeps' }, async ({ steps }) => {
+    await steps.expectLinkTargetReachable(pages.howToUseFloodMapForPlanningData.prepareFloodRiskAssessmentLink)
+  })
 
   test('navigates to National Planning Policy Framework when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalPlanningPolicyFrameworkLink)

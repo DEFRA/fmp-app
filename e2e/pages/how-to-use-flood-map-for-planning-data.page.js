@@ -13,7 +13,7 @@ export const termsAndConditionsLink = link('terms and conditions')
 
 // External links
 export const prepareStrategicFloodRiskAssessmentLink = link('prepare a strategic flood risk assessment')
-// export const prepareFloodRiskAssessmentLink = link('suitability of datasets for development planning (PDF)')
+export const prepareFloodRiskAssessmentLink = link('suitability of datasets for development planning (PDF)')
 export const nationalPlanningPolicyFrameworkLink = link('National Planning Policy Framework')
 export const planningPracticeGuidanceLink = link('planning practice guidance')
 export const table2PlanningPracticeGuidanceLink = link('table 2 of Planning Practice Guidance')
