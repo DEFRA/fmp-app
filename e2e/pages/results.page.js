@@ -3,7 +3,6 @@ import { link } from './.utils/form-controls.js'
 
 export const titleForZone = (floodZone) => `This location is in flood zone ${floodZone}`
 export const pageWithZone = (floodZone) => definePage({
-  key: 'Results',
   slug: '/results',
   title: titleForZone(floodZone)
 })

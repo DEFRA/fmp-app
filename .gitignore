@@ -19,4 +19,5 @@ jsconfig.json
 dist/
 coverage/
 test/results.json
-_results_/
+playwright-report/
+test-results/
