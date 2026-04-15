@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set +e
+export PATH="$(pwd)/node_modules/.bin:$PATH"
+
+# Get staged JS/TS files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts)$')
+if [ $? -ne 0 ] || [ -z "$STAGED_FILES" ]; then
+  exit 0
+fi
+
+# 1) Block commit if .only is found
+ONLY_FOUND=$(echo "$STAGED_FILES" | xargs grep -nH -E '\b(describe|it)\.only\(' 2>/dev/null)
+
+if [ -n "$ONLY_FOUND" ]; then
+  echo ""
+  echo "⚠️  BLOCKED: Found .only() in staged test files:"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "$ONLY_FOUND"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "💡 Please remove .only() from describe/it blocks before committing."
+  echo "   Using .only() will skip other tests in CI/CD pipelines."
+  echo ""
+  exit 1
+fi
+
+# 2) Auto-fix linting on staged files
+echo "$STAGED_FILES" | xargs npx --no-install eslint --fix > /dev/null 2>&1
+
+# Re-add potentially fixed files
+echo "$STAGED_FILES" | xargs git add
+
+# 3) Fail ONLY if errors remain after fix
+LINT_OUTPUT=$(echo "$STAGED_FILES" | xargs npx --no-install eslint --max-warnings=0 2>&1)
+LINT_EXIT_CODE=$?
+
+if [ $LINT_EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ ESLint found errors that couldn't be auto-fixed:"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "$LINT_OUTPUT"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "💡 Please fix the errors above before committing."
+  echo ""
+  exit 1
+fi
+
+exit 0

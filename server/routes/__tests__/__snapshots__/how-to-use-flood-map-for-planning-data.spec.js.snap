@@ -226,11 +226,9 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  
     <a href="javascript:history.back()" class="govuk-back-link">Back</a>
 
   
-
         <main class="govuk-main-wrapper" id="main-content">
           
 <div class="govuk-grid-row">
@@ -406,8 +404,7 @@ data-module="govuk-service-navigation"
       <div class="govuk-summary-list__row">
 
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">To check development incompatibility, see <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice
-              Guidance</a> and use:</p>
+            <p class="govuk-body">To check development incompatibility, see <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice Guidance</a> and use:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones 2 and 3</li>
             <li>water storage areas (if local planning authority's strategic flood risk assessment defines as flood zone
@@ -440,9 +437,7 @@ data-module="govuk-service-navigation"
           Data that can be used to trigger this process
         </dt>
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">Subject to applying the process set out in <a
-              href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk
-              standing advice for local planning authorities</a>:</p>
+            <p class="govuk-body">Subject to applying the process set out in <a href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a>:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones</li>
             <li>main rivers</li>
@@ -461,9 +456,7 @@ data-module="govuk-service-navigation"
           <p class="govuk-body">
             You can find out if the Environment Agency will be consulted on your application or if flood risk standing 
             advice applies by visiting 
-            <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">
-              flood risk assessments: applying for planning permission.
-            </a>
+            <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">flood risk assessments: applying for planning permission.</a>
           </p>
         </dd>
 
@@ -477,9 +470,7 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">
       The material displayed in this service, including maps and risk data, is provided without any guarantees,
       conditions or warranties as to its accuracy. See our 
-      <a href="/terms-and-conditions">
-        terms and conditions
-      </a>
+      <a href="/terms-and-conditions">terms and conditions</a>
       for more information.
     </p>
     <p class="govuk-body">
@@ -512,9 +503,7 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">
       We have used climate change allowances that will be suitable
       for most common development types, as set out in the
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">
-        flood risk assessments climate change allowances guidance.
-      </a>
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">flood risk assessments climate change allowances guidance.</a>
     </p>
 
 <!-- climate change allowances -->
@@ -536,15 +525,11 @@ data-module="govuk-service-navigation"
     </p>
 
     <p class="govuk-body">
-      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances#using-peak-rainfall-intensity-allowances-to-assess-surface-water-flood-risk">
-        Find out more about using peak rainfall intensity allowances to assess surface water flood risk.
-      </a>
+      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances#using-peak-rainfall-intensity-allowances-to-assess-surface-water-flood-risk">Find out more about using peak rainfall intensity allowances to assess surface water flood risk.</a>
     </p>
 
     <p class="govuk-body">
-      Visit the <a class="govuk-link" href="https://environment.data.gov.uk/hydrology/climate-change-allowances/rainfall">
-        hydrology data explorer
-      </a> to find your peak rainfall allowance.
+      Visit the <a class="govuk-link" href="https://environment.data.gov.uk/hydrology/climate-change-allowances/rainfall">hydrology data explorer</a> to find your peak rainfall allowance.
     </p>
 
     <p class="govuk-body">
@@ -563,9 +548,7 @@ data-module="govuk-service-navigation"
     </p>    
 
     <p class="govuk-body">
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">
-        More information on when to use other climate change allowances.
-      </a>
+      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">More information on when to use other climate change allowances.</a>
     </p>
 
   <!-- What does climate change data unavailable mean? -->

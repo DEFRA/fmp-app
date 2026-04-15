@@ -33,6 +33,8 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChangeNoData: false,
       floodZoneLevel: 'high',
       isRiskAdminArea: false,
+      hasRiversSource: true,
+      hasSeaSource: true,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -47,6 +49,8 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: true,
       isRiskAdminArea: false,
+      hasRiversSource: true,
+      hasSeaSource: false,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -61,6 +65,8 @@ describe('getFloodDataByPolygon - Flood Zone Only Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: false,
+      hasRiversSource: true,
+      hasSeaSource: false,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -77,6 +83,8 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: true,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: true,
+      hasRiversSource: true,
+      hasSeaSource: true,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -91,6 +99,8 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: true,
       isRiskAdminArea: true,
+      hasRiversSource: true,
+      hasSeaSource: false,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })
@@ -105,6 +115,8 @@ describe('getFloodDataByPolygon - Flood Zone with RiskAdmin Scenarios', () => {
       floodZoneClimateChange: false,
       floodZoneClimateChangeNoData: false,
       isRiskAdminArea: true,
+      hasRiversSource: true,
+      hasSeaSource: false,
       surfaceWater: { riskBandId: -1, riskBand: false }
     })
   })

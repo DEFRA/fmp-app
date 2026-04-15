@@ -1,0 +1,5 @@
+export const menuSection = (text) => ({ type: 'menuSection', text })
+export const menuButtonOption = (text) => ({ type: 'menuButtonOption', text })
+export const menuRadioOption = (text) => ({ type: 'menuRadioOption', text })
+export const menuCheckboxOption = (text) => ({ type: 'menuCheckboxOption', text })
+export const mapButton = (text) => ({ type: 'mapButton', text })

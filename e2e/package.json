@@ -1,0 +1,25 @@
+{
+  "name": "fmfp-e2e-tests",
+  "version": "1.0.0",
+  "description": "UI auto test repo",
+  "type": "module",
+  "scripts": {
+    "test": "npx playwright test --project=public-chromium --project=internal-chromium",
+    "test:ui": "npx playwright test --ui --project=public-chromium --project=internal-chromium",
+    "test:urlCheck": "npx playwright test --project=urlCheck-chrome",
+    "test:local": "TEST_ENV=local npx playwright test --project=noDeps-local-chrome",
+    "test:tst": "TEST_ENV=tst npm run test",
+    "test:dev": "TEST_ENV=dev npm run test",
+    "test:edge": "npx playwright test --project=public-edge --project=internal-edge",
+    "test:firefox": "npx playwright test --project=public-firefox --project=internal-firefox",
+    "test:all-browsers": "npx playwright test",
+    "report:open": "npx playwright show-report",
+    "prepare": "husky"
+  },
+  "author": "R Leighton",
+  "devDependencies": {
+    "@mapbox/polyline": "^1.2.1",
+    "@playwright/test": "^1.50.0",
+    "husky": "^9.1.7"
+  }
+}
