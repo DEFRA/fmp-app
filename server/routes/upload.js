@@ -83,7 +83,7 @@ const validateFile = (file) => {
 const validateGeoJSON = (geojson) => {
   const errorSummary = []
 
-  if (!geojson?.features || geojson.features.length !== 1) {
+  if (geojson?.features?.length !== 1) {
     errorSummary.push({
       text: 'Only upload a GeoJSON with a single feature.',
       href: '#boundary',
