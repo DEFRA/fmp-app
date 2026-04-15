@@ -11,7 +11,7 @@
     {% include "./partials/results-page/is-risk-admin-area.html" %}
     {% endif %}
 
-    {% if floodData.surfaceWater.riskBand or floodData.riversAndSea %}
+    {% if floodData.hasFloodRisk %}
     <p id="riskFloodingFrom" class="govuk-body">In your proposed development site there is a risk of flooding from:</p>
     <ul class="govuk-list govuk-list--bullet">
       {% if floodData.hasRiversSource and floodData.hasSeaSource %}<li id="riversAndSeaBulletPoint" data-testid="risk-list-rivers-sea">rivers and the sea (fluvial and tidal)</li>
