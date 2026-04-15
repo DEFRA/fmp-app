@@ -1,7 +1,7 @@
 const multiparty = require('multiparty')
-const proj4 = require('proj4')
 const constants = require('../constants')
 const fiftyMbInBytes = 50 * 1024 * 1024
+const JSZip = require('jszip')
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD),
@@ -15,8 +15,6 @@ const handlers = {
     }
 
     const buffer = await streamToBuffer(file)
-
-    const JSZip = require('jszip')
     const zip = await JSZip.loadAsync(buffer)
 
     // Remove .prj files from the zip so we do not convert
@@ -26,8 +24,7 @@ const handlers = {
       .forEach(name => zip.remove(name))
 
     const modifiedBuffer = await zip.generateAsync({ type: 'arraybuffer' })
-
-    const { default: shp } = await import('shpjs')
+    const { default: shp } = await import('shpjs') // needs to be imported here as only ESM can be used with shpjs
     const geojson = await shp(modifiedBuffer)
     const boundaryErrorSummary = validateGeoJSON(geojson)
 
@@ -55,7 +52,7 @@ const getFile = (request) => {
       }
     })
     form.on('error', (err) => {
-      reject(new Error(err))
+      reject(err)
     })
     form.parse(request.raw.req)
   })
@@ -67,13 +64,6 @@ const streamToBuffer = async (stream) => {
     chunks.push(chunk)
   }
   return Buffer.concat(chunks)
-}
-
-const transformPointToOSGB = (point, srs) => {
-  if (srs === '4326' || srs === '3857') {
-    return proj4(`EPSG:${srs}`, 'EPSG:27700', point)
-  }
-  return point
 }
 
 const validateFile = (file) => {
@@ -89,39 +79,15 @@ const validateFile = (file) => {
   return errorSummary
 }
 
-const validateDataset = (ds) => {
-  const errorSummary = []
-  if (ds.layers.count() !== 1 || ds.layers.get(0).features.count() !== 1) {
-    errorSummary.push({
-      text: 'Only upload a shape with a single layer and single feature',
-      href: '#boundary'
-    })
-  }
-
-  if (ds.layers.get(0).features.first().getGeometry().toString() !== 'Polygon') {
-    errorSummary.push({
-      text: 'Feature must be a single polygon',
-      href: '#boundary'
-    })
-  }
-
-  if (ds.layers.get(0).srs.getAuthorityCode() !== '27700' && ds.layers.get(0).srs.getAuthorityCode() !== '4326' && ds.layers.get(0).srs.getAuthorityCode() !== '3857') {
-    errorSummary.push({
-      text: 'Coordinate system must be OSGB36, WGS84 or Web Mercator',
-      href: '#boundary'
-    })
-  }
-
-  return errorSummary
-}
-
 const validateGeoJSON = (geojson) => {
   const errorSummary = []
+
   if (!geojson || !geojson.features || geojson.features.length !== 1) {
     errorSummary.push({
       text: 'Only upload a GeoJSON with a single feature.',
       href: '#boundary',
     })
+    return errorSummary
   }
 
   if (geojson.features[0].geometry.type !== 'Polygon') {
