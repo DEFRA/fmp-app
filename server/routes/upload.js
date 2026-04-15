@@ -1,6 +1,7 @@
 const multiparty = require('multiparty')
 const constants = require('../constants')
-const fiftyMbInBytes = 50 * 1024 * 1024
+const fiftyMbNumeric = 50
+const fiftyMbInBytes = fiftyMbNumeric * 1024 * 1024
 const JSZip = require('jszip')
 
 const handlers = {
@@ -44,11 +45,11 @@ const getFile = (request) => {
   const form = new multiparty.Form()
   return new Promise((resolve, reject) => {
     form.on('part', (part) => {
-      if (!part.filename) {
-        reject(new Error('Non file received'))
-      } else {
+      if (part.filename) {
         console.log(`file uploaded: ${part.filename}`)
         resolve(part)
+      } else {
+        reject(new Error('Non file received'))
       }
     })
     form.on('error', (err) => {
@@ -82,7 +83,7 @@ const validateFile = (file) => {
 const validateGeoJSON = (geojson) => {
   const errorSummary = []
 
-  if (!geojson || !geojson.features || geojson.features.length !== 1) {
+  if (!geojson?.features || geojson.features.length !== 1) {
     errorSummary.push({
       text: 'Only upload a GeoJSON with a single feature.',
       href: '#boundary',
