@@ -5,9 +5,14 @@ const {
   submitPostRequestExpectHandledError,
   submitPostRequestExpectServiceError
 } = require('../../__test-helpers__/server')
-const multiparty = require('multiparty')
+const mockPart = { filename: 'test.zip' }
+const shp = require('shpjs').default
+const { extractProjectionFiles } = require('../../services/zip-helper')
+const setupZipMocks = (geojson = validGeoJSON) => {
+  extractProjectionFiles.mockResolvedValue(new ArrayBuffer(8))
+  shp.mockResolvedValue(geojson)
+}
 
-jest.mock('multiparty')
 jest.mock('../../services/zip-helper', () => ({
   extractProjectionFiles: jest.fn()
 }))
@@ -15,9 +20,18 @@ jest.mock('shpjs', () => ({
   __esModule: true,
   default: jest.fn()
 }), { virtual: true })
+jest.mock('../../services/validate-uploaded-shape-file', () => ({
+  validateShapeFile: jest.fn(),
+  validateGeoJSON: jest.fn()
+}))
+jest.mock('../../services/file-helper', () => ({
+  getFile: jest.fn(),
+  streamToBuffer: jest.fn()
+}))
 
-const shp = require('shpjs').default
-const { extractProjectionFiles } = require('../../services/zip-helper')
+const { getFile, streamToBuffer } = require('../../services/file-helper')
+const { validateShapeFile, validateGeoJSON } = require('../../services/validate-uploaded-shape-file')
+
 const url = constants.routes.UPLOAD
 
 const validGeoJSON = {
@@ -31,39 +45,17 @@ const validGeoJSON = {
   ]
 }
 
-let mockForm
-let mockPart
-
 beforeEach(() => {
-  mockPart = {
-    filename: 'test.zip',
-    [Symbol.asyncIterator]: async function * () {
-      yield Buffer.from('fake zip data')
-    }
-  }
-
-  mockForm = {
-    on: jest.fn(),
-    parse: jest.fn()
-  }
-
-  multiparty.Form.mockImplementation(() => mockForm)
-
-  mockForm.on.mockImplementation((event, handler) => {
-    if (event === 'part') {
-      setImmediate(() => handler(mockPart))
-    }
-  })
+  getFile.mockResolvedValue(mockPart)
+  streamToBuffer.mockResolvedValue(Buffer.from('fake zip data'))
+  validateShapeFile.mockReturnValue([])
+  validateGeoJSON.mockReturnValue([])
+  setupZipMocks()
 })
 
 afterEach(() => {
   jest.clearAllMocks()
 })
-
-const setupZipMocks = (geojson = validGeoJSON) => {
-  extractProjectionFiles.mockResolvedValue(new ArrayBuffer(8))
-  shp.mockResolvedValue(geojson)
-}
 
 describe('Upload route', () => {
   describe('GET', () => {
@@ -75,64 +67,21 @@ describe('Upload route', () => {
   describe('POST', () => {
     describe('file validation', () => {
       it('should return an error for an invalid file extension', async () => {
-        mockPart.filename = 'test.txt'
+        validateShapeFile.mockReturnValue([{ text: 'Only upload a GeoJSON file (.geojson), Geopackage (.gpkg) or Shape files (.zip)', href: '#boundary' }])
         await submitPostRequestExpectHandledError(
           { url },
           'Only upload a GeoJSON file (.geojson), Geopackage (.gpkg) or Shape files (.zip)'
         )
       })
 
-      it('should accept a .zip file and redirect', async () => {
-        setupZipMocks()
-        await submitPostRequest({ url })
-      })
-
-      it('should return a service error if a non-file part is received', async () => {
-        mockForm.on.mockImplementation((event, handler) => {
-          if (event === 'part') setImmediate(() => handler({ filename: null }))
+      describe('GeoJSON validation', () => {
+        it('should return an error if geojson is invalid', async () => {
+          validateGeoJSON.mockReturnValue([{ text: 'Only upload a GeoJSON with a single feature.', href: '#boundary' }])
+          await submitPostRequestExpectHandledError(
+            { url },
+            'Only upload a GeoJSON with a single feature.'
+          )
         })
-        await submitPostRequestExpectServiceError({ url })
-      })
-    })
-
-    describe('GeoJSON validation', () => {
-      it('should return an error if geojson is null', async () => {
-        setupZipMocks(null)
-        await submitPostRequestExpectHandledError(
-          { url },
-          'Only upload a GeoJSON with a single feature.'
-        )
-      })
-
-      it('should return an error if geojson has no features', async () => {
-        setupZipMocks({ features: [] })
-        await submitPostRequestExpectHandledError(
-          { url },
-          'Only upload a GeoJSON with a single feature.'
-        )
-      })
-
-      it('should return an error if geojson has multiple features', async () => {
-        setupZipMocks({
-          features: [
-            { geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 0]]] } },
-            { geometry: { type: 'Polygon', coordinates: [[[2, 2], [3, 2], [3, 3], [2, 2]]] } }
-          ]
-        })
-        await submitPostRequestExpectHandledError(
-          { url },
-          'Only upload a GeoJSON with a single feature.'
-        )
-      })
-
-      it('should return an error if the feature is not a Polygon', async () => {
-        setupZipMocks({
-          features: [{ geometry: { type: 'LineString', coordinates: [] } }]
-        })
-        await submitPostRequestExpectHandledError(
-          { url },
-          'Feature must be a single polygon.'
-        )
       })
     })
 
@@ -148,15 +97,8 @@ describe('Upload route', () => {
     })
 
     describe('error handling', () => {
-      it('should return a service error if multiparty emits an error', async () => {
-        mockForm.on.mockImplementation((event, handler) => {
-          if (event === 'error') setImmediate(() => handler(new Error('Form parse error')))
-        })
-        await submitPostRequestExpectServiceError({ url })
-      })
-
-      it('should return a service error if extractProjectionFiles fails', async () => {
-        extractProjectionFiles.mockRejectedValue(new Error('Invalid zip'))
+      it('should return a service error if getFile fails', async () => {
+        getFile.mockRejectedValue(new Error('Form parse error'))
         await submitPostRequestExpectServiceError({ url })
       })
     })
