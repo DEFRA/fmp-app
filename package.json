@@ -18,7 +18,7 @@
     "test": "npm run eslint && jest --runInBand --collectCoverage",
     "test-timings": "jest --runInBand --collectCoverage --outputFile=test/results.json --json && node ./test/parseTestResults.js",
     "test-quick": "NOLOG=true jest --collectCoverage",
-    "jest-watch": "jest --watch",
+    "jest-watch": "NOLOG=true jest --watch",
     "jest-watch-coverage": "NOLOG=true jest --watchAll --coverage",
     "postinstall": "npm run build",
     "kill": "sudo kill -9 $(sudo lsof -t -i:3000)",
