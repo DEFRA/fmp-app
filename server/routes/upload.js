@@ -2,7 +2,7 @@ const multiparty = require('multiparty')
 const constants = require('../constants')
 const fiftyMbNumeric = 50
 const fiftyMbInBytes = fiftyMbNumeric * 1024 * 1024
-const JSZip = require('jszip')
+const { extractProjectionFiles } = require('../services/zip-helper')
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD),
@@ -14,18 +14,9 @@ const handlers = {
         errorSummary
       })
     }
-
-    const buffer = await streamToBuffer(file)
-    const zip = await JSZip.loadAsync(buffer)
-
-    // Remove .prj files from the zip so we do not convert
-    // we will only allow OSTN15 OS coordinates.
-    Object.keys(zip.files)
-      .filter(name => name.toLowerCase().endsWith('.prj'))
-      .forEach(name => zip.remove(name))
-
-    const modifiedBuffer = await zip.generateAsync({ type: 'arraybuffer' })
     const { default: shp } = await import('shpjs') // needs to be imported here as only ESM can be used with shpjs
+    const buffer = await streamToBuffer(file)
+    const modifiedBuffer = await extractProjectionFiles(buffer)
     const geojson = await shp(modifiedBuffer)
     const boundaryErrorSummary = validateGeoJSON(geojson)
 

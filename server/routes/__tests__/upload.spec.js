@@ -6,18 +6,18 @@ const {
   submitPostRequestExpectServiceError
 } = require('../../__test-helpers__/server')
 const multiparty = require('multiparty')
-const JSZip = require('jszip')
 
 jest.mock('multiparty')
-jest.mock('jszip')
-
+jest.mock('../../services/zip-helper', () => ({
+  extractProjectionFiles: jest.fn()
+}))
 jest.mock('shpjs', () => ({
   __esModule: true,
   default: jest.fn()
 }), { virtual: true })
 
 const shp = require('shpjs').default
-
+const { extractProjectionFiles } = require('../../services/zip-helper')
 const url = constants.routes.UPLOAD
 
 const validGeoJSON = {
@@ -61,17 +61,8 @@ afterEach(() => {
 })
 
 const setupZipMocks = (geojson = validGeoJSON) => {
-  const mockZip = {
-    files: {
-      'shape.shp': {},
-      'shape.prj': {}
-    },
-    remove: jest.fn(),
-    generateAsync: jest.fn().mockResolvedValue(new ArrayBuffer(8))
-  }
-  JSZip.loadAsync = jest.fn().mockResolvedValue(mockZip)
+  extractProjectionFiles.mockResolvedValue(new ArrayBuffer(8))
   shp.mockResolvedValue(geojson)
-  return mockZip
 }
 
 describe('Upload route', () => {
@@ -101,22 +92,6 @@ describe('Upload route', () => {
           if (event === 'part') setImmediate(() => handler({ filename: null }))
         })
         await submitPostRequestExpectServiceError({ url })
-      })
-    })
-
-    describe('zip processing', () => {
-      it('should remove .prj files from the zip', async () => {
-        const mockZip = setupZipMocks()
-        await submitPostRequest({ url })
-        expect(mockZip.remove).toHaveBeenCalledWith('shape.prj')
-        expect(mockZip.remove).not.toHaveBeenCalledWith('shape.shp')
-      })
-
-      it('should not call remove if there are no .prj files', async () => {
-        const mockZip = setupZipMocks()
-        mockZip.files = { 'shape.shp': {} }
-        await submitPostRequest({ url })
-        expect(mockZip.remove).not.toHaveBeenCalled()
       })
     })
 
@@ -180,8 +155,8 @@ describe('Upload route', () => {
         await submitPostRequestExpectServiceError({ url })
       })
 
-      it('should return a service error if JSZip fails to load', async () => {
-        JSZip.loadAsync = jest.fn().mockRejectedValue(new Error('Invalid zip'))
+      it('should return a service error if extractProjectionFiles fails', async () => {
+        extractProjectionFiles.mockRejectedValue(new Error('Invalid zip'))
         await submitPostRequestExpectServiceError({ url })
       })
     })
