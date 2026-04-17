@@ -62,6 +62,12 @@ export class FormDriver {
     await locator.first().click()
   }
 
+  async clickLinkContainingText (element) {
+    const locator = this.#getLinkLocator(element, false)
+    await expect(locator.first()).toBeVisible()
+    await locator.first().click()
+  }
+
   async switchToNewWindow () {
     const context = this.page.context()
     const allPages = context.pages()
@@ -127,15 +133,15 @@ export class FormDriver {
 
   // ---- Private ---- //
 
-  #getLinkLocator (link) {
+  #getLinkLocator (link, exact = true) {
     if (link.type === 'footerLink') {
-      return this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
+      return this.page.locator('footer').getByRole('link', { name: link.text, exact })
     }
     if (link.type === 'headerLink') {
-      return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true })
+      return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact })
     }
     if (link.type === 'mainLink' || link.type === 'link') {
-      return this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+      return this.page.getByRole('main').getByRole('link', { name: link.text, exact })
     }
     throw new Error(`Unsupported link type '${link.type}'`)
   }
