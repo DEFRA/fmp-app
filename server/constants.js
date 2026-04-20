@@ -22,6 +22,7 @@ const FEEDBACK = 'feedback'
 const ORDER_NOT_SUBMITTED = 'order-not-submitted'
 const OS_TERMS = 'os-terms'
 const TERMS_AND_CONDITIONS = 'terms-and-conditions'
+const UPLOAD = 'upload'
 
 const views = {
   HOME,
@@ -42,7 +43,8 @@ const views = {
   FEEDBACK,
   ORDER_NOT_SUBMITTED,
   OS_TERMS,
-  TERMS_AND_CONDITIONS
+  TERMS_AND_CONDITIONS,
+  UPLOAD
 }
 
 const routes = {
