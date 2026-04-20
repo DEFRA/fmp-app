@@ -26,7 +26,6 @@ test.describe('Confirmation page', () => {
   })
 
   // The following tests validate that external links can be reached.
-
   test('navigates to to get more information to help you complete a flood risk assessmment page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
     await steps.clickLink(pages.confirmation.toGetMoreInformationLink)
     await steps.expectUrlContains('get-information-about-flood-risk')
