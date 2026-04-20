@@ -1,15 +1,32 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
-import { FloodMap } from '/flood-map' // eslint-disable-line import-x/no-absolute-path
-import { getEsriToken, getRequest, getInterceptors, getDefraMapConfig, setEsriConfig } from './tokens.js'
+import InteractiveMap from '@defra/interactive-map'
+import esriProvider from '@defra/interactive-map/providers/esri'
+
+import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
+import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
+import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
+
+import { setupEsriConfig, getRequest, getDefraMapConfig, setEsriConfig } from './tokens.js'
 import { terms } from './terms.js'
-import { colours, getKeyItemFill, LIGHT_INDEX, DARK_INDEX } from './colours.js'
-import { vtLayers } from './vtLayers.js'
+import { colours, getKeyItemFill } from './colours.js'
+import { attachLayers, vtLayers, FloodMapLayer } from './mapLayers/index.js'
+import { addFeatureLayers } from './mapLayers/featureLayers/featureLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { renderBanner } from './banner.js'
-import { FloodMapLayer } from './mapLayers/index.js'
 import { getInfoPanel } from './infoPanel.js'
+
+// <InteractiveMapHelpers>
+import { renderMenuHTML } from './interactive-map-helpers/menu.js'
+import { renderKeyHTML, attachKeyHandlers } from './interactive-map-helpers/key.js'
+import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
+
+// </InteractiveMapHelpers>
+
+const feature = null// TODO - make this non global
+
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -39,13 +56,13 @@ const keyItemDefinitions = {
     fill: getKeyItemFill(colours.floodZone3)
   },
   floodZone3CC: {
-    label: 'Climate change (2070 to 2125)', // terms.labels.fzClimateChange
-    fill: getKeyItemFill(colours.floodZoneCC)
+    label: terms.labels.floodZoneClimateChange,
+    fill: getKeyItemFill(colours.floodZoneClimateChange)
   },
-  floodZoneNoData: {
+  floodZoneClimateChangeNoData: {
     label: terms.labels.noData,
     icon: symbols.noData,
-    fill: getKeyItemFill(colours.floodZoneNoData)
+    fill: getKeyItemFill(colours.floodZoneClimateChangeNoData)
   },
   waterStorageAreas: {
     id: 'fsa',
@@ -119,6 +136,7 @@ keyItemDefinitions.common = {
 
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
+
 const calculateExtent = (polygonToCalculate) => {
   const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
     acc[0] = Math.min(acc[0], x)
@@ -129,6 +147,7 @@ const calculateExtent = (polygonToCalculate) => {
   }, [Infinity, Infinity, -Infinity, -Infinity])
   return calculatedExtent
 }
+
 let featureQuery, extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
   const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
@@ -145,156 +164,59 @@ if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
-  const getFeatureLayerUrl = (urlLayerName) => `${defraMapConfig.agolServiceUrl}/${urlLayerName}/FeatureServer`
-  const getModelFeatureLayerUrl = (layerName) => `${defraMapConfig.agolServiceUrl}/${layerName + defraMapConfig.featureLayerNameSuffix}/FeatureServer`
+  const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
+  const mapStyleOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'right-top' },
+    tablet: { slot: 'right-top' },
+    mobile: { slot: 'right-top' }
+  }
+  const mapStylePanelOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'map-styles-button', width: '400px', modal: true },
+    tablet: { slot: 'map-styles-button', modal: true },
+    mobile: { slot: 'map-styles-button', modal: true }
+  }
 
-  const mapFeatureRenderers = {
-    floodDefences: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.floodDefences[LIGHT_INDEX]
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.floodDefences[DARK_INDEX]
-        }
-      }
-    },
-    waterStorageAreas: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-fill',
-          style: 'diagonal-cross',
-          color: colours.waterStorageAreas[LIGHT_INDEX],
-          outline: {
-            color: colours.waterStorageAreas[LIGHT_INDEX],
-            width: 1
-          }
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-fill',
-          style: 'diagonal-cross',
-          color: colours.waterStorageAreas[DARK_INDEX],
-          outline: {
-            color: colours.waterStorageAreas[DARK_INDEX],
-            width: 1
-          }
-        }
-      }
-    },
-    mainRivers: {
-      default: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.mainRivers[LIGHT_INDEX]
-        }
-      },
-      dark: {
-        type: 'simple',
-        symbol: {
-          type: 'simple-line',
-          width: '3px',
-          color: colours.mainRivers[DARK_INDEX]
-        }
-      }
+  const mapStylePlugin = createMapStylesPlugin({
+    mapStyles,
+    manifest: {
+      buttons: [mapStyleOverrides],
+      panels: [mapStylePanelOverrides]
     }
-  }
+  })
 
-  const getMapFeatureRenderer = (name) => {
-    const mode = mapState.isDark ? 'dark' : 'default'
-    return mapFeatureRenderers[name]?.[mode]
-  }
-
-  const fLayers = [
-    {
-      name: 'floodDefences',
-      url: getModelFeatureLayerUrl('Defences'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
-      q: 'fd'
-    },
-    {
-      name: 'waterStorageAreas',
-      url: getModelFeatureLayerUrl('Flood_Storage_Areas'), // getModelFeatureLayerUrl adds feature layer suffix to layer name eg _NON_PRODUCTION
-      q: 'fsa'
-    },
-    {
-      name: 'mainRivers',
-      url: getFeatureLayerUrl('Statutory_Main_River_Map'), // getFeatureLayerUrl doesn't add a suffix (river map uses same layer for non production and production)
-      q: 'mainr'
-    }
-  ]
-
-  const addLayers = async () => {
-    vtLayers.forEach((vtLayer) => {
-      if (!vtLayer.q) {
-        return
-      }
-      vtLayer.addToMap(floodMap.map)
-    })
-    const { FeatureLayer } = FloodMapLayer.modules
-    fLayers.forEach(fLayer => {
-      floodMap.map.add(new FeatureLayer({
-        id: fLayer.name,
-        url: fLayer.url,
-        renderer: getMapFeatureRenderer(fLayer.name),
-        visible: false
-      }))
-    })
-  }
-
-  const toggleVisibility = (type, mode, segments, layers, map, isDark) => {
-    const isDrawMode = ['frame', 'vertex'].includes(mode)
-    vtLayers.forEach((vtLayer, i) => {
-      if (!vtLayer.q) {
-        return
-      }
-      const isVisible = !isDrawMode && vtLayer.checkLayerVisibility()
-      vtLayer.visible = isVisible
-    })
-    fLayers.forEach(fLayer => {
-      const layer = map.findLayerById(fLayer.name)
-      const isVisible = !isDrawMode && layers.includes(fLayer.q)
-      layer.visible = isVisible
-      if (isVisible) {
-        layer.renderer = getMapFeatureRenderer(fLayer.name)
-      }
-    })
-  }
-
-  const { baseMapStyles, digitisingMapStyles } = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
-  // const depthMap = ['over 2.3', '2.3', '1.2', '0.9', '0.6', '0.3', '0.15']
-
-  const floodMap = new FloodMap('map', {
+  const interactiveMap = new InteractiveMap('map', {
+    mapProvider: esriProvider({
+      setupConfig: setupEsriConfig
+    }),
+    plugins: [
+      mapStylePlugin,
+      createScaleBarPlugin({ units: 'metric' }),
+      createSearchPlugin({
+        transformRequest: getRequest,
+        osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
+        regions: ['england'],
+        width: '300px',
+        showMarker: true,
+        label: 'Search for a place in england',
+        // expanded: true
+      }),
+      drawPlugin,
+      framePlugin,
+      interactPlugin,
+    ],
     behaviour: 'inline',
     place: 'England',
-    zoom: 7.7,
     minZoom: 6,
     maxZoom: 20,
-    center: !extent && [340367, 322766],
-    maxExtent: [0, 0, 700000, 1300000],
-    extent, // extent taken from polygon to fit map to drawn feature or null if not present
-    height: '100%',
-    hasGeoLocation: false,
-    framework: 'esri',
+    extent: extent || [50000, 10000, 400000, 650000],
+    containerHeight: '100%',
+    enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    transformSearchRequest: getRequest,
-    interceptorsCallback: getInterceptors,
-    tokenCallback: getEsriToken,
+    // transformSearchRequest: getRequest,
+    // interceptorsCallback: getInterceptors,
     warningPosition: 'top',
-    styles: baseMapStyles,
-    helpURL: '/map-help',
     search: {
       label: 'Search for a place',
       isAutocomplete: true,
@@ -500,7 +422,7 @@ getDefraMapConfig().then((defraMapConfig) => {
             keyItemDefinitions.floodZone2PresentDay,
             keyItemDefinitions.floodZone3PresentDay,
             keyItemDefinitions.floodZone3CC,
-            keyItemDefinitions.floodZoneNoData,
+            keyItemDefinitions.floodZoneClimateChangeNoData,
             keyItemDefinitions.waterStorageAreas,
             keyItemDefinitions.floodDefences,
             keyItemDefinitions.mainRivers
@@ -586,7 +508,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       keyLabel: 'Location boundary',
       summary: 'Add or edit a location boundary',
       maxZoom: 22,
-      styles: digitisingMapStyles,
       drawTools: ['polygon', 'square'],
       areaUnits: 'hectares',
       feature: featureQuery, // feature derived from polygon query string or null if not present
@@ -612,6 +533,68 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.esriConfig = esriConfig
     mapState.polygon = featureQuery?.geometry?.coordinates
     setEsriConfig(esriConfig)
+  })
+  let reported = false
+  interactiveMap.addEventListener = () => {
+    if (!reported) {
+      console.log('TODO - fix the listeners')
+      reported = true
+    }
+  }
+  attachLayers(interactiveMap, defraMapConfig)
+  addFeatureLayers(interactiveMap, defraMapConfig)
+  attachKeyHandlers(interactiveMap)
+  attachDrawPluginHandlers(interactiveMap)
+  attachInteractPlugin(interactiveMap)
+
+  interactiveMap.on('app:ready', function (e) {
+    interactiveMap.addButton('help', {
+      label: 'Help',
+      href: '/map-help',
+      iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+      mobile: { slot: 'right-top', showLabel: false },
+      tablet: { slot: 'right-top', showLabel: false, order: 1 },
+      desktop: { slot: 'right-top', showLabel: true, order: 1 }
+    })
+    interactiveMap.addButton('menu', {
+      label: 'Menu',
+      panelId: 'menu',
+      iconSvgContent: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+      mobile: { slot: 'top-left', order: 1, showLabel: false },
+      tablet: { slot: 'top-left', order: 2 },
+      desktop: { slot: 'top-left', order: 2 }
+    })
+    interactiveMap.addButton('key', {
+      label: 'Key',
+      panelId: 'key',
+      iconSvgContent: '<path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/>',
+      mobile: { slot: 'top-left', order: 2, showLabel: false },
+      tablet: { slot: 'top-left', order: 3 },
+      desktop: { slot: 'top-left', order: 3 }
+    })
+    interactiveMap.addPanel('menu', {
+      label: 'Menu',
+      html: renderMenuHTML(feature),
+      mobile: { slot: 'side', modal: true, open: false, dismissible: true },
+      tablet: { slot: 'side', width: '260px', open: true, dismissible: true },
+      desktop: { slot: 'side', width: '280px', open: true, dismissible: false }
+    })
+    interactiveMap.addPanel('key', {
+      label: 'Key',
+      html: renderKeyHTML(),
+      mobile: { slot: 'bottom', open: false, exclusive: true },
+      tablet: { slot: 'left-top', width: '260px', open: false, exclusive: true },
+      desktop: { slot: 'left-top', width: '280px', open: true, exclusive: false }
+    })
+    initialiseSlider(interactiveMap)
+  })
+
+  interactiveMap.on('interact:markerchange', function (e) {
+    interactiveMap.addPanel('info', {
+      label: 'Info',
+      html: '<p>Some info</p>',
+      visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
+    })
   })
 
   const mapState = {
@@ -645,29 +628,25 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
-  floodMap.addEventListener('ready', async e => {
-    const { mode, segments, layers, style } = e.detail
+  interactiveMap.addEventListener('ready', async e => {
+    const { segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     await FloodMapLayer.initialise({
       mapState,
       config: defraMapConfig
     })
-    await addLayers()
-    setTimeout(() => toggleVisibility(null, mode, segments, layers, floodMap.map, mapState.isDark), 1000)
     initPointerMove()
     initialiseSlider()
     renderBanner(mapState)
   })
 
   // Listen for mode, segments, layers or style changes
-  floodMap.addEventListener('change', e => {
+  interactiveMap.addEventListener('change', e => {
     const { type, mode, segments, layers, style } = e.detail
     updateMapState(segments, layers, style)
     if (['layer', 'segment'].includes(type)) {
-      floodMap.setInfo(null)
+      interactiveMap.setInfo(null)
     }
-    const map = floodMap.map
-    toggleVisibility(type, mode, segments, layers, map, mapState.isDark)
     renderBanner({ ...mapState, type, mode })
   })
 
@@ -675,14 +654,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
-    floodMap.view.on('pointer-move', e => {
+    interactiveMap.view.on('pointer-move', e => {
       const now = Date.now()
-      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || floodMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || interactiveMap.view.scale > minScale) {
         return
       }
       lastHit = now
       const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
-      floodMap.view.hitTest(e, { include: layersToTest }).then((response) => {
+      interactiveMap.view.hitTest(e, { include: layersToTest }).then((response) => {
         if (response?.results?.length > 0) {
           // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
           // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
@@ -694,7 +673,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       })
     })
 
-    floodMap.view.on('pointer-leave', _e => {
+    interactiveMap.view.on('pointer-leave', _e => {
       document.body.style.cursor = 'default'
     })
   }
@@ -732,8 +711,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   // Listen to map queries
-  floodMap.addEventListener('query', async e => {
+  interactiveMap.addEventListener('query', async e => {
     const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.version)
-    floodMap.setInfo(infoPanel)
+    interactiveMap.setInfo(infoPanel)
   })
 })

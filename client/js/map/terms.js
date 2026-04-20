@@ -6,14 +6,25 @@ const terms = {
     fzNoData: 'FZNODATA'
   },
   labels: {
+    floodZones: 'Flood zones',
+    surfaceWater: 'Surface water',
+    floodZone2: 'Flood zone 2',
+    floodZone3: 'Flood zone 3',
+    floodZone2PresentDay: 'Flood zone 2 (present day)',
+    floodZone3PresentDay: 'Flood zone 3 (present day)',
     noData: 'Climate change data unavailable',
     climateChange: 'Climate change',
-    fzClimateChange: '2070 to 2125',
+    floodZoneClimateChange: '2070 to 2125',
+    surfaceWaterClimateChange: '2061 to 2125',
     presentDay: 'Present day',
     mapFeatures: 'Map features',
     depth: 'Depth in millimetres',
     annualLikelihood: 'Annual likelihood of flooding',
-    aep: 'Annual exceedance probability (AEP)'
+    aep: 'Annual exceedance probability (AEP)',
+    waterStorage: 'Water storage',
+    floodDefence: 'Flood defence',
+    mainRivers: 'Main rivers',
+
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
@@ -31,7 +42,18 @@ const terms = {
     depth900: 'Extent over 600mm',
     depth1200: 'Extent over 900mm',
     depth2300: 'Extent over 1200mm',
-    depthOver2300: 'Extent over 2300mm'
+    depthOver2300: 'Extent over 2300mm',
+    key: {
+      depthAll: 'All depths',
+      depth150: 'Below 150mm',
+      depth300: '150 to 300mm',
+      depth600: '300 to 600mm',
+      depth900: '600 to 900mm',
+      depth1200: '900 to 1200mm',
+      depth2300: '1200 to 2300mm',
+      depthOver2300: 'Over 2300mm'
+    },
+
   },
   likelihoodchance: {
     rsHigh: '<p class="govuk-body-s">3.3% (1 in 30)</br>chance of flooding each year</p>',
