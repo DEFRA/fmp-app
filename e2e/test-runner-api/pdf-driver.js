@@ -4,6 +4,9 @@ import { PDFParse } from 'pdf-parse'
 import { expect } from '@playwright/test'
 
 const downloadsDir = path.resolve(process.cwd(), '_results_', 'downloads')
+const RANDOM_SUFFIX_RADIX = 36
+const RANDOM_SUFFIX_START_INDEX = 2
+const RANDOM_SUFFIX_END_INDEX = 9
 
 // eslint-disable-next-line no-control-regex
 const sanitizeFileName = (name = '') => name.replaceAll(/[<>:"/\\|?*\x00-\x1F]/g, '_')
@@ -59,7 +62,9 @@ export class PdfDriver {
     }, { timeout }).then(async (response) => {
       const body = await response.body()
       const headerFileName = fileNameFromContentDisposition(response.headers()['content-disposition'])
-      const randomSuffix = Math.random().toString(36).substring(2, 9)
+      const randomSuffix = Math.random()
+        .toString(RANDOM_SUFFIX_RADIX)
+        .substring(RANDOM_SUFFIX_START_INDEX, RANDOM_SUFFIX_END_INDEX)
       const generatedName = headerFileName || `download-${Date.now()}-${randomSuffix}.pdf`
       return {
         fileName: sanitizeFileName(generatedName),
