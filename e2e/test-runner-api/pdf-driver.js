@@ -59,7 +59,8 @@ export class PdfDriver {
     }, { timeout }).then(async (response) => {
       const body = await response.body()
       const headerFileName = fileNameFromContentDisposition(response.headers()['content-disposition'])
-      const generatedName = headerFileName || `download-${Date.now()}.pdf`
+      const randomSuffix = Math.random().toString(36).substring(2, 9)
+      const generatedName = headerFileName || `download-${Date.now()}-${randomSuffix}.pdf`
       return {
         fileName: sanitizeFileName(generatedName),
         saveAs: async (dest) => fs.writeFile(dest, body)

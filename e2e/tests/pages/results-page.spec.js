@@ -192,10 +192,10 @@ test.describe('Results page', () => {
         test('downloads pdf with reference text and amended scale', async ({ steps, pdfDriver }) => {
           const referenceText = 'Test123456789101112131415'
           const scale = '25000'
-          await steps.type(pages.results.addReferenceInput, referenceText)
-          await steps.select(pages.results.scaleSelect, scale)
 
           const pdfPath = await pdfDriver.waitForDownload(async () => {
+            await steps.type(pages.results.addReferenceInput, referenceText)
+            await steps.select(pages.results.scaleSelect, scale)
             await steps.clickButton(pages.results.downloadFloodMapButton)
           }, pdfDownloadTimeoutMs)
           const pdf = await pdfDriver.parsePdf(pdfPath)

@@ -6,6 +6,7 @@ export const page = definePage({
   title: 'Next steps for your planning application'
 })
 
+// P1 Map Controls
 export const addReferenceToFloodMapDetails = button('Add a reference to the flood map and set the scale')
 export const addReferenceInput = textInput('Add a reference')
 export const scaleSelect = selectInput('Scale')
