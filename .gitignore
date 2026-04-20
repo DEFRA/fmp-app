@@ -21,3 +21,4 @@ coverage/
 test/results.json
 playwright-report/
 test-results/
+e2e/_results_/downloads/*.pdf
