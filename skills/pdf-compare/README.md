@@ -11,16 +11,18 @@ npm install
 
 ### Drop Zone (easiest)
 
-1. Drop two PDFs into the `inbox/` folder
+1. Drop PDFs into the `inbox/` folder
 2. Run:
 
 ```bash
 npm run inbox
 ```
 
-The file sorted first alphabetically is the original, the second is the revised. Tip: name them `1_original.pdf` and `2_revised.pdf`.
+**Single pair:** Drop 2 PDFs. The file sorted first alphabetically is the original, the second is the revised. Tip: name them `1_original.pdf` and `2_revised.pdf`.
 
-Results land in `inbox/output/` — add `-- --open` to auto-open the HTML report.
+**Batch mode:** Drop 4+ PDFs (even number). Files are sorted alphabetically and paired sequentially — `1a`, `1b`, `2a`, `2b`, etc. Each pair gets its own output subdirectory.
+
+Results land in `inbox/output/`. Single-pair mode auto-opens the HTML report. Batch mode produces a `batch_summary.json` with cross-pair overview and per-pair triage.
 
 ### CLI (full control)
 
@@ -34,8 +36,15 @@ The output directory will contain:
 |------|-------------|
 | `report.html` | Self-contained HTML report — open in a browser for the best experience |
 | `report.json` | Machine-readable JSON report |
-| `report.md` | Markdown summary |
+| `report.md` | Triaged analysis — executive summary, structural changes, key substantive changes with quoted diffs, cosmetic/boilerplate patterns, per-page breakdown |
 | `diff_page_*.png` | Visual diff images for each changed page |
+
+Batch mode additionally produces:
+
+| File | Description |
+|------|-------------|
+| `batch_summary.json` | Cross-pair overview with per-pair triage (structural/substantive/cosmetic counts, global patterns) |
+| `pair-N/` | Individual output directories per pair, each containing the files above |
 
 ## CLI Options
 
@@ -75,13 +84,23 @@ node scripts/compare_pdfs.js \
 
 ## Smart Page Matching
 
-When documents have different page counts (e.g. pages were added or removed), the tool automatically aligns pages by content similarity using the Needleman-Wunsch algorithm. This means:
+When documents have different page counts (e.g. pages were added or removed), the tool automatically aligns pages by content similarity using the Needleman-Wunsch algorithm with Jaccard text similarity scoring. This means:
 
 - **Inserted pages** are detected — new pages added mid-document won't throw off the comparison
 - **Deleted pages** are detected — removed pages are flagged without misaligning the rest
 - **Matched pages** are correctly paired even when page numbers shift
 
 Each page in the report includes a `match_type` field: `matched`, `inserted`, `deleted`, or `replaced`.
+
+## Change Triage
+
+Every changed page is automatically classified:
+
+- **Structural** — Pages inserted or deleted (document grew/shrank)
+- **Substantive** — Meaningful content changes (text diffs, major visual differences)
+- **Cosmetic** — Boilerplate updates (dates, copyright lines, page numbers)
+
+Global cosmetic patterns are detected and grouped (e.g. "9 pages: date stamp update") so they don't bury the important changes. The `report.md` leads with what matters — substantive changes with quoted before/after text — and pushes cosmetic noise to the bottom.
 
 ## Using with GitHub Copilot
 
@@ -100,15 +119,20 @@ Copilot will run the comparison and present the results.
 skills/pdf-compare/
 ├── scripts/
 │   ├── compare_pdfs.js      # CLI orchestrator
-│   ├── inbox.js              # Drop-zone runner
+│   ├── inbox.js              # Drop-zone runner (single + batch)
 │   ├── extract_text.js       # Text extraction per page (mupdf WASM)
 │   ├── render_pages.js       # Page rendering to images (mupdf WASM)
 │   ├── diff_images.js        # Pixel-level image comparison (pixelmatch)
 │   ├── text_diff.js          # Unified text diff (LCS-based)
-│   ├── page_matcher.js       # Smart page alignment (Needleman-Wunsch)
+│   ├── page_matcher.js       # Smart page alignment (Needleman-Wunsch + Jaccard)
 │   ├── html_report.js        # Self-contained HTML report generator
-│   ├── utils.js              # Shared helpers
-│   └── run_evals.js          # Eval runner for testing skill quality
+│   ├── utils.js              # Shared helpers (report generation, triage, substitution extraction)
+│   ├── run_evals.js          # Eval runner with findings + consumability grading
+│   ├── batch.js              # Batch comparison runner
+│   ├── chain_compare.js      # Chained comparison runner
+│   ├── summary.js            # Report summarization
+│   ├── summarize_report.js   # Report summarization helpers
+│   └── visual_analyzer.js    # Visual analysis utilities
 ├── tests/
 │   ├── utils.test.js         # Unit tests
 │   └── integration.test.js   # Integration tests
@@ -116,14 +140,14 @@ skills/pdf-compare/
 │   ├── generate_samples.js   # Generates sample PDF pairs for testing
 │   └── samples/              # Generated sample PDFs
 ├── evals/
-│   ├── evals.json            # Eval definitions (10 scenarios)
+│   ├── evals.json            # Eval definitions (16 scenarios, 167 checks)
 │   └── rubric.md             # Grading criteria
 ├── references/
 │   ├── OUTPUT_SCHEMA.md      # JSON report schema docs
 │   ├── NORMALIZATION_RULES.md
 │   └── LIMITATIONS.md
 ├── SKILL.md                  # Skill definition for Copilot
-├── inbox/                    # Drop zone — put two PDFs here
+├── inbox/                    # Drop zone — put PDFs here
 └── package.json
 ```
 
@@ -136,9 +160,16 @@ npm test
 # Generate fresh sample PDFs
 npm run generate-samples
 
-# Run evals (quality benchmark)
-npm run eval -- --iteration 1
+# Run evals (quality benchmark — 16 scenarios, 167 checks)
+npm run eval
 ```
+
+The eval suite tests three dimensions:
+- **Keyword checks** — Report contains expected terms and values
+- **Expected findings** — Specific findings are derivable from report data (text diffs, structural changes, metadata, visual presence)
+- **Consumability** — Report is useful to an agent: quotable diffs, described inserts/deletes, triage classifications, cosmetic patterns grouped
+
+Evals auto-increment iterations and compare against the previous run.
 
 ## Dependencies
 
@@ -156,7 +187,7 @@ All PDF operations use [mupdf](https://mupdf.com/) (WASM) — no system-level de
 
 - Scanned/image-only PDFs have no extractable text — only visual comparison works
 - No OCR support — text comparison is skipped for image pages
-- Very large PDFs (hundreds of pages) may use significant memory during rendering
+- Large PDFs are handled with explicit memory management (pixmap disposal, WASM store shrinking every 20 pages, store clearing between batch pairs), but very large documents still use significant memory
 - Visual comparison uses rasterisation at 150 DPI — sub-pixel differences may not be detected
 
 See [references/LIMITATIONS.md](references/LIMITATIONS.md) for the full list.
