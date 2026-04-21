@@ -1,0 +1,13 @@
+Drop two PDF files here, then run:
+
+    npm run inbox
+
+Or to auto-open the HTML report:
+
+    npm run inbox -- --open
+
+The file sorted first alphabetically is treated as the original (left),
+the second as the revised (right). Tip: prefix with numbers like
+"1_original.pdf" and "2_revised.pdf".
+
+Results are written to the output/ subfolder.

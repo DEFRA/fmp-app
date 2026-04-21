@@ -1,0 +1,25 @@
+{
+  "name": "pdf-compare",
+  "version": "1.0.0",
+  "description": "Compare two PDF documents — text, visual/layout, and metadata differences.",
+  "type": "module",
+  "scripts": {
+    "compare": "node scripts/compare_pdfs.js",
+    "inbox": "node scripts/inbox.js",
+    "batch": "node scripts/batch.js",
+    "summary": "node scripts/summary.js",
+    "chain": "node scripts/chain_compare.js",
+    "test": "node --test tests/*.test.js",
+    "eval": "node scripts/run_evals.js",
+    "eval:iter": "node scripts/run_evals.js --iteration",
+    "generate-samples": "node assets/generate_samples.js"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "mupdf": "^1.27.0",
+    "pdf-lib": "^1.17.1",
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {}
+}
