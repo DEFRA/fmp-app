@@ -1,12 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { randomUUID } from 'node:crypto'
 import { PDFParse } from 'pdf-parse'
 import { expect } from '@playwright/test'
 
 const downloadsDir = path.resolve(process.cwd(), '_results_', 'downloads')
-const RANDOM_SUFFIX_RADIX = 36
-const RANDOM_SUFFIX_START_INDEX = 2
-const RANDOM_SUFFIX_END_INDEX = 9
 
 // eslint-disable-next-line no-control-regex
 const sanitizeFileName = (name = '') => name.replaceAll(/[<>:"/\\|?*\x00-\x1F]/g, '_')
@@ -62,10 +60,7 @@ export class PdfDriver {
     }, { timeout }).then(async (response) => {
       const body = await response.body()
       const headerFileName = fileNameFromContentDisposition(response.headers()['content-disposition'])
-      const randomSuffix = Math.random()
-        .toString(RANDOM_SUFFIX_RADIX)
-        .substring(RANDOM_SUFFIX_START_INDEX, RANDOM_SUFFIX_END_INDEX)
-      const generatedName = headerFileName || `download-${Date.now()}-${randomSuffix}.pdf`
+      const generatedName = headerFileName || `download-${Date.now()}-${randomUUID()}.pdf`
       return {
         fileName: sanitizeFileName(generatedName),
         saveAs: async (dest) => fs.writeFile(dest, body)
@@ -102,7 +97,9 @@ export class PdfDriver {
   // ----ASSERTIONS---- //
 
   async expectCoreContent (pdf, { reference, scale }) {
-    const scaleFormatted = scale.replaceAll(/(\d)(?=(\d{3})+$)/g, '$1,?')
+    const normalizedPdfText = pdf.text
+      .replaceAll(/\s+/g, '')
+      .replaceAll(',', '')
 
     expect(pdf.text.length).toBeGreaterThan(100)
     expect(pdf.text).toContain('flood')
@@ -113,7 +110,7 @@ export class PdfDriver {
       expect(pdf.text).toContain('unspecified')
     }
     expect(pdf.text).toContain('scale')
-    expect(pdf.text).toMatch(new RegExp(String.raw`1\s*:\s*${scaleFormatted}`))
+    expect(normalizedPdfText).toContain(`1:${scale}`)
   }
 
   async expectFloodZone (pdf, floodZone) {
