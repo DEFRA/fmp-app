@@ -11,12 +11,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { runComparison } from './compare_pdfs.js'
+import { runComparison } from '../scripts/compare_pdfs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SKILL_DIR = path.join(__dirname, '..')
-const EVALS_PATH = path.join(SKILL_DIR, 'evals', 'evals.json')
-const WORKSPACE_DIR = path.join(SKILL_DIR, 'pdf-compare-workspace')
+const EVALS_PATH = path.join(__dirname, 'evals.json')
+const WORKSPACE_DIR = path.join(__dirname, 'iterations')
 
 function parseArgs () {
   const args = process.argv.slice(2)
@@ -358,7 +358,7 @@ function gradeReport (report, evalCase) {
   }
   if (expected.includes('report.html')) {
     // Check that HTML report was written
-    const evalOutdir = path.dirname(path.resolve(SKILL_DIR, 'pdf-compare-workspace')) // fallback
+    const evalOutdir = path.dirname(path.resolve(__dirname, 'iterations')) // fallback
     const htmlExists = (report.pages || []).length >= 0 // HTML is always written now
     grades.push({
       text: 'HTML report generated',
@@ -1089,11 +1089,11 @@ function main () {
     const arrow = comparison.improved ? '📈' : comparison.regressed ? '📉' : '➡️'
     console.log(`${arrow} Pass rate: ${Math.round(comparison.previous_pass_rate * 100)}% → ${Math.round(comparison.current_pass_rate * 100)}% (${delta} checks)`)
     if (comparison.regressions.length > 0) {
-      console.log(`\n⚠️  Regressions:`)
+      console.log('\n⚠️  Regressions:')
       for (const r of comparison.regressions) console.log(`  Eval ${r.eval_id}: ${r.was} → ${r.now}`)
     }
     if (comparison.improvements.length > 0) {
-      console.log(`\n✅ Improvements:`)
+      console.log('\n✅ Improvements:')
       for (const r of comparison.improvements) console.log(`  Eval ${r.eval_id}: ${r.was ?? 'new'} → ${r.now ?? 'has failures'}`)
     }
   }
@@ -1110,10 +1110,10 @@ function main () {
       console.log(`     Evidence: ${f.evidence}`)
       console.log(`     Fix: ${f.likely_area} in ${f.likely_file}`)
     }
-    console.log(`\n📋 Next steps:`)
+    console.log('\n📋 Next steps:')
     for (const step of diagnosis.next_steps) console.log(`  → ${step}`)
   } else {
-    console.log(`\n✅ All checks passing — no fixes needed.`)
+    console.log('\n✅ All checks passing — no fixes needed.')
   }
 
   console.log(`\nBenchmark: ${path.relative(SKILL_DIR, path.join(iterDir, 'benchmark.json'))}`)

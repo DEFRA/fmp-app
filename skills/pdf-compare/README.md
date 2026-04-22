@@ -117,37 +117,37 @@ Copilot will run the comparison and present the results.
 
 ```
 skills/pdf-compare/
-├── scripts/
-│   ├── compare_pdfs.js      # CLI orchestrator
-│   ├── inbox.js              # Drop-zone runner (single + batch)
-│   ├── extract_text.js       # Text extraction per page (mupdf WASM)
-│   ├── render_pages.js       # Page rendering to images (mupdf WASM)
-│   ├── diff_images.js        # Pixel-level image comparison (pixelmatch)
-│   ├── text_diff.js          # Unified text diff (LCS-based)
-│   ├── page_matcher.js       # Smart page alignment (Needleman-Wunsch + Jaccard)
-│   ├── html_report.js        # Self-contained HTML report generator
-│   ├── utils.js              # Shared helpers (report generation, triage, substitution extraction)
-│   ├── run_evals.js          # Eval runner with findings + consumability grading
-│   ├── batch.js              # Batch comparison runner
-│   ├── chain_compare.js      # Chained comparison runner
-│   ├── summary.js            # Report summarization
-│   ├── summarize_report.js   # Report summarization helpers
-│   └── visual_analyzer.js    # Visual analysis utilities
+├── scripts/                          # Core engine + CLI runners
+│   ├── compare_pdfs.js               # CLI orchestrator
+│   ├── inbox.js                      # Smart inbox runner (single + batch)
+│   ├── extract_text.js               # Text extraction per page (mupdf WASM)
+│   ├── render_pages.js               # Page rendering to images (mupdf WASM)
+│   ├── diff_images.js                # Pixel-level image comparison (pixelmatch)
+│   ├── text_diff.js                  # Unified text diff (LCS-based)
+│   ├── page_matcher.js               # Smart page alignment (Needleman-Wunsch + Jaccard)
+│   ├── html_report.js                # Self-contained HTML report generator
+│   ├── utils.js                      # Shared helpers (report generation, triage, substitution extraction)
+│   ├── batch.js                      # Batch comparison runner
+│   ├── chain_compare.js              # Chained comparison runner
+│   ├── summary.js                    # Report summarization
+│   ├── summarize_report.js           # Report summarization helpers
+│   └── visual_analyzer.js            # Visual analysis utilities
+├── evals/                            # Eval infrastructure (separate from core)
+│   ├── run_evals.js                  # Eval runner with findings + consumability grading
+│   ├── evals.json                    # Eval definitions (16 scenarios, 167 checks)
+│   ├── rubric.md                     # Grading criteria
+│   ├── samples/                      # Generated sample PDFs for evals
+│   │   └── generate_samples.js       # Sample PDF generator
+│   └── iterations/                   # Eval iteration outputs (auto-generated)
 ├── tests/
-│   ├── utils.test.js         # Unit tests
-│   └── integration.test.js   # Integration tests
-├── assets/
-│   ├── generate_samples.js   # Generates sample PDF pairs for testing
-│   └── samples/              # Generated sample PDFs
-├── evals/
-│   ├── evals.json            # Eval definitions (16 scenarios, 167 checks)
-│   └── rubric.md             # Grading criteria
+│   ├── utils.test.js                 # Unit tests
+│   └── integration.test.js           # Integration tests
 ├── references/
-│   ├── OUTPUT_SCHEMA.md      # JSON report schema docs
+│   ├── OUTPUT_SCHEMA.md              # JSON report schema docs
 │   ├── NORMALIZATION_RULES.md
 │   └── LIMITATIONS.md
-├── SKILL.md                  # Skill definition for Copilot
-├── inbox/                    # Drop zone — put PDFs here
+├── SKILL.md                          # Skill definition for Copilot
+├── inbox/                            # Drop zone — put PDFs here
 └── package.json
 ```
 

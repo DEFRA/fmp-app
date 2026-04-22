@@ -210,10 +210,13 @@ The `scripts/` directory contains the implementation modules (JavaScript/Node.js
 - `page_matcher.js` — Smart page alignment using Needleman-Wunsch algorithm with Jaccard text similarity
 - `html_report.js` — Self-contained HTML report generator with inline base64 diff images
 - `utils.js` — Shared helpers (page range parsing, normalization, report writing)
-- `run_evals.js` — Eval runner with diagnosis and iteration comparison
 
 Scripts do the deterministic heavy lifting. Only their outputs come back to the model.
 No Python or system-level dependencies are required — PDF operations use `mupdf` (WASM).
+
+### Eval code (in `evals/`)
+
+- `run_evals.js` — Eval runner with diagnosis and iteration comparison
 
 ## Eval and Iterate
 
@@ -227,7 +230,7 @@ cd skills/pdf-compare && npm run eval
 ```
 
 This auto-detects the next iteration number and writes results to
-`pdf-compare-workspace/iteration-N/`. Each iteration produces:
+`evals/iterations/iteration-N/`. Each iteration produces:
 
 - `benchmark.json` — Pass/fail counts per eval, overall pass rate
 - `diagnosis.json` — Structured failure analysis with root cause files and next steps
@@ -263,7 +266,7 @@ The grading checks are keyword-driven from `expected_output`. Key phrases:
 - `"triage"` + `"structural should be empty"` — checks structural is empty
 - `"batch_summary.json"` — triggers batch grading (structure, overview, per-pair triage)
 - `"report.md should exist"` — checks report.md generation
-- See `gradeReport()` and `gradeBatchSummary()` in `run_evals.js` for all triggers
+- See `gradeReport()` and `gradeBatchSummary()` in `evals/run_evals.js` for all triggers
 
 ## References
 

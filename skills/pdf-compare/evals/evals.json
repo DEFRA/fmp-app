@@ -3,9 +3,9 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Compare these two PDFs and tell me what changed: assets/samples/identical_a.pdf and assets/samples/identical_b.pdf",
+      "prompt": "Compare these two PDFs and tell me what changed: evals/samples/identical_a.pdf and evals/samples/identical_b.pdf",
       "expected_output": "Documents are identical. No text, visual, or metadata changes. changed_pages should be empty.",
-      "files": ["assets/samples/identical_a.pdf", "assets/samples/identical_b.pdf"],
+      "files": ["evals/samples/identical_a.pdf", "evals/samples/identical_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can confirm documents are identical — nothing to flag to the user", "evidence": {"type": "overview", "identical": true}},
         {"finding": "Triage is empty so agent won't accidentally report phantom changes", "evidence": {"type": "structural", "inserted": 0, "deleted": 0}}
@@ -13,9 +13,9 @@
     },
     {
       "id": 2,
-      "prompt": "What's different between assets/samples/text_change_a.pdf and assets/samples/text_change_b.pdf? I want a full comparison.",
+      "prompt": "What's different between evals/samples/text_change_a.pdf and evals/samples/text_change_b.pdf? I want a full comparison.",
       "expected_output": "Page 2 should show text_changed=true with insertions/deletions. Other pages should be unchanged. Visual change may also be detected on page 2.",
-      "files": ["assets/samples/text_change_a.pdf", "assets/samples/text_change_b.pdf"],
+      "files": ["evals/samples/text_change_a.pdf", "evals/samples/text_change_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can quote that 'original second page' was changed to 'REVISED second page'", "evidence": {"type": "text_diff", "page": 2, "must_contain": ["original second page", "REVISED second page"]}},
         {"finding": "Agent can note an extra line was added to page 2", "evidence": {"type": "text_diff", "page": 2, "must_contain": ["extra line"]}},
@@ -24,9 +24,9 @@
     },
     {
       "id": 3,
-      "prompt": "Are these identical? assets/samples/layout_change_a.pdf assets/samples/layout_change_b.pdf — I'm interested in layout differences, not just text.",
+      "prompt": "Are these identical? evals/samples/layout_change_a.pdf evals/samples/layout_change_b.pdf — I'm interested in layout differences, not just text.",
       "expected_output": "Text content is the same across all pages, but visual_changed=true on pages with layout shifts. The visual score should be above threshold.",
-      "files": ["assets/samples/layout_change_a.pdf", "assets/samples/layout_change_b.pdf"],
+      "files": ["evals/samples/layout_change_a.pdf", "evals/samples/layout_change_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can tell user text is identical but layout differs visually", "evidence": {"type": "no_text_changes"}},
         {"finding": "Agent can point to specific pages with visual layout changes", "evidence": {"type": "visual_present"}}
@@ -34,9 +34,9 @@
     },
     {
       "id": 4,
-      "prompt": "Diff these two documents but only look at pages 1-2: assets/samples/text_change_a.pdf and assets/samples/text_change_b.pdf",
+      "prompt": "Diff these two documents but only look at pages 1-2: evals/samples/text_change_a.pdf and evals/samples/text_change_b.pdf",
       "expected_output": "Only pages 1 and 2 should appear in the report. Page 2 should show changes, page 1 should be clean.",
-      "files": ["assets/samples/text_change_a.pdf", "assets/samples/text_change_b.pdf"],
+      "files": ["evals/samples/text_change_a.pdf", "evals/samples/text_change_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can confirm only the requested page range was analyzed", "evidence": {"type": "page_count", "expected": 2}},
         {"finding": "Agent can quote the specific text changes on page 2", "evidence": {"type": "text_diff", "page": 2, "must_contain": ["REVISED"]}}
@@ -44,18 +44,18 @@
     },
     {
       "id": 5,
-      "prompt": "I need to verify these revised contracts are the same as the originals. Can you check assets/samples/identical_a.pdf against assets/samples/identical_b.pdf? Just text comparison is fine.",
+      "prompt": "I need to verify these revised contracts are the same as the originals. Can you check evals/samples/identical_a.pdf against evals/samples/identical_b.pdf? Just text comparison is fine.",
       "expected_output": "Text-only mode comparison. Documents identical. No text changes detected.",
-      "files": ["assets/samples/identical_a.pdf", "assets/samples/identical_b.pdf"],
+      "files": ["evals/samples/identical_a.pdf", "evals/samples/identical_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can reassure user the contracts are identical", "evidence": {"type": "overview", "identical": true}}
       ]
     },
     {
       "id": 6,
-      "prompt": "Compare assets/samples/pagecount_3_a.pdf and assets/samples/pagecount_4_b.pdf — the second one might have extra pages.",
+      "prompt": "Compare evals/samples/pagecount_3_a.pdf and evals/samples/pagecount_4_b.pdf — the second one might have extra pages.",
       "expected_output": "Page count mismatch detected (3 vs 4). Smart page matching should align pages by content. Pages 1-3 should match. Page 4 should be flagged as inserted in right document with match_type 'inserted'. page_count_match should be false.",
-      "files": ["assets/samples/pagecount_3_a.pdf", "assets/samples/pagecount_4_b.pdf"],
+      "files": ["evals/samples/pagecount_3_a.pdf", "evals/samples/pagecount_4_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can tell user the revised doc has 1 extra page (3 vs 4)", "evidence": {"type": "overview", "identical": false, "left_pages": 3, "right_pages": 4}},
         {"finding": "Agent can describe what the new page contains", "evidence": {"type": "page_content", "page": 4, "must_contain": ["newly added page"]}},
@@ -64,9 +64,9 @@
     },
     {
       "id": 7,
-      "prompt": "Check if there are any differences between assets/samples/metadata_only_a.pdf and assets/samples/metadata_only_b.pdf. The content should be the same but metadata might differ.",
+      "prompt": "Check if there are any differences between evals/samples/metadata_only_a.pdf and evals/samples/metadata_only_b.pdf. The content should be the same but metadata might differ.",
       "expected_output": "Page content is identical (text_changed=false, visual_changed=false for all pages). Metadata differences detected: Title changed from 'Draft v1' to 'Final v2', Author changed from 'Alice' to 'Bob'. summary.identical should still be true since page content hasn't changed.",
-      "files": ["assets/samples/metadata_only_a.pdf", "assets/samples/metadata_only_b.pdf"],
+      "files": ["evals/samples/metadata_only_a.pdf", "evals/samples/metadata_only_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can confirm page content is identical", "evidence": {"type": "overview", "identical": true}},
         {"finding": "Agent can quote the Title change: Draft v1 to Final v2", "evidence": {"type": "metadata", "field": "Title", "left_contains": "Draft v1", "right_contains": "Final v2"}},
@@ -75,9 +75,9 @@
     },
     {
       "id": 8,
-      "prompt": "Compare assets/samples/middle_insert_a.pdf and assets/samples/middle_insert_b.pdf — the revised version has new sections added in the middle.",
+      "prompt": "Compare evals/samples/middle_insert_a.pdf and evals/samples/middle_insert_b.pdf — the revised version has new sections added in the middle.",
       "expected_output": "Smart page matching detects 2 inserted pages (Chapters 2a and 2b). Original pages 1,2,4,5 should match to right pages 1,2,6,7 as 'matched'. Pages 3-4 in right should be 'inserted'. Chapter 3 (left page 3 to right page 5) should show text changes. Report should include report.html.",
-      "files": ["assets/samples/middle_insert_a.pdf", "assets/samples/middle_insert_b.pdf"],
+      "files": ["evals/samples/middle_insert_a.pdf", "evals/samples/middle_insert_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can describe the first inserted section: Chapter 2a on supplementary methods", "evidence": {"type": "page_content", "page": 3, "must_contain": ["Additional Methods"]}},
         {"finding": "Agent can describe the second inserted section: Chapter 2b on data collection", "evidence": {"type": "page_content", "page": 4, "must_contain": ["Data Collection"]}},
@@ -87,9 +87,9 @@
     },
     {
       "id": 9,
-      "prompt": "Diff assets/samples/middle_delete_a.pdf against assets/samples/middle_delete_b.pdf and tell me what was removed.",
+      "prompt": "Diff evals/samples/middle_delete_a.pdf against evals/samples/middle_delete_b.pdf and tell me what was removed.",
       "expected_output": "Smart page matching detects 1 deleted page (Section 3: Obsolete Section). Left page 3 should have match_type 'deleted'. Section 4 should show text changes. Pages 1,2,5 should match identically. An HTML report (report.html) should be generated.",
-      "files": ["assets/samples/middle_delete_a.pdf", "assets/samples/middle_delete_b.pdf"],
+      "files": ["evals/samples/middle_delete_a.pdf", "evals/samples/middle_delete_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can describe what was removed: Section 3 about obsolete content", "evidence": {"type": "page_content", "page": 3, "must_contain": ["Obsolete Section"]}},
         {"finding": "Agent can report Section 4 was modified after the deletion", "evidence": {"type": "text_diff", "page": 4, "must_contain": ["Section 4"]}},
@@ -98,18 +98,18 @@
     },
     {
       "id": 10,
-      "prompt": "Compare these PDFs and open the HTML report: assets/samples/text_change_a.pdf and assets/samples/text_change_b.pdf",
+      "prompt": "Compare these PDFs and open the HTML report: evals/samples/text_change_a.pdf and evals/samples/text_change_b.pdf",
       "expected_output": "Comparison should run with --open flag. HTML report (report.html) generated alongside report.json and report.md. Page 2 text changes detected. report.html is a self-contained file with inline diff images.",
-      "files": ["assets/samples/text_change_a.pdf", "assets/samples/text_change_b.pdf"],
+      "files": ["evals/samples/text_change_a.pdf", "evals/samples/text_change_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can quote the text changes on page 2", "evidence": {"type": "text_diff", "page": 2, "must_contain": ["REVISED"]}}
       ]
     },
     {
       "id": 11,
-      "prompt": "Compare these real documents: assets/samples/real_a.pdf and assets/samples/real_b.pdf — give me a full comparison with all details.",
+      "prompt": "Compare these real documents: evals/samples/real_a.pdf and evals/samples/real_b.pdf — give me a full comparison with all details.",
       "expected_output": "Page count mismatch detected (47 vs 54). page_count_match should be false. Documents should be flagged as different with many changed pages. Smart page matching should detect inserted pages via match_type. Both text and visual changes found. report.html generated. visual_changes descriptions should be present for visually changed pages.",
-      "files": ["assets/samples/real_a.pdf", "assets/samples/real_b.pdf"],
+      "files": ["evals/samples/real_a.pdf", "evals/samples/real_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can tell user the document grew from 47 to 54 pages", "evidence": {"type": "overview", "identical": false, "left_pages": 47, "right_pages": 54}},
         {"finding": "Agent can quote the date change on page 1", "evidence": {"type": "text_diff", "page": 1, "must_contain": ["27 August 2025", "11 March 2026"]}},
@@ -120,9 +120,9 @@
     },
     {
       "id": 12,
-      "prompt": "I just need to know what text changed between assets/samples/real_a.pdf and assets/samples/real_b.pdf — text only please.",
+      "prompt": "I just need to know what text changed between evals/samples/real_a.pdf and evals/samples/real_b.pdf — text only please.",
       "expected_output": "Text-only mode comparison. Page count mismatch detected (47 vs 54). page_count_match should be false. Many pages should have text_changed=true. text_diff_lines should be present for changed pages. Visual fields should be null since mode is text.",
-      "files": ["assets/samples/real_a.pdf", "assets/samples/real_b.pdf"],
+      "files": ["evals/samples/real_a.pdf", "evals/samples/real_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can report the page count difference", "evidence": {"type": "overview", "identical": false, "left_pages": 47, "right_pages": 54}},
         {"finding": "Agent can quote the date and reference changes from text diffs", "evidence": {"type": "text_diff", "page": 1, "must_contain": ["27 August 2025", "11 March 2026"]}}
@@ -134,8 +134,8 @@
       "prompt": "Batch compare these 4 PDFs as 2 pairs.",
       "expected_output": "batch_summary.json should exist with generated_at, total_pairs, overview, and pairs array. overview should have identical, substantive_changes, cosmetic_only, total_inserted_pages, total_deleted_pages. Each pair should have triage_summary with structural_count, substantive_count, cosmetic_count, structural, substantive, cosmetic_pages, global_patterns. Pair 1 should have substantive changes. Pair 2 should have inserted pages.",
       "files": [
-        "assets/samples/text_change_a.pdf", "assets/samples/text_change_b.pdf",
-        "assets/samples/pagecount_3_a.pdf", "assets/samples/pagecount_4_b.pdf"
+        "evals/samples/text_change_a.pdf", "evals/samples/text_change_b.pdf",
+        "evals/samples/pagecount_3_a.pdf", "evals/samples/pagecount_4_b.pdf"
       ],
       "expected_findings": [
         {"finding": "Agent can summarize both pairs from batch_summary alone (without reading individual reports)", "evidence": {"type": "batch_pairs_described"}},
@@ -149,8 +149,8 @@
       "prompt": "Batch compare including identical pair.",
       "expected_output": "batch_summary.json overview.identical should be 1. Pair with identical documents should have triage_summary with all counts at 0. Non-identical pair should have substantive or structural changes.",
       "files": [
-        "assets/samples/identical_a.pdf", "assets/samples/identical_b.pdf",
-        "assets/samples/middle_insert_a.pdf", "assets/samples/middle_insert_b.pdf"
+        "evals/samples/identical_a.pdf", "evals/samples/identical_b.pdf",
+        "evals/samples/middle_insert_a.pdf", "evals/samples/middle_insert_b.pdf"
       ],
       "expected_findings": [
         {"finding": "Agent can tell user which pair is identical and which has changes", "evidence": {"type": "batch_has_identical_and_changed"}},
@@ -159,9 +159,9 @@
     },
     {
       "id": 15,
-      "prompt": "Compare assets/samples/text_change_a.pdf and assets/samples/text_change_b.pdf — full comparison.",
+      "prompt": "Compare evals/samples/text_change_a.pdf and evals/samples/text_change_b.pdf — full comparison.",
       "expected_output": "Triage should classify page 2 as substantive. triage.substantive should have at least 1 entry. triage.cosmetic should be empty or small. triage.structural should be empty (same page count). report.md should exist alongside report.json.",
-      "files": ["assets/samples/text_change_a.pdf", "assets/samples/text_change_b.pdf"],
+      "files": ["evals/samples/text_change_a.pdf", "evals/samples/text_change_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can correctly classify page 2 as substantive (not cosmetic)", "evidence": {"type": "triage_classifies", "page": 2, "expected_category": "substantive"}},
         {"finding": "Agent won't incorrectly report structural changes (same page count)", "evidence": {"type": "structural", "inserted": 0, "deleted": 0}}
@@ -169,9 +169,9 @@
     },
     {
       "id": 16,
-      "prompt": "Compare assets/samples/middle_insert_a.pdf and assets/samples/middle_insert_b.pdf — what was added?",
+      "prompt": "Compare evals/samples/middle_insert_a.pdf and evals/samples/middle_insert_b.pdf — what was added?",
       "expected_output": "Triage structural should list inserted pages. triage.substantive should list pages with text changes. Inserted pages should have match_type inserted in triage.structural entries.",
-      "files": ["assets/samples/middle_insert_a.pdf", "assets/samples/middle_insert_b.pdf"],
+      "files": ["evals/samples/middle_insert_a.pdf", "evals/samples/middle_insert_b.pdf"],
       "expected_findings": [
         {"finding": "Agent can list which pages are new from triage.structural", "evidence": {"type": "structural", "inserted": 2, "deleted": 0}},
         {"finding": "Agent can describe content of inserted pages to tell user what was added", "evidence": {"type": "page_content", "page": 3, "must_contain": ["Additional Methods"]}},
