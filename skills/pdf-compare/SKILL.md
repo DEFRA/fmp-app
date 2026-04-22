@@ -110,6 +110,30 @@ Write a plain-English summary aimed at someone who needs to know: *should I care
 this revision?* Lead with the most important changes. Be specific — quote actual text
 differences when they are meaningful (e.g. "added 'climate change modelled data' to the
 contents list").
+The raw diff data is the starting point, not the deliverable. Your job is to **interpret**
+the changes — explain what they mean, not just list them.
+
+**Connect cause and effect across pages.** If page 4 removes a flood model, and pages 18-20
+show major visual changes to maps, say so: "The RMC JFLOW model was removed (page 4), which
+explains the map changes on pages 18-20." Don't leave the user to piece it together.
+
+**Explain the significance of values changing.** "AEP values restructured from 1% (+20%) to
+50%" is raw data. "The flood scenario modelling was updated from climate-change-adjusted
+to baseline probability" is useful. Use the domain glossary.
+
+**Spot data corrections vs content changes.** If "Depth" → "Height" across several pages,
+that's likely a labelling fix. If flood level values change by 0.01m, that's a minor
+numerical correction. If an entire section appears or disappears, that's a revision.
+Distinguish these.
+
+**Highlight what's new vs what's different.** Inserted pages with new model data are more
+significant than the same page having updated values. Deleted pages suggest content was
+removed intentionally — say what was lost.
+
+**Think about what the user needs to know.** A test engineer wants to know: did the right
+things change, and did anything change that shouldn't have? A stakeholder wants to know:
+is this a minor update or a major revision? Tailor accordingly — lead with the answer,
+then support with evidence.
 
 ### 3. Present results
 

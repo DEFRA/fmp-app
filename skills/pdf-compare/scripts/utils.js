@@ -200,6 +200,16 @@ function triagePages (pageResults) {
         right_page: p.right_page ?? null,
         reason: `Substantive text changes (+${p.text_diff_stats?.insertions || 0}/-${p.text_diff_stats?.deletions || 0})`,
       })
+    } else if (p.visual_changed && p.visual_score > 0.01) {
+      // Text changes are cosmetic-only, but visual diff exceeds what text rendering
+      // alone would cause (~0.2-0.5% for date/copyright changes). Something else
+      // changed visually (e.g. map layers, diagrams).
+      substantive.push({
+        page: p.page,
+        left_page: p.left_page ?? null,
+        right_page: p.right_page ?? null,
+        reason: `Visual change beyond cosmetic text (${(p.visual_score * 100).toFixed(1)}% pixels differ)`,
+      })
     } else {
       cosmetic.push(p.page)
     }
