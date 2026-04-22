@@ -20,8 +20,10 @@ The inbox script auto-detects single pair vs batch and opens the HTML report aut
 chat — triage changes by significance (substantive vs cosmetic), identify patterns across
 pages, and lead with what actually matters. See SKILL.md steps 2-3 for full instructions.
 - **Single pair:** Read `report.json`
-- **Batch:** Read `batch_summary.json` only for the overview — it contains per-pair triage
-  data. Only read individual `pair-N/report.json` when the user asks about a specific pair.
+- **Batch:** Read `batch_summary.json` for overview stats, then read each `pair-N/report.json`
+  to understand what actually changed. You need the individual reports to write descriptive
+  summaries — the batch summary only has stats, not content. Present using the batch format
+  in SKILL.md § "Batch presentation format".
 
 **Follow-up questions:** Re-read the relevant JSON from the last comparison — do NOT re-run
 the CLI unless the user explicitly asks to change comparison parameters.

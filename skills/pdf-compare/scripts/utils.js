@@ -402,6 +402,14 @@ export function writeMarkdownReport (report, outdir) {
 
       if (e.reason.includes('visual change')) {
         lines.push(`- ${header} — ${e.reason}`)
+        // Surface notable visual_changes descriptions (colour shifts, map key changes)
+        const vc = (page?.visual_changes || []).slice(1) // skip the count summary line
+        const notable = vc.filter(d =>
+          /color change|colour change/i.test(d) && !/~0\.\d% of page/.test(d)
+        )
+        for (const desc of notable.slice(0, 2)) {
+          lines.push(`  - ${desc}`)
+        }
       } else {
         // Walk the diff to find adjacent -/+ pairs (actual substitutions)
         const diffLines = page?.text_diff_lines || []
@@ -434,6 +442,60 @@ export function writeMarkdownReport (report, outdir) {
       }
     }
     lines.push('')
+  }
+
+  // --- Reorder patterns (inverse substitutions across page groups) ---
+  if (substantive.length > 0) {
+    // Collect all substitutions per substantive page
+    const pageSubs = []
+    for (const e of substantive) {
+      const page = pages.find(p => p.page === e.page)
+      if (!page?.text_diff_lines) continue
+      const subs = extractSubstitutions(page.text_diff_lines)
+        .filter(c => c.type === 'substitution')
+        .filter(c => !COSMETIC_PATTERNS.some(p => p.test('-' + c.removed)) ||
+                     !COSMETIC_PATTERNS.some(p => p.test('+' + c.added)))
+      if (subs.length > 0) {
+        pageSubs.push({ page: e.page, leftPage: e.left_page, rightPage: e.right_page, subs })
+      }
+    }
+    // Find inverse pairs: pages where A→B and another set has B→A
+    const reorderGroups = []
+    const used = new Set()
+    for (let i = 0; i < pageSubs.length; i++) {
+      if (used.has(i)) continue
+      const a = pageSubs[i]
+      const aKey = a.subs.map(s => `${s.removed}|${s.added}`).sort().join(';;')
+      const inverseKey = a.subs.map(s => `${s.added}|${s.removed}`).sort().join(';;')
+      if (aKey === inverseKey) continue // self-inverse, skip
+      const inversePages = []
+      for (let j = i + 1; j < pageSubs.length; j++) {
+        if (used.has(j)) continue
+        const b = pageSubs[j]
+        const bKey = b.subs.map(s => `${s.removed}|${s.added}`).sort().join(';;')
+        if (bKey === inverseKey) {
+          inversePages.push(j)
+        }
+      }
+      if (inversePages.length > 0) {
+        const forwardPages = [a]
+        const reversePages = inversePages.map(j => pageSubs[j])
+        // Only report if both groups have the dominant substitution repeated
+        const label = a.subs[0]
+        used.add(i)
+        inversePages.forEach(j => used.add(j))
+        reorderGroups.push({ forward: forwardPages, reverse: reversePages, label })
+      }
+    }
+    if (reorderGroups.length > 0) {
+      lines.push('## Inverse substitution patterns\n')
+      for (const g of reorderGroups) {
+        const fwdPages = g.forward.map(p => `L${p.leftPage}→R${p.rightPage}`).join(', ')
+        const revPages = g.reverse.map(p => `L${p.leftPage}→R${p.rightPage}`).join(', ')
+        lines.push(`- **"${g.label.removed}" ↔ "${g.label.added}"**: ${fwdPages} swap "${g.label.removed}" → "${g.label.added}", while ${revPages} swap the reverse. This could indicate sections were reordered or that labels were corrected.`)
+      }
+      lines.push('')
+    }
   }
 
   // --- Cosmetic / boilerplate ---

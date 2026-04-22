@@ -70,17 +70,14 @@ node skills/pdf-compare/scripts/compare_pdfs.js \
 After running the CLI, **always read `report.json`** from the output directory. Do not just
 relay the CLI stdout — that is a one-line summary. Your job is to interpret the data.
 
-**For batch comparisons**: Read **only `batch_summary.json`** from the output root. This
-file contains the overview stats and per-pair triage data (structural, substantive, cosmetic,
-global patterns) — you do not need to read individual `report.json` files for the overview.
+**For batch comparisons**: Start by reading `batch_summary.json` from the output root for
+overview stats and triage data. Then read each `pair-N/report.json` to understand *what
+actually changed* — the batch summary only has stats like "+3/-3", not the actual content.
+You need the individual reports to write descriptive summaries (e.g. "coordinates format
+changed", "climate change model data added"). Read all pair reports upfront — do not wait
+for the user to ask.
 
-Present a combined analysis:
-- Start with the overview stats (how many pairs identical / substantive / cosmetic-only)
-- Then a batch table: pair | left | right | pages (L→R) | status | key changes
-- For each pair with substantive changes, summarise using `triage_summary` — list structural
-  changes (inserted/deleted pages) and substantive changes (with reasons)
-- Group cosmetic patterns briefly
-- Do NOT read individual `pair-N/report.json` files unless the user asks about a specific pair
+See **Section 3 → Batch presentation format** for how to present the combined analysis.
 
 #### 2a. Triage changes by significance
 
@@ -126,6 +123,24 @@ that's likely a labelling fix. If flood level values change by 0.01m, that's a m
 numerical correction. If an entire section appears or disappears, that's a revision.
 Distinguish these.
 
+**Recognise inverse substitution patterns.** When one set of pages shows A→B and another
+shows B→A for the same values (e.g. "Depth"→"Height" on pages 51-53,
+"Height"→"Depth" on pages 54-56), this has two possible interpretations:
+- **Reordering**: the Height and Depth data sections swapped positions — same data,
+  different sequence
+- **Label correction**: the labels were wrong and have been fixed
+
+Don't assume which — present both possibilities unless the surrounding context makes it
+clear (e.g. if the actual data values differ, it's a correction; if they're identical,
+it's likely a reorder). The report.md flags these as "Inverse substitution patterns".
+
+**Use visual_changes descriptions.** When the report flags a major visual change, check the
+`visual_changes` array in report.json for specifics. Colour shifts like "light cyan → light
+blue, ~76% of page" tell you the map's colour scheme changed. "Content modified in center
+of page" without colour info usually means flood extent boundaries shifted. Surface these
+details — "the flood zone colours changed from cyan to blue" is much more useful than
+"major visual change (11%)".
+
 **Highlight what's new vs what's different.** Inserted pages with new model data are more
 significant than the same page having updated values. Deleted pages suggest content was
 removed intentionally — say what was lost.
@@ -137,37 +152,69 @@ then support with evidence.
 
 ### 3. Present results
 
-Always present results in this order:
+#### Single-pair format
 
-#### Executive summary
+For a single comparison, present results in this order:
 
-2-4 sentences: Are the documents identical or different? What are the **substantive**
-changes? How many pages were affected, and what is the nature of those changes?
+**Executive summary** — 2-4 sentences: identical or different? What are the substantive
+changes? How many pages affected?
 
-#### Key changes (substantive only)
+**Key changes (substantive only)** — Bullet list of meaningful differences. Include page
+numbers and quote actual text where relevant. Group related changes.
 
-Bullet list of meaningful differences. Include page numbers and quote actual text where
-relevant. Group related changes.
+**Structural changes** — If pages were inserted, deleted, or reordered.
 
-#### Structural changes
+**Cosmetic / boilerplate changes** — One brief paragraph. Do not list per-page.
 
-If pages were inserted, deleted, or reordered — explain what happened and where.
-
-#### Cosmetic / boilerplate changes
-
-One brief paragraph grouping all recurring noise (date changes, reference numbers,
-copyright years, page number removals). Do not list these per-page.
-
-#### Per-page breakdown (condensed)
-
-Only include pages where something noteworthy happened. Skip pages that only have
-cosmetic/boilerplate changes. Use this format:
+**Per-page breakdown (condensed)** — Only noteworthy pages:
 
 | Page | L→R | Type | What changed |
 |------|-----|------|-------------|
 | 2 | 2→2 | Text | Added "climate change modelled data" to contents |
 | 12 | 10→12 | Inserted | New page — flood zone boundary data |
 | 15 | 13→15 | Visual | Major layout change, ~31% of page |
+
+#### Batch presentation format
+
+For batch comparisons, use this structure — concise and descriptive, not statistical.
+
+**Batch overview table** — One row per pair, compact:
+
+| Pair | Left | Right | Pages (L→R) | Status |
+|------|------|-------|-------------|--------|
+| 1 | KR5X8DK129TV | DERA24BD134A | 13→13 | 2 substantive, 3 cosmetic |
+| 2 | 9WJYPYV6H68U | FMN8CH6EH72B | 47→54 | 7 inserted, 20 substantive, 27 cosmetic |
+
+Use the reference code from filenames (strip `1a-`/`1b-` prefixes). The Status column is
+a short summary of counts — structural first, then substantive, then cosmetic. Follow the
+table with one sentence summarising the batch (e.g. "All 3 pairs have substantive changes.
+7 pages inserted total, 37 deleted total.").
+
+**Per-pair descriptive summaries** — For each pair, write a short heading and 2-5 sentences
+describing *what actually changed*, not just how many lines differed. Be specific — name
+the content that was added/removed/modified. Examples of good vs bad:
+
+- Bad: "21 substantive changes, 26 cosmetic, pages 18-20 have major visual changes
+  (14-26% pixel diff)"
+- Good: "Climate change model data added, RMC JFLOW removed. 7 new pages. Heavy text
+  rewrites in the data tables."
+- Bad: "Page 1: Substantive text changes (+3/-3). Page 2: Substantive text changes
+  (+18/-0)"
+- Good: "Page 1: Coordinates format changed (slash removed). Page 2: New 'Information
+  that's unavailable' section added — notes no modelled data available"
+
+For each pair:
+1. State the nature of the revision in one sentence (minor update / significant revision /
+   major restructure)
+2. Describe the substantive changes — what content was added, removed, or modified
+3. Mention structural changes (inserted/deleted pages) with what they contain
+4. Dismiss cosmetic changes in one phrase (e.g. "3 cosmetic pages: date stamp updates")
+5. If the pair is complex (many substantive changes), end with a pointer to the HTML
+   report for visual inspection
+
+**Do not include** per-page breakdowns, raw diff stats, pixel percentages, cross-pair
+pattern analysis, or exhaustive lists of every changed page. Save that detail for when
+the user asks about a specific pair.
 
 #### Output files
 
