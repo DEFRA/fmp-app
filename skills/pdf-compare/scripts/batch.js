@@ -79,6 +79,7 @@ for (let i = 0; i < pairs.length; i++) {
   })
 
   const s = report.summary
+  const triage = report.triage || { structural: [], substantive: [], cosmetic: [], global_patterns: [] }
   const status = s.identical ? 'IDENTICAL' : `${s.total_changed} page(s) changed`
   console.log(`  Result: ${status}`)
   console.log(`  Output: ${pairLabel}/\n`)
@@ -89,6 +90,13 @@ for (let i = 0; i < pairs.length; i++) {
     right: path.basename(right),
     identical: s.identical,
     total_changed: s.total_changed,
+    left_page_count: s.left_page_count,
+    right_page_count: s.right_page_count,
+    page_count_match: s.page_count_match,
+    structural_count: triage.structural.length,
+    substantive_count: triage.substantive.length,
+    cosmetic_count: triage.cosmetic.length,
+    global_patterns: triage.global_patterns || [],
     outdir: pairLabel,
   })
 }
@@ -97,9 +105,61 @@ for (let i = 0; i < pairs.length; i++) {
 const summaryPath = path.join(outputBase, 'batch_summary.json')
 fs.writeFileSync(summaryPath, JSON.stringify({ pairs: results }, null, 2), 'utf8')
 
+// Write a single stakeholder-friendly markdown report for the whole batch.
+const mdLines = []
+const totalPairs = results.length
+const identicalPairs = results.filter(r => r.identical).length
+const changedPairs = totalPairs - identicalPairs
+const totalChangedPages = results.reduce((sum, r) => sum + (r.total_changed || 0), 0)
+
+mdLines.push('# Batch PDF Comparison Summary')
+mdLines.push('')
+mdLines.push('Open any full report in your browser by running the command shown on each pair:')
+mdLines.push('open /absolute/path/to/report.html')
+mdLines.push('')
+mdLines.push(`**Generated:** ${new Date().toLocaleString('en-GB')}`)
+mdLines.push(`**Pairs compared:** ${totalPairs}`)
+mdLines.push(`**Pairs with changes:** ${changedPairs}`)
+mdLines.push(`**Identical pairs:** ${identicalPairs}`)
+mdLines.push(`**Total changed pages (all pairs):** ${totalChangedPages}`)
+mdLines.push('')
+
+for (const r of results) {
+  mdLines.push(`## Pair ${r.pair}: ${r.left} vs ${r.right}`)
+  mdLines.push('')
+  if (r.identical) {
+    mdLines.push('- Result: identical')
+  } else {
+    mdLines.push(`- Result: ${r.total_changed} changed page(s)`)
+  }
+  mdLines.push(`- Page counts: left ${r.left_page_count}, right ${r.right_page_count}${r.page_count_match ? '' : ' (different)'}`)
+  mdLines.push(`- Triage counts: structural ${r.structural_count}, substantive ${r.substantive_count}, cosmetic ${r.cosmetic_count}`)
+  const reportHtmlAbs = path.resolve(outputBase, r.outdir, 'report.html')
+  mdLines.push(`- Full report open command: open ${reportHtmlAbs}`)
+  mdLines.push(`- JSON report: ${r.outdir}/report.json`)
+
+  if (Array.isArray(r.global_patterns) && r.global_patterns.length > 0) {
+    mdLines.push('- Recurring cosmetic patterns:')
+    for (const gp of r.global_patterns.slice(0, 5)) {
+      const patternText = (gp.pattern || [])
+        .map(line => String(line).replace(/^[-+]/, '').trim())
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(', ')
+      mdLines.push(`  - ${gp.count} page(s): ${patternText || 'boilerplate update'}`)
+    }
+  }
+
+  mdLines.push('')
+}
+
+const summaryMdPath = path.join(outputBase, 'batch_summary.md')
+fs.writeFileSync(summaryMdPath, mdLines.join('\n'), 'utf8')
+
 console.log('=== Batch Complete ===')
 for (const r of results) {
   const icon = r.identical ? '✅' : '⚠️'
   console.log(`  ${icon} ${r.left} ↔ ${r.right} — ${r.identical ? 'identical' : r.total_changed + ' changed'}`)
 }
 console.log(`\nBatch summary: ${summaryPath}`)
+console.log(`Batch markdown summary: ${summaryMdPath}`)

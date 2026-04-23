@@ -186,6 +186,59 @@ const batchSummary = {
 }
 fs.writeFileSync(summaryPath, JSON.stringify(batchSummary, null, 2), 'utf8')
 
+// Write one consolidated markdown file for user-friendly batch review.
+const mdLines = []
+mdLines.push('# Batch PDF Comparison Summary')
+mdLines.push('')
+mdLines.push('Open any full report in your browser by running the command shown on each pair:')
+mdLines.push('open /absolute/path/to/report.html')
+mdLines.push('')
+mdLines.push(`**Generated:** ${new Date(batchSummary.generated_at).toLocaleString('en-GB')}`)
+mdLines.push(`**Total pairs:** ${batchSummary.total_pairs}`)
+mdLines.push(`**Identical pairs:** ${overview.identical}`)
+mdLines.push(`**Pairs with substantive changes:** ${overview.substantive_changes}`)
+mdLines.push(`**Pairs with cosmetic-only changes:** ${overview.cosmetic_only}`)
+mdLines.push(`**Failed pairs:** ${overview.failed}`)
+mdLines.push('')
+
+for (const r of results) {
+  mdLines.push(`## Pair ${r.pair}: ${r.left} vs ${r.right}`)
+  mdLines.push('')
+
+  if (r.error) {
+    mdLines.push(`- Status: failed (${r.error})`)
+    const outdirAbs = path.resolve(OUTPUT_DIR, r.outdir)
+    mdLines.push(`- Output folder: [${r.outdir}/](file://${outdirAbs}/)`)
+    mdLines.push('')
+    continue
+  }
+
+  mdLines.push(`- Status: ${r.identical ? 'identical' : r.total_changed + ' page(s) changed'}`)
+  mdLines.push(`- Page counts: left ${r.left_page_count}, right ${r.right_page_count}`)
+  mdLines.push(`- Triage: structural ${r.triage_summary.structural_count}, substantive ${r.triage_summary.substantive_count}, cosmetic ${r.triage_summary.cosmetic_count}`)
+  const reportHtmlAbs = path.resolve(OUTPUT_DIR, r.outdir, 'report.html')
+  mdLines.push(`- Full report open command: open ${reportHtmlAbs}`)
+  mdLines.push(`- JSON report: ${r.outdir}/report.json`)
+
+  const patterns = r.triage_summary.global_patterns || []
+  if (patterns.length > 0) {
+    mdLines.push('- Recurring cosmetic patterns:')
+    for (const gp of patterns.slice(0, 5)) {
+      const patternText = (gp.pattern || [])
+        .map(line => String(line).replace(/^[-+]/, '').trim())
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(', ')
+      mdLines.push(`  - ${gp.count} page(s): ${patternText || 'boilerplate update'}`)
+    }
+  }
+
+  mdLines.push('')
+}
+
+const summaryMdPath = path.join(OUTPUT_DIR, 'batch_summary.md')
+fs.writeFileSync(summaryMdPath, mdLines.join('\n'), 'utf8')
+
 console.log('=== Batch Complete ===')
 for (const r of results) {
   if (r.error) {
@@ -196,5 +249,6 @@ for (const r of results) {
   }
 }
 console.log(`\nBatch summary: ${summaryPath}`)
+console.log(`Batch markdown summary: ${summaryMdPath}`)
 console.log('Reports written to: inbox/output/')
-console.log('Open report: open inbox/output/report.html')
+console.log('Open markdown summary: open inbox/output/batch_summary.md')
