@@ -314,6 +314,38 @@ describe('Results page', () => {
         expect(pageContent.siteDrawnSize).toEqual(false)
       })
 
+      it('should rivers and sea climate change bullet point when no data climate change zone only', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: true,
+          floodZoneClimateChangeNoData: true,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: false,
+          floodSource: 'Unavailable'
+        })
+        getAreaInHectaresSpy.mockReturnValue(0)
+        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.riversAndSeaCCNoDataBulletPoint).toEqual(riversAndSeaCCNoDataBulletPointText)
+      })
+
       it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
         getPsoContactsByPolygon.mockResolvedValue({
           isEngland: true,
@@ -724,6 +756,7 @@ const riversBulletPointText = 'rivers (fluvial)'
 const seaBulletPointText = 'the sea (tidal)'
 const riversAndSeaBulletPointText = 'rivers and the sea (fluvial and tidal)'
 const swBulletPointText = 'surface water'
+const riversAndSeaCCNoDataBulletPointText = 'rivers and the sea (fluvial or tidal) due to climate change'
 const fz1DataUnlikelyText = 'Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it. You can place an order and we\'ll email you if none is available.'
 const rsSummaryTitleText = 'Rivers and the sea'
 const orderP4ButtonText = 'Order flood risk data'
@@ -755,6 +788,7 @@ const getElementByIdAndFormat = (payload) => {
   const riversAndSeaBulletPoint = document.getElementById('riversAndSeaBulletPoint') ? removeHtmlGaps(document.getElementById('riversAndSeaBulletPoint').textContent) : false
   const riversBulletPoint = document.getElementById('riversBulletPoint') ? removeHtmlGaps(document.getElementById('riversBulletPoint').textContent) : false
   const seaBulletPoint = document.getElementById('seaBulletPoint') ? removeHtmlGaps(document.getElementById('seaBulletPoint').textContent) : false
+  const riversAndSeaCCNoDataBulletPoint = document.getElementById('riversAndSeaNoDataBulletPoint') ? removeHtmlGaps(document.getElementById('riversAndSeaNoDataBulletPoint').textContent) : false
   const fz1DataUnlikely = document.getElementById('fz1DataUnlikely') ? removeHtmlGaps(document.getElementById('fz1DataUnlikely').textContent) : false
   const rsSummaryTitle = removeHtmlGaps(document.getElementById('rsSummaryTitle').textContent)
   const orderP4Button = document.getElementById('orderP4Button') ? removeHtmlGaps(document.getElementById('orderP4Button').textContent) : false
@@ -786,6 +820,7 @@ const getElementByIdAndFormat = (payload) => {
     riversBulletPoint,
     seaBulletPoint,
     swBulletPoint,
+    riversAndSeaCCNoDataBulletPoint,
     fz1DataUnlikely,
     rsSummaryTitle,
     orderP4Button,
