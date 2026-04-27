@@ -6,6 +6,7 @@
   "scripts": {
     "compare": "node scripts/compare_pdfs.js",
     "inbox": "node scripts/inbox.js",
+    "report": "node scripts/generate_report.js",
     "batch": "node scripts/batch.js",
     "summary": "node scripts/summary.js",
     "chain": "node scripts/chain_compare.js",

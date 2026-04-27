@@ -65,171 +65,152 @@ node skills/pdf-compare/scripts/compare_pdfs.js \
 | `--pages` | all | Page range, e.g. `1-3,7,10-12` |
 | `--open` | **on** | Open HTML report in browser (use `--no-open` to suppress) |
 
-### 2. Analyse the report
+### 2. Write the analysis
 
-After running the CLI, **always read `report.json`** from the output directory. Do not just
-relay the CLI stdout — that is a one-line summary. Your job is to interpret the data.
+Read every `report.json` produced in step 1 and write a single `analysis.json` file
+to the output directory. This is your interpretation of the raw data — do not just
+parrot the diffs. Explain what changed, why it matters, and what to do about it.
 
-**For batch comparisons**: Start by reading `batch_summary.json` from the output root for
-overview stats and triage data. Then read each `pair-N/report.json` to understand *what
-actually changed* — the batch summary only has stats like "+3/-3", not the actual content.
-You need the individual reports to write descriptive summaries (e.g. "coordinates format
-changed", "climate change model data added"). Read all pair reports upfront — do not wait
-for the user to ask.
+**Single pair:** Read `inbox/output/report.json`
+**Batch:** Read `inbox/output/batch_summary.json` then each `inbox/output/pair-N/report.json`
 
-See **Section 3 → Batch presentation format** for how to present the combined analysis.
+Write the file to `inbox/output/analysis.json` with this exact schema:
 
-#### 2a. Triage changes by significance
+```json
+{
+  "batch_summary": "One-paragraph overview of all pairs (batch only, omit for single)",
+  "pairs": [
+    {
+      "pair": 1,
+      "left": "filename-a.pdf",
+      "right": "filename-b.pdf",
+      "verdict": "ROUTINE UPDATE",
+      "revision_type": "Annual date roll + minor data correction",
+      "summary": "2-4 sentences interpreting what changed and why it matters. Go beyond listing diffs — explain cause and effect, e.g. 'The flood zone boundary shifted 15m north on page 4, likely reflecting the 2025 modelled data update.'",
+      "findings": [
+        {
+          "pages": "4",
+          "type": "substantive",
+          "finding": "Quote or closely paraphrase the actual text change, e.g. '\"1 in 100\" replaced with \"1 in 75\" in flood risk summary table'",
+          "significance": "Explain the domain meaning — what this change means for the reader/stakeholder"
+        }
+      ],
+      "cosmetic_summary": "Brief note on boilerplate/date/formatting changes (or null if none)",
+      "recommendation": "Clear action: 'Safe to publish' / 'Check with hydrology team before approving' / etc."
+    }
+  ]
+}
+```
 
-Read every page entry and classify changes into tiers:
+**Verdict criteria** — assign exactly one per pair:
 
-- **Substantive** — Text insertions/deletions that change meaning (new clauses, removed
-  sections, changed values, corrected data). Look at `text_diff_lines` for actual content.
-- **Structural** — Pages inserted or deleted (`match_type: "inserted"` / `"deleted"`),
-  page count differences, major layout shifts (`visual_changes` mentioning >5% of page).
-- **Cosmetic** — Date stamps, copyright year updates, page numbers, reference numbers,
-  header/footer tweaks. These are noise — group and summarise, don't list individually.
+| Verdict | When to use |
+|---------|-------------|
+| `IDENTICAL` | Zero differences (text + visual) |
+| `ROUTINE UPDATE` | Only dates, version numbers, cosmetic formatting, or minor typo fixes |
+| `NEEDS REVIEW` | Data values changed, new/deleted content, or boundary shifts — but explainable |
+| `INVESTIGATE` | Unexpected structural changes, page count differs, or changes contradict stated intent |
 
-#### 2b. Identify patterns
+**Finding types:** `substantive` (data/content changes), `structural` (added/deleted pages),
+`visual` (layout/image changes only).
 
-Scan across all pages for repeating changes. Common patterns:
+**Page numbering — CRITICAL:**
 
-- **Global updates**: Same date/reference/copyright changed on every page → mention once
-  ("The document date changed from 27 Aug 2025 to 11 Mar 2026 across all pages")
-- **Section-specific changes**: Cluster of changes on pages 12-15 → describe as a group
-  ("Pages 12-15 contain new flood zone boundary data")
-- **Inserted/deleted sections**: Use `match_type` to explain what was added or removed and
-  where in the document flow it sits
+The `page` field in report.json is an **alignment position**, not the actual PDF page
+number. When documents have different page counts, pages are matched using content
+alignment. Each entry has:
+- `page` — the alignment position (used for image filenames, use in the `pages` field)
+- `left_page` — the actual page number in the left (original) PDF
+- `right_page` — the actual page number in the right (revised) PDF
 
-#### 2c. Summarise what actually matters
+When `left_page ≠ right_page`, **always cite both** in your finding text:
+- ✅ "Left page 17 / Right page 18: flood extent map shows updated AEP scenarios"
+- ❌ "Page 18: the map was relabelled from tidal to fluvial"
 
-Write a plain-English summary aimed at someone who needs to know: *should I care about
-this revision?* Lead with the most important changes. Be specific — quote actual text
-differences when they are meaningful (e.g. "added 'climate change modelled data' to the
-contents list").
-The raw diff data is the starting point, not the deliverable. Your job is to **interpret**
-the changes — explain what they mean, not just list them.
+The `pages` field in analysis.json **must use the alignment position** (the `page` value)
+because the report generator uses it to locate screenshot images.
 
-**Connect cause and effect across pages.** If page 4 removes a flood model, and pages 18-20
-show major visual changes to maps, say so: "The RMC JFLOW model was removed (page 4), which
-explains the map changes on pages 18-20." Don't leave the user to piece it together.
+**Match quality — avoiding misattribution:**
 
-**Explain the significance of values changing.** "AEP values restructured from 1% (+20%) to
-50%" is raw data. "The flood scenario modelling was updated from climate-change-adjusted
-to baseline probability" is useful. Use the domain glossary.
+Check `match_similarity` for each page entry:
+- **≥ 0.8**: High confidence — the pages genuinely correspond
+- **0.6–0.8**: Moderate — the pages likely correspond but have significant changes
+- **< 0.6**: Low confidence — the matcher may have paired **different pages** together
+  due to insertions/deletions shifting the alignment
 
-**Spot data corrections vs content changes.** If "Depth" → "Height" across several pages,
-that's likely a labelling fix. If flood level values change by 0.01m, that's a minor
-numerical correction. If an entire section appears or disappears, that's a revision.
-Distinguish these.
+When similarity is low:
+- Do NOT describe differences as "relabelling" or "changes" — the two pages may simply
+  be different pages that got aligned together
+- Check whether the content on `left_page` exists elsewhere in the right document (and
+  vice versa) by scanning nearby page entries
+- If consecutive pages all have low similarity and show swapped labels (e.g. "tidal" ↔
+  "fluvial"), the pages were likely **reordered**, not changed. Say "pages reordered"
+  not "page relabelled"
+- Note the low match confidence in your finding so reviewers understand the limitation
 
-**Recognise inverse substitution patterns.** When one set of pages shows A→B and another
-shows B→A for the same values (e.g. "Depth"→"Height" on pages 51-53,
-"Height"→"Depth" on pages 54-56), this has two possible interpretations:
-- **Reordering**: the Height and Depth data sections swapped positions — same data,
-  different sequence
-- **Label correction**: the labels were wrong and have been fixed
+**Interpretation guidance:**
+- Use domain language: "flood zone boundary", "climate change allowance", "return period"
+- Distinguish data corrections from content changes
+- When values change, state the old → new values
+- When pages are inserted/deleted, describe what content was added/removed
+- Group related changes (e.g. a date change on every page is one finding, not N findings)
+- When pages have been reordered between documents, describe the reordering rather than
+  treating each misaligned pair as a content change
 
-Don't assume which — present both possibilities unless the surrounding context makes it
-clear (e.g. if the actual data values differ, it's a correction; if they're identical,
-it's likely a reorder). The report.md flags these as "Inverse substitution patterns".
+**Describing inserted/deleted pages — read `page_text` first:**
 
-**Use visual_changes descriptions.** When the report flags a major visual change, check the
-`visual_changes` array in report.json for specifics. Colour shifts like "light cyan → light
-blue, ~76% of page" tell you the map's colour scheme changed. "Content modified in center
-of page" without colour info usually means flood extent boundaries shifted. Surface these
-details — "the flood zone colours changed from cyan to blue" is much more useful than
-"major visual change (11%)".
+Every page entry in report.json has a `page_text` field with the extracted text content.
+For inserted and deleted pages, you **MUST** read `page_text` before describing what the
+page contains. Never guess or assume — describe only what the text actually says.
 
-**Highlight what's new vs what's different.** Inserted pages with new model data are more
-significant than the same page having updated values. Deleted pages suggest content was
-removed intentionally — say what was lost.
+- ✅ Read page_text: "New page (right page 11) containing model scenario listing: 'Hythe Streams 2015 — Defences removed climate change modelled fluvial'"
+- ❌ Guessing: "New map page added, likely the 'no defences exist tidal' extent map"
 
-**Think about what the user needs to know.** A test engineer wants to know: did the right
-things change, and did anything change that shouldn't have? A stakeholder wants to know:
-is this a minor update or a major revision? Tailor accordingly — lead with the answer,
-then support with evidence.
+For map pages, look for keywords in `page_text` like "modelled tidal extent", "AEP",
+"climate change", model names, etc. to accurately describe the map content.
 
-### 3. Present results
+**Reordered pages — describe the actual mapping:**
 
-#### Single-pair format
+When describing reordered pages, list the actual left→right page correspondences from
+the report data rather than summarising as a simple block move. Check each reordered
+entry for `left_page` and `right_page` values. If any individual page within the
+reordered block has substantive changes (e.g. visual_score > 2% or different text),
+describe that as a separate finding rather than mixing it into the reorder description.
 
-For a single comparison, present results in this order:
+### 3. Generate the HTML report
 
-**Executive summary** — 2-4 sentences: identical or different? What are the substantive
-changes? How many pages affected?
+Run the report generator to produce a self-contained HTML report with your analysis,
+verdicts, and side-by-side page screenshots:
 
-**Key changes (substantive only)** — Bullet list of meaningful differences. Include page
-numbers and quote actual text where relevant. Group related changes.
+```bash
+cd skills/pdf-compare && npm run report
+```
 
-**Structural changes** — If pages were inserted, deleted, or reordered.
+The report opens in the browser automatically. **After it opens, say:**
 
-**Cosmetic / boilerplate changes** — One brief paragraph. Do not list per-page.
+> "The analysis report is open in your browser. It covers [N pair(s)] with verdicts,
+> interpretation, and side-by-side screenshots for every changed page."
 
-**Per-page breakdown (condensed)** — Only noteworthy pages:
+**Do not** reproduce the analysis in chat — the HTML report is the deliverable.
 
-| Page | L→R | Type | What changed |
-|------|-----|------|-------------|
-| 2 | 2→2 | Text | Added "climate change modelled data" to contents |
-| 12 | 10→12 | Inserted | New page — flood zone boundary data |
-| 15 | 13→15 | Visual | Major layout change, ~31% of page |
+### 4. Output files
 
-#### Batch presentation format
-
-For batch comparisons, use this structure — concise and descriptive, not statistical.
-
-**Batch overview table** — One row per pair, compact:
-
-| Pair | Left | Right | Pages (L→R) | Status |
-|------|------|-------|-------------|--------|
-| 1 | KR5X8DK129TV | DERA24BD134A | 13→13 | 2 substantive, 3 cosmetic |
-| 2 | 9WJYPYV6H68U | FMN8CH6EH72B | 47→54 | 7 inserted, 20 substantive, 27 cosmetic |
-
-Use the reference code from filenames (strip `1a-`/`1b-` prefixes). The Status column is
-a short summary of counts — structural first, then substantive, then cosmetic. Follow the
-table with one sentence summarising the batch (e.g. "All 3 pairs have substantive changes.
-7 pages inserted total, 37 deleted total.").
-
-**Per-pair descriptive summaries** — For each pair, write a short heading and 2-5 sentences
-describing *what actually changed*, not just how many lines differed. Be specific — name
-the content that was added/removed/modified. Examples of good vs bad:
-
-- Bad: "21 substantive changes, 26 cosmetic, pages 18-20 have major visual changes
-  (14-26% pixel diff)"
-- Good: "Climate change model data added, RMC JFLOW removed. 7 new pages. Heavy text
-  rewrites in the data tables."
-- Bad: "Page 1: Substantive text changes (+3/-3). Page 2: Substantive text changes
-  (+18/-0)"
-- Good: "Page 1: Coordinates format changed (slash removed). Page 2: New 'Information
-  that's unavailable' section added — notes no modelled data available"
-
-For each pair:
-1. State the nature of the revision in one sentence (minor update / significant revision /
-   major restructure)
-2. Describe the substantive changes — what content was added, removed, or modified
-3. Mention structural changes (inserted/deleted pages) with what they contain
-4. Dismiss cosmetic changes in one phrase (e.g. "3 cosmetic pages: date stamp updates")
-5. If the pair is complex (many substantive changes), end with a pointer to the HTML
-   report for visual inspection
-
-**Do not include** per-page breakdowns, raw diff stats, pixel percentages, cross-pair
-pattern analysis, or exhaustive lists of every changed page. Save that detail for when
-the user asks about a specific pair.
-
-#### Output files
-
-- **`report.html`** — Self-contained HTML report with inline diff images, color-coded
-  tables, and match type badges. Open in a browser for the best experience.
-- `report.json` — Machine-readable report
-- `report.md` — Human-readable report
-- `diff_page_*.png` — Visual diff images per changed page
+- **`analysis_report.html`** — The final deliverable. Self-contained HTML with inline
+  images, verdicts, LLM-written analysis, side-by-side page screenshots, and recommendations.
+  Opens in the browser automatically.
+- `analysis.json` — Structured analysis written by the LLM (step 2)
+- `report.json` — Machine-readable raw comparison data (use for follow-up questions)
+- `report.md` — Per-pair markdown report
+- `batch_summary.json` — Machine-readable batch stats (batch only)
+- `left_page_*.png` / `right_page_*.png` — Left and right page renders (embedded in HTML)
+- `diff_page_*.png` — Visual diff overlay images (embedded in HTML)
 
 **Smart page matching**: When documents have different page counts, the tool uses
 content-based alignment (Needleman-Wunsch algorithm with Jaccard text similarity) to match
 pages intelligently. This detects inserted, deleted, and matched pages — even when page
 numbers shift.
 
-### 4. Handle follow-up questions
+### 5. Handle follow-up questions
 
 When the user asks follow-up questions, **re-read the relevant JSON file** from the output
 directory. Do not rely on conversation memory — always re-read the file. Do NOT re-run
@@ -259,7 +240,7 @@ the comparison.
 **Never re-run the comparison for a follow-up question** unless the user explicitly asks
 to change parameters (different mode, different pages, different threshold).
 
-### 5. Validate expectations
+### 6. Validate expectations
 
 If the user states what they expected to change (e.g. "I only updated the date"), actively
 check whether the actual differences match. Flag anything unexpected:
@@ -279,7 +260,8 @@ The `scripts/` directory contains the implementation modules (JavaScript/Node.js
 - `diff_images.js` — Compares page images and produces difference scores + highlight PNGs (via pixelmatch)
 - `text_diff.js` — Minimal unified diff for text comparison
 - `page_matcher.js` — Smart page alignment using Needleman-Wunsch algorithm with Jaccard text similarity
-- `html_report.js` — Self-contained HTML report generator with inline base64 diff images
+- `html_report.js` — Per-pair HTML report generator with inline base64 diff images
+- `generate_report.js` — Renders analysis.json + screenshots into self-contained HTML report
 - `utils.js` — Shared helpers (page range parsing, normalization, report writing)
 
 Scripts do the deterministic heavy lifting. Only their outputs come back to the model.

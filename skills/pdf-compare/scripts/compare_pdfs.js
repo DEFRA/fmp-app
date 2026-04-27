@@ -18,6 +18,7 @@ import { diffPageImages, compareImages } from './diff_images.js'
 import { matchPages } from './page_matcher.js'
 import { writeHtmlReport } from './html_report.js'
 import { analyzeVisualChanges } from './visual_analyzer.js'
+import { PNG } from 'pngjs'
 import {
   buildReport,
   detectRepeatingHeaderFooter,
@@ -26,6 +27,20 @@ import {
   writeJsonReport,
   writeMarkdownReport,
 } from './utils.js'
+
+/**
+ * Encode RGB pixel data to a PNG buffer.
+ */
+function rgbToPng (rgb, width, height) {
+  const png = new PNG({ width, height })
+  for (let i = 0; i < width * height; i++) {
+    png.data[i * 4] = rgb[i * 3]
+    png.data[i * 4 + 1] = rgb[i * 3 + 1]
+    png.data[i * 4 + 2] = rgb[i * 3 + 2]
+    png.data[i * 4 + 3] = 255
+  }
+  return PNG.sync.write(png)
+}
 
 /**
  * Compute diff stats between two page texts.
@@ -53,7 +68,7 @@ export function runComparison ({
   right,
   outdir,
   mode = 'both',
-  visualThreshold = 0.01,
+  visualThreshold = 0.002,
   ignoreHeadersFooters = false,
   pagesSpec = null,
   open = false,
@@ -151,9 +166,13 @@ export function runComparison ({
       entry.visual_score = doVisual ? 1.0 : null
       notesParts.push(`Page ${match.rightIndex + 1} inserted in right document`)
     } else {
-      // matched or replaced — compare the pair
+      // matched, replaced, or reordered — compare the pair
       const li = match.leftIndex
       const ri = match.rightIndex
+
+      if (match.type === 'reordered') {
+        notesParts.push(`Page reordered: left page ${li + 1} corresponds to right page ${ri + 1} (moved position)`)
+      }
 
       // Text comparison
       if (doText) {
@@ -189,6 +208,17 @@ export function runComparison ({
             const diffPath = `${outdir}/diff_page_${String(pageCounter).padStart(4, '0')}.png`
             fs.writeFileSync(diffPath, diffPng)
             entry.diff_image_path = diffPath
+
+            // Save left and right page renders for side-by-side display
+            const leftPng = rgbToPng(leftImg.pixels, leftImg.width, leftImg.height)
+            const leftPagePath = `${outdir}/left_page_${String(pageCounter).padStart(4, '0')}.png`
+            fs.writeFileSync(leftPagePath, leftPng)
+            entry.left_image_path = leftPagePath
+
+            const rightPng = rgbToPng(rightImg.pixels, rightImg.width, rightImg.height)
+            const rightPagePath = `${outdir}/right_page_${String(pageCounter).padStart(4, '0')}.png`
+            fs.writeFileSync(rightPagePath, rightPng)
+            entry.right_image_path = rightPagePath
 
             // Analyze what changed visually
             if (leftRgba && rightRgba && diffMask) {
@@ -258,7 +288,7 @@ if (isMainModule) {
     .requiredOption('--right <path>', 'Path to second (right) PDF')
     .option('--outdir <path>', 'Output directory', './pdf-compare-output')
     .option('--mode <mode>', 'Comparison mode: text, visual, or both', 'both')
-    .option('--visual-threshold <number>', 'Visual difference threshold 0.0–1.0', parseFloat, 0.01)
+    .option('--visual-threshold <number>', 'Visual difference threshold 0.0–1.0', parseFloat, 0.002)
     .option('--ignore-headers-footers', 'Strip repeating headers/footers', false)
     .option('--pages <spec>', 'Page range, e.g. "1-3,7,10-12"')
     .option('--open', 'Open HTML report in browser (default: true)', true)

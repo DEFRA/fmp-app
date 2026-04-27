@@ -8,22 +8,26 @@ When the user asks to compare PDFs, diff documents, run the pdf compare, check w
 between versions, redline documents, or verify if two PDFs are identical, follow the
 instructions in `skills/pdf-compare/SKILL.md`.
 
-**Quick reference** (full details in SKILL.md):
+**Quick reference** — three steps, one ask (full details in SKILL.md):
 
+1. Run the comparison:
 ```bash
 cd skills/pdf-compare && npm run inbox
 ```
 
-The inbox script auto-detects single pair vs batch and opens the HTML report automatically.
+2. Read all `report.json` files and write `inbox/output/analysis.json` per the schema in SKILL.md §2.
 
-**After every comparison run:** Always read the report and present the full analysis in
-chat — triage changes by significance (substantive vs cosmetic), identify patterns across
-pages, and lead with what actually matters. See SKILL.md steps 2-3 for full instructions.
-- **Single pair:** Read `report.json`
-- **Batch:** Read `batch_summary.json` for overview stats, then read each `pair-N/report.json`
-  to understand what actually changed. You need the individual reports to write descriptive
-  summaries — the batch summary only has stats, not content. Present using the batch format
-  in SKILL.md § "Batch presentation format".
+3. Generate the HTML report:
+```bash
+cd skills/pdf-compare && npm run report
+```
+
+The report opens in the browser automatically. Confirm to the user — do not reproduce
+the analysis in chat.
+
+**After every comparison run:** Follow all three steps above. The HTML report is the
+deliverable — it contains your written analysis, verdicts, side-by-side screenshots, and
+recommendations.
 
 **Follow-up questions:** Re-read the relevant JSON from the last comparison — do NOT re-run
 the CLI unless the user explicitly asks to change comparison parameters.

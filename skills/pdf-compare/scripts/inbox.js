@@ -39,7 +39,7 @@ const pdfs = fs.readdirSync(INBOX_DIR)
   .sort()
   .map(f => path.join(INBOX_DIR, f))
 
-const shouldOpen = !process.argv.includes('--no-open')
+const shouldOpen = process.argv.includes('--open')
 
 if (pdfs.length === 0) {
   console.log('No PDFs found in inbox/')
@@ -72,7 +72,7 @@ if (pdfs.length === 2) {
     right,
     outdir: OUTPUT_DIR,
     mode: 'both',
-    visualThreshold: 0.01,
+    visualThreshold: 0.002,
     open: shouldOpen,
   })
 
@@ -116,7 +116,7 @@ for (let i = 0; i < pairs.length; i++) {
       right,
       outdir,
       mode: 'both',
-      visualThreshold: 0.01,
+      visualThreshold: 0.002,
       open: shouldOpen,
     })
 
@@ -251,4 +251,3 @@ for (const r of results) {
 console.log(`\nBatch summary: ${summaryPath}`)
 console.log(`Batch markdown summary: ${summaryMdPath}`)
 console.log('Reports written to: inbox/output/')
-console.log('Open markdown summary: open inbox/output/batch_summary.md')

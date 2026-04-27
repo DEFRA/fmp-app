@@ -45,10 +45,10 @@ function padToSize (rgba, srcWidth, srcHeight, targetWidth, targetHeight) {
  * @param {import('./render_pages.js').RenderedPage} left
  * @param {import('./render_pages.js').RenderedPage} right
  * @param {object} options
- * @param {number} [options.threshold=0.01] - Overall score threshold to consider changed.
+ * @param {number} [options.threshold=0.002] - Overall score threshold to consider changed.
  * @returns {{ score: number, changed: boolean, diffPng: Buffer|null, width: number, height: number }}
  */
-export function compareImages (left, right, { threshold = 0.01 } = {}) {
+export function compareImages (left, right, { threshold = 0.002 } = {}) {
   const w = Math.max(left.width, right.width)
   const h = Math.max(left.height, right.height)
 
@@ -86,11 +86,11 @@ export function compareImages (left, right, { threshold = 0.01 } = {}) {
  * @param {import('./render_pages.js').RenderedPage[]} leftPages
  * @param {import('./render_pages.js').RenderedPage[]} rightPages
  * @param {object} options
- * @param {number} [options.threshold=0.01]
+ * @param {number} [options.threshold=0.002]
  * @param {string|null} [options.outdir=null] - If provided, save diff highlight PNGs here.
  * @returns {Array<{ page: number, visual_score: number, visual_changed: boolean, diff_image_path: string|null, notes?: string }>}
  */
-export function diffPageImages (leftPages, rightPages, { threshold = 0.01, outdir = null } = {}) {
+export function diffPageImages (leftPages, rightPages, { threshold = 0.002, outdir = null } = {}) {
   const leftDict = new Map(leftPages.map(p => [p.index, p]))
   const rightDict = new Map(rightPages.map(p => [p.index, p]))
   const allIndices = [...new Set([...leftDict.keys(), ...rightDict.keys()])].sort((a, b) => a - b)
