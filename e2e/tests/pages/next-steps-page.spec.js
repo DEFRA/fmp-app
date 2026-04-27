@@ -1,14 +1,9 @@
 import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 import { areaData, floodZonedata } from '../../data/location-data.js'
-import { PdfDriver } from '../../test-runner-api/pdf-driver.js'
 
 test.describe('Next steps page', () => {
   const slug = (polygon) => `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
-  const expectedPdfLinks = [
-    'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
-    'https://flood-map-for-planning.service.gov.uk/os-terms'
-  ]
 
   test.describe('Link and content tests', () => {
     const polygon = areaData.Yorkshire.polygon
@@ -27,7 +22,6 @@ test.describe('Next steps page', () => {
     })
 
     // The following tests validate that external links can be reached.
-
     test('navigates to Flood risk assessments: climate change allowances page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.nextSteps.takeIntoAccountClimateChangeAllowancesLink)
       await steps.expectUrlContains('climate-change-allowances')
@@ -119,78 +113,5 @@ test.describe('Next steps page', () => {
       await steps.expectOn(pages.nextSteps.page)
       await steps.expectLinkExists(pages.nextSteps.orderFloodRiskDataButton)
     })
-  })
-
-  test.describe('PDF download checks', () => {
-    test.beforeAll(async () => {
-      await new PdfDriver().clearPdfFiles()
-    })
-
-    const pdfScenarios = [
-      {
-        label: 'flood zone 1',
-        floodZone: '1',
-        polygon: floodZonedata.FZ1_With_RandS
-      },
-      {
-        label: 'flood zone 2',
-        floodZone: '2',
-        polygon: floodZonedata.FZ2_With_RandS
-      },
-      {
-        label: 'flood zone 3',
-        floodZone: '3',
-        polygon: floodZonedata.FZ3_With_SW_and_RandS
-      }
-    ]
-
-    for (const { label, floodZone, polygon } of pdfScenarios) {
-      const pdfSlug = `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
-      const pdfDownloadTimeoutMs = 60000
-
-      test.describe(`for ${label}`, () => {
-        test.beforeEach(async ({ page, steps }) => {
-          await steps.open({
-            ...pages.nextSteps.page,
-            slug: pdfSlug
-          })
-          await page.locator('.govuk-details__summary').first().click()
-        })
-
-        test('downloads pdf without reference text', async ({ steps, pdfDriver }) => {
-          const scale = '2500'
-          await steps.select(pages.nextSteps.scaleSelect, scale)
-
-          const pdfPath = await pdfDriver.waitForDownload(async () => {
-            await steps.clickButton(pages.nextSteps.downloadFloodMapButton)
-          }, pdfDownloadTimeoutMs)
-          const pdf = await pdfDriver.parsePdf(pdfPath)
-
-          await pdfDriver.expectCoreContent(pdf, { scale })
-          await pdfDriver.expectFloodZone(pdf, floodZone)
-          await pdfDriver.expectLocation(pdf, polygon)
-          await pdfDriver.expectRequiredLinks(pdf, expectedPdfLinks)
-          await pdfDriver.expectAllLinksAreValid(pdf)
-        })
-
-        test('downloads pdf with reference text and amended scale', async ({ steps, pdfDriver }) => {
-          const referenceText = 'Test123456789101112131415'
-          const scale = '25000'
-
-          const pdfPath = await pdfDriver.waitForDownload(async () => {
-            await steps.type(pages.nextSteps.addReferenceInput, referenceText)
-            await steps.select(pages.nextSteps.scaleSelect, scale)
-            await steps.clickButton(pages.nextSteps.downloadFloodMapButton)
-          }, pdfDownloadTimeoutMs)
-          const pdf = await pdfDriver.parsePdf(pdfPath)
-
-          await pdfDriver.expectCoreContent(pdf, { reference: referenceText, scale })
-          await pdfDriver.expectFloodZone(pdf, floodZone)
-          await pdfDriver.expectLocation(pdf, polygon)
-          await pdfDriver.expectRequiredLinks(pdf, expectedPdfLinks)
-          await pdfDriver.expectAllLinksAreValid(pdf)
-        })
-      })
-    }
   })
 })

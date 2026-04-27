@@ -8,3 +8,4 @@ export const footerLink = (text, url) => ({ type: 'footerLink', text, url: url =
 export const errorText = (text) => ({ type: 'errorText', text })
 export const button = (text) => ({ type: 'button', text })
 export const selectInput = (text) => ({ type: 'selectInput', text })
+export const details = (text) => ({ type: 'details', text })

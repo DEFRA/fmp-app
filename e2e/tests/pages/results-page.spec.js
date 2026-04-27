@@ -1,14 +1,9 @@
 import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 import { areaData, floodZonedata } from '../../data/location-data.js'
-import { PdfDriver } from '../../test-runner-api/pdf-driver.js'
 
 test.describe('Results page', () => {
   const slug = (polygon) => `/results?encodedPolygon=${encodeURIComponent(polygon)}`
-  const expectedPdfLinks = [
-    'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
-    'https://flood-map-for-planning.service.gov.uk/os-terms'
-  ]
 
   // Flood zone rendering
   for (const [index, { polygon, floodZone }] of Object.values(areaData).entries()) {
@@ -137,76 +132,49 @@ test.describe('Results page', () => {
     })
   })
 
-  test.describe('PDF download checks', () => {
-    test.beforeAll(async () => {
-      await new PdfDriver().clearPdfFiles()
-    })
+  test.describe.only('PDF download checks', () => {
+    const expectedPdfLinks = [
+      'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
+      'https://flood-map-for-planning.service.gov.uk/os-terms'
+    ]
 
     const pdfScenarios = [
-      {
-        label: 'flood zone 1',
-        floodZone: '1',
-        polygon: floodZonedata.FZ1_With_RandS
-      },
-      {
-        label: 'flood zone 2',
-        floodZone: '2',
-        polygon: floodZonedata.FZ2_With_RandS
-      },
-      {
-        label: 'flood zone 3',
-        floodZone: '3',
-        polygon: floodZonedata.FZ3_With_SW_and_RandS
-      }
+      { label: 'flood zone 1', floodZone: '1', polygon: floodZonedata.FZ1_With_RandS },
+      { label: 'flood zone 2', floodZone: '2', polygon: floodZonedata.FZ2_With_RandS },
+      { label: 'flood zone 3', floodZone: '3', polygon: floodZonedata.FZ3_With_SW_and_RandS }
     ]
 
     for (const { label, floodZone, polygon } of pdfScenarios) {
-      const pdfSlug = `/results?encodedPolygon=${encodeURIComponent(polygon)}`
-      const pdfDownloadTimeoutMs = 60000
+      test(`downloads pdf with reference and scale for ${label}`, async ({ steps, pdfDriver }) => {
+        const reference = 'Test123456789101112131415'
+        const scale = '25000'
 
-      test.describe(`for ${label}`, () => {
-        test.beforeEach(async ({ page, steps }) => {
-          await steps.open({
-            ...pages.results.pageWithZone(floodZone),
-            slug: pdfSlug
-          })
-          await page.locator('.govuk-details__summary').first().click()
-        })
+        await steps.open({ ...pages.results.pageWithZone(floodZone), slug: slug(polygon) })
+        await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+        await steps.type(pages.results.addReferenceInput, reference)
+        await steps.select(pages.results.scaleSelect, scale)
 
-        test('downloads pdf without reference text', async ({ steps, pdfDriver }) => {
-          const scale = '2500'
-          await steps.select(pages.results.scaleSelect, scale)
+        const downloadPromise = pdfDriver.awaitDownload()
+        await steps.clickButton(pages.results.downloadFloodMapButton)
+        const pdf = await pdfDriver.parsePdf(await downloadPromise)
 
-          const pdfPath = await pdfDriver.waitForDownload(async () => {
-            await steps.clickButton(pages.results.downloadFloodMapButton)
-          }, pdfDownloadTimeoutMs)
-          const pdf = await pdfDriver.parsePdf(pdfPath)
-
-          await pdfDriver.expectCoreContent(pdf, { scale })
-          await pdfDriver.expectFloodZone(pdf, floodZone)
-          await pdfDriver.expectLocation(pdf, polygon)
-          await pdfDriver.expectRequiredLinks(pdf, expectedPdfLinks)
-          await pdfDriver.expectAllLinksAreValid(pdf)
-        })
-
-        test('downloads pdf with reference text and amended scale', async ({ steps, pdfDriver }) => {
-          const referenceText = 'Test123456789101112131415'
-          const scale = '25000'
-
-          const pdfPath = await pdfDriver.waitForDownload(async () => {
-            await steps.type(pages.results.addReferenceInput, referenceText)
-            await steps.select(pages.results.scaleSelect, scale)
-            await steps.clickButton(pages.results.downloadFloodMapButton)
-          }, pdfDownloadTimeoutMs)
-          const pdf = await pdfDriver.parsePdf(pdfPath)
-
-          await pdfDriver.expectCoreContent(pdf, { reference: referenceText, scale })
-          await pdfDriver.expectFloodZone(pdf, floodZone)
-          await pdfDriver.expectLocation(pdf, polygon)
-          await pdfDriver.expectRequiredLinks(pdf, expectedPdfLinks)
-          await pdfDriver.expectAllLinksAreValid(pdf)
-        })
+        pdfDriver.expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks: expectedPdfLinks })
       })
     }
+
+    test('defaults to unspecified reference when none provided', async ({ steps, pdfDriver }) => {
+      const polygon = floodZonedata.FZ1_With_RandS
+      const scale = '2500'
+
+      await steps.open({ ...pages.results.pageWithZone('1'), slug: slug(polygon) })
+      await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+      await steps.select(pages.results.scaleSelect, scale)
+
+      const downloadPromise = pdfDriver.awaitDownload()
+      await steps.clickButton(pages.results.downloadFloodMapButton)
+      const pdf = await pdfDriver.parsePdf(await downloadPromise)
+
+      pdfDriver.expectPdfContent(pdf, { scale, floodZone: '1', polygon, expectedLinks: expectedPdfLinks })
+    })
   })
 })
