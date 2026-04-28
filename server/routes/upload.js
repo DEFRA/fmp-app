@@ -1,8 +1,7 @@
 const { getFile, streamToBuffer } = require('../services/file-helper')
 const constants = require('../constants')
 const { validateShapeFile, validateGeoJSON } = require('../services/validate-uploaded-shape-file')
-const fiftyMbNumeric = 50
-const fiftyMbInBytes = fiftyMbNumeric * 1024 * 1024
+const oneMbInBytes = 1024 * 1024
 const { extractProjectionFiles } = require('../services/zip-helper')
 
 const handlers = {
@@ -48,7 +47,7 @@ module.exports = [
     handler: handlers.post,
     options: {
       payload: {
-        maxBytes: fiftyMbInBytes,
+        maxBytes: oneMbInBytes,
         multipart: true,
         output: 'stream',
         parse: false
