@@ -10,25 +10,26 @@ The suite uses a three-layer architecture. Tests read like plain English, driver
 
 ```
 tests/*.spec.js              ← Specifications (what to test)
-  ↓ fixtures (steps / mapSteps)
-test-runner-api/              ← FormDriver & MapDriver (how to interact)
+  ↓ fixtures (steps / mapSteps / pdfDriver)
+test-runner-api/              ← FormDriver, MapDriver & PdfDriver (how to interact)
   ↓
 pages/                        ← Page definitions & control factories
 ```
 
 ### Fixtures (`fixtures.js`)
 
-[Playwright fixtures](https://playwright.dev/docs/test-fixtures) provide two drivers to every test:
+[Playwright fixtures](https://playwright.dev/docs/test-fixtures) make three drivers available to tests (most tests use `steps` and/or `mapSteps`; PDF tests use `pdfDriver`):
 
 | Fixture    | Class        | Purpose |
 |------------|-------------|---------|
 | `steps`    | `FormDriver` | Standard GOV.UK form page interactions |
 | `mapSteps` | `MapDriver`  | Map-specific interactions (extends `FormDriver`) |
+| `pdfDriver` | `PdfDriver`  | PDF download, parsing, and PDF content assertions |
 
 ```js
 import { test } from '../../fixtures.js'
 
-test('example', async ({ steps, mapSteps }) => {
+test('example', async ({ steps, mapSteps, pdfDriver }) => {
   await steps.open(pages.home.page)
   // ...
 })
@@ -71,6 +72,19 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 | `zoomIn(times)` | Zoom in with retry logic between each click |
 | `addSquare()` | Open the location menu and click "Add square" |
 | `confirmBoundaryAndContinue()` | Click "Finish" then "Get summary report" |
+
+**PdfDriver** — handles PDF download capture, parsing, and PDF-specific assertions:
+
+| Method | Description |
+|--------|-------------|
+| `clearPdfFiles()` | Remove previously generated PDFs from `_results_/downloads` |
+| `waitForDownload(triggerDownload, timeout)` | Wait for a PDF via browser download event or PDF response capture |
+| `parsePdf(filePath)` | Parse PDF text and links using `pdf-parse` |
+| `expectCoreContent(pdf, { reference, scale })` | Validate core report text, reference handling, and scale formatting |
+| `expectFloodZone(pdf, floodZone)` | Validate zone text in PDF matches expected flood zone |
+| `expectLocation(pdf, polygonString)` | Validate centroid easting/northing rendered in PDF |
+| `expectRequiredLinks(pdf, expectedLinks)` | Validate required static links are embedded in PDF |
+| `expectAllLinksAreValid(pdf)` | Validate extracted links are syntactically valid URLs |
 
 ### Page Objects (`pages/`)
 
@@ -142,7 +156,7 @@ await test.step('Home → Triage', async () => {
 
 ## Prerequisites
 
-- Node.js 18+ (LTS recommended)
+- Node.js 20.16+ (required by `pdf-parse`)
 - Browsers — install whichever you need to run:
 
   ```bash
@@ -165,6 +179,15 @@ await test.step('Home → Triage', async () => {
 npm install
 npx playwright install          # all browsers, or pick one as above
 ```
+
+## PDF Test Artifacts
+
+PDF tests generate files in `_results_/downloads/`.
+
+- The folder is cleared once at the start of the PDF suite.
+- Files generated during that run are retained (for example, 6 PDF tests produce 6 PDFs).
+- On the next run, the folder is cleared again before new PDF files are created.
+- Generated PDFs are ignored by git (`e2e/_results_/downloads/*.pdf`), so they are not committed.
 
 ## Docker (WIP)
 
@@ -289,7 +312,8 @@ e2e/
 │
 ├── test-runner-api/
 │   ├── form-driver.js           # FormDriver — GOV.UK form interactions
-│   └── map-driver.js            # MapDriver — Esri map interactions
+│   ├── map-driver.js            # MapDriver — Esri map interactions
+│   └── pdf-driver.js            # PdfDriver — PDF download/parse/assertions
 │
 ├── pages/
 │   ├── .utils/

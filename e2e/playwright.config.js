@@ -62,7 +62,7 @@ export default defineConfig({
     ...browserProjects.flatMap((browserProject) => [
       {
         name: `public-${browserProject.suffix}`,
-        grepInvert: /@internal|@urlCheck/,
+        grepInvert: /@internal|@urlCheck|@e2e/,
         use: {
           ...browserProject.use,
           baseURL: publicBaseURL,
@@ -70,8 +70,8 @@ export default defineConfig({
       },
       {
         name: `internal-${browserProject.suffix}`,
-        grep: /@internal|@both/,
-        grepInvert: /@urlCheck/,
+        grep: /@internal/,
+        grepInvert: /@urlCheck|@e2e/,
         use: {
           ...browserProject.use,
           baseURL: internalBaseURL,
@@ -79,20 +79,36 @@ export default defineConfig({
       },
     ]),
     {
-      name: 'noDeps-local-chrome',
+      name: 'noDeps-local-chromium',
       grep: /@noDeps/,
-      grepInvert: /@urlCheck|@internal|@both/,
+      grepInvert: /@urlCheck|@internal|@e2e/,
       use: {
         ...chromeConfig,
         baseURL: publicBaseURL,
       },
     },
     {
-      name: 'urlCheck-chrome',
+      name: 'urlCheck-chromium',
       grep: /@urlCheck/,
       use: {
         ...chromeConfig,
         baseURL: publicBaseURL,
+      },
+    },
+    {
+      name: 'e2e-public-chromium',
+      grep: /@e2e/,
+      use: {
+        ...chromeConfig,
+        baseURL: publicBaseURL,
+      },
+    },
+    {
+      name: 'e2e-internal-chromium',
+      grep: /@e2e/,
+      use: {
+        ...chromeConfig,
+        baseURL: internalBaseURL,
       },
     },
   ],

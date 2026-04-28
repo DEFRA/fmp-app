@@ -55,6 +55,10 @@ export class FormDriver {
     await this.page.getByRole('button', { name: element.text, exact: true }).click()
   }
 
+  async clickDetails (element) {
+    await this.page.locator('details').filter({ hasText: element.text }).locator('summary').click()
+  }
+
   async clickLink (element) {
     const locator = this.#getLinkLocator(element)
     // Some pages legitimately contain duplicate link text; click the first visible match.

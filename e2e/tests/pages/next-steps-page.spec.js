@@ -22,7 +22,6 @@ test.describe('Next steps page', () => {
     })
 
     // The following tests validate that external links can be reached.
-
     test('navigates to Flood risk assessments: climate change allowances page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.nextSteps.takeIntoAccountClimateChangeAllowancesLink)
       await steps.expectUrlContains('climate-change-allowances')

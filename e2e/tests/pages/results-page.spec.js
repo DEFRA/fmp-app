@@ -131,4 +131,50 @@ test.describe('Results page', () => {
       await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
     })
   })
+
+  test.describe('PDF download checks', () => {
+    const expectedPdfLinks = [
+      'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
+      'https://flood-map-for-planning.service.gov.uk/os-terms'
+    ]
+
+    const pdfScenarios = [
+      { label: 'flood zone 1', floodZone: '1', polygon: floodZonedata.FZ1_With_RandS },
+      { label: 'flood zone 2', floodZone: '2', polygon: floodZonedata.FZ2_With_RandS },
+      { label: 'flood zone 3', floodZone: '3', polygon: floodZonedata.FZ3_With_SW_and_RandS }
+    ]
+
+    for (const { label, floodZone, polygon } of pdfScenarios) {
+      test(`downloads pdf with reference and scale for ${label}`, async ({ steps, pdfDriver }) => {
+        const reference = 'Test123456789101112131415'
+        const scale = '25000'
+
+        await steps.open({ ...pages.results.pageWithZone(floodZone), slug: slug(polygon) })
+        await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+        await steps.type(pages.results.addReferenceInput, reference)
+        await steps.select(pages.results.scaleSelect, scale)
+
+        const downloadPromise = pdfDriver.awaitDownload()
+        await steps.clickButton(pages.results.downloadFloodMapButton)
+        const pdf = await pdfDriver.parsePdf(await downloadPromise)
+
+        pdfDriver.expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks: expectedPdfLinks })
+      })
+    }
+
+    test('defaults to unspecified reference when none provided', async ({ steps, pdfDriver }) => {
+      const polygon = floodZonedata.FZ1_With_RandS
+      const scale = '2500'
+
+      await steps.open({ ...pages.results.pageWithZone('1'), slug: slug(polygon) })
+      await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+      await steps.select(pages.results.scaleSelect, scale)
+
+      const downloadPromise = pdfDriver.awaitDownload()
+      await steps.clickButton(pages.results.downloadFloodMapButton)
+      const pdf = await pdfDriver.parsePdf(await downloadPromise)
+
+      pdfDriver.expectPdfContent(pdf, { scale, floodZone: '1', polygon, expectedLinks: expectedPdfLinks })
+    })
+  })
 })
