@@ -1,5 +1,5 @@
 import { definePage } from './.utils/page.js'
-import { button, link, textInput, selectInput } from './.utils/form-controls.js'
+import { button, details, link, textInput, selectInput } from './.utils/form-controls.js'
 
 export const page = definePage({
   slug: '/next-steps',
@@ -7,7 +7,7 @@ export const page = definePage({
 })
 
 // P1 Map Controls
-export const addReferenceToFloodMapDetails = button('Add a reference to the flood map and set the scale')
+export const addReferenceToFloodMapDetails = details('Add a reference to the flood map and set the scale')
 export const addReferenceInput = textInput('Add a reference')
 export const scaleSelect = selectInput('Scale')
 export const downloadFloodMapButton = button('Download flood map for this location (PDF)')
