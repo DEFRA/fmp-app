@@ -77,14 +77,13 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 
 | Method | Description |
 |--------|-------------|
-| `clearPdfFiles()` | Remove previously generated PDFs from `_results_/downloads` |
-| `waitForDownload(triggerDownload, timeout)` | Wait for a PDF via browser download event or PDF response capture |
+| `awaitDownload(timeout)` | Wait for a PDF download event, save to `_results_/downloads`, and return the file path |
 | `parsePdf(filePath)` | Parse PDF text and links using `pdf-parse` |
+| `expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks })` | Validate all PDF content: core text, flood zone, location, and links |
 | `expectCoreContent(pdf, { reference, scale })` | Validate core report text, reference handling, and scale formatting |
 | `expectFloodZone(pdf, floodZone)` | Validate zone text in PDF matches expected flood zone |
 | `expectLocation(pdf, polygonString)` | Validate centroid easting/northing rendered in PDF |
-| `expectRequiredLinks(pdf, expectedLinks)` | Validate required static links are embedded in PDF |
-| `expectAllLinksAreValid(pdf)` | Validate extracted links are syntactically valid URLs |
+| `expectLinks(pdf, expectedLinks)` | Validate required links are present and all extracted links are valid URLs |
 
 ### Page Objects (`pages/`)
 
@@ -184,9 +183,7 @@ npx playwright install          # all browsers, or pick one as above
 
 PDF tests generate files in `_results_/downloads/`.
 
-- The folder is cleared once at the start of the PDF suite.
-- Files generated during that run are retained (for example, 6 PDF tests produce 6 PDFs).
-- On the next run, the folder is cleared again before new PDF files are created.
+- PDF files accumulate across runs — they are not cleared automatically.
 - Generated PDFs are ignored by git (`e2e/_results_/downloads/*.pdf`), so they are not committed.
 
 ## Docker (WIP)
@@ -216,6 +213,10 @@ Set the target environment with `TEST_ENV`. Defaults to `tst` locally and `local
 | local | `TEST_ENV=local` | `http://localhost:8050` | `http://localhost:8050` |
 | dev | `TEST_ENV=dev` | `https://fmp2-dev.aws-int.defra.cloud/` | `https://fmp2-internal-dev.aws-int.defra.cloud/` |
 | tst | `TEST_ENV=tst` | `https://fmp2-tst.aws-int.defra.cloud/` | `https://fmp2-internal-tst.aws-int.defra.cloud/` |
+| pre | `TEST_ENV=pre` | `https://fmp2-pre.aws.defra.cloud/` | `https://fmp2-internal-pre.aws-int.defra.cloud/` |
+| prd-green | `TEST_ENV=prd-green` | `https://fmp2-prd-green.aws.defra.cloud/` | `https://fmp2-internal-prd-green.aws-int.defra.cloud/` |
+| prd-blue | `TEST_ENV=prd-blue` | `https://fmp2-prd-blue.aws.defra.cloud/` | `https://fmp2-internal-prd-blue.aws-int.defra.cloud/` |
+| prod | `TEST_ENV=prod` | `https://flood-map-for-planning.service.gov.uk/` | `https://fmp-internal.prd.defra.cloud/` |
 
 ### Projects
 
@@ -274,6 +275,13 @@ npm run test:urlCheck
 # Other environments
 npm run test:tst
 npm run test:dev
+npm run test:pre
+npm run test:prd-green
+npm run test:prd-blue
+npm run test:prod
+
+# End-to-end journey test — always runs against the pre environment
+npm run test:e2e
 
 # Other browsers
 npm run test:firefox
@@ -423,7 +431,7 @@ test('interacts with the map', async ({ steps, mapSteps }) => {
 
 | Problem | Solution |
 |---------|----------|
-| `Unknown TEST_ENV "..."` | Set `TEST_ENV` to `local`, `dev`, or `tst` |
+| `Unknown TEST_ENV "..."` | Set `TEST_ENV` to one of: `local`, `dev`, `tst`, `pre`, `prd-green`, `prd-blue`, `prod` |
 | `Missing base URL config` | Check `environments.js` has `baseUrl` and `internalBaseUrl` for the chosen environment |
 | Map test timeouts | Map interactions depend on tile loading — ensure the target environment is responsive |
 | Strict mode violation | A link's text matches multiple elements — update the page object to use the full exact link text |
