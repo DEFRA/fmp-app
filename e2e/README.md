@@ -275,12 +275,13 @@ npm run test:urlCheck
 # Other environments
 npm run test:tst
 npm run test:dev
+npm run test:pre
+npm run test:prd-green
+npm run test:prd-blue
+npm run test:prod
 
-# Additional environments (run via TEST_ENV)
-TEST_ENV=pre npm run test
-TEST_ENV=prd-green npm run test
-TEST_ENV=prd-blue npm run test
-TEST_ENV=prod npm run test
+# End-to-end journey test — always runs against the pre environment
+npm run test:e2e
 
 # Other browsers
 npm run test:firefox
