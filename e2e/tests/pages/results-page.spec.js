@@ -132,7 +132,7 @@ test.describe('Results page', () => {
     })
   })
 
-  test.describe.only('PDF download checks', () => {
+  test.describe('PDF download checks', () => {
     const expectedPdfLinks = [
       'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
       'https://flood-map-for-planning.service.gov.uk/os-terms'
