@@ -1,4 +1,5 @@
 const { validateShapeFile, validateGeoJSON } = require('../validate-uploaded-shape-file')
+const maxNodes = 500
 
 describe('validateShapeFile', () => {
   it('should return no errors for a .zip file', () => {
@@ -84,5 +85,20 @@ describe('validateGeoJSON', () => {
     const result = validateGeoJSON({ features: [] })
     expect(result).toHaveLength(1)
     expect(result[0].text).toContain('single feature')
+  })
+
+  it('should throw if the shape file contains too many nodes', async () => {
+    const result = validateGeoJSON({
+      features: [{
+        geometry: {
+          type: 'Polygon',
+          coordinates: [Array.from({ length: maxNodes + 1 }, (_, i) => [i, i])]
+        }
+      }]
+    })
+    await expect(result).toEqual([{
+      href: '#boundary',
+      text: 'The uploaded file contains too many nodes. Maximum allowed is 500.'
+    }])
   })
 })

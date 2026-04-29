@@ -29,6 +29,15 @@ const validateGeoJSON = (geojson) => {
     })
   }
 
+  const nodeCount = geojson?.features[0]?.geometry?.coordinates[0]?.length
+  const maxNodes = 500
+  if (nodeCount > maxNodes) {
+    errorSummary.push({
+      text: 'The uploaded file contains too many nodes. Maximum allowed is 500.',
+      href: '#boundary'
+    })
+  }
+
   return errorSummary
 }
 

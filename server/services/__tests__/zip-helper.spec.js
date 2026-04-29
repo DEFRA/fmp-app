@@ -5,15 +5,16 @@ jest.mock('jszip')
 
 const mockBuffer = Buffer.from('fake zip data')
 const mockArrayBuffer = new ArrayBuffer(8)
+const maxZipSizeBytes = 1024 * 1024 // 1mb
 
 let mockZip
 
 beforeEach(() => {
   mockZip = {
     files: {
-      'shape.shp': { dir: false, _data: { uncompressedSize: 10 } },
-      'shape.prj': { dir: false, _data: { uncompressedSize: 10 } },
-      'shape.PRJ': { dir: false, _data: { uncompressedSize: 10 } }
+      'shape.shp': {},
+      'shape.prj': {},
+      'shape.PRJ': {}
     },
     remove: jest.fn(),
     generateAsync: jest.fn().mockResolvedValue(mockArrayBuffer)
@@ -47,7 +48,7 @@ describe('extractProjectionFiles', () => {
   })
 
   it('should not call remove if there are no .prj files', async () => {
-    mockZip.files = { 'shape.shp': { dir: false, _data: { uncompressedSize: 10 } } }
+    mockZip.files = { 'shape.shp': {} }
     await extractProjectionFiles(mockBuffer)
     expect(mockZip.remove).not.toHaveBeenCalled()
   })
@@ -63,24 +64,12 @@ describe('extractProjectionFiles', () => {
     await expect(extractProjectionFiles(mockBuffer)).rejects.toThrow('Invalid zip')
   })
 
-  it('should throw if the zip contains too many files', async () => {
-    mockZip.files = Object.fromEntries(
-      Array.from({ length: 11 }, (_, i) => [`file${i}.shp`, { dir: false, _data: { uncompressedSize: 1000 } }])
-    )
-    await expect(extractProjectionFiles(mockBuffer)).rejects.toThrow('too many files')
-  })
-
-  it('should throw if a file exceeds the maximum size', async () => {
-    mockZip.files = {
-      'shape.shp': { dir: false, _data: { uncompressedSize: 51 * 1024 * 1024 } }
-    }
-    await expect(extractProjectionFiles(mockBuffer)).rejects.toThrow('exceeds the maximum allowed size')
-  })
-
-  it('should not throw for a zip with valid file count and sizes', async () => {
-    mockZip.files = {
-      'shape.shp': { dir: false, _data: { uncompressedSize: 1000 } }
-    }
-    await expect(extractProjectionFiles(mockBuffer)).resolves.not.toThrow()
+  it('should return an error if the zip exceeds 1mb', async () => {
+    const largeBuffer = Buffer.alloc(maxZipSizeBytes + 1)
+    const result = await extractProjectionFiles(largeBuffer)
+    expect(result).toEqual([{
+      text: 'Zip file is too large. Maximum allowed size is 1mb.',
+      href: '#boundary'
+    }])
   })
 })
