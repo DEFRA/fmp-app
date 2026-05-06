@@ -144,6 +144,9 @@ export class FormDriver {
     if (link.type === 'headerLink') {
       return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact })
     }
+    if (link.type === 'mapLink') {
+      return this.page.getByRole('link', { name: link.text, exact })
+    }
     if (link.type === 'mainLink' || link.type === 'link') {
       return this.page.getByRole('main').getByRole('link', { name: link.text, exact })
     }
