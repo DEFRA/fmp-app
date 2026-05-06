@@ -87,3 +87,18 @@ export const annualLikelihoodOptions = [oneIn30Option, oneIn100Option, oneIn1000
 export const climateOptions = [presentDayOption, year2070To2125Option]
 export const mapFeatureOptions = [waterStorageOption, floodDefenceOption, mainRiversOption]
 export const mapStyleOptions = [outdoorMapStyleOption, darkMapStyleOption, blackAndWhiteMapStyleOption]
+
+// Locator helpers for map specs and drivers to avoid duplicated selector definitions.
+export const getMapButton = (page, elementOrText) => {
+  const name = typeof elementOrText === 'string' ? elementOrText : elementOrText.text
+  return page.getByRole('button', { name })
+}
+
+export const getMapSwitch = (page, elementOrText) => {
+  const name = typeof elementOrText === 'string' ? elementOrText : elementOrText.text
+  return page.getByRole('switch', { name })
+}
+
+export const getMapSearchInput = (page) => page.getByRole('combobox')
+export const getMapDialog = (page, name) => page.getByRole('dialog', { name })
+export const getMapViewport = (page) => page.locator('#map-viewport')

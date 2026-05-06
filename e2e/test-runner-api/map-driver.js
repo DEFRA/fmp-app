@@ -31,11 +31,11 @@ export class MapDriver extends FormDriver {
       return
     }
     if (element.type === 'menuRadioOption') {
-      await this.page.getByRole('radio', { name: element.text, exact: true }).check()
+      await this.page.getByRole('radio', { name: element.text, exact: true }).check({ force: true })
       return
     }
     if (element.type === 'menuCheckboxOption') {
-      await this.page.getByRole('checkbox', { name: element.text, exact: true }).check()
+      await this.page.getByRole('checkbox', { name: element.text, exact: true }).check({ force: true })
       return
     }
     throw new Error(`chooseMenuOption(): unsupported element type '${element.type}'`)
