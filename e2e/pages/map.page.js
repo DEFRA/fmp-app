@@ -60,10 +60,10 @@ export const mapSearchResult = (text) => ({
 
 // Helper to perform a full search + select
 // Note: click() and fill() need to be imported from Playwright page object
-export async function searchAndSelectLocation (page, locationName) {
-  await page.click(mapSearchButton)
-  await page.fill(mapSearchInput, locationName)
-  await page.click(mapSearchResult(locationName))
+export async function searchAndSelectLocation (pwPage, locationName) {
+  await pwPage.click(mapSearchButton)
+  await pwPage.fill(mapSearchInput, locationName)
+  await pwPage.click(mapSearchResult(locationName))
 }
 
 export const mapStyleMenuButton = mapMenuButton('Choose map style')
@@ -89,16 +89,16 @@ export const mapFeatureOptions = [waterStorageOption, floodDefenceOption, mainRi
 export const mapStyleOptions = [outdoorMapStyleOption, darkMapStyleOption, blackAndWhiteMapStyleOption]
 
 // Locator helpers for map specs and drivers to avoid duplicated selector definitions.
-export const getMapButton = (page, elementOrText) => {
+export const getMapButton = (pwPage, elementOrText) => {
   const name = typeof elementOrText === 'string' ? elementOrText : elementOrText.text
-  return page.getByRole('button', { name })
+  return pwPage.getByRole('button', { name })
 }
 
-export const getMapSwitch = (page, elementOrText) => {
+export const getMapSwitch = (pwPage, elementOrText) => {
   const name = typeof elementOrText === 'string' ? elementOrText : elementOrText.text
-  return page.getByRole('switch', { name })
+  return pwPage.getByRole('switch', { name })
 }
 
-export const getMapSearchInput = (page) => page.getByRole('combobox')
-export const getMapDialog = (page, name) => page.getByRole('dialog', { name })
-export const getMapViewport = (page) => page.locator('#map-viewport')
+export const getMapSearchInput = (pwPage) => pwPage.getByRole('combobox')
+export const getMapDialog = (pwPage, name) => pwPage.getByRole('dialog', { name })
+export const getMapViewport = (pwPage) => pwPage.locator('#map-viewport')
