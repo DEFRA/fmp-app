@@ -16,6 +16,9 @@ const configBuilder = (exclusions, arcGisPackagePath, floodMapPath, floodMapScss
       path.join(__dirname, 'client/js/check-your-details/index.js'),
       path.join(__dirname, 'client/sass/check-your-details/index.scss')
     ],
+    'upload-shape-file': [
+      path.join(__dirname, 'client/js/upload-shape-file/upload-shape-file-client.js'),
+    ],
     core: [
       path.join(__dirname, 'client/js/core.js')
     ],
