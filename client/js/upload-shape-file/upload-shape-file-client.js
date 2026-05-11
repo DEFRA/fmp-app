@@ -1,5 +1,6 @@
 import JSZip from 'jszip'
 import shp from 'shpjs'
+import { encodePolygon } from '../../../server/services/shape-utils.js'
 import {
   validateFileExtension,
   validateFileSize,
@@ -75,5 +76,6 @@ document.getElementById('upload').addEventListener('click', async () => {
     showError('Coordinates must be in British National Grid (BNG) format.')
     return
   }
-  window.location.href = `/map?polygon=${JSON.stringify(polygon)}`
+  const encodedPolygon = encodePolygon(polygon)
+  window.location.href = `/map?encodedPolygon=${encodedPolygon}`
 })

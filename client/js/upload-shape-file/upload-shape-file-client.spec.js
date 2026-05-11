@@ -13,6 +13,7 @@ const {
   maxNodes,
   maxFiles
 } = require('./upload-shape-file-validators.js')
+const { encodePolygon } = require('../../../server/services/shape-utils.js')
 
 describe('validateFileExtension', () => {
   it('should return true for a .zip file', () => {
@@ -144,6 +145,29 @@ describe('isValidBNG', () => {
 
   it('should return false for negative coordinates', () => {
     expect(isValidBNG([[-1, 180000]])).toBe(false)
+  })
+})
+
+describe('encodePolygon', () => {
+  it('should encode a polygon array to a polyline string', () => {
+    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
+    const encoded = encodePolygon(polygon)
+    expect(typeof encoded).toBe('string')
+    expect(encoded.length).toBeGreaterThan(0)
+  })
+
+  it('should encode a polygon passed as a JSON string', () => {
+    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
+    const encoded = encodePolygon(JSON.stringify(polygon))
+    expect(typeof encoded).toBe('string')
+    expect(encoded.length).toBeGreaterThan(0)
+  })
+
+  it('should produce consistent output for array and string input', () => {
+    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
+    const fromArray = encodePolygon(polygon)
+    const fromString = encodePolygon(JSON.stringify(polygon))
+    expect(fromArray).toBe(fromString)
   })
 })
 
