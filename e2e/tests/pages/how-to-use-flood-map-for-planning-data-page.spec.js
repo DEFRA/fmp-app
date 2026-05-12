@@ -38,9 +38,11 @@ test.describe('How to use flood map for planning data page - external links', { 
     await steps.expectUrlContains('strategic-flood-risk-assessment')
   })
 
+  /* No longer in use - Retained for reference
   test('confirms the Suitability of datasets for development planning (PDF)  link is present and reachable', { tag: '@noDeps' }, async ({ steps }) => {
     await steps.expectLinkTargetReachable(pages.howToUseFloodMapForPlanningData.prepareFloodRiskAssessmentLink)
   })
+  */
 
   test('navigates to National Planning Policy Framework when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalPlanningPolicyFrameworkLink)
@@ -70,6 +72,16 @@ test.describe('How to use flood map for planning data page - external links', { 
   test('navigates to flood risk assessments climate change allowances guidance. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.climateChangeAllowancesGuidanceLink)
     await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
+  })
+
+  test('navigates to Find out more about using peak rainfall intensity allowances to assess surface water flood risk. when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.peakRainfallIntensityAllowancesLink)
+    await steps.expectUrlContains('peak-rainfall-intensity-allowances')
+  })
+
+  test('navigates to hydrology data explorer when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.hydrologyDataExplorerLink)
+    await steps.expectUrlContains('climate-change-allowances/rainfall')
   })
 
   test('navigates to More information on when to use other climate change allowances. when clicking the link', async ({ steps }) => {
