@@ -88,4 +88,30 @@ test.describe('How to use flood map for planning data page - external links', { 
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.otherClimateChangeAllowancesLink)
     await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
   })
+
+  test('navigates to data services platform (DSP) when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dataServicesPlatformLink)
+    await steps.expectUrlContains('environment.data.gov.uk')
+  })
+
+  test('navigates to DSP flood zones when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspFloodZonesLink)
+    await steps.expectUrlContains('04532375-a198-476e-985e-0579a0a11b47')
+  })
+
+  test('navigates to DSP flood zones plus climate change when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspFloodZonesPlusClimateChangeLink)
+    await steps.expectUrlContains('59065c43-257e-4867-8798-fd2366156a6b')
+  })
+
+  test('navigates to DSP water storage areas when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspWaterStorageAreasLink)
+    await steps.expectUrlContains('86ca7c80-d465-11e4-afe1-f0def148f590')
+  })
+  /* To be added when the surface water dataset is available on the DSP
+  test('navigates to surface water when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterLink)
+    await steps.expectUrlContains('environment.data.gov.uk/datasets/surface-water')
+  })
+  */
 })
