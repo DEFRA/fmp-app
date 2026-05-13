@@ -13,11 +13,20 @@ export const termsAndConditionsLink = link('terms and conditions')
 
 // External links
 export const prepareStrategicFloodRiskAssessmentLink = link('prepare a strategic flood risk assessment')
-export const prepareFloodRiskAssessmentLink = link('suitability of datasets for development planning (PDF)')
 export const nationalPlanningPolicyFrameworkLink = link('National Planning Policy Framework')
 export const planningPracticeGuidanceLink = link('planning practice guidance')
 export const table2PlanningPracticeGuidanceLink = link('table 2 of Planning Practice Guidance')
 export const nationalFloodRiskStandingAdviceLink = link('national flood risk standing advice for local planning authorities')
 export const applyingForPlanningPermissionLink = link('flood risk assessments: applying for planning permission.')
 export const climateChangeAllowancesGuidanceLink = link('flood risk assessments climate change allowances guidance.')
+export const peakRainfallIntensityAllowancesLink = link('Find out more about using peak rainfall intensity allowances to assess surface water flood risk.')
+export const hydrologyDataExplorerLink = link('hydrology data explorer')
 export const otherClimateChangeAllowancesLink = link('More information on when to use other climate change allowances.')
+export const dataServicesPlatformLink = link('data services platform (DSP)')
+export const dspFloodZonesLink = link('flood zones')
+export const dspFloodZonesPlusClimateChangeLink = link('flood zones plus climate change')
+export const dspWaterStorageAreasLink = link('water storage areas')
+// To be added when the surface water dataset is available on the DSP
+export const dspSurfaceWaterLink = link('surface water')
+// No longer in use - Retained for reference
+export const prepareFloodRiskAssessmentLink = link('suitability of datasets for development planning (PDF)')

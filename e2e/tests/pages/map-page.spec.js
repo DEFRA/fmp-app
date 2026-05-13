@@ -22,18 +22,31 @@ test.describe('Map page', () => {
     await container.getByRole('button', { name: closePanelButtonName, exact: true }).click()
   }
 
-  const expectMapLayersUpdate = async (page, mapSteps, options) => {
+  const expectMapLayersUpdate = async (page, mapSteps, options, { expectKeyPanelUpdate = true } = {}) => {
     const viewport = pages.map.getMapViewport(page)
+    const keyDialog = pages.map.getMapDialog(page, 'Key')
     await expectVisibleByRole(page, 'radio', options)
     await mapSteps.chooseMenuOption(options[0])
     let before = await viewport.screenshot()
+    let keyBefore = expectKeyPanelUpdate ? await keyDialog.screenshot() : null
     for (const option of options.slice(1)) {
       await mapSteps.chooseMenuOption(option)
       await expect.poll(async () => {
         const after = await viewport.screenshot()
         return Buffer.compare(before, after) !== 0
       }, { timeout: 7000, intervals: [200, 400, 800] }).toBe(true)
+
+      if (expectKeyPanelUpdate) {
+        await expect.poll(async () => {
+          const keyAfter = await keyDialog.screenshot()
+          return Buffer.compare(keyBefore, keyAfter) !== 0
+        }, { timeout: 7000, intervals: [200, 400, 800] }).toBe(true)
+      }
+
       before = await viewport.screenshot()
+      if (expectKeyPanelUpdate) {
+        keyBefore = await keyDialog.screenshot()
+      }
     }
   }
 
@@ -67,7 +80,7 @@ test.describe('Map page', () => {
     }
   })
 
-  // Verifies dataset options are visible and selecting each one updates the rendered map layer.
+  // Verifies dataset options are visible and selecting each one updates the rendered map layer and Key panel.
   test('shows dataset options and updates map layers when selected', async ({ mapSteps, page }) => {
     await mapSteps.expandMenuSection(pages.map.datasetsMenuSection)
     await expectMapLayersUpdate(page, mapSteps, pages.map.datasetOptions)
@@ -79,16 +92,24 @@ test.describe('Map page', () => {
       await mapSteps.chooseMenuOption(pages.map.surfaceWaterOption)
     })
 
-    // Verifies selecting Surface water swaps Climate change for Annual likelihood of flood menu, options are visible, and each updates the rendered map layer.
-    test('shows annual likelihood options and updates map layers when selected', async ({ mapSteps, page }) => {
-      await expect(page.getByRole('button', { name: /Climate change/i })).toBeHidden()
+    // Verifies Surface water menus are visible, options are visible, each updates the rendered map layer, and depth options also update the Key panel.
+    test('shows surface water menu options and updates map layers when selected', async ({ mapSteps, page }) => {
+      await expect(page.getByRole('button', { name: /Climate change/i })).toBeVisible()
       await expect(page.getByRole('button', { name: /Annual likelihood of flood/i })).toBeVisible()
+      await expect(page.getByRole('button', { name: /Depth in millimetres/i })).toBeVisible()
+
+      await mapSteps.expandMenuSection(pages.map.climateMenuSectionSW)
+      await expectMapLayersUpdate(page, mapSteps, pages.map.climateOptionsSW, { expectKeyPanelUpdate: false })
+
       await mapSteps.expandMenuSection(pages.map.annualLikelihoodMenuSection)
-      await expectMapLayersUpdate(page, mapSteps, pages.map.annualLikelihoodOptions)
+      await expectMapLayersUpdate(page, mapSteps, pages.map.annualLikelihoodOptions, { expectKeyPanelUpdate: false })
+
+      await mapSteps.expandMenuSection(pages.map.surfaceWaterDepthMenuSection)
+      await expectMapLayersUpdate(page, mapSteps, pages.map.surfaceWaterDepthOptions)
     })
   })
 
-  // Verifies climate change options are visible and selecting each one updates the rendered map layer.
+  // Verifies climate change options are visible and selecting each one updates the rendered map layer and Key panel.
   test('shows climate change options and updates map layers when selected', async ({ mapSteps, page }) => {
     await mapSteps.expandMenuSection(pages.map.climateMenuSection)
     await expectMapLayersUpdate(page, mapSteps, pages.map.climateOptions)

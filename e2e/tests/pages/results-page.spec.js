@@ -67,12 +67,10 @@ test.describe('Results page', () => {
       await steps.expectUrlContains('flood-risk-and-coastal-change#para41')
     })
 
-    /* Climate change allowances link is shown only when SW goes into the app.
     test('navigates to climate change allowances page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.results.findOutMoreAboutClimateChangeAllowancesLink)
       await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
     })
-    */
 
     test('navigates to products page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.results.findOutWhatProductsAreAvailableLink)
