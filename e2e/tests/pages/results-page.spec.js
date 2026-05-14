@@ -137,9 +137,9 @@ test.describe('Results page', () => {
     ]
 
     const pdfScenarios = [
-      { label: 'flood zone 1', floodZone: '1', polygon: floodZonedata.FZ1_With_RandS },
-      { label: 'flood zone 2', floodZone: '2', polygon: floodZonedata.FZ2_With_RandS },
-      { label: 'flood zone 3', floodZone: '3', polygon: floodZonedata.FZ3_With_SW_and_RandS }
+      { label: 'flood zone 1', floodZone: '1', polygon: floodZonedata.FZ1_With_No_Flooding },
+      { label: 'flood zone 2', floodZone: '2', polygon: floodZonedata.FZ2_With_R },
+      { label: 'flood zone 3', floodZone: '3', polygon: floodZonedata.FZ3_With_SW_and_R }
     ]
 
     for (const { label, floodZone, polygon } of pdfScenarios) {
@@ -161,7 +161,7 @@ test.describe('Results page', () => {
     }
 
     test('defaults to unspecified reference when none provided', async ({ steps, pdfDriver }) => {
-      const polygon = floodZonedata.FZ1_With_RandS
+      const polygon = floodZonedata.FZ1_With_No_Flooding
       const scale = '2500'
 
       await steps.open({ ...pages.results.pageWithZone('1'), slug: slug(polygon) })
