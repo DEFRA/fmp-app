@@ -79,7 +79,31 @@ test.describe('Results page', () => {
   })
 
   test.describe('Conditional content checks', () => {
-    // The following tests validate the presence of the order flood risk data link based size of polygon and whether the area is opted-in or opted-out.
+    // The following tests validate Flood Zone 1 behaviours dependant on the size of the area.
+    test('shows order flood risk data link when in Flood Zone 1 and area is less than 1 hectare', async ({ steps }) => {
+      const polygon = floodZonedata.FZ1_With_SW_and_Area_LT_1Hectare
+      await steps.open({
+        ...pages.results.pageWithZone('1'),
+        slug: slug(polygon)
+      })
+      await steps.expectText('Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where')
+      await steps.expectTextNotExists('Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA)')
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    test('shows order flood risk data link when in Flood Zone 1 and area is greater than 1 hectare', async ({ steps }) => {
+      const polygon = floodZonedata.FZ1_With_SW_and_S
+      await steps.open({
+        ...pages.results.pageWithZone('1'),
+        slug: slug(polygon)
+      })
+      await steps.expectText('Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
+      await steps.expectText('Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).')
+      await steps.expectTextNotExists('Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where')
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    // The following tests validate the presence of the order flood risk data link, based on size of polygon, whether the area is opted-in or opted-out, border areas and area team no jurisdiction areas.
     test('has link to order flood risk data when in an opted-in area under 300 hectares', async ({ steps }) => {
       const polygon = floodZonedata.polygon300
       await steps.open({
@@ -127,6 +151,34 @@ test.describe('Results page', () => {
       })
       await steps.expectOn(pages.results.pageWithZone('1'))
       await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    test('has link to order flood risk data when in an area which is on the England-Wales border', async ({ steps }) => {
+      const polygon = floodZonedata.England_Wales_Border
+      await steps.open({
+        ...pages.results.pageWithZone('3'),
+        slug: slug(polygon)
+      })
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    test('has link to order flood risk data when in an area which is on the England-Scotland border', async ({ steps }) => {
+      const polygon = floodZonedata.England_Scotland_Border
+      await steps.open({
+        ...pages.results.pageWithZone('1'),
+        slug: slug(polygon)
+      })
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    test('does not show order flood risk data link and confirms messaging when in an area which is not under an area teams jurisdiction', async ({ steps }) => {
+      const polygon = floodZonedata.area_Team_NoJurisdiction
+      await steps.open({
+        ...pages.results.pageWithZone('3'),
+        slug: slug(polygon)
+      })
+      await steps.expectText('We cannot identify the correct Environment Agency team for your location.')
+      await steps.expectLinkNotExists(pages.results.orderFloodRiskDataButton)
     })
   })
 

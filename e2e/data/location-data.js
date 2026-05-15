@@ -79,12 +79,12 @@ export const floodZonedata = {
   // Polygon 300.01 hectares in size for Flood zone 3 with rivers and surface water flooding
   polygon300_01: '[[569264.26,235805.29],[570996.34,235805.29],[570996.34,234073.21],[569264.26,234073.21],[569264.26,235805.29]]',
 
-  // Polygon which is not under an area teams jurisdiction
+  // Polygon which is not under an area teams jurisdiction Flood zone 3
   area_Team_NoJurisdiction: '[[497260.09,423202.36], [497737.82,423202.36], [497737.82,422724.63], [497260.09,422724.63], [497260.09,423202.36]]',
 
-  // Polygon which is on the England-Wales border
+  // Polygon which is on the England-Wales border Flood Zone 3
   England_Wales_Border: '[[322634.00346,299374.85148],[323341.83397,299308.86728],[323215.86414,298918.96064],[322520.03075,299062.92617],[322634.00346,299374.85148]]',
 
-  // Polygon which is on the England-Scotland border
+  // Polygon which is on the England-Scotland border Flood zone 1
   England_Scotland_Border: '[[397018.13781,657457.86591],[397992.82671,656695.2514],[397691.5313,656685.04864],[396390.77776,657140.55168],[397018.13781,657457.86591]]'
 }

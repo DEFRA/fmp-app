@@ -95,6 +95,10 @@ export class FormDriver {
     await expect(this.page.getByRole('main')).toContainText(text)
   }
 
+  async expectTextNotExists (text) {
+    await expect(this.page.getByRole('main')).not.toContainText(text)
+  }
+
   async expectErrorText (element) {
     await expect(this.page.getByRole('alert')).toBeVisible()
     await expect(this.page.getByRole('alert')).toContainText(element.text)
