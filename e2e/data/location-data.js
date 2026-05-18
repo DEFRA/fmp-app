@@ -43,14 +43,14 @@ export const floodZonedata = {
   // Polygon for Flood zone 1 with area less than 1 hectare with only surface water flooding
   FZ1_With_SW_and_Area_LT_1Hectare: '[[435729.91,113895.2],[435894.42,113895.79],[435892.95,113837.71],[435729.91,113839.17],[435729.91,113895.2]]',
 
-  // Polygon for Flood zone 1 with no flooding
-  FZ1_With_No_Flooding: '[[435562,114890],[435562,114891],[435563,114890],[435562,114890]]',
-
   // Polygon for Flood zone 1 with sea and surface water flooding
   FZ1_With_SW_and_S: '[[435502.78,114950.22],[435622.22,114950.22],[435622.22,114830.78],[435502.78,114830.78],[435502.78,114950.22]]',
 
   // Polygon for Flood zone 1 with rivers and surface water flooding
   FZ1_With_SW_and_R: '[[450010.01,207277.26],[450053.16,207251.71],[450027.88,207243.48],[450002.23,207235.93],[450010.01,207277.26]]',
+
+  // Polygon for Flood zone 1 with climate change data unavailable and surface water flooding
+  FZ1_With_CC_Unavailable_and_SW: '[[386041.08,349631.23],[386041.9,349504.58],[385892.89,349525.15],[386041.08,349631.23]]',
 
   // Polygon for Flood zone 2 with only rivers flooding
   FZ2_With_R: '[[435967.95,114037.32],[436036.62,114037.32],[436036.62,113968.65],[435967.95,113968.65],[435967.95,114037.32]]',
@@ -61,7 +61,7 @@ export const floodZonedata = {
   // Polygon for Flood zone 2 with rivers and surface water flooding
   FZ2_With_SW_and_R: '[[435892.17,114089.28],[436013.1,114089.28],[436013.1,113968.35],[435892.17,113968.35],[435892.17,114089.28]]',
 
-  // Polygon for Flood zone 2 with sea, surface water and rivers flooding
+  // Polygon for Flood zone 2 with sea, rivers and surface water flooding
   FZ2_With_SW_and_S_and_R: '[[621177.41,230258.41],[621212.94,230262.29],[621176.64,230244.11],[621177.41,230258.41]]',
 
   // Polygon for Flood zone 3 with only rivers flooding
@@ -73,7 +73,7 @@ export const floodZonedata = {
   // Polygon for Flood zone 3 with rivers, sea and surface water flooding
   FZ3_With_SW_and_S: '[[440068.48,557500.73],[440231.71,557448.26],[440145.26,557288.92],[440068.48,557500.73]]',
 
-  // Polygon 300 hectares in size for Flood zone 3 with rivers,sea and surface water flooding
+  // Polygon 300 hectares in size for Flood zone 3 with rivers, sea and surface water flooding
   polygon300: '[[536202.02,275604.53],[537934.07,275604.53],[537934.07,273872.48],[536202.02,273872.48],[536202.02,275604.53]]',
 
   // Polygon 300.01 hectares in size for Flood zone 3 with rivers and surface water flooding
