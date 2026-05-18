@@ -25,7 +25,7 @@ test.describe('Results page', () => {
         slug: slug(polygon)
       })
     })
-
+    // The following tests validate that internal links can be reached.
     test('navigates to the Flood zones and what they mean page when clicking the link', async ({ steps }) => {
       await steps.clickLink(pages.results.findOutMoreAboutFloodZonesLink)
       await steps.expectOn(pages.floodZoneResultsExplained.page)
@@ -103,7 +103,28 @@ test.describe('Results page', () => {
       await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
     })
 
-    // The following tests validate the presence of the order flood risk data link, based on size of polygon, whether the area is opted-in or opted-out, border areas and area team no jurisdiction areas.
+    // The following tests validate Flood Zone 2 and 3 content.
+    test('shows order flood risk data link when in Flood Zone 2', async ({ steps }) => {
+      const polygon = floodZonedata.FZ2_With_SW_and_S_and_R
+      await steps.open({
+        ...pages.results.pageWithZone('2'),
+        slug: slug(polygon)
+      })
+      await steps.expectText('Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    test('shows order flood risk data link when in Flood Zone 3', async ({ steps }) => {
+      const polygon = floodZonedata.FZ3_With_SW_and_R
+      await steps.open({
+        ...pages.results.pageWithZone('3'),
+        slug: slug(polygon)
+      })
+      await steps.expectText('Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.')
+      await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
+    })
+
+    // The following tests validate the presence of the order flood risk data link, based on the size of the polygon or whether the area is opted-in or opted-out.
     test('has link to order flood risk data when in an opted-in area under 300 hectares', async ({ steps }) => {
       const polygon = floodZonedata.polygon300
       await steps.open({
@@ -153,6 +174,7 @@ test.describe('Results page', () => {
       await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
     })
 
+    // The following tests validate the presence of the order flood risk data link for edge case border areas and areas outside of area team jurisdiction.
     test('has link to order flood risk data when in an area which is on the England-Wales border', async ({ steps }) => {
       const polygon = floodZonedata.England_Wales_Border
       await steps.open({
@@ -182,6 +204,7 @@ test.describe('Results page', () => {
     })
   })
 
+  // The following tests exercise the P1 PDF download functionality.
   test.describe('PDF download checks', () => {
     const expectedPdfLinks = [
       'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
