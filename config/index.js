@@ -102,6 +102,18 @@ const config = {
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl
+  },
+  cookie: {
+    name: 'fmp_cookie_policy',
+    policy: {
+      clearInvalid: true,
+      encoding: 'base64json',
+      isSameSite: 'Lax',
+      isSecure: process.env.siteUrl ? process.env.siteUrl.startsWith('https') : false
+    },
+    config: {
+      ttl: 1000 * 60 * 60 * 24 * 365
+    }
   }
 }
 

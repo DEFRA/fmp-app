@@ -1,58 +1,83 @@
-{% set acceptHtml %}
-  <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+{% from "cookie-banner/macro.njk" import govukCookieBanner %}
+
+{% set questionHtml %}
+  <p class="govuk-body">We use some essential cookies to make this service work.</p>
+  <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
 {% endset %}
 
-{% set rejectHtml %}
-  <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+{% set acceptedHtml %}
+  <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
 {% endset %}
 
-{{- govukCookieBanner({
-  ariaLabel: "Cookies on Flood Map For Planning",    
-  classes: "js-cookies-banner govuk-!-display-none",
-  messages: [
-    {
-      headingText: "Cookies on Flood Map For Planning",
-      text: "We use analytics cookies to help understand how users use our service.",
-      hidden:true,
-      actions: [
-        {
-          text: "Accept analytics cookies",
-          type: "button",
-          classes: "js-cookies-button-accept"
-        },
-        {
-          text: "Reject analytics cookies",
-          type: "button",
-          classes: "js-cookies-button-reject"
-        },
-        {
-          text: "View cookie preferences",
-          href: "cookies"
-        }
-      ],
-      classes: "js-question-banner"
+{% set rejectedHtml %}
+  <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
+{% endset %}
+
+<form action="/cookies" method="post" novalidate>
+  <input type="hidden" name="crumb" value="{{ crumb }}">
+  <input type="hidden" name="async" value="false">
+  <input type="hidden" name="returnUrl" value="{{ currentPath }}">
+
+  {{ govukCookieBanner({
+    ariaLabel: "Cookies on " + serviceName,
+    classes: "js-cookies-container js-cookies-banner",
+    attributes: {
+      "data-crumb": crumb,
+      "data-gtm-key": googleTagManagerKey,
+      "data-nosnippet": ""
     },
-    {
-      html: acceptHtml,
-      role: "alert",
-      hidden: true,
-      actions: [
-        {
-          text: "Hide cookie message"
-        }
-      ],
-      classes: "js-cookies-accepted"
-    },
-    {
-      html: rejectHtml,
-      role: "alert",
-      hidden: true,
-      actions: [
-        {
-          text: "Hide cookie message"
-        }
-      ],
-      classes: "js-cookies-rejected"
-    }
-  ]
-}) -}}
+    messages: [
+      {
+        headingText: "Cookies on " + serviceName,
+        html: questionHtml,
+        classes: "js-question-banner",
+        actions: [
+          {
+            text: "Accept analytics cookies",
+            type: "submit",
+            name: "analytics",
+            value: "true",
+            classes: "js-cookies-button-accept"
+          },
+          {
+            text: "Reject analytics cookies",
+            type: "submit",
+            name: "analytics",
+            value: "false",
+            classes: "js-cookies-button-reject"
+          },
+          {
+            text: "View cookies",
+            href: "/cookies"
+          }
+        ]
+      },
+      {
+        html: acceptedHtml,
+        role: "alert",
+        hidden: true,
+        classes: "js-cookies-accepted",
+        actions: [
+          {
+            text: "Hide this message",
+            type: "button",
+            classes: "js-hide"
+          }
+        ]
+      },
+      {
+        html: rejectedHtml,
+        role: "alert",
+        hidden: true,
+        classes: "js-cookies-rejected",
+        actions: [
+          {
+            text: "Hide this message",
+            type: "button",
+            classes: "js-hide"
+          }
+        ]
+      }
+    ]
+  }) }}
+</form>

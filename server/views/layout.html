@@ -37,7 +37,14 @@
 {% endblock %}
 
 {%block bodyStart%}
-  {% include "partials/cookie-banner.html" %}
+  {% if not cookiesPolicy.confirmed %}
+    {% include "partials/cookie-banner.html" %}
+  {% endif %}
+
+  {% if cookiesPolicy.analytics %}
+    {% include "partials/google-tag-manager-head.html" %}
+    {% include "partials/google-tag-manager-body.html" %}
+  {% endif %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -57,35 +64,10 @@
 {% endblock %} 
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="{{ assetPath }}/core.js"></script>
   <script type="module">
     import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
     initAll()
-  </script>
-  <script type="text/javascript">
-    const analyticsAccount = '{{analyticsAccount}}'
-    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
-
-    if (analyticsAccount && analyticsAccepted) {
-      const script = document.createElement('script')
-      script.src = `https://www.googletagmanager.com/gtm.js?id=${analyticsAccount}`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        function gtag () { window.dataLayer.push(arguments) }
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-          ad_user_data: 'granted',
-          analytics_storage: 'granted'
-        })
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-      }
-      document.body.appendChild(script)
-    }
   </script>
 {% endblock %}
 

@@ -7,6 +7,9 @@ async function createServer () {
   // Create the hapi server
   const server = hapi.server({
     port: config.server.port,
+    state: {
+      strictHeader: false
+    },
     routes: {
       validate: {
         options: {
@@ -44,6 +47,8 @@ async function createServer () {
   await server.register(require('@hapi/inert'))
   await server.register(require('@hapi/h2o2'))
   await server.register(require('./plugins/views'))
+  await server.register(require('./plugins/crumb'))
+  await server.register(require('./plugins/cookies'))
   await server.register(require('./plugins/router'))
   await server.register(require('./plugins/error-pages'))
   await server.register(require('blipp'))
