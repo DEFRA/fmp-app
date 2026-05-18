@@ -27,6 +27,7 @@ const getFloodZones = async (options) => {
     case mockPolygons.fz2_and_3:
     case mockPolygons.inRiskAdmin.fz2_and_3:
     case mockPolygons.fz3_high:
+    case mockPolygons.outsideAreaTeam:
       return { floodZone: '3', floodzone_2: true, floodzone_3: true, hasRiversSource: true, hasSeaSource: false, floodZoneLevel: 'high' }
     default: {
       throw new Error(`Error - No Polygon Mocked - ${JSON.stringify(options.polygon)}`)

@@ -54,12 +54,15 @@ module.exports = [
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
-
         // Check if p4Request is duplicate
         if (!request.state?.p4Request?.[polygon]) {
           // Send details to function app
           const plotSize = getAreaInHectares(polygon)
           const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+          if (config.appType === 'internal' && (psoResults.EmailAddress === '' || psoResults.AreaName === '')) {
+            psoResults.EmailAddress = psoResults.EmailAddress || recipientemail
+            psoResults.AreaName = psoResults.AreaName || 'Unknown'
+          }
           const data = JSON.stringify({
             requestType: config.appType,
             name: fullName,

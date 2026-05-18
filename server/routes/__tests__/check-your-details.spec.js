@@ -170,6 +170,34 @@ describe('Check your details page', () => {
         }
       })
     })
+    it('should use recipientemail and unknown as as area email/name outside of area team', async () => {
+      const payload = {
+        recipientemail: user.email,
+        fullName: user.fullName,
+        polygon: mockPolygons.outsideAreaTeam
+      }
+
+      const options = { url, payload }
+      await submitPostRequest(options)
+
+      expect(wreck.post).toHaveBeenCalledTimes(1)
+      const expectedPayload = JSON.stringify({
+        requestType: 'internal',
+        name: user.fullName,
+        customerEmail: user.email,
+        x: 923.5,
+        y: 923.5,
+        polygon: `[${mockPolygons.outsideAreaTeam}]`,
+        floodZone: '3',
+        plotSize: '0',
+        areaName: 'Unknown',
+        psoEmailAddress: user.email,
+        llfa: 'Bath and North East Somerset',
+        postcode: 'M1 1AA'
+      })
+      expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
+    })
+
     // Sad paths
     // Wreck returns an error
     it('Sad: Wreck returns an error for p4Request', async () => {

@@ -42,6 +42,7 @@ const getContacts = async (options = {}) => {
     case mockPolygons.fz3_high:
       return optedInResponse
     case mockPolygons.fz1_only_no_la: return { ...optedInResponse, LocalAuthorities: '' }
+    case mockPolygons.outsideAreaTeam: return { ...optedOutResponse, AreaName: '', EmailAddress: '' }
     default: {
       throw new Error(`Error - No Polygon Mocked for getContacts- ${JSON.stringify(options.polygon)}`)
     }
