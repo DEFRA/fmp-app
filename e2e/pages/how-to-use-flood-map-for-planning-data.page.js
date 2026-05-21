@@ -9,6 +9,7 @@ export const page = definePage({
 export const howToUseDataLink = link('how should the data be used?')
 export const floodZonesPlusClimateChangeLink = link('what are ‘flood zones plus climate change’?')
 export const climateChangeDataUnavailableLink = link('what does ‘climate change data unavailable’ mean?')
+export const dataServicesPlatformAnchorLink = link('What is the data services platform?')
 export const termsAndConditionsLink = link('terms and conditions')
 
 // External links
