@@ -243,6 +243,7 @@ data-module="govuk-service-navigation"
         <li><a class="govuk-link" href="#howToUseTitle">how should the data be used?</a></li>
         <li><a class="govuk-link" href="#whatAreFZCCTitle">what are ‘flood zones plus climate change’?</a></li>
         <li><a class="govuk-link" href="#WhatDoesCCUnavailableMean">what does ‘climate change data unavailable’ mean?</a></li>
+        <li><a class="govuk-link" href="#WhatIsTheDataServicesPlatform">What is the data services platform?</a></li>
       </ul>
     </p>
 
@@ -282,7 +283,7 @@ data-module="govuk-service-navigation"
             <li>flood zones 2 and 3</li>
             <li>flood zones plus climate change </li>
             <li>water storage areas</li>
-            <li>surface water layers</li>
+            <li>surface water flood risk layers</li>
           </ul>
         </dd>
 
