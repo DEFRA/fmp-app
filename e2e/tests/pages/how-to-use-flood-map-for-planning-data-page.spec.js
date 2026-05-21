@@ -22,6 +22,10 @@ test.describe('How to use flood map for planning data page', { tag: '@noDeps' },
     await steps.expectLinkExists(pages.howToUseFloodMapForPlanningData.climateChangeDataUnavailableLink)
   })
 
+  test('confirms the What is the data services platform? link is present', async ({ steps }) => {
+    await steps.expectLinkExists(pages.howToUseFloodMapForPlanningData.dataServicesPlatformAnchorLink)
+  })
+
   test('navigates to the terms and conditions page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
