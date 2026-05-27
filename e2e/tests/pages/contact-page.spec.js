@@ -6,7 +6,7 @@ import { invalidEmails } from '../../data/validation-data/invalid-contact-data.j
 
 test.describe('Contact page', () => {
   test.beforeEach(async ({ steps }) => {
-    await steps.open({ ...pages.contact.page, slug: `/contact?encodedPolygon=${encodeURIComponent(areaData.Yorkshire.polygon)}` })
+    await steps.open({ ...pages.contact.page, slug: pages.contact.slug(areaData.Yorkshire.polygon) })
   })
 
   test('navigates to check your details page after entering valid contact details and submitting', async ({ steps }) => {

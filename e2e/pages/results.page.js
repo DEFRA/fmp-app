@@ -7,6 +7,13 @@ export const pageWithZone = (floodZone) => definePage({
   title: titleForZone(floodZone)
 })
 
+// URL helper
+export const slug = (polygon) => `/results?encodedPolygon=${encodeURIComponent(polygon)}`
+export const pageForPolygon = (floodZone, polygon) => ({
+  ...pageWithZone(floodZone),
+  slug: slug(polygon)
+})
+
 // P1 Map Controls
 export const addReferenceToFloodMapDetails = details('Add a reference to the flood map and set the scale')
 export const addReferenceInput = textInput('Add a reference')
@@ -35,3 +42,42 @@ export const residualRiskLink = link('residual risk')
 // Climate change allowances link will only be shown when SW goes into the app
 export const findOutMoreAboutClimateChangeAllowancesLink = link('Find out more about climate change allowances')
 export const findOutWhatProductsAreAvailableLink = link('Find out what products are available')
+
+// Conditional page content
+export const fraRequiredText =
+  'Based on our flood risk data, you need to carry out a flood risk assessment (FRA) as part of the planning application for this development.'
+export const fz1LessThan1HaText =
+  'Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where'
+export const fz1MoreThan1HaText =
+  'Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).'
+export const allFraTexts = [fraRequiredText, fz1LessThan1HaText, fz1MoreThan1HaText]
+export const noJurisdictionText = 'We cannot identify the correct Environment Agency team for your location.'
+
+// Surface water probability messaging
+export const sw1in1000PdAnd2061to2125Text =
+  'Between 2061 and 2125 the chance of surface water flooding at this location could be 0.1% (1 in 1000) each year.'
+export const sw1in1000PdText =
+  'The chance of surface water flooding at this location could be more than 0.1% (1 in 1000) each year.'
+export const sw1in100PdAnd2061to2125Text =
+  'Between 2061 and 2125 the chance of surface water flooding at this location could be 1% (1 in 100) each year.'
+export const sw1in100PdText =
+  'The chance of surface water flooding at this location could be more than 1% (1 in 100) each year.'
+export const sw1in30PdAnd2061to2125Text =
+  'Between 2061 and 2125 the chance of surface water flooding at this location could be 3.3% (1 in 30) each year.'
+export const sw1in30PdText =
+  'The chance of surface water flooding at this location could be more than 3.3% (1 in 30) each year.'
+
+// Risk profiles
+export const riskIntro = 'In your proposed development site there is a risk of flooding from:'
+export const riskProfiles = {
+  surfaceWater: [riskIntro, 'surface water'],
+  fluvialAndSurfaceWater: [riskIntro, 'rivers (fluvial)', 'surface water'],
+  tidalAndSurfaceWater: [riskIntro, 'the sea (tidal)', 'surface water'],
+  fluvialTidalAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial and tidal)', 'surface water'],
+  fluvialAndTidal: [riskIntro, 'rivers and the sea (fluvial and tidal)'],
+  fluvial: [riskIntro, 'rivers (fluvial)'],
+  tidal: [riskIntro, 'the sea (tidal)'],
+  climateChange: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change'],
+  climateChangeAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change', 'surface water']
+}
+export const allRiskLines = [...new Set(Object.values(riskProfiles).flat().filter((line) => line !== riskIntro))]
