@@ -85,6 +85,15 @@ test.describe('Results page', () => {
       'Developments in flood zone 1 that are less than 1 hectare (ha) only need a flood risk assessment (FRA) where'
     const fz1MoreThan1HaText =
       'Developments in flood zone 1 that are more than 1 hectare need a flood risk assessment (FRA).'
+    const swAnnualChance = {
+      1000: '0.1% (1 in 1000)',
+      100: '1% (1 in 100)',
+      30: '3.3% (1 in 30)'
+    }
+    const swChancePdAnd2061to2125 = (annualChance) =>
+      `Between 2061 and 2125 the chance of surface water flooding at this location could be ${annualChance} each year.`
+    const swChancePd = (annualChance) =>
+      `The chance of surface water flooding at this location could be more than ${annualChance} each year.`
     const noJurisdictionText = 'We cannot identify the correct Environment Agency team for your location.'
 
     // Note, not all scenarios are currently covered.
@@ -133,6 +142,34 @@ test.describe('Results page', () => {
         assertOnlyRiskProfile: true,
         expectText: [fz1LessThan1HaText],
         expectTextNotExists: [fraRequiredText, fz1MoreThan1HaText,],
+        expectLinks: [pages.results.orderFloodRiskDataButton]
+      },
+      // The following tests validate the presence of surface water probability messaging based on the presence of surface water data and the risk profile.
+      {
+        name: 'shows surface water probability messaging for 1 in 1000 present day and 2061 to 2125 in Flood Zone 1',
+        floodZone: '1',
+        polygon: () => floodZonedata.FZ1_SW_1in1000_PD_and_2061to2125,
+        riskProfile: 1,
+        assertOnlyRiskProfile: true,
+        expectText: [swChancePdAnd2061to2125(swAnnualChance[1000]), swChancePd(swAnnualChance[1000])],
+        expectLinks: [pages.results.orderFloodRiskDataButton]
+      },
+      {
+        name: 'shows surface water probability messaging for 1 in 100 present day and 2061 to 2125 in Flood Zone 1',
+        floodZone: '1',
+        polygon: () => floodZonedata.FZ1_SW_1in100_PD_and_2061to2125,
+        riskProfile: 1,
+        assertOnlyRiskProfile: true,
+        expectText: [swChancePdAnd2061to2125(swAnnualChance[100]), swChancePd(swAnnualChance[100])],
+        expectLinks: [pages.results.orderFloodRiskDataButton]
+      },
+      {
+        name: 'shows surface water probability messaging for 1 in 30 present day and 2061 to 2125 in Flood Zone 1',
+        floodZone: '1',
+        polygon: () => floodZonedata.FZ1_SW_1in30_PD_and_2061to2125,
+        riskProfile: 1,
+        assertOnlyRiskProfile: true,
+        expectText: [swChancePdAnd2061to2125(swAnnualChance[30]), swChancePd(swAnnualChance[30])],
         expectLinks: [pages.results.orderFloodRiskDataButton]
       },
       // The following tests validate Flood Zone 2 and 3 content.
