@@ -6,6 +6,9 @@ export const page = definePage({
   title: 'Next steps for your planning application'
 })
 
+// URL helper
+export const slug = (polygon) => `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
+
 // P1 Map Controls
 export const addReferenceToFloodMapDetails = details('Add a reference to the flood map and set the scale')
 export const addReferenceInput = textInput('Add a reference')
