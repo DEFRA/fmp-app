@@ -69,15 +69,16 @@ export const sw1in30PdText =
 
 // Risk profiles
 export const riskIntro = 'In your proposed development site there is a risk of flooding from:'
+const surfaceWaterRisk = 'surface water'
 export const riskProfiles = {
-  surfaceWater: [riskIntro, 'surface water'],
-  fluvialAndSurfaceWater: [riskIntro, 'rivers (fluvial)', 'surface water'],
-  tidalAndSurfaceWater: [riskIntro, 'the sea (tidal)', 'surface water'],
-  fluvialTidalAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial and tidal)', 'surface water'],
+  surfaceWater: [riskIntro, surfaceWaterRisk],
+  fluvialAndSurfaceWater: [riskIntro, 'rivers (fluvial)', surfaceWaterRisk],
+  tidalAndSurfaceWater: [riskIntro, 'the sea (tidal)', surfaceWaterRisk],
+  fluvialTidalAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial and tidal)', surfaceWaterRisk],
   fluvialAndTidal: [riskIntro, 'rivers and the sea (fluvial and tidal)'],
   fluvial: [riskIntro, 'rivers (fluvial)'],
   tidal: [riskIntro, 'the sea (tidal)'],
   climateChange: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change'],
-  climateChangeAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change', 'surface water']
+  climateChangeAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change', surfaceWaterRisk]
 }
 export const allRiskLines = [...new Set(Object.values(riskProfiles).flat().filter((line) => line !== riskIntro))]
