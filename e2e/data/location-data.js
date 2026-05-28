@@ -79,6 +79,9 @@ export const floodZonedata = {
   // Polygon 300.01 hectares in size for Flood zone 3 with rivers and surface water flooding
   polygon300_01: '[[569264.26,235805.29],[570996.34,235805.29],[570996.34,234073.21],[569264.26,234073.21],[569264.26,235805.29]]',
 
+  // Polygon over 300 hectares in size in an opted-out area
+  polygonOver300InOptedOutArea: '[[525573.01,197020.56],[527321.52,197020.56],[527321.52,195272.04],[525573.01,195272.04],[525573.01,197020.56]]',
+
   // Polygon which is not under an area teams jurisdiction Flood zone 3
   area_Team_NoJurisdiction: '[[497260.09,423202.36], [497737.82,423202.36], [497737.82,422724.63], [497260.09,422724.63], [497260.09,423202.36]]',
 

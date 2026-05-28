@@ -97,6 +97,12 @@ test.describe('Results page - Order flood risk data availability', () => {
     await steps.expectLinkNotExists(pages.results.orderFloodRiskDataButton)
   })
 
+  test('does not show order flood risk data or edit boundary links when in an opted-out area over 300 hectares', async ({ steps }) => {
+    await steps.open(pages.results.pageForPolygon('3', floodZonedata.polygonOver300InOptedOutArea))
+    await steps.expectLinkNotExists(pages.results.orderFloodRiskDataButton)
+    await steps.expectLinkNotExists(pages.results.editBoundaryLink)
+  })
+
   test('shows order flood risk data link when in an opted-out area using internal URL', { tag: '@internal' }, async ({ steps }) => {
     await steps.open(pages.results.pageForPolygon('1', areaData.HertfordshireAndNorthLondon.polygon))
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
