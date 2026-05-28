@@ -65,12 +65,12 @@ test.describe('How to use flood map for planning data page - external links', { 
 
   test('navigates to national flood risk standing advice for local planning authorities when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalFloodRiskStandingAdviceLink)
-    await steps.expectUrlContains('flood-risk-assessment-local-planning-authorities')
+    await steps.expectUrlContains('standing-advice-for-local-planning-authorities')
   })
 
   test('navigates to flood risk assessments: applying for planning permission. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.applyingForPlanningPermissionLink)
-    await steps.expectUrlContains('flood-risk-assessment-for-planning-applications')
+    await steps.expectUrlContains('applying-for-planning-permission')
   })
 
   test('navigates to flood risk assessments climate change allowances guidance. when clicking the link', async ({ steps }) => {
