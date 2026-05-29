@@ -27,7 +27,9 @@ export const dataServicesPlatformLink = link('data services platform (DSP)')
 export const dspFloodZonesLink = link('flood zones')
 export const dspFloodZonesPlusClimateChangeLink = link('flood zones plus climate change')
 export const dspWaterStorageAreasLink = link('water storage areas')
-// To be added when the surface water dataset is available on the DSP
-export const dspSurfaceWaterLink = link('surface water')
+export const dspSurfaceWaterExtentsPresentDayLink = link('surface water extents, present day')
+export const dspSurfaceWaterExtentsWithClimateChangeLink = link('surface water extents with climate change')
+export const dspSurfaceWaterDepthsPresentDayLink = link('surface water depths, present day')
+export const dspSurfaceWaterDepthsWithClimateChangeLink = link('surface water depths with climate change')
 // No longer in use - Retained for reference
 export const prepareFloodRiskAssessmentLink = link('suitability of datasets for development planning (PDF)')
