@@ -29,7 +29,7 @@ test.describe('Next steps page', () => {
 
     test('navigates to Flood risk assessments: applying for planning permission page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.nextSteps.howToDoAnAssessmentLink)
-      await steps.expectUrlContains('for-planning-applications')
+      await steps.expectUrlContains('applying-for-planning-permission')
     })
 
     test('navigates to Reservoirs map page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
