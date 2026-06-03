@@ -5,7 +5,10 @@ import * as mapPage from '../pages/map.page.js'
 const ARIA_DISABLED = 'aria-disabled'
 const DEFAULT_ZOOM_TIMES = 3
 const POLL_TIMEOUT = 10000
-const POLL_INTERVALS = [200, 400, 800]
+const POLL_INTERVAL_SHORT = 200
+const POLL_INTERVAL_MEDIUM = 400
+const POLL_INTERVAL_LONG = 800
+const POLL_INTERVALS = [POLL_INTERVAL_SHORT, POLL_INTERVAL_MEDIUM, POLL_INTERVAL_LONG]
 
 export class MapDriver extends FormDriver {
   async waitForMapToLoad () {
