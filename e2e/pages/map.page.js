@@ -129,3 +129,16 @@ export const getMapSwitch = (pwPage, elementOrText) => {
 export const getMapSearchInput = (pwPage) => pwPage.getByRole('combobox')
 export const getMapDialog = (pwPage, name) => pwPage.getByRole('dialog', { name })
 export const getMapViewport = (pwPage) => pwPage.locator('#map-viewport')
+
+// Get section button by title (with case-insensitive regex match at start)
+export const getSectionButtonByTitle = (pwPage, title) => {
+  const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '$&')
+  const regex = new RegExp(`^${escapeRegExp(title)}`, 'i')
+  return pwPage.getByRole('button', { name: regex }).first()
+}
+
+// Get alert banner close button (locates the alert status and finds its close button)
+export const getAlertBannerCloseButton = (pwPage) => {
+  const alert = pwPage.getByRole('status').filter({ hasText: 'Click on the flood zones' }).first()
+  return alert.locator('..').getByRole('button', { name: bannerCloseButton.text, exact: true })
+}
