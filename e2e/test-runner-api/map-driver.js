@@ -3,6 +3,9 @@ import { FormDriver } from './form-driver.js'
 import * as mapPage from '../pages/map.page.js'
 
 const ARIA_DISABLED = 'aria-disabled'
+const DEFAULT_ZOOM_TIMES = 3
+const POLL_TIMEOUT = 10000
+const POLL_INTERVALS = [200, 400, 800]
 
 export class MapDriver extends FormDriver {
   async waitForMapToLoad () {
@@ -41,7 +44,7 @@ export class MapDriver extends FormDriver {
     throw new Error(`chooseMenuOption(): unsupported element type '${element.type}'`)
   }
 
-  async zoomIn (times = 3) {
+  async zoomIn (times = DEFAULT_ZOOM_TIMES) {
     for (let i = 0; i < times; i++) {
       const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
       await expect(async () => {
@@ -108,8 +111,8 @@ export class MapDriver extends FormDriver {
     await expect(kd).toBeVisible()
     await this.page.waitForLoadState('networkidle')
     await expect.poll(async () => (await this.getKeyText()).length, {
-      timeout: 10000,
-      intervals: [200, 400, 800]
+      timeout: POLL_TIMEOUT,
+      intervals: POLL_INTERVALS
     }).toBeGreaterThan(0)
   }
 
@@ -133,8 +136,8 @@ export class MapDriver extends FormDriver {
     await expect(prevRadio).not.toBeChecked()
 
     await expect.poll(() => new URL(this.page.url()).search, {
-      timeout: 10000,
-      intervals: [200, 400, 800]
+      timeout: POLL_TIMEOUT,
+      intervals: POLL_INTERVALS
     }).not.toBe(prevState.query)
 
     await this.waitForMapToSettle()
