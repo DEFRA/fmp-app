@@ -24,6 +24,12 @@ const menuItems = [{
   disabled: feature => !!feature,
   svg: '<rect width="18" height="18" x="3" y="3" rx="2"/>'
 }, {
+  id: 'upload-shape-btn',
+  label: 'Upload shape file',
+  disabled: () => false,
+  svg: '<rect width="18" height="18" x="3" y="3" rx="2"/>'
+},
+{
   id: 'edit-btn',
   label: 'Edit area',
   disabled: feature => !feature,
@@ -122,6 +128,7 @@ function addMenuClickHandlers ({ onDrawShape, onDrawFrame, onEdit, onDelete }) {
     const squareBtn = e.target.closest('#square-btn')
     const editBtn = e.target.closest('#edit-btn')
     const deleteBtn = e.target.closest('#delete-btn')
+    const uploadShapeBtn = e.target.closest('#upload-shape-btn')
 
     if (shapeBtn && isEnabled(shapeBtn)) {
       toggleButtonState([])
@@ -140,7 +147,11 @@ function addMenuClickHandlers ({ onDrawShape, onDrawFrame, onEdit, onDelete }) {
     }
     if (deleteBtn && isEnabled(deleteBtn)) {
       onDelete?.()
-      toggleButtonState(['shape', 'square'])
+      toggleButtonState(['shape', 'square', 'upload-shape'])
+    }
+    if (uploadShapeBtn && isEnabled(uploadShapeBtn)) {
+      toggleButtonState(['shape', 'square', 'upload-shape'])
+      window.location.href = '/upload'
     }
   })
 }
