@@ -8,6 +8,11 @@ async function createServer () {
   const server = hapi.server({
     port: config.server.port,
     routes: {
+      cors: {
+        origin: ['Access-Control-Allow-Origin', ['localhost:3000']],
+        headers: ['Accept', 'Content-Type'],
+        additionalHeaders: ['X-Requested-With']
+      },
       validate: {
         options: {
           abortEarly: false

@@ -22,8 +22,11 @@ const configBuilder = (exclusions, arcGisPackagePath, floodMapPath, floodMapScss
         path.join(__dirname, 'client/sass/map/index.scss')
       ],
       'check-your-details': [
-        path.join(__dirname, 'client/js/check-your-details/index.js'),
+        path.join(__dirname, 'client/js/check-your-details-client.js'),
         path.join(__dirname, 'client/sass/check-your-details/index.scss')
+      ],
+      'product-1-client': [
+        path.join(__dirname, 'client/js/product-1-client.js')
       ],
       core: [
         path.join(__dirname, 'client/js/core.js')

@@ -19,10 +19,13 @@
     </span>
   </summary>
   <div class="govuk-details__text">
-    <form class="form" id="product-1-form" method="POST" action="product-1">
-      <input name="polygon" type="hidden" value="{{ encodedPolygon }}" />
-      <input name="isRiskAdminArea" type="hidden" value="{{ floodData.isRiskAdminArea }}" />
-      <input name="floodZone" type="hidden" value="{{ floodData.floodZone }}" />
+    <!-- <form class="form" id="product-1-form" method="POST" action="product-1"> -->
+    <form class="form" id="product-1-form" method="POST" action="http://localhost:3000/forms/chromium/convert/url" enctype="multipart/form-data">
+      <!-- <input name="polygon" type="hidden" value="{{ encodedPolygon }}" /> -->
+      <!-- <input name="isRiskAdminArea" type="hidden" value="{{ floodData.isRiskAdminArea }}" /> -->
+      <!-- <input name="floodZone" type="hidden" value="{{ floodData.floodZone }}" /> -->
+      <input name="waitForSelector" type="hidden" value="#screenshot-image" />
+      <input name="url" type="hidden" value="http://localhost:3001/product-1/{{ encodedPolygon }}/{{ floodData.floodZone }}/Mark/2500" />
 
       <div class="govuk-form-group">
         <h3 class="govuk-label-wrapper">
@@ -36,8 +39,8 @@
             later and should be less than 25 characters.
           </span>
         </p>
-        <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
-          maxlength="25" aria-describedby="reference-hint" />
+        <!-- <input class="govuk-input form-control govuk-input--width-20" id="reference" name="reference" type="text"
+          maxlength="25" aria-describedby="reference-hint" /> -->
       </div>
 
       <div class="govuk-form-group">
@@ -49,16 +52,21 @@
             Select the scale of the map shown in the report
           </span>
         </p>
-        <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
+        <!-- <select class="govuk-select" id="scale" name="scale" aria-describedby="scale-hint">
           <option value="2500">1:2500</option>
           <option value="10000">1:10000</option>
           <option value="25000">1:25000</option>
           <option value="50000">1:50000</option>
-        </select>
+        </select> -->
       </div>
     </form>
   </div>
 </details>
+<p class="govuk-body">
+  <a class="govuk-link"
+    href="/product-1/{{ encodedPolygon }}/{{ floodData.floodZone }}/Mark/2500"
+    > View Product one </a>
+</p>
 <button href="#" form="product-1-form" id="product-1-button" type="submit" class="govuk-button govuk-button--secondary"
   draggable="false">
   Download flood map for this location (PDF)

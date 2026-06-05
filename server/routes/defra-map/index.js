@@ -3,10 +3,23 @@ const { getOsToken } = require('../../services/os/getOsToken')
 
 module.exports = [
   {
+    method: 'POST',
+    path: '/gotenburg',
+    options: {
+      description: 'gotenburg server proxy',
+      handler:  {
+        proxy: {
+          // TODO: add this path to the config
+          uri: 'http://localhost:3000/forms/chromium/convert/html',
+          passThrough: true
+        },
+      }
+    }
+  }, {
     method: 'GET',
     path: '/map',
     options: {
-      description: 'a POC page to display the map component',
+      description: 'display the map component page',
       handler: async (_request, h) => {
         return h.view('map')
       }

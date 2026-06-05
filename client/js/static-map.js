@@ -8,9 +8,13 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-import { getOsToken, getEsriToken } from '../map/tokens'
+import { getOsToken, getEsriToken } from './map/tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
-
+import { whenOnce } from '@arcgis/core/core/reactiveUtils.js'
+// import urlUtils from '@arcgis/core/core/urlUtils.js'
+// import urlUtils doesn't work here, urlUtils is undefined for some reason
+// but require does work, so we use that instead and let the transpiler sort things out
+const urlUtils = require('@arcgis/core/core/urlUtils.js')
 const spatialReference = 27700
 
 const buffBoundingBox = (bBox) => {
@@ -35,8 +39,8 @@ const getCentreAndExtents = (polygonArray) => {
   return { center, extent }
 }
 
-const showMap = async (polygonArray) => {
-  const { token: esriToken } = await getEsriToken()
+const showMap = async (polygonArray, useProxy = false) => {
+  const esriToken = await getEsriToken()
   esriConfig.apiKey = esriToken
   esriConfig.request.interceptors.push({
     urls: 'https://api.os.uk/maps/raster/v1/wmts',
@@ -57,7 +61,7 @@ const showMap = async (polygonArray) => {
     }
   })
 
-  const graphicsLayer = new GraphicsLayer()
+  const graphicsLayer = new GraphicsLayer({ id: 'boundary', title: 'Site Boundary' })
 
   const myMap = new Map({
     layers: [baseMapLayer, graphicsLayer]
@@ -94,7 +98,6 @@ const showMap = async (polygonArray) => {
     extent,
     ui: { components: [] }, // Removes Zoom Buttons and attribution
     navigation: {
-      mouseWheelZoomEnabled: false,
       browserTouchPanEnabled: false
     },
     constraints: {
@@ -112,32 +115,38 @@ const showMap = async (polygonArray) => {
   view.on('drag', ['Shift', 'Control'], (event) => event.stopPropagation())
   view.on('double-click', (event) => event.stopPropagation())
   view.on('double-click', ['Control'], (event) => event.stopPropagation())
-
-  // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
-  view.whenLayerView(graphicsLayer).then((lyrView) => {
-    lyrView.watch('updating', (val) => {
-      if (!val) {
-        const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
-        mapDiv.removeAttribute('tabindex')
-        mapDiv.removeAttribute('role')
-      }
-    })
-  })
+  view.on('mouse-wheel', (event) => event.stopPropagation())
 
   const scaleBar = new ScaleBar({ view, unit: 'metric', style: 'line' })
   view.ui.add(scaleBar, { position: 'bottom-left' })
   view.ui.padding.bottom = 2 // creates a small gap (rather than the default 14 px) below the scale bar.
-  return view
+
+  // FCRM-5765: DAC accessibility audit: remove tabindex and role from map div
+  return whenOnce(() => !view.updating).then(() => {
+    const mapDiv = document.getElementsByClassName('esri-view-surface')[0]
+    mapDiv.removeAttribute('tabindex')
+    mapDiv.removeAttribute('role')
+    return view
+  })
 }
 
-// Prevent 2nd p4 submission
-document.getElementsByTagName('form')[0].addEventListener('submit', () => {
-  document.querySelector('.order-product-four').disabled = true
-})
-// Re-enable submit button if user navigates back to page
-window.addEventListener('pageshow', () => {
-  document.querySelector('.order-product-four').disabled = false
-})
+export const doScreenshot = (view) => {
+  return view.takeScreenshot({ format: 'png' }).then(function (screenshot) {
+    const imageElement = document.getElementById('screenshot-image-not-ready')
+    imageElement.src = screenshot.dataUrl
+    imageElement.id = 'screenshot-image'
+    // The screenshot image does not have a scaleBar.
+    // So, we move the scaleBar out of the map and after the generated image
+    // and use css to place it
+    const scaleBarClone = document.querySelector('.esri-component.esri-scale-bar.esri-widget').cloneNode(true)
+    imageElement.after(scaleBarClone)
+    return view
+  })
+}
+
+export const convertToImage = async (view) => {
+  return whenOnce(() => !view.updating).then(() => doScreenshot(view))
+}
 
 // Add these as globals so they can be called from the html page, which will inject the polygon.
 // This approach avoids the need to import this as a module, which limits browser compatibility.
