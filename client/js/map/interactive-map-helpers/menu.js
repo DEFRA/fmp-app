@@ -151,7 +151,7 @@ function addMenuClickHandlers ({ onDrawShape, onDrawFrame, onEdit, onDelete }) {
     }
     if (uploadShapeBtn && isEnabled(uploadShapeBtn)) {
       toggleButtonState(['shape', 'square', 'upload-shape'])
-      window.location.href = '/upload'
+      globalThis.location.href = '/upload'
     }
   })
 }

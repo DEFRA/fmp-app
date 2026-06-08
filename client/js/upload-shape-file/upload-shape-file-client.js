@@ -79,5 +79,5 @@ document.getElementById('upload').addEventListener('click', async () => {
     return
   }
   const encodedPolygon = encodePolygon(polygon)
-  window.location.href = `/map?encodedPolygon=${encodedPolygon}`
+  globalThis.location.href = `/map?encodedPolygon=${encodedPolygon}`
 })
