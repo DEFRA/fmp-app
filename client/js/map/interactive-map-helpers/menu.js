@@ -25,9 +25,9 @@ const menuItems = [{
   svg: '<rect width="18" height="18" x="3" y="3" rx="2"/>'
 }, {
   id: 'upload-shape-btn',
-  label: 'Upload shape file',
+  label: 'Upload a boundary',
   disabled: () => false,
-  svg: '<rect width="18" height="18" x="3" y="3" rx="2"/>'
+  svg: '<line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="7,8 12,3 17,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="5,17 5,19 19,19 19,17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
 },
 {
   id: 'edit-btn',

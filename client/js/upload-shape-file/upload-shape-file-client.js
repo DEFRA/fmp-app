@@ -16,7 +16,7 @@ import {
 import { showError } from './upload-shape-file-dom.js'
 
 document.getElementById('upload').addEventListener('click', async () => {
-  const fileInput = document.getElementById('boundary')
+  const fileInput = document.getElementById('boundary-input')
   const file = fileInput.files[0]
   if (!file) {
     showError('Please select a file.')

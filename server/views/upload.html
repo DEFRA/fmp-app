@@ -3,31 +3,50 @@
 {% from "file-upload/macro.njk" import govukFileUpload %}
 {% from "error-summary/macro.njk" import govukErrorSummary %}
 
-{% set pageTitle = 'Upload a boundary' %}
+{% set pageTitle = 'Upload a prepared site boundary' %}
 
 {% block content %}
-<div id="errorSummary" class="govuk-error-summary" data-module="govuk-error-summary" data-govuk-error-summary-init="" style="display:none;">
-  <div role="alert">
-    <h2 class="govuk-error-summary__title">
-      There is a problem
-    </h2>
-    <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <li>
-          <p id="errorMessage"></p>
-        </li>
-      </ul>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 id="heading" class="govuk-heading-xl">{{ pageTitle }}</h1>
+    <div id="errorSummary" class="govuk-error-summary" data-module="govuk-error-summary"
+      data-govuk-error-summary-init="" style="display:none;">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <p id="errorMessage"></p>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+    {{ govukFileUpload({
+    id: "boundary",
+    name: "boundary",
+    accept: ".zip",
+    label: {
+    text: "Upload either GeoJSON (.geojson), Geopackage (.gpkg) or Shape files (.zip). Max size 50MB"
+    },
+    javascript: true
+    }) }}
+    <button id="upload" type="submit" class="govuk-button" data-module="govuk-button">Upload</button>
+
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          I don’t have a suitable boundary to upload
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        If you don’t have a boundary to upload, you can add a polygon or a square from <a href="">the map page</a>.
+      </div>
+    </details>
   </div>
 </div>
-<h1 id="heading" class="govuk-heading-xl">{{ pageTitle }}</h1>
-<div class="govuk-form-group">
-  <label class="govuk-label" for="boundary">
-    Shape files (.zip) - max size 1MB
-  </label>
-  <input class="govuk-file-upload" id="boundary" type="file" accept=".zip">
-</div>
-<button id="upload" type="submit" class="govuk-button" data-module="govuk-button">Upload</button>
 {% endblock %}
 
 {% block bodyEnd %}
