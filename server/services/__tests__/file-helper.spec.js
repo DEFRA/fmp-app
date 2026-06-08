@@ -1,29 +1,27 @@
-const multiparty = require('multiparty')
+const Busboy = require('busboy')
 const { getFile, streamToBuffer } = require('../file-helper')
 
-jest.mock('multiparty')
+jest.mock('busboy')
 
-let mockForm
-let mockPart
+let mockBusboy
+let mockFile
 
 beforeEach(() => {
-  mockPart = {
-    filename: 'test.zip',
+  mockFile = {
     [Symbol.asyncIterator]: async function * () {
       yield Buffer.from('fake zip data')
     }
   }
 
-  mockForm = {
-    on: jest.fn(),
-    parse: jest.fn()
+  mockBusboy = {
+    on: jest.fn()
   }
 
-  multiparty.Form.mockImplementation(() => mockForm)
+  Busboy.mockImplementation(() => mockBusboy)
 
-  mockForm.on.mockImplementation((event, handler) => {
-    if (event === 'part') {
-      setImmediate(() => handler(mockPart))
+  mockBusboy.on.mockImplementation((event, handler) => {
+    if (event === 'file') {
+      setImmediate(() => handler('boundary', mockFile, 'test.zip'))
     }
   })
 })
@@ -33,43 +31,43 @@ afterEach(() => {
 })
 
 describe('getFile', () => {
-  it('should resolve with the file part when a file is received', async () => {
-    const result = await getFile({ raw: { req: {} } })
-    expect(result).toBe(mockPart)
+  it('should resolve with the file stream when a file is received', async () => {
+    const result = await getFile({ raw: { req: { headers: {}, pipe: jest.fn() } } })
+    expect(result).toBe(mockFile)
   })
 
-  it('should call form.parse with the raw request', async () => {
-    const mockRawReq = {}
-    await getFile({ raw: { req: mockRawReq } })
-    expect(mockForm.parse).toHaveBeenCalledWith(mockRawReq)
+  it('should pipe the request to busboy', async () => {
+    const mockReq = { headers: {}, pipe: jest.fn() }
+    await getFile({ raw: { req: mockReq } })
+    expect(mockReq.pipe).toHaveBeenCalledWith(mockBusboy)
   })
 
-  it('should reject if a non-file part is received', async () => {
-    mockForm.on.mockImplementation((event, handler) => {
-      if (event === 'part') setImmediate(() => handler({ filename: null }))
+  it('should reject if no file is received', async () => {
+    mockBusboy.on.mockImplementation((event, handler) => {
+      if (event === 'close') setImmediate(() => handler())
     })
-    await expect(getFile({ raw: { req: {} } })).rejects.toThrow('Non file received')
+    await expect(getFile({ raw: { req: { headers: {}, pipe: jest.fn() } } })).rejects.toThrow('Non file received')
   })
 
-  it('should reject if multiparty emits an error', async () => {
-    mockForm.on.mockImplementation((event, handler) => {
-      if (event === 'error') setImmediate(() => handler(new Error('Form parse error')))
+  it('should reject if busboy emits an error', async () => {
+    mockBusboy.on.mockImplementation((event, handler) => {
+      if (event === 'error') setImmediate(() => handler(new Error('Parse error')))
     })
-    await expect(getFile({ raw: { req: {} } })).rejects.toThrow('Form parse error')
+    await expect(getFile({ raw: { req: { headers: {}, pipe: jest.fn() } } })).rejects.toThrow('Parse error')
   })
 
-  it('should preserve the original error when multiparty emits an error', async () => {
-    const originalError = new Error('Form parse error')
-    mockForm.on.mockImplementation((event, handler) => {
+  it('should preserve the original error when busboy emits an error', async () => {
+    const originalError = new Error('Parse error')
+    mockBusboy.on.mockImplementation((event, handler) => {
       if (event === 'error') setImmediate(() => handler(originalError))
     })
-    await expect(getFile({ raw: { req: {} } })).rejects.toBe(originalError)
+    await expect(getFile({ raw: { req: { headers: {}, pipe: jest.fn() } } })).rejects.toBe(originalError)
   })
 })
 
 describe('streamToBuffer', () => {
   it('should convert a stream to a buffer', async () => {
-    const result = await streamToBuffer(mockPart)
+    const result = await streamToBuffer(mockFile)
     expect(result).toEqual(Buffer.from('fake zip data'))
   })
 

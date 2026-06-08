@@ -1,20 +1,23 @@
-const multiparty = require('multiparty')
+const Busboy = require('busboy')
 
 const getFile = (request) => {
-  const form = new multiparty.Form()
   return new Promise((resolve, reject) => {
-    form.on('part', (part) => {
-      if (part.filename) {
-        console.log(`file uploaded: ${part.filename}`)
-        resolve(part)
-      } else {
-        reject(new Error('Non file received'))
-      }
+    const busboy = Busboy({ headers: request.raw.req.headers })
+
+    busboy.on('file', (fieldname, file, filename) => {
+      console.log(`file uploaded: ${filename}`)
+      resolve(file)
     })
-    form.on('error', (err) => {
+
+    busboy.on('error', (err) => {
       reject(err)
     })
-    form.parse(request.raw.req)
+
+    busboy.on('close', () => {
+      reject(new Error('Non file received'))
+    })
+
+    request.raw.req.pipe(busboy)
   })
 }
 
