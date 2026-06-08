@@ -58,6 +58,8 @@ document.getElementById('upload').addEventListener('click', async () => {
     .forEach(name => zip.remove(name))
   const modifiedBuffer = await zip.generateAsync({ type: 'arraybuffer' })
   const geojson = await shp(modifiedBuffer).catch(() => null)
+  console.log('Parsed GeoJSON:', geojson)
+
   if (!geojson) {
     showError('Could not parse the shape file. Please check the file and try again.')
     return
