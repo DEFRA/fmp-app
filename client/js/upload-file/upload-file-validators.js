@@ -1,14 +1,22 @@
-const maxZipBytesSize = 1024 * 1024 // 1mb
 const maxNodes = 500
 const maxFiles = 10
 const allowedExtentions = ['.shp', '.shx', '.dbf', '.prj', '.cpg', '.qpj', 'sbn', 'sbx']
 const minCoordinateValue = 700000
 const maxCoordinateValue = 1300000
-const zipSignature = [0x50, 0x4B] // 'PK' in ASCII
+const zipSignature = [0x50, 0x4B]
 
-const validateFileExtension = (fileName) => fileName.toLowerCase().endsWith('.zip')
+const validateFileExtension = (fileName) => {
+  const name = fileName.toLowerCase()
+  return name.endsWith('.zip') || name.endsWith('.geojson') || name.endsWith('.gpkg')
+}
 
-const validateFileSize = (size) => size <= maxZipBytesSize
+const getParserForFile = (fileName) => {
+  const name = fileName.toLowerCase()
+  if (name.endsWith('.geojson')) return 'geojson'
+  if (name.endsWith('.gpkg')) return 'geopackage'
+  if (name.endsWith('.zip')) return 'shapefile'
+  return null
+}
 
 const validateZipSignature = (buffer) => {
   const signature = new Uint8Array(buffer.slice(0, 2))
@@ -44,7 +52,7 @@ const isValidBNG = (coordinates) => {
 
 module.exports = {
   validateFileExtension,
-  validateFileSize,
+  getParserForFile,
   validateZipSignature,
   validateFileCount,
   validateFileNames,
@@ -52,7 +60,6 @@ module.exports = {
   validateGeoJSON,
   validateNodeCount,
   isValidBNG,
-  maxZipBytesSize,
   maxNodes,
   maxFiles
 }

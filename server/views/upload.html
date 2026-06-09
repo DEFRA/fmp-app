@@ -24,12 +24,13 @@
         </div>
       </div>
     </div>
+    <p class="govuk-hint">Upload either GeoJSON (.geojson), Geopackage (.gpkg) or Shape files (.zip)</p>
     {{ govukFileUpload({
     id: "boundary",
     name: "boundary",
-    accept: ".zip",
+    accept: ".zip,.geojson,.gpkg",
     label: {
-    text: "Upload a Shape files (.zip). Max size 1MB"
+    text: "Upload file"
     },
     javascript: true
     }) }}

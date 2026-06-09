@@ -3,16 +3,15 @@ const {
   validateZipSignature,
   isValidBNG,
   validateFileExtension,
-  validateFileSize,
+  getParserForFile,
   validateFileCount,
   validateFileNames,
   validateAllowedFileTypes,
   validateGeoJSON,
   validateNodeCount,
-  maxZipBytesSize,
   maxNodes,
   maxFiles
-} = require('./upload-shape-file-validators.js')
+} = require('./upload-file-validators.js')
 const { encodePolygon } = require('../../../server/services/shape-utils.js')
 
 describe('validateFileExtension', () => {
@@ -20,22 +19,48 @@ describe('validateFileExtension', () => {
     expect(validateFileExtension('test.zip')).toBe(true)
   })
 
-  it('should return false for a non .zip file', () => {
+  it('should return true for a .geojson file', () => {
+    expect(validateFileExtension('test.geojson')).toBe(true)
+  })
+
+  it('should return true for a .gpkg file', () => {
+    expect(validateFileExtension('test.gpkg')).toBe(true)
+  })
+
+  it('should return false for a non-supported file', () => {
     expect(validateFileExtension('test.txt')).toBe(false)
   })
 
   it('should be case insensitive', () => {
     expect(validateFileExtension('test.ZIP')).toBe(true)
+    expect(validateFileExtension('test.GEOJSON')).toBe(true)
+    expect(validateFileExtension('test.GPKG')).toBe(true)
   })
 })
 
-describe('validateFileSize', () => {
-  it('should return true for a file within the size limit', () => {
-    expect(validateFileSize(maxZipBytesSize)).toBe(true)
+describe('getParserForFile', () => {
+  it('should return "shapefile" for .zip files', () => {
+    expect(getParserForFile('test.zip')).toBe('shapefile')
   })
 
-  it('should return false for a file exceeding the size limit', () => {
-    expect(validateFileSize(maxZipBytesSize + 1)).toBe(false)
+  it('should return "geojson" for .geojson files', () => {
+    expect(getParserForFile('test.geojson')).toBe('geojson')
+  })
+
+  it('should return "geopackage" for .gpkg files', () => {
+    expect(getParserForFile('test.gpkg')).toBe('geopackage')
+  })
+
+  it('should be case insensitive', () => {
+    expect(getParserForFile('test.ZIP')).toBe('shapefile')
+    expect(getParserForFile('test.GEOJSON')).toBe('geojson')
+    expect(getParserForFile('test.GPKG')).toBe('geopackage')
+  })
+
+  it('should return null for unsupported file types', () => {
+    expect(getParserForFile('test.txt')).toBeNull()
+    expect(getParserForFile('test.shp')).toBeNull()
+    expect(getParserForFile('test.json')).toBeNull()
   })
 })
 

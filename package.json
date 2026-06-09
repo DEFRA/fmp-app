@@ -79,6 +79,7 @@
     "sass-loader": "^16.0.3",
     "sass-mq": "^7.0.0",
     "shpjs": "^6.2.0",
+    "sql.js": "^1.14.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.104.1",
     "webpack-bundle-analyzer": "^4.10.2",
