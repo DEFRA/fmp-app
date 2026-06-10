@@ -16,8 +16,16 @@ const getFloodDataByPolygon = async (polygon) => {
       getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon }),
       getSurfaceWaterClimateChange({ geometryType: 'esriGeometryPolygon', polygon }),
       isRiskAdminArea(polygon)
-    ]).then((responseArray) => {
-      return Object.assign(results, ...responseArray)
+    ]).then(([floodZonesData, floodZonesCCData, surfaceWaterData, surfaceWaterClimateChangeData, riskAdminData]) => {
+      return Object.assign(results, {
+        ...floodZonesData,
+        ...floodZonesCCData,
+        ...surfaceWaterData,
+        ...surfaceWaterClimateChangeData,
+        ...riskAdminData,
+        hasRiversSource: floodZonesData.hasRiversSource || floodZonesCCData.hasRiversSource,
+        hasSeaSource: floodZonesData.hasSeaSource || floodZonesCCData.hasSeaSource
+      })
     })
     return results
   } catch (error) {

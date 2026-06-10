@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { radioOption, textInput, link, errorText } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'Location',
   slug: '/location',
   title: 'Find the location'
 })

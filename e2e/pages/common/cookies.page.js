@@ -2,7 +2,6 @@ import { definePage } from '../.utils/page.js'
 import { radioOption, button, link } from '../.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'Cookies',
   slug: '/cookies',
   title: 'Cookies'
 })
