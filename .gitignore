@@ -19,4 +19,8 @@ jsconfig.json
 dist/
 coverage/
 test/results.json
-_results_/
+playwright-report/
+test-results/
+allure-results/
+allure-report/
+e2e/_results_/downloads/*.pdf

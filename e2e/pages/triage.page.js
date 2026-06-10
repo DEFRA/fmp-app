@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { radioOption, errorText } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'Triage',
   slug: '/triage',
   title: 'What flood information do you need?'
 })
