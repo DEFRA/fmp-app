@@ -1,0 +1,55 @@
+{
+  "operationalLayers": [
+    {
+      "type": "VectorTileLayer",
+      "styleUrl": "https://tiles.arcgis.com/tiles/JZM7qJpmv7vJ0Hzx/arcgis/rest/services/OS_Outdoor/VectorTileServer/resources/styles/root.json%22,%22token%22:%22SNIPPED%22,%22id%22:%221910d2c9447-layer-1%22,%22title%22:%22OS Outdoor",
+      "opacity": 1,
+      "minScale": 0,
+      "maxScale": 17.59475847758498
+    },
+    {
+      "type": "VectorTileLayer",
+      "styleUrl": "https://tiles.arcgis.com/tiles/JZM7qJpmv7vJ0Hzx/arcgis/rest/services/Flood_Zones_2_and_3_Rivers_and_Sea_Tile_Layer/VectorTileServer/resources/styles/root.json%22,%22token%22:%22SNIPPED%22,%22id%22:%2219c90596d8d-layer-25%22,%22title%22:%22Flood Zones 2 and 3 Rivers and Sea Tile Layer",
+      "opacity": 0.65,
+      "minScale": 3386450,
+      "maxScale": 0
+    }
+  ],
+  "mapOptions": {
+    "extent": {
+      "spatialReference": {
+        "latestWkid": 27700,
+        "wkid": 27700
+      },
+      "xmin": 355275.3366870212,
+      "ymin": 389186.59401953896,
+      "xmax": 370529.78819921066,
+      "ymax": 410161.4648487995
+    },
+    "spatialReference": {
+      "latestWkid": 27700,
+      "wkid": 27700
+    },
+    "showAttribution": false
+  },
+  "exportOptions": {
+    "dpi": 300,
+    "outputSize": [
+      800,
+      1100
+    ]
+  },
+  "layoutOptions": {
+    "titleText": "Test Product 1",
+    "authorText": "",
+    "copyrightText": "",
+    "customTextElements": [
+      {
+        "date": "05/06/2026"
+      }
+    ],
+    "legendOptions": {
+      "operationalLayers": []
+    }
+  }
+}

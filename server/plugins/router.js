@@ -19,6 +19,7 @@ const routes = [].concat(
   require('../routes/home'),
   require('../routes/location'),
   require('../routes/maintenance'),
+  require('../routes/map-png'),
   require('../routes/next-steps'),
   require('../routes/order-not-submitted'),
   require('../routes/os-terms'),
