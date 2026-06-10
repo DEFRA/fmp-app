@@ -7,6 +7,9 @@ module.exports = [
     path: '/gotenburg',
     options: {
       description: 'gotenburg server proxy',
+      payload: {
+          maxBytes: 1112059 // needs to be higher - this is JUST enough to get a specific example to work
+      },
       handler:  {
         proxy: {
           // TODO: add this path to the config
