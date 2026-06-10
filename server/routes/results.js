@@ -1,6 +1,5 @@
 const { config } = require('../../config')
 const constants = require('../constants')
-const { isEnglandService } = require('../services/is-england')
 const pauseP1URL = config.functionAppUrl + '/product-one-config'
 const { getProductOnePause } = require('../services/getProductOnePause')
 const {
@@ -8,6 +7,17 @@ const {
   getCentreOfPolygon,
   checkParamsForPolygon
 } = require('../services/shape-utils')
+
+const enhanceFloodData = (floodData, polygon) => {
+  floodData.areaInHectares = getAreaInHectares(polygon)
+  floodData.centreOfPolygon = getCentreOfPolygon(polygon)
+  floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
+  floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
+  floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
+  floodData.hasSurfaceWater = Boolean(floodData?.surfaceWater?.riskBand || floodData?.surfaceWaterClimateChange)
+  floodData.hasFloodRisk = floodData.surfaceWater?.riskBand || floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
+  return floodData
+}
 
 module.exports = [
   {
@@ -17,25 +27,20 @@ module.exports = [
       description: 'Results Page',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
-        const coordinates = getCentreOfPolygon(polygon)
-        const isInEngland = await isEnglandService(coordinates.x, coordinates.y)
-        if (isInEngland === false) {
-          return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
-        }
         const [contactData, floodData] = await Promise.all([
           request.server.methods.getPsoContactsByPolygon(polygon),
           request.server.methods.getFloodDataByPolygon(polygon)]
         )
+        if (contactData.isEngland === false && !contactData.LocalAuthorities) {
+          // Only redirect to England only page if the location is not in England
+          // and there is no local authority data, otherwise show the results
+          // page with the EA national team contact data
+          return h.redirect(`${constants.routes.ENGLAND_ONLY}`)
+        }
         const pauseP1Data = await getProductOnePause(pauseP1URL)
         const showOrderProduct4Button = config.appType === 'internal' || contactData.useAutomatedService === true
-        floodData.areaInHectares = getAreaInHectares(polygon)
+        enhanceFloodData(floodData, polygon)
         const over300Hectares = floodData.areaInHectares > constants.maxAreaInHectares
-        floodData.centreOfPolygon = getCentreOfPolygon(polygon)
-        floodData.isFZ1Andlt1ha = floodData.floodZone === '1' && floodData.areaInHectares < 1
-        floodData.isFZ1Andgt1ha = floodData.floodZone === '1' && floodData.areaInHectares >= 1
-        floodData.areaInHectares = floodData.areaInHectares !== '0' && floodData.areaInHectares !== 0 ? floodData.areaInHectares : 'less than 0.01'
-        floodData.hasSurfaceWater = Boolean(floodData?.surfaceWater?.riskBand || floodData?.surfaceWaterClimateChange)
-        floodData.hasFloodRisk = floodData.surfaceWater?.riskBand || floodData.floodZone !== '1' || floodData.floodZoneClimateChange || floodData.floodZoneClimateChangeNoData
         return h.view('results', { floodData, contactData, showOrderProduct4Button, encodedPolygon, polygon, pauseP1Data, over300Hectares })
       }
     }

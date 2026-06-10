@@ -6,7 +6,7 @@ export const page = definePage({
   title: 'Interactive map showing flood planning data'
 })
 
-// Controls used to order a P4
+// Add or edit a location boundary - Controls used to order a P4
 export const locationMenuSection = menuSection('Get data for your location')
 export const addPolygonOption = menuButtonOption('Add polygon')
 export const addSquareOption = menuButtonOption('Add square')
@@ -19,16 +19,32 @@ export const floodZones2And3Option = menuRadioOption('Flood zones 2 and 3')
 export const surfaceWaterOption = menuRadioOption('Surface water')
 export const noneOption = menuRadioOption('None')
 
-// Climate change menu options
+// Climate change menu options for Flood zones
 export const climateMenuSection = menuSection('Climate change')
 export const presentDayOption = menuRadioOption('Present day')
 export const year2070To2125Option = menuRadioOption('2070 to 2125')
+
+// Climate change menu options for Surface water
+export const climateMenuSectionSW = menuSection('Climate change')
+export const presentDayOptionSW = menuRadioOption('Present day')
+export const year2061To2125OptionSW = menuRadioOption('2061 to 2125')
 
 // Annual likelihood of flood menu options (shown when Surface water is selected)
 export const annualLikelihoodMenuSection = menuSection('Annual likelihood of flood')
 export const oneIn30Option = menuRadioOption('1 in 30')
 export const oneIn100Option = menuRadioOption('1 in 100')
 export const oneIn1000Option = menuRadioOption('1 in 1000')
+
+// Surface water depth menu options (shown when Surface water is selected)
+export const surfaceWaterDepthMenuSection = menuSection('Depth in millimetres')
+export const allDepthsOption = menuRadioOption('All depths')
+export const fullExtentOfFloodingOption = menuRadioOption('Full extent of flooding')
+export const extentOver150mmOption = menuRadioOption('Extent over 150mm')
+export const extentOver300mmOption = menuRadioOption('Extent over 300mm')
+export const extentOver600mmOption = menuRadioOption('Extent over 600mm')
+export const extentOver900mmOption = menuRadioOption('Extent over 900mm')
+export const extentOver1200mmOption = menuRadioOption('Extent over 1200mm')
+export const extentOver2300mmOption = menuRadioOption('Extent over 2300mm')
 
 // Map features menu options
 export const mapFeaturesMenuSection = menuSection('Map features')
@@ -85,6 +101,17 @@ export const configSectionMenus = [
 export const datasetOptions = [floodZones2And3Option, surfaceWaterOption, noneOption]
 export const annualLikelihoodOptions = [oneIn30Option, oneIn100Option, oneIn1000Option]
 export const climateOptions = [presentDayOption, year2070To2125Option]
+export const climateOptionsSW = [presentDayOptionSW, year2061To2125OptionSW]
+export const surfaceWaterDepthOptions = [
+  allDepthsOption,
+  fullExtentOfFloodingOption,
+  extentOver150mmOption,
+  extentOver300mmOption,
+  extentOver600mmOption,
+  extentOver900mmOption,
+  extentOver1200mmOption,
+  extentOver2300mmOption
+]
 export const mapFeatureOptions = [waterStorageOption, floodDefenceOption, mainRiversOption]
 export const mapStyleOptions = [outdoorMapStyleOption, darkMapStyleOption, blackAndWhiteMapStyleOption]
 
