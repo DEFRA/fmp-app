@@ -1,68 +1,68 @@
+import { expect } from '@playwright/test'
 import { FormDriver } from './form-driver.js'
+import * as mapPage from '../pages/map.page.js'
 
-const INITIAL_MAP_LOAD_PAUSE_MS = 5000
-const BETWEEN_ZOOM_PAUSE_MS = 1500
+const ARIA_DISABLED = 'aria-disabled'
 
 export class MapDriver extends FormDriver {
-  async mapLoaded () {
-    await browser.pause(INITIAL_MAP_LOAD_PAUSE_MS) // Brief pause to allow map scripts to start loading
-    const mapElement = await $('#map-viewport')
-    await mapElement.waitForExist({ timeout: 20000 })
-    await mapElement.waitForDisplayed({ timeout: 20000 })
+  async waitForMapToLoad () {
+    await expect(this.page.locator('#map-viewport')).toBeVisible()
+    await this.page.waitForLoadState('networkidle')
   }
 
-  async clickButton (buttonText) {
-    // Find a button by visible text (either on the button or its label span)
-    const text = (buttonText || '').trim()
-    const button = await $(`//button[normalize-space()="${text}" or .//span[contains(@class,'fm-c-btn__label') and normalize-space()="${text}"]]`)
-    await browser.waitUntil(async () => {
-      try {
-        const displayed = await button.isDisplayed()
-        const aria = await button.getAttribute('aria-disabled')
-        return displayed && aria !== 'true'
-      } catch { return false }
-    }, { timeout: 20000, interval: 250, timeoutMsg: `Button '${text}' did not become active` })
+  async clickButton (element) {
+    const text = element.text.trim()
+    const button = this.page.getByRole('button', { name: text, exact: true }).first()
+    await expect(async () => {
+      expect(await button.isVisible()).toBe(true)
+      expect(await button.getAttribute(ARIA_DISABLED)).not.toBe('true')
+    }).toPass()
     await button.click()
   }
 
-  async expandMenuSection (sectionTitle) {
-    // Click the section header button by text
-    const text = (sectionTitle || '').trim()
-    const sectionTitleElement = await $(`//button[.//span[contains(@class,'fm-c-details__label-focus') and normalize-space()="${text}"]]`)
-    await sectionTitleElement.waitForExist({ timeout: 20000 })
-    await sectionTitleElement.waitForDisplayed({ timeout: 20000 })
-    await sectionTitleElement.waitForClickable({ timeout: 20000 })
-    await sectionTitleElement.click()
+  async expandMenuSection (element) {
+    const text = element.text.trim()
+    await this.page.getByRole('button', { name: text }).first().click()
   }
 
-  async selectMenuButtonOption (optionText) {
-    // Menu button option: button containing a label span with the given text
-    const optionElement = await $(`//button[.//span[contains(@class,'fm-c-btn__label') and normalize-space()="${optionText}"]]`)
-    await optionElement.waitForDisplayed({ timeout: 20000 })
-    await optionElement.waitForClickable({ timeout: 20000 })
-    await optionElement.click()
-  }
-
-  async selectMenuRadioOption (optionText) {
-    // Radio option: clickable label with the given text
-    const optionElement = await $(`//label[contains(@class,'fm-c-segments__label') and normalize-space()="${optionText}"]`)
-    await optionElement.waitForClickable({ timeout: 10000 })
-    await optionElement.click()
-  }
-
-  async selectMenuCheckboxOption (optionText) {
-    // Checkbox option: click the parent label that contains a span with the text
-    const optionElement = await $(`//label[.//span[contains(@class,'fm-c-layers__text') and normalize-space()="${optionText}"]]`)
-    await optionElement.waitForClickable({ timeout: 10000 })
-    await optionElement.click()
+  async chooseMenuOption (element) {
+    if (element.type === 'menuButtonOption') {
+      await this.page.getByRole('button', { name: element.text, exact: true }).first().click()
+      return
+    }
+    if (element.type === 'menuRadioOption') {
+      await this.page.getByRole('radio', { name: element.text, exact: true }).check({ force: true })
+      return
+    }
+    if (element.type === 'menuCheckboxOption') {
+      await this.page.getByRole('checkbox', { name: element.text, exact: true }).check({ force: true })
+      return
+    }
+    throw new Error(`chooseMenuOption(): unsupported element type '${element.type}'`)
   }
 
   async zoomIn (times = 3) {
-    const zoomInButton = await $('button[aria-labelledby="map-zoom-in-label"][aria-controls="map-viewport"]')
     for (let i = 0; i < times; i++) {
-      await zoomInButton.waitForClickable({ timeout: 10000 })
+      const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
+      await expect(async () => {
+        expect(await zoomInButton.isVisible()).toBe(true)
+        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
+      }).toPass()
       await zoomInButton.click()
-      await browser.pause(BETWEEN_ZOOM_PAUSE_MS) // Pause briefly between zooms to allow map to update
+      await this.page.waitForLoadState('networkidle')
+      await expect(async () => {
+        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
+      }).toPass()
     }
+  }
+
+  async addSquare () {
+    await this.expandMenuSection(mapPage.locationMenuSection)
+    await this.chooseMenuOption(mapPage.addSquareOption)
+  }
+
+  async confirmBoundaryAndContinue () {
+    await this.clickButton(mapPage.finishButton)
+    await this.clickButton(mapPage.getSummaryReportButton)
   }
 }

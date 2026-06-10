@@ -42,8 +42,8 @@ describe('confirmation', () => {
       `/confirmation?recipientemail=test@test.com&applicationReferenceNumber=12345&${queryParam}`
     ]
     invalidUrls.forEach((invalidUrl) => {
-      it(`Should error on invalid query string, ${queryParam[0]} param given`, async () => {
-        await submitGetRequest({ url: invalidUrl }, '', 400)
+      it(`Should redirect to home on invalid query string, ${queryParam[0]} param given`, async () => {
+        await submitGetRequest({ url: invalidUrl }, '', 302)
       })
     })
 

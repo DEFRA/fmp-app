@@ -26,6 +26,17 @@ describe('getCustomerTeam', () => {
     })
   })
 
+  it('should return isEngland false if no features are returned', async () => {
+    mockEsriRequest([])
+    const response = await getCustomerTeam({})
+    expect(response).toEqual({
+      isEngland: false,
+      EmailAddress: '',
+      AreaName: '',
+      useAutomatedService: false
+    })
+  })
+
   it('should throw if EsriRequest throws', async () => {
     mockEsriRequestWithThrow()
     try {

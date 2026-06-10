@@ -1,9 +1,9 @@
 const mockPolygons = require('../../__data__/mockPolygons.json')
 
-const both = { floodZoneClimateChange: true, floodZoneClimateChangeNoData: true }
-const noDataOnly = { floodZoneClimateChange: false, floodZoneClimateChangeNoData: true }
-const climateChangeOnly = { floodZoneClimateChange: true, floodZoneClimateChangeNoData: false }
-const neither = { floodZoneClimateChange: false, floodZoneClimateChangeNoData: false }
+const both = { floodZoneClimateChange: true, floodZoneClimateChangeNoData: true, hasRiversSource: false, hasSeaSource: true }
+const noDataOnly = { floodZoneClimateChange: false, floodZoneClimateChangeNoData: true, hasRiversSource: false, hasSeaSource: false }
+const climateChangeOnly = { floodZoneClimateChange: true, floodZoneClimateChangeNoData: false, hasRiversSource: true, hasSeaSource: false }
+const neither = { floodZoneClimateChange: false, floodZoneClimateChangeNoData: false, hasRiversSource: false, hasSeaSource: false }
 
 const getFloodZonesClimateChange = async (options) => {
   switch (options.polygon) {
