@@ -99,6 +99,16 @@ export class FormDriver {
     await expect(this.page.getByRole('main')).not.toContainText(text)
   }
 
+  async expectOnlyTexts (expectedTexts, allTexts) {
+    for (const text of allTexts) {
+      if (expectedTexts.includes(text)) {
+        await this.expectText(text)
+      } else {
+        await this.expectTextNotExists(text)
+      }
+    }
+  }
+
   async expectErrorText (element) {
     await expect(this.page.getByRole('alert')).toBeVisible()
     await expect(this.page.getByRole('alert')).toContainText(element.text)

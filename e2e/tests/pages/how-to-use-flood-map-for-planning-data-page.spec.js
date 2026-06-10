@@ -65,12 +65,12 @@ test.describe('How to use flood map for planning data page - external links', { 
 
   test('navigates to national flood risk standing advice for local planning authorities when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.nationalFloodRiskStandingAdviceLink)
-    await steps.expectUrlContains('flood-risk-assessment-local-planning-authorities')
+    await steps.expectUrlContains('standing-advice-for-local-planning-authorities')
   })
 
   test('navigates to flood risk assessments: applying for planning permission. when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.applyingForPlanningPermissionLink)
-    await steps.expectUrlContains('flood-risk-assessment-for-planning-applications')
+    await steps.expectUrlContains('applying-for-planning-permission')
   })
 
   test('navigates to flood risk assessments climate change allowances guidance. when clicking the link', async ({ steps }) => {
@@ -112,10 +112,24 @@ test.describe('How to use flood map for planning data page - external links', { 
     await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspWaterStorageAreasLink)
     await steps.expectUrlContains('86ca7c80-d465-11e4-afe1-f0def148f590')
   })
-  /* To be added when the surface water dataset is available on the DSP
-  test('navigates to surface water when clicking the link', async ({ steps }) => {
-    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterLink)
-    await steps.expectUrlContains('environment.data.gov.uk/datasets/surface-water')
+
+  test('navigates to DSP surface water extents, present day when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterExtentsPresentDayLink)
+    await steps.expectUrlContains('c853dc8c-9371-4a8f-99ea-a1daa023945e')
   })
-  */
+
+  test('navigates to DSP surface water extents with climate change when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterExtentsWithClimateChangeLink)
+    await steps.expectUrlContains('c5ac51b0-be1d-462a-b734-2c22625ce005')
+  })
+
+  test('navigates to DSP surface water depths, present day when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterDepthsPresentDayLink)
+    await steps.expectUrlContains('fa3a36ed-121c-424b-b8bf-8108f959b7a9')
+  })
+
+  test('navigates to DSP surface water depths with climate change when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.dspSurfaceWaterDepthsWithClimateChangeLink)
+    await steps.expectUrlContains('cf8d4e8f-99b6-4e5d-bf56-7f80e93d0931')
+  })
 })
