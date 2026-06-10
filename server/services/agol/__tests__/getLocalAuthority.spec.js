@@ -13,6 +13,12 @@ describe('getLocalAuthority', () => {
     expect(response).toEqual({ LocalAuthorities: 'Ryedale' })
   })
 
+  it('should return with LocalAuthorities undefined if no results', async () => {
+    mockEsriRequest([])
+    const response = await getLocalAuthority({})
+    expect(response).toEqual({ LocalAuthorities: undefined })
+  })
+
   it('should throw if EsriRequest throws', async () => {
     mockEsriRequestWithThrow()
     try {

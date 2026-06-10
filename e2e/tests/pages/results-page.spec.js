@@ -1,51 +1,121 @@
-import { Steps } from '../../test-runner-api/steps.js'
+import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
-import { areaData } from '../../data/location-data.js'
+import { areaData, floodZonedata } from '../../data/location-data.js'
 
-describe('Results page', () => {
-  let steps
-  const slug = (polygon) => `/results?encodedPolygon=${encodeURIComponent(polygon)}`
+const { pageForPolygon, pageWithZone } = pages.results
 
-  beforeEach(async () => {
-    steps = new Steps()
+test.describe('Results page', () => {
+  // Flood zone rendering
+  for (const [index, { polygon, floodZone }] of Object.values(areaData).entries()) {
+    test(`displays correct flood zone information for area ${index + 1}`, async ({ steps }) => {
+      await steps.open(pageForPolygon(floodZone, polygon))
+      await steps.expectOn(pageWithZone(floodZone))
+    })
+  }
+
+  test.describe('Link and content tests', () => {
+    const { polygon, floodZone } = areaData.Yorkshire
+
+    test.beforeEach(async ({ steps }) => {
+      await steps.open(pageForPolygon(floodZone, polygon))
+    })
+    // The following tests validate that internal links can be reached.
+    test('navigates to the Flood zones and what they mean page when clicking the link', async ({ steps }) => {
+      await steps.clickLink(pages.results.findOutMoreAboutFloodZonesLink)
+      await steps.expectOn(pages.floodZoneResultsExplained.page)
+    })
+
+    test('navigates to the how to use flood data page when clicking the find out more about this data and how it should be used link', async ({ steps }) => {
+      await steps.clickLink(pages.results.findOutMoreAboutThisDataLink)
+      await steps.expectOn(pages.howToUseFloodMapForPlanningData.page)
+    })
+
+    test('navigates to map page when clicking the see risk on map link', async ({ steps }) => {
+      await steps.clickLinkContainingText(pages.results.seeThisRiskOnTheMapLink)
+      await steps.expectOn(pages.map.page)
+    })
+
+    test('navigates to map page when clicking the redraw boundary link', async ({ steps }) => {
+      await steps.clickLink(pages.results.redrawBoundaryLink)
+      await steps.expectOn(pages.map.page)
+    })
+
+    test('navigates to the next steps page when clicking the link', async ({ steps }) => {
+      await steps.clickLink(pages.results.iNeedHelpDecidingWhatToIncludeInMyPlanningAppLink)
+      await steps.expectOn(pages.nextSteps.page)
+    })
+
+    test('navigates to location page when clicking the link', async ({ steps }) => {
+      await steps.clickLink(pages.results.searchForDifferentLocationLink)
+      await steps.expectOn(pages.location.page)
+    })
+
+    test('navigates to terms and conditions page when clicking the link', async ({ steps }) => {
+      await steps.clickLink(pages.results.termsAndConditionsLink)
+      await steps.expectOn(pages.termsAndConditions.page)
+    })
+
+    // The following tests validate that external links can be reached.
+    test('navigates to Addressing residual risk page when when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+      await steps.clickLink(pages.results.residualRiskLink)
+      await steps.expectUrlContains('flood-risk-and-coastal-change#para41')
+    })
+
+    test('navigates to climate change allowances page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+      await steps.clickLink(pages.results.findOutMoreAboutClimateChangeAllowancesLink)
+      await steps.expectUrlContains('flood-risk-assessments-climate-change-allowances')
+    })
+
+    test('navigates to products page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
+      await steps.clickLink(pages.results.findOutWhatProductsAreAvailableLink)
+      await steps.expectUrlContains('get-information-about-flood-risk-from-rivers-and-the-sea-to-help-you-to-complete-afra')
+    })
   })
 
-  Object.values(areaData).forEach(({ polygon, floodZone }, index) => {
-    it(`displays correct flood zone information for area ${index + 1} @validation`, async () => {
-      await steps.open({
-        ...pages.results.pageWithZone(floodZone),
-        slug: slug(polygon)
+  // The following tests exercise the P1 PDF download functionality.
+  test.describe('PDF download checks', () => {
+    const expectedPdfLinks = [
+      'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
+      'https://flood-map-for-planning.service.gov.uk/os-terms'
+    ]
+
+    const pdfScenarios = [
+      { label: 'flood zone 1', floodZone: '1', polygon: floodZonedata.FZ1_WithOut_SW_and_RandS_Area_LT_1Hectare },
+      { label: 'flood zone 2', floodZone: '2', polygon: floodZonedata.FZ2_With_R },
+      { label: 'flood zone 3', floodZone: '3', polygon: floodZonedata.FZ3_With_SW_and_R }
+    ]
+
+    for (const { label, floodZone, polygon } of pdfScenarios) {
+      test(`downloads pdf with reference and scale for ${label}`, async ({ steps, pdfDriver }) => {
+        const reference = 'Test123456789101112131415'
+        const scale = '25000'
+
+        await steps.open(pageForPolygon(floodZone, polygon))
+        await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+        await steps.type(pages.results.addReferenceInput, reference)
+        await steps.select(pages.results.scaleSelect, scale)
+
+        const downloadPromise = pdfDriver.awaitDownload()
+        await steps.clickButton(pages.results.downloadFloodMapButton)
+        const pdf = await pdfDriver.parsePdf(await downloadPromise)
+
+        pdfDriver.expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks: expectedPdfLinks })
       })
-      await steps.expectOn(pages.results.pageWithZone(floodZone))
-    })
-  })
+    }
 
-  it('has link to order flood risk data when in an opted-in area @validation', async () => {
-    const polygon = areaData.Yorkshire.polygon
-    await steps.open({
-      ...pages.results.pageWithZone(areaData.Yorkshire.floodZone),
-      slug: slug(polygon)
-    })
-    await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
-  })
+    test('defaults to unspecified reference when none provided', async ({ steps, pdfDriver }) => {
+      const polygon = floodZonedata.FZ1_WithOut_SW_and_RandS_Area_LT_1Hectare
+      const scale = '2500'
 
-  it('does not show order flood risk data link when in an opted-out area @validation', async () => {
-    const polygon = areaData.HertfordshireAndNorthLondon.polygon
-    await steps.open({
-      ...pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone),
-      slug: slug(polygon)
-    })
-    await steps.expectOn(pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone))
-    await steps.expectLinkNotExists(pages.results.orderFloodRiskDataButton)
-  })
+      await steps.open(pageForPolygon('1', polygon))
+      await steps.clickDetails(pages.results.addReferenceToFloodMapDetails)
+      await steps.select(pages.results.scaleSelect, scale)
 
-  it('has link to order flood risk data link when in an opted-out area @internal', async () => {
-    const polygon = areaData.HertfordshireAndNorthLondon.polygon
-    await steps.open({
-      ...pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone),
-      slug: slug(polygon)
+      const downloadPromise = pdfDriver.awaitDownload()
+      await steps.clickButton(pages.results.downloadFloodMapButton)
+      const pdf = await pdfDriver.parsePdf(await downloadPromise)
+
+      pdfDriver.expectPdfContent(pdf, { scale, floodZone: '1', polygon, expectedLinks: expectedPdfLinks })
     })
-    await steps.expectOn(pages.results.pageWithZone(areaData.HertfordshireAndNorthLondon.floodZone))
-    await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
   })
 })

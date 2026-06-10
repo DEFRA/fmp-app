@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { button, link } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'Home',
   slug: '/',
   title: 'Get flood risk information for planning in England'
 })

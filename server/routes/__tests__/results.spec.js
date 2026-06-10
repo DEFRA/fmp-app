@@ -5,7 +5,6 @@ const shapeUtils = require('../../services/shape-utils')
 const { config } = require('../../../config')
 const { encode } = require('@mapbox/polyline')
 const { getProductOnePause } = require('../../services/getProductOnePause')
-const { isEnglandService } = require('../../services/is-england')
 jest.mock('../../services/agol/__mocks__/getContacts')
 jest.mock('../../services/agol/getFloodZones')
 jest.mock('../../services/agol/getFloodZonesClimateChange')
@@ -31,7 +30,7 @@ const getUniquePolygonQuery = () => {
 }
 
 const queryParams = [
-  ['encoded polygon', `encodedPolygon=${encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])}`],
+  ['encoded polygon', `encodedPolygon=${encode([[111, 111], [111, 113], [113, 112], [112, 111], [111, 111]])}`],
   ['polygon', 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]']
 ]
 /*
@@ -40,7 +39,13 @@ It is useful as we need to test the nunjuck logic.
 */
 describe('Results page', () => {
   it('should redirect to England only page if polygon is outside England', async () => {
-    isEnglandService.mockResolvedValueOnce(false)
+    getPsoContactsByPolygon.mockResolvedValueOnce({
+      isEngland: false,
+      EmailAddress: '',
+      AreaName: '',
+      useAutomatedService: false,
+      LocalAuthorities: undefined
+    })
     const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` }, null, 302)
     expect(response.statusCode).toEqual(302)
     expect(response.headers.location).toEqual('/england-only')
@@ -95,7 +100,7 @@ describe('Results page', () => {
     afterAll(() => { config.appType = 'internal' })
 
     describe('Flood zone 1', () => {
-      it('should show FZ1 title and RS bullet point, zone 1 relevant text (no FRA) when <1ha drawn', async () => {
+      it('should show FZ1 title and Rivers bullet point, zone 1 relevant text (no FRA) when <1ha drawn', async () => {
         getPsoContactsByPolygon.mockResolvedValue({
           isEngland: true,
           EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -116,7 +121,10 @@ describe('Results page', () => {
             riskBandPercent: null,
             riskBandOdds: null
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         getAreaInHectaresSpy.mockReturnValue(0)
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -124,7 +132,8 @@ describe('Results page', () => {
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
         expect(pageContent.riskFloodingFrom).toEqual(riskFloodingFromText)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(false)
         expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
         expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(fz1FRAOnlyNeededWhenText)
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
@@ -159,13 +168,16 @@ describe('Results page', () => {
             riskBandPercent: '3.3',
             riskBandOdds: '1 in 30'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
         expect(pageContent.swBulletPoint).toEqual(swBulletPointText)
         expect(pageContent.fz1DataUnlikely).toEqual(fz1DataUnlikelyText)
         expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
@@ -193,7 +205,10 @@ describe('Results page', () => {
             riskBandPercent: null,
             riskBandOdds: null
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         getAreaInHectaresSpy.mockReturnValue(123.43)
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -211,11 +226,11 @@ describe('Results page', () => {
         expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
         expect(pageContent.siteDrawnIsLessThan).toEqual(false)
         expect(pageContent.swSummaryTitle).toEqual(false)
-        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.riversBulletPoint).toEqual(false)
         expect(pageContent.adminUpdatedData).toEqual(false)
       })
 
-      it('should show RS title and bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
+      it('should show RS title and tidal bullet point, zone 1 relevant text (FRA required) when <1ha drawn with climate change zone', async () => {
         getPsoContactsByPolygon.mockResolvedValue({
           isEngland: true,
           EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -236,6 +251,9 @@ describe('Results page', () => {
             riskBandPercent: null,
             riskBandOdds: null
           },
+          hasSeaSource: true,
+          hasRiversSource: false,
+          floodSource: 'the sea',
           isRiskAdminArea: false
         })
         getAreaInHectaresSpy.mockReturnValue(0)
@@ -243,7 +261,7 @@ describe('Results page', () => {
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(seaBulletPointText)
         expect(pageContent.fraTitle).toEqual(fraTitleText)
         expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(1, 'low'))
@@ -251,7 +269,7 @@ describe('Results page', () => {
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
         expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
-        expect(pageContent.riskWhenCC).toEqual(riskWhenCCText)
+        expect(pageContent.riskWhenCC).toEqual(getCCSumaryText('the sea'))
         expect(pageContent.p4FZ1UnlikleyData).toEqual(false)
         expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
         expect(pageContent.adminUpdatedData).toEqual(false)
@@ -280,7 +298,10 @@ describe('Results page', () => {
             riskBandPercent: null,
             riskBandOdds: null
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: true,
+          hasRiversSource: true,
+          floodSource: 'rivers and the sea'
         })
         getAreaInHectaresSpy.mockReturnValue(0)
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
@@ -293,11 +314,45 @@ describe('Results page', () => {
         expect(pageContent.siteDrawnIsLessThanCC).toEqual(siteDrawnIsLessThanCCText)
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
         expect(pageContent.unavailableCCData).toEqual(unavailableCCDataText)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversAndSeaBulletPoint).toEqual(riversAndSeaBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(false)
+        expect(pageContent.riskWhenCC).toEqual(getCCSumaryText('rivers and the sea'))
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
         expect(pageContent.fz1FRAOnlyNeededWhen).toEqual(false)
         expect(pageContent.adminUpdatedData).toEqual(false)
         expect(pageContent.siteDrawnSize).toEqual(false)
+      })
+
+      it('should rivers and sea climate change bullet point when no data climate change zone only', async () => {
+        getPsoContactsByPolygon.mockResolvedValue({
+          isEngland: true,
+          EmailAddress: 'emdenquiries@environment-agency.gov.uk',
+          AreaName: 'East Midlands',
+          useAutomatedService: true,
+          LocalAuthorities: 'Derbyshire Dales'
+        })
+        getFloodDataByPolygon.mockResolvedValue({
+          floodzone_2: false,
+          floodzone_3: false,
+          floodZone: '1',
+          floodZoneLevel: 'low',
+          floodZoneClimateChange: true,
+          floodZoneClimateChangeNoData: true,
+          surfaceWater: {
+            riskBandId: -1,
+            riskBand: false,
+            riskBandPercent: null,
+            riskBandOdds: null
+          },
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: false,
+          floodSource: 'Unavailable'
+        })
+        getAreaInHectaresSpy.mockReturnValue(0)
+        const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
+        const pageContent = getElementByIdAndFormat(response.payload)
+        expect(pageContent.riversAndSeaCCNoDataBulletPoint).toEqual(riversAndSeaCCNoDataBulletPointText)
       })
 
       it('should show RS title and bullet point, zone 1 relevant text (no FRA) when admin console updated area', async () => {
@@ -321,15 +376,19 @@ describe('Results page', () => {
             riskBandPercent: null,
             riskBandOdds: null
           },
-          isRiskAdminArea: true
+          isRiskAdminArea: true,
+          hasSeaSource: true,
+          hasRiversSource: true,
+          floodSource: 'rivers and the sea'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
         expect(pageContent.adminUpdatedData).toEqual(adminUpdatedDataText)
+        expect(pageContent.riskWhenCC).toEqual(false)
         expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
-        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.riversBulletPoint).toEqual(false)
         expect(pageContent.fz23FRA).toEqual(false)
       })
     })
@@ -356,13 +415,17 @@ describe('Results page', () => {
             riskBandPercent: '0.1',
             riskBandOdds: '1 in 1000'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(false)
         expect(pageContent.fraTitle).toEqual(fraTitleText)
         expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
@@ -378,7 +441,7 @@ describe('Results page', () => {
         expect(pageContent.siteDrawnIsLessThanCC).toEqual(false)
       })
 
-      it('should show RS title and bullet point, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
+      it('should show RS title and rivers and sea bullet points, zone 2 low risk, 1 in 100 SW text (FRA required)', async () => {
         getPsoContactsByPolygon.mockResolvedValue({
           isEngland: true,
           EmailAddress: 'emdenquiries@environment-agency.gov.uk',
@@ -399,13 +462,18 @@ describe('Results page', () => {
             riskBandPercent: '1',
             riskBandOdds: '1 in 100'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: true,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(2).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(2).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversAndSeaBulletPoint).toEqual(riversAndSeaBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(false)
+        expect(pageContent.seaBulletPoint).toEqual(false)
         expect(pageContent.fraTitle).toEqual(fraTitleText)
         expect(pageContent.rsSummaryTitle).toEqual(rsSummaryTitleText)
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
@@ -442,13 +510,17 @@ describe('Results page', () => {
             riskBandPercent: '3.3',
             riskBandOdds: '1 in 30'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(false)
         expect(pageContent.fraTitle).toEqual(fraTitleText)
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
@@ -481,14 +553,18 @@ describe('Results page', () => {
             riskBandPercent: '3.3',
             riskBandOdds: '1 in 30'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: true,
+          hasRiversSource: false,
+          floodSource: 'sea'
         })
         getAreaInHectaresSpy.mockReturnValue(350)
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(false)
+        expect(pageContent.seaBulletPoint).toEqual(seaBulletPointText)
         expect(pageContent.fraTitle).toEqual(fraTitleText)
         expect(pageContent.fraRequired).toEqual(fraRequiredText)
         expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
@@ -522,13 +598,17 @@ describe('Results page', () => {
             riskBandPercent: '3.3',
             riskBandOdds: '1 in 30'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: true,
+          floodSource: 'rivers'
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-        expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+        expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
+        expect(pageContent.seaBulletPoint).toEqual(false)
         expect(pageContent.p4EmailIn20Days).toEqual(p4EmailIn20DaysText)
         expect(pageContent.orderP4Button).toEqual(false)
         expect(pageContent.adminUpdatedData).toEqual(false)
@@ -556,14 +636,17 @@ describe('Results page', () => {
             riskBandPercent: '3.3',
             riskBandOdds: '1 in 30'
           },
-          isRiskAdminArea: false
+          isRiskAdminArea: false,
+          hasSeaSource: false,
+          hasRiversSource: false,
+          floodSource: null
         })
         const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
         const pageContent = getElementByIdAndFormat(response.payload)
         expect(pageContent.heading).toEqual(getHeadingAndMeaningText(1).heading)
         expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(1).meaning)
         expect(pageContent.p4FZ1UnlikleyData).toEqual(p4FZ1UnlikleyDataText)
-        expect(pageContent.rsBulletPoint).toEqual(false)
+        expect(pageContent.riversBulletPoint).toEqual(false)
         expect(pageContent.orderP4Button).toEqual(false)
         expect(pageContent.p4EmailIn20Days).toEqual(false)
         expect(pageContent.adminUpdatedData).toEqual(false)
@@ -591,14 +674,18 @@ describe('Results page', () => {
           riskBandPercent: '3.3',
           riskBandOdds: '1 in 30'
         },
-        isRiskAdminArea: false
+        isRiskAdminArea: false,
+        hasSeaSource: false,
+        hasRiversSource: true,
+        floodSource: 'rivers'
       })
       getAreaInHectaresSpy.mockReturnValue(350)
       const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
       const pageContent = getElementByIdAndFormat(response.payload)
       expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
       expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
+      expect(pageContent.riversBulletPoint).toEqual(riversBulletPointText)
+      expect(pageContent.seaBulletPoint).toEqual(false)
       expect(pageContent.fraTitle).toEqual(fraTitleText)
       expect(pageContent.fraRequired).toEqual(fraRequiredText)
       expect(pageContent.fzProbability).toEqual(getFZProbabilityText(3, 'high'))
@@ -635,13 +722,15 @@ describe('Results page', () => {
           riskBandPercent: '3.3',
           riskBandOdds: '1 in 30'
         },
-        isRiskAdminArea: false
+        isRiskAdminArea: false,
+        hasSeaSource: false,
+        hasRiversSource: true,
+        floodSource: 'rivers'
       })
       const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
       const pageContent = getElementByIdAndFormat(response.payload)
       expect(pageContent.heading).toEqual(getHeadingAndMeaningText(3).heading)
       expect(pageContent.fzMeaningDescription).toEqual(getHeadingAndMeaningText(3).meaning)
-      expect(pageContent.rsBulletPoint).toEqual(rsBulletPointText)
       expect(pageContent.adminUpdatedData).toEqual(false)
       expect(pageContent.orderP4Button).toEqual(orderP4ButtonText)
     })
@@ -656,6 +745,9 @@ const getHeadingAndMeaningText = (floodZone) => {
     meaning: `What flood zone ${floodZones[floodZone]} means`
   }
 }
+const getCCSumaryText = (floodSource) => {
+  return `This location is at risk from flooding from ${floodSource} when climate change is taken into account:`
+}
 const getFZProbabilityText = (floodZone, riskValue) => {
   return `Land within flood zone ${floodZones[floodZone]} has a ${riskValue} probability of flooding from rivers and the sea.`
 }
@@ -669,8 +761,11 @@ const getSWInfoText = (riskBandPercent, riskBandOdds) => {
 
   return swContent
 }
-const rsBulletPointText = 'rivers and the sea'
+const riversBulletPointText = 'rivers (fluvial)'
+const seaBulletPointText = 'the sea (tidal)'
+const riversAndSeaBulletPointText = 'rivers and the sea (fluvial and tidal)'
 const swBulletPointText = 'surface water'
+const riversAndSeaCCNoDataBulletPointText = 'rivers and the sea (fluvial or tidal) due to climate change'
 const fz1DataUnlikelyText = 'Your site is in flood zone 1, so it\'s unlikely we\'ll have any flood risk data for it. You can place an order and we\'ll email you if none is available.'
 const rsSummaryTitleText = 'Rivers and the sea'
 const orderP4ButtonText = 'Order flood risk data'
@@ -684,7 +779,6 @@ const fraTitleText = 'Flood risk assessments'
 const adminUpdatedDataText = 'Our understanding of flood risk from rivers and the sea has changed since this information was published.'
 const riskFloodingFromText = 'In your proposed development site there is a risk of flooding from:'
 const siteDrawnIsLessThanCCText = 'The site you have drawn is less than 0.01ha.'
-const riskWhenCCText = 'This location is at risk from flooding from rivers or the sea when climate change is taken into account:'
 const unavailableCCDataText = 'Climate change data unavailable'
 const p4FZ1UnlikleyDataText = "Your site is in flood zone 1, so it is unlikely we'll have any flood risk data for it. You can place an order and we will email you if none are available."
 const p4EmailIn20DaysText = 'We aim to email you the data within 20 working days.'
@@ -700,7 +794,10 @@ const getElementByIdAndFormat = (payload) => {
   document.body.innerHTML = payload
   const heading = document.getElementById('heading').textContent ? document.getElementById('heading').textContent : false
   const fzMeaningDescription = removeHtmlGaps(document.getElementById('fzMeaningDescription').textContent)
-  const rsBulletPoint = document.getElementById('rsBulletPoint') ? removeHtmlGaps(document.getElementById('rsBulletPoint').textContent) : false
+  const riversAndSeaBulletPoint = document.getElementById('riversAndSeaBulletPoint') ? removeHtmlGaps(document.getElementById('riversAndSeaBulletPoint').textContent) : false
+  const riversBulletPoint = document.getElementById('riversBulletPoint') ? removeHtmlGaps(document.getElementById('riversBulletPoint').textContent) : false
+  const seaBulletPoint = document.getElementById('seaBulletPoint') ? removeHtmlGaps(document.getElementById('seaBulletPoint').textContent) : false
+  const riversAndSeaCCNoDataBulletPoint = document.getElementById('riversAndSeaNoDataBulletPoint') ? removeHtmlGaps(document.getElementById('riversAndSeaNoDataBulletPoint').textContent) : false
   const fz1DataUnlikely = document.getElementById('fz1DataUnlikely') ? removeHtmlGaps(document.getElementById('fz1DataUnlikely').textContent) : false
   const rsSummaryTitle = removeHtmlGaps(document.getElementById('rsSummaryTitle').textContent)
   const orderP4Button = document.getElementById('orderP4Button') ? removeHtmlGaps(document.getElementById('orderP4Button').textContent) : false
@@ -728,8 +825,11 @@ const getElementByIdAndFormat = (payload) => {
   return {
     heading,
     fzMeaningDescription,
-    rsBulletPoint,
+    riversAndSeaBulletPoint,
+    riversBulletPoint,
+    seaBulletPoint,
     swBulletPoint,
+    riversAndSeaCCNoDataBulletPoint,
     fz1DataUnlikely,
     rsSummaryTitle,
     orderP4Button,
