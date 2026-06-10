@@ -1,20 +1,23 @@
-import { Steps } from '../../test-runner-api/steps.js'
+import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 
-describe('Header Links', () => {
-  let steps
-
-  beforeEach(async () => {
-    steps = new Steps()
+test.describe('Header Links', { tag: '@noDeps' }, () => {
+  test.beforeEach(async ({ steps }) => {
     await steps.open(pages.home.page)
   })
 
-  it('navigates to Flood map for planning and shows correct title @routing', async () => {
+  test('navigates to Flood map for planning and shows correct title', async ({ steps }) => {
     await steps.clickLink(pages.header.floodMapForPlanningLink)
     await steps.expectOn(pages.home.page)
   })
+})
 
-  it('navigates to Feedback and shows correct title @urlCheck', async () => {
+test.describe('Header Links - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.home.page)
+  })
+
+  test('navigates to Feedback and shows correct title', async ({ steps }) => {
     await steps.clickLink(pages.header.giveYourFeedbackLink)
     await steps.expectUrlContains('/feedback')
   })

@@ -1,18 +1,22 @@
-import { Steps } from '../../test-runner-api/steps.js'
+import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 
-describe('OS Terms and conditions page', () => {
-  let steps
-
-  beforeEach(async () => {
-    steps = new Steps()
+test.describe('OS Terms and conditions page', { tag: '@noDeps' }, () => {
+  test.beforeEach(async ({ steps }) => {
     await steps.open(pages.osTerms.page)
   })
 
-  it('displays the correct page title @validation', async () => {
+  test('displays the correct page title', async ({ steps }) => {
     await steps.expectOn(pages.osTerms.page)
   })
-  it('navigates to Ordnance Survey page when clicking the link @urlCheck', async () => {
+})
+
+test.describe('OS Terms and conditions page - external links', { tag: '@urlCheck' }, () => {
+  test.beforeEach(async ({ steps }) => {
+    await steps.open(pages.osTerms.page)
+  })
+
+  test('navigates to Ordnance Survey page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.osTerms.osLink)
     await steps.expectUrlContains('ordnancesurvey')
   })

@@ -945,10 +945,10 @@ data-module="govuk-service-navigation"
         Order detailed flood risk data
       </h3>
       
-  <p class="govuk-body" data-testid="order-product4-email">
-    To order flood risk data for this site, contact the Environment Agency team in Wessex at
-    <a class="govuk-link" href="mailto:wessexenquiries@environment-agency.gov.uk">wessexenquiries@environment-agency.gov.uk</a>
-  </p>
+    <p class="govuk-body" data-testid="order-product4-email">
+      To order flood risk data for this site, contact the Environment Agency team in Wessex at
+      <a class="govuk-link" href="mailto:wessexenquiries@environment-agency.gov.uk">wessexenquiries@environment-agency.gov.uk</a>
+    </p>
   <p class="govuk-body">Your email should say that you are ordering flood risk data and include:</p>
   <ul class="govuk-list govuk-list--bullet">
     <li>the address</li>

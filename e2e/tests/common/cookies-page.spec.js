@@ -1,36 +1,40 @@
-import { Steps } from '../../test-runner-api/steps.js'
+import { test, expect } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 
-describe('Cookies page', () => {
-  let steps
-
-  beforeEach(async () => {
-    steps = new Steps()
+test.describe('Cookies page', { tag: '@noDeps' }, () => {
+  test.beforeEach(async ({ steps }) => {
     await steps.open(pages.cookies.page)
   })
-  it('displays the correct page title @validation', async () => {
+
+  test('displays the correct page title', async ({ steps }) => {
     await steps.expectOn(pages.cookies.page)
   })
-  it('navigates to the privacy notice page when clicking the link @routing', async () => {
+
+  test('navigates to the privacy notice page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.cookies.privacyNoticeLink)
     await steps.expectOn(pages.privacyNotice.page)
   })
-  it('navigates to the terms and conditions page when clicking the link @routing', async () => {
+
+  test('navigates to the terms and conditions page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.cookies.termsAndConditionsLink)
     await steps.expectOn(pages.termsAndConditions.page)
   })
-  it('rejects the option to Do you want to accept analytics cookies? @routing', async () => {
+
+  test('rejects the option to Do you want to accept analytics cookies?', async ({ steps, page }) => {
     await steps.choose(pages.cookies.rejectAnalyticsCookies)
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects rejection
-    const [gaCookieAfterReject] = await browser.getCookies(['GA'])
+    const cookies = await page.context().cookies()
+    const gaCookieAfterReject = cookies.find(c => c.name === 'GA')
     expect(gaCookieAfterReject?.value).toEqual('Reject')
   })
-  it('accepts the option to Do you want to accept analytics cookies? @routing', async () => {
+
+  test('accepts the option to Do you want to accept analytics cookies?', async ({ steps, page }) => {
     await steps.choose(pages.cookies.acceptAnalyticsCookies)
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects acceptance
-    const [gaCookieAfterAccept] = await browser.getCookies(['GA'])
+    const cookies = await page.context().cookies()
+    const gaCookieAfterAccept = cookies.find(c => c.name === 'GA')
     expect(gaCookieAfterAccept?.value).toEqual('Accept')
   })
 })

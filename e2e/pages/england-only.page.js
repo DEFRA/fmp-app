@@ -2,7 +2,6 @@ import { definePage } from './.utils/page.js'
 import { link } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'EnglandOnly',
   slug: '/england-only',
   title: 'This service is for locations in England only'
 })
