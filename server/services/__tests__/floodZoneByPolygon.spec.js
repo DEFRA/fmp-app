@@ -32,6 +32,8 @@ describe('getFloodZoneByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '3',
       floodzone_2: false,
       floodzone_3: true,
+      hasRiversSource: false,
+      hasSeaSource: true,
       floodZoneLevel: 'high'
     })
   })
@@ -42,6 +44,8 @@ describe('getFloodZoneByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '2',
       floodzone_2: true,
       floodzone_3: false,
+      hasRiversSource: true,
+      hasSeaSource: false,
       floodZoneLevel: 'medium'
     })
   })
@@ -52,6 +56,8 @@ describe('getFloodZoneByPolygon - Flood Zone Only Scenarios', () => {
       floodZone: '3',
       floodzone_2: true,
       floodzone_3: true,
+      hasRiversSource: true,
+      hasSeaSource: false,
       floodZoneLevel: 'high'
     })
   })
