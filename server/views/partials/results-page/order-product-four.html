@@ -17,10 +17,18 @@
     </a>
   </p>
 {% elif not showOrderProduct4Button %}
-  <p class="govuk-body" data-testid="order-product4-email">
-    To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at
-    <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>
-  </p>
+  {%- if not contactData.EmailAddress -%}
+    <p class="govuk-body" data-testid="order-product4-email-missing">
+      We cannot identify the correct Environment Agency team for your location.
+      To order flood risk data for this site, contact the Environment Agency at
+      <a class="govuk-link" href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>
+    </p>
+  {%- else %}
+    <p class="govuk-body" data-testid="order-product4-email">
+      To order flood risk data for this site, contact the Environment Agency team in {{ contactData.AreaName }} at
+      <a class="govuk-link" href="mailto:{{ contactData.EmailAddress }}">{{ contactData.EmailAddress }}</a>
+    </p>
+  {%- endif %}
   <p class="govuk-body">Your email should say that you are ordering flood risk data and include:</p>
   <ul class="govuk-list govuk-list--bullet">
     <li>the address</li>
@@ -28,7 +36,7 @@
   </ul>
   {% if floodData.floodZone === '1'%}
     <p id="p4FZ1UnlikleyData" class="govuk-body">Your site is in flood zone 1, so it is unlikely we'll have any flood risk data for it. You can place an order and we will email you if none are available. </p>
-  {% else %}
+  {% elif contactData.EmailAddress %}
     <p id="p4EmailIn20Days" class="govuk-body">We aim to email you the data within 20 working days.</p>
     <p class="govuk-body">Depending on the information that's available, your flood risk data could include:</p>
     <ul class="govuk-list govuk-list--bullet">

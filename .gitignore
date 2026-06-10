@@ -21,3 +21,6 @@ coverage/
 test/results.json
 playwright-report/
 test-results/
+allure-results/
+allure-report/
+e2e/_results_/downloads/*.pdf

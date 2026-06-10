@@ -55,9 +55,19 @@ export class FormDriver {
     await this.page.getByRole('button', { name: element.text, exact: true }).click()
   }
 
+  async clickDetails (element) {
+    await this.page.locator('details').filter({ hasText: element.text }).locator('summary').click()
+  }
+
   async clickLink (element) {
     const locator = this.#getLinkLocator(element)
     // Some pages legitimately contain duplicate link text; click the first visible match.
+    await expect(locator.first()).toBeVisible()
+    await locator.first().click()
+  }
+
+  async clickLinkContainingText (element) {
+    const locator = this.#getLinkLocator(element, false)
     await expect(locator.first()).toBeVisible()
     await locator.first().click()
   }
@@ -83,6 +93,20 @@ export class FormDriver {
 
   async expectText (text) {
     await expect(this.page.getByRole('main')).toContainText(text)
+  }
+
+  async expectTextNotExists (text) {
+    await expect(this.page.getByRole('main')).not.toContainText(text)
+  }
+
+  async expectOnlyTexts (expectedTexts, allTexts) {
+    for (const text of allTexts) {
+      if (expectedTexts.includes(text)) {
+        await this.expectText(text)
+      } else {
+        await this.expectTextNotExists(text)
+      }
+    }
   }
 
   async expectErrorText (element) {
@@ -127,15 +151,18 @@ export class FormDriver {
 
   // ---- Private ---- //
 
-  #getLinkLocator (link) {
+  #getLinkLocator (link, exact = true) {
     if (link.type === 'footerLink') {
-      return this.page.locator('footer').getByRole('link', { name: link.text, exact: true })
+      return this.page.locator('footer').getByRole('link', { name: link.text, exact })
     }
     if (link.type === 'headerLink') {
-      return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact: true })
+      return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact })
+    }
+    if (link.type === 'mapLink') {
+      return this.page.getByRole('link', { name: link.text, exact })
     }
     if (link.type === 'mainLink' || link.type === 'link') {
-      return this.page.getByRole('main').getByRole('link', { name: link.text, exact: true })
+      return this.page.getByRole('main').getByRole('link', { name: link.text, exact })
     }
     throw new Error(`Unsupported link type '${link.type}'`)
   }

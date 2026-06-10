@@ -4,7 +4,7 @@ import { locationData } from '../data/location-data.js'
 import { userData } from '../data/user-data.js'
 
 test.describe('End-to-end planning journey', () => {
-  test('completes the journey from home to confirmation', { tag: '@both' }, async ({ steps, mapSteps }) => {
+  test('completes the journey from home to confirmation', { tag: '@e2e' }, async ({ steps, mapSteps }) => {
     await test.step('Home → Triage', async () => {
       await steps.open(pages.home.page)
       await steps.clickButton(pages.home.startButton)

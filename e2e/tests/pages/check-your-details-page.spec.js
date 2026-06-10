@@ -26,9 +26,4 @@ test.describe('Check your details page', () => {
   test('confirms the change location link is present', async ({ steps }) => {
     await steps.expectLinkExists(pages.checkYourDetails.changeLocationLink)
   })
-
-  test('navigates to confirmation page after clicking order button', async ({ steps }) => {
-    await steps.clickButton(pages.checkYourDetails.orderButton)
-    await steps.expectOn(pages.confirmation.page)
-  })
 })

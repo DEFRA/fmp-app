@@ -10,25 +10,26 @@ The suite uses a three-layer architecture. Tests read like plain English, driver
 
 ```
 tests/*.spec.js              ← Specifications (what to test)
-  ↓ fixtures (steps / mapSteps)
-test-runner-api/              ← FormDriver & MapDriver (how to interact)
+  ↓ fixtures (steps / mapSteps / pdfDriver)
+test-runner-api/              ← FormDriver, MapDriver & PdfDriver (how to interact)
   ↓
 pages/                        ← Page definitions & control factories
 ```
 
 ### Fixtures (`fixtures.js`)
 
-[Playwright fixtures](https://playwright.dev/docs/test-fixtures) provide two drivers to every test:
+[Playwright fixtures](https://playwright.dev/docs/test-fixtures) make three drivers available to tests (most tests use `steps` and/or `mapSteps`; PDF tests use `pdfDriver`):
 
 | Fixture    | Class        | Purpose |
 |------------|-------------|---------|
 | `steps`    | `FormDriver` | Standard GOV.UK form page interactions |
 | `mapSteps` | `MapDriver`  | Map-specific interactions (extends `FormDriver`) |
+| `pdfDriver` | `PdfDriver`  | PDF download, parsing, and PDF content assertions |
 
 ```js
 import { test } from '../../fixtures.js'
 
-test('example', async ({ steps, mapSteps }) => {
+test('example', async ({ steps, mapSteps, pdfDriver }) => {
   await steps.open(pages.home.page)
   // ...
 })
@@ -71,6 +72,18 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 | `zoomIn(times)` | Zoom in with retry logic between each click |
 | `addSquare()` | Open the location menu and click "Add square" |
 | `confirmBoundaryAndContinue()` | Click "Finish" then "Get summary report" |
+
+**PdfDriver** — handles PDF download capture, parsing, and PDF-specific assertions:
+
+| Method | Description |
+|--------|-------------|
+| `awaitDownload(timeout)` | Wait for a PDF download event, save to `_results_/downloads`, and return the file path |
+| `parsePdf(filePath)` | Parse PDF text and links using `pdf-parse` |
+| `expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks })` | Validate all PDF content: core text, flood zone, location, and links |
+| `expectCoreContent(pdf, { reference, scale })` | Validate core report text, reference handling, and scale formatting |
+| `expectFloodZone(pdf, floodZone)` | Validate zone text in PDF matches expected flood zone |
+| `expectLocation(pdf, polygonString)` | Validate centroid easting/northing rendered in PDF |
+| `expectLinks(pdf, expectedLinks)` | Validate required links are present and all extracted links are valid URLs |
 
 ### Page Objects (`pages/`)
 
@@ -142,7 +155,7 @@ await test.step('Home → Triage', async () => {
 
 ## Prerequisites
 
-- Node.js 18+ (LTS recommended)
+- Node.js 20.16+ (required by `pdf-parse`)
 - Browsers — install whichever you need to run:
 
   ```bash
@@ -165,6 +178,13 @@ await test.step('Home → Triage', async () => {
 npm install
 npx playwright install          # all browsers, or pick one as above
 ```
+
+## PDF Test Artifacts
+
+PDF tests generate files in `_results_/downloads/`.
+
+- PDF files accumulate across runs — they are not cleared automatically.
+- Generated PDFs are ignored by git (`e2e/_results_/downloads/*.pdf`), so they are not committed.
 
 ## Docker (WIP)
 
@@ -193,6 +213,10 @@ Set the target environment with `TEST_ENV`. Defaults to `tst` locally and `local
 | local | `TEST_ENV=local` | `http://localhost:8050` | `http://localhost:8050` |
 | dev | `TEST_ENV=dev` | `https://fmp2-dev.aws-int.defra.cloud/` | `https://fmp2-internal-dev.aws-int.defra.cloud/` |
 | tst | `TEST_ENV=tst` | `https://fmp2-tst.aws-int.defra.cloud/` | `https://fmp2-internal-tst.aws-int.defra.cloud/` |
+| pre | `TEST_ENV=pre` | `https://fmp2-pre.aws.defra.cloud/` | `https://fmp2-internal-pre.aws-int.defra.cloud/` |
+| prd-green | `TEST_ENV=prd-green` | `https://fmp2-prd-green.aws.defra.cloud/` | `https://fmp2-internal-prd-green.aws-int.defra.cloud/` |
+| prd-blue | `TEST_ENV=prd-blue` | `https://fmp2-prd-blue.aws.defra.cloud/` | `https://fmp2-internal-prd-blue.aws-int.defra.cloud/` |
+| prod | `TEST_ENV=prod` | `https://flood-map-for-planning.service.gov.uk/` | `https://fmp-internal.prd.defra.cloud/` |
 
 ### Projects
 
@@ -251,6 +275,13 @@ npm run test:urlCheck
 # Other environments
 npm run test:tst
 npm run test:dev
+npm run test:pre
+npm run test:prd-green
+npm run test:prd-blue
+npm run test:prod
+
+# End-to-end journey test — always runs against the pre environment
+npm run test:e2e
 
 # Other browsers
 npm run test:firefox
@@ -289,7 +320,8 @@ e2e/
 │
 ├── test-runner-api/
 │   ├── form-driver.js           # FormDriver — GOV.UK form interactions
-│   └── map-driver.js            # MapDriver — Esri map interactions
+│   ├── map-driver.js            # MapDriver — Esri map interactions
+│   └── pdf-driver.js            # PdfDriver — PDF download/parse/assertions
 │
 ├── pages/
 │   ├── .utils/
@@ -399,7 +431,7 @@ test('interacts with the map', async ({ steps, mapSteps }) => {
 
 | Problem | Solution |
 |---------|----------|
-| `Unknown TEST_ENV "..."` | Set `TEST_ENV` to `local`, `dev`, or `tst` |
+| `Unknown TEST_ENV "..."` | Set `TEST_ENV` to one of: `local`, `dev`, `tst`, `pre`, `prd-green`, `prd-blue`, `prod` |
 | `Missing base URL config` | Check `environments.js` has `baseUrl` and `internalBaseUrl` for the chosen environment |
 | Map test timeouts | Map interactions depend on tile loading — ensure the target environment is responsive |
 | Strict mode violation | A link's text matches multiple elements — update the page object to use the full exact link text |

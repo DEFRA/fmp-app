@@ -16,7 +16,8 @@
     <ul class="govuk-list govuk-list--bullet">
       {% if floodData.hasRiversSource and floodData.hasSeaSource %}<li id="riversAndSeaBulletPoint" data-testid="risk-list-rivers-sea">rivers and the sea (fluvial and tidal)</li>
       {% elif floodData.hasRiversSource %}<li id="riversBulletPoint" data-testid="risk-list-rivers">rivers (fluvial)</li>
-      {% elif floodData.hasSeaSource %}<li id="seaBulletPoint" data-testid="risk-list-sea">the sea (tidal)</li>{% endif %}
+      {% elif floodData.hasSeaSource %}<li id="seaBulletPoint" data-testid="risk-list-sea">the sea (tidal)</li>
+      {% elif floodData.floodZoneClimateChangeNoData %}<li id="riversAndSeaNoDataBulletPoint" data-testid="risk-list-rivers-sea-no-data">rivers and the sea (fluvial or tidal) due to climate change</li>{% endif %}
       {% if floodData.surfaceWater.riskBand %}<li id="swBulletPoint">surface water</li>{% endif %}
     </ul>
     {% endif %}
@@ -55,10 +56,7 @@
         </h2>
         <ul class="govuk-summary-card__actions">
           <li class="govuk-summary-card__action">
-            <a class="govuk-link" href="/map?encodedPolygon={{ encodedPolygon }}&seg=rsd,pd,hr">
-              See this risk on the map<span class="govuk-visually-hidden"> See the risk from rivers and the sea on the
-                map</span>
-            </a>
+            <a class="govuk-link" href="/map?encodedPolygon={{ encodedPolygon }}&seg=rsd,pd,hr">See this risk on the map<span class="govuk-visually-hidden"> See the risk from rivers and the sea on the map</span></a>
           </li>
         </ul>
       </div>

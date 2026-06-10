@@ -6,20 +6,29 @@
   "scripts": {
     "test": "npx playwright test --project=public-chromium --project=internal-chromium",
     "test:ui": "npx playwright test --ui --project=public-chromium --project=internal-chromium",
-    "test:urlCheck": "npx playwright test --project=urlCheck-chrome",
-    "test:local": "TEST_ENV=local npx playwright test --project=noDeps-local-chrome",
+    "test:urlCheck": "npx playwright test --project=urlCheck-chromium",
+    "test:local": "TEST_ENV=local npx playwright test --project=noDeps-local-chromium",
     "test:tst": "TEST_ENV=tst npm run test",
     "test:dev": "TEST_ENV=dev npm run test",
+    "test:pre": "TEST_ENV=pre npm run test",
+    "test:prd-green": "TEST_ENV=prd-green npm run test",
+    "test:prd-blue": "TEST_ENV=prd-blue npm run test",
+    "test:prod": "TEST_ENV=prod npm run test",
     "test:edge": "npx playwright test --project=public-edge --project=internal-edge",
     "test:firefox": "npx playwright test --project=public-firefox --project=internal-firefox",
+    "test:e2e": "TEST_ENV=pre npx playwright test --project=e2e-public-chromium --project=e2e-internal-chromium",
     "test:all-browsers": "npx playwright test",
     "report:open": "npx playwright show-report",
+    "report:allure": "npx allure generate allure-results --clean -o allure-report",
+    "report:allure:open": "npx allure open allure-report",
     "prepare": "husky"
   },
   "author": "R Leighton",
   "devDependencies": {
     "@mapbox/polyline": "^1.2.1",
     "@playwright/test": "^1.50.0",
-    "husky": "^9.1.7"
+    "allure-playwright": "^3.0.0",
+    "husky": "^9.1.7",
+    "pdf-parse": "^2.4.5"
   }
 }
