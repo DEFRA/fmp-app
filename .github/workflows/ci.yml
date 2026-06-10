@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -25,8 +25,43 @@ jobs:
           cp ./config/.env-example .env
           npm run test
 
+      - name: Build app
+        run: npm run build
+
+      - name: Install e2e dependencies
+        run: cd e2e && npm ci --ignore-scripts
+
+      - name: Install Playwright browsers
+        run: cd e2e && npx playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        run: |
+          npm start &
+          npx --yes wait-on http://localhost:8050 --timeout 30000
+          cd e2e && npm run test:local
+
+      - name: Upload e2e test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-test-results
+          path: |
+            e2e/playwright-report/
+            e2e/test-results/
+
+      - name: Publish e2e test results
+        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040
+        if: always()
+        with:
+          files: e2e/test-results/junit.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+          comment-summary-in-pr: always

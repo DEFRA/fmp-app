@@ -1,0 +1,13 @@
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    ipc: host
+    environment:
+      - TEST_ENV=${TEST_ENV:-tst}
+      - APP_PORT=${APP_PORT:-8050}
+    volumes:
+      - ./playwright-report:/app/playwright-report
+    command: ["npm", "run", "test"]

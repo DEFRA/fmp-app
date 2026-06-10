@@ -19,6 +19,9 @@ const getCustomerTeam = (options) => {
         throw new Error(errorMessage)
       }
       response.isEngland = esriResult.length > 0
+      if (!response.isEngland) {
+        return response
+      }
       const { attributes } = esriResult[0]
       return Object.assign(response, {
         EmailAddress: attributes.contact_email,

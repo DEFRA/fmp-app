@@ -1,18 +1,21 @@
 import { definePage } from './.utils/page.js'
-import { button, link, textInput, selectInput } from './.utils/form-controls.js'
+import { button, details, link, textInput, selectInput } from './.utils/form-controls.js'
 
 export const page = definePage({
-  key: 'NextSteps',
   slug: '/next-steps',
   title: 'Next steps for your planning application'
 })
 
-export const addReferenceToFloodMapDetails = button('Add a reference to the flood map and set the scale')
+// URL helper
+export const slug = (polygon) => `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
+
+// P1 Map Controls
+export const addReferenceToFloodMapDetails = details('Add a reference to the flood map and set the scale')
 export const addReferenceInput = textInput('Add a reference')
 export const scaleSelect = selectInput('Scale')
 export const downloadFloodMapButton = button('Download flood map for this location (PDF)')
 // editBoundaryButton only shows when the polygon selected is over 300 hectares
-export const editBoundaryButton = button('Edit boundary')
+export const editBoundaryLink = link('Edit boundary')
 export const orderFloodRiskDataButton = link('Order flood risk data')
 
 // Internal links
