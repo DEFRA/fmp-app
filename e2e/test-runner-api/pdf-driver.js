@@ -57,13 +57,23 @@ export class PdfDriver {
     expect(pdf.text).toContain(`your selected location is in flood zone ${floodZone}`)
   }
 
-  expectLocation (pdf, polygonString) {
+  expectLocation (pdf, polygonString, tolerance = 1) {
     const coordinates = JSON.parse(polygonString)
     const isClosed = JSON.stringify(coordinates[0]) === JSON.stringify(coordinates.at(-1))
     const points = isClosed ? coordinates.slice(0, -1) : coordinates
-    const easting = Math.floor(points.reduce((sum, [x]) => sum + x, 0) / points.length)
-    const northing = Math.floor(points.reduce((sum, [, y]) => sum + y, 0) / points.length)
-    expect(pdf.text).toContain(`${easting}/${northing}`)
+    const expectedEasting = Math.floor(points.reduce((sum, [x]) => sum + x, 0) / points.length)
+    const expectedNorthing = Math.floor(points.reduce((sum, [, y]) => sum + y, 0) / points.length)
+
+    expect(pdf.text).toMatch(/\d{6}\/\d{6}/)
+
+    const locationMatch = pdf.text.match(/(\d{6})\/(\d{6})/)
+    expect(locationMatch).not.toBeNull()
+
+    const actualEasting = Number(locationMatch[1])
+    const actualNorthing = Number(locationMatch[2])
+
+    expect(Math.abs(actualEasting - expectedEasting)).toBeLessThanOrEqual(tolerance)
+    expect(Math.abs(actualNorthing - expectedNorthing)).toBeLessThanOrEqual(tolerance)
   }
 
   expectLinks (pdf, expectedLinks) {

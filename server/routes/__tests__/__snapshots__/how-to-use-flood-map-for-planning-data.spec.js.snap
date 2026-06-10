@@ -240,9 +240,10 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">
       On this page:
       <ul class="govuk-list govuk-list--bullet">
-        <li><a href="#howToUseTitle">how should the data be used?</a></li>
-        <li><a href="#whatAreFZCCTitle">what are ‘flood zones plus climate change’?</a></li>
-        <li><a href="#WhatDoesCCUnavailableMean">what does ‘climate change data unavailable’ mean?</a></li>
+        <li><a class="govuk-link" href="#howToUseTitle">how should the data be used?</a></li>
+        <li><a class="govuk-link" href="#whatAreFZCCTitle">what are ‘flood zones plus climate change’?</a></li>
+        <li><a class="govuk-link" href="#WhatDoesCCUnavailableMean">what does ‘climate change data unavailable’ mean?</a></li>
+        <li><a class="govuk-link" href="#WhatIsTheDataServicesPlatform">What is the data services platform?</a></li>
       </ul>
     </p>
 
@@ -252,7 +253,7 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">Users of these datasets should always check they are suitable for the intended use.</p>
     <p class="govuk-body">
       See how to 
-      <a href="https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment">prepare a strategic flood risk assessment</a>
+      <a class="govuk-link" href="https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment">prepare a strategic flood risk assessment</a>
       for further advice on using these datasets in SFRAs. 
     </p>
     <p class="govuk-body">The table below explains how the datasets shown on the flood map should be used in planning.</p>
@@ -282,7 +283,7 @@ data-module="govuk-service-navigation"
             <li>flood zones 2 and 3</li>
             <li>flood zones plus climate change </li>
             <li>water storage areas</li>
-            <li>surface water layers</li>
+            <li>surface water flood risk layers</li>
           </ul>
         </dd>
 
@@ -334,8 +335,8 @@ data-module="govuk-service-navigation"
           </ul>
           <p class="govuk-body">
             Exemptions from the sequential test are set out in the 
-            <a href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
-            <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para27">planning practice guidance</a>.
+            <a class="govuk-link" href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
+            <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para27">planning practice guidance</a>.
           </p>
         </dd>
       </div>
@@ -353,8 +354,8 @@ data-module="govuk-service-navigation"
             </li>
           </ul>
           <p class="govuk-body">Exemptions from the exception test are set out in the 
-            <a href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
-            <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para35">planning practice guidance</a>.
+            <a class="govuk-link" href="https://www.gov.uk/government/publications/national-planning-policy-framework--2">National Planning Policy Framework</a> and 
+            <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#para35">planning practice guidance</a>.
           </p>
         </dd>
       </div>
@@ -377,9 +378,9 @@ data-module="govuk-service-navigation"
           </ul>
           <p class="govuk-body">
             We recommend that those producing local plans and ranking methodologies should discuss
-            this with the Environment Agency. Additional supporting datasets are available through
-            the data services platform, which may further help local planning authorities producing
-            a ranking methodology.
+            this with the Environment Agency. Additional supporting datasets are available through the
+            <a class="govuk-link" href = "https://environment.data.gov.uk/">data services platform</a>,
+            which may further help local planning authorities producing a ranking methodology.
           </p>
         </dd>
       </div>
@@ -404,7 +405,7 @@ data-module="govuk-service-navigation"
       <div class="govuk-summary-list__row">
 
         <dd class="govuk-summary-list__value">
-            <p class="govuk-body">To check development incompatibility, see <a href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice Guidance</a> and use:</p>
+            <p class="govuk-body">To check development incompatibility, see <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-and-coastal-change#table2">table 2 of Planning Practice Guidance</a> and use:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones 2 and 3</li>
             <li>water storage areas (if local planning authority's strategic flood risk assessment defines as flood zone
@@ -437,7 +438,7 @@ data-module="govuk-service-navigation"
           Data that can be used to trigger this process
         </dt>
         <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Subject to applying the process set out in <a href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a>:</p>
+            <p class="govuk-body">Subject to applying the process set out in <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessment-local-planning-authorities">national flood risk standing advice for local planning authorities</a>:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>flood zones</li>
             <li>main rivers</li>
@@ -456,7 +457,7 @@ data-module="govuk-service-navigation"
           <p class="govuk-body">
             You can find out if the Environment Agency will be consulted on your application or if flood risk standing 
             advice applies by visiting 
-            <a href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">flood risk assessments: applying for planning permission.</a>
+            <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications">flood risk assessments: applying for planning permission.</a>
           </p>
         </dd>
 
@@ -470,7 +471,7 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">
       The material displayed in this service, including maps and risk data, is provided without any guarantees,
       conditions or warranties as to its accuracy. See our 
-      <a href="/terms-and-conditions">terms and conditions</a>
+      <a class="govuk-link" href="/terms-and-conditions">terms and conditions</a>
       for more information.
     </p>
     <p class="govuk-body">
@@ -503,7 +504,7 @@ data-module="govuk-service-navigation"
     <p class="govuk-body">
       We have used climate change allowances that will be suitable
       for most common development types, as set out in the
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">flood risk assessments climate change allowances guidance.</a>
+      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances">flood risk assessments climate change allowances guidance.</a>
     </p>
 
 <!-- climate change allowances -->
@@ -548,7 +549,7 @@ data-module="govuk-service-navigation"
     </p>    
 
     <p class="govuk-body">
-      <a href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">More information on when to use other climate change allowances.</a>
+      <a class="govuk-link" href="https://www.gov.uk/guidance/flood-risk-assessments-climate-change-allowances" contenteditable="false" style="cursor: pointer;">More information on when to use other climate change allowances.</a>
     </p>
 
   <!-- What does climate change data unavailable mean? -->
@@ -581,7 +582,62 @@ data-module="govuk-service-navigation"
       As new models, data and information become available that meet our quality assurance standards, we will add these
       to the flood map for planning.
     </p>
+
+    <h2 id="WhatIsTheDataServicesPlatform" class="govuk-heading-m">
+      What is the data services platform?
+    </h2>
+    <p class="govuk-body">
+      All data on the flood map for planning service is also available through the
+      <a class="govuk-link" href = "https://environment.data.gov.uk/">data services platform (DSP)</a>.
+    </p>
     
+    <p class="govuk-body">
+      The data services platform is a web-based service provided by Defra and its agencies to make
+      environmental data openly available to a wide range of users. 
+    </p>
+
+    <p class="govuk-body">
+      Flood map for planning data on the DSP includes:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/04532375-a198-476e-985e-0579a0a11b47">
+          flood zones
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/59065c43-257e-4867-8798-fd2366156a6b">
+          flood zones plus climate change
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/86ca7c80-d465-11e4-afe1-f0def148f590">
+          water storage areas
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/c853dc8c-9371-4a8f-99ea-a1daa023945e">
+          surface water extents, present day
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/c5ac51b0-be1d-462a-b734-2c22625ce005">
+          surface water extents with climate change
+        </a>
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/fa3a36ed-121c-424b-b8bf-8108f959b7a9">
+          surface water depths, present day
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/cf8d4e8f-99b6-4e5d-bf56-7f80e93d0931">
+          surface water depths with climate change
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 

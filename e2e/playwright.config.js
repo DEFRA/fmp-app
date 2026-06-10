@@ -48,6 +48,7 @@ export default defineConfig({
     ...(isCi ? [['github']] : []),
     ['junit', { outputFile: 'test-results/junit.xml' }],
     ['html', { open: isCi ? 'never' : 'always' }],
+    ['allure-playwright', { outputFolder: 'allure-results' }],
   ],
 
   use: {

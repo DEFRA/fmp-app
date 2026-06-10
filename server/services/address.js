@@ -14,19 +14,27 @@ const shortNames = {
   stockton: 'Stockton-on-Tees'
 }
 
-const replaceCommonSearchTerms = (place) =>
-  shortNames[place?.toLowerCase()] || place
+const replaceCommonSearchTerms = (place) => shortNames[place?.toLowerCase()] || place
+
+const osNamesLookup = async (place) => {
+  try {
+    const uri = `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`
+      .replace('maxresults=1&', 'maxresults=10&')
+    const response = await axios.get(uri)
+    return response
+  } catch (error) {
+    console.log(`Error looking up place: ${place} with OS Names API`)
+    console.log('error.code', error.code)
+    console.log('error.message', error.message)
+    console.error('Full Error: ', error)
+    return null
+  }
+}
 
 module.exports = {
   findByPlace: async (place) => {
-    const uri =
-      `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`.replace(
-        'maxresults=1&',
-        'maxresults=10&'
-      )
-    const response = await axios.get(uri)
-
     place = replaceCommonSearchTerms(place) // FCRM-4460 - see comment above
+    const response = await osNamesLookup(place)
     if (!response?.data?.results || response?.data?.results?.length === 0) {
       return []
     }
