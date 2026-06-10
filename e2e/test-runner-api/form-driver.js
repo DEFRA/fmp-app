@@ -95,6 +95,20 @@ export class FormDriver {
     await expect(this.page.getByRole('main')).toContainText(text)
   }
 
+  async expectTextNotExists (text) {
+    await expect(this.page.getByRole('main')).not.toContainText(text)
+  }
+
+  async expectOnlyTexts (expectedTexts, allTexts) {
+    for (const text of allTexts) {
+      if (expectedTexts.includes(text)) {
+        await this.expectText(text)
+      } else {
+        await this.expectTextNotExists(text)
+      }
+    }
+  }
+
   async expectErrorText (element) {
     await expect(this.page.getByRole('alert')).toBeVisible()
     await expect(this.page.getByRole('alert')).toContainText(element.text)
@@ -143,6 +157,9 @@ export class FormDriver {
     }
     if (link.type === 'headerLink') {
       return this.page.locator('header, .govuk-service-navigation, .govuk-phase-banner').getByRole('link', { name: link.text, exact })
+    }
+    if (link.type === 'mapLink') {
+      return this.page.getByRole('link', { name: link.text, exact })
     }
     if (link.type === 'mainLink' || link.type === 'link') {
       return this.page.getByRole('main').getByRole('link', { name: link.text, exact })

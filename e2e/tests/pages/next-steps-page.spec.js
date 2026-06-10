@@ -2,9 +2,9 @@ import { test } from '../../fixtures.js'
 import { pages } from '../../pages/index.js'
 import { areaData, floodZonedata } from '../../data/location-data.js'
 
-test.describe('Next steps page', () => {
-  const slug = (polygon) => `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
+const { slug } = pages.nextSteps
 
+test.describe('Next steps page', () => {
   test.describe('Link and content tests', () => {
     const polygon = areaData.Yorkshire.polygon
 
@@ -29,7 +29,7 @@ test.describe('Next steps page', () => {
 
     test('navigates to Flood risk assessments: applying for planning permission page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
       await steps.clickLink(pages.nextSteps.howToDoAnAssessmentLink)
-      await steps.expectUrlContains('for-planning-applications')
+      await steps.expectUrlContains('applying-for-planning-permission')
     })
 
     test('navigates to Reservoirs map page when clicking the link', { tag: '@urlCheck' }, async ({ steps }) => {
@@ -108,7 +108,7 @@ test.describe('Next steps page', () => {
       const { polygon } = areaData.HertfordshireAndNorthLondon
       await steps.open({
         ...pages.nextSteps.page,
-        slug: `/next-steps?encodedPolygon=${encodeURIComponent(polygon)}`
+        slug: slug(polygon)
       })
       await steps.expectOn(pages.nextSteps.page)
       await steps.expectLinkExists(pages.nextSteps.orderFloodRiskDataButton)
