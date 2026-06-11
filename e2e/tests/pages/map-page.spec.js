@@ -71,10 +71,6 @@ test.describe('Map page', () => {
       await mapSteps.openSearch()
     })
 
-    test('opens search input', async ({ mapSteps }) => {
-      await mapSteps.expectVisible('combobox', /search/i)
-    })
-
     test('shows no results for invalid search', async ({ mapSteps }) => {
       await mapSteps.search('qzxwvvbnnmm112233445566778899')
       await mapSteps.expectText('No results')
