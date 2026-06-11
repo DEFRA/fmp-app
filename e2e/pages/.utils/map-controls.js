@@ -3,6 +3,7 @@ export const menuSection = (text) => ({ type: 'menuSection', text })
 export const menuButtonOption = (text) => ({ type: 'menuButtonOption', text })
 export const menuRadioOption = (text) => ({ type: 'menuRadioOption', text })
 export const menuCheckboxOption = (text) => ({ type: 'menuCheckboxOption', text })
+export const mapSwitch = (text) => ({ type: 'mapSwitch', text })
 
 // Right-hand map interaction controls
 export const mapButton = (text) => ({ type: 'mapButton', text })
