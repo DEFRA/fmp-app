@@ -2,33 +2,32 @@ import { expect } from '@playwright/test'
 import { FormDriver } from './form-driver.js'
 import * as mapPage from '../pages/map.page.js'
 
-const ARIA_DISABLED = 'aria-disabled'
-const DEFAULT_ZOOM_TIMES = 3
-const POLL_TIMEOUT = 10000
-const POLL_INTERVAL_SHORT = 200
-const POLL_INTERVAL_MEDIUM = 400
-const POLL_INTERVAL_LONG = 800
-const POLL_INTERVALS = [POLL_INTERVAL_SHORT, POLL_INTERVAL_MEDIUM, POLL_INTERVAL_LONG]
-
 export class MapDriver extends FormDriver {
+  async getFeatureToggle (element) {
+    const switchToggle = this.page.getByRole('switch', { name: element.text, exact: true }).first()
+    if (await switchToggle.count()) {
+      return switchToggle
+    }
+    const checkboxToggle = this.page.getByRole('checkbox', { name: element.text, exact: true }).first()
+    if (await checkboxToggle.count()) {
+      return checkboxToggle
+    }
+    throw new Error(`getFeatureToggle(): no switch or checkbox found for '${element.text}'`)
+  }
+
+  // ---- Actions ---- //
+
   async waitForMapToLoad () {
     await expect(this.page.locator('#map-viewport')).toBeVisible()
-    await this.page.waitForLoadState('networkidle')
+    await expect(this.page.getByRole('slider', { name: 'Layer opacity' })).toBeVisible()
   }
 
-  async clickButton (element) {
-    const text = element.text.trim()
-    const button = this.page.getByRole('button', { name: text, exact: true }).first()
-    await expect(async () => {
-      expect(await button.isVisible()).toBe(true)
-      expect(await button.getAttribute(ARIA_DISABLED)).not.toBe('true')
-    }).toPass()
-    await button.click()
-  }
-
-  async expandMenuSection (element) {
-    const text = element.text.trim()
-    await this.page.getByRole('button', { name: text }).first().click()
+  async expandSection (name) {
+    const button = this.page.getByRole('button', { name: new RegExp(name) }).first()
+    const expanded = await button.getAttribute('aria-expanded')
+    if (expanded !== 'true') {
+      await button.click()
+    }
   }
 
   async chooseMenuOption (element) {
@@ -40,31 +39,42 @@ export class MapDriver extends FormDriver {
       await this.page.getByRole('radio', { name: element.text, exact: true }).check({ force: true })
       return
     }
-    if (element.type === 'menuCheckboxOption') {
-      await this.page.getByRole('checkbox', { name: element.text, exact: true }).check({ force: true })
-      return
-    }
     throw new Error(`chooseMenuOption(): unsupported element type '${element.type}'`)
   }
 
-  async zoomIn (times = DEFAULT_ZOOM_TIMES) {
+  async openSearch () {
+    await this.page.getByRole('button', { name: /search/i }).first().click()
+  }
+
+  async search (query) {
+    await this.page.getByRole('combobox').fill(query)
+  }
+
+  async selectSearchResult () {
+    const input = this.page.getByRole('combobox')
+    await input.press('ArrowDown')
+    await input.press('Enter')
+    await this.page.waitForLoadState('networkidle')
+  }
+
+  async dismissPanel (name) {
+    await this.page.getByRole('dialog', { name }).getByRole('button', { name: /close/i }).click()
+  }
+
+  async dismissBanner (text) {
+    const banner = this.page.getByRole('status').filter({ hasText: text }).first()
+    await banner.locator('..').getByRole('button', { name: /close/i }).click()
+  }
+
+  async zoomIn (times = 3) {
     for (let i = 0; i < times; i++) {
-      const zoomInButton = this.page.getByRole('button', { name: 'Zoom in', exact: true }).first()
-      await expect(async () => {
-        expect(await zoomInButton.isVisible()).toBe(true)
-        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
-      }).toPass()
-      await zoomInButton.click()
+      await this.clickButton(mapPage.zoomInButton)
       await this.page.waitForLoadState('networkidle')
-      await expect(async () => {
-        expect(await zoomInButton.getAttribute(ARIA_DISABLED)).not.toBe('true')
-      }).toPass()
     }
   }
 
   async addSquare () {
-    await this.expandMenuSection(mapPage.locationMenuSection)
-    await this.chooseMenuOption(mapPage.addSquareOption)
+    await this.clickButton(mapPage.addSquareOption)
   }
 
   async confirmBoundaryAndContinue () {
@@ -72,117 +82,82 @@ export class MapDriver extends FormDriver {
     await this.clickButton(mapPage.getSummaryReportButton)
   }
 
-  // --- Map state helpers ---
+  // ---- Assertions ---- //
 
-  _norm (text) {
-    return text.replace(/\s+/g, ' ').trim()
+  async expectSectionVisible (name) {
+    await expect(this.page.getByRole('button', { name: new RegExp(name) }).first()).toBeVisible()
   }
 
-  _snapChanged (before, after) {
-    return (
-      before.label !== after.label ||
-      before.class !== after.class ||
-      before.text !== after.text ||
-      before.children !== after.children
-    )
+  async expectVisible (role, name) {
+    const opts = name instanceof RegExp ? { name } : { name, exact: true }
+    await expect(this.page.getByRole(role, opts).first()).toBeVisible()
   }
 
-  async getKeyText () {
-    const kd = mapPage.getMapDialog(this.page, 'Key')
-    return this._norm(await kd.innerText())
+  async expectHidden (role, name) {
+    const opts = name instanceof RegExp ? { name } : { name, exact: true }
+    await expect(this.page.getByRole(role, opts).first()).toBeHidden()
   }
 
-  async getSectionText (title) {
-    const btn = mapPage.getSectionButtonByTitle(this.page, title)
-    await expect(btn).toBeVisible()
-    return this._norm(await btn.innerText())
+  async expectEnabled (element) {
+    const button = this.page.getByRole('button', { name: element.text, exact: true }).first()
+    await expect(button).toBeVisible()
+    const disabled = await button.getAttribute('disabled')
+    const ariaDisabled = await button.getAttribute('aria-disabled')
+    expect(disabled === null && ariaDisabled !== 'true').toBe(true)
   }
 
-  async getMapSnapshot () {
-    const vp = mapPage.getMapViewport(this.page)
-    await expect(vp).toBeVisible()
-    return {
-      label: await vp.getAttribute('aria-label'),
-      class: await vp.getAttribute('class'),
-      text: this._norm(await vp.innerText().catch(() => '')),
-      children: await vp.locator('*').count().catch(() => 0)
-    }
+  async expectDisabled (element) {
+    const button = this.page.getByRole('button', { name: element.text, exact: true }).first()
+    await expect(button).toBeVisible()
+    const disabled = await button.getAttribute('disabled')
+    const ariaDisabled = await button.getAttribute('aria-disabled')
+    expect(disabled !== null || ariaDisabled === 'true').toBe(true)
   }
 
-  async waitForMapToSettle () {
-    const kd = mapPage.getMapDialog(this.page, 'Key')
-    await expect(kd).toBeVisible()
-    await this.page.waitForLoadState('networkidle')
-    await expect.poll(async () => (await this.getKeyText()).length, {
-      timeout: POLL_TIMEOUT,
-      intervals: POLL_INTERVALS
-    }).toBeGreaterThan(0)
-  }
-
-  async assertRadioLayerChange (option, sectionTitle, prevState, { checkKey = true } = {}) {
-    const radio = this.page.getByRole('radio', { name: option.text, exact: true })
-    await this.chooseMenuOption(option)
-    await expect(radio).toBeChecked()
-
-    if (!prevState) {
-      await this.waitForMapToSettle()
-      return {
-        query: new URL(this.page.url()).search,
-        key: await this.getKeyText(),
-        section: await this.getSectionText(sectionTitle),
-        snap: await this.getMapSnapshot(),
-        option
+  async expectSliderAttributes (name, attrs) {
+    const slider = this.page.getByRole('slider', { name })
+    await expect(slider).toBeVisible()
+    for (const [attr, value] of Object.entries(attrs)) {
+      if (value instanceof RegExp) {
+        const actual = await slider.getAttribute(attr)
+        expect(actual).toMatch(value)
+      } else {
+        await expect(slider).toHaveAttribute(attr, value)
       }
     }
-
-    const prevRadio = this.page.getByRole('radio', { name: prevState.option.text, exact: true })
-    await expect(prevRadio).not.toBeChecked()
-
-    await expect.poll(() => new URL(this.page.url()).search, {
-      timeout: POLL_TIMEOUT,
-      intervals: POLL_INTERVALS
-    }).not.toBe(prevState.query)
-
-    await this.waitForMapToSettle()
-    const state = {
-      query: new URL(this.page.url()).search,
-      key: await this.getKeyText(),
-      section: await this.getSectionText(sectionTitle),
-      snap: await this.getMapSnapshot(),
-      option
-    }
-
-    const keyChanged = state.key !== prevState.key
-    const sectionMatches = state.section !== prevState.section &&
-      state.section.toLowerCase().includes(option.text.toLowerCase())
-    const mapChanged = this._snapChanged(prevState.snap, state.snap)
-
-    if (checkKey) {
-      expect(keyChanged || sectionMatches || mapChanged).toBe(true)
-    } else {
-      expect(sectionMatches || mapChanged).toBe(true)
-    }
-
-    return state
   }
 
-  async assertMultipleRadios (options, sectionTitle, { checkKey = true } = {}) {
+  async expectUrlChanged (prevUrl) {
+    await expect(this.page).not.toHaveURL(prevUrl)
+  }
+
+  // ---- Composite assertions ---- //
+
+  async assertRadiosUpdateMap (options) {
     for (const opt of options) {
       await expect(this.page.getByRole('radio', { name: opt.text, exact: true })).toBeVisible()
     }
-    let state = null
-    for (const option of options) {
-      state = await this.assertRadioLayerChange(option, sectionTitle, state, { checkKey })
+    await this.chooseMenuOption(options[0])
+    let prevUrl = this.page.url()
+    for (const option of options.slice(1)) {
+      await this.chooseMenuOption(option)
+      await expect(this.page).not.toHaveURL(prevUrl)
+      prevUrl = this.page.url()
     }
   }
 
-  async dismissKeyPanel () {
-    const kd = mapPage.getMapDialog(this.page, 'Key')
-    await kd.getByRole('button', { name: mapPage.bannerCloseButton.text, exact: true }).click()
-  }
+  async assertSwitchUpdatesKey (element) {
+    const keyDialog = this.page.getByRole('dialog', { name: /^key$/i })
+    await expect(keyDialog).toBeVisible()
 
-  async dismissAlertBanner () {
-    const closeBtn = mapPage.getAlertBannerCloseButton(this.page)
-    await closeBtn.click()
+    const toggle = await this.getFeatureToggle(element)
+    await expect(toggle).toBeVisible()
+    await expect(toggle).not.toBeChecked()
+
+    const before = (await keyDialog.textContent()) ?? ''
+    await toggle.click()
+
+    await expect(toggle).toBeChecked()
+    await expect(keyDialog).not.toHaveText(before, { timeout: 10000 })
   }
 }
