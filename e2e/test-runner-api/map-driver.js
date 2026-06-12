@@ -3,6 +3,18 @@ import { FormDriver } from './form-driver.js'
 import * as mapPage from '../pages/map.page.js'
 
 export class MapDriver extends FormDriver {
+  async getFeatureToggle (element) {
+    const switchToggle = this.page.getByRole('switch', { name: element.text, exact: true }).first()
+    if (await switchToggle.count()) {
+      return switchToggle
+    }
+    const checkboxToggle = this.page.getByRole('checkbox', { name: element.text, exact: true }).first()
+    if (await checkboxToggle.count()) {
+      return checkboxToggle
+    }
+    throw new Error(`getFeatureToggle(): no switch or checkbox found for '${element.text}'`)
+  }
+
   // ---- Actions ---- //
 
   async waitForMapToLoad () {
@@ -134,13 +146,18 @@ export class MapDriver extends FormDriver {
     }
   }
 
-  async assertSwitchToggles (element) {
-    const toggle = this.page.getByRole('switch', { name: element.text, exact: true })
+  async assertSwitchUpdatesKey (element) {
+    const keyDialog = this.page.getByRole('dialog', { name: /^key$/i })
+    await expect(keyDialog).toBeVisible()
+
+    const toggle = await this.getFeatureToggle(element)
     await expect(toggle).toBeVisible()
     await expect(toggle).not.toBeChecked()
+
+    const before = (await keyDialog.textContent()) ?? ''
     await toggle.click()
+
     await expect(toggle).toBeChecked()
-    await toggle.click()
-    await expect(toggle).not.toBeChecked()
+    await expect(keyDialog).not.toHaveText(before, { timeout: 10000 })
   }
 }
