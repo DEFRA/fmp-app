@@ -44,6 +44,19 @@ test.describe('Map page', () => {
     }
   })
 
+  test('dismisses key panel and alert banner', async ({ mapSteps }) => {
+    await mapSteps.expectVisible('dialog', 'Key')
+    await mapSteps.dismissPanel('Key')
+    await mapSteps.expectHidden('dialog', 'Key')
+    await mapSteps.dismissBanner(/flood zone/i)
+  })
+
+  test('navigates to map help page', async ({ mapSteps }) => {
+    await mapSteps.clickLink(pages.map.helpLink)
+    await mapSteps.switchToNewWindow()
+    await mapSteps.expectOn(pages.mapHelp.page)
+  })
+
   test.describe('surface water dataset', () => {
     test.beforeEach(async ({ mapSteps }) => {
       await mapSteps.expandSection(pages.map.datasetsSection)
@@ -83,17 +96,4 @@ test.describe('Map page', () => {
       await mapSteps.expectUrlChanged(prevUrl)
     })
   })
-
-    test('dismisses key panel and alert banner', async ({ mapSteps }) => {
-      await mapSteps.expectVisible('dialog', 'Key')
-      await mapSteps.dismissPanel('Key')
-      await mapSteps.expectHidden('dialog', 'Key')
-      await mapSteps.dismissBanner(/flood zone/i)
-  })
-
-    test('navigates to map help page', async ({ mapSteps }) => {
-      await mapSteps.clickLink(pages.map.helpLink)
-      await mapSteps.switchToNewWindow()
-      await mapSteps.expectOn(pages.mapHelp.page)
-    })
 })
