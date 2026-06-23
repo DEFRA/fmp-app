@@ -20,6 +20,7 @@ export class MapDriver extends FormDriver {
   async waitForMapToLoad () {
     await expect(this.page.locator('#map-viewport')).toBeVisible()
     await expect(this.page.getByRole('slider', { name: 'Layer opacity' })).toBeVisible()
+    await this.page.waitForLoadState('networkidle')
   }
 
   async expandSection (name) {
