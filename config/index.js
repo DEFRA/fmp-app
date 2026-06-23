@@ -16,7 +16,9 @@ const agolEndpoints = {
   riversAndSeaDefendedCCP1EndPoint: `/Rivers_and_Sea_Defended_${agolRofrsDepthOrExtents}_CCP1_NON_PRODUCTION/FeatureServer`,
   riversAndSeaUndefendedCCP1EndPoint: `/Rivers_and_Sea_Undefended_${agolRofrsDepthOrExtents}_CCP1_NON_PRODUCTION/FeatureServer`,
 
-  surfaceWaterEndPoint: '/Risk_of_Flooding_from_Surface_Water_Depth_0mm_NON_PRODUCTION/FeatureServer/0',
+  surfaceWater1In30EndPoint: '/Surface_Water_Spatial_Planning_1_in_30_Depths_NON_PRODUCTION/FeatureServer/0',
+  surfaceWater1In100EndPoint: '/Surface_Water_Spatial_Planning_1_in_100_Depths_NON_PRODUCTION/FeatureServer/0',
+  surfaceWater1In1000EndPoint: '/Surface_Water_Spatial_Planning_1_in_1000_Depths_NON_PRODUCTION/FeatureServer/0',
   surfaceWaterClimateChange1In30EndPoint: '/Surface_Water_Spatial_Planning_1_in_30_CCP1_Depths_NON_PRODUCTION/FeatureServer/0',
   surfaceWaterClimateChange1In100EndPoint: '/Surface_Water_Spatial_Planning_1_in_100_CCP1_Depths_NON_PRODUCTION/FeatureServer/0',
   surfaceWaterClimateChange1In1000EndPoint: '/Surface_Water_Spatial_Planning_1_in_1000_CCP1_Depths_NON_PRODUCTION/FeatureServer/0'
@@ -83,7 +85,9 @@ const config = {
     riversAndSeaUndefendedEndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedEndPoint),
     riversAndSeaDefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaDefendedCCP1EndPoint),
     riversAndSeaUndefendedCCP1EndPoint: productioniseEndpoint(agolEndpoints.riversAndSeaUndefendedCCP1EndPoint),
-    surfaceWaterEndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterEndPoint),
+    surfaceWater1In30EndPoint: productioniseEndpoint(agolEndpoints.surfaceWater1In30EndPoint),
+    surfaceWater1In100EndPoint: productioniseEndpoint(agolEndpoints.surfaceWater1In100EndPoint),
+    surfaceWater1In1000EndPoint: productioniseEndpoint(agolEndpoints.surfaceWater1In1000EndPoint),
     surfaceWaterClimateChange1In30EndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterClimateChange1In30EndPoint),
     surfaceWaterClimateChange1In100EndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterClimateChange1In100EndPoint),
     surfaceWaterClimateChange1In1000EndPoint: productioniseEndpoint(agolEndpoints.surfaceWaterClimateChange1In1000EndPoint),

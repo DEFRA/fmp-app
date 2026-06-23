@@ -1,103 +1,59 @@
-const { mockEsriRequest, mockEsriRequestWithThrow, stopMockingEsriRequests } = require('../../../services/__tests__/__mocks__/agol')
 const { getSurfaceWater } = require('../getSurfaceWater')
+const { esriFeatureRequest } = require('../esriFeatureRequest')
 
-const surfaceWaterLowArea = {
-  attributes: {
-    Confidence: 1,
-    OBJECTID: 12345,
-    Risk_band: 'Low',
-    Shape__Area: 8000,
-    Shape__Length: 8000
-  }
-}
-const surfaceWaterMediumArea = {
-  attributes: {
-    Confidence: 1,
-    OBJECTID: 12345,
-    Risk_band: 'Medium',
-    Shape__Area: 8000,
-    Shape__Length: 8000
-  }
-}
-const surfaceWaterHighArea = {
-  attributes: {
-    Confidence: 1,
-    OBJECTID: 12345,
-    Risk_band: 'High',
-    Shape__Area: 8000,
-    Shape__Length: 8000
-  }
-}
+jest.mock('../esriFeatureRequest', () => ({
+  esriFeatureRequest: jest.fn()
+}))
 
 // dummy polygon
 const polygon = '[[123,456],[125,457],[125,456],[123,456]]'
 
 describe('getSurfaceWater', () => {
-  afterAll(async () => {
-    stopMockingEsriRequests()
+  beforeEach(async () => {
+    jest.clearAllMocks()
   })
 
-  it('getSurfaceWater should return data as expected for High surface water area', async () => {
-    mockEsriRequest([surfaceWaterHighArea, surfaceWaterMediumArea, surfaceWaterLowArea])
+  it('getSurfaceWater should return data as expected for High probability water area', async () => {
+    esriFeatureRequest.mockReturnValueOnce([{ attributes: { OBJECTID: 1, Depth_band: '300-600mm', Shape__Area: 1000, Shape__Length: 100 } }])
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
-      riskBandId: 3,
-      riskBand: 'High',
       riskBandPercent: '3.3',
       riskBandOdds: '1 in 30'
     })
   })
 
   it('getSurfaceWater should return data as expected for Medium surface water area', async () => {
-    mockEsriRequest([surfaceWaterMediumArea, surfaceWaterLowArea])
+    esriFeatureRequest
+      .mockReturnValueOnce([])
+      .mockReturnValueOnce([{ attributes: { OBJECTID: 1, Depth_band: '300-600mm', Shape__Area: 1000, Shape__Length: 100 } }])
+
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
-      riskBandId: 2,
-      riskBand: 'Medium',
       riskBandPercent: '1',
       riskBandOdds: '1 in 100'
     })
   })
 
   it('getSurfaceWater should return data as expected for Low surface water area', async () => {
-    mockEsriRequest([surfaceWaterLowArea, surfaceWaterLowArea])
+    esriFeatureRequest
+      .mockReturnValueOnce([])
+      .mockReturnValueOnce([])
+      .mockReturnValueOnce([{ attributes: { OBJECTID: 1, Depth_band: '300-600mm', Shape__Area: 1000, Shape__Length: 100 } }])
+
     const { surfaceWater } = await getSurfaceWater({ polygon })
     expect(surfaceWater).toEqual({
-      riskBandId: 1,
-      riskBand: 'Low',
       riskBandPercent: '0.1',
       riskBandOdds: '1 in 1000'
     })
   })
 
-  it('getSurfaceWater should return data as expected for no surface water hits', async () => {
-    mockEsriRequest([surfaceWaterLowArea, surfaceWaterLowArea])
-    const { surfaceWater } = await getSurfaceWater({ polygon })
-    expect(surfaceWater).toEqual({
-      riskBandId: 1,
-      riskBand: 'Low',
-      riskBandPercent: '0.1',
-      riskBandOdds: '1 in 1000'
-    })
-  })
+  it('getSurfaceWater should return false for surface water area with no hits', async () => {
+    esriFeatureRequest
+      .mockReturnValueOnce([])
+      .mockReturnValueOnce([])
+      .mockReturnValueOnce([])
 
-  it('getSurfaceWater should return data as expected for no surface water hits', async () => {
-    mockEsriRequest([])
     const { surfaceWater } = await getSurfaceWater({ polygon })
-    expect(surfaceWater).toEqual({
-      riskBandId: -1,
-      riskBand: false
-    })
-  })
-
-  it('getSurfaceWater should throw if esriFeatureRequest throws', async () => {
-    try {
-      mockEsriRequestWithThrow()
-      await getSurfaceWater({ geometryType: 'esriGeometryPolygon', polygon })
-      expect('').toEqual('this line should not be reached')
-    } catch (err) {
-      console.log(err)
-      expect(err.message).toEqual('mocked error')
-    }
+    expect(surfaceWater).toEqual(false)
   })
 })
