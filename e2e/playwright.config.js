@@ -63,7 +63,7 @@ export default defineConfig({
     ...browserProjects.flatMap((browserProject) => [
       {
         name: `public-${browserProject.suffix}`,
-        grepInvert: /@internal|@urlCheck|@e2e/,
+        grepInvert: /@internal|@urlCheck|@e2e|@pdf/,
         use: {
           ...browserProject.use,
           baseURL: publicBaseURL,
@@ -72,7 +72,7 @@ export default defineConfig({
       {
         name: `internal-${browserProject.suffix}`,
         grep: /@internal/,
-        grepInvert: /@urlCheck|@e2e/,
+        grepInvert: /@urlCheck|@e2e|@pdf/,
         use: {
           ...browserProject.use,
           baseURL: internalBaseURL,
@@ -82,7 +82,7 @@ export default defineConfig({
     {
       name: 'noDeps-local-chromium',
       grep: /@noDeps/,
-      grepInvert: /@urlCheck|@internal|@e2e/,
+      grepInvert: /@urlCheck|@internal|@e2e|@pdf/,
       use: {
         ...chromeConfig,
         baseURL: publicBaseURL,
@@ -110,6 +110,14 @@ export default defineConfig({
       use: {
         ...chromeConfig,
         baseURL: internalBaseURL,
+      },
+    },
+    {
+      name: 'pdf-chromium',
+      grep: /@pdf/,
+      use: {
+        ...chromeConfig,
+        baseURL: publicBaseURL,
       },
     },
   ],

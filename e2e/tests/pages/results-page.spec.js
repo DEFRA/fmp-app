@@ -73,7 +73,7 @@ test.describe('Results page', () => {
   })
 
   // The following tests exercise the P1 PDF download functionality.
-  test.describe('PDF download checks', () => {
+  test.describe('PDF download checks', { tag: '@pdf' }, () => {
     const expectedPdfLinks = [
       'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3',
       'https://flood-map-for-planning.service.gov.uk/os-terms'
