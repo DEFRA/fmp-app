@@ -10,11 +10,27 @@ const errorPostResponse = { data: { results: [{ paramName: 'error', value: 'ther
 const p1Params = ['okjhij~@otghgd{@_r{bzA??~q{bzA~q{bzA??_r{bzA', 'abc123', SCALE_2500, false, '1']
 
 describe('getProduct1', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('should return a pdf', async () => {
     axios.post.mockResolvedValue(validPostResponse)
     axios.get.mockResolvedValue({ data: 'PDF_DATA' })
     const response = await getProduct1(...p1Params)
     expect(response).toEqual('PDF_DATA')
+  })
+
+  it('should use Unspecified when referenceNumber is not provided', async () => {
+    axios.post.mockResolvedValue(validPostResponse)
+    axios.get.mockResolvedValue({ data: 'PDF_DATA' })
+    const paramsWithoutReference = [p1Params[0], undefined, p1Params[2], p1Params[3], p1Params[4]]
+    await getProduct1(...paramsWithoutReference)
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ referenceNumber: 'Unspecified' }),
+      expect.any(Object)
+    )
   })
 
   it('should throw an error if post returns a bad response', async () => {
