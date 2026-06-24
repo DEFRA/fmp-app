@@ -17,6 +17,7 @@
     "test:edge": "npx playwright test --project=public-edge --project=internal-edge",
     "test:firefox": "npx playwright test --project=public-firefox --project=internal-firefox",
     "test:e2e": "TEST_ENV=pre npx playwright test --project=e2e-public-chromium --project=e2e-internal-chromium",
+    "test:pdf": "npx playwright test --project=pdf-chromium",
     "test:all-browsers": "npx playwright test",
     "report:open": "npx playwright show-report",
     "report:allure": "npx allure generate allure-results --clean -o allure-report",
