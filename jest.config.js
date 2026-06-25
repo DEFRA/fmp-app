@@ -6,7 +6,7 @@ module.exports = async () => {
       'text'
     ],
     testPathIgnorePatterns: [
-      '/defra-map',
+      '<rootDir>/defra-map/',
       '/e2e/',
       '__mocks__',
       '__test-helpers__'
