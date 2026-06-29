@@ -1,0 +1,159 @@
+// FMFP e2e test pipeline.
+//
+// This pipeline lives in source control and is referenced from Jenkins via
+// "Pipeline script from SCM" (Script Path: e2e/Jenkinsfile).
+//
+// It is fully parameterised so a single definition can be reused across every
+// environment. Configure one Jenkins job per environment, each pointing at this
+// same file; the only thing to set per job is the TARGET_ENV parameter. The
+// Jenkins deploy folder for each environment is resolved from the map below.
+//
+// The deploy job names are identical across every environment, so they are kept
+// as constants; only the containing Jenkins folder changes per environment.
+
+// Maps TARGET_ENV -> the Jenkins folder (slash-separated) that holds the deploy jobs.
+def ENV_DEPLOY_FOLDERS = [
+  'dev'      : 'FMP2/Development/app',
+  'tst'      : 'FMP2/Test/app',
+  'pre'      : 'FMP2/preproduction/app',
+  'prd-blue' : 'FMP2/production/app_blue',
+  'prd-green': 'FMP2/production/app_green',
+]
+
+// Deploy jobs (within the env's folder) whose success triggers this pipeline.
+def DEPLOY_JOBS = ['deploy_app_01', 'deploy_app_internal_01', 'deploy_app_public_01']
+// Deploy job (within the env's folder) to read the deployed image_tag from.
+def IMAGE_TAG_JOB = 'deploy_app_01'
+
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    disableConcurrentBuilds()
+  }
+
+  parameters {
+    choice(
+      name: 'TARGET_ENV',
+      choices: ['dev', 'tst', 'pre', 'prd-green', 'prd-blue'],
+      description: 'Environment to run the e2e tests against. Selects the npm script "test:<TARGET_ENV>" and the Jenkins deploy folder.'
+    )
+    string(
+      name: 'GIT_REPO_URL',
+      defaultValue: 'https://github.com/DEFRA/fmp-app.git',
+      description: 'Git repository to check out the e2e tests from.'
+    )
+  }
+
+  triggers {
+    upstream(
+      upstreamProjects: DEPLOY_JOBS
+        .collect { "${ENV_DEPLOY_FOLDERS[params.TARGET_ENV] ?: ENV_DEPLOY_FOLDERS['dev']}/${it}" }
+        .join(','),
+      threshold: hudson.model.Result.SUCCESS
+    )
+  }
+
+  stages {
+    stage('Get Image Tag') {
+      steps {
+        script {
+          // Resolve this environment's Jenkins deploy folder.
+          def deployFolder = ENV_DEPLOY_FOLDERS[params.TARGET_ENV]
+          if (!deployFolder) {
+            error "No Jenkins deploy folder configured for TARGET_ENV '${params.TARGET_ENV}'. " +
+              "Known environments: ${ENV_DEPLOY_FOLDERS.keySet().join(', ')}."
+          }
+
+          // Translate a Jenkins folder path (e.g. FMP2/Development/app/deploy_app_01)
+          // into its on-disk builds directory under JENKINS_HOME.
+          def jobFullName = "${deployFolder}/${IMAGE_TAG_JOB}"
+          def jenkinsHome = env.JENKINS_HOME ?: '/var/lib/jenkins'
+          def buildsDir = "${jenkinsHome}/jobs/${jobFullName.split('/').join('/jobs/')}/builds"
+          echo "Reading image tag from: ${buildsDir}"
+
+          def lastSuccessful = sh(
+            script: "grep '^lastSuccessfulBuild ' ${buildsDir}/permalinks | awk '{print \$2}'",
+            returnStdout: true
+          ).trim()
+          env.IMAGE_TAG = sh(
+            script: "grep -oP 'image_tag=\\K[\\w.\\-]+' ${buildsDir}/${lastSuccessful}/log | head -1",
+            returnStdout: true
+          ).trim()
+          echo "IMAGE_TAG: ${env.IMAGE_TAG}"
+          if (env.IMAGE_TAG ==~ /v\d+\.\d+\.\d+-pre-.*-g[0-9a-f]+/) {
+            // e.g. v3.7.0-pre-31-g4fc4b3e → 4fc4b3e
+            env.GIT_REVISION = env.IMAGE_TAG.replaceAll(/^.*-g([0-9a-f]+)$/, '$1')
+            echo "GIT_REVISION: ${env.GIT_REVISION}"
+          } else if (env.IMAGE_TAG ==~ /[A-Z].*-[0-9a-f]+/) {
+            // e.g. FMP-interactive-map-c8af8ca → c8af8ca
+            env.GIT_REVISION = env.IMAGE_TAG.replaceAll(/^.*-([0-9a-f]+)$/, '$1')
+            echo "GIT_REVISION: ${env.GIT_REVISION}"
+          } else if (env.IMAGE_TAG ==~ /v?\d+\.\d+\.\d+.*/) {
+            // e.g. 3.7.0, v3.4.0, 3.6.2-pre → GIT_TAG with v prefix
+            env.GIT_TAG = env.IMAGE_TAG.startsWith('v') ? env.IMAGE_TAG : 'v' + env.IMAGE_TAG
+            echo "GIT_TAG: ${env.GIT_TAG}"
+          } else {
+            error "Unrecognised IMAGE_TAG format: ${env.IMAGE_TAG}"
+          }
+        }
+      }
+    }
+
+    stage('Checkout fmp-app e2e') {
+      steps {
+        cleanWs()
+        script {
+          def ref = env.GIT_TAG ?: env.GIT_REVISION
+          echo "Checking out fmp-app at ref: ${ref}"
+          if (env.GIT_TAG) {
+            sh """
+              rm -rf fmp-app
+              git clone --depth 1 --branch ${ref} --no-checkout ${params.GIT_REPO_URL} fmp-app
+              cd fmp-app
+              git sparse-checkout init --cone
+              git sparse-checkout set e2e
+              git checkout
+            """
+          } else {
+            sh """
+              rm -rf fmp-app
+              git clone --filter=blob:none --no-checkout ${params.GIT_REPO_URL} fmp-app
+              cd fmp-app
+              git sparse-checkout init --cone
+              git sparse-checkout set e2e
+              git -c advice.detachedHead=false checkout --quiet ${ref}
+            """
+          }
+          sh "ls -la fmp-app/e2e"
+          echo "Checkout of fmp-app/e2e successful"
+        }
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh """
+          . /var/lib/jenkins/.bashrc
+          set -eux
+          unset DISPLAY
+
+          cd fmp-app/e2e
+          nvm install v20
+          node --version
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run test:${params.TARGET_ENV}
+        """
+      }
+    }
+  }
+
+  post {
+    always {
+      allure includeProperties: false,
+        results: [[path: 'fmp-app/e2e/allure-results']]
+    }
+  }
+}

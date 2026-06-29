@@ -22,6 +22,7 @@ test.describe('End-to-end planning journey', () => {
 
     await test.step('Map → Results', async () => {
       await mapSteps.waitForMapToLoad()
+      await mapSteps.expandSection(pages.map.locationSection)
       await mapSteps.zoomIn()
       await mapSteps.addSquare()
       await mapSteps.confirmBoundaryAndContinue()

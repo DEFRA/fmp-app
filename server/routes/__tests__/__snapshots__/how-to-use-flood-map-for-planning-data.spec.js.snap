@@ -272,6 +272,7 @@ data-module="govuk-service-navigation"
         <li><a class="govuk-link" href="#howToUseTitle">how should the data be used?</a></li>
         <li><a class="govuk-link" href="#whatAreFZCCTitle">what are ‘flood zones plus climate change’?</a></li>
         <li><a class="govuk-link" href="#WhatDoesCCUnavailableMean">what does ‘climate change data unavailable’ mean?</a></li>
+        <li><a class="govuk-link" href="#WhatIsTheDataServicesPlatform">What is the data services platform?</a></li>
       </ul>
     </p>
 
@@ -311,7 +312,7 @@ data-module="govuk-service-navigation"
             <li>flood zones 2 and 3</li>
             <li>flood zones plus climate change </li>
             <li>water storage areas</li>
-            <li>surface water layers</li>
+            <li>surface water flood risk layers</li>
           </ul>
         </dd>
 
@@ -616,7 +617,7 @@ data-module="govuk-service-navigation"
     </h2>
     <p class="govuk-body">
       All data on the flood map for planning service is also available through the
-      <a class="govuk-link" href = "https://environment.data.gov.uk/">data services platform (DSP)</a>
+      <a class="govuk-link" href = "https://environment.data.gov.uk/">data services platform (DSP)</a>.
     </p>
     
     <p class="govuk-body">
@@ -644,8 +645,26 @@ data-module="govuk-service-navigation"
           water storage areas
         </a>
       </li>
-      <li> <!-- TODO - Make this a link when we have it FCRM-6844 -->
-        surface water will be added soon
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/c853dc8c-9371-4a8f-99ea-a1daa023945e">
+          surface water extents, present day
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/c5ac51b0-be1d-462a-b734-2c22625ce005">
+          surface water extents with climate change
+        </a>
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/fa3a36ed-121c-424b-b8bf-8108f959b7a9">
+          surface water depths, present day
+        </a>
+      </li>
+      <li>
+        <a class="govuk-link" href="https://environment.data.gov.uk/dataset/cf8d4e8f-99b6-4e5d-bf56-7f80e93d0931">
+          surface water depths with climate change
+        </a>
       </li>
     </ul>
   </div>

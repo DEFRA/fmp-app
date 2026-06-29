@@ -43,14 +43,14 @@ export const floodZonedata = {
   // Polygon for Flood zone 1 with area less than 1 hectare with only surface water flooding
   FZ1_With_SW_and_Area_LT_1Hectare: '[[435729.91,113895.2],[435894.42,113895.79],[435892.95,113837.71],[435729.91,113839.17],[435729.91,113895.2]]',
 
-  // Polygon for Flood zone 1 with no flooding
-  FZ1_With_No_Flooding: '[[435562,114890],[435562,114891],[435563,114890],[435562,114890]]',
-
   // Polygon for Flood zone 1 with sea and surface water flooding
   FZ1_With_SW_and_S: '[[435502.78,114950.22],[435622.22,114950.22],[435622.22,114830.78],[435502.78,114830.78],[435502.78,114950.22]]',
 
   // Polygon for Flood zone 1 with rivers and surface water flooding
   FZ1_With_SW_and_R: '[[450010.01,207277.26],[450053.16,207251.71],[450027.88,207243.48],[450002.23,207235.93],[450010.01,207277.26]]',
+
+  // Polygon for Flood zone 1 with climate change data unavailable and surface water flooding
+  FZ1_With_CC_Unavailable_and_SW: '[[386041.08,349631.23],[386041.9,349504.58],[385892.89,349525.15],[386041.08,349631.23]]',
 
   // Polygon for Flood zone 2 with only rivers flooding
   FZ2_With_R: '[[435967.95,114037.32],[436036.62,114037.32],[436036.62,113968.65],[435967.95,113968.65],[435967.95,114037.32]]',
@@ -61,7 +61,7 @@ export const floodZonedata = {
   // Polygon for Flood zone 2 with rivers and surface water flooding
   FZ2_With_SW_and_R: '[[435892.17,114089.28],[436013.1,114089.28],[436013.1,113968.35],[435892.17,113968.35],[435892.17,114089.28]]',
 
-  // Polygon for Flood zone 2 with sea, surface water and rivers flooding
+  // Polygon for Flood zone 2 with sea, rivers and surface water flooding
   FZ2_With_SW_and_S_and_R: '[[621177.41,230258.41],[621212.94,230262.29],[621176.64,230244.11],[621177.41,230258.41]]',
 
   // Polygon for Flood zone 3 with only rivers flooding
@@ -73,18 +73,37 @@ export const floodZonedata = {
   // Polygon for Flood zone 3 with rivers, sea and surface water flooding
   FZ3_With_SW_and_S: '[[440068.48,557500.73],[440231.71,557448.26],[440145.26,557288.92],[440068.48,557500.73]]',
 
-  // Polygon 300 hectares in size for Flood zone 3 with rivers,sea and surface water flooding
+  // Polygon 300 hectares in size for Flood zone 3 with rivers, sea and surface water flooding
   polygon300: '[[536202.02,275604.53],[537934.07,275604.53],[537934.07,273872.48],[536202.02,273872.48],[536202.02,275604.53]]',
 
   // Polygon 300.01 hectares in size for Flood zone 3 with rivers and surface water flooding
   polygon300_01: '[[569264.26,235805.29],[570996.34,235805.29],[570996.34,234073.21],[569264.26,234073.21],[569264.26,235805.29]]',
 
-  // Polygon which is not under an area teams jurisdiction
+  // Polygon over 300 hectares in size in an opted-out area
+  polygonOver300InOptedOutArea: '[[525573.01,197020.56],[527321.52,197020.56],[527321.52,195272.04],[525573.01,195272.04],[525573.01,197020.56]]',
+
+  // Polygon which is not under an area teams jurisdiction Flood zone 3
   area_Team_NoJurisdiction: '[[497260.09,423202.36], [497737.82,423202.36], [497737.82,422724.63], [497260.09,422724.63], [497260.09,423202.36]]',
 
-  // Polygon which is on the England-Wales border
+  // Polygon which is on the England-Wales border Flood Zone 3
   England_Wales_Border: '[[322634.00346,299374.85148],[323341.83397,299308.86728],[323215.86414,298918.96064],[322520.03075,299062.92617],[322634.00346,299374.85148]]',
 
-  // Polygon which is on the England-Scotland border
-  England_Scotland_Border: '[[397018.13781,657457.86591],[397992.82671,656695.2514],[397691.5313,656685.04864],[396390.77776,657140.55168],[397018.13781,657457.86591]]'
+  // Polygon which is on the England-Scotland border Flood zone 1
+  England_Scotland_Border: '[[397018.13781,657457.86591],[397992.82671,656695.2514],[397691.5313,656685.04864],[396390.77776,657140.55168],[397018.13781,657457.86591]]',
+
+  // Polygon which is Flood zone 1, surface water 1 in 30 for both Present day and 2061 to 2125
+  FZ1_SW_1in30_PD_and_2061to2125: '[[370856.16,354754.34],[370858.79,354753.63],[370858.2,354751.2],[370856.16,354754.34]]',
+
+  // Polygon which is Flood zone 1, surface water 1 in 100 for Present day and 2061 to 2125
+  FZ1_SW_1in100_PD_and_2061to2125: '[[397497.44,302685.85],[397513.19,302678.17],[397498.04,302683.69],[397497.44,302685.85]]',
+
+  // Polygon which is Flood zone 1, surface water 1 in 1000 for Present day and 2061 to 2125
+  FZ1_SW_1in1000_PD_and_2061to2125: '[[397272.04,302948.1],[397274.82,302941.64],[397268.92,302943.84],[397272.04,302948.1]]',
+
+  // These polygons are not in England and should redirect to the England-only page
+  // Wales polygon
+  Wales: '[[288088.95415,298749.33518],[288182.70177,298748.20109],[288112.2706,298695.0369],[288088.95415,298749.33518]]',
+
+  // Scotland polygon
+  Scotland: '[[325691.9559,674125.54764],[326066.41507,674062.62059],[325707.13581,673915.98807],[325691.9559,674125.54764]]'
 }

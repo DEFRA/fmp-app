@@ -6,6 +6,9 @@ export const page = definePage({
   title: 'Order your flood risk data'
 })
 
+// URL helper
+export const slug = (polygon) => `/contact?encodedPolygon=${encodeURIComponent(polygon)}`
+
 export const fullNameInput = textInput('Name')
 export const emailInput = textInput('Email address')
 
