@@ -63,7 +63,9 @@ Node v18.x\
 | riversAndSeaUndefendedEndPoint| River and the sea, undefended endpoint|   yes     |             |                             |       |
 | riversAndSeaDefendedCCP1EndPoint| Climate change, defended endpoint   |   yes     |             |                             |       |
 | riversAndSeaUndefendedCCP1EndPoint| Climate change, undefended endpoint|   yes    |             |                             |       |
-| surfaceWaterEndPoint        | Surface water endpoint                  |   yes     |             |                             |       |
+| surfaceWater1In30EndPoint   | Surface water 1 in 30 endpoint          |   yes     |             |                             |       |
+| surfaceWater1In100EndPoint  | Surface water 1 in 100 endpoint         |   yes     |             |                             |       |
+| surfaceWater1In1000EndPoint | Surface water 1 in 1000 endpoint        |   yes     |             |                             |       |
 | agolRofrsDepthOrExtents     | ESRI Rivers and Sea layers Depth or Extent|    no   | depth       |                             |       |
 | eamapsServiceUrl            | EA ESRI Map server URL                  |   yes     |             |                             |       |
 | eamapsProduct1User          | Internal user for product 1 map         |   yes     |             |                             |       |
