@@ -215,5 +215,36 @@ describe('Check your details page', () => {
         config.appType = originalAppType
       }
     })
+
+    it('Redirects to cannot-request-p4 when a duplicate p4Request cookie exists for an ineligible polygon', async () => {
+      const originalAppType = config.appType
+      config.appType = 'external'
+      const polygon = mockPolygons.optedOut.fz1_only
+      const options = {
+        url,
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon
+        }
+      }
+
+      try {
+        getServer().ext('onPreHandler', (request, h) => {
+          request.state = { p4Request: { [polygon]: '12345' } }
+          return h.continue
+        })
+        const response = await submitPostRequest(options)
+        const expectedRedirectQuery = new URLSearchParams({
+          encodedPolygon: encodePolygon(polygon),
+          areaName: 'Wessex',
+          psoEmailAddress: 'wessexenquiries@environment-agency.gov.uk'
+        }).toString()
+        expect(response.headers.location).toEqual(`/cannot-request-p4?${expectedRedirectQuery}`)
+        expect(wreck.post).toHaveBeenCalledTimes(0)
+      } finally {
+        config.appType = originalAppType
+      }
+    })
   })
 })

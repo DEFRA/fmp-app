@@ -100,6 +100,16 @@ module.exports = [
             return h.redirect(redirectURL)
           }
         } else {
+          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+          const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
+          if (!canRequestP4) {
+            const cannotRequestP4Query = new URLSearchParams({
+              encodedPolygon: encodePolygon(polygon),
+              areaName: psoResults.AreaName,
+              psoEmailAddress: psoResults.EmailAddress
+            }).toString()
+            return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
+          }
           applicationReferenceNumber = request.state.p4Request[polygon]
         }
 
