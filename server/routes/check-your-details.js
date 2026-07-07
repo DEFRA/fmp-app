@@ -52,11 +52,21 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         const { polygon, recipientemail, fullName } = request.payload
+        const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+        const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
+
+        if (!canRequestP4) {
+          const cannotRequestP4Query = new URLSearchParams({
+            encodedPolygon: encodePolygon(polygon),
+            areaName: psoResults.AreaName,
+            psoEmailAddress: psoResults.EmailAddress
+          }).toString()
+          return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
+        }
+
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
-        const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
-        const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
 
         // Check if p4Request is duplicate
         if (!request.state?.p4Request?.[polygon]) {
@@ -75,14 +85,6 @@ module.exports = [
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          if (!canRequestP4) {
-            const cannotRequestP4Query = new URLSearchParams({
-              encodedPolygon: encodePolygon(polygon),
-              areaName: psoResults.AreaName,
-              psoEmailAddress: psoResults.EmailAddress
-            }).toString()
-            return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
-          }
           try {
             const result = await getFunctionAppResponse(data)
             applicationReferenceNumber = result.payload.applicationReferenceNumber
@@ -100,14 +102,6 @@ module.exports = [
             return h.redirect(redirectURL)
           }
         } else {
-          if (!canRequestP4) {
-            const cannotRequestP4Query = new URLSearchParams({
-              encodedPolygon: encodePolygon(polygon),
-              areaName: psoResults.AreaName,
-              psoEmailAddress: psoResults.EmailAddress
-            }).toString()
-            return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
-          }
           applicationReferenceNumber = request.state.p4Request[polygon]
         }
 
