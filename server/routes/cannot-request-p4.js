@@ -13,8 +13,8 @@ module.exports = {
     validate: {
       query: Joi.object().keys({
         encodedPolygon: Joi.string().required(),
-        areaName: Joi.string().allow(''),
-        psoEmailAddress: Joi.string().allow('')
+        areaName: Joi.string().max(100).allow(''),
+        psoEmailAddress: Joi.string().email({ tlds: { allow: false } }).pattern(/@environment-agency\.gov\.uk$/).allow('')
       })
     }
   }
