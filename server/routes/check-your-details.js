@@ -55,6 +55,8 @@ module.exports = [
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
+        const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+        const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
 
         // Check if p4Request is duplicate
         if (!request.state?.p4Request?.[polygon]) {
@@ -74,7 +76,6 @@ module.exports = [
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
-          const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
           if (!canRequestP4) {
             const cannotRequestP4Query = new URLSearchParams({
               encodedPolygon: encodePolygon(polygon),
@@ -100,8 +101,6 @@ module.exports = [
             return h.redirect(redirectURL)
           }
         } else {
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
-          const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
           if (!canRequestP4) {
             const cannotRequestP4Query = new URLSearchParams({
               encodedPolygon: encodePolygon(polygon),
