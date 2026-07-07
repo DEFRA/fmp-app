@@ -75,22 +75,6 @@ describe('Check your details page', () => {
         expect(response.result).toMatchSnapshot()
       })
     })
-
-    it('Redirects to results when polygon is not eligible for product 4', async () => {
-      const originalAppType = config.appType
-      config.appType = 'external'
-      const polygon = mockPolygons.optedOut.fz1_only
-      const encodedPolygon = encodePolygon(polygon)
-      try {
-        const response = await submitGetRequest({
-          url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}`
-        }, undefined, 302)
-
-        expect(response.headers.location).toEqual(`/results?encodedPolygon=${encodedPolygon}`)
-      } finally {
-        config.appType = originalAppType
-      }
-    })
   })
 
   describe('POST', () => {
@@ -220,7 +204,12 @@ describe('Check your details page', () => {
 
       try {
         const response = await submitPostRequest(options)
-        expect(response.headers.location).toEqual(`/results?encodedPolygon=${encodePolygon(polygon)}`)
+        const expectedRedirectQuery = new URLSearchParams({
+          encodedPolygon: encodePolygon(polygon),
+          areaName: 'Wessex',
+          psoEmailAddress: 'wessexenquiries@environment-agency.gov.uk'
+        }).toString()
+        expect(response.headers.location).toEqual(`/cannot-request-p4?${expectedRedirectQuery}`)
         expect(wreck.post).toHaveBeenCalledTimes(0)
       } finally {
         config.appType = originalAppType

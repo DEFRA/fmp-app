@@ -6,11 +6,6 @@ const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
 
-const canRequestProduct4 = async (request, polygon) => {
-  const contactData = await request.server.methods.getPsoContactsByPolygon(polygon)
-  return config.appType === 'internal' || contactData.useAutomatedService === true
-}
-
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
@@ -31,10 +26,6 @@ module.exports = [
       handler: async (request, h) => {
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
-        const canRequestP4 = await canRequestProduct4(request, polygon)
-        if (!canRequestP4) {
-          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodedPolygon}`)
-        }
 
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         if (errorSummary.length > 0) {
@@ -61,11 +52,6 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         const { polygon, recipientemail, fullName } = request.payload
-        const canRequestP4 = await canRequestProduct4(request, polygon)
-        if (!canRequestP4) {
-          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodePolygon(polygon)}`)
-        }
-
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
@@ -88,6 +74,15 @@ module.exports = [
             psoEmailAddress: psoResults.EmailAddress,
             llfa: psoResults.LocalAuthorities || ''
           })
+          const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
+          if (!canRequestP4) {
+            const cannotRequestP4Query = new URLSearchParams({
+              encodedPolygon: encodePolygon(polygon),
+              areaName: psoResults.AreaName,
+              psoEmailAddress: psoResults.EmailAddress
+            }).toString()
+            return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
+          }
           try {
             const result = await getFunctionAppResponse(data)
             applicationReferenceNumber = result.payload.applicationReferenceNumber
