@@ -62,7 +62,6 @@ module.exports = [
         if (!request.state?.p4Request?.[polygon]) {
           // Send details to function app
           const plotSize = getAreaInHectares(polygon)
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
             requestType: config.appType,
             name: fullName,
