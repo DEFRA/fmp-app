@@ -8,15 +8,16 @@
 
     <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
-    {%- if not psoEmailAddress or not areaName -%}
+    {%- if not psoEmailAddress -%}
     <p class="govuk-body" data-testid="order-product4-email-missing">
       We cannot identify the correct Environment Agency team for your location.
       To order flood risk data for this site, contact the Environment Agency at
       <a class="govuk-link" href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>
     </p>
     {%- else -%}
-    <p id="cannot-request-p4-message" class="govuk-body">To order flood risk data for this site, contact the Environment
-      Agency team in {{ areaName }} at {{ psoEmailAddress }}
+    <p id="cannot-request-p4-message" class="govuk-body">
+      To order flood risk data for this site, contact the Environment Agency{% if areaName %} team in {{ areaName }}{% endif %} at
+      <a class="govuk-link" href="mailto:{{ psoEmailAddress }}">{{ psoEmailAddress }}</a>
     </p>
     {%- endif -%}
 
