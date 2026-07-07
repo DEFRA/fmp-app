@@ -4,6 +4,7 @@ const {
   submitPostRequest,
   getServer
 } = require('../../__test-helpers__/server')
+const { config } = require('../../../config')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZoneByPolygonMock')
 const { getCentreOfPolygon, encodePolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
@@ -73,6 +74,22 @@ describe('Check your details page', () => {
         const response = await submitGetRequest({ url: checkYourDetailsUrl }, 'Order your flood risk data')
         expect(response.result).toMatchSnapshot()
       })
+    })
+
+    it('Redirects to results when polygon is not eligible for product 4', async () => {
+      const originalAppType = config.appType
+      config.appType = 'external'
+      const polygon = mockPolygons.optedOut.fz1_only
+      const encodedPolygon = encodePolygon(polygon)
+      try {
+        const response = await submitGetRequest({
+          url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}`
+        }, undefined, 302)
+
+        expect(response.headers.location).toEqual(`/results?encodedPolygon=${encodedPolygon}`)
+      } finally {
+        config.appType = originalAppType
+      }
     })
   })
 
@@ -186,6 +203,28 @@ describe('Check your details page', () => {
       })
       const response = await submitPostRequest(options)
       expect(response.headers.location).toEqual(`/order-not-submitted?encodedPolygon=${encodePolygon(options.payload.polygon)}`)
+    })
+
+    it('Redirects to results and does not submit p4 request when polygon is not eligible for product 4', async () => {
+      const originalAppType = config.appType
+      config.appType = 'external'
+      const polygon = mockPolygons.optedOut.fz1_only
+      const options = {
+        url,
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon
+        }
+      }
+
+      try {
+        const response = await submitPostRequest(options)
+        expect(response.headers.location).toEqual(`/results?encodedPolygon=${encodePolygon(polygon)}`)
+        expect(wreck.post).toHaveBeenCalledTimes(0)
+      } finally {
+        config.appType = originalAppType
+      }
     })
   })
 })

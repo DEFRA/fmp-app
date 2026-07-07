@@ -6,6 +6,11 @@ const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
 
+const canRequestProduct4 = async (request, polygon) => {
+  const contactData = await request.server.methods.getPsoContactsByPolygon(polygon)
+  return config.appType === 'internal' || contactData.useAutomatedService === true
+}
+
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
   const postcode = await addressService.getPostcodeFromEastingorNorthing(
@@ -26,6 +31,11 @@ module.exports = [
       handler: async (request, h) => {
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
+        const canRequestP4 = await canRequestProduct4(request, polygon)
+        if (!canRequestP4) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodedPolygon}`)
+        }
+
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
@@ -51,6 +61,11 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         const { polygon, recipientemail, fullName } = request.payload
+        const canRequestP4 = await canRequestProduct4(request, polygon)
+        if (!canRequestP4) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodePolygon(polygon)}`)
+        }
+
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
