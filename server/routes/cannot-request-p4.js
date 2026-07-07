@@ -14,7 +14,7 @@ module.exports = {
       query: Joi.object().keys({
         encodedPolygon: Joi.string().required(),
         areaName: Joi.string().max(100).allow(''),
-        psoEmailAddress: Joi.string().email({ tlds: { allow: false } }).pattern(/@environment-agency\.gov\.uk$/).allow('')
+        psoEmailAddress: Joi.string().email({ tlds: { allow: false } }).pattern(/@environment-agency\.gov\.uk$/i).allow('')
       })
     }
   }
