@@ -7,7 +7,7 @@ module.exports = {
   options: {
     handler: (request, h) => {
       const { areaName = '', psoEmailAddress = '' } = request.query
-      const tryAgainURL = `/results?encodedPolygon=${request.query.encodedPolygon}`
+      const tryAgainURL = `${constants.routes.RESULTS}?encodedPolygon=${encodeURIComponent(request.query.encodedPolygon)}`
       return h.view(constants.views.CANNOT_REQUEST_P4, { tryAgainURL, areaName, psoEmailAddress })
     },
     validate: {
