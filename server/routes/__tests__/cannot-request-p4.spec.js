@@ -15,7 +15,7 @@ describe('cannot-request-p4', () => {
     document.body.innerHTML = response.payload
     assertCopy('h1', 'You cannot request this flood risk data online')
     assertCopy('#cannot-request-p4-message', `To order flood risk data for this site, contact the Environment Agency team in ${areaName} at ${psoEmailAddress}`)
-    assertCopy('.govuk-body .govuk-link', 'See a summary of flood risk for your location.')
+    assertCopy('a.govuk-link[href^="/results?encodedPolygon="]', 'See a summary of flood risk for your location.')
   })
 
   it('Should use default empty values when areaName and psoEmailAddress are not provided', async () => {
