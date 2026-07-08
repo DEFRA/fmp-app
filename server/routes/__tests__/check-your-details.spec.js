@@ -191,7 +191,7 @@ describe('Check your details page', () => {
 
     it('Redirects to cannot-request-p4 and does not submit p4 request when polygon is not eligible for product 4', async () => {
       const originalAppType = config.appType
-      config.appType = 'external'
+      config.appType = 'public'
       const polygon = mockPolygons.optedOut.fz1_only
       const options = {
         url,
