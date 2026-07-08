@@ -1,6 +1,7 @@
 const routes = [].concat(
   require('../routes/about'),
   require('../routes/accessibility-statement'),
+  require('../routes/cannot-request-p4'),
   require('../routes/check-your-details'),
   require('../routes/confirmation'),
   require('../routes/contact'),
