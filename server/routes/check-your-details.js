@@ -56,12 +56,7 @@ module.exports = [
         const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
 
         if (!canRequestP4) {
-          const cannotRequestP4Query = new URLSearchParams({
-            encodedPolygon: encodePolygon(polygon),
-            areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress
-          }).toString()
-          return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?${cannotRequestP4Query}`)
+          return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
         }
 
         const coordinates = getCentreOfPolygon(polygon)

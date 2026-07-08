@@ -204,12 +204,7 @@ describe('Check your details page', () => {
 
       try {
         const response = await submitPostRequest(options)
-        const expectedRedirectQuery = new URLSearchParams({
-          encodedPolygon: encodePolygon(polygon),
-          areaName: 'Wessex',
-          psoEmailAddress: 'wessexenquiries@environment-agency.gov.uk'
-        }).toString()
-        expect(response.headers.location).toEqual(`/cannot-request-p4?${expectedRedirectQuery}`)
+        expect(response.headers.location).toEqual(`/cannot-request-p4?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
         expect(wreck.post).toHaveBeenCalledTimes(0)
       } finally {
         config.appType = originalAppType
@@ -235,12 +230,7 @@ describe('Check your details page', () => {
           return h.continue
         })
         const response = await submitPostRequest(options)
-        const expectedRedirectQuery = new URLSearchParams({
-          encodedPolygon: encodePolygon(polygon),
-          areaName: 'Wessex',
-          psoEmailAddress: 'wessexenquiries@environment-agency.gov.uk'
-        }).toString()
-        expect(response.headers.location).toEqual(`/cannot-request-p4?${expectedRedirectQuery}`)
+        expect(response.headers.location).toEqual(`/cannot-request-p4?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
         expect(wreck.post).toHaveBeenCalledTimes(0)
       } finally {
         config.appType = originalAppType
