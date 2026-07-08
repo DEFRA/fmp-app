@@ -213,7 +213,7 @@ describe('Check your details page', () => {
 
     it('Redirects to cannot-request-p4 when a duplicate p4Request cookie exists for an ineligible polygon', async () => {
       const originalAppType = config.appType
-      config.appType = 'external'
+      config.appType = 'public'
       const polygon = mockPolygons.optedOut.fz1_only
       const options = {
         url,
