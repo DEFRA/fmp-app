@@ -225,10 +225,8 @@ describe('Check your details page', () => {
       }
 
       try {
-        getServer().ext('onPreHandler', (request, h) => {
-          request.state = { p4Request: { [polygon]: '12345' } }
-          return h.continue
-        })
+        const p4RequestCookie = Buffer.from(JSON.stringify({ [polygon]: '12345' })).toString('base64')
+        options.headers = { cookie: `p4Request=${p4RequestCookie}` }
         const response = await submitPostRequest(options)
         expect(response.headers.location).toEqual(`/cannot-request-p4?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
         expect(wreck.post).toHaveBeenCalledTimes(0)
