@@ -4,6 +4,7 @@ const {
   submitPostRequest,
   getServer
 } = require('../../__test-helpers__/server')
+const { config } = require('../../../config')
 const { mockPolygons } = require('../../services/__tests__/__mocks__/floodZoneByPolygonMock')
 const { getCentreOfPolygon, encodePolygon } = require('../../services/shape-utils')
 jest.mock('../../services/agol/getContacts')
@@ -186,6 +187,52 @@ describe('Check your details page', () => {
       })
       const response = await submitPostRequest(options)
       expect(response.headers.location).toEqual(`/order-not-submitted?encodedPolygon=${encodePolygon(options.payload.polygon)}`)
+    })
+
+    it('Redirects to cannot-request-p4 and does not submit p4 request when polygon is not eligible for product 4', async () => {
+      const originalAppType = config.appType
+      config.appType = 'public'
+      const polygon = mockPolygons.optedOut.fz1_only
+      const options = {
+        url,
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon
+        }
+      }
+
+      try {
+        const response = await submitPostRequest(options)
+        expect(response.headers.location).toEqual(`/cannot-request-p4?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
+        expect(wreck.post).toHaveBeenCalledTimes(0)
+      } finally {
+        config.appType = originalAppType
+      }
+    })
+
+    it('Redirects to cannot-request-p4 when a duplicate p4Request cookie exists for an ineligible polygon', async () => {
+      const originalAppType = config.appType
+      config.appType = 'public'
+      const polygon = mockPolygons.optedOut.fz1_only
+      const options = {
+        url,
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon
+        }
+      }
+
+      try {
+        const p4RequestCookie = Buffer.from(JSON.stringify({ [polygon]: '12345' })).toString('base64')
+        options.headers = { cookie: `p4Request=${p4RequestCookie}` }
+        const response = await submitPostRequest(options)
+        expect(response.headers.location).toEqual(`/cannot-request-p4?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
+        expect(wreck.post).toHaveBeenCalledTimes(0)
+      } finally {
+        config.appType = originalAppType
+      }
     })
   })
 })

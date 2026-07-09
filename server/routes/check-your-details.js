@@ -26,6 +26,7 @@ module.exports = [
       handler: async (request, h) => {
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
+
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {
@@ -51,6 +52,13 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         const { polygon, recipientemail, fullName } = request.payload
+        const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
+        const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
+
+        if (!canRequestP4) {
+          return h.redirect(`${constants.routes.CANNOT_REQUEST_P4}?encodedPolygon=${encodeURIComponent(encodePolygon(polygon))}`)
+        }
+
         const coordinates = getCentreOfPolygon(polygon)
         const { floodZone } = await request.server.methods.getFloodZoneByPolygon(polygon)
         let applicationReferenceNumber
@@ -59,7 +67,6 @@ module.exports = [
         if (!request.state?.p4Request?.[polygon]) {
           // Send details to function app
           const plotSize = getAreaInHectares(polygon)
-          const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
           const data = JSON.stringify({
             requestType: config.appType,
             name: fullName,

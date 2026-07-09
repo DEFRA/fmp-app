@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% set pageTitle = 'You cannot request this flood risk data online' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+
+    {%- if not psoEmailAddress -%}
+    <p class="govuk-body" data-testid="order-product4-email-missing">
+      We cannot identify the correct Environment Agency team for your location.
+      To order flood risk data for this site, contact the Environment Agency at
+      <a class="govuk-link" href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>
+    </p>
+    {%- else -%}
+    <p id="cannot-request-p4-message" class="govuk-body">
+      To order flood risk data for this site, contact the Environment Agency{% if areaName %} team in {{ areaName }}{% endif %} at
+      <a class="govuk-link" href="mailto:{{ psoEmailAddress }}">{{ psoEmailAddress }}</a>
+    </p>
+    {%- endif -%}
+
+    <p class="govuk-body"><a href="{{ tryAgainURL }}" class="govuk-link">See a summary of flood risk for your
+        location.</a></p>
+  </div>
+</div>
+{% endblock %}
