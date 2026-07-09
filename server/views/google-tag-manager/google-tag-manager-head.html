@@ -1,0 +1,27 @@
+<!-- {% if googleTagManagerKey %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ googleTagManagerKey }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ googleTagManagerKey }}');
+</script>
+{% endif %} -->
+{#
+  Google Tag Manager — head script.
+
+  This is the standard GTM snippet that loads the gtm.js library.
+  It MUST have a nonce attribute to satisfy CSP. The nonce is generated
+  by Blankie for each response and made available as {{ nonce }}.
+
+  This template is only included when cookiesPolicy.analytics is true
+  (see layout.njk), so GTM never loads without consent.
+#}
+
+{% if googleTagManagerKey %}
+<script nonce="{{ nonce }}">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','{{ googleTagManagerKey }}');</script>
+{% endif %}

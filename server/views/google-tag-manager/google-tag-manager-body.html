@@ -1,0 +1,15 @@
+{#
+  Google Tag Manager — noscript fallback.
+
+  For users with JavaScript disabled, GTM provides an iframe-based
+  fallback. This sends a page view to GTM even without JS.
+
+  CSP frameSrc must include https://www.googletagmanager.com for this
+  to work. The iframe is hidden with a CSS class to avoid layout shift.
+
+  Only included when cookiesPolicy.analytics is true (see layout.njk).
+#}
+
+{% if googleTagManagerKey %}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ googleTagManagerKey }}" class="gtm-iframe" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{% endif %}
