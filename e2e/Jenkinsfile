@@ -25,6 +25,14 @@ def DEPLOY_JOBS = ['deploy_app_01', 'deploy_app_internal_01', 'deploy_app_public
 // Deploy job (within the env's folder) to read the deployed image_tag from.
 def IMAGE_TAG_JOB = 'deploy_app_01'
 
+// Declarative `triggers` cannot contain complex expressions, so precompute the
+// upstream project list here. TARGET_ENV may come from an injected env var or
+// the build parameter; fall back to 'dev' on the first run before either exists.
+def TRIGGER_ENV = env.TARGET_ENV ?: (params?.TARGET_ENV ?: 'dev')
+def UPSTREAM_PROJECTS = DEPLOY_JOBS
+  .collect { "${ENV_DEPLOY_FOLDERS[TRIGGER_ENV] ?: ENV_DEPLOY_FOLDERS['dev']}/${it}" }
+  .join(',')
+
 pipeline {
   agent any
 
@@ -48,9 +56,7 @@ pipeline {
 
   triggers {
     upstream(
-      upstreamProjects: DEPLOY_JOBS
-        .collect { "${ENV_DEPLOY_FOLDERS[params.TARGET_ENV] ?: ENV_DEPLOY_FOLDERS['dev']}/${it}" }
-        .join(','),
+      upstreamProjects: UPSTREAM_PROJECTS,
       threshold: hudson.model.Result.SUCCESS
     )
   }
@@ -59,10 +65,15 @@ pipeline {
     stage('Get Image Tag') {
       steps {
         script {
+          // TARGET_ENV may come from an injected environment variable (EnvInject)
+          // or from the build parameter; the env var wins if both are set.
+          def targetEnv = env.TARGET_ENV ?: params.TARGET_ENV
+          env.TARGET_ENV = targetEnv  // ensure it's available to later shell stages
+
           // Resolve this environment's Jenkins deploy folder.
-          def deployFolder = ENV_DEPLOY_FOLDERS[params.TARGET_ENV]
+          def deployFolder = ENV_DEPLOY_FOLDERS[targetEnv]
           if (!deployFolder) {
-            error "No Jenkins deploy folder configured for TARGET_ENV '${params.TARGET_ENV}'. " +
+            error "No Jenkins deploy folder configured for TARGET_ENV '${targetEnv}'. " +
               "Known environments: ${ENV_DEPLOY_FOLDERS.keySet().join(', ')}."
           }
 
@@ -144,7 +155,7 @@ pipeline {
           node --version
           npm ci
           npx playwright install --with-deps chromium
-          npm run test:${params.TARGET_ENV}
+          npm run test:${env.TARGET_ENV}
         """
       }
     }
