@@ -1,6 +1,7 @@
 const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
 require('./environment')
+const year = 365 // days in a year
 
 const agolRofrsDepthOrExtents = process.env.agolRofrsDepthOrExtents || 'Depth'
 
@@ -116,7 +117,7 @@ const config = {
       isSecure: process.env.siteUrl ? process.env.siteUrl.startsWith('https') : false
     },
     config: {
-      ttl: 1000 * 60 * 60 * 24 * 365
+      ttl: 1000 * 60 * 60 * 24 * year
     }
   }
 }

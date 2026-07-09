@@ -97,12 +97,14 @@ function setupCookieComponentListeners () {
 
   const submitPreference = (accepted, onSuccess) => {
     const xhr = new XMLHttpRequest()
+    const OKStatus = 200
+    const redirectStatus = 300
 
     xhr.open('POST', '/cookies', true)
     xhr.setRequestHeader('Content-Type', 'application/json')
 
     xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
+      if (xhr.status >= OKStatus && xhr.status < redirectStatus) {
         onSuccess()
       } else {
         formElement?.submit()
