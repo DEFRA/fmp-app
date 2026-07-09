@@ -71,6 +71,18 @@ describe('Ensure config is correct', () => {
       },
       riskAdminApi: {
         url: 'http://riskadmin-api-url'
+      },
+      cookie: {
+        name: 'fmp_cookie_policy',
+        policy: {
+          clearInvalid: true,
+          encoding: 'base64json',
+          isSameSite: 'Lax',
+          isSecure: false
+        },
+        config: {
+          ttl: 31536000000
+        }
       }
     }
     expect(config).toStrictEqual(expectedConfig)
@@ -138,6 +150,18 @@ describe('Ensure config is correct', () => {
       },
       riskAdminApi: {
         url: 'http://riskadmin-api-url'
+      },
+      cookie: {
+        name: 'fmp_cookie_policy',
+        policy: {
+          clearInvalid: true,
+          encoding: 'base64json',
+          isSameSite: 'Lax',
+          isSecure: false
+        },
+        config: {
+          ttl: 31536000000
+        }
       }
     }
     expect(config).toStrictEqual(expectedConfig)

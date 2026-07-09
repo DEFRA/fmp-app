@@ -11,6 +11,7 @@
 
   <div id="check-your-details-page" class="govuk-grid-row">
     <form autocomplete="off" class="form" method="post" action="/check-your-details" novalidate>
+      <input type="hidden" name="crumb" value="{{ crumb }}">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 

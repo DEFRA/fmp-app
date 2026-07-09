@@ -69,7 +69,19 @@ const schema = Joi.object({
   },
   riskAdminApi: {
     url: Joi.string().uri().required()
-  }
+  },
+  cookie: Joi.object().required().keys({
+    name: Joi.string().required(),
+    policy: Joi.object().required().keys({
+      clearInvalid: Joi.boolean().required(),
+      encoding: Joi.string().required(),
+      isSameSite: Joi.string().required(),
+      isSecure: Joi.boolean().required()
+    }),
+    config: Joi.object().required().keys({
+      ttl: Joi.number().required()
+    })
+  })
 })
 
 const validateSchema = (config) => {

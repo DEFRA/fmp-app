@@ -14,6 +14,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds"> 
       <form autocomplete="off" id='location-form' method="post" action="/location" novalidate>
+        <input type="hidden" name="crumb" value="{{ crumb }}">
         {% if errorSummary.length > 0 %}
           {{ govukErrorSummary({
               titleText: "There is a problem",
