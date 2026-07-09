@@ -48,7 +48,7 @@ function loadGoogleAnalytics (analyticsKey) {
     script.src = `https://www.googletagmanager.com/gtm.js?id=${analyticsKey}`
     document.head.appendChild(script)
   } else {
-    function gtag () { window.dataLayer.push(arguments) }
+    const gtag = (...args) => window.dataLayer.push(...args)
     gtag('js', new Date())
     gtag('config', analyticsKey)
     const script = document.createElement('script')
