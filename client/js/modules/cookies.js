@@ -61,6 +61,25 @@ function loadGoogleAnalytics (analyticsKey) {
 export default function () {
   setupCookieComponentListeners()
   cleanupStaleCookies()
+  setupBfcacheGuard()
+}
+
+// Guard against the back/forward cache (bfcache) restoring a stale page
+// that was rendered while analytics were accepted. When a bfcache restore
+// is detected via event.persisted, we immediately delete any GA cookies
+// and reload so the server renders the correct consent state.
+//
+// This is a defence-in-depth measure. The primary protection is the
+// server-side Cache-Control: no-store header, which makes pages ineligible
+// for bfcache. This handler catches any browser that restores the page
+// despite that header.
+function setupBfcacheGuard () {
+  globalThis.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      deleteGoogleAnalyticsCookies()
+      globalThis.location.reload()
+    }
+  })
 }
 
 function cleanupStaleCookies () {

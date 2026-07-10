@@ -9,13 +9,20 @@ module.exports = [
   {
     method: 'GET',
     path: '/cookies',
+    options: {
+      validate: {
+        query: Joi.object({
+          updated: Joi.boolean().default(false)
+        })
+      }
+    },
     handler: function (request, h) {
       return h.view(
         'cookies',
         {
           pageTitle: 'Cookies',
           ...cookiesModel(
-            false,
+            request.query.updated,
             request.headers.referer,
             request.state[config.cookie.name]
           )
@@ -45,17 +52,10 @@ module.exports = [
       if (isSafeRedirect(payload.returnUrl)) {
         return h.redirect(payload.returnUrl)
       }
-      return h.view(
-        'cookies',
-        {
-          pageTitle: 'Cookies',
-          ...cookiesModel(
-            true,
-            payload.referer,
-            request.state[config.cookie.name]
-          )
-        }
-      )
+      // Synchronous mode from preferences page — redirect back with ?updated=true
+      // so the browser lands on a GET, preventing the ERR_CACHE_MISS / form
+      // resubmit dialog when the user later clicks Back.
+      return h.redirect('/cookies?updated=true')
     }
   }
 ]

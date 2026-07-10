@@ -25,9 +25,9 @@ describe('cookies', () => {
     expect(response.result).toContain('Do you want to accept analytics cookies?')
   })
   it('Should include query string in currentPath', async () => {
-    const response = await submitGetRequest({ url: `${url}?ref=footer` }, 'Cookies')
+    const response = await submitGetRequest({ url: `${url}?updated=true` }, 'Cookies')
     expect(response.statusCode).toBe(200)
-    expect(response.result).toContain('returnUrl" value="/cookies?ref=footer"')
+    expect(response.result).toContain('returnUrl" value="/cookies?updated=true"')
   })
 
   describe('POST', () => {
@@ -68,8 +68,8 @@ describe('cookies', () => {
           returnUrl: '//evil.com'
         }
       })
-      expect(response.statusCode).toBe(200)
-      expect(response.result).toContain('You\'ve set your cookie preferences.')
+      expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe('/cookies?updated=true')
     })
 
     it('Should re-render the cookies page with success banner when no returnUrl', async () => {
@@ -82,8 +82,8 @@ describe('cookies', () => {
           referer: '/previous-page'
         }
       })
-      expect(response.statusCode).toBe(200)
-      expect(response.result).toContain('You\'ve set your cookie preferences.')
+      expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe('/cookies?updated=true')
     })
 
     it('Should remove legacy GA cookie when present', async () => {

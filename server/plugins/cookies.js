@@ -21,6 +21,14 @@ module.exports = {
           statusCode !== httpConstants.HTTP_STATUS_FORBIDDEN &&
           request.response.source.context
         ) {
+          // Prevent the browser from caching view responses or storing them
+          // in the back/forward cache (bfcache). Pages contain personalised
+          // content (consent state, CSRF tokens, CSP nonces) that must be
+          // fresh on every visit. Without this, the browser can restore a
+          // stale page via the Back button that still contains the GTM script,
+          // re-enabling tracking after the user has withdrawn consent.
+          request.response.header('cache-control', 'no-store')
+
           const cookiesPolicy = getCurrentPolicy(request, h)
 
           request.response.source.context.cookiesPolicy = cookiesPolicy
