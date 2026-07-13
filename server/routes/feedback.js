@@ -5,7 +5,7 @@ function getSafeExitSurveyHref (request) {
   const { referrer, host } = request.info
   const { protocol } = request.server.info
 
-  if (!referrer || referrer.indexOf(constants.routes.FEEDBACK) > -1) {
+  if (!referrer || referrer.includes(constants.routes.FEEDBACK)) {
     return '/'
   }
 
@@ -29,7 +29,7 @@ module.exports = {
     description: 'Get the feedback page',
     handler: async (request, h) => {
       const ref =
-        request.info.referrer && request.info.referrer.indexOf(constants.routes.FEEDBACK) === -1
+        request.info.referrer && !request.info.referrer.includes(constants.routes.FEEDBACK)
           ? request.info.referrer
           : request.server.info.protocol + '://' + request.info.host
 
