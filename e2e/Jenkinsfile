@@ -3,10 +3,11 @@
 // This pipeline lives in source control and is referenced from Jenkins via
 // "Pipeline script from SCM" (Script Path: e2e/Jenkinsfile).
 //
-// It is fully parameterised so a single definition can be reused across every
-// environment. Configure one Jenkins job per environment, each pointing at this
-// same file; the only thing to set per job is the TARGET_ENV parameter. The
-// Jenkins deploy folder for each environment is resolved from the map below.
+// It can be reused across every environment. Configure one Jenkins job per
+// environment, each pointing at this same file; the only thing to set per job is
+// the TARGET_ENV environment variable, injected via the job's "Prepare an
+// environment for the run" (EnvInject) configuration. The Jenkins deploy folder
+// for each environment is resolved from the map below.
 //
 // The deploy job names are identical across every environment, so they are kept
 // as constants; only the containing Jenkins folder changes per environment.
@@ -25,10 +26,13 @@ def DEPLOY_JOBS = ['deploy_app_01', 'deploy_app_internal_01', 'deploy_app_public
 // Deploy job (within the env's folder) to read the deployed image_tag from.
 def IMAGE_TAG_JOB = 'deploy_app_01'
 
+// Repository to check out the e2e tests from.
+def GIT_REPO_URL = 'https://github.com/DEFRA/fmp-app.git'
+
 // Declarative `triggers` cannot contain complex expressions, so precompute the
-// upstream project list here. TARGET_ENV may come from an injected env var or
-// the build parameter; fall back to 'dev' on the first run before either exists.
-def TRIGGER_ENV = env.TARGET_ENV ?: (params?.TARGET_ENV ?: 'dev')
+// upstream project list here. TARGET_ENV comes from the injected env var; fall
+// back to 'dev' on the first run before it is set.
+def TRIGGER_ENV = env.TARGET_ENV ?: 'dev'
 def UPSTREAM_PROJECTS = DEPLOY_JOBS
   .collect { "${ENV_DEPLOY_FOLDERS[TRIGGER_ENV] ?: ENV_DEPLOY_FOLDERS['dev']}/${it}" }
   .join(',')
@@ -39,19 +43,6 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
     disableConcurrentBuilds()
-  }
-
-  parameters {
-    choice(
-      name: 'TARGET_ENV',
-      choices: ['dev', 'tst', 'pre', 'prd-green', 'prd-blue'],
-      description: 'Environment to run the e2e tests against. Selects the npm script "test:<TARGET_ENV>" and the Jenkins deploy folder.'
-    )
-    string(
-      name: 'GIT_REPO_URL',
-      defaultValue: 'https://github.com/DEFRA/fmp-app.git',
-      description: 'Git repository to check out the e2e tests from.'
-    )
   }
 
   triggers {
@@ -65,10 +56,9 @@ pipeline {
     stage('Get Image Tag') {
       steps {
         script {
-          // TARGET_ENV may come from an injected environment variable (EnvInject)
-          // or from the build parameter; the env var wins if both are set.
-          def targetEnv = env.TARGET_ENV ?: params.TARGET_ENV
-          env.TARGET_ENV = targetEnv  // ensure it's available to later shell stages
+          // TARGET_ENV is injected as an environment variable by the job's
+          // "Prepare an environment for the run" (EnvInject) configuration.
+          def targetEnv = env.TARGET_ENV
 
           // Resolve this environment's Jenkins deploy folder.
           def deployFolder = ENV_DEPLOY_FOLDERS[targetEnv]
@@ -121,7 +111,7 @@ pipeline {
           if (env.GIT_TAG) {
             sh """
               rm -rf fmp-app
-              git clone --depth 1 --branch ${ref} --no-checkout ${params.GIT_REPO_URL} fmp-app
+              git clone --depth 1 --branch ${ref} --no-checkout ${GIT_REPO_URL} fmp-app
               cd fmp-app
               git sparse-checkout init --cone
               git sparse-checkout set e2e
@@ -130,7 +120,7 @@ pipeline {
           } else {
             sh """
               rm -rf fmp-app
-              git clone --filter=blob:none --no-checkout ${params.GIT_REPO_URL} fmp-app
+              git clone --filter=blob:none --no-checkout ${GIT_REPO_URL} fmp-app
               cd fmp-app
               git sparse-checkout init --cone
               git sparse-checkout set e2e
