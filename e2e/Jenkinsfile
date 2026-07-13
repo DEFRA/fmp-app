@@ -137,14 +137,32 @@ pipeline {
       steps {
         sh """
           . /var/lib/jenkins/.bashrc
-          set -eux
+          set -eu
           unset DISPLAY
 
+          # Run a noisy command quietly: capture its output and only surface it
+          # if the command fails, so successful installs stay out of the log.
+          quiet() {
+            if ! "\$@" > /tmp/e2e-step.log 2>&1; then
+              echo "--- command failed: \$* ---"
+              cat /tmp/e2e-step.log
+              return 1
+            fi
+          }
+
           cd fmp-app/e2e
-          nvm install v20
-          node --version
-          npm ci
-          npx playwright install --with-deps chromium
+
+          echo "Installing Node v20..."
+          quiet nvm install v20
+          echo "Using Node \$(node --version)"
+
+          echo "Installing dependencies..."
+          quiet npm ci --no-audit --no-fund --no-progress
+
+          echo "Installing Playwright browsers..."
+          quiet npx playwright install --with-deps chromium
+
+          echo "Running tests (test:${env.TARGET_ENV})..."
           npm run test:${env.TARGET_ENV}
         """
       }
