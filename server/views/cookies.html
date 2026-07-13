@@ -43,9 +43,14 @@
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"> GA </th>
-            <td class="govuk-table__cell"> Saves your cookie consent settings </td>
+            <th scope="row" class="govuk-table__header"> fmp_cookie_policy </th>
+            <td class="govuk-table__cell"> Stores cookie consent state: confirmed/essential/analytics </td>
             <td class="govuk-table__cell"> 1 year </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> crumb </th>
+            <td class="govuk-table__cell"> Protects form submissions from cross-site request forgery (CSRF) </td>
+            <td class="govuk-table__cell"> Session </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> p4Request </th>
@@ -89,25 +94,32 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> _ga </th>
             <td class="govuk-table__cell">
-              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-              site.
+              Checks if you've visited Flood Map for Planning before and helps us understand how many people visit Flood Map for Planning.
             </td>
             <td class="govuk-table__cell">
               2 years
             </td>
           </tr>
           <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> _ga_* </th>
+            <td class="govuk-table__cell">
+              Stores session and campaign information for Google Analytics.
+            </td>
+            <td class="govuk-table__cell">
+              Up to 2 years
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> _gid </th>
             <td class="govuk-table__cell">
-              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-              site.
+              Distinguishes users for daily analytics reporting.
             </td>
             <td class="govuk-table__cell">
               24 hours
             </td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"> _gat </th>
+            <th scope="row" class="govuk-table__header"> _gat_* / _dc_gtm_* </th>
             <td class="govuk-table__cell">
               Used to reduce the number of requests made to Google Analytics
             </td>
