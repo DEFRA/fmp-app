@@ -111,7 +111,7 @@ pipeline {
           if (env.GIT_TAG) {
             sh """
               rm -rf fmp-app
-              git clone --depth 1 --branch ${ref} --no-checkout ${GIT_REPO_URL} fmp-app
+              git clone -q --depth 1 --branch ${ref} --no-checkout ${GIT_REPO_URL} fmp-app
               cd fmp-app
               git sparse-checkout init --cone
               git sparse-checkout set e2e
@@ -120,14 +120,13 @@ pipeline {
           } else {
             sh """
               rm -rf fmp-app
-              git clone --filter=blob:none --no-checkout ${GIT_REPO_URL} fmp-app
+              git clone -q --filter=blob:none --no-checkout ${GIT_REPO_URL} fmp-app
               cd fmp-app
               git sparse-checkout init --cone
               git sparse-checkout set e2e
               git -c advice.detachedHead=false checkout --quiet ${ref}
             """
           }
-          sh "ls -la fmp-app/e2e"
           echo "Checkout of fmp-app/e2e successful"
         }
       }
@@ -136,7 +135,7 @@ pipeline {
     stage('Test') {
       steps {
         sh """
-          . /var/lib/jenkins/.bashrc
+          . /var/lib/jenkins/.bashrc > /dev/null 2>&1
           set -eu
           unset DISPLAY
 
@@ -163,7 +162,7 @@ pipeline {
           quiet npx playwright install --with-deps chromium
 
           echo "Running tests (test:${env.TARGET_ENV})..."
-          npm run test:${env.TARGET_ENV}
+          npm run --silent test:${env.TARGET_ENV}
         """
       }
     }
