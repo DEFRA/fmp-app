@@ -255,7 +255,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -660,7 +660,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1065,7 +1065,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="http://localhost:3000/map" class="govuk-back-link">Exit survey</a>
+  <a href="/map" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1470,7 +1470,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
