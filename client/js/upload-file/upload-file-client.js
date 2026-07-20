@@ -44,7 +44,7 @@ document.getElementById('upload').addEventListener('click', async () => {
   try {
     geojson = await parseFile(buffer, format)
   } catch (err) {
-    showError(err.message)
+    showError('Only .zip (shapefile), .geojson, or .gpkg (Geopackage) files are accepted.')
     return
   }
 

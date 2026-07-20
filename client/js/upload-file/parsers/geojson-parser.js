@@ -16,7 +16,7 @@ const parseGeoJSON = async (buffer) => {
       return json
     }
 
-    throw new Error('Invalid GeoJSON format')
+    throw new Error('Could not parse GeoJSON, as it is not valid JSON.')
   } catch (err) {
     throw new Error(`Could not parse GeoJSON: ${err.message}`)
   }

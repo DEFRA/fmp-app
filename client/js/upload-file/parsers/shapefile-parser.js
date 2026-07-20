@@ -28,7 +28,7 @@ const parseShapefile = async (buffer) => {
   }
 
   if (!validateAllowedFileTypes(files)) {
-    throw new Error('Zip file contains unexpected file types.')
+    throw new Error('The selected file is in the wrong format.')
   }
 
   files
