@@ -1,7 +1,21 @@
-.fm-mobile, .fm-tablet {
-  #help-banner {
-  .fm-c-banner__inner {
-    margin-top: 0;
+#map-panel-help-banner {
+  h2 {
+    font-size: 1em;
+    padding-bottom: 12px;
+    padding-top: 15px;
+    &::before {
+      content: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='8.5' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M8.584 5.228h2.832v2.174L10.869 11H9.118l-.534-3.598V5.228zm.098 7.207h2.643v2.337H8.682v-2.337z' fill='%23000'/%3E%3C/svg%3E");
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
   }
+  .im-c-panel__body {
+      position: absolute !important;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
   }
 }
