@@ -39,22 +39,46 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
+    
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+
+
+
+
+
+<form action="/cookies" method="post" novalidate>
+  <input type="hidden" name="crumb" value="">
+  <input type="hidden" name="async" value="false">
+  <input type="hidden" name="returnUrl" value="/feedback">
+
   
-  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
+<div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
+    
+        
+      
+    
+        
+      
+    
+        
+      
+    
+   data-crumb="" data-gtm-key="replace_this" data-nosnippet="">
+  
+  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container">
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-          Cookies on Flood Map For Planning
+          Cookies on Flood map for planning
         </h2>
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">We use analytics cookies to help understand how users use our service.</p>
+          <p class="govuk-body">We use some essential cookies to make this service work.</p>
+            <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
           
         </div>
       </div>
@@ -64,17 +88,17 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
+      <button value="true" type="submit" name="analytics" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
         Accept analytics cookies
       </button>
     
       
-      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
+      <button value="false" type="submit" name="analytics" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
         Reject analytics cookies
       </button>
     
       
-      <a class="govuk-link" href="cookies">View cookie preferences</a>
+      <a class="govuk-link" href="/cookies">View cookies</a>
     
     </div>
     
@@ -88,7 +112,7 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -98,8 +122,8 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -114,7 +138,7 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -124,8 +148,8 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -135,6 +159,11 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
   
 </div>
 
+</form>
+
+  
+
+  
 
 
     
@@ -226,7 +255,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -365,35 +394,10 @@ data-module="govuk-service-navigation"
 
 
     
-  
   <script src="/assets/core.js"></script>
   <script type="module">
     import { initAll } from '/assets/govuk-frontend.min.js'
     initAll()
-  </script>
-  <script type="text/javascript">
-    const analyticsAccount = 'replace_this'
-    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
-
-    if (analyticsAccount && analyticsAccepted) {
-      const script = document.createElement('script')
-      script.src = \`https://www.googletagmanager.com/gtm.js?id=\${analyticsAccount}\`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        function gtag () { window.dataLayer.push(arguments) }
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-          ad_user_data: 'granted',
-          analytics_storage: 'granted'
-        })
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-      }
-      document.body.appendChild(script)
-    }
   </script>
 
   </body>
@@ -440,22 +444,46 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
+    
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+
+
+
+
+
+<form action="/cookies" method="post" novalidate>
+  <input type="hidden" name="crumb" value="">
+  <input type="hidden" name="async" value="false">
+  <input type="hidden" name="returnUrl" value="/feedback">
+
   
-  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
+<div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
+    
+        
+      
+    
+        
+      
+    
+        
+      
+    
+   data-crumb="" data-gtm-key="replace_this" data-nosnippet="">
+  
+  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container">
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-          Cookies on Flood Map For Planning
+          Cookies on Flood map for planning
         </h2>
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">We use analytics cookies to help understand how users use our service.</p>
+          <p class="govuk-body">We use some essential cookies to make this service work.</p>
+            <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
           
         </div>
       </div>
@@ -465,17 +493,17 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
+      <button value="true" type="submit" name="analytics" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
         Accept analytics cookies
       </button>
     
       
-      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
+      <button value="false" type="submit" name="analytics" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
         Reject analytics cookies
       </button>
     
       
-      <a class="govuk-link" href="cookies">View cookie preferences</a>
+      <a class="govuk-link" href="/cookies">View cookies</a>
     
     </div>
     
@@ -489,7 +517,7 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -499,8 +527,8 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -515,7 +543,7 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -525,8 +553,8 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -536,6 +564,11 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
   
 </div>
 
+</form>
+
+  
+
+  
 
 
     
@@ -627,7 +660,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -766,35 +799,10 @@ data-module="govuk-service-navigation"
 
 
     
-  
   <script src="/assets/core.js"></script>
   <script type="module">
     import { initAll } from '/assets/govuk-frontend.min.js'
     initAll()
-  </script>
-  <script type="text/javascript">
-    const analyticsAccount = 'replace_this'
-    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
-
-    if (analyticsAccount && analyticsAccepted) {
-      const script = document.createElement('script')
-      script.src = \`https://www.googletagmanager.com/gtm.js?id=\${analyticsAccount}\`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        function gtag () { window.dataLayer.push(arguments) }
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-          ad_user_data: 'granted',
-          analytics_storage: 'granted'
-        })
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-      }
-      document.body.appendChild(script)
-    }
   </script>
 
   </body>
@@ -841,22 +849,46 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
+    
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+
+
+
+
+
+<form action="/cookies" method="post" novalidate>
+  <input type="hidden" name="crumb" value="">
+  <input type="hidden" name="async" value="false">
+  <input type="hidden" name="returnUrl" value="/feedback">
+
   
-  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
+<div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
+    
+        
+      
+    
+        
+      
+    
+        
+      
+    
+   data-crumb="" data-gtm-key="replace_this" data-nosnippet="">
+  
+  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container">
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-          Cookies on Flood Map For Planning
+          Cookies on Flood map for planning
         </h2>
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">We use analytics cookies to help understand how users use our service.</p>
+          <p class="govuk-body">We use some essential cookies to make this service work.</p>
+            <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
           
         </div>
       </div>
@@ -866,17 +898,17 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
+      <button value="true" type="submit" name="analytics" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
         Accept analytics cookies
       </button>
     
       
-      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
+      <button value="false" type="submit" name="analytics" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
         Reject analytics cookies
       </button>
     
       
-      <a class="govuk-link" href="cookies">View cookie preferences</a>
+      <a class="govuk-link" href="/cookies">View cookies</a>
     
     </div>
     
@@ -890,7 +922,7 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -900,8 +932,8 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -916,7 +948,7 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -926,8 +958,8 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -937,6 +969,11 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
   
 </div>
 
+</form>
+
+  
+
+  
 
 
     
@@ -1028,7 +1065,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="http://localhost:3000/map" class="govuk-back-link">Exit survey</a>
+  <a href="/map" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1167,35 +1204,10 @@ data-module="govuk-service-navigation"
 
 
     
-  
   <script src="/assets/core.js"></script>
   <script type="module">
     import { initAll } from '/assets/govuk-frontend.min.js'
     initAll()
-  </script>
-  <script type="text/javascript">
-    const analyticsAccount = 'replace_this'
-    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
-
-    if (analyticsAccount && analyticsAccepted) {
-      const script = document.createElement('script')
-      script.src = \`https://www.googletagmanager.com/gtm.js?id=\${analyticsAccount}\`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        function gtag () { window.dataLayer.push(arguments) }
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-          ad_user_data: 'granted',
-          analytics_storage: 'granted'
-        })
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-      }
-      document.body.appendChild(script)
-    }
   </script>
 
   </body>
@@ -1242,22 +1254,46 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
     
   
+    
 
 
-<div class="govuk-cookie-banner js-cookies-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on Flood Map For Planning">
+
+
+
+
+
+<form action="/cookies" method="post" novalidate>
+  <input type="hidden" name="crumb" value="">
+  <input type="hidden" name="async" value="false">
+  <input type="hidden" name="returnUrl" value="/feedback">
+
   
-  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container" hidden>
+<div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
+    
+        
+      
+    
+        
+      
+    
+        
+      
+    
+   data-crumb="" data-gtm-key="replace_this" data-nosnippet="">
+  
+  <div class="govuk-cookie-banner__message js-question-banner govuk-width-container">
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-          Cookies on Flood Map For Planning
+          Cookies on Flood map for planning
         </h2>
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">We use analytics cookies to help understand how users use our service.</p>
+          <p class="govuk-body">We use some essential cookies to make this service work.</p>
+            <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
           
         </div>
       </div>
@@ -1267,17 +1303,17 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
+      <button value="true" type="submit" name="analytics" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
         Accept analytics cookies
       </button>
     
       
-      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
+      <button value="false" type="submit" name="analytics" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
         Reject analytics cookies
       </button>
     
       
-      <a class="govuk-link" href="cookies">View cookie preferences</a>
+      <a class="govuk-link" href="/cookies">View cookies</a>
     
     </div>
     
@@ -1291,7 +1327,7 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've accepted analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -1301,8 +1337,8 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -1317,7 +1353,7 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
         
         <div class="govuk-cookie-banner__content">
           
-          <p class="govuk-body">You've rejected analytics cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
           
         </div>
       </div>
@@ -1327,8 +1363,8 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
     <div class="govuk-button-group">
     
       
-      <button type="button" class="govuk-button" data-module="govuk-button">
-        Hide cookie message
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
       </button>
     
     </div>
@@ -1338,6 +1374,11 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
   
 </div>
 
+</form>
+
+  
+
+  
 
 
     
@@ -1429,7 +1470,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-  <a href="https://localhost:3000" class="govuk-back-link">Exit survey</a>
+  <a href="/" class="govuk-back-link">Exit survey</a>
 
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1568,35 +1609,10 @@ data-module="govuk-service-navigation"
 
 
     
-  
   <script src="/assets/core.js"></script>
   <script type="module">
     import { initAll } from '/assets/govuk-frontend.min.js'
     initAll()
-  </script>
-  <script type="text/javascript">
-    const analyticsAccount = 'replace_this'
-    const analyticsAccepted = Boolean(document.cookie.match('GA=Accept'))
-
-    if (analyticsAccount && analyticsAccepted) {
-      const script = document.createElement('script')
-      script.src = \`https://www.googletagmanager.com/gtm.js?id=\${analyticsAccount}\`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        function gtag () { window.dataLayer.push(arguments) }
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-          ad_user_data: 'granted',
-          analytics_storage: 'granted'
-        })
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-      }
-      document.body.appendChild(script)
-    }
   </script>
 
   </body>

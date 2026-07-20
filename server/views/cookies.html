@@ -4,41 +4,36 @@
 
 {% set pageTitle = 'Cookies' %}
 
-{% block cookie_message %}
-{% set html %}
-<p class="govuk-notification-banner__heading">
-  You’ve set your cookie preferences.
-</p>
-{% endset %}
-
-{{ govukNotificationBanner({
-type: "success",
-html: html
-}) }}
-{% endblock %}
-
 {% block content %}
 <div class="govuk-width-container">
+  {% if updated %}
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Success
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <h3 class="govuk-notification-banner__heading">
+          You've set your cookie preferences.
+        </h3>
+      </div>
+    </div>
+  {% endif %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body summary">
-        Cookies are small files saved on your phone, tablet or computer when you visit a website.
-      </p>
-      <p class="govuk-body govuk-body">We use cookies to make Flood Map for Planning work and collect information about how you
-        use our service.</p>
+
+      <p class="govuk-body">Cookies are small files saved on your phone, tablet or computer when you visit a website.</p>
+      <p class="govuk-body">We use cookies to make Flood Map for Planning work and collect information about how you use our service.</p>
 
       <h2 class="govuk-heading-m">Essential cookies</h2>
       <p class="govuk-body">
-        Essential cookies keep your information secure while you use Flood Map for Planning. We do not need to ask
-        permission to use them.
+        Essential cookies keep your information secure while you use Flood Map for Planning. We do not need to ask permission to use them.
       </p>
       <table class="govuk-table">
-        <caption class="govuk-visually-hidden">Essential cookies</caption>
+        <caption class="govuk-table__caption govuk-table__caption--s">Essential cookies we use</caption>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Name</th>
@@ -48,29 +43,42 @@ html: html
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"> GA </th>
+            <th scope="row" class="govuk-table__header"> fmp_cookie_policy </th>
             <td class="govuk-table__cell"> Saves your cookie consent settings </td>
             <td class="govuk-table__cell"> 1 year </td>
           </tr>
-
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> crumb </th>
+            <td class="govuk-table__cell"> This helps keep the site secure </td>
+            <td class="govuk-table__cell"> When closing your browser </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> AWSALBTG </th>
+            <td class="govuk-table__cell"> Routes your requests to the same server to improve service performance </td>
+            <td class="govuk-table__cell"> When closing your browser </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> AWSALBTGCORS </th>
+            <td class="govuk-table__cell"> Supports requests between different parts of the service so pages load properly </td>
+            <td class="govuk-table__cell"> When closing your browser </td>
+          </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> p4Request </th>
             <td class="govuk-table__cell"> Saves your request reference number and polygon </td>
-            <td class="govuk-table__cell"> Session </td>
+            <td class="govuk-table__cell"> When closing your browser </td>
           </tr>
 
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> p4Customer </th>
             <td class="govuk-table__cell"> Saves your name and email address to prefill the form on the 'order your flood risk data' page </td>
-            <td class="govuk-table__cell"> Session </td>
+            <td class="govuk-table__cell"> When closing your browser </td>
           </tr>
-
         </tbody>
       </table>
+
       <h2 class="govuk-heading-m">Analytics cookies (optional)</h2>
       <p class="govuk-body">
-        With your permission, we use Google Analytics to collect data about how you use Flood Map for Planning. This
-        information helps us to improve our service.
+        With your permission, we use Google Analytics to collect data about how you use Flood Map for Planning. This information helps us to improve our service.
       </p>
       <p class="govuk-body">
         Google is not allowed to use or share our analytics data with anyone.
@@ -96,25 +104,32 @@ html: html
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> _ga </th>
             <td class="govuk-table__cell">
-              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-              site.
+              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our site.
             </td>
             <td class="govuk-table__cell">
               2 years
             </td>
           </tr>
           <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"> _ga_* </th>
+            <td class="govuk-table__cell">
+              Checks which parts of Flood map for Planning you have interacted with, if you have opted in to Google Analytics. This helps us see which parts of the service are being used.
+            </td>
+            <td class="govuk-table__cell">
+              Up to 2 years
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"> _gid </th>
             <td class="govuk-table__cell">
-              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our
-              site.
+              Checks if you’ve visited Flood Map for Planning before. This helps us count how many people visit our site
             </td>
             <td class="govuk-table__cell">
               24 hours
             </td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"> _gat </th>
+            <th scope="row" class="govuk-table__header"> _gat_* _dc_gtm_* </th>
             <td class="govuk-table__cell">
               Used to reduce the number of requests made to Google Analytics
             </td>
@@ -124,53 +139,20 @@ html: html
           </tr>
         </tbody>
       </table>
-      <noscript>
-        <div class="cookie-settings__no-js">
-          <h2 class="govuk-heading-s govuk-!-margin-top-6">Change your cookie settings</h2>
-          <p class="govuk-body">We cannot change your cookie settings at the moment because JavaScript is not running
-            in your browser. To fix this, try:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>turning on JavaScript in your browser settings</li>
-            <li>reloading this page</li>
-          </ul>
-        </div>
-      </noscript>
-      <div class="govuk-form-group js-only">
-        <fieldset class="govuk-fieldset">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-            Do you want to accept analytics cookies?
-          </legend>
-          <div class="govuk-radios govuk-radios--inline">
-            <div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="cookie_consent"
-                name="cookie_consent"
-                type="radio"
-                value="yes"
-                {% if accepted %} checked {% endif %}
-              >
-              <label class="govuk-label govuk-radios__label" for="cookie_consent">
-                Yes
-              </label>
-            </div>
-            <div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="cookie_consent-2"
-                name="cookie_consent"
-                type="radio"
-                value="no"
-                {% if not accepted %} checked {% endif %}
-              >
-              <label class="govuk-label govuk-radios__label" for="cookie_consent-2">
-                No
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <button class="govuk-button govuk-!-margin-top-3" onclick=CookieSet()>Save cookie settings</button>
-      </div>
+
+      <h2 class="govuk-heading-m">Change your cookie settings</h2>
+
+      <form action="/cookies" method="post" novalidate>
+        <input type="hidden" name="crumb" value="{{ crumb }}">
+        <input type="hidden" name="async" value="false">
+        <input type="hidden" name="referer" value="{{ referer }}">
+
+        {{ govukRadios(analytics) }}
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Save cookie settings
+        </button>
+      </form>
     </div>
     <div class="govuk-grid-column-one-third">
       <aside class="app-related-items" role="complementary">
@@ -195,32 +177,4 @@ html: html
     </div>
   </div>
 </div>
-<script>
-  function CookieSet() {
-    var selectedValue = document
-      .querySelector('input[name="cookie_consent"]:checked')
-      .value;
-    var expDays = 365
-    var cName = 'GA'
-    var cValue
-    if (selectedValue === 'yes') {
-      cValue = 'Accept'
-      let date = new Date();
-      date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
-      const expires = "expires=" + date.toUTCString();
-      document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
-    } else if (selectedValue === 'no') {
-      cValue = 'Reject'
-      let date = new Date();
-      date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
-      const expires = "expires=" + date.toUTCString();
-      document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
-      if (window && window.FMfP && window.FMfP.deleteGaCookies) {
-        window.FMfP.deleteGaCookies('{{analyticsAccount}}')
-      }
-    } else { }
-    location.reload();
-    return false;
-  }
-</script>
 {% endblock %}

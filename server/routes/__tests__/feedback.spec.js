@@ -55,4 +55,37 @@ describe('Feedback', () => {
     const response = await submitGetRequest({ url })
     expect(response.result).toMatchSnapshot()
   })
+
+  it('Should return feedback page with a safe exit survey backlink when referrer is unsafe', async () => {
+    const server = getServer()
+    server.ext('onPreHandler', (request, h) => {
+      request.info.referrer = 'javascript:alert(1)'
+      return h.continue
+    })
+
+    const response = await submitGetRequest({ url })
+    expect(response.result).toContain('<a href="/" class="govuk-back-link">Exit survey</a>')
+  })
+
+  it('Should return feedback page with the same relative path in the exit survey backlink', async () => {
+    const server = getServer()
+    server.ext('onPreHandler', (request, h) => {
+      request.info.referrer = '/map?test=1'
+      return h.continue
+    })
+
+    const response = await submitGetRequest({ url })
+    expect(response.result).toContain('<a href="/map?test=1" class="govuk-back-link">Exit survey</a>')
+  })
+
+  it('Should return feedback page with default exit survey backlink when referrer cannot be parsed', async () => {
+    const server = getServer()
+    server.ext('onPreHandler', (request, h) => {
+      request.info.referrer = 'http://[::1'
+      return h.continue
+    })
+
+    const response = await submitGetRequest({ url })
+    expect(response.result).toContain('<a href="/" class="govuk-back-link">Exit survey</a>')
+  })
 })

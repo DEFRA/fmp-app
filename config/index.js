@@ -1,6 +1,7 @@
 const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
 require('./environment')
+const year = 365 // days in a year
 
 const agolRofrsDepthOrExtents = process.env.agolRofrsDepthOrExtents || 'Depth'
 
@@ -106,6 +107,18 @@ const config = {
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl
+  },
+  cookie: {
+    name: 'fmp_cookie_policy',
+    policy: {
+      clearInvalid: true,
+      encoding: 'base64json',
+      isSameSite: 'Lax',
+      isSecure: process.env.siteUrl ? process.env.siteUrl.startsWith('https') : false
+    },
+    config: {
+      ttl: 1000 * 60 * 60 * 24 * year
+    }
   }
 }
 

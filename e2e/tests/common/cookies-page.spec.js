@@ -25,8 +25,11 @@ test.describe('Cookies page', { tag: '@noDeps' }, () => {
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects rejection
     const cookies = await page.context().cookies()
-    const gaCookieAfterReject = cookies.find(c => c.name === 'GA')
-    expect(gaCookieAfterReject?.value).toEqual('Reject')
+    const policyCookie = cookies.find(c => c.name === 'fmp_cookie_policy')
+    const decodedValue = Buffer.from(policyCookie?.value || '{}', 'base64').toString('utf-8')
+    const policyValue = JSON.parse(decodedValue)
+    expect(policyValue.analytics).toEqual(false)
+    expect(policyValue.confirmed).toEqual(true)
   })
 
   test('accepts the option to Do you want to accept analytics cookies?', async ({ steps, page }) => {
@@ -34,7 +37,10 @@ test.describe('Cookies page', { tag: '@noDeps' }, () => {
     await steps.clickButton(pages.cookies.saveCookieSettingsButton)
     // Verify cookie value reflects acceptance
     const cookies = await page.context().cookies()
-    const gaCookieAfterAccept = cookies.find(c => c.name === 'GA')
-    expect(gaCookieAfterAccept?.value).toEqual('Accept')
+    const policyCookie = cookies.find(c => c.name === 'fmp_cookie_policy')
+    const decodedValue = Buffer.from(policyCookie?.value || '{}', 'base64').toString('utf-8')
+    const policyValue = JSON.parse(decodedValue)
+    expect(policyValue.analytics).toEqual(true)
+    expect(policyValue.confirmed).toEqual(true)
   })
 })

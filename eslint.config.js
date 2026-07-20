@@ -12,6 +12,16 @@ module.exports = [
     ]
   }),
   {
+    files: ['client/**'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        XMLHttpRequest: 'readonly'
+      }
+    }
+  },
+  {
     files: ['e2e/**'],
     languageOptions: {
       globals: {

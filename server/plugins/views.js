@@ -38,7 +38,8 @@ module.exports = {
       serviceName: 'Flood map for planning',
       gaAccId,
       fbAppId,
-      analyticsAccount
+      analyticsAccount,
+      googleTagManagerKey: analyticsAccount
     }
   }
 }
