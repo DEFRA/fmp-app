@@ -15,7 +15,12 @@ const GPKG_HEADER_SIZE = 8
 const GPKG_FLAGS_BYTE_OFFSET = 3
 const GPKG_ENVELOPE_TYPE_MASK = 0x0E
 const GPKG_ENVELOPE_TYPE_SHIFT = 1
-const GPKG_ENVELOPE_SIZES = [0, 32, 48, 48, 64]
+const GPKG_ENVELOPE_NO = 0
+const GPKG_ENVELOPE_XY = 32
+const GPKG_ENVELOPE_XYZ = 48
+const GPKG_ENVELOPE_XYM = 48
+const GPKG_ENVELOPE_XYZM = 64
+const GPKG_ENVELOPE_SIZES = [GPKG_ENVELOPE_NO, GPKG_ENVELOPE_XY, GPKG_ENVELOPE_XYZ, GPKG_ENVELOPE_XYM, GPKG_ENVELOPE_XYZM]
 
 // The offsets are used for WKB (Well-Known Binary) as it is a sequential binary format
 const parseWKBPoint = (data, offset, littleEndian) => {
@@ -71,9 +76,7 @@ const parseWKB = (buffer) => {
 const stripGeoPackageHeader = (data) => {
   // Convert to ArrayBuffer if needed
   let buffer = data
-  if (Array.isArray(data)) {
-    buffer = new Uint8Array(data).buffer
-  } else if (!(buffer instanceof ArrayBuffer)) {
+  if (Array.isArray(data) || !(data instanceof ArrayBuffer)) {
     buffer = new Uint8Array(data).buffer
   }
 
