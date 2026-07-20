@@ -195,11 +195,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
         transformRequest: getRequest,
+        placeholder: 'Search for a place in england',
         osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
         regions: ['england'],
         width: '300px',
         showMarker: true,
-        label: 'Search for a place in england',
         // expanded: true
       }),
       drawPlugin,
@@ -214,7 +214,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    // transformSearchRequest: getRequest,
     // interceptorsCallback: getInterceptors,
     warningPosition: 'top',
     search: {
@@ -582,7 +581,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     interactiveMap.addPanel('key', {
       label: 'Key',
       html: renderKeyHTML(),
-      mobile: { slot: 'bottom', open: false, exclusive: true },
+      mobile: { slot: 'drawer', open: false, exclusive: true },
       tablet: { slot: 'left-top', width: '260px', open: false, exclusive: true },
       desktop: { slot: 'left-top', width: '280px', open: true, exclusive: false }
     })

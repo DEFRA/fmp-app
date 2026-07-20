@@ -53,25 +53,24 @@ export const getInterceptors = () => {
   }]
 }
 
-export const getRequest = async ({ url }) => {
-  let options = {}
-
+export const getRequest = async (request) => {
+  const { url, options } = request
   // OS Open Names
   if (url.startsWith('https://api.os.uk/search/names/v1/nearest')) {
     return null
   }
 
-  if (url.startsWith('https://api.os.uk')) {
+  if (request.url.startsWith('https://api.os.uk')) {
     const token = (await getOsToken()).token
-    options = { headers: { Authorization: 'Bearer ' + token } }
+    return {
+      url: url.toString(),
+      options: {
+        ...options,
+        headers: { ...options?.headers, Authorization: 'Bearer ' + token }
+      }
+    }
   }
-
-  // ESRI World Geocoder
-  if (url.startsWith('https://geocode-api.arcgis.com')) {
-    const token = (await getEsriToken()).token
-    url = `${url}&token=${token}`
-  }
-  return new window.Request(url, options)
+  return null
 }
 
 export const getEsriToken = async (refresh = false) => {
