@@ -588,6 +588,10 @@ getDefraMapConfig().then((defraMapConfig) => {
     initialiseSlider(interactiveMap)
   })
 
+  interactiveMap.on('map:ready', function ({ map, view, mapStyleId, mapSize, crs }) {
+    initPointerMove(view)
+  })
+
   interactiveMap.on('interact:markerchange', function (e) {
     interactiveMap.addPanel('info', {
       label: 'Info',
@@ -628,14 +632,8 @@ getDefraMapConfig().then((defraMapConfig) => {
   // Component is ready and we have access to map
   // We can listen for map events now, such as 'loaded'
   interactiveMap.addEventListener('ready', async e => {
-    const { segments, layers, style } = e.detail
-    updateMapState(segments, layers, style)
-    await FloodMapLayer.initialise({
-      mapState,
-      config: defraMapConfig
-    })
-    initPointerMove()
-    initialiseSlider()
+    // initPointerMove()
+    // initialiseSlider()
     renderBanner(mapState)
   })
 
@@ -649,18 +647,19 @@ getDefraMapConfig().then((defraMapConfig) => {
     renderBanner({ ...mapState, type, mode })
   })
 
-  const initPointerMove = () => {
+  const initPointerMove = (view) => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
-    interactiveMap.view.on('pointer-move', e => {
+
+    view.on('pointer-move', e => {
       const now = Date.now()
-      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || interactiveMap.view.scale > minScale) {
+      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || view.scale > minScale) {
         return
       }
       lastHit = now
       const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
-      interactiveMap.view.hitTest(e, { include: layersToTest }).then((response) => {
+      view.hitTest(e, { include: layersToTest }).then((response) => {
         if (response?.results?.length > 0) {
           // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
           // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
@@ -672,7 +671,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       })
     })
 
-    interactiveMap.view.on('pointer-leave', _e => {
+    view.on('pointer-leave', _e => {
       document.body.style.cursor = 'default'
     })
   }
