@@ -94,6 +94,36 @@ const stripGeoPackageHeader = (data) => {
   return buffer
 }
 
+const findFallbackTableAndGeometry = (db) => {
+  const tableResult = db.exec("SELECT name FROM sqlite_master WHERE type='table'")
+  if (!tableResult?.length) {
+    throw new Error('No tables found in Geopackage')
+  }
+
+  const tables = tableResult[0].values.map(row => row[0])
+  const nonSystemTables = tables.filter(t => !t.startsWith('sqlite_') && !t.startsWith('gpkg_'))
+
+  if (!nonSystemTables.length) {
+    throw new Error('No geometry tables found in Geopackage')
+  }
+
+  const tableName = nonSystemTables[0]
+  const colResult = db.exec(`PRAGMA table_info("${tableName}")`)
+
+  if (!colResult?.length) {
+    throw new Error('Could not determine geometry column')
+  }
+
+  const colNames = colResult[0].values.map(row => row[1])
+  const geometryColumn = colNames.find(name =>
+    name.toLowerCase().includes('geometry') ||
+    name.toLowerCase().includes('geom') ||
+    name.toLowerCase().includes('shape')
+  ) || colNames[colNames.length - 1]
+
+  return { tableName, geometryColumn }
+}
+
 const parseGeopackage = async (buffer) => {
   let SQL
   try {
@@ -108,8 +138,6 @@ const parseGeopackage = async (buffer) => {
     const uint8array = new Uint8Array(buffer)
     const db = new SQL.Database(uint8array)
 
-    // Query the correct GeoPackage tables: gpkg_contents and gpkg_geometry_columns
-    let tableName, geometryColumn
     const result = db.exec(`
       SELECT gc.table_name, gc.column_name
       FROM gpkg_geometry_columns gc
@@ -118,40 +146,14 @@ const parseGeopackage = async (buffer) => {
       LIMIT 1
     `)
 
-    if (result && result.length > 0) {
+    let tableName, geometryColumn
+    if (result?.length) {
       const columns = result[0].columns
       const values = result[0].values[0]
       tableName = values[columns.indexOf('table_name')]
       geometryColumn = values[columns.indexOf('column_name')]
     } else {
-      // Fallback: query sqlite_master to find geometry tables
-      const tableResult = db.exec("SELECT name FROM sqlite_master WHERE type='table'")
-      if (!tableResult || tableResult.length === 0) {
-        throw new Error('No tables found in Geopackage')
-      }
-
-      // Get first non-system table
-      const tables = tableResult[0].values.map(row => row[0])
-      const nonSystemTables = tables.filter(t => !t.startsWith('sqlite_') && !t.startsWith('gpkg_'))
-
-      if (nonSystemTables.length === 0) {
-        throw new Error('No geometry tables found in Geopackage')
-      }
-
-      tableName = nonSystemTables[0]
-
-      // Try to find geometry column - look for common names
-      const colResult = db.exec(`PRAGMA table_info("${tableName}")`)
-      if (colResult && colResult.length > 0) {
-        const colNames = colResult[0].values.map(row => row[1])
-        geometryColumn = colNames.find(name =>
-          name.toLowerCase().includes('geometry') ||
-          name.toLowerCase().includes('geom') ||
-          name.toLowerCase().includes('shape')
-        ) || colNames[colNames.length - 1]
-      } else {
-        throw new Error('Could not determine geometry column')
-      }
+      ({ tableName, geometryColumn } = findFallbackTableAndGeometry(db))
     }
 
     // Query geometry from table
@@ -159,7 +161,7 @@ const parseGeopackage = async (buffer) => {
       `SELECT "${geometryColumn}" FROM "${tableName}" LIMIT 1`
     )
 
-    if (!geometryResult || geometryResult.length === 0) {
+    if (!geometryResult?.length) {
       throw new Error('Could not read geometry from Geopackage')
     }
 

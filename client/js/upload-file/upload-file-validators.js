@@ -3,7 +3,9 @@ const maxFiles = 10
 const allowedExtentions = ['.shp', '.shx', '.dbf', '.prj', '.cpg', '.qpj', 'sbn', 'sbx']
 const minCoordinateValue = 700000
 const maxCoordinateValue = 1300000
-const zipSignature = [0x50, 0x4B]
+const hexDecimalP = 0x50
+const hexDecimalK = 0x4B
+const zipSignature = [hexDecimalP, hexDecimalK]
 
 const validateFileExtension = (fileName) => {
   const name = fileName.toLowerCase()
@@ -12,9 +14,9 @@ const validateFileExtension = (fileName) => {
 
 const getParserForFile = (fileName) => {
   const name = fileName.toLowerCase()
-  if (name.endsWith('.geojson')) return 'geojson'
-  if (name.endsWith('.gpkg')) return 'geopackage'
-  if (name.endsWith('.zip')) return 'shapefile'
+  if (name.endsWith('.geojson')) { return 'geojson' }
+  if (name.endsWith('.gpkg')) { return 'geopackage' }
+  if (name.endsWith('.zip')) { return 'shapefile' }
   return null
 }
 
@@ -32,7 +34,7 @@ const validateAllowedFileTypes = (files) => files.every(
 )
 
 const validateGeoJSON = (geojson) => {
-  if (!geojson || !geojson.features || geojson.features.length !== 1) {
+  if (geojson?.features?.length !== 1) {
     return 'Only upload a shape file containing a single polygon.'
   }
   if (geojson.features[0].geometry.type !== 'Polygon') {
