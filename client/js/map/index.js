@@ -15,7 +15,6 @@ import { addFeatureLayers } from './mapLayers/featureLayers/featureLayers.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 import { sliderMarkUp, initialiseSlider } from './slider/index.js'
-import { renderBanner } from './banner.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
@@ -590,6 +589,14 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   interactiveMap.on('map:ready', function ({ map, view, mapStyleId, mapSize, crs }) {
     initPointerMove(view)
+
+    interactiveMap.addPanel('help-banner', {
+      label: 'Click on the flood zones for information',
+      html: '<span class="im-u-visually-hidden">Alert:</span>',
+      mobile: { slot: 'banner', dismissible: true },
+      tablet: { slot: 'banner', dismissible: true, width: '372px' },
+      desktop: { slot: 'banner', dismissible: true, width: '372px' }
+    })
   })
 
   interactiveMap.on('interact:markerchange', function (e) {
@@ -608,44 +615,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     isClimateChange: false,
     isFloodZone: false
   }
-
-  const updateMapState = (segments, layers, style) => {
-    mapState.segments = segments
-    mapState.layers = layers
-    mapState.isDark = style ? style === 'dark' || style?.name === 'dark' : mapState.isDark
-    mapState.isRamp = layers.includes('md')
-    mapState.isClimateChange = segments.includes('cl') || segments.includes('fzcl')
-    mapState.isFloodZone = segments.includes('fz') || segments.includes('fzcl') || segments.includes('fzpd')
-    mapState.isSurfaceWater = segments.includes('sw')
-    if (segments.includes('lr')) {
-      mapState.riskLevel = 'low'
-    } else if (segments.includes('mr')) {
-      mapState.riskLevel = 'medium'
-    } else if (segments.includes('hr')) {
-      mapState.riskLevel = 'high'
-    } else {
-      mapState.riskLevel = ''
-    }
-    mapState.ds = mapState.isFloodZone ? 'fz' : 'sw'
-  }
-
-  // Component is ready and we have access to map
-  // We can listen for map events now, such as 'loaded'
-  interactiveMap.addEventListener('ready', async e => {
-    // initPointerMove()
-    // initialiseSlider()
-    renderBanner(mapState)
-  })
-
-  // Listen for mode, segments, layers or style changes
-  interactiveMap.addEventListener('change', e => {
-    const { type, mode, segments, layers, style } = e.detail
-    updateMapState(segments, layers, style)
-    if (['layer', 'segment'].includes(type)) {
-      interactiveMap.setInfo(null)
-    }
-    renderBanner({ ...mapState, type, mode })
-  })
 
   const initPointerMove = (view) => {
     let lastHit = 0
