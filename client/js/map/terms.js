@@ -6,8 +6,10 @@ const terms = {
     fzNoData: 'FZNODATA'
   },
   labels: {
+    datasets: 'Datasets',
     floodZones: 'Flood zones',
     surfaceWater: 'Surface water',
+    surfaceWaterDepthInMillimetres: 'Surface water depth in millimetres',
     floodZone2: 'Flood zone 2',
     floodZone3: 'Flood zone 3',
     floodZone2PresentDay: 'Flood zone 2 (present day)',
@@ -24,7 +26,6 @@ const terms = {
     waterStorage: 'Water storage',
     floodDefence: 'Flood defence',
     mainRivers: 'Main rivers',
-
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',

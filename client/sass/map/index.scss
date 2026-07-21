@@ -10,6 +10,7 @@ $govuk-new-typography-scale: true;
 
 @import '../../../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css';
 @import '../../../node_modules/@defra/interactive-map/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/datasets/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/search/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/map-styles/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css';
