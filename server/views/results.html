@@ -18,7 +18,7 @@
       {% elif floodData.hasRiversSource %}<li id="riversBulletPoint" data-testid="risk-list-rivers">rivers (fluvial)</li>
       {% elif floodData.hasSeaSource %}<li id="seaBulletPoint" data-testid="risk-list-sea">the sea (tidal)</li>
       {% elif floodData.floodZoneClimateChangeNoData %}<li id="riversAndSeaNoDataBulletPoint" data-testid="risk-list-rivers-sea-no-data">rivers and the sea (fluvial or tidal) due to climate change</li>{% endif %}
-      {% if floodData.surfaceWater.riskBand %}<li id="swBulletPoint">surface water</li>{% endif %}
+      {% if floodData.surfaceWater.riskBandOdds %}<li id="swBulletPoint">surface water</li>{% endif %}
     </ul>
     {% endif %}
 
