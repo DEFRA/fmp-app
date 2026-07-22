@@ -109,6 +109,30 @@ export class FormDriver {
     }
   }
 
+  async expectRiskProfileTexts (expectedTexts, allTexts) {
+    const main = this.page.getByRole('main')
+    const [introText, ...expectedRiskItems] = expectedTexts
+
+    const riskIntro = main.getByText(introText, { exact: true }).first()
+    await expect(riskIntro).toBeVisible()
+
+    // Risk lines are shown in the first list within the same content block as the intro text.
+    const riskList = riskIntro.locator('..').getByRole('list').first()
+
+    await expect(riskList).toBeVisible()
+
+    for (const text of expectedRiskItems) {
+      await expect(riskList.getByText(text, { exact: true })).toBeVisible()
+    }
+
+    const allRiskItems = allTexts.filter((text) => text !== introText)
+    for (const text of allRiskItems) {
+      if (!expectedRiskItems.includes(text)) {
+        await expect(riskList.getByText(text, { exact: true })).toHaveCount(0)
+      }
+    }
+  }
+
   async expectErrorText (element) {
     await expect(this.page.getByRole('alert')).toBeVisible()
     await expect(this.page.getByRole('alert')).toContainText(element.text)

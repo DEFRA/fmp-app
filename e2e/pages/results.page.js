@@ -70,6 +70,7 @@ export const sw1in30PdText =
 // Risk profiles
 export const riskIntro = 'In your proposed development site there is a risk of flooding from:'
 const surfaceWaterRisk = 'surface water'
+export const riskProfilesSection = '[data-testid="risk-profiles"]' // Selector for the risk profiles section
 export const riskProfiles = {
   surfaceWater: [riskIntro, surfaceWaterRisk],
   fluvialAndSurfaceWater: [riskIntro, 'rivers (fluvial)', surfaceWaterRisk],
