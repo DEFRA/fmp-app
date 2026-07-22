@@ -8,7 +8,6 @@ import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
-import { FloodMapLayer } from './mapLayers/index.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
 // TODO: add the slider to the dataset plugin
@@ -136,8 +135,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     // initialiseSlider(interactiveMap)
   })
 
-  interactiveMap.on('map:ready', function ({ map, view, mapStyleId, mapSize, crs }) {
-    initPointerMove(view)
+  interactiveMap.on('datasets:ready', function () {
+    updateVisibleLayers()
+    initPointerMove(mapState.view)
+  })
+
+  interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
+    mapState.map = map
+    mapState.view = view
 
     interactiveMap.addPanel('help-banner', {
       label: 'Click on the flood zones for information',
@@ -157,6 +162,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   const mapState = {
+    map: null,
     isDark: false,
     isRamp: false,
     layers: [],
@@ -165,32 +171,53 @@ getDefraMapConfig().then((defraMapConfig) => {
     isFloodZone: false
   }
 
+  const updateVisibleLayers = () => {
+    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) => (item.type === 'group' || item.type === 'vector-tile') && item.visible === true && item.id !== 'baselayer')
+    console.log('visibleLayers', mapState.visibleLayers)
+  }
+
   const initPointerMove = (view) => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-    view.on('pointer-move', e => {
+    view.on('pointer-enter', updateVisibleLayers)
+
+    view.on('pointer-move', event => {
       const now = Date.now()
-      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || view.scale > minScale) {
+      if (!mapState.visibleLayers || now - lastHit < throttleMs || view.scale > minScale) {
         return
       }
       lastHit = now
-      const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
-      view.hitTest(e, { include: layersToTest }).then((response) => {
+      view.hitTest(event, { include: mapState.visibleLayers }).then((response) => {
+        let topVisibleStyleLayerId = null
         if (response?.results?.length > 0) {
-          // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
-          // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
-          const { layerId } = response?.results?.[0]?.graphic?.origin || {}
-          document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
-          return
+          const visibleStyleLayerIds = response?.results.reduce((layerIds, result) => {
+            const { layerId } = result.graphic?.origin || {}
+            if (!layerId) {
+              return layerIds
+            }
+            const vtLayer = result.layer
+            const styleLayer = vtLayer?.getStyleLayer(layerId)
+            if (styleLayer?.layout?.visibility === 'visible') {
+              layerIds.push(layerId)
+            }
+            return layerIds
+          }, [])
+
+          topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
         }
-        document.body.style.cursor = 'default'
+        if (mapState.cursorStyleLayer !== topVisibleStyleLayerId) {
+          mapState.cursorStyleLayer = topVisibleStyleLayerId
+          console.log('cursorStyleLayer', mapState.cursorStyleLayer)
+        }
+        document.body.style.cursor = topVisibleStyleLayerId ? 'pointer' : 'default'
       })
     })
 
-    view.on('pointer-leave', _e => {
+    view.on('pointer-leave', () => {
       document.body.style.cursor = 'default'
+      mapState.visibleLayers = null
     })
   }
 
