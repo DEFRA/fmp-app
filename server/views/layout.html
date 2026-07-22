@@ -1,4 +1,4 @@
-{% extends "template.njk" %}
+{% extends "fmp-template.njk" %}
 {% set govukRebrand = true %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "footer/macro.njk" import govukFooter %}
@@ -37,14 +37,14 @@
 {% endblock %}
 
 {%block bodyStart%}
+{% if cookiesPolicy.analytics %}
+{% include "google-tag-manager/google-tag-manager-body.html" %}
+  {% include "google-tag-manager/google-tag-manager-head.html" %}
+{% endif %}
   {% if not cookiesPolicy.confirmed %}
     {% include "partials/cookie-banner.html" %}
   {% endif %}
 
-  {% if cookiesPolicy.analytics %}
-    {% include "google-tag-manager/google-tag-manager-head.html" %}
-    {% include "google-tag-manager/google-tag-manager-body.html" %}
-  {% endif %}
 {% endblock %}
 
 {% block beforeContent %}
