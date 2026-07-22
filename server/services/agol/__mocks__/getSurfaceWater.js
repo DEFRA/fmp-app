@@ -4,16 +4,16 @@ const getSurfaceWater = async (options) => {
   switch (options.polygon) {
     case mockPolygons.fz2_low:
       return {
-        surfaceWater: { riskBandId: 1, riskBand: 'Low', riskBandPercent: '0.1', riskBandOdds: '1 in 1000' }
+        surfaceWater: { riskBandId: 1, riskBandPercent: '0.1', riskBandOdds: '1 in 1000' }
       }
     case mockPolygons.fz2_medium:
       return {
-        surfaceWater: { riskBandId: 2, riskBand: 'Medium', riskBandPercent: '1', riskBandOdds: '1 in 100' }
+        surfaceWater: { riskBandId: 2, riskBandPercent: '1', riskBandOdds: '1 in 100' }
       }
     case mockPolygons.fz3_high:
     case mockPolygons.fz1_only_lt_1_ha_sw:
       return {
-        surfaceWater: { riskBandId: 3, riskBand: 'High', riskBandPercent: '3.3', riskBandOdds: '1 in 30' }
+        surfaceWater: { riskBandId: 3, riskBandPercent: '3.3', riskBandOdds: '1 in 30' }
       }
     case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_lt_1_ha:
