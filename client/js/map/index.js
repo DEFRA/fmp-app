@@ -137,7 +137,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   interactiveMap.on('datasets:ready', function () {
     updateVisibleLayers()
-    initPointerMove(mapState.view)
+    initPointerMove()
   })
 
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
