@@ -71,14 +71,15 @@ export const sw1in30PdText =
 export const riskIntro = 'In your proposed development site there is a risk of flooding from:'
 const surfaceWaterRisk = 'surface water'
 export const riskProfiles = {
-  surfaceWater: [riskIntro, surfaceWaterRisk],
-  fluvialAndSurfaceWater: [riskIntro, 'rivers (fluvial)', surfaceWaterRisk],
-  tidalAndSurfaceWater: [riskIntro, 'the sea (tidal)', surfaceWaterRisk],
-  fluvialTidalAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial and tidal)', surfaceWaterRisk],
-  fluvialAndTidal: [riskIntro, 'rivers and the sea (fluvial and tidal)'],
-  fluvial: [riskIntro, 'rivers (fluvial)'],
-  tidal: [riskIntro, 'the sea (tidal)'],
-  climateChange: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change'],
-  climateChangeAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change', surfaceWaterRisk]
+  surfaceWater: [surfaceWaterRisk],
+  fluvialAndSurfaceWater: ['rivers (fluvial)', surfaceWaterRisk],
+  tidalAndSurfaceWater: ['the sea (tidal)', surfaceWaterRisk],
+  fluvialTidalAndSurfaceWater: ['rivers and the sea (fluvial and tidal)', surfaceWaterRisk],
+  fluvialAndTidal: ['rivers and the sea (fluvial and tidal)'],
+  fluvial: ['rivers (fluvial)'],
+  tidal: ['the sea (tidal)'],
+  climateChange: ['rivers and the sea (fluvial or tidal) due to climate change'],
+  climateChangeAndSurfaceWater: ['rivers and the sea (fluvial or tidal) due to climate change', surfaceWaterRisk]
 }
-export const allRiskLines = [...new Set(Object.values(riskProfiles).flat().filter((line) => line !== riskIntro))]
+export const allRiskLines = [...new Set(Object.values(riskProfiles).flat())]
+export const riskProfilesSection = '#riskFloodingFrom + ul' // locator for risk profiles list, used to scope text assertions
