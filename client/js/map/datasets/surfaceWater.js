@@ -65,52 +65,52 @@ export const surfaceWaterExtentsKey = {
   sublayers: [
     {
       id: 'extents150',
-      label: terms.depth.extents150,
+      label: terms.depth.extentsFull,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth150'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsFull'] } }
     },
     {
       id: 'extents300',
-      label: terms.depth.extents300,
+      label: terms.depth.extentsOver150,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth300'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver150'] } }
     },
     {
       id: 'extents600',
-      label: terms.depth.extents600,
+      label: terms.depth.extentsOver300,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth600'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver300'] } }
     },
     {
       id: 'extents900',
-      label: terms.depth.extents900,
+      label: terms.depth.extentsOver600,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth900'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver600'] } }
     },
     {
       id: 'extents1200',
-      label: terms.depth.extents1200,
+      label: terms.depth.extentsOver900,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth1200'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver900'] } }
     },
     {
       id: 'extents2300',
-      label: terms.depth.extents2300,
+      label: terms.depth.extentsOver1200,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depth2300'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver1200'] } }
     },
     {
       id: 'extentsOver2300',
       label: terms.depth.extentsOver2300,
       showInKey: true,
       style: surfaceWaterExtentsKeyStyle,
-      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depthOver2300'] } }
+      visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['extentsOver2300'] } }
     }
   ]
 }

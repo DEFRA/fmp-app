@@ -1,46 +1,48 @@
+import { terms } from '../terms.js'
+
 export const menu = [
   {
     id: 'dataset',
-    label: 'Datasets',
+    label: terms.labels.datasets,
     urlKey: 'dataset',
     visibleWhen: true,
     type: 'radio', // 'checkbox' or 'radio'
     value: 'floodzones', // this is the default value for the menu, it should be one of the items' id
     items: [
-      { id: 'floodzones', label: 'Flood zones' },
-      { id: 'surfacewater', label: 'Surface water' },
-      { id: 'none', label: 'None', },
+      { id: 'floodzones', label: terms.labels.floodZones },
+      { id: 'surfacewater', label: terms.labels.surfaceWater },
+      { id: 'none', label: terms.labels.none },
     ],
   },
   {
     id: 'timeframe',
-    label: 'Timeframe',
+    label: terms.labels.timeframe,
     urlKey: 'dataset',
     urlIndex: 1, // eg: surfacewater-presentday-high-depth or floodzones-climatechange
     type: 'radio',
     visibleWhen: { menu: { dataset: ['floodzones', 'surfacewater'] } },
     value: 'presentday',
     items: [
-      { id: 'presentday', label: 'Present day' },
-      { id: 'climatechange', label: '2070 to 2125', visibleWhen: { menu: { dataset: ['floodzones'] } } },
-      { id: 'climatechange', label: '2061 to 2125', visibleWhen: { menu: { dataset: ['surfacewater'] } } },
+      { id: 'presentday', label: terms.labels.presentDay },
+      { id: 'climatechange', label: terms.labels.floodZoneClimateChange, visibleWhen: { menu: { dataset: ['floodzones'] } } },
+      { id: 'climatechange', label: terms.labels.surfaceWaterClimateChange, visibleWhen: { menu: { dataset: ['surfacewater'] } } },
     ]
   }, {
     id: 'aep',
-    label: 'Annual likelihood of flooding',
+    label: terms.labels.annualLikelihood,
     urlKey: 'dataset',
     urlIndex: 2,
     type: 'radio',
     visibleWhen: { menu: { dataset: ['surfacewater'] } },
     value: 'medium',
     items: [
-      { id: 'high', label: '1 in 30' },
-      { id: 'medium', label: '1 in 100' },
-      { id: 'low', label: '1 in 1000' },
+      { id: 'high', label: terms.chance.swHigh },
+      { id: 'medium', label: terms.chance.swMedium },
+      { id: 'low', label: terms.chance.swLow },
     ]
   }, {
     id: 'depth',
-    label: 'Depth',
+    label: terms.labels.depth,
     urlKey: 'dataset',
     urlIndex: 3,
     type: 'radio',
@@ -48,25 +50,25 @@ export const menu = [
     subMenu: true,
     value: 'depthAll',
     items: [
-      { id: 'depthAll', label: 'All depths', },
-      { id: 'depth150', label: 'Full extent of flooding', },
-      { id: 'depth300', label: 'Extent over 150mm', },
-      { id: 'depth600', label: 'Extent over 300mm', },
-      { id: 'depth900', label: 'Extent over 600mm', },
-      { id: 'depth1200', label: 'Extent over 900mm', },
-      { id: 'depth2300', label: 'Extent over 1200mm', },
-      { id: 'depthOver2300', label: 'Extent over 2300mm', },
+      { id: 'depthAll', label: terms.depth.depthAll },
+      { id: 'extentsFull', label: terms.depth.extentsFull, },
+      { id: 'extentsOver150', label: terms.depth.extentsOver150, },
+      { id: 'extentsOver300', label: terms.depth.extentsOver300, },
+      { id: 'extentsOver600', label: terms.depth.extentsOver600, },
+      { id: 'extentsOver900', label: terms.depth.extentsOver900, },
+      { id: 'extentsOver1200', label: terms.depth.extentsOver1200, },
+      { id: 'extentsOver2300', label: terms.depth.extentsOver2300, },
     ]
   }, {
     id: 'features',
-    groupLabel: 'Map features',
+    groupLabel: terms.labels.mapFeatures,
     urlKey: 'features',
     type: 'checkbox',
     visibleWhen: true,
     items: [
-      { id: 'waterstorage', label: 'Water storage' },
-      { id: 'flooddefence', label: 'Flood defence' },
-      { id: 'mainrivers', label: 'Main rivers' },
+      { id: 'waterstorage', label: terms.labels.waterStorage },
+      { id: 'flooddefence', label: terms.labels.floodDefence },
+      { id: 'mainrivers', label: terms.labels.mainRivers },
     ]
   }
 ]

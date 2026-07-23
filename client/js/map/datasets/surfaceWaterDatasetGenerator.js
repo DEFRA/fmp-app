@@ -15,46 +15,46 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
     visibleWhen: { menu: visibleWhenMenu },
     sublayers: [
       {
-        id: 'depthOver2300',
+        id: 'extentsOver2300',
         esriStyleLayerId: `${sourceLayer}/>2300mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300', 'depth600', 'depth900', 'depth1200', 'depth2300', 'depthOver2300'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150', 'extentsOver300', 'extentsOver600', 'extentsOver900', 'extentsOver1200', 'extentsOver2300'] } },
       },
       {
-        id: 'depth2300',
+        id: 'extentsOver1200',
         esriStyleLayerId: `${sourceLayer}/1200-2300mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300', 'depth600', 'depth900', 'depth1200', 'depth2300'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150', 'extentsOver300', 'extentsOver600', 'extentsOver900', 'extentsOver1200'] } },
       },
       {
-        id: 'depth1200',
+        id: 'extentsOver900',
         esriStyleLayerId: `${sourceLayer}/900-1200mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300', 'depth600', 'depth900', 'depth1200'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150', 'extentsOver300', 'extentsOver600', 'extentsOver900'] } },
       },
       {
-        id: 'depth900',
+        id: 'extentsOver600',
         esriStyleLayerId: `${sourceLayer}/600-900mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300', 'depth600', 'depth900'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150', 'extentsOver300', 'extentsOver600'] } },
       },
       {
-        id: 'depth600',
+        id: 'extentsOver300',
         esriStyleLayerId: `${sourceLayer}/300-600mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300', 'depth600'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150', 'extentsOver300'] } },
       },
       {
-        id: 'depth300',
+        id: 'extentsOver150',
         esriStyleLayerId: `${sourceLayer}/150-300mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150', 'depth300'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull', 'extentsOver150'] } },
       },
       {
-        id: 'depth150',
+        id: 'extentsFull',
         esriStyleLayerId: `${sourceLayer}/<150mm/1`,
         showInKey: false,
-        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depth150'] } },
+        visibleWhen: { menu: { ...visibleWhenMenu, depth: ['extentsFull'] } },
       },
     ]
   }
@@ -71,57 +71,57 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
       {
         id: 'depthOver2300',
         esriStyleLayerId: `${sourceLayer}/>2300mm/1`,
-        label: terms.depth.key.depthOver2300,
+        label: terms.depth.depthOver2300,
         style: {
           fill: { outdoor: colours.depthOver2300.default, dark: colours.depthOver2300.dark },
         }
       },
       {
-        id: 'depth2300',
+        id: 'depthOver1200',
         esriStyleLayerId: `${sourceLayer}/1200-2300mm/1`,
-        label: terms.depth.key.depth2300,
+        label: terms.depth.depthOver1200,
         style: {
-          fill: { outdoor: colours.depth2300.default, dark: colours.depth2300.dark },
+          fill: { outdoor: colours.depthOver1200.default, dark: colours.depthOver1200.dark },
         }
       },
       {
-        id: 'depth1200',
+        id: 'depthOver900',
         esriStyleLayerId: `${sourceLayer}/900-1200mm/1`,
-        label: terms.depth.key.depth1200,
+        label: terms.depth.depthOver900,
         style: {
-          fill: { outdoor: colours.depth1200.default, dark: colours.depth1200.dark },
+          fill: { outdoor: colours.depthOver900.default, dark: colours.depthOver900.dark },
         }
       },
       {
-        id: 'depth900',
+        id: 'depthOver600',
         esriStyleLayerId: `${sourceLayer}/600-900mm/1`,
-        label: terms.depth.key.depth900,
+        label: terms.depth.depthOver600,
         style: {
-          fill: { outdoor: colours.depth900.default, dark: colours.depth900.dark },
+          fill: { outdoor: colours.depthOver600.default, dark: colours.depthOver600.dark },
         }
       },
       {
-        id: 'depth600',
+        id: 'depthOver300',
         esriStyleLayerId: `${sourceLayer}/300-600mm/1`,
-        label: terms.depth.key.depth600,
+        label: terms.depth.depthOver300,
         style: {
-          fill: { outdoor: colours.depth600.default, dark: colours.depth600.dark },
+          fill: { outdoor: colours.depthOver300.default, dark: colours.depthOver300.dark },
         }
       },
       {
-        id: 'depth300',
+        id: 'depthOver150',
         esriStyleLayerId: `${sourceLayer}/150-300mm/1`,
-        label: terms.depth.key.depth300,
+        label: terms.depth.depthOver150,
         style: {
-          fill: { outdoor: colours.depth300.default, dark: colours.depth300.dark },
+          fill: { outdoor: colours.depthOver150.default, dark: colours.depthOver150.dark },
         }
       },
       {
-        id: 'depth150',
+        id: 'depthOverZero',
         esriStyleLayerId: `${sourceLayer}/<150mm/1`,
-        label: terms.depth.key.depth150,
+        label: terms.depth.depthOverZero,
         style: {
-          fill: { outdoor: colours.depth150.default, dark: colours.depth150.dark },
+          fill: { outdoor: colours.depthOverZero.default, dark: colours.depthOverZero.dark },
         }
       },
     ]
