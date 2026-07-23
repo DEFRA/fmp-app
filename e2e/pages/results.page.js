@@ -83,3 +83,29 @@ export const riskProfiles = {
   climateChangeAndSurfaceWater: [riskIntro, 'rivers and the sea (fluvial or tidal) due to climate change', surfaceWaterRisk]
 }
 export const allRiskLines = [...new Set(Object.values(riskProfiles).flat().filter((line) => line !== riskIntro))]
+
+// Risk profile assertion
+export const expectRiskProfileTexts = async (page, expectedTexts, allTexts) => {
+  const { expect } = await import('@playwright/test')
+  const main = page.getByRole('main')
+  const [introText, ...expectedRiskItems] = expectedTexts
+
+  const riskIntroLocator = main.getByText(introText, { exact: true }).first()
+  await expect(riskIntroLocator).toBeVisible()
+
+  // Risk lines are shown in the first list within the same content block as the intro text.
+  const riskList = riskIntroLocator.locator('..').getByRole('list').first()
+
+  await expect(riskList).toBeVisible()
+
+  for (const text of expectedRiskItems) {
+    await expect(riskList.getByText(text, { exact: true })).toBeVisible()
+  }
+
+  const allRiskItems = allTexts.filter((text) => text !== introText)
+  for (const text of allRiskItems) {
+    if (!expectedRiskItems.includes(text)) {
+      await expect(riskList.getByText(text, { exact: true })).toHaveCount(0)
+    }
+  }
+}
