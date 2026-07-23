@@ -91,20 +91,20 @@ export class FormDriver {
     await expect(this.page.getByRole('heading', { name: pageDef.title, exact: true })).toBeVisible()
   }
 
-  async expectText (text) {
-    await expect(this.page.getByRole('main')).toContainText(text)
+  async expectText (text, scope) {
+    await expect(this.#getTextScope(scope)).toContainText(text)
   }
 
-  async expectTextNotExists (text) {
-    await expect(this.page.getByRole('main')).not.toContainText(text)
+  async expectTextNotExists (text, scope) {
+    await expect(this.#getTextScope(scope)).not.toContainText(text)
   }
 
-  async expectOnlyTexts (expectedTexts, allTexts) {
+  async expectOnlyTexts (expectedTexts, allTexts, scope) {
     for (const text of allTexts) {
       if (expectedTexts.includes(text)) {
-        await this.expectText(text)
+        await this.expectText(text, scope)
       } else {
-        await this.expectTextNotExists(text)
+        await this.expectTextNotExists(text, scope)
       }
     }
   }
@@ -165,5 +165,18 @@ export class FormDriver {
       return this.page.getByRole('main').getByRole('link', { name: link.text, exact })
     }
     throw new Error(`Unsupported link type '${link.type}'`)
+  }
+
+  #getTextScope (scope) {
+    if (!scope) {
+      return this.page.getByRole('main')
+    }
+    if (typeof scope === 'string') {
+      return this.page.locator(scope)
+    }
+    if (typeof scope === 'object' && typeof scope.locator === 'function') {
+      return scope
+    }
+    throw new Error(`Unsupported text scope '${String(scope)}'`)
   }
 }

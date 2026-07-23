@@ -56,21 +56,24 @@ test.describe('Results page - Flood zone 2 and 3 content', () => {
     await steps.open(pages.results.pageForPolygon('2', floodZonedata.FZ2_With_SW_and_S_and_R))
     await steps.expectText(pages.results.fraRequiredText)
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
-    await pages.results.expectRiskProfileTexts(steps.page, pages.results.riskProfiles.fluvialTidalAndSurfaceWater, pages.results.allRiskLines)
+    await steps.expectText(pages.results.riskIntro)
+    await steps.expectOnlyTexts(pages.results.riskProfiles.fluvialTidalAndSurfaceWater, pages.results.allRiskLines, pages.results.riskProfilesSection)
   })
 
   test('shows FRA required messaging and order flood risk data link in Flood Zone 3 with fluvial and surface water', async ({ steps }) => {
     await steps.open(pages.results.pageForPolygon('3', floodZonedata.FZ3_With_SW_and_R))
     await steps.expectText(pages.results.fraRequiredText)
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
-    await pages.results.expectRiskProfileTexts(steps.page, pages.results.riskProfiles.fluvialAndSurfaceWater, pages.results.allRiskLines)
+    await steps.expectText(pages.results.riskIntro)
+    await steps.expectOnlyTexts(pages.results.riskProfiles.fluvialAndSurfaceWater, pages.results.allRiskLines, pages.results.riskProfilesSection)
   })
 
   test('shows FRA required messaging and order flood risk data link in Flood Zone 3 with fluvial only', async ({ steps }) => {
     await steps.open(pages.results.pageForPolygon('3', floodZonedata.FZ3_With_R))
     await steps.expectText(pages.results.fraRequiredText)
     await steps.expectLinkExists(pages.results.orderFloodRiskDataButton)
-    await pages.results.expectRiskProfileTexts(steps.page, pages.results.riskProfiles.fluvial, pages.results.allRiskLines)
+    await steps.expectText(pages.results.riskIntro)
+    await steps.expectOnlyTexts(pages.results.riskProfiles.fluvial, pages.results.allRiskLines, pages.results.riskProfilesSection)
   })
 })
 
