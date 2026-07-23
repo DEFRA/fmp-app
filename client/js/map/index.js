@@ -172,50 +172,57 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const updateVisibleLayers = () => {
-    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) => (item.type === 'group' || item.type === 'vector-tile') && item.visible === true && item.id !== 'baselayer')
+    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) =>
+      item.type === 'vector-tile' &&
+      item.visible === true &&
+      item.id !== 'baselayer'
+    )
     console.log('visibleLayers', mapState.visibleLayers)
   }
 
-  const initPointerMove = (view) => {
+  const assignCursorStyleLayer = (hitTestResponse) => {
+    let topVisibleStyleLayerId = null
+    if (hitTestResponse?.results?.length > 0) {
+      const visibleStyleLayerIds = hitTestResponse?.results.reduce((layerIds, result) => {
+        const { layerId } = result.graphic?.origin || {}
+        if (!layerId) {
+          return layerIds
+        }
+        const vtLayer = result.layer
+        const styleLayer = vtLayer?.getStyleLayer(layerId)
+        if (styleLayer?.layout?.visibility === 'visible') {
+          layerIds.push(layerId)
+        }
+        return layerIds
+      }, [])
+
+      topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
+    }
+    if (mapState.cursorStyleLayer !== topVisibleStyleLayerId) {
+      mapState.cursorStyleLayer = topVisibleStyleLayerId
+      console.log('cursorStyleLayer', mapState.cursorStyleLayer)
+    }
+    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+  }
+
+  const initPointerMove = () => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-    view.on('pointer-enter', updateVisibleLayers)
+    mapState.view.on('pointer-enter', updateVisibleLayers)
 
-    view.on('pointer-move', event => {
+    mapState.view.on('pointer-move', async event => {
       const now = Date.now()
-      if (!mapState.visibleLayers || now - lastHit < throttleMs || view.scale > minScale) {
+      if (!mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
         return
       }
       lastHit = now
-      view.hitTest(event, { include: mapState.visibleLayers }).then((response) => {
-        let topVisibleStyleLayerId = null
-        if (response?.results?.length > 0) {
-          const visibleStyleLayerIds = response?.results.reduce((layerIds, result) => {
-            const { layerId } = result.graphic?.origin || {}
-            if (!layerId) {
-              return layerIds
-            }
-            const vtLayer = result.layer
-            const styleLayer = vtLayer?.getStyleLayer(layerId)
-            if (styleLayer?.layout?.visibility === 'visible') {
-              layerIds.push(layerId)
-            }
-            return layerIds
-          }, [])
-
-          topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
-        }
-        if (mapState.cursorStyleLayer !== topVisibleStyleLayerId) {
-          mapState.cursorStyleLayer = topVisibleStyleLayerId
-          console.log('cursorStyleLayer', mapState.cursorStyleLayer)
-        }
-        document.body.style.cursor = topVisibleStyleLayerId ? 'pointer' : 'default'
-      })
+      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
+      document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
     })
 
-    view.on('pointer-leave', () => {
+    mapState.view.on('pointer-leave', () => {
       document.body.style.cursor = 'default'
       mapState.visibleLayers = null
     })
