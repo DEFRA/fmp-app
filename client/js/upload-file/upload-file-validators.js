@@ -6,6 +6,15 @@ const maxCoordinateValue = 1300000
 const hexDecimalP = 0x50
 const hexDecimalK = 0x4B
 const zipSignature = [hexDecimalP, hexDecimalK]
+const locationFormatError = `There is a problem with the way the location is formatted in the file
+
+The file must:`
+const locationFormatErrorBullets = [
+  'use British National Grid (BNG) references, which use eastings and northings instead of latitude and longitude',
+  'contain a polygon, not a point or a line',
+  'contain only one polygon',
+  'not have any lines that cross each other (self-intersect)'
+]
 
 const validateFileExtension = (fileName) => {
   const name = fileName.toLowerCase()
@@ -35,10 +44,10 @@ const validateAllowedFileTypes = (files) => files.every(
 
 const validateGeoJSON = (geojson) => {
   if (geojson?.features?.length !== 1) {
-    return 'Only upload a shape file containing a single polygon.'
+    return locationFormatError
   }
   if (geojson.features[0].geometry.type !== 'Polygon') {
-    return 'The shape file must contain a polygon, not a point or line.'
+    return locationFormatError
   }
   return null
 }
@@ -62,6 +71,8 @@ module.exports = {
   validateGeoJSON,
   validateNodeCount,
   isValidBNG,
+  locationFormatError,
+  locationFormatErrorBullets,
   maxNodes,
   maxFiles
 }

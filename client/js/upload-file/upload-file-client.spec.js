@@ -9,6 +9,8 @@ const {
   validateAllowedFileTypes,
   validateGeoJSON,
   validateNodeCount,
+  locationFormatError,
+  locationFormatErrorBullets,
   maxNodes,
   maxFiles
 } = require('./upload-file-validators.js')
@@ -121,7 +123,7 @@ describe('validateGeoJSON', () => {
   })
 
   it('should return an error if geojson is null', () => {
-    expect(validateGeoJSON(null)).toBe('Only upload a shape file containing a single polygon.')
+    expect(validateGeoJSON(null)).toBe(locationFormatError)
   })
 
   it('should return an error if geojson has multiple features', () => {
@@ -131,14 +133,14 @@ describe('validateGeoJSON', () => {
         { geometry: { type: 'Polygon', coordinates: [] } }
       ]
     }
-    expect(validateGeoJSON(geojson)).toBe('Only upload a shape file containing a single polygon.')
+    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
   })
 
   it('should return an error if the feature is not a Polygon', () => {
     const geojson = {
       features: [{ geometry: { type: 'LineString', coordinates: [] } }]
     }
-    expect(validateGeoJSON(geojson)).toBe('The shape file must contain a polygon, not a point or line.')
+    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
   })
 })
 
@@ -235,5 +237,16 @@ describe('showError and clearError', () => {
     clearError()
     expect(errorSummary.style.display).toBe('none')
     expect(errorMessage.textContent).toBe('')
+  })
+
+  it('should render location format error bullets when passed a structured message', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError({ text: locationFormatError, bullets: locationFormatErrorBullets })
+
+    const messageLines = errorMessage.querySelectorAll('p.govuk-body')
+    const bulletItems = errorMessage.querySelectorAll('ul.govuk-list--bullet li')
+    expect(messageLines[0].textContent).toBe('There is a problem with the way the location is formatted in the file')
+    expect(messageLines[1].textContent).toBe('The file must:')
+    expect(bulletItems.length).toBe(locationFormatErrorBullets.length)
   })
 })

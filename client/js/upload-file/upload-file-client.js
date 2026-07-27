@@ -5,12 +5,18 @@ import {
   validateGeoJSON,
   validateNodeCount,
   isValidBNG,
-  maxNodes
+  locationFormatError,
+  locationFormatErrorBullets
 } from './upload-file-validators.js'
 import { showError } from './upload-shape-file-dom.js'
 import { parseShapefile } from './parsers/shapefile-parser.js'
 import { parseGeoJSON } from './parsers/geojson-parser.js'
 import { parseGeopackage } from './parsers/geopackage-parser.js'
+
+const locationFormatErrorWithBullets = {
+  text: locationFormatError,
+  bullets: locationFormatErrorBullets
+}
 
 const parseFile = async (buffer, format) => {
   switch (format) {
@@ -29,11 +35,11 @@ document.getElementById('upload').addEventListener('click', async () => {
   const fileInput = document.getElementById('boundary-input')
   const file = fileInput.files[0]
   if (!file) {
-    showError('Please select a file.')
+    showError('No file selected')
     return
   }
   if (!validateFileExtension(file.name)) {
-    showError('Only .zip (shapefile), .geojson, or .gpkg (Geopackage) files are accepted.')
+    showError(locationFormatErrorWithBullets)
     return
   }
 
@@ -44,22 +50,30 @@ document.getElementById('upload').addEventListener('click', async () => {
   try {
     geojson = await parseFile(buffer, format)
   } catch (err) {
-    showError('Only .zip (shapefile), .geojson, or .gpkg (Geopackage) files are accepted.')
+    if (err?.message === 'Too many files selected' || err?.message === 'The selected file could not be read') {
+      showError(err.message)
+      return
+    }
+    showError(locationFormatErrorWithBullets)
     return
   }
 
   const geoJSONError = validateGeoJSON(geojson)
   if (geoJSONError) {
+    if (geoJSONError === locationFormatError) {
+      showError(locationFormatErrorWithBullets)
+      return
+    }
     showError(geoJSONError)
     return
   }
   const polygon = geojson.features[0].geometry.coordinates[0]
   if (!validateNodeCount(polygon)) {
-    showError(`File contains too many nodes. Maximum allowed is ${maxNodes}.`)
+    showError('The selected file contains too many nodes')
     return
   }
   if (!isValidBNG(polygon)) {
-    showError('Coordinates must be in British National Grid (BNG) format.')
+    showError(locationFormatErrorWithBullets)
     return
   }
   const encodedPolygon = encodePolygon(polygon)
