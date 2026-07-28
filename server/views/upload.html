@@ -3,7 +3,7 @@
 {% from "file-upload/macro.njk" import govukFileUpload %}
 {% from "error-summary/macro.njk" import govukErrorSummary %}
 
-{% set pageTitle = 'Upload a prepared site boundary' %}
+{% set pageTitle = 'Upload a site boundary' %}
 
 {% block content %}
 <div class="govuk-grid-row">
@@ -24,17 +24,22 @@
         </div>
       </div>
     </div>
-    <p class="govuk-hint">Upload either GeoJSON (.geojson), Geopackage (.gpkg) or Shape files (.zip)</p>
+    <p class="govuk-body">You can upload your boundary in any of the following formats:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>GeoJSON (.geojson)</li>
+      <li>Geopackage (.gpkg)</li>
+      <li>shapefile (.zip)</li>
+    </ul>
     {{ govukFileUpload({
     id: "boundary",
     name: "boundary",
     accept: ".zip,.geojson,.gpkg",
     label: {
-    text: "Upload file"
+    text: "Upload a file"
     },
     javascript: true
     }) }}
-    <button id="upload" type="submit" class="govuk-button" data-module="govuk-button">Upload</button>
+    <button id="upload" type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
 
     <details class="govuk-details">
       <summary class="govuk-details__summary">
