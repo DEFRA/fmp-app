@@ -24,6 +24,12 @@ const menuItems = [{
   disabled: feature => !!feature,
   svg: '<rect width="18" height="18" x="3" y="3" rx="2"/>'
 }, {
+  id: 'upload-shape-btn',
+  label: 'Upload a boundary',
+  disabled: () => false,
+  svg: '<line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="7,8 12,3 17,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="5,17 5,19 19,19 19,17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+},
+{
   id: 'edit-btn',
   label: 'Edit area',
   disabled: feature => !feature,
@@ -122,6 +128,7 @@ function addMenuClickHandlers ({ onDrawShape, onDrawFrame, onEdit, onDelete }) {
     const squareBtn = e.target.closest('#square-btn')
     const editBtn = e.target.closest('#edit-btn')
     const deleteBtn = e.target.closest('#delete-btn')
+    const uploadShapeBtn = e.target.closest('#upload-shape-btn')
 
     if (shapeBtn && isEnabled(shapeBtn)) {
       toggleButtonState([])
@@ -140,7 +147,11 @@ function addMenuClickHandlers ({ onDrawShape, onDrawFrame, onEdit, onDelete }) {
     }
     if (deleteBtn && isEnabled(deleteBtn)) {
       onDelete?.()
-      toggleButtonState(['shape', 'square'])
+      toggleButtonState(['shape', 'square', 'upload-shape'])
+    }
+    if (uploadShapeBtn && isEnabled(uploadShapeBtn)) {
+      toggleButtonState(['shape', 'square', 'upload-shape'])
+      globalThis.location.href = '/upload'
     }
   })
 }

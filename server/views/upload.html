@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% from "fieldset/macro.njk" import govukFieldset %}
+{% from "file-upload/macro.njk" import govukFileUpload %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+
+{% set pageTitle = 'Upload a prepared site boundary' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 id="heading" class="govuk-heading-xl">{{ pageTitle }}</h1>
+    <div id="errorSummary" class="govuk-error-summary" data-module="govuk-error-summary"
+      data-govuk-error-summary-init="" style="display:none;">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <div id="errorMessage"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="govuk-hint">Upload either GeoJSON (.geojson), Geopackage (.gpkg) or Shape files (.zip)</p>
+    {{ govukFileUpload({
+    id: "boundary",
+    name: "boundary",
+    accept: ".zip,.geojson,.gpkg",
+    label: {
+    text: "Upload file"
+    },
+    javascript: true
+    }) }}
+    <button id="upload" type="submit" class="govuk-button" data-module="govuk-button">Upload</button>
+
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          I do not have a suitable boundary to upload
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        You can add a polygon or a square from <a href="/map">the map page</a>.
+      </div>
+    </details>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<script src="{{ assetPath }}/upload-shape-file.js"></script>
+{% endblock %}

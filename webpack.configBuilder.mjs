@@ -30,6 +30,9 @@ const configBuilder = (exclusions, arcGisPackagePath, floodMapPath, floodMapScss
       ],
       'product-1-spinner': [
         path.join(__dirname, 'client/js/modules/product-1-spinner.js')
+      ],
+      'upload-shape-file': [
+        path.join(__dirname, 'client/js/upload-file/upload-file-client.js')
       ]
     },
     devtool: 'source-map',
