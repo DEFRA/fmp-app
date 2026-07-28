@@ -16,8 +16,8 @@ import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
 import { datasetsPlugin } from './datasets/datasetsPlugin.js'
-import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
-// </InteractiveMapHelpers>
+
+import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 const mapDiv = document.getElementById('map')
 
@@ -119,8 +119,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
-  attachDrawPluginHandlers(interactiveMap)
   attachInteractPlugin(interactiveMap)
+  attachDrawPlugin(interactiveMap)
 
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('help', {
@@ -251,7 +251,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       item.visible === true &&
       item.id !== 'baselayer'
     )
-    console.log('visibleLayers', mapState.visibleLayers)
+    // console.log('visibleLayers', mapState.visibleLayers)
   }
 
   const assignCursorStyleLayer = (hitTestResponse) => {
