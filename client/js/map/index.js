@@ -19,6 +19,8 @@ import { datasetsPlugin } from './datasets/datasetsPlugin.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
+import { addHelpBanner } from './helpBanner.js'
+
 const mapDiv = document.getElementById('map')
 
 const symbols = {
@@ -143,14 +145,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
     mapState.map = map
     mapState.view = view
-
-    interactiveMap.addPanel('help-banner', {
-      label: 'Click on the flood zones for information',
-      html: '<span class="im-u-visually-hidden">Alert:</span>',
-      mobile: { slot: 'banner', dismissible: true },
-      tablet: { slot: 'banner', dismissible: true, width: '372px' },
-      desktop: { slot: 'banner', dismissible: true, width: '372px' }
-    })
+    addHelpBanner(interactiveMap)
   })
 
   interactiveMap.on('interact:markerchange', function (e) {

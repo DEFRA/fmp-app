@@ -1,5 +1,6 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
+import { hideHelpPanel, showHelpPanel } from '../helpBanner.js'
 
 export const drawPlugin = createDrawPlugin({
   onGeometryChange: (geometry) => true
@@ -17,36 +18,43 @@ const boundary = {
 }
 
 export const attachDrawPlugin = (interactiveMap) => {
-  const updateMenu = (newState, feature, type) => {
+  const updateDrawState = (newState, feature, type) => {
     boundary.state = newState
     boundary.type = type || boundary.type
     boundary.feature = feature
-    const hideMenu = newState === 'editing'
-    interactiveMap.toggleButtonState('geometryActions', 'hidden', hideMenu)
-    if (!hideMenu) {
+    const drawing = newState === 'editing'
+    interactiveMap.toggleButtonState('geometryActions', 'hidden', drawing)
+
+    if (!drawing) {
+      showHelpPanel()
+      interactiveMap.showPanel('datasetsLayers')
+
       interactiveMap.toggleButtonState('editShape', 'disabled', boundary.state !== 'complete')
       interactiveMap.toggleButtonState('deleteShape', 'disabled', boundary.state !== 'complete')
       interactiveMap.toggleButtonState('addPolygon', 'disabled', boundary.state === 'complete')
       interactiveMap.toggleButtonState('addSquare', 'disabled', boundary.state === 'complete')
+    } else {
+      hideHelpPanel()
+      interactiveMap.hidePanel('datasetsLayers')
     }
     boundary.feature = feature
   }
 
-  const onCancelEditing = () => updateMenu(boundary.feature ? 'complete' : 'empty', boundary.feature, boundary.type)
+  const onCancelEditing = () => updateDrawState(boundary.feature ? 'complete' : 'empty', boundary.feature, boundary.type)
 
   interactiveMap.on('map:ready', function (e) {
     interactiveMap.addButton('geometryActions', {
       label: 'Get data for your location',
-      mobile: { slot: 'bottom-right', order: 3 },
-      tablet: { slot: 'top-middle', order: 3 },
-      desktop: { slot: 'top-middle', order: 3 },
+      mobile: { slot: 'bottom-right', order: 4 },
+      tablet: { slot: 'top-left', order: 4 },
+      desktop: { slot: 'top-left', order: 4 },
       menuItems: [{
         id: 'addPolygon',
         label: 'Add polygon',
         iconSvgContent: '<path d="M19.5 7v10M4.5 7v10M7 19.5h10M7 4.5h10"/><path d="M22 18v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zm0-15v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 18v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 3v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1z"/>',
         onClick: function (e) {
           drawPlugin.newPolygon(boundary.id)
-          updateMenu('editing', boundary.feature, 'polygon')
+          updateDrawState('editing', boundary.feature, 'polygon')
         }
       }, {
         id: 'addSquare',
@@ -54,7 +62,7 @@ export const attachDrawPlugin = (interactiveMap) => {
         iconSvgContent: '<rect width="18" height="18" x="3" y="3" rx="2"/>',
         onClick: function (e) {
           framePlugin.addFrame('boundary', { aspectRatio: 1 })
-          updateMenu('editing', boundary.feature, 'square')
+          updateDrawState('editing', boundary.feature, 'square')
         }
       },
       {
@@ -69,7 +77,7 @@ export const attachDrawPlugin = (interactiveMap) => {
           } else {
             drawPlugin.editFeature(boundary.id)
           }
-          updateMenu('editing', boundary.feature, boundary.type)
+          updateDrawState('editing', boundary.feature, boundary.type)
         }
       },
       {
@@ -79,7 +87,7 @@ export const attachDrawPlugin = (interactiveMap) => {
         isDisabled: true,
         onClick: () => {
           drawPlugin.deleteFeature(boundary.id)
-          updateMenu('empty')
+          updateDrawState('empty')
         }
       }
       ]
@@ -87,7 +95,7 @@ export const attachDrawPlugin = (interactiveMap) => {
   })
 
   interactiveMap.on('draw:done', function ({ newFeature: feature }) {
-    updateMenu('complete', feature, 'polygon')
+    updateDrawState('complete', feature, 'polygon')
   })
 
   interactiveMap.on('draw:updated', function (feature) {
@@ -107,12 +115,12 @@ export const attachDrawPlugin = (interactiveMap) => {
   })
 
   interactiveMap.on('draw:deleted', function (feature) {
-    updateMenu('empty')
+    updateDrawState('empty')
   })
 
   interactiveMap.on('frame:done', function (feature) {
     console.log('frame:done', feature)
     drawPlugin.addFeature(feature)
-    updateMenu('complete', feature, 'square')
+    updateDrawState('complete', feature, 'square')
   })
 }
