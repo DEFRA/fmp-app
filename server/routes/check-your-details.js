@@ -17,6 +17,11 @@ const getFunctionAppResponse = async (data) => {
   return wreck.post(publishToQueueURL, { json: true, payload: JSON.stringify(payload) })
 }
 
+const swapPsoEmailAddress = (email) => {
+  const emailReplaceMap = config.ceEmailReplaceMap
+  return emailReplaceMap[email] || email
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -77,7 +82,7 @@ module.exports = [
             floodZone,
             plotSize,
             areaName: psoResults.AreaName,
-            psoEmailAddress: psoResults.EmailAddress,
+            psoEmailAddress: swapPsoEmailAddress(psoResults.EmailAddress),
             llfa: psoResults.LocalAuthorities || ''
           })
           try {

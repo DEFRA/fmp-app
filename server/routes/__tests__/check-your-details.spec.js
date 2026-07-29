@@ -126,48 +126,64 @@ describe('Check your details page', () => {
         expectedAppRef: '12345',
         expectedZoneNumber: '2',
         expectedWreckCalls: 1
+      },
+      {
+        description: 'Happy post: should replace the thames email address with the one in config',
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon: mockPolygons.thames
+        },
+        p4Cookie: {},
+        expectedAppRef: '12345',
+        expectedZoneNumber: '1',
+        expectedWreckCalls: 1
       }
     ]
 
     postTests.forEach(({ description, payload, p4Cookie, expectedAppRef, expectedZoneNumber, expectedWreckCalls }) => {
-      it(description, async () => {
-        const options = { url, payload }
+      const { polygon } = payload
+      const { x, y } = getCentreOfPolygon(polygon)
+      const queryParams = {
+        applicationReferenceNumber: expectedAppRef,
+        encodedPolygon: encodePolygon(polygon),
+        recipientemail: payload.recipientemail,
+        floodZone: expectedZoneNumber
+      }
+      const options = { url, payload }
+      const preHandler = (request, h) => {
+        request.state = { p4Request: p4Cookie }
+        return h.continue
+      }
 
-        getServer().ext('onPreHandler', (request, h) => {
-          request.state = { p4Request: p4Cookie }
-          return h.continue
-        })
-        const { polygon } = payload
-        const { x, y } = getCentreOfPolygon(polygon)
-        const queryParams = {
-          applicationReferenceNumber: expectedAppRef,
-          encodedPolygon: encodePolygon(polygon),
-          recipientemail: payload.recipientemail,
-          floodZone: expectedZoneNumber
-        }
-        const llfa = payload.polygon === mockPolygons.fz1_only_no_la ? '' : 'North Yorkshire'
+      const llfa = payload.polygon === mockPolygons.fz1_only_no_la ? '' : 'North Yorkshire'
+      const areaName = payload.polygon === mockPolygons.thames ? 'Thames' : 'Yorkshire'
+      const psoEmailAddress = payload.polygon === mockPolygons.thames ? 'TH-WE-MAPPING-and-DATA@environment-agency.gov.uk' : 'neyorkshire@environment-agency.gov.uk'
+
+      const expectedPayload = {
+        requestType: 'internal',
+        name: user.fullName,
+        customerEmail: user.email,
+        x,
+        y,
+        polygon: `[${polygon}]`,
+        floodZone: expectedZoneNumber,
+        plotSize: '0',
+        areaName,
+        psoEmailAddress,
+        llfa,
+        postcode: 'M1 1AA'
+      }
+
+      it(description, async () => {
+        getServer().ext('onPreHandler', preHandler)
 
         const response = await submitPostRequest(options)
         expect(response.headers.location).toEqual(`/confirmation?${new URLSearchParams(queryParams).toString()}`)
         expect(response.request.state.p4Request).toEqual(p4Cookie)
         expect(wreck.post).toHaveBeenCalledTimes(expectedWreckCalls)
         if (expectedWreckCalls) {
-          const expectedPayload = JSON.stringify({
-            requestType: 'internal',
-            name: user.fullName,
-            customerEmail: user.email,
-            x,
-            y,
-            polygon: `[${polygon}]`,
-            floodZone: expectedZoneNumber,
-            plotSize: '0',
-            areaName: 'Yorkshire',
-            psoEmailAddress: 'neyorkshire@environment-agency.gov.uk',
-            llfa,
-            postcode: 'M1 1AA'
-          })
-
-          expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: expectedPayload })
+          expect(postSpy).toHaveBeenCalledWith('http://dummyuri/order-product-four', { json: true, payload: JSON.stringify(expectedPayload) })
         }
       })
     })

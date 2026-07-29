@@ -2,6 +2,7 @@ const mockPolygons = require('../../__data__/mockPolygons.json')
 
 const getFloodZones = async (options) => {
   switch (options.polygon) {
+    case mockPolygons.thames:
     case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_lt_1_ha:
     case mockPolygons.fz1_only_no_la:

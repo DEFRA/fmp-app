@@ -16,6 +16,14 @@ const optedInResponse = {
   useAutomatedService: true
 }
 
+const thamesResponse = {
+  isEngland: true,
+  EmailAddress: 'enquiries_thm@environment-agency.gov.uk',
+  AreaName: 'Thames',
+  LocalAuthorities: 'North Yorkshire',
+  useAutomatedService: true
+}
+
 const getContacts = async (options = {}) => {
   switch (options.polygon) {
     case mockPolygons.optedOut.fz1_only:
@@ -41,6 +49,8 @@ const getContacts = async (options = {}) => {
     case mockPolygons.fz2_medium:
     case mockPolygons.fz3_high:
       return optedInResponse
+    case mockPolygons.thames:
+      return thamesResponse
     case mockPolygons.fz1_only_no_la: return { ...optedInResponse, LocalAuthorities: '' }
     default: {
       throw new Error(`Error - No Polygon Mocked for getContacts- ${JSON.stringify(options.polygon)}`)

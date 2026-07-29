@@ -68,6 +68,7 @@ const config = {
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
+  ceEmailReplaceMap: process.env.ceEmailReplaceMap ? JSON.parse(process.env.ceEmailReplaceMap) : {},
   placeApi: {
     url: process.env.placeApiUrl
   },
