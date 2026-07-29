@@ -12,8 +12,11 @@ export const framePlugin = createFramePlugin({
 
 const boundary = {
   id: 'boundary',
+  view: null,
   state: 'empty', // possible states: 'empty', 'editing', 'complete'
   feature: null,
+  frameMaxZoom: 22,
+  maxZoom: 20,
   type: null // possible types: 'polygon', 'square'
 }
 
@@ -26,6 +29,9 @@ export const attachDrawPlugin = (interactiveMap) => {
     interactiveMap.toggleButtonState('geometryActions', 'hidden', drawing)
 
     if (!drawing) {
+      if (boundary?.view?.constraints) {
+        boundary.view.constraints.maxZoom = boundary.maxZoom
+      }
       showHelpPanel()
       interactiveMap.showPanel('datasetsLayers')
 
@@ -34,6 +40,12 @@ export const attachDrawPlugin = (interactiveMap) => {
       interactiveMap.toggleButtonState('addPolygon', 'disabled', boundary.state === 'complete')
       interactiveMap.toggleButtonState('addSquare', 'disabled', boundary.state === 'complete')
     } else {
+      if (boundary.type === 'square' && boundary?.view?.constraints) {
+        // Zoom in to avoid huge frames being requested by default
+        boundary.view.constraints.maxZoom = boundary.frameMaxZoom
+        boundary.view.goTo({ center: boundary.view.center, zoom: boundary.frameMaxZoom, duration: 200 })
+      }
+
       hideHelpPanel()
       interactiveMap.hidePanel('datasetsLayers')
     }
@@ -42,7 +54,10 @@ export const attachDrawPlugin = (interactiveMap) => {
 
   const onCancelEditing = () => updateDrawState(boundary.feature ? 'complete' : 'empty', boundary.feature, boundary.type)
 
-  interactiveMap.on('map:ready', function (e) {
+  interactiveMap.on('map:ready', function ({ view }) {
+    boundary.view = view
+    boundary.maxZoom = boundary.view?.constraints?.maxZoom || 20
+
     interactiveMap.addButton('geometryActions', {
       label: 'Get data for your location',
       mobile: { slot: 'bottom-right', order: 4 },
