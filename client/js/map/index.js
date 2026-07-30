@@ -7,24 +7,17 @@ import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
-import { setupEsriConfig, getRequest, getDefraMapConfig, setEsriConfig } from './tokens.js'
-import { terms } from './terms.js'
-import { colours, getKeyItemFill } from './colours.js'
-import { attachLayers, vtLayers, FloodMapLayer } from './mapLayers/index.js'
-import { addFeatureLayers } from './mapLayers/featureLayers/featureLayers.js'
+import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
-import { sliderMarkUp, initialiseSlider } from './slider/index.js'
+// TODO: add the slider to the dataset plugin
+// import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
-import { renderMenuHTML } from './interactive-map-helpers/menu.js'
-import { renderKeyHTML, attachKeyHandlers } from './interactive-map-helpers/key.js'
+import { datasetsPlugin } from './datasets/datasetsPlugin.js'
 import { drawPlugin, framePlugin, attachDrawPluginHandlers } from './interactive-map-helpers/draw.js'
-
 // </InteractiveMapHelpers>
-
-const feature = null// TODO - make this non global
 
 const mapDiv = document.getElementById('map')
 
@@ -35,103 +28,7 @@ const symbols = {
   mainRivers: '/assets/images/main-rivers.svg'
 }
 
-const MAX_POLYGON_AREA = 3000000
-
-const keyItemDefinitions = {
-  floodZone2: {
-    label: 'Flood zone 2',
-    fill: getKeyItemFill(colours.floodZone2)
-  },
-  floodZone3: {
-    label: 'Flood zone 3',
-    fill: getKeyItemFill(colours.floodZone3)
-  },
-  floodZone2PresentDay: {
-    label: 'Flood zone 2 (present day)',
-    fill: getKeyItemFill(colours.floodZone2)
-  },
-  floodZone3PresentDay: {
-    label: 'Flood zone 3 (present day)',
-    fill: getKeyItemFill(colours.floodZone3)
-  },
-  floodZone3CC: {
-    label: terms.labels.floodZoneClimateChange,
-    fill: getKeyItemFill(colours.floodZoneClimateChange)
-  },
-  floodZoneClimateChangeNoData: {
-    label: terms.labels.noData,
-    icon: symbols.noData,
-    fill: getKeyItemFill(colours.floodZoneClimateChangeNoData)
-  },
-  waterStorageAreas: {
-    id: 'fsa',
-    label: 'Water storage',
-    icon: symbols.waterStorageAreas,
-    fill: getKeyItemFill(colours.waterStorageAreas)
-  },
-  floodDefences: {
-    id: 'fd',
-    label: 'Flood defence',
-    icon: symbols.floodDefences,
-    fill: getKeyItemFill(colours.floodDefences)
-  },
-  mainRivers: {
-    id: 'mainr',
-    label: 'Main Rivers',
-    icon: symbols.mainRivers,
-    fill: getKeyItemFill(colours.mainRivers)
-  },
-  floodExtents: {
-    // id: 'fz2',
-    label: 'Flood extent',
-    fill: getKeyItemFill(colours.floodExtents)
-  },
-  surfaceWater0: {
-    label: '2300',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[0])
-  },
-  surfaceWater1: {
-    label: '1200',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[1])
-  },
-  surfaceWater2: {
-    label: '900',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[2])
-  },
-  surfaceWater3: {
-    label: '600',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[3])
-  },
-  surfaceWater4: {
-    label: '300',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[4])
-  },
-  surfaceWater5: {
-    label: '150',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[5])
-  },
-  surfaceWater6: {
-    label: '',
-    fill: getKeyItemFill(colours.nonFloodZoneDepthBands[6])
-  },
-  surfaceWaterDepth150: { label: terms.depth.depth150, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepth300: { label: terms.depth.depth300, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepth600: { label: terms.depth.depth600, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepth900: { label: terms.depth.depth900, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepth1200: { label: terms.depth.depth1200, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepth2300: { label: terms.depth.depth2300, fill: getKeyItemFill(colours.nonFloodZone) },
-  surfaceWaterDepthOver2300: { label: terms.depth.depthOver2300, fill: getKeyItemFill(colours.nonFloodZone) }
-}
-
-keyItemDefinitions.common = {
-  heading: terms.labels.mapFeatures,
-  collapse: 'collapse',
-  items: [
-    keyItemDefinitions.waterStorageAreas,
-    keyItemDefinitions.floodDefences,
-    keyItemDefinitions.mainRivers
-  ]
-}
+// const MAX_POLYGON_AREA = 3000000
 
 // capture polygon from query string
 const queryParams = new URLSearchParams(window.location.search)
@@ -147,18 +44,10 @@ const calculateExtent = (polygonToCalculate) => {
   return calculatedExtent
 }
 
-let featureQuery, extent
+let extent
 if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
   const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
   const polygon = JSON.parse(polygonString)
-
-  featureQuery = {
-    type: 'feature',
-    geometry: {
-      type: 'polygon',
-      coordinates: polygon
-    }
-  }
   extent = calculateExtent(polygon)
 }
 
@@ -190,6 +79,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       setupConfig: setupEsriConfig
     }),
     plugins: [
+      datasetsPlugin(defraMapConfig),
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
@@ -213,7 +103,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    // interceptorsCallback: getInterceptors,
     warningPosition: 'top',
     search: {
       label: 'Search for a place',
@@ -221,316 +110,55 @@ getDefraMapConfig().then((defraMapConfig) => {
       isExpanded: false,
       country: 'england'
     },
-    legend: {
-      htmlAfter: sliderMarkUp,
-      width: '280px',
-      isVisible: true,
-      keyWidth: '360px',
-      keyDisplay: 'min',
-      segments: [{
-        heading: 'Datasets',
-        collapse: 'collapse',
-        items: [
-          {
-            id: 'fz',
-            label: 'Flood zones 2 and 3'
-          },
-          // Left in place for reinstating later
-          // {
-          //   id: 'rsd',
-          //   label: 'River and sea with defences'
-          // },
-          // {
-          //   id: 'rsu',
-          //   label: 'River and sea without defences'
-          // },
-          {
-            id: 'sw',
-            label: 'Surface water'
-          },
-          {
-            id: 'mo',
-            label: 'None'
-          }
-        ]
-      },
-      {
-        id: 'tf',
-        heading: terms.labels.climateChange,
-        collapse: 'collapse',
-        parentIds: ['fz'],
-        items: [
-          {
-            id: 'fzpd',
-            label: terms.labels.presentDay
-          },
-          {
-            id: 'fzcl',
-            label: terms.labels.fzClimateChange
-          }
-        ]
-      },
-      {
-        id: 'tf',
-        heading: terms.labels.climateChange,
-        collapse: 'collapse',
-        parentIds: ['rsd', 'rsu'],
-        items: [
-          {
-            id: 'pd',
-            label: terms.labels.presentDay
-          },
-          {
-            id: 'cl',
-            label: 'Years 2070 to 2125'
-          }
-        ]
-      },
-      {
-        id: 'tf',
-        heading: terms.labels.climateChange,
-        collapse: 'collapse',
-        parentIds: ['sw'],
-        items: [
-          {
-            id: 'pd',
-            label: terms.labels.presentDay
-          },
-          {
-            id: 'cl',
-            label: '2061 to 2125'
-          }
-        ]
-      },
-      {
-        id: 'af1',
-        heading: terms.labels.annualLikelihood,
-        collapse: 'collapse',
-        parentIds: ['rsd'],
-        items: [
-          {
-            id: 'hr',
-            label: terms.chance.rsHigh
-          },
-          {
-            id: 'mr',
-            label: terms.chance.rsMedium
-          },
-          {
-            id: 'lr',
-            label: terms.chance.rsLow
-          }
-        ]
-      },
-      {
-        id: 'sw1',
-        heading: terms.labels.annualLikelihood,
-        collapse: 'collapse',
-        parentIds: ['sw'],
-        items: [
-          {
-            id: 'hr',
-            label: terms.chance.swHigh
-          },
-          {
-            id: 'mr',
-            label: terms.chance.swMedium,
-            isSelected: true
-          },
-          {
-            id: 'lr',
-            label: terms.chance.swLow
-          }
-        ]
-      },
-      {
-        id: 'sw2',
-        heading: terms.labels.depth,
-        collapse: 'collapse',
-        parentIds: ['sw'],
-        items: [
-          {
-            id: 'depthAll',
-            label: terms.depth.depthAll
-          },
-          {
-            id: 'depth150',
-            label: terms.depth.depth150
-          },
-          {
-            id: 'depth300',
-            label: terms.depth.depth300
-          },
-          {
-            id: 'depth600',
-            label: terms.depth.depth600
-          },
-          {
-            id: 'depth900',
-            label: terms.depth.depth900
-          },
-          {
-            id: 'depth1200',
-            label: terms.depth.depth1200
-          },
-          {
-            id: 'depth2300',
-            label: terms.depth.depth2300
-          },
-          {
-            id: 'depthOver2300',
-            label: terms.depth.depthOver2300
-          }
-        ]
-      },
-      {
-        id: 'af2',
-        heading: terms.labels.annualLikelihood,
-        parentIds: ['rsu'],
-        items: [
-          {
-            id: 'mr',
-            label: terms.chance.rsMedium
-          },
-          {
-            id: 'lr',
-            label: terms.chance.rsLow
-          }
-        ]
-      }
-      ],
-      key: [
-        {
-          heading: terms.labels.mapFeatures,
-          collapse: 'collapse',
-          parentIds: ['fzpd'],
-          items: [
-            keyItemDefinitions.floodZone2,
-            keyItemDefinitions.floodZone3,
-            keyItemDefinitions.waterStorageAreas,
-            keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
-          ]
-        },
-        {
-          heading: terms.labels.mapFeatures,
-          collapse: 'collapse',
-          parentIds: ['fzcl'],
-          items: [
-            keyItemDefinitions.floodZone2PresentDay,
-            keyItemDefinitions.floodZone3PresentDay,
-            keyItemDefinitions.floodZone3CC,
-            keyItemDefinitions.floodZoneClimateChangeNoData,
-            keyItemDefinitions.waterStorageAreas,
-            keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
-          ]
-        },
-        { // Surface Water DepthAll
-          heading: terms.labels.mapFeatures,
-          collapse: 'collapse',
-          parentIds: ['rsd', 'rsu', 'depthAll'],
-          items: [
-            keyItemDefinitions.waterStorageAreas,
-            keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers,
-            {
-              label: 'Surface water depth in millimetres',
-              display: 'ramp',
-              numLabels: 1,
-              items: [
-                keyItemDefinitions.surfaceWater6,
-                keyItemDefinitions.surfaceWater5,
-                keyItemDefinitions.surfaceWater4,
-                keyItemDefinitions.surfaceWater3,
-                keyItemDefinitions.surfaceWater2,
-                keyItemDefinitions.surfaceWater1,
-                keyItemDefinitions.surfaceWater0
-              ]
-            }
-          ]
-        },
-        // Surface Water Extents:
-        {
-          parentIds: ['depth150'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth150]
-        },
-        {
-          parentIds: ['depth300'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth300]
-        },
-        {
-          parentIds: ['depth600'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth600]
-        },
-        {
-          parentIds: ['depth900'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth900]
-        },
-        {
-          parentIds: ['depth1200'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth1200]
-        },
-        {
-          parentIds: ['depth2300'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepth2300]
-        },
-        {
-          parentIds: ['depthOver2300'],
-          ...keyItemDefinitions.common,
-          items: [...keyItemDefinitions.common.items, keyItemDefinitions.surfaceWaterDepthOver2300]
-        },
-        {
-          heading: terms.labels.mapFeatures,
-          collapse: 'collapse',
-          parentIds: ['mo'],
-          items: [
-            keyItemDefinitions.waterStorageAreas,
-            keyItemDefinitions.floodDefences,
-            keyItemDefinitions.mainRivers
-          ]
-        }
-      ]
-    },
     scaleBar: 'metric',
-    queryArea: {
-      collapse: 'collapse',
-      heading: 'Get data for your location',
-      submitLabel: 'Get summary report',
-      keyLabel: 'Location boundary',
-      summary: 'Add or edit a location boundary',
-      maxZoom: 22,
-      drawTools: ['polygon', 'square'],
-      areaUnits: 'hectares',
-      feature: featureQuery, // feature derived from polygon query string or null if not present
-      onShapeUpdate: ({ area, geometry }) => {
-        // We seem to be getting this when we are not editing a shape = one to ask Dan about.
-        if (!area || !geometry) {
-          return {}
-        }
-        const isValid = area <= MAX_POLYGON_AREA
-        const warningText = isValid ? null : 'Boundary must be under 300 hectares to order data. You can still download a flood map.'
-        // This longer version was Rachel's initial suggestion, but was reduced to fit on screen,
-        // with css we can make it fit, but awaiting opinions from the design team.
-        // const warningText = isValid ? null : 'Reduce your boundary size to under <span>300<span> hectares to order detailed flood risk information (product 4). You can still download a flood map (product 1).'
-        mapState.shapeIsValid = isValid
-        return { warningText, allowShape: true }
-      }
-    },
-    queryLocation: {
-      layers: vtLayers.map(vtLayer => vtLayer.name)
+  })
+  let reported = false
+  interactiveMap.addEventListener = () => {
+    if (!reported) {
+      console.log('TODO - fix the listeners')
+      reported = true
     }
-  }, (esriMapObjects) => {
-    const { esriConfig } = esriMapObjects
-    mapState.esriConfig = esriConfig
-    mapState.polygon = featureQuery?.geometry?.coordinates
-    setEsriConfig(esriConfig)
+  }
+  attachDrawPluginHandlers(interactiveMap)
+  attachInteractPlugin(interactiveMap)
+
+  interactiveMap.on('app:ready', function (e) {
+    interactiveMap.addButton('help', {
+      label: 'Help',
+      href: '/map-help',
+      iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+      mobile: { slot: 'right-top', showLabel: false },
+      tablet: { slot: 'right-top', showLabel: false, order: 1 },
+      desktop: { slot: 'right-top', showLabel: true, order: 1 }
+    })
+    // TODO: add the slider to the dataset plugin
+    // initialiseSlider(interactiveMap)
+  })
+
+  interactiveMap.on('datasets:ready', function () {
+    updateVisibleLayers()
+    initPointerMove()
+  })
+
+  interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
+    mapState.map = map
+    mapState.view = view
+
+    interactiveMap.addPanel('help-banner', {
+      label: 'Click on the flood zones for information',
+      html: '<span class="im-u-visually-hidden">Alert:</span>',
+      mobile: { slot: 'banner', dismissible: true },
+      tablet: { slot: 'banner', dismissible: true, width: '372px' },
+      desktop: { slot: 'banner', dismissible: true, width: '372px' }
+    })
+  })
+
+  interactiveMap.on('interact:markerchange', function (e) {
+    interactiveMap.addPanel('info', {
+      label: 'Info',
+      html: '<p>Some info</p>',
+      visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
+    })
   })
   let reported = false
   interactiveMap.addEventListener = () => {
@@ -608,6 +236,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   const mapState = {
+    map: null,
     isDark: false,
     isRamp: false,
     layers: [],
@@ -616,32 +245,60 @@ getDefraMapConfig().then((defraMapConfig) => {
     isFloodZone: false
   }
 
-  const initPointerMove = (view) => {
+  const updateVisibleLayers = () => {
+    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) =>
+      item.type === 'vector-tile' &&
+      item.visible === true &&
+      item.id !== 'baselayer'
+    )
+    console.log('visibleLayers', mapState.visibleLayers)
+  }
+
+  const assignCursorStyleLayer = (hitTestResponse) => {
+    let topVisibleStyleLayerId = null
+    if (hitTestResponse?.results?.length > 0) {
+      const visibleStyleLayerIds = hitTestResponse?.results.reduce((layerIds, result) => {
+        const { layerId } = result.graphic?.origin || {}
+        if (!layerId) {
+          return layerIds
+        }
+        const vtLayer = result.layer
+        const styleLayer = vtLayer?.getStyleLayer(layerId)
+        if (styleLayer?.layout?.visibility === 'visible') {
+          layerIds.push(layerId)
+        }
+        return layerIds
+      }, [])
+
+      topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
+    }
+    if (mapState.cursorStyleLayer !== topVisibleStyleLayerId) {
+      mapState.cursorStyleLayer = topVisibleStyleLayerId
+      console.log('cursorStyleLayer', mapState.cursorStyleLayer)
+    }
+    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+  }
+
+  const initPointerMove = () => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-    view.on('pointer-move', e => {
+    mapState.view.on('pointer-enter', updateVisibleLayers)
+
+    mapState.view.on('pointer-move', async event => {
       const now = Date.now()
-      if (!FloodMapLayer.visibleLayer || now - lastHit < throttleMs || view.scale > minScale) {
+      if (!mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
         return
       }
       lastHit = now
-      const layersToTest = FloodMapLayer.visibleLayer.allLayers || [FloodMapLayer.visibleLayer]
-      view.hitTest(e, { include: layersToTest }).then((response) => {
-        if (response?.results?.length > 0) {
-          // Now do an additional check for the SW layers, in case we are hovering over a hidden SW style layer
-          // if it is NOT a SW layer, then FloodMapLayer.visibleLayer.isStyleLayerIdVisible will always return true.
-          const { layerId } = response?.results?.[0]?.graphic?.origin || {}
-          document.body.style.cursor = FloodMapLayer.visibleLayer.isStyleLayerIdVisible(layerId) ? 'pointer' : 'default'
-          return
-        }
-        document.body.style.cursor = 'default'
-      })
+      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
+      document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
     })
 
-    view.on('pointer-leave', _e => {
+    mapState.view.on('pointer-leave', () => {
       document.body.style.cursor = 'default'
+      mapState.visibleLayers = null
     })
   }
 

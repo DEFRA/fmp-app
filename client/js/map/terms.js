@@ -6,12 +6,16 @@ const terms = {
     fzNoData: 'FZNODATA'
   },
   labels: {
+    datasets: 'Datasets',
     floodZones: 'Flood zones',
     surfaceWater: 'Surface water',
+    none: 'None',
+    surfaceWaterDepthInMillimetres: 'Surface water depth in millimetres',
     floodZone2: 'Flood zone 2',
     floodZone3: 'Flood zone 3',
     floodZone2PresentDay: 'Flood zone 2 (present day)',
     floodZone3PresentDay: 'Flood zone 3 (present day)',
+    timeframe: 'Timeframe',
     noData: 'Climate change data unavailable',
     climateChange: 'Climate change',
     floodZoneClimateChange: '2070 to 2125',
@@ -24,7 +28,6 @@ const terms = {
     waterStorage: 'Water storage',
     floodDefence: 'Flood defence',
     mainRivers: 'Main rivers',
-
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
@@ -36,23 +39,20 @@ const terms = {
   },
   depth: {
     depthAll: 'All depths',
-    depth150: 'Full extent of flooding',
-    depth300: 'Extent over 150mm',
-    depth600: 'Extent over 300mm',
-    depth900: 'Extent over 600mm',
-    depth1200: 'Extent over 900mm',
-    depth2300: 'Extent over 1200mm',
-    depthOver2300: 'Extent over 2300mm',
-    key: {
-      depthAll: 'All depths',
-      depth150: 'Below 150mm',
-      depth300: '150 to 300mm',
-      depth600: '300 to 600mm',
-      depth900: '600 to 900mm',
-      depth1200: '900 to 1200mm',
-      depth2300: '1200 to 2300mm',
-      depthOver2300: 'Over 2300mm'
-    },
+    extentsFull: 'Full extent of flooding',
+    extentsOver150: 'Extent over 150mm',
+    extentsOver300: 'Extent over 300mm',
+    extentsOver600: 'Extent over 600mm',
+    extentsOver900: 'Extent over 900mm',
+    extentsOver1200: 'Extent over 1200mm',
+    extentsOver2300: 'Extent over 2300mm',
+    depthOverZero: 'Below 150mm',
+    depthOver150: '150 to 300mm',
+    depthOver300: '300 to 600mm',
+    depthOver600: '600 to 900mm',
+    depthOver900: '900 to 1200mm',
+    depthOver1200: '1200 to 2300mm',
+    depthOver2300: 'Over 2300mm'
 
   },
   likelihoodchance: {
