@@ -80,13 +80,13 @@ const datasetsConfig = [{
   name: 'depth',
   items: [
     { id: 'depthAll', value: 'depthAll', label: terms.depth.depthAll },
-    { id: 'depth150', value: 'depth150', label: terms.depth.depth150 },
-    { id: 'depth300', value: 'depth300', label: terms.depth.depth300 },
-    { id: 'depth600', value: 'depth600', label: terms.depth.depth600 },
-    { id: 'depth900', value: 'depth900', label: terms.depth.depth900 },
-    { id: 'depth1200', value: 'depth1200', label: terms.depth.depth1200 },
-    { id: 'depth2300', value: 'depth2300', label: terms.depth.depth2300 },
-    { id: 'depthOver2300', value: 'depthOver2300', label: terms.depth.depthOver2300 },
+    { id: 'depth150', value: 'depth150', label: terms.depth.extentsFull },
+    { id: 'depth300', value: 'depth300', label: terms.depth.extentsOver150 },
+    { id: 'depth600', value: 'depth600', label: terms.depth.extentsOver300 },
+    { id: 'depth900', value: 'depth900', label: terms.depth.extentsOver600 },
+    { id: 'depth1200', value: 'depth1200', label: terms.depth.extentsOver900 },
+    { id: 'depth2300', value: 'depth2300', label: terms.depth.extentsOver1200 },
+    { id: 'depthOver2300', value: 'depthOver2300', label: terms.depth.extentsOver2300 },
 
   ]
 }, {

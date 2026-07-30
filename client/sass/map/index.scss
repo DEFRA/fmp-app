@@ -2,14 +2,9 @@
 @use 'slider';
 @use 'banner';
 
-$govuk-assets-path: "/govuk/assets/";
-$govuk-fonts-path: "/assets/fonts/";
-$govuk-images-path: "/assets/images/";
-$govuk-global-styles: true;
-$govuk-new-typography-scale: true;
-
 @import '../../../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css';
 @import '../../../node_modules/@defra/interactive-map/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/datasets/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/search/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/map-styles/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css';
@@ -17,6 +12,12 @@ $govuk-new-typography-scale: true;
 @import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css';
 
 @import 'planning';
+
+$govuk-assets-path: "/govuk/assets/";
+$govuk-fonts-path: "/assets/fonts/";
+$govuk-images-path: "/assets/images/";
+$govuk-global-styles: true;
+$govuk-new-typography-scale: true;
 
 strong {
   font-weight: bold;
