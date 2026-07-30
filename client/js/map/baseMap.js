@@ -1,42 +1,35 @@
-const mapStyles = {}
-
 const setUpBaseMaps = (osAccountNumber) => {
   const currentYear = new Date().getFullYear()
   const osMasterMapAttributionHyperlink = `<a href="/os-terms" class="os-credits__link">&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber} </a>`
-  Object.assign(mapStyles, {
-    outdoor: {
-      displayName: 'Outdoor',
+  const mapStyles = [
+    {
+      id: 'outdoor',
+      label: 'Outdoor',
       url: '/map/styles/master-map',
       attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/master-map',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      iconUrl: '/assets/images/outdoor-map-icon.jpg'
+      thumbnail: '/assets/images/outdoor-map-icon.jpg',
+      logo: '/assets/images/os-logo.svg'
     },
-    dark: {
-      displayName: 'Dark',
+    {
+      id: 'dark',
+      label: 'Dark',
       url: '/map/styles/master-map-dark',
+      mapColorScheme: 'dark',
+      appColorScheme: 'dark',
       attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/master-map-dark',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      iconUrl: '/assets/images/dark-map-icon.jpg'
+      thumbnail: '/assets/images/dark-map-icon.jpg',
+      logo: '/assets/images/os-logo-white.svg'
     },
-    blackAndWhite: {
-      displayName: 'Black and white',
+    {
+      id: 'blackAndWhite',
+      label: 'Black and white',
       url: '/map/styles/black-and-white-map',
       attribution: osMasterMapAttributionHyperlink,
-      digitisingUrl: '/map/styles/black-and-white-map',
-      digitisingAttribution: osMasterMapAttributionHyperlink,
-      iconUrl: '/assets/images/black-and-white-map-icon.jpg'
+      thumbnail: '/assets/images/black-and-white-map-icon.jpg',
+      logo: '/assets/images/os-logo.svg'
     }
-  })
-
-  const baseMapStyles = Object.entries(mapStyles)
-    .map(([name, { url, attribution, displayName, iconUrl }]) => ({ name, url, attribution, displayName, iconUrl }))
-
-  const digitisingMapStyles = Object.entries(mapStyles)
-    .map(([name, { digitisingUrl: url, digitisingAttribution: attribution, displayName, iconUrl }]) => ({ name, url, attribution, displayName, iconUrl }))
-
-  return { mapStyles, baseMapStyles, digitisingMapStyles }
+  ]
+  return mapStyles
 }
 
 export { setUpBaseMaps }

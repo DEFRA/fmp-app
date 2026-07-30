@@ -1,6 +1,7 @@
 import { FloodMapLayer } from './floodMapLayer.js'
 import { colours } from '../colours.js'
 
+// These are the depth bands that are used in the surface water layer's style layer ids
 const depthKeyValues = {
   depth150: '<150mm',
   depth300: '150-300mm',

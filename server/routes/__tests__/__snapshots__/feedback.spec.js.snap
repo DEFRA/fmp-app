@@ -30,9 +30,7 @@ exports[`Feedback Should return feedback page with no userAgent 1`] = `
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -435,9 +433,7 @@ exports[`Feedback Should return feedback page with ref being set as feedback 1`]
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -840,9 +836,7 @@ exports[`Feedback Should return feedback page with ref being set without feedbac
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -1245,9 +1239,7 @@ exports[`Feedback Should return feedback page with userAgent being set 1`] = `
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
