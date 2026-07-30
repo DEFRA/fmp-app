@@ -30,9 +30,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -599,9 +597,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">

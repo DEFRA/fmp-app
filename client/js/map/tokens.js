@@ -25,6 +25,14 @@ export const getOsToken = async () => {
   return osAuth
 }
 
+export const setupEsriConfig = async (esriConfig) => {
+  // Set ESRI API key (using cached token)
+  esriConfig.apiKey = await getEsriToken()
+
+  // Add OS Maps token interceptor
+  getInterceptors().forEach((interceptor) => esriConfig.request.interceptors.push(interceptor))
+}
+
 export const getInterceptors = () => {
   return [{
     urls: 'https://api.os.uk/maps/vector/v1/vts',
@@ -45,31 +53,24 @@ export const getInterceptors = () => {
   }]
 }
 
-// All other requests can be asyncronous and return a request object itself
-export const getRequest = async (url) => {
-  let options = {}
-
+export const getRequest = async (request) => {
+  const { url, options } = request
   // OS Open Names
   if (url.startsWith('https://api.os.uk/search/names/v1/nearest')) {
     return null
   }
 
-  if (url.startsWith('https://api.os.uk')) {
-    if (!url.match('suburban_area%20')) {
-      // Temp Fix until FMC-71 is implemented in the map component
-      url = url.replace('local_type:city%20', 'local_type:city%20local_type:suburban_area%20')
-    }
+  if (request.url.startsWith('https://api.os.uk')) {
     const token = (await getOsToken()).token
-    options = { headers: { Authorization: 'Bearer ' + token } }
+    return {
+      url: url.toString(),
+      options: {
+        ...options,
+        headers: { ...options?.headers, Authorization: 'Bearer ' + token }
+      }
+    }
   }
-
-  // ESRI World Geocoder
-  if (url.startsWith('https://geocode-api.arcgis.com')) {
-    const token = (await getEsriToken()).token
-    url = `${url}&token=${token}`
-  }
-
-  return new window.Request(url, options)
+  return null
 }
 
 export const getEsriToken = async (refresh = false) => {
@@ -86,7 +87,7 @@ export const getEsriToken = async (refresh = false) => {
     }
   }
 
-  return esriAuth
+  return esriAuth.token
 }
 
 let defraMapConfig
