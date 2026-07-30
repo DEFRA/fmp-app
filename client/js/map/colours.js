@@ -25,10 +25,10 @@ export const COLOURS = {
 
   floodZone3: { default: '#003078', dark: '#e5f5e0' },
   floodZone2: { default: '#1d70b8', dark: '#41ab5d' },
-  floodZoneClimateChange: { default: '#F4A582', dark: '#BF3D4A' },
+  floodZoneClimateChange: { default: floodZoneCCLight, dark: floodZoneCCDark },
   floodZoneClimateChangeNoData: { default: darkTeal, dark: white },
 
-  floodDefences: { default: '#f47738', dark: '#f47738' },
+  floodDefences: { default: floodDefences, dark: floodDefences },
   waterStorageAreas: { default: darkTeal, dark: white },
   mainRivers: { default: darkTeal, dark: white }
 }
@@ -39,7 +39,16 @@ const nonFloodZoneDepthBandsLight = [COLOURS.depthOver2300.default, COLOURS.dept
 const nonFloodZoneDepthBandsDark = [COLOURS.depthOver2300.dark, COLOURS.depth2300.dark, COLOURS.depth1200.dark, COLOURS.depth900.dark, COLOURS.depth600.dark, COLOURS.depth300.dark, COLOURS.depth150.dark]
 
 export const colours = { // [default, dark]
+  nonFloodZoneLight,
+  nonFloodZoneDark,
   nonFloodZone: [nonFloodZoneLight, nonFloodZoneDark],
+  depthOver2300: { default: '#7f2704', dark: '#238b45' },
+  depthOver1200: { default: '#a63603', dark: '#41ab5d' },
+  depthOver900: { default: '#d94801', dark: '#74c476' },
+  depthOver600: { default: '#f16913', dark: '#a1d99b' },
+  depthOver300: { default: '#fd8d3c', dark: '#c7e9c0' },
+  depthOver150: { default: '#fdae6b', dark: '#e5f5e0' },
+  depthOverZero: { default: '#fdd0a2', dark: '#f7fcf5' },
   nonFloodZoneDepthBands: [
     [nonFloodZoneDepthBandsLight[0], nonFloodZoneDepthBandsDark[0]],
     [nonFloodZoneDepthBandsLight[1], nonFloodZoneDepthBandsDark[1]],
@@ -53,9 +62,9 @@ export const colours = { // [default, dark]
   floodZone3: [floodZone3Light, floodZone3Dark],
   floodZoneClimateChange: [floodZoneCCLight, floodZoneCCDark],
   floodZoneClimateChangeNoData: [black, white],
-  waterStorageAreas: [darkTeal, white],
-  mainRivers: [darkTeal, white],
-  floodDefences: [floodDefences, floodDefences],
+  waterStorageAreas: { default: darkTeal, dark: white },
+  mainRivers: { default: darkTeal, dark: white },
+  floodDefences: { default: floodDefences, dark: floodDefences },
   floodExtents: [nonFloodZoneLight, nonFloodZoneDark]
 }
 
