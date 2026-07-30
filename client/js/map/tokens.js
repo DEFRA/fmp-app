@@ -25,7 +25,10 @@ export const getOsToken = async () => {
   return osAuth
 }
 
+let _esriConfig
 export const setupEsriConfig = async (esriConfig) => {
+  _esriConfig = esriConfig
+
   // Set ESRI API key (using cached token)
   esriConfig.apiKey = await getEsriToken()
 
@@ -33,7 +36,7 @@ export const setupEsriConfig = async (esriConfig) => {
   getInterceptors().forEach((interceptor) => esriConfig.request.interceptors.push(interceptor))
 }
 
-export const getInterceptors = () => {
+const getInterceptors = () => {
   return [{
     urls: 'https://api.os.uk/maps/vector/v1/vts',
     before: async params => {
@@ -99,9 +102,6 @@ export const getDefraMapConfig = async () => {
   }
   return defraMapConfig
 }
-
-let _esriConfig
-export const setEsriConfig = (esriConfig) => (_esriConfig = esriConfig)
 
 const refreshEsriToken = async () => {
   if (_esriConfig) {
