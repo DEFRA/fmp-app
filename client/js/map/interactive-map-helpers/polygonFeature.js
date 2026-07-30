@@ -14,21 +14,67 @@ const getPolygonFromUrl = () => {
     return null
   }
 }
+const FRAME_MAX_ZOOM = 22
 
 class PolygonFeature {
   constructor (id = 'boundary') {
     this._feature = null
     this._id = id
+    this._state = this.EMPTY
+    this._type = null
+    this._maxZoom = 20
+    this._mapView = null
     // initialise the feature from the coordinates in the url, if there is one
     this.coordinates = getPolygonFromUrl()
   }
 
-  get feature () {
-    return this._feature
+  get EMPTY () { return 'empty' }
+  get EDITING () { return 'editing' }
+  get COMPLETE () { return 'complete' }
+  get POLYGON () { return 'polygon' }
+  get SQUARE () { return 'square' }
+
+  get type () { return this._type }
+  set type (newType) { this._type = newType }
+
+  get frameMaxZoom () { return FRAME_MAX_ZOOM }
+  get id () { return this._id }
+
+  get state () { return this._state }
+  set state (newState) { this._state = newState }
+
+  get maxZoom () { return this._maxZoom }
+  set maxZoom (newMaxZoom) { this._maxZoom = newMaxZoom }
+  resetZoom () {
+    if (this.mapView?.constraints) {
+      this.mapView.constraints.maxZoom = this.maxZoom
+    }
   }
 
+  zoomOnSquare () {
+    if (this.mapView?.constraints) {
+      // Zoom in to avoid huge frames being requested by default
+      this.mapView.constraints.maxZoom = this.frameMaxZoom
+      this.mapView.goTo({ center: this.mapView.center, zoom: this.frameMaxZoom, duration: 200 })
+    }
+  }
+
+  get mapView () { return this._mapView }
+  set mapView (newMapView) {
+    this._mapView = newMapView
+    this.maxZoom = newMapView?.constraints?.maxZoom || this._maxZoom
+  }
+
+  get isSquare () { return this.type === this.SQUARE }
+  get isPolygon () { return this.type === this.POLYGON }
+  get isEmpty () { return this.state === this.EMPTY }
+  get isEditing () { return this.state === this.EDITING }
+  get isComplete () { return this.state === this.COMPLETE }
+
+  get feature () { return this._feature }
   set feature (feature) {
-    this._feature = feature ? { ...feature, id: this._id } : null
+    this._feature = feature ? { ...feature, id: this._id, properties: { ...feature.properties, id: this._id } } : null
+    this.state = feature ? this.COMPLETE : this.EMPTY
     setQueryParam('encodedPolygon', this.encodedPolygon)
     setQueryParam('polygon', null)
   }
@@ -43,9 +89,12 @@ class PolygonFeature {
 
   set coordinates (coordinates) {
     if (coordinates) {
+      this.state = this.COMPLETE
+      this.type = this.POLYGON
       this._feature = {
         id: this._id,
         type: 'feature',
+        properties: { id: this._id },
         geometry: {
           type: 'Polygon',
           coordinates
