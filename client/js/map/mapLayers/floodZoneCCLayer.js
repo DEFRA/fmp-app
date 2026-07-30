@@ -1,15 +1,17 @@
 import { FloodMapLayer } from './floodMapLayer.js'
 import { colours } from '../colours.js'
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer'
+import GroupLayer from '@arcgis/core/layers/GroupLayer'
 
 class FloodZoneCCLayer extends FloodMapLayer {
   constructor () {
     super({
       name: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
-      q: 'fzfzcl',
+      q: 'floodzones-climatechange',
       styleLayers: [
         ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1', colours.floodZone2],
         ['Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1', colours.floodZone3],
-        ['Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1', colours.floodZoneCC]
+        ['Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1', colours.floodZoneClimateChange]
       ],
       logStyles: false
     })
@@ -18,7 +20,6 @@ class FloodZoneCCLayer extends FloodMapLayer {
   }
 
   addToMap (map) {
-    const { VectorTileLayer, GroupLayer } = FloodMapLayer.modules
     const floodZonesLayer = new VectorTileLayer({
       id: 'Flood_Zones_2_and_3_Rivers_and_Sea_CCP1',
       url: this.getVectorTileUrl('Flood_Zones_2_and_3_Rivers_and_Sea'),
@@ -48,7 +49,7 @@ class FloodZoneCCLayer extends FloodMapLayer {
   setFloodZoneCCStyleProperties () {
     const styleLayerName = 'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1'
     const layerPaintProperties = this.floodZonesCCLayer.getPaintProperties(styleLayerName)
-    const paintProperties = colours.floodZoneCC
+    const paintProperties = colours.floodZoneClimateChange
     if (layerPaintProperties) {
       const fillColour = paintProperties[this.isDark ? 1 : 0]
       layerPaintProperties['fill-color'] = fillColour
