@@ -16,11 +16,11 @@ import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
-import { datasetsPlugin } from './datasets/datasetsPlugin.js'
+import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
-import { addHelpBanner } from './helpBanner.js'
+import { addHelpBanner, hideHelpPanel, showHelpPanel } from './helpBanner.js'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 10000
@@ -56,13 +56,14 @@ getDefraMapConfig().then((defraMapConfig) => {
       panels: [mapStylePanelOverrides]
     }
   })
+  const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
   const interactiveMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
     plugins: [
-      datasetsPlugin(defraMapConfig),
+      datasetsPlugin,
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
@@ -101,8 +102,27 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
+  const onEditPolygon = (isEditing) => {
+    if (isEditing) {
+      interactiveMap.removePanel('info')
+      interactiveMap.removeMarker('search')
+      interactiveMap.hidePanel('datasetsLayers')
+      hideHelpPanel()
+      // hide key
+      if (datasetsPlugin.ready) {
+        datasetsPlugin.setDatasetVisibility(false) // hide layers
+      }
+    } else {
+      showHelpPanel() // Only Shows it if the user has not dismissed it before
+      interactiveMap.showPanel('datasetsLayers')
+      // reinstate key (if possible)
+      if (datasetsPlugin.ready) {
+        datasetsPlugin.setDatasetVisibility(true) // reinstate layers
+      }
+    }
+  }
   attachInteractPlugin(interactiveMap)
-  attachDrawPlugin(interactiveMap)
+  attachDrawPlugin(interactiveMap, onEditPolygon)
 
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('help', {
@@ -118,6 +138,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   interactiveMap.on('datasets:ready', function () {
+    datasetsPlugin.ready = true
     updateVisibleLayers()
     initPointerMove()
   })

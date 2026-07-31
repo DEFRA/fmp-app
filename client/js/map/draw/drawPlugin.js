@@ -1,6 +1,5 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
-import { hideHelpPanel, showHelpPanel } from '../helpBanner.js'
 import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
 import { terms } from '..//terms.js'
 
@@ -10,7 +9,7 @@ export const framePlugin = createFramePlugin()
 
 let updateDrawState = () => {}
 
-const attachUpdateDrawStateMethod = (interactiveMap) => () => {
+const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   const { isEditing, isComplete, isSquare } = siteBoundary
   // Hide the draw menu when editing
   interactiveMap.toggleButtonState('geometryActions', 'hidden', isEditing)
@@ -19,17 +18,17 @@ const attachUpdateDrawStateMethod = (interactiveMap) => () => {
   // Only enable the upload button when there is no polygon and we are not editing
   interactiveMap.toggleButtonState('uploadShape', 'disabled', !siteBoundary.isEmpty)
 
+  if (onEditPolygon) {
+    // Handles showing and hiding other interactiveMap panels and layers when the user is editing a polygon
+    onEditPolygon(isEditing)
+  }
+
   if (isEditing) {
-    interactiveMap.removeMarker('search')
     if (isSquare) {
       siteBoundary.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
     }
-    hideHelpPanel()
-    interactiveMap.hidePanel('datasetsLayers')
   } else {
     siteBoundary.resetZoom()
-    showHelpPanel()
-    interactiveMap.showPanel('datasetsLayers')
     // Disable the edit and delete buttons when there is no polygon
     interactiveMap.toggleButtonState('editShape', 'disabled', !isComplete)
     interactiveMap.toggleButtonState('deleteShape', 'disabled', !isComplete)
@@ -87,8 +86,8 @@ const drawMenuItems = {
   }
 }
 
-export const attachDrawPlugin = (interactiveMap) => {
-  updateDrawState = attachUpdateDrawStateMethod(interactiveMap)
+export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
+  updateDrawState = attachUpdateDrawStateMethod(interactiveMap, onEditPolygon)
   const onCancelEditing = () => {
     siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
     updateDrawState()
