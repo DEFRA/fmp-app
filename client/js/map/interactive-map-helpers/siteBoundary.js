@@ -110,4 +110,4 @@ export class SiteBoundary {
 
 Object.freeze(SiteBoundary)
 
-export const polygonFeature = new SiteBoundary()
+export const siteBoundary = new SiteBoundary()

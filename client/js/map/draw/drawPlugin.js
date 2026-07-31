@@ -1,7 +1,7 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { hideHelpPanel, showHelpPanel } from '../helpBanner.js'
-import { SiteBoundary, polygonFeature } from '../interactive-map-helpers/polygonFeature.js'
+import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
 import { terms } from '..//terms.js'
 
 export const drawPlugin = createDrawPlugin()
@@ -11,19 +11,19 @@ export const framePlugin = createFramePlugin()
 let updateDrawState = () => {}
 
 const attachUpdateDrawStateMethod = (interactiveMap) => () => {
-  const { isEditing, isComplete, isSquare } = polygonFeature
+  const { isEditing, isComplete, isSquare } = siteBoundary
   interactiveMap.toggleButtonState('geometryActions', 'hidden', isEditing)
-  interactiveMap.toggleButtonState('uploadShape', 'disabled', !polygonFeature.isEmpty)
+  interactiveMap.toggleButtonState('uploadShape', 'disabled', !siteBoundary.isEmpty)
 
   if (isEditing) {
     interactiveMap.removeMarker('search')
     if (isSquare) {
-      polygonFeature.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
+      siteBoundary.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
     }
     hideHelpPanel()
     interactiveMap.hidePanel('datasetsLayers')
   } else {
-    polygonFeature.resetZoom()
+    siteBoundary.resetZoom()
     showHelpPanel()
     interactiveMap.showPanel('datasetsLayers')
     interactiveMap.toggleButtonState('editShape', 'disabled', !isComplete)
@@ -37,18 +37,18 @@ const drawMenuItems = {
   addPolygon: {
     iconSvgContent: '<path d="M19.5 7v10M4.5 7v10M7 19.5h10M7 4.5h10"/><path d="M22 18v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zm0-15v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 18v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 3v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1z"/>',
     onClick: () => {
-      drawPlugin.newPolygon(polygonFeature.id)
-      polygonFeature.state = SiteBoundary.EDITING
-      polygonFeature.type = SiteBoundary.POLYGON
+      drawPlugin.newPolygon(siteBoundary.id)
+      siteBoundary.state = SiteBoundary.EDITING
+      siteBoundary.type = SiteBoundary.POLYGON
       updateDrawState()
     }
   },
   addSquare: {
     iconSvgContent: '<rect width="18" height="18" x="3" y="3" rx="2"/>',
     onClick: () => {
-      framePlugin.addFrame(polygonFeature.id, { aspectRatio: 1 })
-      polygonFeature.state = SiteBoundary.EDITING
-      polygonFeature.type = SiteBoundary.SQUARE
+      framePlugin.addFrame(siteBoundary.id, { aspectRatio: 1 })
+      siteBoundary.state = SiteBoundary.EDITING
+      siteBoundary.type = SiteBoundary.SQUARE
       updateDrawState()
     }
   },
@@ -60,13 +60,13 @@ const drawMenuItems = {
     iconSvgContent: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
     isDisabled: true,
     onClick: () => {
-      if (polygonFeature.isSquare) {
-        drawPlugin.deleteFeature(polygonFeature.id)
-        framePlugin.editFeature(polygonFeature.feature)
+      if (siteBoundary.isSquare) {
+        drawPlugin.deleteFeature(siteBoundary.id)
+        framePlugin.editFeature(siteBoundary.feature)
       } else {
-        drawPlugin.editFeature(polygonFeature.id)
+        drawPlugin.editFeature(siteBoundary.id)
       }
-      polygonFeature.state = SiteBoundary.EDITING
+      siteBoundary.state = SiteBoundary.EDITING
       updateDrawState()
     }
   },
@@ -74,8 +74,8 @@ const drawMenuItems = {
     iconSvgContent: '<path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
     isDisabled: true,
     onClick: () => {
-      drawPlugin.deleteFeature(polygonFeature.id)
-      polygonFeature.feature = null
+      drawPlugin.deleteFeature(siteBoundary.id)
+      siteBoundary.feature = null
       updateDrawState()
     }
   }
@@ -84,12 +84,12 @@ const drawMenuItems = {
 export const attachDrawPlugin = (interactiveMap) => {
   updateDrawState = attachUpdateDrawStateMethod(interactiveMap)
   const onCancelEditing = () => {
-    polygonFeature.state = polygonFeature.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
+    siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
     updateDrawState()
   }
 
   interactiveMap.on('map:ready', ({ view }) => {
-    polygonFeature.mapView = view
+    siteBoundary.mapView = view
 
     interactiveMap.addButton('geometryActions', {
       label: terms.labels.drawMenuTitle,
@@ -102,14 +102,14 @@ export const attachDrawPlugin = (interactiveMap) => {
 
   interactiveMap.on('draw:ready', () => {
     updateDrawState()
-    if (polygonFeature.feature) {
-      drawPlugin.addFeature(polygonFeature.feature)
+    if (siteBoundary.feature) {
+      drawPlugin.addFeature(siteBoundary.feature)
     }
   })
 
   interactiveMap.on('draw:done', ({ newFeature: feature }) => {
-    polygonFeature.feature = feature
-    polygonFeature.type = SiteBoundary.POLYGON
+    siteBoundary.feature = feature
+    siteBoundary.type = SiteBoundary.POLYGON
     updateDrawState()
   })
 
@@ -124,21 +124,21 @@ export const attachDrawPlugin = (interactiveMap) => {
 
   interactiveMap.on('draw:cancelled', onCancelEditing)
   interactiveMap.on('frame:cancel', () => {
-    if (polygonFeature.feature) {
-      drawPlugin.addFeature(polygonFeature.feature) // Add back the existing feature
+    if (siteBoundary.feature) {
+      drawPlugin.addFeature(siteBoundary.feature) // Add back the existing feature
     }
     onCancelEditing()
   })
 
   interactiveMap.on('draw:deleted', () => {
-    polygonFeature.feature = null
+    siteBoundary.feature = null
     updateDrawState()
   })
 
   interactiveMap.on('frame:done', (feature) => {
     drawPlugin.addFeature(feature)
-    polygonFeature.feature = feature
-    polygonFeature.type = SiteBoundary.SQUARE
+    siteBoundary.feature = feature
+    siteBoundary.type = SiteBoundary.SQUARE
     updateDrawState()
   })
 }
