@@ -180,7 +180,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       item.visible === true &&
       item.id !== 'baselayer'
     )
-    // console.log('visibleLayers', mapState.visibleLayers)
   }
 
   const assignCursorStyleLayer = (hitTestResponse) => {
@@ -201,10 +200,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
       topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
     }
-    if (mapState.cursorStyleLayer !== topVisibleStyleLayerId) {
-      mapState.cursorStyleLayer = topVisibleStyleLayerId
-      console.log('cursorStyleLayer', mapState.cursorStyleLayer)
-    }
+    mapState.cursorStyleLayer = topVisibleStyleLayerId
     document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
   }
 
