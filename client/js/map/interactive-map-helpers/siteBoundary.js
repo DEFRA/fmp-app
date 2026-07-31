@@ -1,6 +1,11 @@
 import { getQueryParam, setQueryParam } from './queryParams.js'
 import { checkParamsForPolygon, encodePolygon } from '../../../../server/services/shape-utils.js'
 
+const WEST = 0
+const SOUTH = 1
+const EAST = 2
+const NORTH = 3
+
 const getPolygonFromUrl = () => {
   try {
     const encodedPolygon = getQueryParam('encodedPolygon')
@@ -109,10 +114,10 @@ export class SiteBoundary {
       return null
     }
     return coordinates[0].reduce((acc, [x, y]) => {
-      acc[0] = Math.min(acc[0], x)
-      acc[1] = Math.min(acc[1], y)
-      acc[2] = Math.max(acc[2], x)
-      acc[3] = Math.max(acc[3], y)
+      acc[WEST] = Math.min(acc[WEST], x)
+      acc[SOUTH] = Math.min(acc[SOUTH], y)
+      acc[EAST] = Math.max(acc[EAST], x)
+      acc[NORTH] = Math.max(acc[NORTH], y)
       return acc
     }, [Infinity, Infinity, -Infinity, -Infinity])
   }

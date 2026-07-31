@@ -22,6 +22,11 @@ import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 import { addHelpBanner } from './helpBanner.js'
 
+const ENGLAND_WEST = 50000
+const ENGLAND_SOUTH = 10000
+const ENGLAND_EAST = 400000
+const ENGLAND_NORTH = 650000
+
 const symbols = {
   noData: '/assets/images/no-data.svg',
   waterStorageAreas: '/assets/images/water-storage.svg',
@@ -76,7 +81,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     place: 'England',
     minZoom: 6,
     maxZoom: 20,
-    extent: siteBoundary.extents || [50000, 10000, 400000, 650000],
+    extent: siteBoundary.extents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
