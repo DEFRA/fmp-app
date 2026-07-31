@@ -16,11 +16,11 @@ const getPolygonFromUrl = () => {
 }
 const FRAME_MAX_ZOOM = 22
 
-class PolygonFeature {
+export class PolygonFeature {
   constructor (id = 'boundary') {
     this._feature = null
     this._id = id
-    this._state = this.EMPTY
+    this._state = PolygonFeature.EMPTY
     this._type = null
     this._maxZoom = 20
     this._mapView = null
@@ -28,11 +28,13 @@ class PolygonFeature {
     this.coordinates = getPolygonFromUrl()
   }
 
-  get EMPTY () { return 'empty' }
-  get EDITING () { return 'editing' }
-  get COMPLETE () { return 'complete' }
-  get POLYGON () { return 'polygon' }
-  get SQUARE () { return 'square' }
+  // possible states
+  static EMPTY = 'empty'
+  static EDITING = 'editing'
+  static COMPLETE = 'complete'
+  // possible types
+  static POLYGON = 'polygon'
+  static SQUARE = 'square'
 
   get type () { return this._type }
   set type (newType) { this._type = newType }
@@ -65,16 +67,16 @@ class PolygonFeature {
     this.maxZoom = newMapView?.constraints?.maxZoom || this._maxZoom
   }
 
-  get isSquare () { return this.type === this.SQUARE }
-  get isPolygon () { return this.type === this.POLYGON }
-  get isEmpty () { return this.state === this.EMPTY }
-  get isEditing () { return this.state === this.EDITING }
-  get isComplete () { return this.state === this.COMPLETE }
+  get isSquare () { return this.type === PolygonFeature.SQUARE }
+  get isPolygon () { return this.type === PolygonFeature.POLYGON }
+  get isEmpty () { return this.state === PolygonFeature.EMPTY }
+  get isEditing () { return this.state === PolygonFeature.EDITING }
+  get isComplete () { return this.state === PolygonFeature.COMPLETE }
 
   get feature () { return this._feature }
   set feature (feature) {
     this._feature = feature ? { ...feature, id: this._id, properties: { ...feature.properties, id: this._id } } : null
-    this.state = feature ? this.COMPLETE : this.EMPTY
+    this.state = feature ? PolygonFeature.COMPLETE : PolygonFeature.EMPTY
     setQueryParam('encodedPolygon', this.encodedPolygon)
     setQueryParam('polygon', null)
   }
@@ -89,8 +91,8 @@ class PolygonFeature {
 
   set coordinates (coordinates) {
     if (coordinates) {
-      this.state = this.COMPLETE
-      this.type = this.POLYGON
+      this.state = PolygonFeature.COMPLETE
+      this.type = PolygonFeature.POLYGON
       this._feature = {
         id: this._id,
         type: 'feature',
@@ -105,5 +107,7 @@ class PolygonFeature {
     }
   }
 }
+
+Object.freeze(PolygonFeature)
 
 export const polygonFeature = new PolygonFeature()

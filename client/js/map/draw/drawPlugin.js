@@ -1,11 +1,14 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { hideHelpPanel, showHelpPanel } from '../helpBanner.js'
-import { polygonFeature } from '../interactive-map-helpers/polygonFeature.js'
+import { PolygonFeature, polygonFeature } from '../interactive-map-helpers/polygonFeature.js'
 import { terms } from '..//terms.js'
 
 export const drawPlugin = createDrawPlugin({
-  onGeometryChange: (geometry) => true
+  onGeometryChange: (_geometry) => {
+    console.log('draw:geometryChange', _geometry)
+    return true
+  }
 })
 
 export const framePlugin = createFramePlugin({
@@ -13,33 +16,32 @@ export const framePlugin = createFramePlugin({
 })
 
 export const attachDrawPlugin = (interactiveMap) => {
-  const updateDrawState = (newState, feature, type) => {
-    const drawing = newState === polygonFeature.EDITING
-    interactiveMap.toggleButtonState('geometryActions', 'hidden', drawing)
+  const updateDrawState = (polygonFeature) => {
+    const { isEditing, isComplete, isSquare } = polygonFeature
+    interactiveMap.toggleButtonState('geometryActions', 'hidden', isEditing)
     interactiveMap.toggleButtonState('uploadShape', 'disabled', !polygonFeature.isEmpty)
 
-    if (!drawing) {
+    if (isEditing) {
+      interactiveMap.removeMarker('search')
+      if (isSquare) {
+        polygonFeature.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
+      }
+      hideHelpPanel()
+      interactiveMap.hidePanel('datasetsLayers')
+    } else {
       polygonFeature.resetZoom()
       showHelpPanel()
       interactiveMap.showPanel('datasetsLayers')
-      const isComplete = polygonFeature.isComplete
       interactiveMap.toggleButtonState('editShape', 'disabled', !isComplete)
       interactiveMap.toggleButtonState('deleteShape', 'disabled', !isComplete)
       interactiveMap.toggleButtonState('addPolygon', 'disabled', isComplete)
       interactiveMap.toggleButtonState('addSquare', 'disabled', isComplete)
-    } else {
-      if (polygonFeature.isSquare) {
-        polygonFeature.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
-      }
-
-      hideHelpPanel()
-      interactiveMap.hidePanel('datasetsLayers')
     }
   }
 
   const onCancelEditing = () => {
-    polygonFeature.state = polygonFeature.feature ? polygonFeature.COMPLETE : polygonFeature.EMPTY
-    updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+    polygonFeature.state = polygonFeature.feature ? PolygonFeature.COMPLETE : PolygonFeature.EMPTY
+    updateDrawState(polygonFeature)
   }
 
   interactiveMap.on('map:ready', function ({ view }) {
@@ -54,21 +56,21 @@ export const attachDrawPlugin = (interactiveMap) => {
         id: 'addPolygon',
         label: terms.labels.addPolygon,
         iconSvgContent: '<path d="M19.5 7v10M4.5 7v10M7 19.5h10M7 4.5h10"/><path d="M22 18v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zm0-15v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 18v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM7 3v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1z"/>',
-        onClick: function (e) {
+        onClick: () => {
           drawPlugin.newPolygon(polygonFeature.id)
-          polygonFeature.state = polygonFeature.EDITING
-          polygonFeature.type = polygonFeature.POLYGON
-          updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+          polygonFeature.state = PolygonFeature.EDITING
+          polygonFeature.type = PolygonFeature.POLYGON
+          updateDrawState(polygonFeature)
         }
       }, {
         id: 'addSquare',
         label: terms.labels.addSquare,
         iconSvgContent: '<rect width="18" height="18" x="3" y="3" rx="2"/>',
-        onClick: function (e) {
+        onClick: () => {
           framePlugin.addFrame(polygonFeature.id, { aspectRatio: 1 })
-          polygonFeature.state = polygonFeature.EDITING
-          polygonFeature.type = polygonFeature.SQUARE
-          updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+          polygonFeature.state = PolygonFeature.EDITING
+          polygonFeature.type = PolygonFeature.SQUARE
+          updateDrawState(polygonFeature)
         }
       },
       {
@@ -85,15 +87,15 @@ export const attachDrawPlugin = (interactiveMap) => {
         label: terms.labels.editShape,
         iconSvgContent: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
         isDisabled: true,
-        onClick: function () {
+        onClick: () => {
           if (polygonFeature.isSquare) {
             drawPlugin.deleteFeature(polygonFeature.id)
             framePlugin.editFeature(polygonFeature.feature)
           } else {
             drawPlugin.editFeature(polygonFeature.id)
           }
-          polygonFeature.state = polygonFeature.EDITING
-          updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+          polygonFeature.state = PolygonFeature.EDITING
+          updateDrawState(polygonFeature)
         }
       },
       {
@@ -104,7 +106,7 @@ export const attachDrawPlugin = (interactiveMap) => {
         onClick: () => {
           drawPlugin.deleteFeature(polygonFeature.id)
           polygonFeature.feature = null
-          updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+          updateDrawState(polygonFeature)
         }
       }
       ]
@@ -112,7 +114,7 @@ export const attachDrawPlugin = (interactiveMap) => {
   })
 
   interactiveMap.on('draw:ready', function () {
-    updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+    updateDrawState(polygonFeature)
     if (polygonFeature.feature) {
       drawPlugin.addFeature(polygonFeature.feature)
     }
@@ -120,17 +122,18 @@ export const attachDrawPlugin = (interactiveMap) => {
 
   interactiveMap.on('draw:done', function ({ newFeature: feature }) {
     polygonFeature.feature = feature
-    polygonFeature.type = polygonFeature.POLYGON
-    updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+    polygonFeature.type = PolygonFeature.POLYGON
+    updateDrawState(polygonFeature)
   })
 
   interactiveMap.on('draw:updated', function (feature) {
     console.log('draw:updated', feature)
+    // check the size here and warn the user if it is too big
   })
 
-  interactiveMap.on('draw:created', function (feature) {
-    console.log('draw:created', feature)
-  })
+  // I don't think we need this event, but left in so we know it is available
+  // It is fired when the user completes a polygon, but hasn't yet clicked the "Done" button
+  // interactiveMap.on('draw:created', (feature) => console.log('draw:created', feature))
 
   interactiveMap.on('draw:cancelled', onCancelEditing)
   interactiveMap.on('frame:cancel', () => {
@@ -142,13 +145,13 @@ export const attachDrawPlugin = (interactiveMap) => {
 
   interactiveMap.on('draw:deleted', function (feature) {
     polygonFeature.feature = null
-    updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+    updateDrawState(polygonFeature)
   })
 
   interactiveMap.on('frame:done', function (feature) {
     drawPlugin.addFeature(feature)
     polygonFeature.feature = feature
-    polygonFeature.type = polygonFeature.SQUARE
-    updateDrawState(polygonFeature.state, polygonFeature.feature, polygonFeature.type)
+    polygonFeature.type = PolygonFeature.SQUARE
+    updateDrawState(polygonFeature)
   })
 }
