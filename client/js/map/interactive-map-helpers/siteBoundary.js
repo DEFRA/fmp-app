@@ -89,6 +89,20 @@ export class SiteBoundary {
     return this.coordinates ? encodePolygon(this.coordinates[0]) : null
   }
 
+  get extents () {
+    const { coordinates } = this
+    if (!coordinates) {
+      return null
+    }
+    return coordinates[0].reduce((acc, [x, y]) => {
+      acc[0] = Math.min(acc[0], x)
+      acc[1] = Math.min(acc[1], y)
+      acc[2] = Math.max(acc[2], x)
+      acc[3] = Math.max(acc[3], y)
+      return acc
+    }, [Infinity, Infinity, -Infinity, -Infinity])
+  }
+
   set coordinates (coordinates) {
     if (coordinates) {
       this.state = SiteBoundary.COMPLETE

@@ -9,7 +9,8 @@ import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
-import { checkParamsForPolygon, encodePolygon } from '../../../server/services/shape-utils.js'
+import { encodePolygon } from '../../../server/services/shape-utils.js'
+import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 // TODO: add the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import { getInfoPanel } from './infoPanel.js'
@@ -28,29 +29,6 @@ const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
   floodDefences: '/assets/images/flood-defence.svg',
   mainRivers: '/assets/images/main-rivers.svg'
-}
-
-// const MAX_POLYGON_AREA = 3000000
-
-// capture polygon from query string
-const queryParams = new URLSearchParams(window.location.search)
-
-const calculateExtent = (polygonToCalculate) => {
-  const calculatedExtent = polygonToCalculate.reduce((acc, [x, y]) => {
-    acc[0] = Math.min(acc[0], x)
-    acc[1] = Math.min(acc[1], y)
-    acc[2] = Math.max(acc[2], x)
-    acc[3] = Math.max(acc[3], y)
-    return acc
-  }, [Infinity, Infinity, -Infinity, -Infinity])
-  return calculatedExtent
-}
-
-let extent
-if (queryParams.get('encodedPolygon') || queryParams.get('polygon')) {
-  const { polygon: polygonString } = checkParamsForPolygon({ encodedPolygon: queryParams.get('encodedPolygon'), polygon: queryParams.get('polygon'), encode: false })
-  const polygon = JSON.parse(polygonString)
-  extent = calculateExtent(polygon)
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -101,7 +79,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     place: 'England',
     minZoom: 6,
     maxZoom: 20,
-    extent: extent || [50000, 10000, 400000, 650000],
+    extent: siteBoundary.extents || [50000, 10000, 400000, 650000],
     containerHeight: '100%',
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
