@@ -9,7 +9,7 @@ import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
-import { encodePolygon } from '../../../server/services/shape-utils.js'
+// import { encodePolygon } from '../../../server/services/shape-utils.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 // TODO: add the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
@@ -21,8 +21,6 @@ import { datasetsPlugin } from './datasets/datasetsPlugin.js'
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 import { addHelpBanner } from './helpBanner.js'
-
-const mapDiv = document.getElementById('map')
 
 const symbols = {
   noData: '/assets/images/no-data.svg',
@@ -68,8 +66,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
         regions: ['england'],
         width: '300px',
-        showMarker: true,
-        // expanded: true
+        showMarker: true
       }),
       drawPlugin,
       framePlugin,
@@ -204,38 +201,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapState.visibleLayers = null
     })
   }
-
-  mapDiv.addEventListener('appaction', e => {
-    const { type } = e.detail
-    if (type === 'confirmPolygon' || type === 'updatePolygon') {
-      const url = new URL(window.location)
-      const polygon = e.detail?.query?.geometry?.coordinates?.[0]
-      mapState.polygon = roundPolygon(polygon)
-      url.searchParams.set('encodedPolygon', encodePolygon(polygon))
-      url.search = decodeURIComponent(url.search)
-      window.history.replaceState(null, '', url)
-    }
-    if (type === 'deletePolygon') {
-      delete mapState.polygon
-      const url = new URL(window.location)
-      url.searchParams.delete('encodedPolygon')
-      url.search = decodeURIComponent(url.search)
-      window.history.replaceState(null, '', url)
-    }
-  })
-
-  const roundPolygon = (polygon) => {
-    return polygon.map(([x, y]) => [Math.round(x * 100) / 100, Math.round(y * 100) / 100])
-  }
-
-  // event to fire for 'Get site report' button to non dynamic results page
-  document.addEventListener('click', e => {
-    if (e.target.innerText === 'Get summary report') {
-      const polygon = mapState.polygon
-      const encodedPolygon = encodePolygon(polygon)
-      window.location = `/results?encodedPolygon=${encodedPolygon}`
-    }
-  })
 
   // Listen to map queries
   interactiveMap.addEventListener('query', async e => {

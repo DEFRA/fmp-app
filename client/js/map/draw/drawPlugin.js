@@ -12,7 +12,11 @@ let updateDrawState = () => {}
 
 const attachUpdateDrawStateMethod = (interactiveMap) => () => {
   const { isEditing, isComplete, isSquare } = siteBoundary
+  // Hide the draw menu when editing
   interactiveMap.toggleButtonState('geometryActions', 'hidden', isEditing)
+  // Hide the 'get-summary' button when the polygon is not complete
+  interactiveMap.toggleButtonState('get-summary', 'hidden', !isComplete)
+  // Only enable the upload button when there is no polygon and we are not editing
   interactiveMap.toggleButtonState('uploadShape', 'disabled', !siteBoundary.isEmpty)
 
   if (isEditing) {
@@ -26,8 +30,10 @@ const attachUpdateDrawStateMethod = (interactiveMap) => () => {
     siteBoundary.resetZoom()
     showHelpPanel()
     interactiveMap.showPanel('datasetsLayers')
+    // Disable the edit and delete buttons when there is no polygon
     interactiveMap.toggleButtonState('editShape', 'disabled', !isComplete)
     interactiveMap.toggleButtonState('deleteShape', 'disabled', !isComplete)
+    // Disable the add buttons when there is a polygon
     interactiveMap.toggleButtonState('addPolygon', 'disabled', isComplete)
     interactiveMap.toggleButtonState('addSquare', 'disabled', isComplete)
   }
@@ -91,12 +97,25 @@ export const attachDrawPlugin = (interactiveMap) => {
   interactiveMap.on('map:ready', ({ view }) => {
     siteBoundary.mapView = view
 
+    // Add the draw plugin menu
     interactiveMap.addButton('geometryActions', {
       label: terms.labels.drawMenuTitle,
       mobile: { slot: 'bottom-right', order: 4 },
       tablet: { slot: 'top-left', order: 4 },
       desktop: { slot: 'top-left', order: 4 },
       menuItems: Object.entries(drawMenuItems).map(([id, item]) => ({ ...item, id, label: terms.labels[id] }))
+    })
+
+    // Add the get summary button (AKA goto results page)
+    interactiveMap.addButton('get-summary', {
+      label: 'Get summary report',
+      variant: 'primary',
+      onClick: () => {
+        window.location = `/results?encodedPolygon=${siteBoundary.encodedPolygon}`
+      },
+      mobile: { slot: 'actions', showLabel: true },
+      tablet: { slot: 'actions', showLabel: true },
+      desktop: { slot: 'actions', showLabel: true },
     })
   })
 

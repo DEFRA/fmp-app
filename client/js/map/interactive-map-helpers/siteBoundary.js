@@ -75,10 +75,24 @@ export class SiteBoundary {
 
   get feature () { return this._feature }
   set feature (feature) {
-    this._feature = feature ? { ...feature, id: this._id, properties: { ...feature.properties, id: this._id } } : null
-    this.state = feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
-    setQueryParam('encodedPolygon', this.encodedPolygon)
     setQueryParam('polygon', null)
+    if (!feature?.geometry?.coordinates) {
+      this._feature = null
+      this.state = SiteBoundary.EMPTY
+      setQueryParam('encodedPolygon', null)
+      return
+    }
+    // round the coordinates to 2 decimal places
+    const coordinates = feature.geometry.coordinates[0].map(([x, y]) => [Math.round(x * 100) / 100, Math.round(y * 100) / 100])
+    feature.geometry.coordinates = [coordinates]
+
+    const { id } = this
+    const properties = { ...feature.properties, id }
+
+    // set the feature and update the state and query param
+    this._feature = { ...feature, id, properties }
+    this.state = SiteBoundary.COMPLETE
+    setQueryParam('encodedPolygon', this.encodedPolygon)
   }
 
   get coordinates () {
