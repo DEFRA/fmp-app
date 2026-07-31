@@ -149,11 +149,19 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   interactiveMap.on('interact:markerchange', function (e) {
-    interactiveMap.addPanel('info', {
-      label: 'Info',
-      html: '<p>Some info</p>',
-      visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
-    })
+    if (mapState.cursorStyleLayer) {
+      interactiveMap.addPanel('info', {
+        label: 'Info',
+        html: `<div>
+            <p>Some info:</p>
+            <p>${mapState.cursorStyleLayer}</p>
+          </div>`,
+        visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
+      })
+    } else {
+      interactiveMap.removeMarker('infoPanelMarker')
+      interactiveMap.removePanel('info')
+    }
   })
 
   const mapState = {
