@@ -16,11 +16,11 @@ const getPolygonFromUrl = () => {
 }
 const FRAME_MAX_ZOOM = 22
 
-export class PolygonFeature {
+export class SiteBoundary {
   constructor (id = 'boundary') {
     this._feature = null
     this._id = id
-    this._state = PolygonFeature.EMPTY
+    this._state = SiteBoundary.EMPTY
     this._type = null
     this._maxZoom = 20
     this._mapView = null
@@ -67,16 +67,16 @@ export class PolygonFeature {
     this.maxZoom = newMapView?.constraints?.maxZoom || this._maxZoom
   }
 
-  get isSquare () { return this.type === PolygonFeature.SQUARE }
-  get isPolygon () { return this.type === PolygonFeature.POLYGON }
-  get isEmpty () { return this.state === PolygonFeature.EMPTY }
-  get isEditing () { return this.state === PolygonFeature.EDITING }
-  get isComplete () { return this.state === PolygonFeature.COMPLETE }
+  get isSquare () { return this.type === SiteBoundary.SQUARE }
+  get isPolygon () { return this.type === SiteBoundary.POLYGON }
+  get isEmpty () { return this.state === SiteBoundary.EMPTY }
+  get isEditing () { return this.state === SiteBoundary.EDITING }
+  get isComplete () { return this.state === SiteBoundary.COMPLETE }
 
   get feature () { return this._feature }
   set feature (feature) {
     this._feature = feature ? { ...feature, id: this._id, properties: { ...feature.properties, id: this._id } } : null
-    this.state = feature ? PolygonFeature.COMPLETE : PolygonFeature.EMPTY
+    this.state = feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
     setQueryParam('encodedPolygon', this.encodedPolygon)
     setQueryParam('polygon', null)
   }
@@ -91,8 +91,8 @@ export class PolygonFeature {
 
   set coordinates (coordinates) {
     if (coordinates) {
-      this.state = PolygonFeature.COMPLETE
-      this.type = PolygonFeature.POLYGON
+      this.state = SiteBoundary.COMPLETE
+      this.type = SiteBoundary.POLYGON
       this._feature = {
         id: this._id,
         type: 'feature',
@@ -108,6 +108,6 @@ export class PolygonFeature {
   }
 }
 
-Object.freeze(PolygonFeature)
+Object.freeze(SiteBoundary)
 
-export const polygonFeature = new PolygonFeature()
+export const polygonFeature = new SiteBoundary()
