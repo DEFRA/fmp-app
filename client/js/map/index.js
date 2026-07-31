@@ -102,25 +102,42 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
+  let datasetsKeyExpanded = false
+  const toggleKeyWhenEditing = (isEditing) => {
+    const datasetsKey = document.getElementById('map-datasets-key')
+    if (isEditing) {
+      datasetsKeyExpanded = (datasetsKey?.getAttribute('aria-expanded') === 'true')
+      if (datasetsKeyExpanded) {
+        interactiveMap.hidePanel('datasetsKey')
+      }
+      datasetsKey.parentNode.style.display = 'none'
+    } else {
+      if (datasetsKeyExpanded) { // reinstate key
+        interactiveMap.showPanel('datasetsKey')
+      }
+      datasetsKey.parentNode.style.display = ''
+    }
+  }
+
   const onEditPolygon = (isEditing) => {
+    toggleKeyWhenEditing(isEditing)
     if (isEditing) {
       interactiveMap.removePanel('info')
       interactiveMap.removeMarker('search')
       interactiveMap.hidePanel('datasetsLayers')
       hideHelpPanel()
-      // hide key
-      if (datasetsPlugin.ready) {
-        datasetsPlugin.setDatasetVisibility(false) // hide layers
+      if (datasetsPlugin.ready) { // hide layers
+        datasetsPlugin.setDatasetVisibility(false)
       }
     } else {
       showHelpPanel() // Only Shows it if the user has not dismissed it before
       interactiveMap.showPanel('datasetsLayers')
-      // reinstate key (if possible)
-      if (datasetsPlugin.ready) {
-        datasetsPlugin.setDatasetVisibility(true) // reinstate layers
+      if (datasetsPlugin.ready) { // reinstate layers
+        datasetsPlugin.setDatasetVisibility(true)
       }
     }
   }
+
   attachInteractPlugin(interactiveMap)
   attachDrawPlugin(interactiveMap, onEditPolygon)
 
