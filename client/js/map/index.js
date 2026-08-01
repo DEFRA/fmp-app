@@ -181,8 +181,11 @@ getDefraMapConfig().then((defraMapConfig) => {
       const { width, label, html } = infoPanel
       interactiveMap.addPanel('info', {
         label,
-        width,
-        html
+        html,
+        mobile: { slot: 'drawer', modal: true, open: true },
+        tablet: { slot: 'left-top', width, open: true },
+        desktop: { slot: 'left-top', width, open: true }
+
         // html: `<div>
         //     <p>Some info:</p>
         //     <p>${mapState.cursorStyleLayer}</p>

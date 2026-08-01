@@ -101,7 +101,7 @@ strong {
 }
 
 // Application CSS
-.fm-mobile.fm-inline.fm-o-container {
+.im-mobile.im-inline.im-o-container {
   position: fixed;
   box-sizing: border-box;
   flex-direction: row;
@@ -119,16 +119,16 @@ strong {
   touch-action: pan-x pan-y;
 }
 
-.fm-error {
+.im-error {
   margin: 4px;
 }
 
 // Disable page elements when map is fullscreen on mobile
 // Only hide elements if:
 // JavaScript is enabled
-// The map is showing (ie no data-fm-error)
+// The map is showing (ie no data-im-error)
 // The device is mobile
-body.js-enabled:not([data-fm-error]) {
+body.js-enabled:not([data-im-error]) {
 
   header,
   .govuk-cookie-banner,
@@ -146,8 +146,8 @@ body.js-enabled:not([data-fm-error]) {
 .govuk-heading-m,
 .govuk-list>li,
 .govuk-details__text,
-.fm-c-panel,
-.fm-c-panel--edit {
+.im-c-panel,
+.im-c-panel--edit {
   color: var(--foreground-colour);
 }
 
@@ -158,35 +158,35 @@ body.js-enabled:not([data-fm-error]) {
 .esri-view-surface--touch-none {
   touch-action: none;
 }
-.fm-c-panel--warning-panel {
+.im-c-panel--warning-panel {
   width: auto !important;
 }
 
-.fm-desktop {
-  .fm-c-panel--warning-panel {
+.im-desktop {
+  .im-c-panel--warning-panel {
     max-width: 1080px;
   }
 }
 
-.fm-tablet {
-  .fm-c-panel--warning-panel {
+.im-tablet {
+  .im-c-panel--warning-panel {
     max-width: 1008px;
   }
 }
 
 // Stop an unnecessary scroll bar when depthAll is shown
-.fm-c-layers__columns {
+.im-c-layers__columns {
   overflow-x: hidden;
 }
 
-.fm-c-layers__group--custom-labels .fm-c-layers__columns {
+.im-c-layers__group--custom-labels .im-c-layers__columns {
   // Offset the depthAll text
-  .fm-c-layers__text {
+  .im-c-layers__text {
     text-align: right;
     padding-right: 2.7em;
   }
   // last depthAll text item
-  .fm-c-layers__item:last-child .fm-c-layers__text {
+  .im-c-layers__item:last-child .im-c-layers__text {
     position: relative;
     bottom: 0;
     right: 0;
@@ -203,7 +203,7 @@ body.js-enabled:not([data-fm-error]) {
   display: contents;
 }
 
-.fm-c-panel--info {
+.im-c-panel--info {
 /* 
   These settings are set in _typography.css, but when wrapped in a 
   container that has style display: contents, such as .display-contents
@@ -233,11 +233,11 @@ body.js-enabled:not([data-fm-error]) {
 
 
 // Start of fix of  a Map Component bug (must be fixed there)
-  .fm-o-top__column:first-child:not(:has(.fm-c-search))  {
+  .im-o-top__column:first-child:not(:has(.im-c-search))  {
      position: static;
  }
 
-.fm-o-top__column:first-child > .fm-c-panel {
+.im-o-top__column:first-child > .im-c-panel {
     position: absolute;
     left: 15px;
     top: 70px;
