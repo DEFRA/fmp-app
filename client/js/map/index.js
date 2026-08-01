@@ -16,7 +16,7 @@ import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
-import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
+import { initialiseDatasetsPlugin, getInfoPanelDataForEsriStyleLayerId } from './datasets/datasetsPlugin.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
@@ -166,15 +166,30 @@ getDefraMapConfig().then((defraMapConfig) => {
     addHelpBanner(interactiveMap)
   })
 
-  interactiveMap.on('interact:markerchange', function (e) {
+  interactiveMap.on('interact:markerchange', async (event) => {
     if (mapState.cursorStyleLayer) {
+      const attributes = mapState.cursorAttributes
+      const infoPanelValues = {
+        ...getInfoPanelDataForEsriStyleLayerId(mapState.cursorStyleLayer),
+        coords: `${Math.round(event.coords[0])},${Math.round(event.coords[1])}`,
+        version: defraMapConfig.version
+      }
+      if (attributes?.flood_source) {
+        infoPanelValues.fs = attributes.flood_source
+      }
+      const infoPanel = await getInfoPanel(infoPanelValues)
+      const { width, label, html } = infoPanel
       interactiveMap.addPanel('info', {
-        label: 'Info',
-        html: `<div>
-            <p>Some info:</p>
-            <p>${mapState.cursorStyleLayer}</p>
-          </div>`,
-        visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
+        label,
+        width,
+        html
+        // html: `<div>
+        //     <p>Some info:</p>
+        //     <p>${mapState.cursorStyleLayer}</p>
+        //     <pre>${JSON.stringify(infoPanelValues, null, 2)}</pre>
+        //     <pre>${JSON.stringify(attributes, null, 2)}</pre>
+        //   </div>`,
+        // visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: event.coords } }
       })
     } else {
       interactiveMap.removeMarker('infoPanelMarker')
@@ -201,24 +216,26 @@ getDefraMapConfig().then((defraMapConfig) => {
   }
 
   const assignCursorStyleLayer = (hitTestResponse) => {
-    let topVisibleStyleLayerId = null
+    let topHitTestData = null
     if (hitTestResponse?.results?.length > 0) {
-      const visibleStyleLayerIds = hitTestResponse?.results.reduce((layerIds, result) => {
+      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
         const { layerId } = result.graphic?.origin || {}
+        const { attributes } = result.graphic
         if (!layerId) {
-          return layerIds
+          return hitTestData
         }
         const vtLayer = result.layer
         const styleLayer = vtLayer?.getStyleLayer(layerId)
         if (styleLayer?.layout?.visibility === 'visible') {
-          layerIds.push(layerId)
+          hitTestData.push({ layerId, attributes })
         }
-        return layerIds
+        return hitTestData
       }, [])
 
-      topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
+      topHitTestData = visibleHitTestData?.[0] || null
     }
-    mapState.cursorStyleLayer = topVisibleStyleLayerId
+    mapState.cursorStyleLayer = topHitTestData?.layerId || null
+    mapState.cursorAttributes = topHitTestData?.attributes || null
     document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
   }
 

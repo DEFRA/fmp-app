@@ -1,5 +1,5 @@
-import { FloodMapLayer } from './mapLayers/index.js'
-import { terms } from './terms.js'
+// import { FloodMapLayer } from './mapLayers/index.js'
+// import { terms } from './terms.js'
 
 /*
   tf: Timeframe - [pd:Present day, cc:Climate change]
@@ -10,44 +10,39 @@ import { terms } from './terms.js'
 */
 const infoPanelURL = '/defra-map/info-panel'
 
-const getInfoPanelValues = (mapState, feature, coord) => ({
-  ds: mapState.ds,
-  tf: getTimeFrame(mapState, feature),
-  aep: mapState.riskLevel,
-  fz: getFloodZone(mapState, feature),
-  fs: getFloodSource(mapState, feature),
-  depth: feature?.Depth_band,
-  coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
-})
+// const getInfoPanelValues = (mapState, feature, coord) => ({
+//   ds: mapState.ds,
+//   tf: getTimeFrame(mapState, feature),
+//   aep: mapState.riskLevel,
+//   fz: getFloodZone(mapState, feature),
+//   fs: getFloodSource(mapState, feature),
+//   depth: feature?.Depth_band,
+//   coords: `${Math.round(coord[0])},${Math.round(coord[1])}`
+// })
 
 // getInfoPanel: returns the infoPanel object, with html markup or null
-const getInfoPanel = async (event, mapState, version) => {
-  const { coords, feature } = getFeatureAndCoordsFromEvent(event)
-  if (!feature) {
+const getInfoPanel = async (infoPanelValues) => {
+  // const { coords, feature } = getFeatureAndCoordsFromEvent(event)
+  if (!infoPanelValues) {
     return null
   }
-  // Check that they haven't clicked on a hidden depth layer
-  // isDepthVisible returns true for all non SW layers
-  if (!FloodMapLayer.visibleLayer.isDepthVisible(feature.Depth_band)) {
-    return null
-  }
-  const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
-  const html = await getInfoPanelMarkup(infoPanelValues, version)
+  // const infoPanelValues = getInfoPanelValues(mapState, feature, coords)
+  const html = await getInfoPanelMarkup(infoPanelValues)
   const label = /TITLE:(.*)/.exec(html)?.[1]
   return { width: '360px', label, html }
 }
 
 // getInfoPanelMarkup: Make a cached request to get the info panel from the backend
-const getInfoPanelMarkup = async (infoPanelValues, version) => {
+const getInfoPanelMarkup = async (infoPanelValues) => {
   let url
   const queryString = new URLSearchParams()
   try {
     queryString.set('ds', infoPanelValues.ds)
     queryString.set('tf', infoPanelValues.tf)
     if (infoPanelValues.fz) { queryString.set('fz', infoPanelValues.fz) }
-    if (infoPanelValues.fs) { queryString.set('fs', infoPanelValues.fs) }
+    if (infoPanelValues.fs) { queryString.set('fs', formatFloodSource(infoPanelValues.fs)) }
     if (infoPanelValues.aep) { queryString.set('aep', infoPanelValues.aep) }
-    if (version) { queryString.set('v', version) }
+    if (infoPanelValues.version) { queryString.set('v', infoPanelValues.version) }
     const { coords, depth = '' } = infoPanelValues
 
     url = `${infoPanelURL}?${queryString.toString()}`
@@ -70,36 +65,36 @@ const getInfoPanelMarkup = async (infoPanelValues, version) => {
   return null
 }
 
-const getFeatureAndCoordsFromEvent = (event) => {
-  const { coord: coords, features } = event.detail
-  if (!features || !coords || !features.isPixelFeaturesAtPixel) {
-    return {}
-  }
-  const feature = { ...features.items[0] }
-  return { coords, feature }
-}
+// const getFeatureAndCoordsFromEvent = (event) => {
+//   const { coord: coords, features } = event.detail
+//   if (!features || !coords || !features.isPixelFeaturesAtPixel) {
+//     return {}
+//   }
+//   const feature = { ...features.items[0] }
+//   return { coords, feature }
+// }
 
-const getFloodZone = (mapState, feature) => {
-  if (!mapState.isFloodZone) {
-    return null
-  }
-  if (mapState.isClimateChange) {
-    const layerName = feature.name || feature.Name
-    // This Implies we have clicked on CC ZONE
-    if (layerName === 'Flood Zones plus climate change') {
-      return terms.keys.fzCC
-    }
-    if (layerName === 'Unavailable') {
-      return terms.keys.fzNoData
-    }
-  }
-  return feature.flood_zone || feature.Flood_zone
-}
+// const getFloodZone = (mapState, feature) => {
+//   if (!mapState.isFloodZone) {
+//     return null
+//   }
+//   if (mapState.isClimateChange) {
+//     const layerName = feature.name || feature.Name
+//     // This Implies we have clicked on CC ZONE
+//     if (layerName === 'Flood Zones plus climate change') {
+//       return terms.keys.fzCC
+//     }
+//     if (layerName === 'Unavailable') {
+//       return terms.keys.fzNoData
+//     }
+//   }
+//   return feature.flood_zone || feature.Flood_zone
+// }
 
-const getFloodSource = (mapState, feature) => {
-  const floodSource = feature.flood_source || feature.Flood_source
-  if (!(floodSource && mapState.isFloodZone)) {
-    return null
+const formatFloodSource = (floodSource) => {
+  // const floodSource = feature.flood_source || feature.Flood_source
+  if (!(floodSource)) {
+    return ''
   }
   if (floodSource === 'Coastal') {
     return 'Sea'
@@ -110,15 +105,15 @@ const getFloodSource = (mapState, feature) => {
   return floodSource[0].toUpperCase() + floodSource.slice(1)
 }
 
-const getTimeFrame = (mapState, feature) => {
-  if (mapState.isClimateChange) {
-    const layerName = feature.name || feature.Name
-    if (mapState.isFloodZone && layerName !== 'Flood Zones plus climate change' && layerName !== 'Unavailable') {
-      return 'pd'
-    }
-    return 'cc'
-  }
-  return 'pd'
-}
+// const getTimeFrame = (mapState, feature) => {
+//   if (mapState.isClimateChange) {
+//     const layerName = feature.name || feature.Name
+//     if (mapState.isFloodZone && layerName !== 'Flood Zones plus climate change' && layerName !== 'Unavailable') {
+//       return 'pd'
+//     }
+//     return 'cc'
+//   }
+//   return 'pd'
+// }
 
 export { getInfoPanel }

@@ -33,7 +33,7 @@ module.exports = {
         fz: Joi.string().valid('FZ2', 'FZ3', 'FZNODATA', 'FZCC'),
         fs: Joi.string().valid('River', 'Sea', 'River and sea').allow(''),
         aep: Joi.string().valid('low', 'medium', 'high'),
-        v: Joi.string() // A version number used to bust the cache
+        v: Joi.string().required() // A version number used to bust the cache
       })
     }
   }
