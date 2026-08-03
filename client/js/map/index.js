@@ -166,7 +166,20 @@ getDefraMapConfig().then((defraMapConfig) => {
     addHelpBanner(interactiveMap)
   })
 
+  interactiveMap.on('map:move', async (event) => {
+    // Need to identify if we have a 'target' cursor, and if so, we
+    // need to do a hit test, like the hover hit test to invalidate the 'select' button.
+    // Also the select button text should be changed to 'Get info'
+    // interactiveMap._breakpointDetector.getBreakpoint()
+    console.log('map:move', event)
+  })
+
   interactiveMap.on('interact:markerchange', async (event) => {
+    const { coords } = event
+    const screenPoint = await mapState.view.toScreen({ x: coords[0], y: coords[1] })
+    updateVisibleLayers()
+    await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
+
     if (mapState.cursorStyleLayer) {
       const attributes = mapState.cursorAttributes
       const infoPanelValues = {
@@ -185,14 +198,6 @@ getDefraMapConfig().then((defraMapConfig) => {
         mobile: { slot: 'drawer', modal: true, open: true },
         tablet: { slot: 'left-top', width, open: true },
         desktop: { slot: 'left-top', width, open: true }
-
-        // html: `<div>
-        //     <p>Some info:</p>
-        //     <p>${mapState.cursorStyleLayer}</p>
-        //     <pre>${JSON.stringify(infoPanelValues, null, 2)}</pre>
-        //     <pre>${JSON.stringify(attributes, null, 2)}</pre>
-        //   </div>`,
-        // visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: event.coords } }
       })
     } else {
       interactiveMap.removeMarker('infoPanelMarker')
