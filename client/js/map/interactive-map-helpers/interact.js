@@ -1,5 +1,12 @@
 import createInteractPlugin from '@defra/interactive-map/plugins/interact'
+import { terms } from '../terms.js'
 export const interactPlugin = createInteractPlugin({
+  manifest: {
+    buttons: [{
+      id: 'selectAtTarget',
+      label: terms.labels.getInfo,
+    }]
+  },
   marker: {
     id: 'infoPanelMarker',
     symbol: 'pin',
