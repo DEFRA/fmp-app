@@ -1,6 +1,7 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
@@ -125,6 +126,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       interactiveMap.removePanel('info')
       interactiveMap.removeMarker('search')
       interactiveMap.hidePanel('datasetsLayers')
+      // Disable the selectAtTarget (infoPanel) button
+      interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
       hideHelpPanel()
       if (datasetsPlugin.ready) { // hide layers
         datasetsPlugin.setDatasetVisibility(false)
@@ -135,6 +138,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (datasetsPlugin.ready) { // reinstate layers
         datasetsPlugin.setDatasetVisibility(true)
       }
+      interactPlugin.triggerHitTest(null)
     }
   }
 
@@ -158,6 +162,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     datasetsPlugin.ready = true
     mapState.updateVisibleLayers()
     initPointerMove()
+    reactiveUtils.when(
+      () => (mapState.interfaceType === 'touch' && !mapState.view.updating),
+      () => {
+        // Update the enabled state of the infoPanel button when the map is moved on a touch device
+        interactPlugin.triggerHitTest(null)
+      })
   })
 
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {

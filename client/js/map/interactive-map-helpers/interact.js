@@ -3,19 +3,54 @@ import { terms } from '../terms.js'
 import { mapState } from './mapState.js'
 import { getInfoPanel } from '../infoPanel.js'
 
+let enableGetInfoButton = false
+let oldCenter = null
+
+const initiateTriggerHitTest = (interactiveMap) => async (center) => {
+  if (!center) { // So we can pass in null to force a hit test to be triggered when the datasets are ready
+    if (!oldCenter) {
+      return
+    }
+    center = oldCenter
+    oldCenter = null
+  }
+  if (oldCenter && oldCenter[0] === center[0] && oldCenter[1] === center[1]) {
+    return // avoid triggering a hit test if the center hasn't changed
+  }
+  oldCenter = center
+  const screenPoint = await mapState.view.toScreen({ x: center[0], y: center[1] })
+  mapState.updateVisibleLayers()
+  await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
+  enableGetInfoButton = Boolean(mapState.cursorStyleLayer)
+
+  interactiveMap.toggleButtonState('selectAtTarget', 'disabled', enableGetInfoButton)
+}
+
 export const interactPlugin = createInteractPlugin({
   manifest: {
     buttons: [{
       id: 'selectAtTarget',
       label: terms.labels.getInfo,
       enableWhen: (event) => {
-        const { appState } = event
-        // Save the interfaceType in our local mapState - so we can use it in the map:moveend event to determine if we should do a hitTest
-        mapState.interfaceType = appState?.interfaceType
-        return (mapState.interfaceType === 'touch' && !(appState.disabledButtons['selectAtTarget']))
+        // TODO: Once the im provides an api that returns the interfaceType and center
+        // emits an event when the interfaceType changes, we can use that in the reactiveUtils listener
+        // and get rid of this enableWhen event all together.
+
+        // Save the interfaceType in our local mapState
+        mapState.interfaceType = event?.appState?.interfaceType || 'mouse'
+        if (mapState.interfaceType !== 'touch') {
+          return false
+        }
+        const { mapState: imMapState } = event
+        const { center } = imMapState
+        if (center && interactPlugin.triggerHitTest) {
+          interactPlugin.triggerHitTest(center)
+        }
+        return enableGetInfoButton
       }
     }]
   },
+
   marker: {
     id: 'infoPanelMarker',
     symbol: 'pin',
@@ -30,16 +65,7 @@ export const attachInteractPlugin = (interactiveMap) => {
     interactPlugin.enable()
   })
 
-  interactiveMap.on('map:moveend', async (event) => {
-    if (mapState.interfaceType !== 'touch') {
-      return
-    }
-    const { center } = event
-    const screenPoint = await mapState.view.toScreen({ x: center[0], y: center[1] })
-    mapState.updateVisibleLayers()
-    await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
-    interactiveMap.toggleButtonState('selectAtTarget', 'disabled', !mapState.cursorStyleLayer)
-  })
+  interactPlugin.triggerHitTest = initiateTriggerHitTest(interactiveMap)
 
   interactiveMap.on('interact:markerchange', async (event) => {
     const { coords } = event
