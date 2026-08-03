@@ -4,7 +4,7 @@ import { floodZonesDatasets } from './floodZones.js'
 import { featureLayers } from './featureLayers.js'
 import { menu } from './datasetsMenu.js'
 
-export const datasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuffix }) => {
+export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuffix }) => {
   const datasets = [
     ...floodZonesDatasets({ agolVectorTileUrl, layerNameSuffix }),
     surfaceWaterExtentsKey,
@@ -12,7 +12,7 @@ export const datasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuf
     ...featureLayers(agolServiceUrl, layerNameSuffix),
   ]
 
-  return createDatasetsPlugin({
+  const datasetsPlugin = createDatasetsPlugin({
     manifest: {
       panels: [{
         id: 'datasetsLayers',
@@ -34,4 +34,6 @@ export const datasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuf
     datasets,
     menu
   })
+  datasetsPlugin.ready = false
+  return datasetsPlugin
 }
