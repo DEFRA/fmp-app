@@ -28,6 +28,13 @@ const terms = {
     waterStorage: 'Water storage',
     floodDefence: 'Flood defence',
     mainRivers: 'Main rivers',
+    drawMenuTitle: 'Add or edit a location boundary',
+    addPolygon: 'Add polygon',
+    addSquare: 'Add square',
+    uploadShape: 'Upload a boundary',
+    editShape: 'Edit shape',
+    deleteShape: 'Delete shape',
+
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',
