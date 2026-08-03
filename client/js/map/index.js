@@ -9,18 +9,17 @@ import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
-// import { encodePolygon } from '../../../server/services/shape-utils.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 // TODO: add the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
-import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
-import { initialiseDatasetsPlugin, getInfoPanelDataForEsriStyleLayerId } from './datasets/datasetsPlugin.js'
+import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 import { addHelpBanner, hideHelpPanel, showHelpPanel } from './helpBanner.js'
+import { mapState } from './interactive-map-helpers/mapState.js'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 10000
@@ -35,6 +34,7 @@ const symbols = {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
+  mapState.defraMapConfig = defraMapConfig
   const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   const mapStyleOverrides = {
     id: 'mapStyles',
@@ -156,7 +156,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   interactiveMap.on('datasets:ready', function () {
     datasetsPlugin.ready = true
-    updateVisibleLayers()
+    mapState.updateVisibleLayers()
     initPointerMove()
   })
 
@@ -166,113 +166,29 @@ getDefraMapConfig().then((defraMapConfig) => {
     addHelpBanner(interactiveMap)
   })
 
-  interactiveMap.on('map:move', async (event) => {
-    // Need to identify if we have a 'target' cursor, and if so, we
-    // need to do a hit test, like the hover hit test to invalidate the 'select' button.
-    // Also the select button text should be changed to 'Get info'
-    // interactiveMap._breakpointDetector.getBreakpoint()
-    console.log('map:move', event)
-  })
-
-  interactiveMap.on('interact:markerchange', async (event) => {
-    const { coords } = event
-    const screenPoint = await mapState.view.toScreen({ x: coords[0], y: coords[1] })
-    updateVisibleLayers()
-    await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
-
-    if (mapState.cursorStyleLayer) {
-      const attributes = mapState.cursorAttributes
-      const infoPanelValues = {
-        ...getInfoPanelDataForEsriStyleLayerId(mapState.cursorStyleLayer),
-        coords: `${Math.round(event.coords[0])},${Math.round(event.coords[1])}`,
-        version: defraMapConfig.version
-      }
-      if (attributes?.flood_source) {
-        infoPanelValues.fs = attributes.flood_source
-      }
-      const infoPanel = await getInfoPanel(infoPanelValues)
-      const { width, label, html } = infoPanel
-      interactiveMap.addPanel('info', {
-        label,
-        html,
-        mobile: { slot: 'drawer', modal: true, open: true },
-        tablet: { slot: 'left-top', width, open: true },
-        desktop: { slot: 'left-top', width, open: true }
-      })
-    } else {
-      interactiveMap.removeMarker('infoPanelMarker')
-      interactiveMap.removePanel('info')
-    }
-  })
-
-  const mapState = {
-    map: null,
-    isDark: false,
-    isRamp: false,
-    layers: [],
-    segments: [],
-    isClimateChange: false,
-    isFloodZone: false
-  }
-
-  const updateVisibleLayers = () => {
-    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) =>
-      item.type === 'vector-tile' &&
-      item.visible === true &&
-      item.id !== 'baselayer'
-    )
-  }
-
-  const assignCursorStyleLayer = (hitTestResponse) => {
-    let topHitTestData = null
-    if (hitTestResponse?.results?.length > 0) {
-      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
-        const { layerId } = result.graphic?.origin || {}
-        const { attributes } = result.graphic
-        if (!layerId) {
-          return hitTestData
-        }
-        const vtLayer = result.layer
-        const styleLayer = vtLayer?.getStyleLayer(layerId)
-        if (styleLayer?.layout?.visibility === 'visible') {
-          hitTestData.push({ layerId, attributes })
-        }
-        return hitTestData
-      }, [])
-
-      topHitTestData = visibleHitTestData?.[0] || null
-    }
-    mapState.cursorStyleLayer = topHitTestData?.layerId || null
-    mapState.cursorAttributes = topHitTestData?.attributes || null
-    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
-  }
-
   const initPointerMove = () => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-    mapState.view.on('pointer-enter', updateVisibleLayers)
+    mapState.view.on('pointer-enter', () => mapState.updateVisibleLayers())
 
     mapState.view.on('pointer-move', async event => {
       const now = Date.now()
-      if (!mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
+      if (mapState.interfaceType !== 'mouse' || !mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
         return
       }
       lastHit = now
-      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
+      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
       document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
     })
 
     mapState.view.on('pointer-leave', () => {
+      if (mapState.interfaceType === 'touch') {
+        return
+      }
       document.body.style.cursor = 'default'
       mapState.visibleLayers = null
     })
   }
-
-  // Listen to map queries
-  interactiveMap.addEventListener('query', async e => {
-    const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.version)
-    interactiveMap.setInfo(infoPanel)
-  })
 })
