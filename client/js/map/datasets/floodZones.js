@@ -5,6 +5,14 @@ const floodZonesDefaults = {
   visibleWhen: { menu: { dataset: ['floodzones'] } }
 }
 
+// These are the values for flood zone 2 present day. The other flood zones will override the fz value as appropriate.
+const infoPanelData = {
+  tf: 'pd',
+  ds: 'fz',
+  fz: 'FZ2',
+  fs: '' // need to get flood source from the data
+}
+
 const datasetFloodZonesCC = {
   ...floodZonesDefaults,
   id: 'floodzonescc',
@@ -15,6 +23,7 @@ const datasetFloodZonesCC = {
       id: 'climate-change',
       label: 'Climate change (2070 to 2125)',
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1',
+      infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZCC' },
       showInKey: true,
       visibleWhen: {
         menu: {
@@ -52,6 +61,7 @@ const datasetFloodZonesCC = {
       style: {
         stroke: { outdoor: '#000000', dark: '#FFFFFF' },
       },
+      infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZNODATA' },
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0'
     },
     {
@@ -60,6 +70,7 @@ const datasetFloodZonesCC = {
         mapStyleId: ['outdoor', 'black-and-white'],
         menu: { dataset: ['floodzones'], timeframe: ['climatechange'] }
       },
+      infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZNODATA' },
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/1',
       esriUseServerStyle: true,
       showInKey: false,
@@ -70,6 +81,7 @@ const datasetFloodZonesCC = {
         menu: { dataset: ['floodzones'], timeframe: ['climatechange'] },
         mapStyleId: ['dark']
       },
+      infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZNODATA' },
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/2',
       esriUseServerStyle: true,
       showInKey: false,
@@ -86,6 +98,7 @@ const datasetFloodZones = {
     {
       id: 'flood-zone-2',
       label: 'Flood Zone 2',
+      infoPanelData,
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
       style: {
         fill: { outdoor: '#1d70b8', dark: '#7fcdbb' },
@@ -96,6 +109,7 @@ const datasetFloodZones = {
     {
       id: 'flood-zone-3',
       label: 'Flood Zone 3',
+      infoPanelData: { ...infoPanelData, fz: 'FZ3' },
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
       style: {
         fill: { outdoor: '#003078', dark: '#e5f5e0' },
