@@ -1,26 +1,46 @@
-import { getQueryParam } from './queryParams.js'
-
 class MapState {
-  _isDark = false
+  defraMapConfig = null
+  map = null
+  view = null
+  visibleLayers = null // The vectorTile layers that are currently visible on the map
+  cursorStyleLayer = null // The style layer that the cursor or target is currently over, if any
+  cursorAttributes = null // The attributes of the feature that the cursor or target is currently over, if any
+  styleToValuesMap = {} // A map of esriStyleLayerId to infoPanelData values, used to get the info panel data for a given style layer
 
-  get isDark () {
-    return this._isDark
+  updateVisibleLayers () {
+    this.visibleLayers = this.map?.allLayers?.items?.filter((item) =>
+      item.type === 'vector-tile' &&
+      item.visible === true &&
+      item.id !== 'baselayer'
+    )
   }
 
-  set isDark (isDark) {
-    this._isDark = isDark
+  getInfoPanelDataForEsriStyleLayerId (esriStyleLayerId) {
+    return this.styleToValuesMap[esriStyleLayerId] || null
   }
 
-  get segments () { // TODO - remove this
-    return this.dataset
-  }
+  assignCursorStyleLayer (hitTestResponse) {
+    let topHitTestData = null
+    if (hitTestResponse?.results?.length > 0) {
+      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
+        const { layerId } = result.graphic?.origin || {}
+        const { attributes } = result.graphic
+        if (!layerId) {
+          return hitTestData
+        }
+        const vtLayer = result.layer
+        const styleLayer = vtLayer?.getStyleLayer(layerId)
+        if (styleLayer?.layout?.visibility === 'visible') {
+          hitTestData.push({ layerId, attributes })
+        }
+        return hitTestData
+      }, [])
 
-  get dataset () {
-    return getQueryParam('dataset') || 'floodzones-presentday'
-  }
-
-  get features () {
-    return getQueryParam('features') || ''
+      topHitTestData = visibleHitTestData?.[0] || null
+    }
+    mapState.cursorStyleLayer = topHitTestData?.layerId || null
+    mapState.cursorAttributes = topHitTestData?.attributes || null
+    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
   }
 }
 

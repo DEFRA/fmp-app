@@ -34,6 +34,7 @@ const terms = {
     uploadShape: 'Upload a boundary',
     editShape: 'Edit shape',
     deleteShape: 'Delete shape',
+    getInfo: 'Get info',
 
   },
   chance: {

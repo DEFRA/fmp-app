@@ -3,6 +3,20 @@ import { surfaceWaterDatasets, surfaceWaterExtentsKey } from './surfaceWater.js'
 import { floodZonesDatasets } from './floodZones.js'
 import { featureLayers } from './featureLayers.js'
 import { menu } from './datasetsMenu.js'
+import { mapState } from '../interactive-map-helpers/mapState.js'
+
+const esriStyleLayerIdToInfoPanelReducer = (datasets) => {
+  return datasets.reduce((styleToValuesMap, dataset) => {
+    if (dataset.sublayers) {
+      dataset.sublayers.forEach((sublayer) => {
+        if (sublayer.infoPanelData) {
+          styleToValuesMap[sublayer.esriStyleLayerId] = sublayer.infoPanelData
+        }
+      })
+    }
+    return styleToValuesMap
+  }, {})
+}
 
 export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuffix }) => {
   const datasets = [
@@ -11,6 +25,7 @@ export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, la
     ...surfaceWaterDatasets({ agolVectorTileUrl, layerNameSuffix }),
     ...featureLayers(agolServiceUrl, layerNameSuffix),
   ]
+  mapState.styleToValuesMap = esriStyleLayerIdToInfoPanelReducer(datasets)
 
   const datasetsPlugin = createDatasetsPlugin({
     manifest: {
