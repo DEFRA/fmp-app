@@ -102,7 +102,7 @@ describe('info-panel', () => {
     ]
 
     tests.forEach(([description, ds, fz, tf, fs, expectedGaId]) => {
-      const url = `${infoPanelUrl}?ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}`
+      const url = `${infoPanelUrl}?ds=${ds}&fz=${fz}&tf=${tf}&fs=${fs}&v=123456`
       it(`should show the info panel for ${description}`, async () => {
         await initDocument(url)
         const expectedTitle = fz === 'FZ2' || fz === 'FZ3' ? 'Flood zones' : 'Flood zones plus climate change'
@@ -133,7 +133,7 @@ describe('info-panel', () => {
     const aeps = ['low', 'medium', 'high']
     const timeFrames = ['pd', 'cc']
     aeps.forEach((aep) => timeFrames.forEach((tf) => {
-      const url = `${infoPanelUrl}?ds=sw&tf=${tf}&aep=${aep}`
+      const url = `${infoPanelUrl}?ds=sw&tf=${tf}&aep=${aep}&v=123456`
       it(`should show the info panel for SW-${tf}-${aep}`, async () => {
         await initDocument(url)
         const expectedGaId = `info-sw-${aep}`
