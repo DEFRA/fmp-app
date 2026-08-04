@@ -142,13 +142,14 @@ body.js-enabled:not([data-im-error]) {
 }
 
 .govuk-heading-s,
+.govuk-body-s,
 .govuk-body-s a,
 .govuk-heading-m,
 .govuk-list>li,
 .govuk-details__text,
 .im-c-panel,
 .im-c-panel--edit {
-  color: var(--foreground-colour);
+  color: var(--foreground-color);
 }
 
 // #map-panel-legend-label {
@@ -244,6 +245,7 @@ body.js-enabled:not([data-im-error]) {
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
+
 
 #map-panel-menu {
   .im-c-panel__body {
