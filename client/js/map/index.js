@@ -1,6 +1,7 @@
 // /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
@@ -9,11 +10,9 @@ import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
-// import { encodePolygon } from '../../../server/services/shape-utils.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 // TODO: add the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
-import { getInfoPanel } from './infoPanel.js'
 
 // <InteractiveMapHelpers>
 import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
@@ -21,6 +20,7 @@ import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 import { addHelpBanner, hideHelpPanel, showHelpPanel } from './helpBanner.js'
+import { mapState } from './interactive-map-helpers/mapState.js'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 10000
@@ -35,6 +35,7 @@ const symbols = {
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
+  mapState.defraMapConfig = defraMapConfig
   const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
   const mapStyleOverrides = {
     id: 'mapStyles',
@@ -125,6 +126,8 @@ getDefraMapConfig().then((defraMapConfig) => {
       interactiveMap.removePanel('info')
       interactiveMap.removeMarker('search')
       interactiveMap.hidePanel('datasetsLayers')
+      // Disable the selectAtTarget (infoPanel) button
+      interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
       hideHelpPanel()
       if (datasetsPlugin.ready) { // hide layers
         datasetsPlugin.setDatasetVisibility(false)
@@ -135,6 +138,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (datasetsPlugin.ready) { // reinstate layers
         datasetsPlugin.setDatasetVisibility(true)
       }
+      interactPlugin.triggerHitTest()
     }
   }
 
@@ -156,8 +160,16 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   interactiveMap.on('datasets:ready', function () {
     datasetsPlugin.ready = true
-    updateVisibleLayers()
+    mapState.updateVisibleLayers()
     initPointerMove()
+    reactiveUtils.when(
+      () => (!mapState.view.updating),
+      () => {
+        // Update the enabled state of the infoPanel button when the map is moved on a touch device
+        if (mapState.interfaceType === 'touch') {
+          interactPlugin.triggerHitTest()
+        }
+      })
   })
 
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
@@ -166,88 +178,29 @@ getDefraMapConfig().then((defraMapConfig) => {
     addHelpBanner(interactiveMap)
   })
 
-  interactiveMap.on('interact:markerchange', function (e) {
-    if (mapState.cursorStyleLayer) {
-      interactiveMap.addPanel('info', {
-        label: 'Info',
-        html: `<div>
-            <p>Some info:</p>
-            <p>${mapState.cursorStyleLayer}</p>
-          </div>`,
-        visibleGeometry: { type: 'Feature', geometry: { type: 'Point', coordinates: e.coords } }
-      })
-    } else {
-      interactiveMap.removeMarker('infoPanelMarker')
-      interactiveMap.removePanel('info')
-    }
-  })
-
-  const mapState = {
-    map: null,
-    isDark: false,
-    isRamp: false,
-    layers: [],
-    segments: [],
-    isClimateChange: false,
-    isFloodZone: false
-  }
-
-  const updateVisibleLayers = () => {
-    mapState.visibleLayers = mapState.map.allLayers.items.filter((item) =>
-      item.type === 'vector-tile' &&
-      item.visible === true &&
-      item.id !== 'baselayer'
-    )
-  }
-
-  const assignCursorStyleLayer = (hitTestResponse) => {
-    let topVisibleStyleLayerId = null
-    if (hitTestResponse?.results?.length > 0) {
-      const visibleStyleLayerIds = hitTestResponse?.results.reduce((layerIds, result) => {
-        const { layerId } = result.graphic?.origin || {}
-        if (!layerId) {
-          return layerIds
-        }
-        const vtLayer = result.layer
-        const styleLayer = vtLayer?.getStyleLayer(layerId)
-        if (styleLayer?.layout?.visibility === 'visible') {
-          layerIds.push(layerId)
-        }
-        return layerIds
-      }, [])
-
-      topVisibleStyleLayerId = visibleStyleLayerIds?.[0] || null
-    }
-    mapState.cursorStyleLayer = topVisibleStyleLayerId
-    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
-  }
-
   const initPointerMove = () => {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
     const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-    mapState.view.on('pointer-enter', updateVisibleLayers)
+    mapState.view.on('pointer-enter', () => mapState.updateVisibleLayers())
 
     mapState.view.on('pointer-move', async event => {
       const now = Date.now()
-      if (!mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
+      if (mapState.interfaceType !== 'mouse' || !mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
         return
       }
       lastHit = now
-      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(assignCursorStyleLayer)
+      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
       document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
     })
 
     mapState.view.on('pointer-leave', () => {
+      if (mapState.interfaceType === 'touch') {
+        return
+      }
       document.body.style.cursor = 'default'
       mapState.visibleLayers = null
     })
   }
-
-  // Listen to map queries
-  interactiveMap.addEventListener('query', async e => {
-    const infoPanel = await getInfoPanel(e, mapState, defraMapConfig.version)
-    interactiveMap.setInfo(infoPanel)
-  })
 })
