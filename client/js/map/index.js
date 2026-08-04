@@ -138,7 +138,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       if (datasetsPlugin.ready) { // reinstate layers
         datasetsPlugin.setDatasetVisibility(true)
       }
-      interactPlugin.triggerHitTest(null)
+      interactPlugin.triggerHitTest()
     }
   }
 
@@ -163,10 +163,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.updateVisibleLayers()
     initPointerMove()
     reactiveUtils.when(
-      () => (mapState.interfaceType === 'touch' && !mapState.view.updating),
+      () => (!mapState.view.updating),
       () => {
         // Update the enabled state of the infoPanel button when the map is moved on a touch device
-        interactPlugin.triggerHitTest(null)
+        if (mapState.interfaceType === 'touch') {
+          interactPlugin.triggerHitTest()
+        }
       })
   })
 

@@ -4,21 +4,9 @@ import { mapState } from './mapState.js'
 import { getInfoPanel } from '../infoPanel.js'
 
 let enableGetInfoButton = false
-let oldCenter = null
 
-const initiateTriggerHitTest = (interactiveMap) => async (center) => {
-  if (!center) { // So we can pass in null to force a hit test to be triggered when the datasets are ready
-    if (!oldCenter) {
-      return
-    }
-    center = oldCenter
-    oldCenter = null
-  }
-  if (oldCenter && oldCenter[0] === center[0] && oldCenter[1] === center[1]) {
-    return // avoid triggering a hit test if the center hasn't changed
-  }
-  oldCenter = center
-  const screenPoint = await mapState.view.toScreen({ x: center[0], y: center[1] })
+const initiateTriggerHitTest = (interactiveMap) => async () => {
+  const screenPoint = await mapState.view.toScreen(mapState.view.center)
   mapState.updateVisibleLayers()
   await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
   enableGetInfoButton = Boolean(mapState.cursorStyleLayer)
@@ -32,19 +20,14 @@ export const interactPlugin = createInteractPlugin({
       id: 'selectAtTarget',
       label: terms.labels.getInfo,
       enableWhen: (event) => {
-        // TODO: Once the im provides an api that returns the interfaceType and center
-        // emits an event when the interfaceType changes, we can use that in the reactiveUtils listener
+        // TODO: Once the im provides an api that returns the interfaceType
+        // or emits an event when the interfaceType changes, we can use that in the reactiveUtils listener
         // and get rid of this enableWhen event all together.
 
         // Save the interfaceType in our local mapState
         mapState.interfaceType = event?.appState?.interfaceType || 'mouse'
         if (mapState.interfaceType !== 'touch') {
           return false
-        }
-        const { mapState: imMapState } = event
-        const { center } = imMapState
-        if (center && interactPlugin.triggerHitTest) {
-          interactPlugin.triggerHitTest(center)
         }
         return enableGetInfoButton
       }
