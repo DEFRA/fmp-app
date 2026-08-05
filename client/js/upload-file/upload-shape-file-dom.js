@@ -67,18 +67,18 @@ const showError = (message) => {
   formGroup?.classList.add('govuk-form-group--error')
   fileInput?.classList.add('govuk-file-upload--error')
 
+  const errorDetail = getOrCreateErrorDetail()
+
   if (typeof message === 'object' && message !== null) {
     if (Array.isArray(message.bullets)) {
       renderBulletedError(message)
       return
     }
-    const errorDetail = getOrCreateErrorDetail()
     errorSummaryText.textContent = message.summary
     errorDetail.appendChild(document.createTextNode(' ' + message.text))
     return
   }
 
-  const errorDetail = getOrCreateErrorDetail()
   errorSummaryText.textContent = message
   errorDetail.appendChild(document.createTextNode(' ' + message))
 }
