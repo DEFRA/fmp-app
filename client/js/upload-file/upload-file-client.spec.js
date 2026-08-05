@@ -9,11 +9,17 @@ const {
   validateAllowedFileTypes,
   validateGeoJSON,
   validateNodeCount,
-  locationFormatError,
-  locationFormatErrorBullets,
   maxNodes,
   maxFiles
 } = require('./upload-file-validators.js')
+const {
+  locationFormatError,
+  noFileSelected,
+  invalidFileFormat,
+  tooManyNodes,
+  tooManyFilesSelected,
+  fileCouldNotBeRead
+} = require('./upload-file-errors.js')
 const { encodePolygon } = require('../../../server/services/shape-utils.js')
 
 describe('validateFileExtension', () => {
@@ -200,17 +206,29 @@ describe('encodePolygon', () => {
 
 describe('showError and clearError', () => {
   let errorSummary
-  let errorMessage
+  let errorSummaryText
+  let formGroup
+  let fileInput
 
   beforeEach(() => {
     jest.resetModules()
     errorSummary = document.createElement('div')
     errorSummary.id = 'errorSummary'
     errorSummary.style.display = 'none'
-    errorMessage = document.createElement('div')
-    errorMessage.id = 'errorMessage'
+    errorSummaryText = document.createElement('a')
+    errorSummaryText.id = 'errorSummaryText'
+    formGroup = document.createElement('div')
+    formGroup.className = 'govuk-form-group'
+    fileInput = document.createElement('input')
+    fileInput.id = 'boundary'
+    fileInput.type = 'file'
+    const dropZone = document.createElement('div')
+    dropZone.className = 'govuk-drop-zone'
+    formGroup.appendChild(fileInput)
+    formGroup.appendChild(dropZone)
     document.body.appendChild(errorSummary)
-    document.body.appendChild(errorMessage)
+    document.body.appendChild(errorSummaryText)
+    document.body.appendChild(formGroup)
   })
 
   afterEach(() => {
@@ -221,32 +239,109 @@ describe('showError and clearError', () => {
     const { showError } = require('./upload-shape-file-dom.js')
     showError('Something went wrong.')
     expect(errorSummary.style.display).toBe('block')
-    expect(errorMessage.textContent).toBe('Something went wrong.')
+    expect(errorSummaryText.textContent).toBe('Something went wrong.')
+    expect(document.getElementById('errorDetail').textContent).toContain('Something went wrong.')
   })
 
   it('should clear the previous error before showing a new one', () => {
     const { showError } = require('./upload-shape-file-dom.js')
     showError('First error.')
     showError('Second error.')
-    expect(errorMessage.textContent).toBe('Second error.')
+    expect(errorSummaryText.textContent).toBe('Second error.')
   })
 
-  it('should hide the error summary when cleared', () => {
+  it('should hide the error summary and remove error state when cleared', () => {
     const { showError, clearError } = require('./upload-shape-file-dom.js')
     showError('An error.')
     clearError()
     expect(errorSummary.style.display).toBe('none')
-    expect(errorMessage.textContent).toBe('')
+    expect(errorSummaryText.textContent).toBe('')
+    expect(document.getElementById('errorDetail')).toBeNull()
+    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(false)
   })
 
   it('should render location format error bullets when passed a structured message', () => {
     const { showError } = require('./upload-shape-file-dom.js')
-    showError({ text: locationFormatError, bullets: locationFormatErrorBullets })
+    showError(locationFormatError)
 
-    const messageLines = errorMessage.querySelectorAll('p.govuk-body')
-    const bulletItems = errorMessage.querySelectorAll('ul.govuk-list--bullet li')
-    expect(messageLines[0].textContent).toBe('There is a problem with the way the location is formatted in the file')
+    expect(errorSummaryText.textContent).toBe(locationFormatError.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    const messageLines = errorDetail.querySelectorAll('span[style]')
+    const bulletItems = errorDetail.querySelectorAll('ul.govuk-list--bullet li')
+    expect(messageLines[0].textContent).toBe(`${locationFormatError.summary}.`)
     expect(messageLines[1].textContent).toBe('The file must:')
-    expect(bulletItems.length).toBe(locationFormatErrorBullets.length)
+    expect(bulletItems.length).toBe(locationFormatError.bullets.length)
+  })
+
+  it('should render error with summary and text when passed a structured message without bullets', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError(noFileSelected)
+
+    expect(errorSummary.style.display).toBe('block')
+    expect(errorSummaryText.textContent).toBe(noFileSelected.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    expect(errorDetail).not.toBeNull()
+    expect(errorDetail.textContent).toContain(noFileSelected.text)
+    expect(errorDetail.querySelectorAll('ul').length).toBe(0)
+    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true)
+    expect(fileInput.classList.contains('govuk-file-upload--error')).toBe(true)
+  })
+
+  it('should render invalidFileFormat error with summary and text', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError(invalidFileFormat)
+
+    expect(errorSummary.style.display).toBe('block')
+    expect(errorSummaryText.textContent).toBe(invalidFileFormat.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    expect(errorDetail).not.toBeNull()
+    expect(errorDetail.textContent).toContain(invalidFileFormat.text)
+    expect(errorDetail.querySelectorAll('ul').length).toBe(0)
+    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true)
+    expect(fileInput.classList.contains('govuk-file-upload--error')).toBe(true)
+  })
+
+  it('should render tooManyNodes error', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError(tooManyNodes)
+
+    expect(errorSummaryText.textContent).toBe(tooManyNodes.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    expect(errorDetail.textContent).toContain(tooManyNodes.text)
+  })
+
+  it('should render tooManyFilesSelected error', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError(tooManyFilesSelected)
+
+    expect(errorSummaryText.textContent).toBe(tooManyFilesSelected.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    expect(errorDetail.textContent).toContain(tooManyFilesSelected.text)
+  })
+
+  it('should render fileCouldNotBeRead error', () => {
+    const { showError } = require('./upload-shape-file-dom.js')
+    showError(fileCouldNotBeRead)
+
+    expect(errorSummaryText.textContent).toBe(fileCouldNotBeRead.summary)
+    const errorDetail = document.getElementById('errorDetail')
+    expect(errorDetail.textContent).toContain(fileCouldNotBeRead.text)
+  })
+
+  it('should reuse existing errorDetail element when called multiple times', () => {
+    const { getOrCreateErrorDetail } = require('./upload-shape-file-dom.js')
+
+    // First call creates the element
+    const errorDetail1 = getOrCreateErrorDetail()
+    expect(errorDetail1).not.toBeNull()
+    expect(errorDetail1.id).toBe('errorDetail')
+
+    // Second call should return the same element (not create a duplicate)
+    const errorDetail2 = getOrCreateErrorDetail()
+    expect(errorDetail2).toBe(errorDetail1)
+
+    // Verify only one errorDetail element exists in the DOM
+    const allErrorDetails = document.querySelectorAll('#errorDetail')
+    expect(allErrorDetails.length).toBe(1)
   })
 })
