@@ -10,7 +10,7 @@ const invalidFileFormat = {
 
 const tooManyNodes = {
   summary: 'The selected file contains too many nodes',
-  text: 'The selected file contains too many nodes'
+  text: 'The selected file contains too many nodes, or connecting points, in the polygon. Select a file with less than 500 nodes'
 }
 
 const tooManyFilesSelected = {
