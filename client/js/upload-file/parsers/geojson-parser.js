@@ -1,3 +1,5 @@
+const { fileCouldNotBeRead } = require('../upload-file-errors.js')
+
 const parseGeoJSON = async (buffer) => {
   try {
     const text = new TextDecoder().decode(buffer)
@@ -15,11 +17,10 @@ const parseGeoJSON = async (buffer) => {
     if (json.type === 'FeatureCollection') {
       return json
     }
-
-    throw new Error('Could not parse GeoJSON, as it is not valid JSON.')
-  } catch (err) {
-    throw new Error(`Could not parse GeoJSON: ${err.message}`)
+  } catch {
+    throw new Error(fileCouldNotBeRead.summary)
   }
+  throw new Error(fileCouldNotBeRead.summary)
 }
 
 export { parseGeoJSON }
