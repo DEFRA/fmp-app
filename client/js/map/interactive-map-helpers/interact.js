@@ -4,6 +4,8 @@ import { mapState } from './mapState.js'
 import { getInfoPanel } from '../infoPanel.js'
 
 let enableGetInfoButton = false
+const INFO_PANEL_ID = 'info'
+const INFO_PANEL_MARKER_ID = 'infoPanelMarker'
 
 const initiateTriggerHitTest = (interactiveMap) => async () => {
   const screenPoint = await mapState.view.toScreen(mapState.view.center)
@@ -35,7 +37,7 @@ export const interactPlugin = createInteractPlugin({
   },
 
   marker: {
-    id: 'infoPanelMarker',
+    id: INFO_PANEL_MARKER_ID,
     symbol: 'pin',
     backgroundColor: { outdoor: '#0b0c0c', dark: '#ffffff' },
     foregroundColor: { outdoor: '#ffffff', dark: '#0b0c0c' }
@@ -49,6 +51,8 @@ export const attachInteractPlugin = (interactiveMap) => {
   })
 
   interactPlugin.triggerHitTest = initiateTriggerHitTest(interactiveMap)
+  interactPlugin.panelId = INFO_PANEL_ID
+  interactPlugin.markerId = INFO_PANEL_MARKER_ID
 
   interactiveMap.on('interact:markerchange', async (event) => {
     const { coords } = event
@@ -68,7 +72,7 @@ export const attachInteractPlugin = (interactiveMap) => {
       }
       const infoPanel = await getInfoPanel(infoPanelValues)
       const { width, label, html } = infoPanel
-      interactiveMap.addPanel('info', {
+      interactiveMap.addPanel(INFO_PANEL_ID, {
         label,
         html,
         mobile: { slot: 'drawer', modal: true, open: true },
@@ -76,8 +80,16 @@ export const attachInteractPlugin = (interactiveMap) => {
         desktop: { slot: 'left-top', width, open: true }
       })
     } else {
-      interactiveMap.removeMarker('infoPanelMarker')
-      interactiveMap.removePanel('info')
+      interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+      interactiveMap.removePanel(INFO_PANEL_ID)
     }
   })
+  // Remove the marker when the panel is closed or hidden
+  const onRemoveInfoPanel = (panelId) => {
+    if (panelId === INFO_PANEL_ID) {
+      interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+    }
+  }
+  interactiveMap.on('app:panelclosed', ({ panelId }) => onRemoveInfoPanel(panelId))
+  interactiveMap.on('app:removepanel', (panelId) => onRemoveInfoPanel(panelId))
 }
