@@ -1,4 +1,8 @@
 import initSqlJs from 'sql.js'
+import {
+  fileCouldNotBeRead,
+  locationFormatError
+} from '../upload-file-errors.js'
 
 // WKB (Well-Known Binary) constants
 const WKB_BYTE_ORDER_SIZE = 1
@@ -70,7 +74,7 @@ const parseWKB = (buffer) => {
     }
   }
 
-  throw new Error('Only Polygon geometries are supported')
+  throw new Error(locationFormatError.summary)
 }
 
 const stripGeoPackageHeader = (data) => {
@@ -100,21 +104,21 @@ const stripGeoPackageHeader = (data) => {
 const findFallbackTableAndGeometry = (db) => {
   const tableResult = db.exec("SELECT name FROM sqlite_master WHERE type='table'")
   if (!tableResult?.length) {
-    throw new Error('No tables found in Geopackage')
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   const tables = tableResult[0].values.map(row => row[0])
   const nonSystemTables = tables.filter(t => !t.startsWith('sqlite_') && !t.startsWith('gpkg_'))
 
   if (!nonSystemTables.length) {
-    throw new Error('No geometry tables found in Geopackage')
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   const tableName = nonSystemTables[0]
   const colResult = db.exec(`PRAGMA table_info("${tableName}")`)
 
   if (!colResult?.length) {
-    throw new Error('Could not determine geometry column')
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   const colNames = colResult[0].values.map(row => row[1])
@@ -133,8 +137,8 @@ const parseGeopackage = async (buffer) => {
     SQL = await initSqlJs({
       locateFile: () => '/assets/sql-wasm.wasm'
     })
-  } catch (err) {
-    throw new Error(`Could not initialize SQLite parser: ${err.message}`)
+  } catch {
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   try {
@@ -165,12 +169,12 @@ const parseGeopackage = async (buffer) => {
     )
 
     if (!geometryResult?.length) {
-      throw new Error('Could not read geometry from Geopackage')
+      throw new Error(fileCouldNotBeRead.summary)
     }
 
     const wkbBuffer = geometryResult[0].values[0][0]
     if (!wkbBuffer) {
-      throw new Error('The Geopackage\'s geometry column is empty')
+      throw new Error(fileCouldNotBeRead.summary)
     }
 
     // Strip GeoPackage header and convert to ArrayBuffer
@@ -189,7 +193,10 @@ const parseGeopackage = async (buffer) => {
       ]
     }
   } catch (err) {
-    throw new Error(`Could not parse Geopackage: ${err.message}`)
+    if (err.message === fileCouldNotBeRead.summary || err.message === locationFormatError.summary) {
+      throw err
+    }
+    throw new Error(fileCouldNotBeRead.summary)
   }
 }
 
