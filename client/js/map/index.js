@@ -19,7 +19,6 @@ import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
-import { addHelpBanner, hideHelpPanel, showHelpPanel } from './helpBanner.js'
 import { mapState } from './interactive-map-helpers/mapState.js'
 
 const ENGLAND_WEST = 50000
@@ -128,12 +127,10 @@ getDefraMapConfig().then((defraMapConfig) => {
       interactiveMap.hidePanel('datasetsLayers')
       // Disable the selectAtTarget (infoPanel) button
       interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
-      hideHelpPanel()
       if (datasetsPlugin.ready) { // hide layers
         datasetsPlugin.setDatasetVisibility(false)
       }
     } else {
-      showHelpPanel() // Only Shows it if the user has not dismissed it before
       interactiveMap.showPanel('datasetsLayers')
       if (datasetsPlugin.ready) { // reinstate layers
         datasetsPlugin.setDatasetVisibility(true)
@@ -182,7 +179,6 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
     mapState.map = map
     mapState.view = view
-    addHelpBanner(interactiveMap)
   })
 
   const initPointerMove = () => {
