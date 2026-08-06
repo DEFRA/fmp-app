@@ -4,19 +4,20 @@ import {
   getParserForFile,
   validateGeoJSON,
   validateNodeCount,
-  isValidBNG,
-  locationFormatError,
-  locationFormatErrorBullets
+  isValidBNG
 } from './upload-file-validators.js'
+import {
+  noFileSelected,
+  tooManyNodes,
+  fileCouldNotBeRead,
+  tooManyFilesSelected,
+  invalidFileFormat,
+  locationFormatError
+} from './upload-file-errors.js'
 import { showError } from './upload-shape-file-dom.js'
 import { parseShapefile } from './parsers/shapefile-parser.js'
 import { parseGeoJSON } from './parsers/geojson-parser.js'
 import { parseGeopackage } from './parsers/geopackage-parser.js'
-
-const locationFormatErrorWithBullets = {
-  text: locationFormatError,
-  bullets: locationFormatErrorBullets
-}
 
 const parseFile = async (buffer, format) => {
   switch (format) {
@@ -26,8 +27,6 @@ const parseFile = async (buffer, format) => {
       return parseGeoJSON(buffer)
     case 'geopackage':
       return parseGeopackage(buffer)
-    default:
-      throw new Error('Unknown file format')
   }
 }
 
@@ -35,11 +34,11 @@ document.getElementById('upload').addEventListener('click', async () => {
   const fileInput = document.getElementById('boundary-input')
   const file = fileInput.files[0]
   if (!file) {
-    showError('No file selected')
+    showError(noFileSelected)
     return
   }
   if (!validateFileExtension(file.name)) {
-    showError(locationFormatErrorWithBullets)
+    showError(invalidFileFormat)
     return
   }
 
@@ -50,30 +49,30 @@ document.getElementById('upload').addEventListener('click', async () => {
   try {
     geojson = await parseFile(buffer, format)
   } catch (err) {
-    if (err?.message === 'Too many files selected' || err?.message === 'The selected file could not be read') {
-      showError(err.message)
+    if (err?.message === tooManyFilesSelected.summary) {
+      showError(tooManyFilesSelected)
       return
     }
-    showError(locationFormatErrorWithBullets)
+    if (err?.message === fileCouldNotBeRead.summary) {
+      showError(fileCouldNotBeRead)
+      return
+    }
+    showError(locationFormatError)
     return
   }
 
   const geoJSONError = validateGeoJSON(geojson)
   if (geoJSONError) {
-    if (geoJSONError === locationFormatError) {
-      showError(locationFormatErrorWithBullets)
-      return
-    }
     showError(geoJSONError)
     return
   }
   const polygon = geojson.features[0].geometry.coordinates[0]
   if (!validateNodeCount(polygon)) {
-    showError('The selected file contains too many nodes')
+    showError(tooManyNodes)
     return
   }
   if (!isValidBNG(polygon)) {
-    showError(locationFormatErrorWithBullets)
+    showError(locationFormatError)
     return
   }
   const encodedPolygon = encodePolygon(polygon)

@@ -4,32 +4,36 @@ import {
   validateZipSignature,
   validateFileCount,
   validateFileNames,
-  validateAllowedFileTypes,
-  locationFormatError
+  validateAllowedFileTypes
 } from '../upload-file-validators.js'
+import {
+  locationFormatError,
+  fileCouldNotBeRead,
+  tooManyFilesSelected
+} from '../upload-file-errors.js'
 
 const parseShapefile = async (buffer) => {
   if (!validateZipSignature(buffer)) {
-    throw new Error(locationFormatError)
+    throw new Error(locationFormatError.summary)
   }
 
   const zip = await JSZip.loadAsync(buffer).catch(() => null)
   if (!zip) {
-    throw new Error('The selected file could not be read')
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   const files = Object.keys(zip.files).filter(name => !zip.files[name].dir)
 
   if (!validateFileCount(files)) {
-    throw new Error('Too many files selected')
+    throw new Error(tooManyFilesSelected.summary)
   }
 
   if (!validateFileNames(files)) {
-    throw new Error(locationFormatError)
+    throw new Error(locationFormatError.summary)
   }
 
   if (!validateAllowedFileTypes(files)) {
-    throw new Error(locationFormatError)
+    throw new Error(locationFormatError.summary)
   }
 
   files
@@ -40,7 +44,7 @@ const parseShapefile = async (buffer) => {
   const geojson = await shp(modifiedBuffer).catch(() => null)
 
   if (!geojson) {
-    throw new Error('The selected file could not be read')
+    throw new Error(fileCouldNotBeRead.summary)
   }
 
   return geojson
