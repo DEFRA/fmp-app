@@ -73,7 +73,7 @@ getDefraMapConfig().then((defraMapConfig) => {
         osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
         regions: ['england'],
         width: '300px',
-        showMarker: true
+        showMarker: false
       }),
       drawPlugin,
       framePlugin,
@@ -123,7 +123,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   const onEditPolygon = (isEditing) => {
     toggleKeyWhenEditing(isEditing)
     if (isEditing) {
-      interactiveMap.removePanel('info')
+      interactiveMap.removePanel(interactPlugin.panelId)
       interactiveMap.removeMarker('search')
       interactiveMap.hidePanel('datasetsLayers')
       // Disable the selectAtTarget (infoPanel) button
@@ -156,6 +156,13 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
     // TODO: add the slider to the dataset plugin
     // initialiseSlider(interactiveMap)
+  })
+
+  interactiveMap.on('search:match', (event) => {
+    interactiveMap.addMarker('search', event.point, {
+      label: event.text,
+      showLabel: true
+    })
   })
 
   interactiveMap.on('datasets:ready', function () {
