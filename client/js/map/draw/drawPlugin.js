@@ -7,14 +7,19 @@ export const drawPlugin = createDrawPlugin()
 
 export const framePlugin = createFramePlugin()
 
+const PRIMARY_DROP_DOWN_ID = 'geometryActions'
+const SECONDARY_DROP_DOWN_ID = 'geometryActionsSecondary'
+const SUMMARY_BUTTON_ID = 'get-summary'
+
 let updateDrawState = () => {}
 
 const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   const { isEditing, isComplete, isSquare } = siteBoundary
   // Hide the draw menu when editing
-  interactiveMap.toggleButtonState('geometryActions', 'hidden', isEditing)
+  interactiveMap.toggleButtonState(PRIMARY_DROP_DOWN_ID, 'hidden', isEditing || isComplete)
+  interactiveMap.toggleButtonState(SECONDARY_DROP_DOWN_ID, 'hidden', !isComplete)
   // Hide the 'get-summary' button when the polygon is not complete
-  interactiveMap.toggleButtonState('get-summary', 'hidden', !isComplete)
+  interactiveMap.toggleButtonState(SUMMARY_BUTTON_ID, 'hidden', !isComplete)
   // Only enable the upload button when there is no polygon and we are not editing
   interactiveMap.toggleButtonState('uploadShape', 'disabled', !siteBoundary.isEmpty)
 
@@ -95,18 +100,24 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
 
   interactiveMap.on('map:ready', ({ view }) => {
     siteBoundary.mapView = view
+    const dropDownButtonOptions = {
+      label: terms.labels.drawMenuTitle,
+      variant: 'primary',
+      mobile: { slot: 'bottom-right', order: 1 },
+      tablet: { slot: 'top-middle', order: 1 },
+      desktop: { slot: 'top-middle', order: 1 },
+      menuItems: Object.entries(drawMenuItems).map(([id, item]) => ({ ...item, id, label: terms.labels[id] }))
+    }
 
     // Add the draw plugin menu
-    interactiveMap.addButton('geometryActions', {
-      label: terms.labels.drawMenuTitle,
-      mobile: { slot: 'bottom-right', order: 4 },
-      tablet: { slot: 'top-left', order: 4 },
-      desktop: { slot: 'top-left', order: 4 },
-      menuItems: Object.entries(drawMenuItems).map(([id, item]) => ({ ...item, id, label: terms.labels[id] }))
-    })
+    // Add the primary dropdown button
+    interactiveMap.addButton(PRIMARY_DROP_DOWN_ID, dropDownButtonOptions)
+    // Add a 2nd button with the same menu, but styled as a secondary button,
+    // to be shown in place of the primary one when the 'get-summary' button is active
+    interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, { ...dropDownButtonOptions, variant: 'secondary' })
 
     // Add the get summary button (AKA goto results page)
-    interactiveMap.addButton('get-summary', {
+    interactiveMap.addButton(SUMMARY_BUTTON_ID, {
       label: 'Get summary report',
       variant: 'primary',
       onClick: () => {
