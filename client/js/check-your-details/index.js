@@ -94,7 +94,7 @@ const showMap = async (polygonArray) => {
     extent,
     ui: { components: [] }, // Removes Zoom Buttons and attribution
     navigation: {
-      mouseWheelZoomEnabled: false,
+      actionMap: { mouseWheel: 'none' },
       browserTouchPanEnabled: false
     },
     constraints: {
