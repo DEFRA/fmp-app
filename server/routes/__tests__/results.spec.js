@@ -13,8 +13,7 @@ jest.mock('../../services/agol/getSurfaceWater')
 jest.mock('../../services/floodDataByPolygon.js')
 jest.mock('../../services/pso-contact-by-polygon.js')
 jest.mock('../../services/getProductOnePause')
-jest.mock('../../services/is-england')
-
+const isPolygonInEnglandSpy = jest.spyOn(require('../../services/is-england'), 'isPolygonInEngland')
 const getAreaInHectaresSpy = jest.spyOn(shapeUtils, 'getAreaInHectares')
 const url = '/results'
 let increment = 0
@@ -38,6 +37,10 @@ This test file is used to check the dynamic content on the results page html.
 It is useful as we need to test the nunjuck logic.
 */
 describe('Results page', () => {
+  beforeEach(() => {
+    isPolygonInEnglandSpy.mockResolvedValue(true)
+  })
+
   it('should redirect to England only page if polygon is outside England', async () => {
     getPsoContactsByPolygon.mockResolvedValueOnce({
       isEngland: false,
@@ -86,7 +89,7 @@ describe('Results page', () => {
     it('should pass pause P1 download data to the view', async () => {
       Date.now = jest.fn(() => 1764258880000)
       getProductOnePause.mockReturnValueOnce({ dateWithinPausePeriod: true, pauseP1DownloadTo: '5.38pm on Thursday 27 November 2025' })
-      getPsoContactsByPolygon.mockResolvedValue({})
+      getPsoContactsByPolygon.mockResolvedValue({ LocalAuthorities: 'Derbyshire Dales', isEngland: false })
       getFloodDataByPolygon.mockResolvedValue({})
       const response = await submitGetRequest({ url: `${url}?${getUniquePolygonQuery()}` })
       const pageContent = response.payload
