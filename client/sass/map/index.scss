@@ -12,6 +12,7 @@
 @import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css';
 
 @import 'planning';
+@import 'colours';
 
 $govuk-assets-path: "/govuk/assets/";
 $govuk-fonts-path: "/assets/fonts/";
@@ -262,5 +263,14 @@ body.js-enabled:not([data-im-error]) {
     width: 266px;
     padding: 15px;
     border-top: 1px solid var(--content-border-color);
+  }
+}
+
+.im-c-map-button--secondary {
+  color: var(--secondary-button-color);
+  background-color: var(--secondary-button-background-color);
+  box-shadow: var(--button-box-shadow);
+  &:hover {
+    background-color: var(--secondary-button-background-hover-color);
   }
 }
