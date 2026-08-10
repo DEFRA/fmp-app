@@ -36,16 +36,18 @@ const subLayerGenerator = (sourceLayer, visibleWhenMenu, aep, timeframe) => {
     })
 
     const depthSublayerId = depthDatasetSublayerIds[subLayerLastItemIndex - 1]
+    const depthSublayerStyle = {
+      outdoor: colours[depthSublayerId].default,
+      dark: colours[depthSublayerId].dark
+    }
     depthSublayers.push({
       id: depthSublayerId,
       infoPanelData: { ...infoPanelData, aep, depth: terms.depth[depthDatasetSublayerIds[subLayerLastItemIndex - 1]], tf },
       esriStyleLayerId,
       label: terms.depth[depthSublayerId],
       style: {
-        fill: {
-          outdoor: colours[depthSublayerId].default,
-          dark: colours[depthSublayerId].dark
-        },
+        stroke: depthSublayerStyle,
+        fill: depthSublayerStyle,
       }
     })
 
@@ -61,7 +63,7 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
   const extentsDataset = {
     id: `${id}-extents`,
     label: terms.labels.surfaceWater,
-    groupLabel: terms.labels.datasets,
+    groupLabel: terms.labels.surfaceWater,
     tiles: `${agolVectorTileUrl}/${tileName}${layerNameSuffix}/VectorTileServer`,
     showInKey: true,
     sourceLayer,
@@ -73,7 +75,7 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
   const depthDataset = {
     id: `${id}-depths`,
     label: terms.labels.surfaceWaterDepthInMillimetres,
-    groupLabel: terms.labels.datasets,
+    groupLabel: terms.labels.surfaceWater,
     tiles: `${agolVectorTileUrl}/${tileName}${layerNameSuffix}/VectorTileServer`,
     showInKey: true,
     sourceLayer,
