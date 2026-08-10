@@ -60,6 +60,7 @@ const surfaceWaterExtentsKeyStyle = {
 export const surfaceWaterExtentsKey = {
   id: 'surfacewater-extents-key',
   label: terms.labels.surfaceWater,
+  groupLabel: terms.labels.surfaceWater,
   showInKey: true,
   style: surfaceWaterExtentsKeyStyle,
   sublayers: [
