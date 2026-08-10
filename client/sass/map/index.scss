@@ -274,3 +274,10 @@ body.js-enabled:not([data-im-error]) {
     background-color: var(--secondary-button-background-hover-color);
   }
 }
+
+// Stop shading around the frame when editing a square
+// and ensure the frame is red / (white in dark mode)
+.im-c-frame-display {
+  box-shadow: none;
+  border: 2px solid var(--frame-edit-border-color);
+}
