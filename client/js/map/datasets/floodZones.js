@@ -1,5 +1,6 @@
+import { terms } from '../terms.js'
 const floodZonesDefaults = {
-  groupLabel: 'Datasets',
+  groupLabel: terms.labels.datasets,
   esriGroupId: 'floodzones-group',
   showInKey: true,
   visibleWhen: { menu: { dataset: ['floodzones'] } }
@@ -16,12 +17,13 @@ const infoPanelData = {
 const datasetFloodZonesCC = {
   ...floodZonesDefaults,
   id: 'floodzonescc',
-  label: 'Flood Zones Climate Change',
+  label: terms.labels.floodZones,
+  groupLabel: terms.labels.floodZones,
   sourceLayer: 'Flood Zones 2 and 3 Rivers and Sea CCP1',
   sublayers: [
     {
       id: 'climate-change',
-      label: 'Climate change (2070 to 2125)',
+      label: `${terms.labels.climateChange} (${terms.labels.floodZoneClimateChange})`,
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Flood Zones plus climate change/1',
       infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZCC' },
       showInKey: true,
@@ -38,7 +40,7 @@ const datasetFloodZonesCC = {
     },
     {
       id: 'data-unavailable',
-      label: 'Climate change data unavailable',
+      label: terms.labels.noData,
       showInKey: true,
       visibleWhen: {
         menu: {
@@ -92,7 +94,8 @@ const datasetFloodZonesCC = {
 const datasetFloodZones = {
   ...floodZonesDefaults,
   id: 'floodzones',
-  label: 'Flood Zones',
+  label: terms.labels.floodZones,
+  groupLabel: terms.labels.floodZones,
   sourceLayer: 'Flood Zones 2 and 3 Rivers and Sea',
   sublayers: [
     {

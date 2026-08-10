@@ -37,7 +37,7 @@
     "@babel/preset-react": "^7.25.9",
     "@defra/flood-map": "^0.6.8",
     "@defra/fmp-utilities": "github:DEFRA/fmp-utilities",
-    "@defra/interactive-map": "0.0.38-alpha",
+    "@defra/interactive-map": "0.0.39-alpha",
     "@esri/arcgis-rest-request": "^4.2.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox": "^12.1.1",
