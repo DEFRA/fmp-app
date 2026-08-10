@@ -2,10 +2,12 @@
   --secondary-button-color : #0b0c0c;
   --secondary-button-background-color : #f3f3f3;
   --secondary-button-background-hover-color: #cecece;
+  --frame-edit-border-color: #d4351c;
 }
 
 :root .im-o-app--dark-app {
   --secondary-button-color : var(--foreground-color);
   --secondary-button-background-color : var(--button-background-color);
   --secondary-button-background-hover-color: var(--button-hover-color);
+  --frame-edit-border-color: #ffffff;
 }
