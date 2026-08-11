@@ -84,6 +84,21 @@ export const attachInteractPlugin = (interactiveMap) => {
       interactiveMap.removePanel(INFO_PANEL_ID)
     }
   })
+
+  const dismissPanelTargets = {
+    'map-search': true,
+    dataset: true,
+    timeframe: true,
+    aep: true,
+    depth: true
+  }
+  // Remove the panel when the user searches, or changes the dataset, timeframe, aep or depth
+  document.addEventListener('change', ({ target }) => {
+    if (dismissPanelTargets[target.name]) {
+      interactiveMap.removePanel(interactPlugin.panelId)
+    }
+  })
+
   // Remove the marker when the panel is closed or hidden
   const onRemoveInfoPanel = (panelId) => {
     if (panelId === INFO_PANEL_ID) {
