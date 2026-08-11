@@ -1,5 +1,6 @@
 class MapState {
   defraMapConfig = null
+  interactiveMap = null
   map = null
   view = null
   visibleLayers = null // The vectorTile layers that are currently visible on the map

@@ -2,8 +2,10 @@ import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 import { terms } from '../terms.js'
 import { mapState } from './mapState.js'
 import { getInfoPanel } from '../infoPanel.js'
+import { hideDatasetsKey, reShowDatasetsKey } from '../datasets/showHideDatasetsKey.js'
 
 let enableGetInfoButton = false
+
 const INFO_PANEL_ID = 'info'
 const INFO_PANEL_MARKER_ID = 'infoPanelMarker'
 
@@ -103,8 +105,14 @@ export const attachInteractPlugin = (interactiveMap) => {
   const onRemoveInfoPanel = (panelId) => {
     if (panelId === INFO_PANEL_ID) {
       interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+      reShowDatasetsKey() // Re-show the datasets key if it was previously visible when the info panel was opened
     }
   }
   interactiveMap.on('app:panelclosed', ({ panelId }) => onRemoveInfoPanel(panelId))
   interactiveMap.on('app:removepanel', (panelId) => onRemoveInfoPanel(panelId))
+  interactiveMap.on('app:panelopened', ({ panelId }) => {
+    if (panelId === INFO_PANEL_ID) {
+      hideDatasetsKey()
+    }
+  })
 }
