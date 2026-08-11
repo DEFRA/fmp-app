@@ -177,6 +177,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
 
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
+    mapState.interactiveMap = interactiveMap
     mapState.map = map
     mapState.view = view
   })
