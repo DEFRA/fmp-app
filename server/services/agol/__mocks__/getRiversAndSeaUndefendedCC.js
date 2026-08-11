@@ -12,6 +12,7 @@ const getRiversAndSeaUndefendedCC = async (options) => {
       return {
         riversAndSeaUndefendedCC: { riskBandId: 0, riskBandPercent: '1', riskBandOdds: '1 in 100' }
       }
+    case mockPolygons.thames:
     case mockPolygons.fz1_only:
     case mockPolygons.fz1_only_lt_1_ha:
     case mockPolygons.fz1_only_no_la:

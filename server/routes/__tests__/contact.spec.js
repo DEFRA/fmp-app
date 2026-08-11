@@ -9,6 +9,8 @@ const { encode } = require('@mapbox/polyline')
 
 const polygon = '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
 const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
+const overLimitPolygon = '[[0,0],[0,2000],[2000,2000],[2000,0],[0,0]]'
+const overLimitEncodedPolygon = encode([[0, 0], [0, 2000], [2000, 2000], [2000, 0], [0, 0]])
 const queryParams = [
   ['polygon', `polygon=${polygon}`],
   ['encoded polygon', `encodedPolygon=${encodedPolygon}`]
@@ -58,6 +60,11 @@ describe('contact', () => {
     it('Should error if no polygon is present', async () => {
       const response = await submitGetRequest({ url: `${url}` }, '', 400)
       expect(response.result).toMatchSnapshot()
+    })
+
+    it('Should redirect to results when polygon exceeds 300 hectares', async () => {
+      const response = await submitGetRequest({ url: `${url}?encodedPolygon=${overLimitEncodedPolygon}` }, null, 302)
+      expect(response.headers.location).toEqual(`/results?encodedPolygon=${overLimitEncodedPolygon}`)
     })
   })
   describe('POST', () => {
@@ -147,6 +154,19 @@ describe('contact', () => {
       }
       const response = await submitPostRequestExpectHandledError(options, '>Your name must be less than 200 characters long')
       expect(response.result).toMatchSnapshot()
+    })
+
+    it('Should redirect to results when payload polygon exceeds 300 hectares', async () => {
+      const response = await submitPostRequest({
+        url,
+        payload: {
+          recipientemail: 'test@test.com',
+          fullName: 'John Smith',
+          polygon: overLimitPolygon
+        }
+      })
+
+      expect(response.headers.location).toEqual(`/results?encodedPolygon=${overLimitEncodedPolygon}`)
     })
   })
 })

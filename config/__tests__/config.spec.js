@@ -34,6 +34,7 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
+      ceEmailReplaceMap: { 'enquiries_thm@environment-agency.gov.uk': 'TH-WE-MAPPING-and-DATA@environment-agency.gov.uk' },
       placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
@@ -92,6 +93,7 @@ describe('Ensure config is correct', () => {
     jest.resetModules()
     process.env.ENV = 'prod'
     process.env.agolRofrsDepthOrExtents = 'Extents'
+    process.env.ceEmailReplaceMap = ''
     const { config } = require('../index')
     const expectedConfig = {
       env: 'prod',
@@ -113,6 +115,7 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
+      ceEmailReplaceMap: {},
       placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
