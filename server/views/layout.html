@@ -1,4 +1,4 @@
-{% extends "fmp-template.njk" %}
+{% extends "template.njk" %}
 {% set govukRebrand = true %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "footer/macro.njk" import govukFooter %}
@@ -19,7 +19,7 @@
   <meta property="og:description" content="{{metaDescription}}"/>
   <meta property="keywords" content="{{metaKeywords}}"/>
   <meta property="description" content="{{metaDescription}}"/>
-  <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
+  <meta name="google-site-verification" content="DBu8aQpKy3UhrD5ZN-vFTn89DN3OkisukdZlgC8s7S8"/>
   {% if allowRobots %}
     <meta name="robots" content="all"/>
   {% else %}
@@ -37,14 +37,14 @@
 {% endblock %}
 
 {%block bodyStart%}
-{% if cookiesPolicy.analytics %}
-{% include "google-tag-manager/google-tag-manager-body.html" %}
-  {% include "google-tag-manager/google-tag-manager-head.html" %}
-{% endif %}
   {% if not cookiesPolicy.confirmed %}
     {% include "partials/cookie-banner.html" %}
   {% endif %}
 
+  {% if cookiesPolicy.analytics %}
+    {% include "google-tag-manager/google-tag-manager-head.html" %}
+    {% include "google-tag-manager/google-tag-manager-body.html" %}
+  {% endif %}
 {% endblock %}
 
 {% block beforeContent %}
