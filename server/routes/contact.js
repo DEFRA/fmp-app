@@ -2,6 +2,7 @@ const Joi = require('joi')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
 const { checkParamsForPolygon } = require('../services/shape-utils')
+const { isOverMaxArea } = require('../services/is-over-max-area')
 
 module.exports = [
   {
@@ -11,6 +12,9 @@ module.exports = [
       description: 'Get contact details page for product 4',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
+        if (isOverMaxArea(polygon)) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodedPolygon}`)
+        }
         const backLinkUrl =
           request.headers.referer?.indexOf('/next-steps') > -1 ? `/next-steps?encodedPolygon=${encodedPolygon}` : `/results?encodedPolygon=${encodedPolygon}`
         return h.view(constants.views.CONTACT, {
@@ -39,6 +43,9 @@ module.exports = [
       description: 'submits contact details to the check your details page',
       handler: async (request, h) => {
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.payload)
+        if (isOverMaxArea(polygon)) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodedPolygon}`)
+        }
         const { errorSummary } = validateContactData(request.payload)
         if (errorSummary.length > 0) {
           return h.view(constants.views.CONTACT, {

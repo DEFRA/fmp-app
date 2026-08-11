@@ -14,8 +14,10 @@ const user = {
   fullName: 'John Smith',
   email: 'john.smith@email.com'
 }
+const overLimitPolygon = '[[0,0],[0,2000],[2000,2000],[2000,0],[0,0]]'
 const url = '/check-your-details'
 const { encode } = require('@mapbox/polyline')
+const overLimitEncodedPolygon = encode([[0, 0], [0, 2000], [2000, 2000], [2000, 0], [0, 0]])
 let postSpy
 
 describe('Check your details page', () => {
@@ -74,6 +76,11 @@ describe('Check your details page', () => {
         const response = await submitGetRequest({ url: checkYourDetailsUrl }, 'Order your flood risk data')
         expect(response.result).toMatchSnapshot()
       })
+    })
+
+    it('Redirects to results when encoded polygon exceeds 300 hectares', async () => {
+      const response = await submitGetRequest({ url: `${url}?encodedPolygon=${overLimitEncodedPolygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, null, 302)
+      expect(response.headers.location).toEqual(`/results?encodedPolygon=${overLimitEncodedPolygon}`)
     })
   })
 
@@ -249,6 +256,20 @@ describe('Check your details page', () => {
       } finally {
         config.appType = originalAppType
       }
+    })
+
+    it('Redirects to results and does not submit p4 request when polygon exceeds 300 hectares', async () => {
+      const response = await submitPostRequest({
+        url,
+        payload: {
+          recipientemail: user.email,
+          fullName: user.fullName,
+          polygon: overLimitPolygon
+        }
+      })
+
+      expect(response.headers.location).toEqual(`/results?encodedPolygon=${overLimitEncodedPolygon}`)
+      expect(wreck.post).toHaveBeenCalledTimes(0)
     })
   })
 })

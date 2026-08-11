@@ -5,6 +5,7 @@ const { getAreaInHectares, getCentreOfPolygon, checkParamsForPolygon, encodePoly
 const addressService = require('../services/address')
 const constants = require('../constants')
 const { validateContactData } = require('./validateContactData')
+const { isOverMaxArea } = require('../services/is-over-max-area')
 
 const getFunctionAppResponse = async (data) => {
   const payload = JSON.parse(data)
@@ -31,6 +32,9 @@ module.exports = [
       handler: async (request, h) => {
         const { fullName = '', recipientemail = '' } = request.query
         const { polygon, encodedPolygon } = checkParamsForPolygon(request.query)
+        if (isOverMaxArea(polygon)) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodedPolygon}`)
+        }
 
         const { errorSummary } = validateContactData({ fullName, recipientemail })
         if (errorSummary.length > 0) {
@@ -57,6 +61,9 @@ module.exports = [
       description: 'submits the page to Confirmation Screen',
       handler: async (request, h) => {
         const { polygon, recipientemail, fullName } = request.payload
+        if (isOverMaxArea(polygon)) {
+          return h.redirect(`${constants.routes.RESULTS}?encodedPolygon=${encodePolygon(polygon)}`)
+        }
         const psoResults = await request.server.methods.getPsoContactsByPolygon(polygon)
         const canRequestP4 = config.appType === 'internal' || psoResults.useAutomatedService === true
 
