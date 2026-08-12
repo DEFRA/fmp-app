@@ -46,11 +46,11 @@ if (location) {
 getDefraMapConfig().then((defraMapConfig) => {
   mapState.defraMapConfig = defraMapConfig
   const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
-  const mapStyleOverrides = {
+  const mapStyleButtonOverrides = {
     id: 'mapStyles',
-    desktop: { slot: 'right-top' },
-    tablet: { slot: 'right-top' },
-    mobile: { slot: 'right-top' }
+    desktop: { slot: 'right-top', order: 2, showLabel: false },
+    tablet: { slot: 'right-top', order: 2, showLabel: false },
+    mobile: { slot: 'right-top', order: 2, showLabel: false }
   }
   const mapStylePanelOverrides = {
     id: 'mapStyles',
@@ -62,7 +62,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   const mapStylePlugin = createMapStylesPlugin({
     mapStyles,
     manifest: {
-      buttons: [mapStyleOverrides],
+      buttons: [mapStyleButtonOverrides],
       panels: [mapStylePanelOverrides]
     }
   })
@@ -77,6 +77,20 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
+        manifest: {
+          buttons: [{
+            id: 'search',
+            mobile: { slot: 'top-right', showLabel: false, order: 1 },
+            tablet: { slot: 'top-left', showLabel: true, order: 1 },
+            desktop: { slot: 'top-left', showLabel: true, order: 1 },
+          }],
+          controls: [{
+            id: 'search',
+            mobile: { slot: 'top-right' },
+            tablet: { slot: 'top-left', order: 2 },
+            desktop: { slot: 'top-left', order: 2 },
+          }],
+        },
         transformRequest: getRequest,
         placeholder: 'Search for a place in england',
         osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
@@ -94,6 +108,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     maxZoom: 20,
     extent: siteBoundary.extents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
+    enableMoveControls: false,
     enableZoomControls: true,
     symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
     warningPosition: 'top',
@@ -159,7 +174,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
       mobile: { slot: 'right-top', showLabel: false },
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
-      desktop: { slot: 'right-top', showLabel: true, order: 1 }
+      desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
     // TODO: add the slider to the dataset plugin
     // initialiseSlider(interactiveMap)
