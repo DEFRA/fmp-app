@@ -20,6 +20,7 @@ import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
 import { mapState } from './interactive-map-helpers/mapState.js'
+import { getQueryParam, setQueryParam } from './interactive-map-helpers/queryParams.js'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 10000
@@ -31,6 +32,15 @@ const symbols = {
   waterStorageAreas: '/assets/images/water-storage.svg',
   floodDefences: '/assets/images/flood-defence.svg',
   mainRivers: '/assets/images/main-rivers.svg'
+}
+
+// Parse the location query parameter from the URL and store it in the mapState for later use
+// This the value passed from the /location page - used to display a marker on the map when it is first loaded.
+// The query parameter is then removed from the URL to avoid it being used again on subsequent page loads.
+const location = getQueryParam('location')
+if (location) {
+  mapState.location = location
+  setQueryParam('location', null)
 }
 
 getDefraMapConfig().then((defraMapConfig) => {
@@ -180,6 +190,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     mapState.interactiveMap = interactiveMap
     mapState.map = map
     mapState.view = view
+    if (mapState.location) {
+      // Show a labelled marker on the map for the location passed from the /location page, if any
+      const { x, y } = view.center
+      interactiveMap.addMarker('search', [x, y], {
+        label: mapState.location,
+        showLabel: true
+      })
+    }
   })
 
   const initPointerMove = () => {
