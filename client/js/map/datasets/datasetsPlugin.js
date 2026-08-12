@@ -34,12 +34,13 @@ export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, la
         desktop: { open: true, slot: 'side', width: '280px', dismissible: false },
         tablet: { slot: 'side', width: '280px', modal: true }
       }],
-      buttons: [
-        {
-          id: 'datasetsLayers',
-          excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
-        }
-      ]
+      buttons: [{
+        id: 'datasetsLayers',
+        excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
+      }, {
+        id: 'datasetsKey',
+        mobile: { slot: 'top-left', showLabel: true, order: 3 }
+      }]
     },
     globals: {
       opacityMode: 'global',
