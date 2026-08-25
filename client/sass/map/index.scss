@@ -5,6 +5,8 @@
 @import '../../../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css';
 @import '../../../node_modules/@defra/interactive-map/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/datasets/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/menu/dist/css/index.css';
+@import '../../../node_modules/@defra/interactive-map/plugins/map-key/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/search/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/map-styles/dist/css/index.css';
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css';
@@ -246,25 +248,6 @@ body.js-enabled:not([data-im-error]) {
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
-
-
-#map-panel-menu {
-  .im-c-panel__body {
-    margin-bottom: 106px;
-  }
-  #opacity-control {
-    position: fixed;
-    bottom: 20px;
-    height: 106px;
-    width: 266px;
-    background-color: var(--background-color);
-    margin-bottom: -20px;
-    left: 0;
-    width: 266px;
-    padding: 15px;
-    border-top: 1px solid var(--content-border-color);
-  }
-}
 
 .im-c-map-button--secondary {
   color: var(--secondary-button-color);

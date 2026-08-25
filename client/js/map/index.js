@@ -5,11 +5,15 @@ import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import createMapKeyPlugin from '@defra/interactive-map/plugins/map-key'
+import createMenuPlugin from '@defra/interactive-map/plugins/menu'
+import { menu } from './datasets/datasetsMenu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
+import { hideDatasetsKey, reShowDatasetsKey } from './datasets/showHideDatasetsKey.js'
 // TODO: add the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 
@@ -73,6 +77,23 @@ getDefraMapConfig().then((defraMapConfig) => {
     }),
     plugins: [
       datasetsPlugin,
+      createMapKeyPlugin(),
+      createMenuPlugin({
+        manifest: {
+          panels: [{
+            id: 'menu',
+            desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false, },
+            tablet: { slot: 'side', width: '280px', modal: true }
+          }],
+          buttons: [
+            {
+              id: 'menuButton',
+              excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
+            }
+          ]
+        },
+        menu
+      }),
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
@@ -126,20 +147,12 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
-  let datasetsKeyExpanded = false
+
   const toggleKeyWhenEditing = (isEditing) => {
-    const datasetsKey = document.getElementById('map-datasets-key')
     if (isEditing) {
-      datasetsKeyExpanded = (datasetsKey?.getAttribute('aria-expanded') === 'true')
-      if (datasetsKeyExpanded) {
-        interactiveMap.hidePanel('datasetsKey')
-      }
-      datasetsKey.parentNode.style.display = 'none'
+      hideDatasetsKey()
     } else {
-      if (datasetsKeyExpanded) { // reinstate key
-        interactiveMap.showPanel('datasetsKey')
-      }
-      datasetsKey.parentNode.style.display = ''
+      reShowDatasetsKey()
     }
   }
 
@@ -148,14 +161,14 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (isEditing) {
       interactiveMap.removePanel(interactPlugin.panelId)
       interactiveMap.removeMarker('search')
-      interactiveMap.hidePanel('datasetsLayers')
+      interactiveMap.hidePanel('menu')
       // Disable the selectAtTarget (infoPanel) button
       interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
       if (datasetsPlugin.ready) { // hide layers
         datasetsPlugin.setDatasetVisibility(false)
       }
     } else {
-      interactiveMap.showPanel('datasetsLayers')
+      interactiveMap.showPanel('menu')
       if (datasetsPlugin.ready) { // reinstate layers
         datasetsPlugin.setDatasetVisibility(true)
       }
