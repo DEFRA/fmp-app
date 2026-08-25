@@ -150,9 +150,9 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const toggleKeyWhenEditing = (isEditing) => {
     if (isEditing) {
-      hideDatasetsKey()
+      hideDatasetsKey('editing')
     } else {
-      reShowDatasetsKey()
+      reShowDatasetsKey('editing')
     }
   }
 
