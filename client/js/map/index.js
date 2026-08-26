@@ -7,7 +7,7 @@ import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import createMapKeyPlugin from '@defra/interactive-map/plugins/map-key'
 import createMenuPlugin from '@defra/interactive-map/plugins/menu'
-import { menu } from './datasets/datasetsMenu.js'
+import { initialiseMenu } from './datasets/datasetsMenu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
@@ -77,7 +77,15 @@ getDefraMapConfig().then((defraMapConfig) => {
     }),
     plugins: [
       datasetsPlugin,
-      createMapKeyPlugin(),
+      createMapKeyPlugin({
+        manifest: {
+          panels: [{
+            id: 'mapKey',
+            tablet: { slot: 'left-top', width: '360px' },
+            desktop: { slot: 'left-top', width: '360px' },
+          }]
+        },
+      }),
       createMenuPlugin({
         manifest: {
           panels: [{
@@ -92,7 +100,7 @@ getDefraMapConfig().then((defraMapConfig) => {
             }
           ]
         },
-        menu
+        menu: initialiseMenu(datasetsPlugin)
       }),
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),

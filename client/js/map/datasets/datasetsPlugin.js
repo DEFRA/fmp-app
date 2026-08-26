@@ -25,7 +25,6 @@ export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, la
     ...featureLayers(agolServiceUrl, layerNameSuffix),
   ]
   mapState.styleToValuesMap = esriStyleLayerIdToInfoPanelReducer(datasets)
-
   const datasetsPlugin = createDatasetsPlugin({
     globals: {
       opacityMode: 'global',
