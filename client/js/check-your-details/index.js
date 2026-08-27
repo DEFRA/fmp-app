@@ -1,4 +1,3 @@
-import esriConfig from '@arcgis/core/config.js'
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer'
@@ -8,7 +7,7 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-import { getOsToken, getEsriToken } from '../map/tokens'
+import { getDefraMapConfig } from '../map/mapConfig'
 import { polygon, centroid, bbox } from '@turf/turf'
 
 const spatialReference = 27700
@@ -36,21 +35,11 @@ const getCentreAndExtents = (polygonArray) => {
 }
 
 const showMap = async (polygonArray) => {
-  const { token: esriToken } = await getEsriToken()
-  esriConfig.apiKey = esriToken
-  esriConfig.request.interceptors.push({
-    urls: 'https://api.os.uk/maps/raster/v1/wmts',
-    before: async params => {
-      const osToken = (await getOsToken()).token
-      params.requestOptions.headers = {
-        Authorization: 'Bearer ' + osToken
-      }
-    }
-  })
+  const { fmpProxyUrl } = await getDefraMapConfig()
 
   // TODO get this url from config
   const baseMapLayer = new WMTSLayer({
-    url: 'https://api.os.uk/maps/raster/v1/wmts',
+    url: `${fmpProxyUrl}/proxy/os/maps/raster/v1/wmts`,
     serviceMode: 'KVP',
     activeLayer: {
       id: 'Outdoor_27700'
