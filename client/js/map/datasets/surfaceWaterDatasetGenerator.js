@@ -87,7 +87,7 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
   const depthsKey = {
     id: `${id}-depths-key`,
     label: 'Surface water',
-    groupLabel: 'Surface water depth in millimetres',
+    groupLabel: terms.labels.surfaceWaterDepthInMillimetres,
     groupStyle: 'ramp',
     showInKey: true,
     visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depthAll'] } },

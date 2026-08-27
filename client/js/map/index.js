@@ -30,13 +30,6 @@ const ENGLAND_SOUTH = 10000
 const ENGLAND_EAST = 400000
 const ENGLAND_NORTH = 650000
 
-const symbols = {
-  noData: '/assets/images/no-data.svg',
-  waterStorageAreas: '/assets/images/water-storage.svg',
-  floodDefences: '/assets/images/flood-defence.svg',
-  mainRivers: '/assets/images/main-rivers.svg'
-}
-
 // Parse the location query parameter from the URL and store it in the mapState for later use
 // This the value passed from the /location page - used to display a marker on the map when it is first loaded.
 // The query parameter is then removed from the URL to avoid it being used again on subsequent page loads.
@@ -138,15 +131,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableMoveControls: false,
     enableZoomControls: true,
-    symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    warningPosition: 'top',
-    search: {
-      label: 'Search for a place',
-      isAutocomplete: true,
-      isExpanded: false,
-      country: 'england'
-    },
-    scaleBar: 'metric',
   })
   let reported = false
   interactiveMap.addEventListener = () => {
