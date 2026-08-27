@@ -1,0 +1,27 @@
+{
+  "name": "fmp-proxy",
+  "version": "1.0.0",
+  "description": "A proxy for FMFP calls to third parties to secure keys.",
+  "license": "ISC",
+  "author": "defra",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm run eslint && jest --runInBand --collectCoverage",
+    "test-quick": "NOLOG=true jest --collectCoverage",
+    "jest-watch": "NOLOG=true jest --watch",
+    "eslint": "eslint"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-request": "^4.11.0",
+    "@hapi/h2o2": "^10.0.4",
+    "@hapi/hapi": "^21.4.3",
+    "dotenv": "^17.4.2",
+    "joi": "^18.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "jest": "^30.2.0",
+    "neostandard": "^0.12.2"
+  }
+}
