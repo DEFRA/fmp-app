@@ -4,8 +4,9 @@ const { revision } = require('../../../version')
 
 const mapConfig = {
   ...config.defraMap,
-  agolServiceUrl: config.agol.serviceUrl,
-  agolVectorTileUrl: config.agol.vectorTileUrl
+  agolServiceUrl: `${config.fmpProxyUrl}/proxy/esri`,
+  agolVectorTileUrl: `${config.fmpProxyUrl}/proxy/esri-tiles`,
+  fmpProxyUrl: config.fmpProxyUrl
 }
 
 // version - is used to cache-bust the info panel requests, so it is unique for each version

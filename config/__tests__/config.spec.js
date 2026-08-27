@@ -3,6 +3,7 @@ const { toBool } = require('../toBool')
 describe('Ensure config is correct', () => {
   beforeEach(() => {
     jest.resetModules()
+    process.env.fmpProxyUrl = 'http://localhost:3005'
   })
   it('test config', () => {
     expect(() => {
@@ -34,6 +35,7 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
+      fmpProxyUrl: 'http://localhost:3005',
       ceEmailReplaceMap: { 'enquiries_thm@environment-agency.gov.uk': 'TH-WE-MAPPING-and-DATA@environment-agency.gov.uk' },
       placeApi: { url: 'http://dummyuri' },
       agol: {
@@ -115,6 +117,7 @@ describe('Ensure config is correct', () => {
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
+      fmpProxyUrl: 'http://localhost:3005',
       ceEmailReplaceMap: {},
       placeApi: { url: 'http://dummyuri' },
       agol: {
