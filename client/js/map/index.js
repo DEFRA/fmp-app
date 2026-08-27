@@ -1,28 +1,114 @@
+// /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
-import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
+
+import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
+import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
+import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
+
+import { setupEsriConfig, getRequest, getDefraMapConfig } from './mapConfig.js'
+import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
+// TODO: add the slider to the dataset plugin
+// import { sliderMarkUp, initialiseSlider } from './slider/index.js'
+
+// <InteractiveMapHelpers>
+import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
+
+import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
+
 import { mapState } from './interactive-map-helpers/mapState.js'
-import { initialisePlugins, attachInteractiveMapToPlugins } from './plugins/initialisePlugins.js'
+import { getQueryParam, setQueryParam } from './interactive-map-helpers/queryParams.js'
 
 const ENGLAND_WEST = 50000
-const ENGLAND_SOUTH = 40000
+const ENGLAND_SOUTH = 10000
 const ENGLAND_EAST = 400000
 const ENGLAND_NORTH = 650000
 
+const symbols = {
+  noData: '/assets/images/no-data.svg',
+  waterStorageAreas: '/assets/images/water-storage.svg',
+  floodDefences: '/assets/images/flood-defence.svg',
+  mainRivers: '/assets/images/main-rivers.svg'
+}
+
+// Parse the location query parameter from the URL and store it in the mapState for later use
+// This the value passed from the /location page - used to display a marker on the map when it is first loaded.
+// The query parameter is then removed from the URL to avoid it being used again on subsequent page loads.
+const location = getQueryParam('location')
+if (location) {
+  mapState.location = location
+  setQueryParam('location', null)
+}
+
 getDefraMapConfig().then((defraMapConfig) => {
   mapState.defraMapConfig = defraMapConfig
+  const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
+  const mapStyleButtonOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'right-top', order: 2, showLabel: false },
+    tablet: { slot: 'right-top', order: 2, showLabel: false },
+    mobile: { slot: 'right-top', order: 2, showLabel: false }
+  }
+  const mapStylePanelOverrides = {
+    id: 'mapStyles',
+    desktop: { slot: 'map-styles-button', width: '400px', modal: true },
+    tablet: { slot: 'map-styles-button', modal: true },
+    mobile: { slot: 'map-styles-button', modal: true }
+  }
+
+  const mapStylePlugin = createMapStylesPlugin({
+    mapStyles,
+    manifest: {
+      buttons: [mapStyleButtonOverrides],
+      panels: [mapStylePanelOverrides]
+    }
+  })
+  const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
   const interactiveMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
-    plugins: initialisePlugins(defraMapConfig),
+    plugins: [
+      datasetsPlugin,
+      mapStylePlugin,
+      createScaleBarPlugin({ units: 'metric' }),
+      createSearchPlugin({
+        manifest: {
+          buttons: [{
+            id: 'search',
+            mobile: { slot: 'top-right', showLabel: false, order: 1 },
+            tablet: { slot: 'top-left', showLabel: true, order: 1 },
+            desktop: { slot: 'top-left', showLabel: true, order: 1 },
+          }],
+          controls: [{
+            id: 'search',
+            mobile: { slot: 'top-right' },
+            tablet: { slot: 'top-left', order: 2 },
+            desktop: { slot: 'top-left', order: 2 },
+          }],
+        }, 
+        // transformRequest: getRequest,
+        placeholder: 'Search for a place in england',
+        // make URL something like proxy/place-lookup/{query} to make it more vague, move all other params to the proxy
+        // proxy is going to extract and create the url
+        osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/os/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8`,
+        regions: ['england'],
+        width: '300px',
+        showMarker: false
+      }),
+      drawPlugin,
+      framePlugin,
+      interactPlugin,
+    ],
     behaviour: 'inline',
     place: 'England',
     minZoom: 6,
     maxZoom: 20,
-    extent: siteBoundary.buffedExtents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
+    extent: siteBoundary.extents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableMapControls: false,
     enableZoomControls: true
@@ -40,5 +126,68 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
+    // TODO: add the slider to the dataset plugin
+    // initialiseSlider(interactiveMap)
   })
+
+  interactiveMap.on('search:match', (event) => {
+    interactiveMap.addMarker('search', event.point, {
+      label: event.text,
+      showLabel: true
+    })
+  })
+
+  interactiveMap.on('datasets:ready', function () {
+    datasetsPlugin.ready = true
+    mapState.updateVisibleLayers()
+    initPointerMove()
+    reactiveUtils.when(
+      () => (!mapState.view.updating),
+      () => {
+        // Update the enabled state of the infoPanel button when the map is moved on a touch device
+        if (mapState.interfaceType === 'touch') {
+          interactPlugin.triggerHitTest()
+        }
+      })
+  })
+
+  interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
+    mapState.interactiveMap = interactiveMap
+    mapState.map = map
+    mapState.view = view
+    if (mapState.location) {
+      // Show a labelled marker on the map for the location passed from the /location page, if any
+      const { x, y } = view.center
+      interactiveMap.addMarker('search', [x, y], {
+        label: mapState.location,
+        showLabel: true
+      })
+    }
+  })
+
+  const initPointerMove = () => {
+    let lastHit = 0
+    const throttleMs = 20 // Throttle to reduce hitTest usage
+    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
+
+    mapState.view.on('pointer-enter', () => mapState.updateVisibleLayers())
+
+    mapState.view.on('pointer-move', async event => {
+      const now = Date.now()
+      if (mapState.interfaceType !== 'mouse' || !mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
+        return
+      }
+      lastHit = now
+      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
+      document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+    })
+
+    mapState.view.on('pointer-leave', () => {
+      if (mapState.interfaceType === 'touch') {
+        return
+      }
+      document.body.style.cursor = 'default'
+      mapState.visibleLayers = null
+    })
+  }
 })

@@ -1,0 +1,11 @@
+.DS_Store
+node_modules
+logs
+npm-debug.log
+lcov.info
+.vscode
+jsconfig.json
+.eslintcache
+.env
+dist/
+coverage/
