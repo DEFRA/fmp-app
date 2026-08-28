@@ -2,7 +2,6 @@ import createDatasetsPlugin from '@defra/interactive-map/plugins/datasets'
 import { surfaceWaterDatasets, surfaceWaterExtentsKey } from './surfaceWater.js'
 import { floodZonesDatasets } from './floodZones.js'
 import { featureLayers } from './featureLayers.js'
-import { menu } from './datasetsMenu.js'
 import { mapState } from '../interactive-map-helpers/mapState.js'
 
 const esriStyleLayerIdToInfoPanelReducer = (datasets) => {
@@ -26,29 +25,14 @@ export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, la
     ...featureLayers(agolServiceUrl, layerNameSuffix),
   ]
   mapState.styleToValuesMap = esriStyleLayerIdToInfoPanelReducer(datasets)
-
   const datasetsPlugin = createDatasetsPlugin({
-    manifest: {
-      panels: [{
-        id: 'datasetsLayers',
-        desktop: { open: true, slot: 'side', width: '280px', dismissible: false },
-        tablet: { slot: 'side', width: '280px', modal: true }
-      }],
-      buttons: [{
-        id: 'datasetsLayers',
-        excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
-      }, {
-        id: 'datasetsKey',
-        mobile: { slot: 'top-left', showLabel: true, order: 3 }
-      }]
-    },
     globals: {
       opacityMode: 'global',
       opacity: 0.75,
       visible: true
     },
-    datasets,
-    menu
+    hasMenu: false,
+    datasets
   })
   datasetsPlugin.ready = false
   return datasetsPlugin
