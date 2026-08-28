@@ -95,7 +95,7 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
       return {
         ...sublayer,
         esriStyleLayerId: null,
-        label: sublayer.label.match(/[0-9]+/)[0],
+        label: sublayer.label.match(/\d+/)[0],
       }
     })
   }
