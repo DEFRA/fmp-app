@@ -18,7 +18,7 @@ export const initialiseMenu = (datasetsPlugin) => {
     },
     {
       id: 'timeframe',
-      label: terms.labels.timeframe,
+      label: terms.labels.climateChange,
       urlKey: 'dataset',
       urlIndex: 1, // eg: surfacewater-presentday-high-depth or floodzones-climatechange
       type: 'radio',
