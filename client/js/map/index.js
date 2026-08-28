@@ -14,7 +14,7 @@ import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { hideDatasetsKey, reShowDatasetsKey } from './datasets/showHideDatasetsKey.js'
-// TODO: add the slider to the dataset plugin
+// Need to reinstate adding the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 
 // <InteractiveMapHelpers>
@@ -161,7 +161,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       }
     } else {
       interactiveMap.showPanel('menu')
-      if (datasetsPlugin.ready) { // reinstate layers
+      if (datasetsPlugin.ready) {
         datasetsPlugin.setDatasetVisibility(true)
       }
       interactPlugin.triggerHitTest()
@@ -180,7 +180,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
-    // TODO: add the slider to the dataset plugin
+    // Need to reinstate adding the slider to the dataset plugin
     // initialiseSlider(interactiveMap)
   })
 

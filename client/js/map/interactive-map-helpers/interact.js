@@ -94,10 +94,11 @@ export const attachInteractPlugin = (interactiveMap) => {
     aep: true,
     depth: true
   }
+  const removeInfoPanel = () => interactiveMap.removePanel(interactPlugin.panelId)
   // Remove the panel when the user searches, or changes the dataset, timeframe, aep or depth
   document.addEventListener('change', ({ target }) => {
     if (dismissPanelTargets[target.name]) {
-      interactiveMap.removePanel(interactPlugin.panelId)
+      removeInfoPanel()
     }
   })
 
@@ -113,6 +114,9 @@ export const attachInteractPlugin = (interactiveMap) => {
   interactiveMap.on('app:panelopened', ({ panelId }) => {
     if (panelId === INFO_PANEL_ID) {
       hideDatasetsKey(INFO_PANEL_ID)
+    }
+    if (panelId === 'mapKey') {
+      removeInfoPanel()
     }
   })
 }
