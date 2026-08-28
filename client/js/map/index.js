@@ -1,4 +1,3 @@
-// /flood-map Path defined as an alias to npm or submodule version in webpack alias
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
