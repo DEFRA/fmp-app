@@ -1,0 +1,4 @@
+
+#!/bin/bash
+
+rm -rf server/public/build-map

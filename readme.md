@@ -73,7 +73,6 @@ Node v18.x\
 | product1EndPoint            | P1 URL endpoint                         |   yes     |             |                             |       |
 | tokenEndPoint               | Token generating for P1 endpoin         |   yes     |             |                             |       |
 | layerNameSuffix             | Layer name to use on DEFRA map          |   yes     |             |_NON_PRODUCTION,_Tile_Layer  |       |
-| build_map_as_submodule      | True will build the map component module|   yes     | false       |                             |       |
 | riskAdminApiUrl             | Risk admin API URL                      |   yes     |             |                             |       |
 | forceRiskAdminApiResponse   | Toggle mock risk admin API response     |   yes     | false       |                             |       |
 
