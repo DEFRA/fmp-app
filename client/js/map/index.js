@@ -5,12 +5,16 @@ import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import createMapKeyPlugin from '@defra/interactive-map/plugins/map-key'
+import createMenuPlugin from '@defra/interactive-map/plugins/menu'
+import { initialiseMenu } from './datasets/datasetsMenu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
-// TODO: add the slider to the dataset plugin
+import { hideDatasetsKey, reShowDatasetsKey } from './datasets/showHideDatasetsKey.js'
+// Need to reinstate adding the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 
 // <InteractiveMapHelpers>
@@ -25,13 +29,6 @@ const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 10000
 const ENGLAND_EAST = 400000
 const ENGLAND_NORTH = 650000
-
-const symbols = {
-  noData: '/assets/images/no-data.svg',
-  waterStorageAreas: '/assets/images/water-storage.svg',
-  floodDefences: '/assets/images/flood-defence.svg',
-  mainRivers: '/assets/images/main-rivers.svg'
-}
 
 // Parse the location query parameter from the URL and store it in the mapState for later use
 // This the value passed from the /location page - used to display a marker on the map when it is first loaded.
@@ -73,6 +70,31 @@ getDefraMapConfig().then((defraMapConfig) => {
     }),
     plugins: [
       datasetsPlugin,
+      createMapKeyPlugin({
+        manifest: {
+          panels: [{
+            id: 'mapKey',
+            tablet: { slot: 'left-top', width: '360px' },
+            desktop: { slot: 'left-top', width: '360px' },
+          }]
+        },
+      }),
+      createMenuPlugin({
+        manifest: {
+          panels: [{
+            id: 'menu',
+            desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false, },
+            tablet: { slot: 'side', width: '280px', modal: true }
+          }],
+          buttons: [
+            {
+              id: 'menuButton',
+              excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
+            }
+          ]
+        },
+        menu: initialiseMenu(datasetsPlugin)
+      }),
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       createSearchPlugin({
@@ -109,15 +131,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableMoveControls: false,
     enableZoomControls: true,
-    symbols: [symbols.waterStorageAreas, symbols.floodDefences, symbols.mainRivers, symbols.noData],
-    warningPosition: 'top',
-    search: {
-      label: 'Search for a place',
-      isAutocomplete: true,
-      isExpanded: false,
-      country: 'england'
-    },
-    scaleBar: 'metric',
   })
   let reported = false
   interactiveMap.addEventListener = () => {
@@ -126,20 +139,12 @@ getDefraMapConfig().then((defraMapConfig) => {
       reported = true
     }
   }
-  let datasetsKeyExpanded = false
+
   const toggleKeyWhenEditing = (isEditing) => {
-    const datasetsKey = document.getElementById('map-datasets-key')
     if (isEditing) {
-      datasetsKeyExpanded = (datasetsKey?.getAttribute('aria-expanded') === 'true')
-      if (datasetsKeyExpanded) {
-        interactiveMap.hidePanel('datasetsKey')
-      }
-      datasetsKey.parentNode.style.display = 'none'
+      hideDatasetsKey('editing')
     } else {
-      if (datasetsKeyExpanded) { // reinstate key
-        interactiveMap.showPanel('datasetsKey')
-      }
-      datasetsKey.parentNode.style.display = ''
+      reShowDatasetsKey('editing')
     }
   }
 
@@ -148,15 +153,15 @@ getDefraMapConfig().then((defraMapConfig) => {
     if (isEditing) {
       interactiveMap.removePanel(interactPlugin.panelId)
       interactiveMap.removeMarker('search')
-      interactiveMap.hidePanel('datasetsLayers')
+      interactiveMap.hidePanel('menu')
       // Disable the selectAtTarget (infoPanel) button
       interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
       if (datasetsPlugin.ready) { // hide layers
         datasetsPlugin.setDatasetVisibility(false)
       }
     } else {
-      interactiveMap.showPanel('datasetsLayers')
-      if (datasetsPlugin.ready) { // reinstate layers
+      interactiveMap.showPanel('menu')
+      if (datasetsPlugin.ready) {
         datasetsPlugin.setDatasetVisibility(true)
       }
       interactPlugin.triggerHitTest()
@@ -175,7 +180,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
-    // TODO: add the slider to the dataset plugin
+    // Need to reinstate adding the slider to the dataset plugin
     // initialiseSlider(interactiveMap)
   })
 

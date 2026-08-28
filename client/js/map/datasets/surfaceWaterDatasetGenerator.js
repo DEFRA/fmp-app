@@ -77,10 +77,27 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
     label: terms.labels.surfaceWaterDepthInMillimetres,
     groupLabel: terms.labels.surfaceWater,
     tiles: `${agolVectorTileUrl}/${tileName}${layerNameSuffix}/VectorTileServer`,
-    showInKey: true,
+    showInKey: false,
     sourceLayer,
     visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depthAll'] } },
     sublayers: depthSublayers
   }
-  return [extentsDataset, depthDataset]
+
+  // We only really need one of these with visibleWhen: { menu: {dataset: ['surfacewater'], depth: ['depthAll'] } },
+  const depthsKey = {
+    id: `${id}-depths-key`,
+    label: 'Surface water',
+    groupLabel: terms.labels.surfaceWaterDepthInMillimetres,
+    groupStyle: 'ramp',
+    showInKey: true,
+    visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depthAll'] } },
+    sublayers: depthDataset.sublayers.map((sublayer) => {
+      return {
+        ...sublayer,
+        esriStyleLayerId: null,
+        label: sublayer.label.match(/\d+/)[0],
+      }
+    })
+  }
+  return [extentsDataset, depthDataset, depthsKey]
 }
