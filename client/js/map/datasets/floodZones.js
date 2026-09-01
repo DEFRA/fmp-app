@@ -120,6 +120,8 @@ const keyOverrides = {
 }
 const datasetKeys = {
   ...floodZonesDefaults,
+  id: 'floodzones-key',
+  groupLabel: terms.labels.floodZones,
   infoPanelData: null,
   showInKey: true,
   sublayers: [
