@@ -3,6 +3,7 @@ import { getAreaInHectares, getDimensions } from '../../../../server/services/sh
 import { terms } from '../terms.js'
 
 export const DIMENSIONS_PANEL_ID = 'dimensions-panel'
+const MAX_AREA_HECTARES = 300
 
 export class DimensionsPanel {
   constructor (interactiveMap) {
@@ -41,7 +42,7 @@ export class DimensionsPanel {
     const polygon = feature?.geometry?.coordinates?.[0] || []
     const area = getAreaInHectares(polygon)
     const { width, height } = getDimensions(polygon)
-    if (area >= 300) {
+    if (Number(area) >= MAX_AREA_HECTARES) {
       this.showWarning()
     } else {
       this.hideWarning()
