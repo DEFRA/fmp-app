@@ -1,7 +1,7 @@
-export const dimensionsPanelID = (label) => `im-c-dimensions-panel-value-${label.toLowerCase()}`
+export const getDimensionsPanelIdValue = (label) => `im-c-dimensions-panel-value-${label.toLowerCase()}`
 
 const dimensionsPanelListItem = (label, units) => {
-  const itemId = dimensionsPanelID(label)
+  const itemId = getDimensionsPanelIdValue(label)
   return `
   <div class="im-c-dimensions-panel-list__item">
     <dt class="im-c-dimensions-panel-list__item-key">

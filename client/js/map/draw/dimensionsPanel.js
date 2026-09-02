@@ -1,6 +1,7 @@
-const { dimensionsPanelHTML, dimensionsPanelID } = require('./dimensionsPanel.html.js')
+import { dimensionsPanelHTML, getDimensionsPanelIdValue } from './dimensionsPanel.html.js'
+import { getAreaInHectares, getDimensions } from '../../../../server/services/shape-utils.js'
 
-const DIMENSIONS_PANEL_ID = 'dimensions-panel'
+export const DIMENSIONS_PANEL_ID = 'dimensions-panel'
 
 export class DimensionsPanel {
   constructor (interactiveMap) {
@@ -24,10 +25,21 @@ export class DimensionsPanel {
   setValues (values) {
     const { area = 0, width = 0, height = 0 } = values
     Object.entries({ area, width, height }).forEach(([key, value]) => {
-      const element = document.getElementById(dimensionsPanelID(key))
+      const element = document.getElementById(getDimensionsPanelIdValue(key))
       if (element) {
         element.textContent = value
       }
     })
+  }
+
+  setFeatureValues (feature) {
+    if (!feature) {
+      this.setValues({ area: 0, width: 0, height: 0 })
+      return
+    }
+    const polygon = feature?.geometry?.coordinates?.[0] || []
+    const area = getAreaInHectares(polygon)
+    const { width, height } = getDimensions(polygon)
+    this.setValues({ area, width, height })
   }
 }

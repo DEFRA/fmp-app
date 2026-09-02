@@ -2,8 +2,7 @@ import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
 import { terms } from '..//terms.js'
-import { DimensionsPanel } from './dimensionsPanel.js'
-import { getAreaInHectares, getDimensions } from '../../../../server/services/shape-utils.js'
+import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
 
 export const drawPlugin = createDrawPlugin()
 
@@ -150,12 +149,7 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
   })
 
   interactiveMap.on('draw:updated', (feature) => {
-    console.log('draw:updated', feature)
-    const polygon = feature?.geometry?.coordinates?.[0] || []
-    const area = getAreaInHectares(polygon)
-    const { width, height } = getDimensions(polygon)
-    dimensionsPanel.setValues({ area, width, height })
-    // check the size here and warn the user if it is too big
+    dimensionsPanel.setFeatureValues(feature)
   })
 
   // I don't think we need this event, but left in so we know it is available
@@ -180,5 +174,11 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
     siteBoundary.feature = feature
     siteBoundary.type = SiteBoundary.SQUARE
     updateDrawState()
+  })
+
+  interactiveMap.on('app:panelopened', ({ panelId }) => {
+    if (panelId === DIMENSIONS_PANEL_ID) {
+      dimensionsPanel.setFeatureValues(siteBoundary.feature)
+    }
   })
 }
