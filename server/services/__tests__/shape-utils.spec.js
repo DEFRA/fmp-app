@@ -5,7 +5,9 @@ const {
   buffPolygon,
   polygonStartEnd,
   encodePolygon,
-  checkParamsForPolygon
+  checkParamsForPolygon,
+  getExtents,
+  getDimensions
 } = require('../../../server/services/shape-utils')
 const zeroAreaPolygons = require('./__mocks__/zeroAreaPolygons')
 const { encode } = require('@mapbox/polyline')
@@ -111,5 +113,37 @@ describe('shape-utils - encode / decode polygon', () => {
     it('should decode encoded polygon if a encodedPolygon is parsed', async () => {
       expect(checkParamsForPolygon({ encodedPolygon })).toEqual({ encodedPolygon, polygon: polygonString })
     })
+  })
+})
+
+describe('shape-utils - getExtents/getDimensions', () => {
+  const polygonsToTest = [
+    /* [polygon, [west, south, east, north], { width, height }] */
+    ['[[10,20],[30,50]]', [10, 20, 30, 50], { width: 20, height: 30 }], // Line
+    ['[[0,0],[0,10],[10,10],[10,0],[0,0]]', [0, 0, 10, 10], { width: 10, height: 10 }], // Square
+    ['[[-5,-15],[20,3],[7,42],[-5,-15]]', [-5, -15, 20, 42], { width: 25, height: 57 }], // Triangle spanning negative coordinates
+    ['[[1.005,2.005],[3.115,7.225],[1.005,2.005]]', [1.005, 2.005, 3.115, 7.225], { width: 2.11, height: 5.22 }] // Decimals rounded to 2dp
+  ]
+
+  polygonsToTest.forEach(([polygonString, expectedExtents, expectedDimensions]) => {
+    it(`getExtents should return ${JSON.stringify(expectedExtents)} for ${polygonString}`, async () => {
+      expect(getExtents(polygonString)).toEqual(expectedExtents)
+    })
+
+    it(`getDimensions should return ${JSON.stringify(expectedDimensions)} for ${polygonString}`, async () => {
+      expect(getDimensions(polygonString)).toEqual(expectedDimensions)
+    })
+  })
+
+  it('getExtents should accept a polygon array', async () => {
+    expect(getExtents([[0, 0], [0, 10], [10, 10], [10, 0], [0, 0]])).toEqual([0, 0, 10, 10])
+  })
+
+  it('getExtents should unwrap a nested polygon array', async () => {
+    expect(getExtents([[[0, 0], [0, 10], [10, 10], [10, 0], [0, 0]]])).toEqual([0, 0, 10, 10])
+  })
+
+  it('getDimensions should accept a polygon array', async () => {
+    expect(getDimensions([[0, 0], [0, 10], [10, 10], [10, 0], [0, 0]])).toEqual({ width: 10, height: 10 })
   })
 })
