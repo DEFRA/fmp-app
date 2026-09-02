@@ -2,6 +2,8 @@ import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
 import { terms } from '..//terms.js'
+import { DimensionsPanel } from './dimensionsPanel.js'
+import { getAreaInHectares, getDimensions } from '../../../../server/services/shape-utils.js'
 
 export const drawPlugin = createDrawPlugin()
 
@@ -12,6 +14,7 @@ const SECONDARY_DROP_DOWN_ID = 'geometryActionsSecondary'
 const SUMMARY_BUTTON_ID = 'get-summary'
 
 let updateDrawState = () => {}
+let dimensionsPanel = null
 
 const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   const { isEditing, isComplete, isSquare } = siteBoundary
@@ -29,6 +32,7 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   }
 
   if (isEditing) {
+    dimensionsPanel.showPanel()
     if (isSquare) {
       siteBoundary.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
     }
@@ -40,6 +44,8 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
     // Disable the add buttons when there is a polygon
     interactiveMap.toggleButtonState('addPolygon', 'disabled', isComplete)
     interactiveMap.toggleButtonState('addSquare', 'disabled', isComplete)
+
+    dimensionsPanel.hidePanel()
   }
 }
 
@@ -92,6 +98,7 @@ const drawMenuItems = {
 }
 
 export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
+  dimensionsPanel = new DimensionsPanel(interactiveMap)
   updateDrawState = attachUpdateDrawStateMethod(interactiveMap, onEditPolygon)
   const onCancelEditing = () => {
     siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
@@ -144,6 +151,10 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
 
   interactiveMap.on('draw:updated', (feature) => {
     console.log('draw:updated', feature)
+    const polygon = feature?.geometry?.coordinates?.[0] || []
+    const area = getAreaInHectares(polygon)
+    const { width, height } = getDimensions(polygon)
+    dimensionsPanel.setValues({ area, width, height })
     // check the size here and warn the user if it is too big
   })
 
