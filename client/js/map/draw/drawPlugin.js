@@ -43,8 +43,8 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
     // Disable the add buttons when there is a polygon
     interactiveMap.toggleButtonState('addPolygon', 'disabled', isComplete)
     interactiveMap.toggleButtonState('addSquare', 'disabled', isComplete)
-
     dimensionsPanel.hidePanel()
+    dimensionsPanel.hideWarning()
   }
 }
 

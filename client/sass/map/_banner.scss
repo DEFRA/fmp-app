@@ -1,9 +1,9 @@
 #map-panel-help-banner,
 #map-panel-boundary_warning {
   max-width: 718px !important;
-  margin-top: -50px;
+
   @media screen and (min-width: 640px) and (max-width: 1040px) {
-    max-width: 490px !important;
+    max-width: 476px !important;
   }
   h2 {
     font-size: 1em;

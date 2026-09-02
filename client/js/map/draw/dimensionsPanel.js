@@ -59,8 +59,8 @@ export class DimensionsPanel {
       label: terms.labels.oversizeBoundaryWarning,
       html: '<span class="im-u-visually-hidden">Alert:</span>',
       mobile: { slot: 'banner', dismissible: true },
-      tablet: { slot: 'banner', dismissible: true, width: '718px' },
-      desktop: { slot: 'banner', dismissible: true, width: '718px' }
+      tablet: { slot: 'banner', dismissible: true },
+      desktop: { slot: 'banner', dismissible: true }
     })
   }
 

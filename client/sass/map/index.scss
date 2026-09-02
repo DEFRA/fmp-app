@@ -266,3 +266,14 @@ body.js-enabled:not([data-im-error]) {
   box-shadow: none;
   border: 2px solid var(--frame-edit-border-color);
 }
+
+// Dimensions Panel
+.im-c-dimensions-panel-list__item {
+  .im-c-dimensions-panel-list__item-value {
+    font-weight: 400;
+  }
+  .im-c-dimensions-panel-list__item-value {
+    font-weight: 700;
+  }
+  padding-bottom: 15px;
+}

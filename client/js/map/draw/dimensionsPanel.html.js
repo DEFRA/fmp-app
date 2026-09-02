@@ -13,12 +13,11 @@ const dimensionsPanelListItem = (label, units) => {
   </div>`
 }
 
-export const dimensionsPanelHTML = `<div class="im-c-panel__body">
+export const dimensionsPanelHTML = `
   <div class="im-c-dimensions-panel im-c-dimensions-panel--has-groups">
     <dl class="im-c-dimensions-panel-list">
       ${dimensionsPanelListItem('Area', 'Ha')}
       ${dimensionsPanelListItem('Width', 'm')}
       ${dimensionsPanelListItem('Height', 'm')}
     </dl>
-  </div>
-</div>`
+  </div>`
