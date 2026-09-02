@@ -35,6 +35,7 @@ const terms = {
     editShape: 'Edit shape',
     deleteShape: 'Delete shape',
     getInfo: 'Get info',
+    oversizeBoundaryWarning: 'Boundary must be under 300 hectares to order data. You can still download a flood map.'
 
   },
   chance: {

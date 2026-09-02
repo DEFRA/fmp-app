@@ -1,5 +1,6 @@
 import { dimensionsPanelHTML, getDimensionsPanelIdValue } from './dimensionsPanel.html.js'
 import { getAreaInHectares, getDimensions } from '../../../../server/services/shape-utils.js'
+import { terms } from '../terms.js'
 
 export const DIMENSIONS_PANEL_ID = 'dimensions-panel'
 
@@ -40,6 +41,30 @@ export class DimensionsPanel {
     const polygon = feature?.geometry?.coordinates?.[0] || []
     const area = getAreaInHectares(polygon)
     const { width, height } = getDimensions(polygon)
+    if (area >= 300) {
+      this.showWarning()
+      // setTimeout(() => {
+      //   this._interactiveMap.showHint(terms.labels.oversizeBoundaryWarning, { duration: 0 })
+      // }, 200)
+    } else {
+      // this._interactiveMap.dismissHint()
+      this.hideWarning()
+    }
+
     this.setValues({ area, width, height })
+  }
+
+  showWarning () {
+    this._interactiveMap.addPanel('BOUNDARY_WARNING', {
+      label: terms.labels.oversizeBoundaryWarning,
+      html: '<span class="im-u-visually-hidden">Alert:</span>',
+      mobile: { slot: 'banner', dismissible: true },
+      tablet: { slot: 'banner', dismissible: true, width: '718px' },
+      desktop: { slot: 'banner', dismissible: true, width: '718px' }
+    })
+  }
+
+  hideWarning () {
+    this._interactiveMap.removePanel('BOUNDARY_WARNING')
   }
 }
