@@ -43,11 +43,7 @@ export class DimensionsPanel {
     const { width, height } = getDimensions(polygon)
     if (area >= 300) {
       this.showWarning()
-      // setTimeout(() => {
-      //   this._interactiveMap.showHint(terms.labels.oversizeBoundaryWarning, { duration: 0 })
-      // }, 200)
     } else {
-      // this._interactiveMap.dismissHint()
       this.hideWarning()
     }
 
