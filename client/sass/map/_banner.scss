@@ -1,6 +1,13 @@
-#map-panel-help-banner {
+#map-panel-help-banner,
+#map-panel-boundary_warning {
+  max-width: 718px !important;
+
+  @media screen and (min-width: 640px) and (max-width: 1040px) {
+    max-width: 476px !important;
+  }
   h2 {
     font-size: 1em;
+    font-weight: 400;
     padding-bottom: 12px;
     padding-top: 15px;
     &::before {

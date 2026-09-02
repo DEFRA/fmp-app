@@ -2,6 +2,7 @@ import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
 import { terms } from '..//terms.js'
+import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
 
 export const drawPlugin = createDrawPlugin()
 
@@ -12,6 +13,7 @@ const SECONDARY_DROP_DOWN_ID = 'geometryActionsSecondary'
 const SUMMARY_BUTTON_ID = 'get-summary'
 
 let updateDrawState = () => {}
+let dimensionsPanel = null
 
 const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   const { isEditing, isComplete, isSquare } = siteBoundary
@@ -29,6 +31,7 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
   }
 
   if (isEditing) {
+    dimensionsPanel.showPanel()
     if (isSquare) {
       siteBoundary.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
     }
@@ -40,6 +43,8 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
     // Disable the add buttons when there is a polygon
     interactiveMap.toggleButtonState('addPolygon', 'disabled', isComplete)
     interactiveMap.toggleButtonState('addSquare', 'disabled', isComplete)
+    dimensionsPanel.hidePanel()
+    dimensionsPanel.hideWarning()
   }
 }
 
@@ -92,6 +97,7 @@ const drawMenuItems = {
 }
 
 export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
+  dimensionsPanel = new DimensionsPanel(interactiveMap)
   updateDrawState = attachUpdateDrawStateMethod(interactiveMap, onEditPolygon)
   const onCancelEditing = () => {
     siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
@@ -143,8 +149,7 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
   })
 
   interactiveMap.on('draw:updated', (feature) => {
-    console.log('draw:updated', feature)
-    // check the size here and warn the user if it is too big
+    dimensionsPanel.setFeatureValues(feature)
   })
 
   // I don't think we need this event, but left in so we know it is available
@@ -169,5 +174,11 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
     siteBoundary.feature = feature
     siteBoundary.type = SiteBoundary.SQUARE
     updateDrawState()
+  })
+
+  interactiveMap.on('app:panelopened', ({ panelId }) => {
+    if (panelId === DIMENSIONS_PANEL_ID) {
+      dimensionsPanel.setFeatureValues(siteBoundary.feature)
+    }
   })
 }

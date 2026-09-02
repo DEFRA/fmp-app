@@ -6,6 +6,25 @@ const isHiddenByAnotherId = (id) => {
   return Object.entries(keyHiddenIdMap).some(([key, value]) => key !== id && value)
 }
 
+const keyAndSearchElements = ['map-search', 'map-map-key']
+export const hideKeyAndSearchButton = () => {
+  keyAndSearchElements.forEach((id) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.style.display = 'none'
+    }
+  })
+}
+
+export const showKeyAndSearchButton = () => {
+  keyAndSearchElements.forEach((id) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.style.display = 'flex'
+    }
+  })
+}
+
 export const hideDatasetsKey = (id) => {
   if (!mapState.interactiveMap) {
     console.warn('No interactiveMap instance available to hide the datasets key.')

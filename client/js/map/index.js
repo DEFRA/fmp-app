@@ -13,7 +13,7 @@ import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/
 import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
-import { hideDatasetsKey, reShowDatasetsKey } from './datasets/showHideDatasetsKey.js'
+import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
 // Need to reinstate adding the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 
@@ -142,8 +142,10 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const toggleKeyWhenEditing = (isEditing) => {
     if (isEditing) {
+      hideKeyAndSearchButton()
       hideDatasetsKey('editing')
     } else {
+      showKeyAndSearchButton()
       reShowDatasetsKey('editing')
     }
   }
