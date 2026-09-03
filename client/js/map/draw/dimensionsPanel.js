@@ -55,9 +55,9 @@ export class DimensionsPanel {
     this._interactiveMap.addPanel('BOUNDARY_WARNING', {
       label: terms.labels.oversizeBoundaryWarning,
       html: '<span class="im-u-visually-hidden">Alert:</span>',
-      mobile: { slot: 'banner', dismissible: true },
-      tablet: { slot: 'banner', dismissible: true },
-      desktop: { slot: 'banner', dismissible: true }
+      mobile: { slot: 'banner', dismissible: false },
+      tablet: { slot: 'banner', dismissible: false },
+      desktop: { slot: 'banner', dismissible: false }
     })
   }
 

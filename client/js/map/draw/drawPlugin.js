@@ -16,7 +16,7 @@ let updateDrawState = () => {}
 let dimensionsPanel = null
 
 const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
-  const { isEditing, isComplete, isSquare } = siteBoundary
+  const { isEditing, isComplete } = siteBoundary
   // Hide the draw menu when editing
   interactiveMap.toggleButtonState(PRIMARY_DROP_DOWN_ID, 'hidden', isEditing || isComplete)
   interactiveMap.toggleButtonState(SECONDARY_DROP_DOWN_ID, 'hidden', !isComplete)
@@ -32,11 +32,7 @@ const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
 
   if (isEditing) {
     dimensionsPanel.showPanel()
-    if (isSquare) {
-      siteBoundary.zoomOnSquare() // Zoom in to avoid huge frames being requested by default
-    }
   } else {
-    siteBoundary.resetZoom()
     // Disable the edit and delete buttons when there is no polygon
     interactiveMap.toggleButtonState('editShape', 'disabled', !isComplete)
     interactiveMap.toggleButtonState('deleteShape', 'disabled', !isComplete)
@@ -148,9 +144,10 @@ export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
     updateDrawState()
   })
 
-  interactiveMap.on('draw:updated', (feature) => {
-    dimensionsPanel.setFeatureValues(feature)
-  })
+  const onFeatureUpdated = (feature) => dimensionsPanel.setFeatureValues(feature)
+
+  interactiveMap.on('draw:updated', onFeatureUpdated)
+  interactiveMap.on('frame:updated', onFeatureUpdated)
 
   // I don't think we need this event, but left in so we know it is available
   // It is fired when the user completes a polygon, but hasn't yet clicked the "Done" button
