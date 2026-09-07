@@ -74,8 +74,8 @@ getDefraMapConfig().then((defraMapConfig) => {
         manifest: {
           panels: [{
             id: 'mapKey',
-            tablet: { slot: 'left-top', width: '360px' },
-            desktop: { slot: 'left-top', width: '360px' },
+            tablet: { slot: 'left-top', width: '360px', open: true },
+            desktop: { slot: 'left-top', width: '360px', open: true },
           }]
         },
       }),
