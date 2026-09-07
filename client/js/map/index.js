@@ -71,6 +71,12 @@ getDefraMapConfig().then((defraMapConfig) => {
     plugins: [
       datasetsPlugin,
       createMapKeyPlugin({
+        groups: {
+          'surface-water-depth-in-millimetres': {
+            groupLabel: 'Surface water depth in millimetres',
+            groupStyle: 'horizontal-ramp'
+          }
+        },
         manifest: {
           panels: [{
             id: 'mapKey',

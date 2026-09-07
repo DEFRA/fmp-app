@@ -5,7 +5,6 @@ const featureLayerDefaults = {
   type: 'FeatureService',
   groupLabel: terms.labels.mapFeatures,
   showInKey: true,
-  visible: false,
 }
 
 const datasetMainRivers = {
@@ -13,6 +12,7 @@ const datasetMainRivers = {
   id: 'mainrivers',
   label: terms.labels.mainRivers,
   sourceLayer: 'Statutory_Main_River_Map',
+  visibleWhen: { menu: { mainrivers: [true] } },
   style: {
     renderer: {
       type: 'simple',
@@ -35,6 +35,7 @@ const datasetWaterStorageAreas = {
   id: 'waterstorage',
   label: terms.labels.waterStorage,
   sourceLayer: 'Flood_Storage_Areas',
+  visibleWhen: { menu: { waterstorage: [true] } },
   style: {
     renderer: {
       type: 'simple',
@@ -62,6 +63,7 @@ const datasetFloodDefences = {
   id: 'flooddefence',
   label: terms.labels.floodDefence,
   sourceLayer: 'Defences',
+  visibleWhen: { menu: { flooddefence: [true] } },
   style: {
     renderer: {
       type: 'simple',

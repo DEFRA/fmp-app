@@ -1,7 +1,6 @@
 import { terms } from '../terms.js'
 
 export const initialiseMenu = (datasetsPlugin) => {
-  const getCheckboxOnChangeHandler = (datasetId) => (checked) => datasetsPlugin.setDatasetVisibility(checked, { datasetId })
   return [
     {
       id: 'dataset',
@@ -68,9 +67,9 @@ export const initialiseMenu = (datasetsPlugin) => {
       type: 'checkbox',
       visibleWhen: true,
       items: [
-        { id: 'waterstorage', label: terms.labels.waterStorage, handleOnChange: getCheckboxOnChangeHandler('waterstorage') },
-        { id: 'flooddefence', label: terms.labels.floodDefence, handleOnChange: getCheckboxOnChangeHandler('flooddefence') },
-        { id: 'mainrivers', label: terms.labels.mainRivers, handleOnChange: getCheckboxOnChangeHandler('mainrivers') },
+        { id: 'waterstorage', label: terms.labels.waterStorage },
+        { id: 'flooddefence', label: terms.labels.floodDefence },
+        { id: 'mainrivers', label: terms.labels.mainRivers },
       ]
     }
   ]

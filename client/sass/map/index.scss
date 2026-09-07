@@ -277,3 +277,22 @@ body.js-enabled:not([data-im-error]) {
   }
   padding-bottom: 15px;
 }
+
+.im-c-map-key-list-horizontal-ramp {
+  .im-c-map-key-list__item {
+    .im-c-map-key-list__item-symbol {
+      // Make the fmp-app implementation double height
+      max-height: calc(var(--line-height) * 2);
+    }
+    &:last-child {   // leftmost visual cell (rtl)
+      // Hide the last child's label (ie the left-most one as the order is rtl)
+      .im-c-map-key-list__item-label {
+        display: none;
+      }
+    }
+    // Offset the labels, so they appear under the cell edges
+    .im-c-map-key-list__item-label {
+      transform: translateX(-50%);
+    }
+  }
+}
