@@ -7,7 +7,6 @@ module.exports = [
     env: ['jest', 'node'],
     ignores: [
       '**/_results_/',
-      '**/defra-map/',
       '**/server/public/'
     ]
   }),
