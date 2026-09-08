@@ -62,7 +62,7 @@
     "hapi-pino": "^13.0.0",
     "html-webpack-plugin": "^5.6.3",
     "identity-obj-proxy": "^3.0.0",
-    "joi": "^18.0.1",
+    "joi": "^18.2.8",
     "magic-comments-loader": "^2.1.4",
     "mini-css-extract-plugin": "^2.9.2",
     "moment-timezone": "^0.6.0",
