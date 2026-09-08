@@ -1,3 +1,26 @@
+// lyr=fsa,fd,mainr
+
+const featuresMap = {
+  fsa: 'waterstorage',
+  fd: 'flooddefence',
+  mainr: 'mainrivers'
+}
+
+const setFeatures = (searchParams) => {
+  if (!searchParams.get('features')) {
+    const layerParam = searchParams.get('lyr')
+    if (layerParam) {
+      const features = layerParam.split(',')
+        .map(layer => featuresMap[layer])
+        .filter(feature => feature)
+      if (features.length) {
+        searchParams.set('features', features.join(','))
+      }
+    }
+  }
+  searchParams.delete('lyr')
+}
+
 const setZoomAndCentre = (searchParams) => {
   const cz = searchParams.get('cz')
   searchParams.delete('cz')
@@ -89,7 +112,7 @@ const setDatasetParts = (searchParams) => {
   setAep(searchParams, segmentParts)
 }
 
-const requiredParameterOrder = ['map:center', 'map:zoom', 'dataset', 'timeframe', 'depth', 'aep', 'polygon', 'encodedPolygon']
+const requiredParameterOrder = ['map:center', 'map:zoom', 'dataset', 'timeframe', 'depth', 'aep', 'features', 'polygon', 'encodedPolygon']
 
 const reorderSearchParams = (searchParams) => {
   const entries = [...searchParams.entries()]
@@ -112,11 +135,12 @@ const reorderSearchParams = (searchParams) => {
 const replaceLegacyMapParameters = (searchParams) => {
   setDatasetParts(searchParams)
   setZoomAndCentre(searchParams)
+  setFeatures(searchParams)
   reorderSearchParams(searchParams)
 }
 
 const rewriteRequired = (searchParams) => {
-  return searchParams.has('cz') || searchParams.has('seg')
+  return searchParams.has('cz') || searchParams.has('seg') || searchParams.has('lyr')
 }
 
 module.exports = { rewriteRequired, replaceLegacyMapParameters }
