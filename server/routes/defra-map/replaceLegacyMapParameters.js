@@ -1,9 +1,9 @@
-// lyr=fsa,fd,mainr
+const { paramNames } = require('./mapParameterNames')
 
 const featuresMap = {
-  fsa: 'waterstorage',
-  fd: 'flooddefence',
-  mainr: 'mainrivers'
+  fsa: paramNames.FEATURES.WATER_STORAGE,
+  fd: paramNames.FEATURES.FLOOD_DEFENCE,
+  mainr: paramNames.FEATURES.MAIN_RIVERS
 }
 
 const setFeatures = (searchParams) => {
@@ -12,7 +12,7 @@ const setFeatures = (searchParams) => {
     if (layerParam) {
       const features = layerParam.split(',')
         .map(layer => featuresMap[layer])
-        .filter(feature => feature)
+        .filter(Boolean)
       if (features.length) {
         searchParams.set('features', features.join(','))
       }
@@ -24,37 +24,37 @@ const setFeatures = (searchParams) => {
 const setZoomAndCentre = (searchParams) => {
   const cz = searchParams.get('cz')
   searchParams.delete('cz')
-  const mapZoom = searchParams.get('map:zoom')
-  const mapCentre = searchParams.get('map:center')
+  const mapZoom = searchParams.get(paramNames.ZOOM)
+  const mapCentre = searchParams.get(paramNames.CENTRE)
   if (cz) {
     const [x, y, zoom] = cz.split(',')
     if (!mapZoom) {
-      searchParams.set('map:zoom', zoom)
+      searchParams.set(paramNames.ZOOM, zoom)
     }
     if (!mapCentre) {
-      searchParams.set('map:center', `${x},${y}`)
+      searchParams.set(paramNames.CENTRE, `${x},${y}`)
     }
   }
 }
 
 const setDataset = (searchParams, segmentParts) => {
-  if (!searchParams.get('dataset')) {
+  if (!searchParams.get(paramNames.DATASET.KEY)) {
     if (segmentParts.has('sw')) {
-      searchParams.set('dataset', 'surfacewater')
+      searchParams.set(paramNames.DATASET.KEY, paramNames.DATASET.SURFACE_WATER)
     }
     if (segmentParts.has('fz')) {
-      searchParams.set('dataset', 'floodzones')
+      searchParams.set(paramNames.DATASET.KEY, paramNames.DATASET.FLOOD_ZONES)
     }
   }
 }
 
 const setTimeFrame = (searchParams, segmentParts) => {
-  if (!searchParams.get('timeframe')) {
+  if (!searchParams.get(paramNames.TIMEFRAME.KEY)) {
     if (segmentParts.has('pd') || segmentParts.has('fzpd')) {
-      searchParams.set('timeframe', 'presentday')
+      searchParams.set(paramNames.TIMEFRAME.KEY, paramNames.TIMEFRAME.PRESENT_DAY)
     }
     if (segmentParts.has('cl') || segmentParts.has('fzcl')) {
-      searchParams.set('timeframe', 'climatechange')
+      searchParams.set(paramNames.TIMEFRAME.KEY, paramNames.TIMEFRAME.CLIMATE_CHANGE)
     }
   }
 }
@@ -112,19 +112,28 @@ const setDatasetParts = (searchParams) => {
   setAep(searchParams, segmentParts)
 }
 
-const requiredParameterOrder = ['map:center', 'map:zoom', 'dataset', 'timeframe', 'depth', 'aep', 'features', 'polygon', 'encodedPolygon']
+const requiredParameterOrder = [paramNames.CENTRE, paramNames.ZOOM, paramNames.DATASET.KEY, paramNames.TIMEFRAME.KEY, 'depth', 'aep', 'features', 'polygon', 'encodedPolygon']
 
 const reorderSearchParams = (searchParams) => {
   const entries = [...searchParams.entries()]
   entries.sort(([a], [b]) => {
     const indexA = requiredParameterOrder.indexOf(a)
     const indexB = requiredParameterOrder.indexOf(b)
-    if (indexA === -1 && indexB === -1) return 0
-    if (indexA === -1) return 1
-    if (indexB === -1) return -1
+    if (indexA === -1 && indexB === -1) {
+      return 0
+    }
+    if (indexA === -1) {
+      return 1
+    }
+    if (indexB === -1) {
+      return -1
+    }
     return indexA - indexB
   })
-  for (const key of [...searchParams.keys()]) {
+
+  // - prevent SonarQube warning it's unnecessary to convert to an array.
+  // It's necessary to convert to an array to avoid modifying the collection while iterating.
+  for (const key of [...searchParams.keys()]) { // NOSONAR
     searchParams.delete(key)
   }
   for (const [key, value] of entries) {
