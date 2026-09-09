@@ -1,7 +1,7 @@
 // /plugins/flood-menu/manifest.js
 import { initialState, actions } from './reducer.js'
-import { FloodMenuInit } from './FloodMenuInit.jsx'
-import { DrawMenu } from './components/DrawMenu.jsx'
+import { OpacitySliderInit } from './OpacitySliderInit.jsx'
+import { OpacitySlider } from './components/OpacitySlider.jsx'
 
 // Targets the `<panelId>-panel` slot convention (mapControls.js) rather than
 // a layout slot — `order: 1` splices this control in ahead of the host
@@ -18,14 +18,12 @@ export const manifest = {
     actions
   },
 
-  InitComponent: FloodMenuInit,
+  InitComponent: OpacitySliderInit,
 
-  // drawMenu is the floodMenu plugin's only control today — more get added
-  // here as further controls (each with its own id/slot) as functionality grows.
   controls: [{
     id: 'drawMenu',
     label: 'Draw menu',
     ...controlSlots,
-    render: DrawMenu
+    render: OpacitySlider
   }]
 }

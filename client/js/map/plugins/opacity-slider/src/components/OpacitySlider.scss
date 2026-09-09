@@ -5,11 +5,12 @@
 .flood-c-draw-menu {
   border-top: 1px solid var(--content-border-color);
   padding-bottom: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .flood-c-draw-menu__heading {
-  margin-top: 15px;
+  margin-top: 15px !important;
   color: var(--foreground-color);
 }
 

@@ -66,7 +66,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
   const opacitySliderPlugin = createOpacitySliderPlugin({
-    heading: 'Get a boundary report',
+    heading: 'Layer opacity',
   })
 
   const interactiveMap = new InteractiveMap('map', {

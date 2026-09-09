@@ -22,7 +22,7 @@ const optionDefaults = {
   pageDownValue: DEFAULT_PAGE_DOWN_VALUE
 }
 
-export class OpacitySlider {
+export class Slider {
   constructor (containerId, options) {
     this.containerId = containerId
     this.options = { ...optionDefaults, ...options }

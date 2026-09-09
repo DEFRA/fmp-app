@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { OpacitySlider } from './slider.js'
+import { Slider } from './slider.js'
 
 // Renders as a control injected into the host panel
-export const DrawMenu = ({ pluginConfig, pluginState }) => {
-  const { heading = 'Draw a boundary' } = pluginConfig
+export const OpacitySlider = ({ pluginConfig, pluginState }) => {
+  const { heading = 'Layer opacity' } = pluginConfig
   const [opacitySlider, setOpacitySlider] = useState(null)
   const [opacity, setOpacity] = useState(73)
   // OpacitySlider
 
   useEffect(() => {
     console.log('Creating setOpacitySlider')
-    setOpacitySlider(new OpacitySlider('opacity-control'))
+    setOpacitySlider(new Slider('opacity-control'))
   }, [])
 
   useEffect(() => {
@@ -29,9 +29,6 @@ export const DrawMenu = ({ pluginConfig, pluginState }) => {
   return (
     <div id='opacity-control' className='flood-c-draw-menu opacity-viewer-sliders fm-c-details govuk-body-s' role='group' aria-label='Layer opacity'>
       <h3 className='im-e-heading-s flood-c-draw-menu__heading' id={headingId}>{heading}</h3>
-      <h3 className='govuk-heading-s'>
-        Layer opacity ({opacity})
-      </h3>
       <div className='opacity-slider' role='slider' tabindex='0' aria-valuemin='0' aria-valuenow='75' aria-valuemax='100' aria-labelledby='opacity-control'>
         <svg width='250' height='50' aria-hidden='true'>
           <text className='value' x='170.6640625' y='20'>{opacity} x</text>

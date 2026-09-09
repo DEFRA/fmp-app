@@ -1,4 +1,4 @@
-import './flood-menu.scss'
+import './opacity-slider.scss'
 import { manifest } from './manifest.js'
 const createPlugin = (options = {}) => {
   return {

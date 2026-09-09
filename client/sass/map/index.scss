@@ -1,5 +1,4 @@
 @use '../../../node_modules/sass-mq/mq';
-@use 'slider';
 @use 'banner';
 
 // NOSONAR - bogus issue relating to @import statements having to be at the top.
@@ -14,6 +13,8 @@
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css'; // NOSONAR
 @import '../../../node_modules/@defra/interactive-map/plugins/beta/scale-bar/dist/css/index.css'; // NOSONAR
 @import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css'; // NOSONAR
+
+@import '../../../client/js/map/plugins/opacity-slider/src/components/OpacitySlider.scss'; // NOSONAR
 
 @import 'planning'; // NOSONAR
 @import 'colours'; // NOSONAR
