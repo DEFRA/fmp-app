@@ -67,6 +67,7 @@ getDefraMapConfig().then((defraMapConfig) => {
 
   const opacitySliderPlugin = createOpacitySliderPlugin({
     heading: 'Layer opacity',
+    onChange: (opacity) => datasetsPlugin.setOpacity(opacity)
   })
 
   const interactiveMap = new InteractiveMap('map', {
