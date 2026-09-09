@@ -16,6 +16,7 @@ import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
 // Need to reinstate adding the slider to the dataset plugin
 // import { sliderMarkUp, initialiseSlider } from './slider/index.js'
+import createOpacitySliderPlugin from './plugins/opacity-slider/src/index.js'
 
 // <InteractiveMapHelpers>
 import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
@@ -64,12 +65,17 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
   const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
+  const opacitySliderPlugin = createOpacitySliderPlugin({
+    heading: 'Get a boundary report',
+  })
+
   const interactiveMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
     plugins: [
       datasetsPlugin,
+      opacitySliderPlugin,
       createMapKeyPlugin({
         groups: {
           'surface-water-depth-in-millimetres': {

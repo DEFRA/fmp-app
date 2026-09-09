@@ -8,21 +8,31 @@
  *   Desc:   OpacitySlider widget that implements ARIA Authoring Practices
  */
 
-// Create OpacitySlider that contains value, valuemin, valuemax, and valuenow
-import { FloodMapLayer } from '../mapLayers/index.js'
-
-const SNAP_VALUE = 5
-const PAGE_DOWN_VALUE = 10
-
-const snap = (value) => Math.round(value / SNAP_VALUE) * SNAP_VALUE
 const ARIA_NOW = 'aria-valuenow'
-const MIN_VALUE = 0
-const MAX_VALUE = 100
-const RANGE = 100
 
-class OpacitySlider {
-  constructor (containerId) {
+const DEFAULT_SNAP_VALUE = 5
+const DEFAULT_PAGE_DOWN_VALUE = 10
+const DEFAULT_MIN_VALUE = 0
+const DEFAULT_MAX_VALUE = 100
+
+const optionDefaults = {
+  minValue: DEFAULT_MIN_VALUE,
+  maxValue: DEFAULT_MAX_VALUE,
+  snapValue: DEFAULT_SNAP_VALUE,
+  pageDownValue: DEFAULT_PAGE_DOWN_VALUE
+}
+
+export class OpacitySlider {
+  constructor (containerId, options) {
     this.containerId = containerId
+    this.options = { ...optionDefaults, ...options }
+
+    this.minValue = this.options.minValue
+    this.maxValue = this.options.maxValue
+    this.snapValue = this.options.snapValue
+    this.pageDownValue = this.options.pageDownValue
+
+    this.range = this.maxValue - this.minValue
     this.pointerSlider = false
 
     this.slider = {}
@@ -45,11 +55,12 @@ class OpacitySlider {
     this.focusY = this.borderWidth
     this.focusWidth = 36
     this.focusHeight = 48
+    this.onChange = () => {}
 
     document.body.addEventListener('pointerup', this.onThumbPointerUp.bind(this))
   }
 
-  checkAndAttach () {
+  checkAndAttach (opacity, onChange) {
     // This is called to ensure that the slider functionality is attached to the
     // slider code, as and when the MC re-renders the mark up for the slider - which creates a
     // new dom element.
@@ -64,7 +75,7 @@ class OpacitySlider {
       // re-attach the slider code if it isn't attached.
       this.domNode = container
       this.initSliderRefs()
-      this.init()
+      this.init(opacity, onChange)
     }
   }
 
@@ -109,7 +120,8 @@ class OpacitySlider {
   }
 
   // Initialize slider
-  init () {
+  init (opacity, onChange) {
+    this.onChange = onChange
     if (this.slider.sliderNode.tabIndex !== 0) {
       this.slider.sliderNode.tabIndex = 0
     }
@@ -121,7 +133,7 @@ class OpacitySlider {
     this.slider.valueNode.addEventListener('pointerdown', this.onThumbPointerDown.bind(this))
     this.slider.sliderNode.addEventListener('pointermove', this.onThumbPointerMove.bind(this))
 
-    this.moveSliderTo(FloodMapLayer.opacity * 100)
+    this.moveSliderTo(opacity)
   }
 
   // Get point in global SVG space
@@ -136,12 +148,12 @@ class OpacitySlider {
   }
 
   moveSliderTo (value) {
-    const valueNow = Math.min(Math.max(value, MIN_VALUE), MAX_VALUE)
+    const valueNow = Math.min(Math.max(value, this.minValue), this.maxValue)
 
     this.slider.sliderNode.setAttribute(ARIA_NOW, valueNow)
 
     const offsetX = Math.round(
-      (valueNow * (this.railWidth - this.thumbWidth)) / (RANGE)
+      (valueNow * (this.railWidth - this.thumbWidth)) / (this.range)
     )
 
     let pos = this.railX + offsetX
@@ -159,8 +171,9 @@ class OpacitySlider {
     this.slider.focusNode.setAttribute('x', pos)
 
     const opacity = this.slider.sliderNode.getAttribute(ARIA_NOW)
-    // Change the opacity on the FloodMapLayer - which triggers a redraw
-    FloodMapLayer.opacity = opacity / 100
+    if (this.onChange) {
+      this.onChange(opacity)
+    }
   }
 
   getSliderPositionForKey (key, valueNow) {
@@ -169,20 +182,20 @@ class OpacitySlider {
       case 'ArrowLeft':
       case 'Down':
       case 'ArrowDown':
-        return valueNow - SNAP_VALUE
+        return valueNow - this.snapValue
       case 'Right':
       case 'ArrowRight':
       case 'Up':
       case 'ArrowUp':
-        return valueNow + SNAP_VALUE
+        return valueNow + this.snapValue
       case 'PageDown':
-        return valueNow - PAGE_DOWN_VALUE
+        return valueNow - this.pageDownValue
       case 'PageUp':
-        return valueNow + PAGE_DOWN_VALUE
+        return valueNow + this.pageDownValue
       case 'Home':
-        return MIN_VALUE
+        return this.minValue
       case 'End':
-        return MAX_VALUE
+        return this.maxValue
       default:
         return null
     }
@@ -212,6 +225,10 @@ class OpacitySlider {
     this.pointerSlider = false
   }
 
+  snap (value) {
+    return Math.round(value / this.snapValue) * this.snapValue
+  }
+
   onThumbPointerMove (event) {
     if (
       this.pointerSlider &&
@@ -219,7 +236,7 @@ class OpacitySlider {
     ) {
       const x = this.getSVGPoint(event).x
       const diffX = x - this.railX
-      const value = snap(Math.round((diffX * (RANGE)) / this.railWidth))
+      const value = this.snap(Math.round((diffX * (this.range)) / this.railWidth))
       this.moveSliderTo(value)
 
       event.preventDefault()
@@ -231,7 +248,7 @@ class OpacitySlider {
   onRailClick (event) {
     const x = this.getSVGPoint(event).x
     const diffX = x - this.railX
-    const value = snap(Math.round((diffX * (RANGE)) / this.railWidth))
+    const value = this.snap(Math.round((diffX * (this.range)) / this.railWidth))
     this.moveSliderTo(value)
 
     event.preventDefault()
@@ -241,5 +258,3 @@ class OpacitySlider {
     this.slider.sliderNode.focus()
   }
 }
-
-export { OpacitySlider }
