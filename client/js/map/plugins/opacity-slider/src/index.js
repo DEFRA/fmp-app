@@ -3,7 +3,7 @@ import { manifest } from './manifest.js'
 const createPlugin = (options = {}) => {
   return {
     ...options,
-    id: 'floodMenu',
+    id: 'opacity-slider',
     load: async () => {
       const module = manifest
       return module
