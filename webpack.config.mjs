@@ -40,9 +40,7 @@ export default {
   },
   optimization: {
     splitChunks: {
-      chunks () {
-        return false
-      }
+      chunks: () => false
     }
   },
   plugins: [
@@ -85,6 +83,14 @@ export default {
   resolve: {
     extensions: ['.jsx', '.js'],
     alias: {
+      // Redirect react imports to preact/compat so the dev build is consistent
+      // with the ESM dist, which externalises preact and aliases react at build time.
+      // Without this, the ESM dist chunks run on preact while the rest of the app
+      // runs on React — two incompatible reconcilers sharing one component tree.
+      react: path.resolve(__dirname, 'node_modules/preact/compat'),
+      'react-dom/client': path.resolve(__dirname, 'node_modules/preact/compat/client'),
+      'react-dom': path.resolve(__dirname, 'node_modules/preact/compat'),
+      'react/jsx-runtime': path.resolve(__dirname, 'node_modules/preact/jsx-runtime'),
       '/assets': path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets')
     }
   },
