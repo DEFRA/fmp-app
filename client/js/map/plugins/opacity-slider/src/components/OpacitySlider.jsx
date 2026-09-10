@@ -1,37 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Slider } from './slider.js'
 
-const DEFAULT_OPACITY = 75
-
 // Renders as a control injected into the host panel
-export const OpacitySlider = ({ pluginConfig, services: { eventBus } }) => {
-  const { heading = 'Layer opacity', onChange } = pluginConfig
+export const OpacitySlider = ({ pluginState: { dispatch, ready, value: opacity }, pluginConfig, services: { eventBus } }) => {
+  const { heading = 'Layer opacity' } = pluginConfig
   const [opacitySlider, setOpacitySlider] = useState(null)
-  const [opacity, setOpacity] = useState(DEFAULT_OPACITY)
-  const [ready, setReady] = useState(false)
 
-  const onReady = () => setReady(true)
+  const setOpacity = (opacity) => dispatch(dispatch({ type: 'SET_VALUE', payload: opacity / opacitySlider.range }))
 
+  // Create a new opacity slider
+  useEffect(() => setOpacitySlider(new Slider('opacity-control')), [])
   useEffect(() => {
-    setOpacitySlider(new Slider('opacity-control'))
-    eventBus.on('datasets:ready', onReady)
-
-    return () => {
-      eventBus.off('datasets:ready', onReady)
+    if (opacitySlider) {
+      opacitySlider.checkAndAttach(opacity * opacitySlider.range, setOpacity)
     }
-  }, [])
-
-  useEffect(() => {
-    if (ready && opacitySlider) {
-      opacitySlider.checkAndAttach(opacity, setOpacity)
-    }
-  }, [opacitySlider, ready])
-
-  useEffect(() => {
-    if (ready && opacitySlider) {
-      onChange(opacity / opacitySlider.range)
-    }
-  }, [ready, opacity])
+  }, [opacitySlider])
 
   const headingId = 'im-c-slider__heading'
 
