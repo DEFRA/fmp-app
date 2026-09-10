@@ -14,58 +14,6 @@
   color: var(--foreground-color);
 }
 
-.im-c-slider__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.im-c-slider__item {
-  display: flex;
-  margin-top: 20px;
-}
-
-.im-c-slider__button {
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  margin: 0;
-  outline: 3px solid transparent;
-  font: inherit;
-
-  svg {
-    color: var(--foreground-color);
-    flex-shrink: 0;
-  }
-
-  .im-c-slider__button-label {
-    margin-left: 7px;
-    color: var(--content-link-color);
-  }
-
-  &:hover:not(:disabled) > .im-c-slider__button-label,
-  &:focus-visible > .im-c-slider__button-label {
-    color: var(--foreground-color);
-  }
-
-  &:focus-visible {
-    color: var(--foreground-color);
-    background-color: var(--focus-outline-color);
-    box-shadow: 0 -2px var(--focus-outline-color), 0 4px var(--foreground-color);
-    text-decoration: none;
-  }
-
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
-  }
-}
-
-// OPACITY AFTER HERE:
 .opacity-viewer-sliders label {
   display: block;
 }

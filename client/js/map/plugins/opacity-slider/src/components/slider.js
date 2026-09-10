@@ -10,10 +10,10 @@
 
 const ARIA_NOW = 'aria-valuenow'
 
-const DEFAULT_SNAP_VALUE = 5
-const DEFAULT_PAGE_DOWN_VALUE = 10
-const DEFAULT_MIN_VALUE = 0
-const DEFAULT_MAX_VALUE = 100
+export const DEFAULT_SNAP_VALUE = 5
+export const DEFAULT_PAGE_DOWN_VALUE = 10
+export const DEFAULT_MIN_VALUE = 0
+export const DEFAULT_MAX_VALUE = 100
 
 const optionDefaults = {
   minValue: DEFAULT_MIN_VALUE,
