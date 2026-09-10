@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
   Slider,
-  DEFAULT_SNAP_VALUE,
-  DEFAULT_PAGE_DOWN_VALUE,
   DEFAULT_MIN_VALUE,
   DEFAULT_MAX_VALUE
 } from './slider.js'
