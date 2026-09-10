@@ -8,7 +8,7 @@ import {
 const RANGE = 100
 
 // Renders as a control injected into the host panel
-export const OpacitySlider = ({ pluginState: { dispatch, ready, value: opacityAsDecimal }, pluginConfig, services: { eventBus } }) => {
+export const OpacitySlider = ({ pluginState: { dispatch, value: opacityAsDecimal }, pluginConfig }) => {
   const { heading = 'Layer opacity' } = pluginConfig
   const [opacitySlider, setOpacitySlider] = useState(null)
 

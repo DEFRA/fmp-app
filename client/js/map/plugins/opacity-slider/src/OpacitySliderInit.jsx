@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const OpacitySliderInit = ({
+export const OpacitySliderInit = ({ // NOSONAR - react components should be Capitalised
   pluginConfig,
   pluginState: {
     dispatch,
