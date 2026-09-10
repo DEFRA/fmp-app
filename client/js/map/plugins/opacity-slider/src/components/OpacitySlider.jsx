@@ -33,11 +33,11 @@ export const OpacitySlider = ({ pluginConfig, services: { eventBus } }) => {
     }
   }, [ready, opacity])
 
-  const headingId = 'flood-c-draw-menu__heading'
+  const headingId = 'im-c-slider__heading'
 
   return (
-    <div id='opacity-control' className='flood-c-draw-menu opacity-viewer-sliders fm-c-details govuk-body-s'>
-      <h3 className='im-e-heading-s flood-c-draw-menu__heading' id={headingId}>{heading}</h3>
+    <div id='opacity-control' className='im-c-slider opacity-viewer-sliders fm-c-details govuk-body-s'>
+      <h3 className='im-e-heading-s im-c-slider__heading' id={headingId}>{heading}</h3>
       <div className='opacity-slider' role='slider' tabIndex='0' aria-valuemin='0' aria-valuenow='75' aria-valuemax='100' aria-labelledby='opacity-control'>
         <svg width='250' height='50' aria-hidden='true'>
           <text className='value' x='170.6640625' y='20'>{opacity} </text>

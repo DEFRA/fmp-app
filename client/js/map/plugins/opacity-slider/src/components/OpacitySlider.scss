@@ -2,30 +2,30 @@
 // Component: OpacitySlider plugin
 // ===================================================
 
-.flood-c-draw-menu {
+.im-c-slider {
   border-top: 1px solid var(--content-border-color);
   padding-bottom: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.flood-c-draw-menu__heading {
+.im-c-slider__heading {
   margin-top: 15px !important;
   color: var(--foreground-color);
 }
 
-.flood-c-draw-menu__list {
+.im-c-slider__list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.flood-c-draw-menu__item {
+.im-c-slider__item {
   display: flex;
   margin-top: 20px;
 }
 
-.flood-c-draw-menu__button {
+.im-c-slider__button {
   display: flex;
   align-items: center;
   position: relative;
@@ -42,13 +42,13 @@
     flex-shrink: 0;
   }
 
-  .flood-c-draw-menu__button-label {
+  .im-c-slider__button-label {
     margin-left: 7px;
     color: var(--content-link-color);
   }
 
-  &:hover:not(:disabled) > .flood-c-draw-menu__button-label,
-  &:focus-visible > .flood-c-draw-menu__button-label {
+  &:hover:not(:disabled) > .im-c-slider__button-label,
+  &:focus-visible > .im-c-slider__button-label {
     color: var(--foreground-color);
   }
 
