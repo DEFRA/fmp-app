@@ -25,6 +25,11 @@ export const showKeyAndSearchButton = () => {
   })
 }
 
+const keyPanelIsVisible = () => {
+  const keyPanelElement = document.getElementById('map-panel-map-key')
+  return Boolean(keyPanelElement?.checkVisibility?.())
+}
+
 export const hideDatasetsKey = (id) => {
   if (!mapState.interactiveMap) {
     console.warn('No interactiveMap instance available to hide the datasets key.')
@@ -34,7 +39,7 @@ export const hideDatasetsKey = (id) => {
   // or if the map key panel is currently open.
   // This ensures that whatever order, the reShows are called in,
   // the key panel will only be re-shown when all ids that have hidden it have been re-shown.
-  keyHiddenIdMap[id] = isHiddenByAnotherId(id) || (Boolean(document.getElementById('map-panel-map-key')))
+  keyHiddenIdMap[id] = isHiddenByAnotherId(id) || keyPanelIsVisible()
   if (!keyHiddenIdMap[id]) {
     return
   }
