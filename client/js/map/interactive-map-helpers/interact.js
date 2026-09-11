@@ -47,6 +47,44 @@ export const interactPlugin = createInteractPlugin({
   interactionModes: ['placeMarker'], // e.g. ['selectMarker'], ['selectFeature'], ['placeMarker'], or combinations
 })
 
+const bindShowInfoPanel = (interactiveMap) => async (coords) => {
+  const attributes = mapState.cursorAttributes
+  const infoPanelValues = {
+    ...mapState.getInfoPanelDataForEsriStyleLayerId(mapState.cursorStyleLayer),
+    coords: `${Math.round(coords[0])},${Math.round(coords[1])}`,
+    version: mapState.defraMapConfig.version
+  }
+  if (attributes?.flood_source) {
+    infoPanelValues.fs = attributes.flood_source
+  }
+  const infoPanel = await getInfoPanel(infoPanelValues)
+  const { width, label, html } = infoPanel
+  interactiveMap.addPanel(INFO_PANEL_ID, {
+    label,
+    html,
+    mobile: { slot: 'drawer', modal: true, open: true },
+    tablet: { slot: 'left-top', width, open: true },
+    desktop: { slot: 'left-top', width, open: true }
+  })
+}
+
+const infoPanelIsVisible = () => {
+  const keyPanelElement = document.getElementById('map-panel-info')
+  return Boolean(keyPanelElement?.checkVisibility?.())
+}
+
+const bindHideInfoPanel = (interactiveMap) => () => {
+  if (infoPanelIsVisible()) {
+    // Only hide the info panel if it is currently visible
+    // otherwise we can get side effects, as the
+    // removal of the info panels event listener will
+    // trigger the re-showing of the key panel
+    interactiveMap.removePanel(INFO_PANEL_ID)
+  }
+  // always remove the marker
+  interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+}
+
 export const attachInteractPlugin = (interactiveMap) => {
   interactiveMap.on('map:ready', function (e) {
     interactPlugin.enable()
@@ -55,6 +93,8 @@ export const attachInteractPlugin = (interactiveMap) => {
   interactPlugin.triggerHitTest = initiateTriggerHitTest(interactiveMap)
   interactPlugin.panelId = INFO_PANEL_ID
   interactPlugin.markerId = INFO_PANEL_MARKER_ID
+  interactPlugin.showInfoPanel = bindShowInfoPanel(interactiveMap)
+  interactPlugin.hideInfoPanel = bindHideInfoPanel(interactiveMap)
 
   interactiveMap.on('interact:markerchange', async (event) => {
     const { coords } = event
@@ -63,42 +103,23 @@ export const attachInteractPlugin = (interactiveMap) => {
     await mapState.view.hitTest(screenPoint, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
 
     if (mapState.cursorStyleLayer) {
-      const attributes = mapState.cursorAttributes
-      const infoPanelValues = {
-        ...mapState.getInfoPanelDataForEsriStyleLayerId(mapState.cursorStyleLayer),
-        coords: `${Math.round(event.coords[0])},${Math.round(event.coords[1])}`,
-        version: mapState.defraMapConfig.version
-      }
-      if (attributes?.flood_source) {
-        infoPanelValues.fs = attributes.flood_source
-      }
-      const infoPanel = await getInfoPanel(infoPanelValues)
-      const { width, label, html } = infoPanel
-      interactiveMap.addPanel(INFO_PANEL_ID, {
-        label,
-        html,
-        mobile: { slot: 'drawer', modal: true, open: true },
-        tablet: { slot: 'left-top', width, open: true },
-        desktop: { slot: 'left-top', width, open: true }
-      })
+      interactPlugin.showInfoPanel(event.coords)
     } else {
-      interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
-      interactiveMap.removePanel(INFO_PANEL_ID)
+      interactPlugin.hideInfoPanel()
     }
   })
 
   const dismissPanelTargets = {
-    'map-search': true,
     dataset: true,
     timeframe: true,
     aep: true,
     depth: true
   }
-  const removeInfoPanel = () => interactiveMap.removePanel(interactPlugin.panelId)
+
   // Remove the panel when the user searches, or changes the dataset, timeframe, aep or depth
   document.addEventListener('change', ({ target }) => {
     if (dismissPanelTargets[target.name]) {
-      removeInfoPanel()
+      interactPlugin.hideInfoPanel()
     }
   })
 
@@ -116,7 +137,7 @@ export const attachInteractPlugin = (interactiveMap) => {
       hideDatasetsKey(INFO_PANEL_ID)
     }
     if (panelId === 'mapKey') {
-      removeInfoPanel()
+      interactPlugin.hideInfoPanel()
     }
   })
 }

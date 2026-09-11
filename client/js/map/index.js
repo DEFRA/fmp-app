@@ -4,18 +4,16 @@ import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
-import createSearchPlugin from '@defra/interactive-map/plugins/search'
+import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import createMapKeyPlugin from '@defra/interactive-map/plugins/map-key'
 import createMenuPlugin from '@defra/interactive-map/plugins/menu'
 import { initialiseMenu } from './datasets/datasetsMenu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
-import { setupEsriConfig, getRequest, getDefraMapConfig } from './tokens.js'
+import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
-// Need to reinstate adding the slider to the dataset plugin
-// import { sliderMarkUp, initialiseSlider } from './slider/index.js'
 import createOpacitySliderPlugin from './plugins/opacity-slider/src/index.js'
 
 // <InteractiveMapHelpers>
@@ -110,28 +108,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       }),
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
-      createSearchPlugin({
-        manifest: {
-          buttons: [{
-            id: 'search',
-            mobile: { slot: 'top-right', showLabel: false, order: 1 },
-            tablet: { slot: 'top-left', showLabel: true, order: 1 },
-            desktop: { slot: 'top-left', showLabel: true, order: 1 },
-          }],
-          controls: [{
-            id: 'search',
-            mobile: { slot: 'top-right' },
-            tablet: { slot: 'top-left', order: 2 },
-            desktop: { slot: 'top-left', order: 2 },
-          }],
-        },
-        transformRequest: getRequest,
-        placeholder: 'Search for a place in england',
-        osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8',
-        regions: ['england'],
-        width: '300px',
-        showMarker: false
-      }),
+      searchPlugin,
       drawPlugin,
       framePlugin,
       interactPlugin,
@@ -166,7 +143,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   const onEditPolygon = (isEditing) => {
     toggleKeyWhenEditing(isEditing)
     if (isEditing) {
-      interactiveMap.removePanel(interactPlugin.panelId)
+      interactPlugin.hideInfoPanel()
       interactiveMap.removeMarker('search')
       interactiveMap.hidePanel('menu')
       // Disable the selectAtTarget (infoPanel) button
@@ -182,9 +159,24 @@ getDefraMapConfig().then((defraMapConfig) => {
       interactPlugin.triggerHitTest()
     }
   }
-
   attachInteractPlugin(interactiveMap)
   attachDrawPlugin(interactiveMap, onEditPolygon)
+
+  attachSearchPlugin(interactiveMap, {
+    onOpened: () => {
+      // Hide the info panel when the search is opened. In reality, it
+      // is already hidden before this event is fired, but we call it
+      // here to ensure that the infoPanel marker is also removed.
+      interactPlugin.hideInfoPanel()
+    },
+    onClosed: () => {
+      // Ironically, we must hide the info panel when the search is
+      // closed too, This is because the IM hides just about everything
+      // when search is opened, but shows them once it is closed and we
+      // don't want it to. So we force it closed here.
+      interactPlugin.hideInfoPanel()
+    }
+  })
 
   interactiveMap.on('app:ready', function (e) {
     interactiveMap.addButton('help', {
@@ -195,8 +187,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
-    // Need to reinstate adding the slider to the dataset plugin
-    // initialiseSlider(interactiveMap)
   })
 
   interactiveMap.on('search:match', (event) => {
