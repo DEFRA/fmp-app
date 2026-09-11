@@ -117,7 +117,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     place: 'England',
     minZoom: 6,
     maxZoom: 20,
-    extent: siteBoundary.extents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
+    extent: siteBoundary.buffedExtents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableMapControls: false,
     enableZoomControls: true,

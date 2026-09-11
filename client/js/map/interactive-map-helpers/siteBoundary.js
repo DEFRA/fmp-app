@@ -5,6 +5,7 @@ const WEST = 0
 const SOUTH = 1
 const EAST = 2
 const NORTH = 3
+const BUFFER_RATIO = 0.5
 
 const getPolygonFromUrl = () => {
   try {
@@ -120,6 +121,21 @@ export class SiteBoundary {
       acc[NORTH] = Math.max(acc[NORTH], y)
       return acc
     }, [Infinity, Infinity, -Infinity, -Infinity])
+  }
+
+  get buffedExtents () {
+    const buffedExtents = this.extents
+    if (!buffedExtents) {
+      return null
+    }
+    const [west, south, east, north] = buffedExtents
+    const widthBuffer = BUFFER_RATIO * Math.abs(east - west)
+    const heightBuffer = BUFFER_RATIO * Math.abs(north - south)
+    buffedExtents[WEST] -= widthBuffer
+    buffedExtents[SOUTH] -= heightBuffer
+    buffedExtents[EAST] += widthBuffer
+    buffedExtents[NORTH] += heightBuffer
+    return buffedExtents
   }
 
   set coordinates (coordinates) {
