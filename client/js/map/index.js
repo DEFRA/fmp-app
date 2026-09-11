@@ -25,7 +25,7 @@ import { mapState } from './interactive-map-helpers/mapState.js'
 import { getQueryParam, setQueryParam } from './interactive-map-helpers/queryParams.js'
 
 const ENGLAND_WEST = 50000
-const ENGLAND_SOUTH = 10000
+const ENGLAND_SOUTH = 40000
 const ENGLAND_EAST = 400000
 const ENGLAND_NORTH = 650000
 

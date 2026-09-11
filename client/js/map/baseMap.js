@@ -8,6 +8,7 @@ const setUpBaseMaps = (osAccountNumber) => {
       url: '/map/styles/master-map',
       attribution: osMasterMapAttributionHyperlink,
       thumbnail: '/assets/images/outdoor-map-icon.jpg',
+      backgroundColor: '#A9DDEF',
       logo: '/assets/images/os-logo.svg'
     },
     {
@@ -26,6 +27,7 @@ const setUpBaseMaps = (osAccountNumber) => {
       url: '/map/styles/black-and-white-map',
       attribution: osMasterMapAttributionHyperlink,
       thumbnail: '/assets/images/black-and-white-map-icon.jpg',
+      backgroundColor: '#2C2C2C',
       logo: '/assets/images/os-logo.svg'
     }
   ]
