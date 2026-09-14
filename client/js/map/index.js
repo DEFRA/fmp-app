@@ -5,7 +5,7 @@ import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
-import createMapKeyPlugin from '@defra/interactive-map/plugins/map-key'
+import { mapKeyPlugin } from './plugins/map-key/map-key.js'
 import createMenuPlugin from '@defra/interactive-map/plugins/menu'
 import { initialiseMenu } from './datasets/datasetsMenu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
@@ -75,21 +75,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     plugins: [
       datasetsPlugin,
       opacitySliderPlugin,
-      createMapKeyPlugin({
-        groups: {
-          'surface-water-depth-in-millimetres': {
-            groupLabel: 'Surface water depth in millimetres',
-            groupStyle: 'horizontal-ramp'
-          }
-        },
-        manifest: {
-          panels: [{
-            id: 'mapKey',
-            tablet: { slot: 'left-top', width: '360px', open: true },
-            desktop: { slot: 'left-top', width: '360px', open: true },
-          }]
-        },
-      }),
+      mapKeyPlugin,
       createMenuPlugin({
         manifest: {
           panels: [{
@@ -200,6 +186,9 @@ getDefraMapConfig().then((defraMapConfig) => {
     datasetsPlugin.ready = true
     mapState.updateVisibleLayers()
     initPointerMove()
+    // Ensure the site boundary is reflected in the map key plugin after the plugin is loaded
+    // NOTE we need a map-key:ready event to speed up the addition of the site boundary to the map key
+    siteBoundary.onSetFeature(siteBoundary.feature)
     reactiveUtils.when(
       () => (!mapState.view.updating),
       () => {

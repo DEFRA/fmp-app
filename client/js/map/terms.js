@@ -35,8 +35,8 @@ const terms = {
     editShape: 'Edit shape',
     deleteShape: 'Delete shape',
     getInfo: 'Get info',
-    oversizeBoundaryWarning: 'Boundary must be under 300 hectares to order data. You can still download a flood map.'
-
+    oversizeBoundaryWarning: 'Boundary must be under 300 hectares to order data. You can still download a flood map.',
+    locationBoundary: 'Location boundary'
   },
   chance: {
     rsHigh: 'Rivers and sea 1 in 30',

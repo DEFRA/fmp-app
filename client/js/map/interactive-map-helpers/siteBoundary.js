@@ -24,6 +24,7 @@ const FRAME_MAX_ZOOM = 22
 
 export class SiteBoundary {
   constructor (id = 'boundary') {
+    this.onSetFeature = () => {}
     this._feature = null
     this._id = id
     this._state = SiteBoundary.EMPTY
@@ -86,6 +87,7 @@ export class SiteBoundary {
       this._feature = null
       this.state = SiteBoundary.EMPTY
       setQueryParam('encodedPolygon', null)
+      this.onSetFeature(null)
       return
     }
     // round the coordinates to 2 decimal places
@@ -99,6 +101,7 @@ export class SiteBoundary {
     this._feature = { ...feature, id, properties }
     this.state = SiteBoundary.COMPLETE
     setQueryParam('encodedPolygon', this.encodedPolygon)
+    this.onSetFeature(this._feature)
   }
 
   get coordinates () {
