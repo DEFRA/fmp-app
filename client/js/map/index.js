@@ -8,7 +8,7 @@ import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
-import { setupEsriConfig, getRequest, getDefraMapConfig } from './mapConfig.js'
+import { setupEsriConfig, getDefraMapConfig } from './mapConfig.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 // TODO: add the slider to the dataset plugin
@@ -91,11 +91,8 @@ getDefraMapConfig().then((defraMapConfig) => {
             desktop: { slot: 'top-left', order: 2 },
           }],
         }, 
-        // transformRequest: getRequest,
         placeholder: 'Search for a place in england',
-        // make URL something like proxy/place-lookup/{query} to make it more vague, move all other params to the proxy
-        // proxy is going to extract and create the url
-        osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/os/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=8`,
+        osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/place-lookup/{query}`,
         regions: ['england'],
         width: '300px',
         showMarker: false

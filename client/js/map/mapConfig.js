@@ -15,22 +15,9 @@ export const setupEsriConfig = async (esriConfig) => {
 
 const getInterceptors = (proxyBaseUrl) => {
   return [{
-    urls: 'https://api.os.uk/maps/vector/v1/vts',
+    urls: 'https://api.os.uk/',
     before: async params => {
-      params.url = params.url.replace('https://api.os.uk/', `${proxyBaseUrl}/proxy/os/`)
+      params.url = params.url.replace('https://api.os.uk/', `${proxyBaseUrl}/proxy/basemap/`)
     }
   }]
-}
-
-// not used as going direct to proxy remove
-export const getRequest = async (request) => {
-  const { url, options } = request
-  if (url.startsWith('https://api.os.uk')) {
-    const { fmpProxyUrl } = await getDefraMapConfig()
-    return {
-      url: url.replace('https://api.os.uk/', `${fmpProxyUrl}/proxy/os/`),
-      options
-    }
-  }
-  return null
 }
