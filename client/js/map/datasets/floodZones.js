@@ -70,10 +70,12 @@ const fz3Sublayer =
 
 const datasetFloodZonesCC = {
   ...floodZonesDefaults,
+  esriGroupId: 'floodzones-cc-group',
   id: 'floodzonescc',
   label: terms.labels.floodZones,
   groupLabel: terms.labels.floodZones,
   sourceLayer: 'Flood Zones 2 and 3 Rivers and Sea CCP1',
+  visibleWhen: visibleWhenClimateChange,
   sublayers: [
     ccSublayer,
     noDataSublayer,

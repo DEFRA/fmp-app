@@ -63,6 +63,7 @@ export const surfaceWaterExtentsKey = {
   groupLabel: terms.labels.surfaceWater,
   showInKey: true,
   style: surfaceWaterExtentsKeyStyle,
+  visibleWhen: { menu: { dataset: ['surfacewater'] } },
   sublayers: [
     {
       id: 'extents150',
