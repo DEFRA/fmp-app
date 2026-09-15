@@ -4,7 +4,8 @@ export const paramNames = {
   DATASET: {
     KEY: 'dataset',
     SURFACE_WATER: 'surfacewater',
-    FLOOD_ZONES: 'floodzones'
+    FLOOD_ZONES: 'floodzones',
+    NONE: 'none'
   },
   AEP: {
     KEY: 'aep',

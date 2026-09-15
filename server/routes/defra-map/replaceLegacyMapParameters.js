@@ -39,6 +39,9 @@ const setZoomAndCentre = (searchParams) => {
 
 const setDataset = (searchParams, segmentParts) => {
   if (!searchParams.get(paramNames.DATASET.KEY)) {
+    if (segmentParts.has('mo')) {
+      searchParams.set(paramNames.DATASET.KEY, paramNames.DATASET.NONE)
+    }
     if (segmentParts.has('sw')) {
       searchParams.set(paramNames.DATASET.KEY, paramNames.DATASET.SURFACE_WATER)
     }

@@ -37,6 +37,7 @@ describe('/map page', () => {
     ['lyr=wrong&dataset=surfacewater', '/map?dataset=surfacewater'],
     ['seg=depth300', '/map?depth=extentsOver150'],
     ['seg=hr', '/map?aep=high'],
+    ['cz=123,456,7&seg=mo', '/map?map:center=123,456&map:zoom=7&dataset=none'],
     ['seg=sw,pd,depth300,hr&cz=100,200,5', '/map?map:center=100,200&map:zoom=5&dataset=surfacewater&timeframe=presentday&depth=extentsOver150&aep=high'],
     ['seg=fz&other1=x&other2=y', '/map?dataset=floodzones&other1=x&other2=y'],
     ['other1=x&seg=fz', '/map?dataset=floodzones&other1=x'],
