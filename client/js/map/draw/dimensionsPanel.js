@@ -13,6 +13,7 @@ export class DimensionsPanel {
   showPanel () {
     this._interactiveMap.addPanel(DIMENSIONS_PANEL_ID, {
       label: 'Dimensions',
+      focus: false,
       html: dimensionsPanelHTML,
       mobile: { slot: 'drawer', modal: false, open: true },
       tablet: { slot: 'side', width: '280px', open: true, dismissible: false, exclusive: false, },
@@ -55,6 +56,7 @@ export class DimensionsPanel {
     this._interactiveMap.addPanel('BOUNDARY_WARNING', {
       label: terms.labels.oversizeBoundaryWarning,
       html: '<span class="im-u-visually-hidden">Alert:</span>',
+      focus: false,
       mobile: { slot: 'banner', dismissible: false },
       tablet: { slot: 'banner', dismissible: false },
       desktop: { slot: 'banner', dismissible: false }
