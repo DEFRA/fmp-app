@@ -31,8 +31,8 @@ const siteBoundaryKeyDefinition = {
 
 siteBoundary.onSetFeature = (feature) => {
   if (feature) {
-    mapKeyPlugin.addKeyItem(siteBoundaryKeyDefinition)
+    mapKeyPlugin.addSymbol(siteBoundaryKeyDefinition)
   } else {
-    mapKeyPlugin.removeKeyItem(siteBoundaryKeyDefinition)
+    mapKeyPlugin.removeSymbol(siteBoundaryKeyDefinition)
   }
 }

@@ -186,9 +186,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     datasetsPlugin.ready = true
     mapState.updateVisibleLayers()
     initPointerMove()
-    // Ensure the site boundary is reflected in the map key plugin after the plugin is loaded
-    // NOTE we need a map-key:ready event to speed up the addition of the site boundary to the map key
-    siteBoundary.onSetFeature(siteBoundary.feature)
     reactiveUtils.when(
       () => (!mapState.view.updating),
       () => {
@@ -197,6 +194,10 @@ getDefraMapConfig().then((defraMapConfig) => {
           interactPlugin.triggerHitTest()
         }
       })
+  })
+
+  interactiveMap.on('map-key:ready', function () {
+    siteBoundary.onSetFeature(siteBoundary.feature)
   })
 
   interactiveMap.on('map:ready', function ({ map, view, _mapStyleId, _mapSize, _crs }) {
