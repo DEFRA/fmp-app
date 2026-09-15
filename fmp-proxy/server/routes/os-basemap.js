@@ -38,7 +38,7 @@ const buildBasemapUri = async (request) => {
   }
 
   const vectorTarget = request.query?.target || '/maps/vector/v1/vts'
-  const vectorUrl = new URL(pathSegment ? `${vectorTarget.replace(/\/+$/, '')}/${pathSegment}` : vectorTarget, OS_API_BASE)
+  const vectorUrl = new URL(pathSegment ? `${pathSegment}` : vectorTarget, OS_API_BASE)
 
   Object.entries(request.query || {}).forEach(([key, value]) => {
     if (key !== 'type' && key !== 'target') {
