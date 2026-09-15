@@ -3,7 +3,8 @@ const routes = [].concat(
   require('../routes/esri-proxy'),
   require('../routes/esri-tiles-proxy'),
   require('../routes/esri-geocode-proxy'),
-  require('../routes/os-proxy')
+  require('../routes/os-place-lookup'),
+  require('../routes/os-basemap')
 )
 
 module.exports = {

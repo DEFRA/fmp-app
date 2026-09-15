@@ -37,9 +37,8 @@ const getCentreAndExtents = (polygonArray) => {
 const showMap = async (polygonArray) => {
   const { fmpProxyUrl } = await getDefraMapConfig()
 
-  // TODO get this url from config
   const baseMapLayer = new WMTSLayer({
-    url: `${fmpProxyUrl}/proxy/os/maps/raster/v1/wmts`,
+    url: `${fmpProxyUrl}/proxy/basemap?type=wmts`,
     serviceMode: 'KVP',
     activeLayer: {
       id: 'Outdoor_27700'

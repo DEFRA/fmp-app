@@ -33,6 +33,11 @@ npm install
 npm start
 ```
 
+## Run with debug
+```bash
+PROXY_DEBUG=true npm start
+```
+
 ## Test
 
 ```bash
