@@ -1,4 +1,14 @@
+import { getQueryParam, setQueryParam } from './queryParams.js'
+
 class MapState {
+  constructor () {
+    const location = getQueryParam('location')
+    if (location) {
+      this.location = location
+      setQueryParam('location', null)
+    }
+  }
+
   defraMapConfig = null
   interactiveMap = null
   map = null
@@ -7,6 +17,25 @@ class MapState {
   cursorStyleLayer = null // The style layer that the cursor or target is currently over, if any
   cursorAttributes = null // The attributes of the feature that the cursor or target is currently over, if any
   styleToValuesMap = {} // A map of esriStyleLayerId to infoPanelData values, used to get the info panel data for a given style layer
+
+  onMapReady ({ map, view }) {
+    this.map = map
+    this.view = view
+
+    if (this.location) {
+    // Show a labelled marker on the map for the location passed from the /location page, if any
+      const { x, y } = view.center
+      this.interactiveMap.addMarker('search', [x, y], {
+        label: this.location,
+        showLabel: true
+      })
+    }
+  }
+
+  attach (interactiveMap) {
+    this.interactiveMap = interactiveMap
+    interactiveMap.on('map:ready', this.onMapReady.bind(this))
+  }
 
   updateVisibleLayers () {
     this.visibleLayers = this.map?.allLayers?.items?.filter((item) =>
@@ -20,31 +49,58 @@ class MapState {
     return this.styleToValuesMap[esriStyleLayerId] || null
   }
 
-  assignCursorStyleLayer (hitTestResponse) {
-    let topHitTestData = null
-    if (hitTestResponse?.results?.length > 0) {
-      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
-        const { layerId } = result.graphic?.origin || {}
-        const { attributes } = result.graphic
-        if (!layerId) {
-          return hitTestData
-        }
-        const vtLayer = result.layer
-        const styleLayer = vtLayer?.getStyleLayer(layerId)
-        if (styleLayer?.layout?.visibility === 'visible') {
-          hitTestData.push({ layerId, attributes })
-        }
-        return hitTestData
-      }, [])
+  initPointerMove () {
+    let lastHit = 0
+    const throttleMs = 20 // Throttle to reduce hitTest usage
+    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-      topHitTestData = visibleHitTestData?.[0] || null
-    }
-    mapState.cursorStyleLayer = topHitTestData?.layerId || null
-    mapState.cursorAttributes = topHitTestData?.attributes || null
-    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+    this.view.on('pointer-enter', () => this.updateVisibleLayers())
+
+    this.view.on('pointer-move', async event => {
+      const now = Date.now()
+      if (this.interfaceType !== 'mouse' || !this.visibleLayers || now - lastHit < throttleMs || this.view.scale > minScale) {
+        return
+      }
+      lastHit = now
+      await this.view.hitTest(event, { include: this.visibleLayers })
+        .then(assignCursorStyleLayer)
+      document.body.style.cursor = this.cursorStyleLayer ? 'pointer' : 'default'
+    })
+
+    this.view.on('pointer-leave', () => {
+      if (this.interfaceType === 'touch') {
+        return
+      }
+      document.body.style.cursor = 'default'
+      this.visibleLayers = null
+    })
   }
 }
 
 const mapState = new MapState()
+
+const assignCursorStyleLayer = (hitTestResponse) => {
+  let topHitTestData = null
+  if (hitTestResponse?.results?.length > 0) {
+    const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
+      const { layerId } = result.graphic?.origin || {}
+      const { attributes } = result.graphic
+      if (!layerId) {
+        return hitTestData
+      }
+      const vtLayer = result.layer
+      const styleLayer = vtLayer?.getStyleLayer(layerId)
+      if (styleLayer?.layout?.visibility === 'visible') {
+        hitTestData.push({ layerId, attributes })
+      }
+      return hitTestData
+    }, [])
+
+    topHitTestData = visibleHitTestData?.[0] || null
+  }
+  mapState.cursorStyleLayer = topHitTestData?.layerId || null
+  mapState.cursorAttributes = topHitTestData?.attributes || null
+  document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+}
 
 export { mapState }

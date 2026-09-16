@@ -1,4 +1,4 @@
-const { mapState } = require('../interactive-map-helpers/mapState.js')
+const { mapState } = require('../../interactive-map-helpers/mapState.js')
 
 const keyHiddenIdMap = {}
 

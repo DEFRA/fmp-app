@@ -1,11 +1,10 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
-import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
-import { terms } from '..//terms.js'
+import { SiteBoundary, siteBoundary } from '../../interactive-map-helpers/siteBoundary.js'
+import { terms } from '../../terms.js'
 import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
 
 export const drawPlugin = createDrawPlugin()
-
 export const framePlugin = createFramePlugin()
 
 const PRIMARY_DROP_DOWN_ID = 'geometryActions'
@@ -92,9 +91,43 @@ const drawMenuItems = {
   }
 }
 
-export const attachDrawPlugin = (interactiveMap, onEditPolygon) => {
+drawPlugin.toggleKeyWhenEditing = (isEditing) => {
+  const { plugins } = drawPlugin
+  if (isEditing) {
+    plugins.search.hideButton()
+    plugins.mapKey.hideButton()
+    plugins.mapKey.hidePanel('editing')
+  } else {
+    plugins.search.showButton()
+    plugins.mapKey.showButton()
+    plugins.mapKey.reShowPanel('editing')
+  }
+}
+
+drawPlugin.onEditPolygon = (isEditing) => {
+  const { plugins, interactiveMap } = drawPlugin
+  drawPlugin.toggleKeyWhenEditing(isEditing)
+  if (isEditing) {
+    plugins.interact.hideInfoPanel()
+    interactiveMap.removeMarker('search')
+    interactiveMap.hidePanel('menu')
+    // Disable the selectAtTarget (infoPanel) button
+    interactiveMap.toggleButtonState('selectAtTarget', 'disabled', true)
+    if (plugins.datasets.ready) { // hide layers
+      plugins.datasets.setDatasetVisibility(false)
+    }
+  } else {
+    interactiveMap.showPanel('menu')
+    if (plugins.datasets.ready) {
+      plugins.datasets.setDatasetVisibility(true)
+    }
+    plugins.interact.triggerHitTest()
+  }
+}
+
+drawPlugin.attach = (interactiveMap) => {
   dimensionsPanel = new DimensionsPanel(interactiveMap)
-  updateDrawState = attachUpdateDrawStateMethod(interactiveMap, onEditPolygon)
+  updateDrawState = attachUpdateDrawStateMethod(interactiveMap, drawPlugin.onEditPolygon)
   const onCancelEditing = () => {
     siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
     updateDrawState()

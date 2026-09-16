@@ -1,7 +1,7 @@
 import createInteractPlugin from '@defra/interactive-map/plugins/interact'
-import { terms } from '../terms.js'
-import { mapState } from './mapState.js'
-import { getInfoPanel } from '../infoPanel.js'
+import { terms } from '../../terms.js'
+import { mapState } from '../../interactive-map-helpers/mapState.js'
+import { getInfoPanel } from '../../infoPanel.js'
 import { hideDatasetsKey, reShowDatasetsKey } from '../datasets/showHideDatasetsKey.js'
 
 let enableGetInfoButton = false
@@ -24,7 +24,7 @@ export const interactPlugin = createInteractPlugin({
       id: 'selectAtTarget',
       label: terms.labels.getInfo,
       enableWhen: (event) => {
-        // TODO: Once the im provides an api that returns the interfaceType
+        // IM-526 Once the im provides an api that returns the interfaceType
         // or emits an event when the interfaceType changes, we can use that in the reactiveUtils listener
         // and get rid of this enableWhen event all together.
 
@@ -85,7 +85,7 @@ const bindHideInfoPanel = (interactiveMap) => () => {
   interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
 }
 
-export const attachInteractPlugin = (interactiveMap) => {
+interactPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', () => {
     interactPlugin.enable()
   })

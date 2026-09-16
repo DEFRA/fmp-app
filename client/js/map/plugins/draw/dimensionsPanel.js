@@ -1,6 +1,6 @@
 import { dimensionsPanelHTML, getDimensionsPanelIdValue } from './dimensionsPanel.html.js'
-import { getAreaInHectares, getDimensions } from '../../../../server/services/shape-utils.js'
-import { terms } from '../terms.js'
+import { getAreaInHectares, getDimensions } from '../../../../../server/services/shape-utils.js'
+import { terms } from '../../terms.js'
 
 export const DIMENSIONS_PANEL_ID = 'dimensions-panel'
 const MAX_AREA_HECTARES = 300

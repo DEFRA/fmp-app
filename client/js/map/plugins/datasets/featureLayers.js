@@ -1,5 +1,5 @@
-import { terms } from '../terms.js'
-import { colours } from '../colours.js'
+import { terms } from '../../terms.js'
+import { colours } from '../../colours.js'
 
 const featureLayerDefaults = {
   type: 'FeatureService',
