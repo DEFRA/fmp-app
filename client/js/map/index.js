@@ -1,6 +1,5 @@
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
-import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { mapState } from './interactive-map-helpers/mapState.js'
@@ -41,20 +40,6 @@ getDefraMapConfig().then((defraMapConfig) => {
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
-  })
-
-  interactiveMap.on('datasets:ready', function () {
-    plugins.datasets.ready = true
-    mapState.updateVisibleLayers()
-    mapState.initPointerMove()
-    reactiveUtils.when(
-      () => (!mapState.view.updating),
-      () => {
-        // Update the enabled state of the infoPanel button when the map is moved on a touch device
-        if (mapState.interfaceType === 'touch') {
-          plugins.interact.triggerHitTest()
-        }
-      })
   })
 
   interactiveMap.on('map-key:ready', function () {
