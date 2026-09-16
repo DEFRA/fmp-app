@@ -13,10 +13,10 @@ import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { setUpBaseMaps } from './baseMap.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
-import createOpacitySliderPlugin from './plugins/opacity-slider/src/index.js'
 
 // <InteractiveMapHelpers>
 import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
+import { opacitySliderPlugin } from './plugins/opacity-slider/opacity-slider.js'
 
 import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
 
@@ -62,18 +62,13 @@ getDefraMapConfig().then((defraMapConfig) => {
   })
   const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
-  const opacitySliderPlugin = createOpacitySliderPlugin({
-    heading: 'Layer opacity',
-    onChange: (opacity) => datasetsPlugin.setOpacity(opacity)
-  })
-
   const interactiveMap = new InteractiveMap('map', {
     mapProvider: esriProvider({
       setupConfig: setupEsriConfig
     }),
     plugins: [
       datasetsPlugin,
-      opacitySliderPlugin,
+      opacitySliderPlugin(datasetsPlugin),
       mapKeyPlugin,
       menuPlugin,
       mapStylePlugin,
