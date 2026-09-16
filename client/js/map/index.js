@@ -1,8 +1,7 @@
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
-
-import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
+import { scaleBarPlugin } from './plugins/scale-bar/scale-bar.js'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import { mapKeyPlugin } from './plugins/map-key/map-key.js'
 import { menuPlugin } from './plugins/menu/menu.js'
@@ -40,7 +39,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       mapKeyPlugin,
       menuPlugin,
       mapStylePlugin(defraMapConfig.OS_ACCOUNT_NUMBER),
-      createScaleBarPlugin({ units: 'metric' }),
+      scaleBarPlugin(),
       searchPlugin,
       drawPlugin,
       framePlugin,
