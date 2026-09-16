@@ -2,7 +2,6 @@ import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
 
-import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import { mapKeyPlugin } from './plugins/map-key/map-key.js'
@@ -10,7 +9,7 @@ import { menuPlugin } from './plugins/menu/menu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
-import { setUpBaseMaps } from './baseMap.js'
+import { mapStylePlugin } from './plugins/map-styles/map-styles.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
 
@@ -28,27 +27,7 @@ const ENGLAND_NORTH = 650000
 
 getDefraMapConfig().then((defraMapConfig) => {
   mapState.defraMapConfig = defraMapConfig
-  const mapStyles = setUpBaseMaps(defraMapConfig.OS_ACCOUNT_NUMBER)
-  const mapStyleButtonOverrides = {
-    id: 'mapStyles',
-    desktop: { slot: 'right-top', order: 2, showLabel: false },
-    tablet: { slot: 'right-top', order: 2, showLabel: false },
-    mobile: { slot: 'right-top', order: 2, showLabel: false }
-  }
-  const mapStylePanelOverrides = {
-    id: 'mapStyles',
-    desktop: { slot: 'map-styles-button', width: '400px', modal: true },
-    tablet: { slot: 'map-styles-button', modal: true },
-    mobile: { slot: 'map-styles-button', modal: true }
-  }
 
-  const mapStylePlugin = createMapStylesPlugin({
-    mapStyles,
-    manifest: {
-      buttons: [mapStyleButtonOverrides],
-      panels: [mapStylePanelOverrides]
-    }
-  })
   const datasetsPlugin = initialiseDatasetsPlugin(defraMapConfig)
 
   const interactiveMap = new InteractiveMap('map', {
@@ -60,7 +39,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       opacitySliderPlugin(datasetsPlugin),
       mapKeyPlugin,
       menuPlugin,
-      mapStylePlugin,
+      mapStylePlugin(defraMapConfig.OS_ACCOUNT_NUMBER),
       createScaleBarPlugin({ units: 'metric' }),
       searchPlugin,
       drawPlugin,
