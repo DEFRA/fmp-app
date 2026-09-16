@@ -75,6 +75,12 @@ mapKeyPlugin.reShowPanel = (id) => {
   }
 }
 
+mapKeyPlugin.attach = () => {
+  mapKeyPlugin.interactiveMap.on('map-key:ready', function () {
+    siteBoundary.onSetFeature(siteBoundary.feature)
+  })
+}
+
 const siteBoundaryKeyDefinition = {
   id: 'site-boundary',
   label: terms.labels.locationBoundary,

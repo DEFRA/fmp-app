@@ -41,8 +41,4 @@ getDefraMapConfig().then((defraMapConfig) => {
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })
   })
-
-  interactiveMap.on('map-key:ready', function () {
-    siteBoundary.onSetFeature(siteBoundary.feature)
-  })
 })
