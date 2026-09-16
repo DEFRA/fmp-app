@@ -11,11 +11,20 @@ const buildBasemapUri = async (request) => {
   const targetType = pathLooksLikeWmts ? 'wmts' : (request.query?.type || 'vector')
 
   if (targetType === 'wmts') {
-    const wmtsBasePath = request.query?.target || '/maps/raster/v1/wmts'
-    const wmtsUrl = new URL(pathSegment ? `${wmtsBasePath.replace(/\/+$/, '')}/${pathSegment}` : wmtsBasePath, OS_API_BASE)
+    const wmtsUrl = new URL('/maps/raster/v1/wmts', OS_API_BASE)
+
+    const service = (request.query?.SERVICE || request.query?.service || 'WMTS').toUpperCase()
+    const requestName = request.query?.REQUEST || request.query?.request || 'GetCapabilities'
+    const version = request.query?.VERSION || request.query?.version || '1.0.0'
+
+    wmtsUrl.searchParams.set('service', service)
+    wmtsUrl.searchParams.set('request', requestName)
+    wmtsUrl.searchParams.set('version', version)
 
     Object.entries(request.query || {}).forEach(([key, value]) => {
-      if (key !== 'type' && key !== 'target') {
+      const lowerKey = String(key).toLowerCase()
+
+      if (!['type', 'target', 'service', 'request', 'version'].includes(lowerKey)) {
         wmtsUrl.searchParams.set(key, value)
       }
     })
@@ -23,13 +32,6 @@ const buildBasemapUri = async (request) => {
     if (!wmtsUrl.searchParams.has('key')) {
       wmtsUrl.searchParams.set('key', config.ordnanceSurvey.osSearchKey)
     }
-
-    logDebug('os basemap request received', {
-      method: request.method,
-      requestUrl,
-      targetType,
-      upstreamUrl: wmtsUrl.toString()
-    })
 
     return {
       uri: wmtsUrl.toString(),
