@@ -6,8 +6,7 @@ import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 import createScaleBarPlugin from '@defra/interactive-map/plugins/scale-bar'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import { mapKeyPlugin } from './plugins/map-key/map-key.js'
-import createMenuPlugin from '@defra/interactive-map/plugins/menu'
-import { initialiseMenu } from './datasets/datasetsMenu.js'
+import { menuPlugin } from './plugins/menu/menu.js'
 import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
 
 import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
@@ -76,22 +75,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       datasetsPlugin,
       opacitySliderPlugin,
       mapKeyPlugin,
-      createMenuPlugin({
-        manifest: {
-          panels: [{
-            id: 'menu',
-            desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false, },
-            tablet: { slot: 'side', width: '280px', modal: true }
-          }],
-          buttons: [
-            {
-              id: 'menuButton',
-              excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
-            }
-          ]
-        },
-        menu: initialiseMenu(datasetsPlugin)
-      }),
+      menuPlugin,
       mapStylePlugin,
       createScaleBarPlugin({ units: 'metric' }),
       searchPlugin,
