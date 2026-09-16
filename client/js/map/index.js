@@ -5,7 +5,7 @@ import { scaleBarPlugin } from './plugins/scale-bar/scale-bar.js'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import { mapKeyPlugin } from './plugins/map-key/map-key.js'
 import { menuPlugin } from './plugins/menu/menu.js'
-import { interactPlugin, attachInteractPlugin } from './interactive-map-helpers/interact'
+import { interactPlugin, attachInteractPlugin } from './plugins/interact/interact.js'
 
 import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { mapStylePlugin } from './plugins/map-styles/map-styles.js'
