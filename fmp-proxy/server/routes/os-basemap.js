@@ -7,24 +7,17 @@ const OS_API_BASE = 'https://api.os.uk/'
 const buildBasemapUri = async (request) => {
   const requestUrl = request?.url?.pathname ? `${request.url.pathname}${request.url.search || ''}` : 'unknown'
   const pathSegment = request.params?.path ? String(request.params.path).replace(/^\/+/, '') : ''
+  // Strip 'wmts' prefix if present (from RESTful path /proxy/basemap/wmts)
+  const pathWithoutWmtsPrefix = pathSegment.replace(/^wmts\/?/, '')
+  
   const pathLooksLikeWmts = /wmts|WMTSCapabilities|GetTile|GetCapabilities/i.test(pathSegment) || request.query?.SERVICE === 'WMTS' || request.query?.REQUEST
   const targetType = pathLooksLikeWmts ? 'wmts' : (request.query?.type || 'vector')
-
   if (targetType === 'wmts') {
-    const wmtsUrl = new URL('/maps/raster/v1/wmts', OS_API_BASE)
-
-    const service = (request.query?.SERVICE || request.query?.service || 'WMTS').toUpperCase()
-    const requestName = request.query?.REQUEST || request.query?.request || 'GetCapabilities'
-    const version = request.query?.VERSION || request.query?.version || '1.0.0'
-
-    wmtsUrl.searchParams.set('service', service)
-    wmtsUrl.searchParams.set('request', requestName)
-    wmtsUrl.searchParams.set('version', version)
+    const wmtsBasePath = request.query?.target || '/maps/raster/v1/wmts'
+    const wmtsUrl = new URL(pathWithoutWmtsPrefix ? `${wmtsBasePath.replace(/\/+$/, '')}/${pathWithoutWmtsPrefix}` : wmtsBasePath, OS_API_BASE)
 
     Object.entries(request.query || {}).forEach(([key, value]) => {
-      const lowerKey = String(key).toLowerCase()
-
-      if (!['type', 'target', 'service', 'request', 'version'].includes(lowerKey)) {
+      if (key !== 'type' && key !== 'target') {
         wmtsUrl.searchParams.set(key, value)
       }
     })
@@ -32,6 +25,13 @@ const buildBasemapUri = async (request) => {
     if (!wmtsUrl.searchParams.has('key')) {
       wmtsUrl.searchParams.set('key', config.ordnanceSurvey.osSearchKey)
     }
+
+    logDebug('os basemap request received', {
+      method: request.method,
+      requestUrl,
+      targetType,
+      upstreamUrl: wmtsUrl.toString()
+    })
 
     return {
       uri: wmtsUrl.toString(),
