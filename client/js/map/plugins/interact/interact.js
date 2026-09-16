@@ -85,7 +85,7 @@ const bindHideInfoPanel = (interactiveMap) => () => {
   interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
 }
 
-export const attachInteractPlugin = (interactiveMap) => {
+interactPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', () => {
     interactPlugin.enable()
   })
