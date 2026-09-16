@@ -1,13 +1,12 @@
 import { scaleBarPlugin } from './scale-bar/scale-bar.js'
-import { searchPlugin, attachSearchPlugin } from './search/search.js'
+import { searchPlugin } from './search/search.js'
 import { mapKeyPlugin } from './map-key/map-key.js'
 import { menuPlugin } from './menu/menu.js'
-import { interactPlugin, attachInteractPlugin } from './interact/interact.js'
+import { interactPlugin } from './interact/interact.js'
 import { mapStylePlugin } from './map-styles/map-styles.js'
-import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
 import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
 import { opacitySliderPlugin } from './opacity-slider/opacity-slider.js'
-import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
+import { drawPlugin, framePlugin } from './draw/drawPlugin.js'
 
 export const plugins = {}
 const pluginArray = []

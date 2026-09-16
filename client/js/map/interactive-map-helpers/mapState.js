@@ -49,31 +49,58 @@ class MapState {
     return this.styleToValuesMap[esriStyleLayerId] || null
   }
 
-  assignCursorStyleLayer (hitTestResponse) {
-    let topHitTestData = null
-    if (hitTestResponse?.results?.length > 0) {
-      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
-        const { layerId } = result.graphic?.origin || {}
-        const { attributes } = result.graphic
-        if (!layerId) {
-          return hitTestData
-        }
-        const vtLayer = result.layer
-        const styleLayer = vtLayer?.getStyleLayer(layerId)
-        if (styleLayer?.layout?.visibility === 'visible') {
-          hitTestData.push({ layerId, attributes })
-        }
-        return hitTestData
-      }, [])
+  initPointerMove () {
+    let lastHit = 0
+    const throttleMs = 20 // Throttle to reduce hitTest usage
+    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
 
-      topHitTestData = visibleHitTestData?.[0] || null
-    }
-    mapState.cursorStyleLayer = topHitTestData?.layerId || null
-    mapState.cursorAttributes = topHitTestData?.attributes || null
-    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+    this.view.on('pointer-enter', () => this.updateVisibleLayers())
+
+    this.view.on('pointer-move', async event => {
+      const now = Date.now()
+      if (this.interfaceType !== 'mouse' || !this.visibleLayers || now - lastHit < throttleMs || this.view.scale > minScale) {
+        return
+      }
+      lastHit = now
+      await this.view.hitTest(event, { include: this.visibleLayers })
+        .then(assignCursorStyleLayer)
+      document.body.style.cursor = this.cursorStyleLayer ? 'pointer' : 'default'
+    })
+
+    this.view.on('pointer-leave', () => {
+      if (this.interfaceType === 'touch') {
+        return
+      }
+      document.body.style.cursor = 'default'
+      this.visibleLayers = null
+    })
   }
 }
 
 const mapState = new MapState()
+
+const assignCursorStyleLayer = (hitTestResponse) => {
+  let topHitTestData = null
+  if (hitTestResponse?.results?.length > 0) {
+    const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
+      const { layerId } = result.graphic?.origin || {}
+      const { attributes } = result.graphic
+      if (!layerId) {
+        return hitTestData
+      }
+      const vtLayer = result.layer
+      const styleLayer = vtLayer?.getStyleLayer(layerId)
+      if (styleLayer?.layout?.visibility === 'visible') {
+        hitTestData.push({ layerId, attributes })
+      }
+      return hitTestData
+    }, [])
+
+    topHitTestData = visibleHitTestData?.[0] || null
+  }
+  mapState.cursorStyleLayer = topHitTestData?.layerId || null
+  mapState.cursorAttributes = topHitTestData?.attributes || null
+  document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+}
 
 export { mapState }

@@ -46,7 +46,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.on('datasets:ready', function () {
     plugins.datasets.ready = true
     mapState.updateVisibleLayers()
-    initPointerMove()
+    mapState.initPointerMove()
     reactiveUtils.when(
       () => (!mapState.view.updating),
       () => {
@@ -60,30 +60,4 @@ getDefraMapConfig().then((defraMapConfig) => {
   interactiveMap.on('map-key:ready', function () {
     siteBoundary.onSetFeature(siteBoundary.feature)
   })
-
-  const initPointerMove = () => {
-    let lastHit = 0
-    const throttleMs = 20 // Throttle to reduce hitTest usage
-    const minScale = 250000 // vector tile layers use minScale value from arcgis online config for visibility
-
-    mapState.view.on('pointer-enter', () => mapState.updateVisibleLayers())
-
-    mapState.view.on('pointer-move', async event => {
-      const now = Date.now()
-      if (mapState.interfaceType !== 'mouse' || !mapState.visibleLayers || now - lastHit < throttleMs || mapState.view.scale > minScale) {
-        return
-      }
-      lastHit = now
-      await mapState.view.hitTest(event, { include: mapState.visibleLayers }).then(mapState.assignCursorStyleLayer)
-      document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
-    })
-
-    mapState.view.on('pointer-leave', () => {
-      if (mapState.interfaceType === 'touch') {
-        return
-      }
-      document.body.style.cursor = 'default'
-      mapState.visibleLayers = null
-    })
-  }
 })
