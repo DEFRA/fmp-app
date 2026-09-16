@@ -52,4 +52,11 @@ searchPlugin.attach = (interactiveMap) => {
   // This is because the IM hides just about everything when search is opened,
   // but shows them again once it is closed, so we force it closed here.
   interactiveMap.on('search:close', searchPlugin.onClosed)
+
+  interactiveMap.on('search:match', (event) => {
+    interactiveMap.addMarker('search', event.point, {
+      label: event.text,
+      showLabel: true
+    })
+  })
 }

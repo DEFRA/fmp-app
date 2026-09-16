@@ -43,13 +43,6 @@ getDefraMapConfig().then((defraMapConfig) => {
     })
   })
 
-  interactiveMap.on('search:match', (event) => {
-    interactiveMap.addMarker('search', event.point, {
-      label: event.text,
-      showLabel: true
-    })
-  })
-
   interactiveMap.on('datasets:ready', function () {
     plugins.datasets.ready = true
     mapState.updateVisibleLayers()
