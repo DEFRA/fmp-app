@@ -3,7 +3,7 @@ import esriProvider from '@defra/interactive-map/providers/esri'
 import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { mapState } from './interactive-map-helpers/mapState.js'
-import { plugins, initialisePlugins, attachInteractiveMapToPlugins } from './plugins/initialisePlugins.js'
+import { initialisePlugins, attachInteractiveMapToPlugins } from './plugins/initialisePlugins.js'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 40000
