@@ -1,5 +1,7 @@
 import createMapStylesPlugin from '@defra/interactive-map/plugins/map-styles'
 
+const MAP_STYLES_BUTTON_ID = 'map-styles-button'
+
 export const mapStylePlugin = (osAccountNumber) => {
   const currentYear = new Date().getFullYear()
   const copyRightNotice = `&copy; Crown copyright and database rights ${currentYear} OS ${osAccountNumber}`
@@ -47,9 +49,9 @@ export const mapStylePlugin = (osAccountNumber) => {
       }],
       panels: [{
         id: 'mapStyles',
-        desktop: { slot: 'map-styles-button', width: '400px', modal: true },
-        tablet: { slot: 'map-styles-button', modal: true },
-        mobile: { slot: 'map-styles-button', modal: true }
+        desktop: { slot: MAP_STYLES_BUTTON_ID, width: '400px', modal: true },
+        tablet: { slot: MAP_STYLES_BUTTON_ID, modal: true },
+        mobile: { slot: MAP_STYLES_BUTTON_ID, modal: true }
       }]
     }
   })

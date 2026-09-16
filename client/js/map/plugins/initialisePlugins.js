@@ -23,7 +23,7 @@ export const initialisePlugins = (defraMapConfig) => {
   plugins.frame = framePlugin
   plugins.interact = interactPlugin
 
-  pluginArray.push(...[
+  pluginArray.push(
     plugins.datasets,
     plugins.opacitySlider,
     plugins.mapKey,
@@ -34,7 +34,7 @@ export const initialisePlugins = (defraMapConfig) => {
     plugins.draw,
     plugins.frame,
     plugins.interact
-  ])
+  )
 
   // Ensure each Plugin has a reference to all the other plugins
   pluginArray.forEach(plugin => (plugin.plugins = plugins))
