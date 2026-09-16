@@ -1,5 +1,5 @@
-import { terms } from '../terms.js'
-import { colours } from '../colours.js'
+import { terms } from '../../terms.js'
+import { colours } from '../../colours.js'
 
 // These are the values for flood zone 2 present day. The other flood zones will override the fz value as appropriate.
 const infoPanelData = {

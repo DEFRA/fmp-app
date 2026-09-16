@@ -2,7 +2,7 @@ import createInteractPlugin from '@defra/interactive-map/plugins/interact'
 import { terms } from '../../terms.js'
 import { mapState } from '../../interactive-map-helpers/mapState.js'
 import { getInfoPanel } from '../../infoPanel.js'
-import { hideDatasetsKey, reShowDatasetsKey } from '../../datasets/showHideDatasetsKey.js'
+import { hideDatasetsKey, reShowDatasetsKey } from '../datasets/showHideDatasetsKey.js'
 
 let enableGetInfoButton = false
 

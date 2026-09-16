@@ -1,4 +1,4 @@
-import { terms } from '../terms.js'
+import { terms } from '../../terms.js'
 
 const visibleWhenFloodZones = { menu: { dataset: ['floodzones'] } }
 const visibleWhenClimateChange = { menu: { dataset: ['floodzones'], timeframe: ['climatechange'] } }

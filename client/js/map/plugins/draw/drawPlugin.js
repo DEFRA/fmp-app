@@ -1,7 +1,7 @@
 import createDrawPlugin from '@defra/interactive-map/plugins/draw-es'
 import createFramePlugin from '@defra/interactive-map/plugins/frame'
-import { SiteBoundary, siteBoundary } from '../interactive-map-helpers/siteBoundary.js'
-import { terms } from '..//terms.js'
+import { SiteBoundary, siteBoundary } from '../../interactive-map-helpers/siteBoundary.js'
+import { terms } from '../../terms.js'
 import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
 
 export const drawPlugin = createDrawPlugin()

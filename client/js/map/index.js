@@ -1,21 +1,20 @@
 import InteractiveMap from '@defra/interactive-map'
 import esriProvider from '@defra/interactive-map/providers/esri'
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils'
+import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
+import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
+
 import { scaleBarPlugin } from './plugins/scale-bar/scale-bar.js'
 import { searchPlugin, attachSearchPlugin } from './plugins/search/search.js'
 import { mapKeyPlugin } from './plugins/map-key/map-key.js'
 import { menuPlugin } from './plugins/menu/menu.js'
 import { interactPlugin, attachInteractPlugin } from './plugins/interact/interact.js'
-
-import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
 import { mapStylePlugin } from './plugins/map-styles/map-styles.js'
-import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
-import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './datasets/showHideDatasetsKey.js'
-
-import { initialiseDatasetsPlugin } from './datasets/datasetsPlugin.js'
+import { hideDatasetsKey, reShowDatasetsKey, hideKeyAndSearchButton, showKeyAndSearchButton } from './plugins/datasets/showHideDatasetsKey.js'
+import { initialiseDatasetsPlugin } from './plugins/datasets/datasetsPlugin.js'
 import { opacitySliderPlugin } from './plugins/opacity-slider/opacity-slider.js'
 
-import { drawPlugin, framePlugin, attachDrawPlugin } from './draw/drawPlugin.js'
+import { drawPlugin, framePlugin, attachDrawPlugin } from './plugins/draw/drawPlugin.js'
 
 import { mapState } from './interactive-map-helpers/mapState.js'
 

@@ -1,5 +1,5 @@
-import { terms } from '../terms.js'
-import { colours } from '../colours.js'
+import { terms } from '../../terms.js'
+import { colours } from '../../colours.js'
 import { surfaceWaterDatasetGenerator } from './surfaceWaterDatasetGenerator.js'
 
 const swConfigs = [

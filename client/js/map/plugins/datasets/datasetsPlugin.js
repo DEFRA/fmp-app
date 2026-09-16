@@ -2,7 +2,7 @@ import createDatasetsPlugin from '@defra/interactive-map/plugins/datasets'
 import { surfaceWaterDatasets, surfaceWaterExtentsKey } from './surfaceWater.js'
 import { floodZonesDatasets } from './floodZones.js'
 import { featureLayers } from './featureLayers.js'
-import { mapState } from '../interactive-map-helpers/mapState.js'
+import { mapState } from '../../interactive-map-helpers/mapState.js'
 
 const esriStyleLayerIdToInfoPanelReducer = (datasets) => {
   return datasets.reduce((styleToValuesMap, dataset) => {
