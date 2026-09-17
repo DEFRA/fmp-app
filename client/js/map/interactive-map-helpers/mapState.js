@@ -49,6 +49,30 @@ class MapState {
     return this.styleToValuesMap[esriStyleLayerId] || null
   }
 
+  assignCursorStyleLayer (hitTestResponse) {
+    let topHitTestData = null
+    if (hitTestResponse?.results?.length > 0) {
+      const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
+        const { layerId } = result.graphic?.origin || {}
+        const { attributes } = result.graphic
+        if (!layerId) {
+          return hitTestData
+        }
+        const vtLayer = result.layer
+        const styleLayer = vtLayer?.getStyleLayer(layerId)
+        if (styleLayer?.layout?.visibility === 'visible') {
+          hitTestData.push({ layerId, attributes })
+        }
+        return hitTestData
+      }, [])
+
+      topHitTestData = visibleHitTestData?.[0] || null
+    }
+    mapState.cursorStyleLayer = topHitTestData?.layerId || null
+    mapState.cursorAttributes = topHitTestData?.attributes || null
+    document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
+  }
+
   initPointerMove () {
     let lastHit = 0
     const throttleMs = 20 // Throttle to reduce hitTest usage
@@ -63,7 +87,7 @@ class MapState {
       }
       lastHit = now
       await this.view.hitTest(event, { include: this.visibleLayers })
-        .then(assignCursorStyleLayer)
+        .then(this.assignCursorStyleLayer)
       document.body.style.cursor = this.cursorStyleLayer ? 'pointer' : 'default'
     })
 
@@ -78,29 +102,5 @@ class MapState {
 }
 
 const mapState = new MapState()
-
-const assignCursorStyleLayer = (hitTestResponse) => {
-  let topHitTestData = null
-  if (hitTestResponse?.results?.length > 0) {
-    const visibleHitTestData = hitTestResponse?.results.reduce((hitTestData, result) => {
-      const { layerId } = result.graphic?.origin || {}
-      const { attributes } = result.graphic
-      if (!layerId) {
-        return hitTestData
-      }
-      const vtLayer = result.layer
-      const styleLayer = vtLayer?.getStyleLayer(layerId)
-      if (styleLayer?.layout?.visibility === 'visible') {
-        hitTestData.push({ layerId, attributes })
-      }
-      return hitTestData
-    }, [])
-
-    topHitTestData = visibleHitTestData?.[0] || null
-  }
-  mapState.cursorStyleLayer = topHitTestData?.layerId || null
-  mapState.cursorAttributes = topHitTestData?.attributes || null
-  document.body.style.cursor = mapState.cursorStyleLayer ? 'pointer' : 'default'
-}
 
 export { mapState }
