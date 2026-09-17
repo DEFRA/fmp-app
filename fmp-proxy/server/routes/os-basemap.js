@@ -5,14 +5,12 @@ const { config } = require('../config')
 const OS_API_BASE = 'https://api.os.uk/'
 
 const buildBasemapUri = async (request) => {
-  const requestUrl = request?.url?.pathname ? `${request.url.pathname}${request.url.search || ''}` : 'unknown'
-  const pathSegment = request.params?.path ? String(request.params.path).replace(/^\/+/, '') : ''
+  const requestUrl = `${request.url.pathname}${request.url.search}`
+  const pathSegment = String(request.params.path).replace(/^\/+/, '')
   // Strip 'wmts' prefix if present (from RESTful path /proxy/basemap/wmts)
   const pathWithoutWmtsPrefix = pathSegment.replace(/^wmts\/?/, '')
-  
-  const pathLooksLikeWmts = /wmts|WMTSCapabilities|GetTile|GetCapabilities/i.test(pathSegment) || request.query?.SERVICE === 'WMTS' || request.query?.REQUEST
-  const targetType = pathLooksLikeWmts ? 'wmts' : (request.query?.type || 'vector')
-  if (targetType === 'wmts') {
+
+  if (pathSegment === 'wmts') {
     const wmtsBasePath = request.query?.target || '/maps/raster/v1/wmts'
     const wmtsUrl = new URL(pathWithoutWmtsPrefix ? `${wmtsBasePath.replace(/\/+$/, '')}/${pathWithoutWmtsPrefix}` : wmtsBasePath, OS_API_BASE)
 
@@ -29,7 +27,6 @@ const buildBasemapUri = async (request) => {
     logDebug('os basemap request received', {
       method: request.method,
       requestUrl,
-      targetType,
       upstreamUrl: wmtsUrl.toString()
     })
 
@@ -39,7 +36,7 @@ const buildBasemapUri = async (request) => {
     }
   }
 
-  const vectorTarget = request.query?.target || '/maps/vector/v1/vts'
+  const vectorTarget = '/maps/vector/v1/vts' // should these be env vars?
   const vectorUrl = new URL(pathSegment ? `${pathSegment}` : vectorTarget, OS_API_BASE)
 
   Object.entries(request.query || {}).forEach(([key, value]) => {
@@ -51,7 +48,6 @@ const buildBasemapUri = async (request) => {
   logDebug('os basemap request received', {
     method: request.method,
     requestUrl,
-    targetType,
     upstreamUrl: vectorUrl.toString()
   })
 

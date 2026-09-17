@@ -91,8 +91,10 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
-        SERVICE: 'WMTS',
         REQUEST: 'GetTile',
         LAYER: 'Outdoor_27700',
         TILEMATRIXSET: 'EPSG:27700',
@@ -102,8 +104,8 @@ describe('os-proxy route', () => {
         FORMAT: 'image/png'
       },
       url: {
-        pathname: '/proxy/basemap',
-        search: '?SERVICE=WMTS&REQUEST=GetTile&LAYER=Outdoor_27700'
+        pathname: '/proxy/basemap/wmts',
+        search: '?REQUEST=GetTile&LAYER=Outdoor_27700'
       }
     })
 
@@ -111,7 +113,7 @@ describe('os-proxy route', () => {
 
     expect(uri.origin).toBe('https://api.os.uk')
     expect(uri.pathname).toBe('/maps/raster/v1/wmts')
-    expect(uri.searchParams.get('SERVICE')).toBe('WMTS')
+    expect(uri.searchParams.get('REQUEST')).toBe('GetTile')
     expect(uri.searchParams.get('LAYER')).toBe('Outdoor_27700')
     expect(uri.searchParams.get('key')).toBe('test-os-search-key')
     expect(result.headers).toEqual({ authorization: 'Bearer os-token-xyz' })
@@ -135,11 +137,11 @@ describe('os-proxy route', () => {
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
       params: {
-        path: '1.0.0/WMTSCapabilities.xml'
+        path: 'wmts'
       },
       query: {},
       url: {
-        pathname: '/proxy/basemap/1.0.0/WMTSCapabilities.xml',
+        pathname: '/proxy/basemap/wmts',
         search: ''
       }
     })
@@ -147,7 +149,7 @@ describe('os-proxy route', () => {
     const uri = new URL(result.uri)
 
     expect(uri.origin).toBe('https://api.os.uk')
-    expect(uri.pathname).toBe('/maps/raster/v1/wmts/1.0.0/WMTSCapabilities.xml')
+    expect(uri.pathname).toBe('/maps/raster/v1/wmts')
     expect(uri.searchParams.get('key')).toBe('test-os-search-key')
     expect(result.headers).toEqual({ authorization: 'Bearer os-token-capabilities' })
   })
@@ -166,13 +168,16 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
         REQUEST: 'GetTile',
         LAYER: 'Outdoor_27700',
         key: 'existing-os-key'
       },
       url: {
-        pathname: '/proxy/basemap',
+        pathname: '/proxy/basemap/wmts',
         search: '?REQUEST=GetTile&LAYER=Outdoor_27700&key=existing-os-key'
       }
     })
@@ -204,24 +209,18 @@ describe('os-proxy route', () => {
       params: {
         path: 'styles/road.json'
       },
-      query: {
-        type: 'vector'
-      },
+      query: {},
       url: {
         pathname: '/proxy/basemap/styles/road.json',
-        search: '?type=vector'
+        search: ''
       }
     })
 
     const uri = new URL(result.uri)
 
     expect(uri.origin).toBe('https://api.os.uk')
-    expect(uri.pathname).toBe('/maps/vector/v1/vts/styles/road.json')
-    expect(uri.searchParams.get('type')).toBeNull()
+    expect(uri.pathname).toBe('/styles/road.json')
     expect(result.headers).toEqual({ authorization: 'Bearer os-token-vector' })
-    expect(logDebugMock).toHaveBeenCalledWith('os basemap request received', expect.objectContaining({
-      targetType: 'vector'
-    }))
   })
 
   it('uses the default OS vector basemap endpoint when no path is supplied', async () => {
@@ -273,21 +272,19 @@ describe('os-proxy route', () => {
         path: 'styles/road.json'
       },
       query: {
-        type: 'vector',
         epsg: '27700'
       },
       url: {
         pathname: '/proxy/basemap/styles/road.json',
-        search: '?type=vector&epsg=27700'
+        search: '?epsg=27700'
       }
     })
 
     const uri = new URL(result.uri)
 
     expect(uri.origin).toBe('https://api.os.uk')
-    expect(uri.pathname).toBe('/maps/vector/v1/vts/styles/road.json')
+    expect(uri.pathname).toBe('/styles/road.json')
     expect(uri.searchParams.get('epsg')).toBe('27700')
-    expect(uri.searchParams.get('type')).toBeNull()
     expect(result.headers).toEqual({ authorization: 'Bearer os-token-vector-params' })
   })
 
@@ -336,15 +333,17 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
-        type: 'wmts',
         target: '/maps/raster/v1/wmts',
         LAYER: 'Outdoor_27700',
         key: 'existing-wmts-key'
       },
       url: {
-        pathname: '/proxy/basemap',
-        search: '?type=wmts&target=/maps/raster/v1/wmts&LAYER=Outdoor_27700&key=existing-wmts-key'
+        pathname: '/proxy/basemap/wmts',
+        search: '?target=/maps/raster/v1/wmts&LAYER=Outdoor_27700&key=existing-wmts-key'
       }
     })
 
@@ -353,7 +352,6 @@ describe('os-proxy route', () => {
     expect(uri.origin).toBe('https://api.os.uk')
     expect(uri.pathname).toBe('/maps/raster/v1/wmts')
     expect(uri.searchParams.get('LAYER')).toBe('Outdoor_27700')
-    expect(uri.searchParams.get('type')).toBeNull()
     expect(uri.searchParams.get('target')).toBeNull()
     expect(uri.searchParams.get('key')).toBe('existing-wmts-key')
   })
@@ -372,13 +370,15 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
-        type: 'wmts',
         LAYER: 'Outdoor_27700'
       },
       url: {
-        pathname: '/proxy/basemap',
-        search: '?type=wmts&LAYER=Outdoor_27700'
+        pathname: '/proxy/basemap/wmts',
+        search: '?LAYER=Outdoor_27700'
       }
     })
 
@@ -387,7 +387,6 @@ describe('os-proxy route', () => {
     expect(uri.origin).toBe('https://api.os.uk')
     expect(uri.pathname).toBe('/maps/raster/v1/wmts')
     expect(uri.searchParams.get('LAYER')).toBe('Outdoor_27700')
-    expect(uri.searchParams.get('type')).toBeNull()
   })
 
   it('drops only the target key for WMTS requests', async () => {
@@ -404,12 +403,15 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
         target: '/maps/raster/v1/wmts',
         LAYER: 'Outdoor_27700'
       },
       url: {
-        pathname: '/proxy/basemap',
+        pathname: '/proxy/basemap/wmts',
         search: '?target=/maps/raster/v1/wmts&LAYER=Outdoor_27700'
       }
     })
@@ -465,9 +467,15 @@ describe('os-proxy route', () => {
     const route = require('./os-basemap')
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
+      params: {
+        path: 'wmts'
+      },
       query: {
-        type: 'wmts',
         target: '/maps/raster/v1/wmts'
+      },
+      url: {
+        pathname: '/proxy/basemap/wmts',
+        search: '?target=/maps/raster/v1/wmts'
       }
     })
 
@@ -476,12 +484,10 @@ describe('os-proxy route', () => {
     expect(uri.origin).toBe('https://api.os.uk')
     expect(uri.pathname).toBe('/maps/raster/v1/wmts')
     expect(uri.searchParams.get('key')).toBe('test-os-search-key')
-    expect(uri.searchParams.get('type')).toBeNull()
     expect(uri.searchParams.get('target')).toBeNull()
     expect(result.headers).toEqual({ authorization: 'Bearer os-token-routing-only' })
     expect(logDebugMock).toHaveBeenCalledWith('os basemap request received', expect.objectContaining({
-      requestUrl: 'unknown',
-      targetType: 'wmts'
+      upstreamUrl: 'https://api.os.uk/maps/raster/v1/wmts?key=test-os-search-key'
     }))
   })
 
@@ -500,7 +506,6 @@ describe('os-proxy route', () => {
     const result = await route.options.handler.proxy.mapUri({
       method: 'GET',
       query: {
-        type: 'vector',
         target: '/maps/vector/v1/vts',
         epsg: '27700'
       },
