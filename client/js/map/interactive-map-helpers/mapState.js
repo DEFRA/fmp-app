@@ -32,6 +32,11 @@ class MapState {
     }
   }
 
+  get breakpoint () {
+    const mapElement = document.getElementById('map')
+    return mapElement?.getAttribute('data-breakpoint') || 'desktop'
+  }
+
   attach (interactiveMap) {
     this.interactiveMap = interactiveMap
     interactiveMap.on('map:ready', this.onMapReady.bind(this))

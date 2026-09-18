@@ -3,6 +3,7 @@ import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { SiteBoundary, siteBoundary } from '../../interactive-map-helpers/siteBoundary.js'
 import { terms } from '../../terms.js'
 import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
+import { mapState } from '../../interactive-map-helpers/mapState.js'
 
 export const drawPlugin = createDrawPlugin()
 export const framePlugin = createFramePlugin()
@@ -117,7 +118,9 @@ drawPlugin.onEditPolygon = (isEditing) => {
       plugins.datasets.setDatasetVisibility(false)
     }
   } else {
-    interactiveMap.showPanel('menu')
+    if (mapState.breakpoint === 'desktop') {
+      interactiveMap.showPanel('menu')
+    }
     if (plugins.datasets.ready) {
       plugins.datasets.setDatasetVisibility(true)
     }
