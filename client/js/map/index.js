@@ -26,6 +26,8 @@ getDefraMapConfig().then((defraMapConfig) => {
     containerHeight: '100%',
     enableMapControls: false,
     enableZoomControls: true,
+    maxMobileWidth: 795,
+    minDesktopWidth: 796,
   })
   mapState.attach(interactiveMap)
 
