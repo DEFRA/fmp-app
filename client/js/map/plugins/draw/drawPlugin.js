@@ -139,7 +139,7 @@ drawPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', ({ view }) => {
     siteBoundary.mapView = view
     const dropDownButtonOptions = {
-      label: terms.labels.drawMenuTitle,
+      label: terms.labels.drawAddMenuTitle,
       variant: 'primary',
       mobile: { slot: 'bottom-right', order: 1 },
       tablet: { slot: 'top-middle', order: 1 },
@@ -152,7 +152,11 @@ drawPlugin.attach = (interactiveMap) => {
     interactiveMap.addButton(PRIMARY_DROP_DOWN_ID, dropDownButtonOptions)
     // Add a 2nd button with the same menu, but styled as a secondary button,
     // to be shown in place of the primary one when the 'get-summary' button is active
-    interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, { ...dropDownButtonOptions, variant: 'secondary' })
+    interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, {
+      ...dropDownButtonOptions,
+      variant: 'secondary',
+      label: terms.labels.drawEditMenuTitle,
+    })
 
     // Add the get summary button (AKA goto results page)
     interactiveMap.addButton(SUMMARY_BUTTON_ID, {

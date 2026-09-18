@@ -25,9 +25,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     extent: siteBoundary.buffedExtents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableMapControls: false,
-    enableZoomControls: true,
-    maxMobileWidth: 795,
-    minDesktopWidth: 796,
+    enableZoomControls: true
   })
   mapState.attach(interactiveMap)
 

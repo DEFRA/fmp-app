@@ -298,12 +298,26 @@ body.js-enabled:not([data-im-error]) {
   }
 }
 
-// Ensure Menu and map key don't take up the whole screen on mobile
-#map-panel-menu, #map-panel-map-key {
-  @include mq.mq ($from: mobile) {
-     max-height: 50vh;
+// Ensure menu and map key don't take up the whole screen on mobile
+.im-o-app__drawer {
+  #map-panel-menu,
+  #map-panel-map-key {
+    max-height: 50vh;
   }
-  @include mq.mq ($from: desktop) {
-     max-height: unset;
+}
+
+// Mobile: Center the second column absolutely on top of the first (below desktop)
+.flood-map-target[data-breakpoint="mobile"] {
+  .im-o-app__bottom {
+    position: relative;
+  }
+
+  .im-o-app__bottom-col:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: auto;
+    flex: none;
   }
 }
