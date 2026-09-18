@@ -10,13 +10,7 @@ export const searchPlugin = createSearchPlugin({
       mobile: { slot: 'top-right', showLabel: false, order: 1 },
       tablet: { slot: 'top-left', showLabel: true, order: 1 },
       desktop: { slot: 'top-left', showLabel: true, order: 1 },
-    }],
-    controls: [{
-      id: 'search',
-      mobile: { slot: 'top-right' },
-      tablet: { slot: 'top-left', order: 2 },
-      desktop: { slot: 'top-left', order: 2 },
-    }],
+    }]
   },
   transformRequest, // This will go once the token handling is replaced with a proxy
   placeholder: 'Search for a place in england',
