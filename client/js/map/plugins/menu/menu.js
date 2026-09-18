@@ -5,9 +5,9 @@ export const menuPlugin = createMenuPlugin({
   manifest: {
     panels: [{
       id: 'menu',
-      desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
+      mobile: { slot: 'drawer', modal: false, exclusive: true },
       tablet: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
-      mobile: { open: false, slot: 'drawer', modal: false, dismissible: true },
+      desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
     }],
     buttons: [{ id: 'menuButton' }]
   },

@@ -297,3 +297,13 @@ body.js-enabled:not([data-im-error]) {
     }
   }
 }
+
+// Ensure Menu and map key don't take up the whole screen on mobile
+#map-panel-menu, #map-panel-map-key {
+  @include mq.mq ($from: mobile) {
+     max-height: 50vh;
+  }
+  @include mq.mq ($from: tablet) {
+     max-height: unset;
+  }
+}

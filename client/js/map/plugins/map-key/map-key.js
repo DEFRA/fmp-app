@@ -15,6 +15,7 @@ export const mapKeyPlugin = createMapKeyPlugin({
   manifest: {
     panels: [{
       id: 'mapKey',
+      mobile: { slot: 'drawer', modal: false, exclusive: true },
       tablet: { slot: 'left-top', width: '360px', open: true },
       desktop: { slot: 'left-top', width: '360px', open: true },
     }]
