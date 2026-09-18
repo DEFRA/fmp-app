@@ -9,7 +9,10 @@ export const menuPlugin = createMenuPlugin({
       tablet: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
       desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
     }],
-    buttons: [{ id: 'menuButton' }]
+    buttons: [{
+      id: 'menuButton',
+      mobile: { slot: 'top-left', showLabel: true, order: 1 },
+    }]
   },
   menu: menuConfig
 })
