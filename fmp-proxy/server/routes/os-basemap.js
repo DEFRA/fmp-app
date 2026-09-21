@@ -7,12 +7,10 @@ const OS_API_BASE = 'https://api.os.uk/'
 const buildBasemapUri = async (request) => {
   const requestUrl = `${request.url.pathname}${request.url.search}`
   const pathSegment = String(request.params.path).replace(/^\/+/, '')
-  // Strip 'wmts' prefix if present (from RESTful path /proxy/basemap/wmts)
-  const pathWithoutWmtsPrefix = pathSegment.replace(/^wmts\/?/, '')
 
   if (pathSegment === 'wmts') {
     const wmtsBasePath = request.query?.target || '/maps/raster/v1/wmts'
-    const wmtsUrl = new URL(pathWithoutWmtsPrefix ? `${wmtsBasePath.replace(/\/+$/, '')}/${pathWithoutWmtsPrefix}` : wmtsBasePath, OS_API_BASE)
+    const wmtsUrl = new URL(wmtsBasePath, OS_API_BASE)
 
     Object.entries(request.query || {}).forEach(([key, value]) => {
       if (key !== 'type' && key !== 'target') {
@@ -39,7 +37,7 @@ const buildBasemapUri = async (request) => {
   const vectorTarget = '/maps/vector/v1/vts' // should these be env vars?
   const vectorUrl = new URL(pathSegment ? `${pathSegment}` : vectorTarget, OS_API_BASE)
 
-  Object.entries(request.query || {}).forEach(([key, value]) => {
+  Object.entries(request.query).forEach(([key, value]) => {
     if (key !== 'type' && key !== 'target') {
       vectorUrl.searchParams.set(key, value)
     }
