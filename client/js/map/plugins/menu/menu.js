@@ -6,7 +6,7 @@ export const menuPlugin = createMenuPlugin({
     panels: [{
       id: 'menu',
       mobile: { slot: 'drawer', modal: false, exclusive: true },
-      tablet: { open: false, slot: 'side', width: '280px', dismissible: true, exclusive: true },
+      tablet: { open: false, slot: 'side', width: '280px', modal: true },
       desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
     }],
     buttons: [{
