@@ -90,7 +90,7 @@ getDefraMapConfig().then((defraMapConfig) => {
             tablet: { slot: 'top-left', order: 2 },
             desktop: { slot: 'top-left', order: 2 },
           }],
-        }, 
+        },
         placeholder: 'Search for a place in england',
         osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/place-lookup/{query}`,
         regions: ['england'],
