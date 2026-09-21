@@ -349,4 +349,9 @@ body.js-enabled:not([data-im-error]) {
     height: 0;
     padding-bottom: 0;
   }
+  // Hide Get Info and Layers Menu Button when editing
+  .im-c-button-wrapper--select-at-target,
+  .im-c-button-wrapper--menu-button {
+    display: none;
+  }
 }
