@@ -343,3 +343,10 @@ body.js-enabled:not([data-im-error]) {
     margin-top: 2em;
   }
 }
+
+.draw-editing {
+  .im-o-app__top-col:last-child {
+    height: 0;
+    padding-bottom: 0;
+  }
+}

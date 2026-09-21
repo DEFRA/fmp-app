@@ -94,11 +94,14 @@ const drawMenuItems = {
 
 drawPlugin.toggleKeyWhenEditing = (isEditing) => {
   const { plugins } = drawPlugin
+  const mapElement = document.getElementById('map')
   if (isEditing) {
+    mapElement.classList.add('draw-editing')
     plugins.search.hideButton()
     plugins.mapKey.hideButton()
     plugins.mapKey.hidePanel('editing')
   } else {
+    mapElement.classList.remove('draw-editing')
     plugins.search.showButton()
     plugins.mapKey.showButton()
     plugins.mapKey.reShowPanel('editing')
