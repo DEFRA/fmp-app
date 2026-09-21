@@ -14,6 +14,7 @@ module.exports = [
   generateRoute('/map/styles/vts-tile.json', () => vtsTile),
   generateRoute('/map/styles/black-and-white-map', () => blackAndWhiteMap),
   generateRoute('/map/productFourStyles/black-and-white-map', () => p4BlackAndWhiteMap),
+  generateRoute('/map/productFourStyles/black-and-white-map.json', () => p4BlackAndWhiteMap),
   generateRoute('/map/styles/master-map', () => masterMap),
   generateRoute('/map/styles/master-map-dark', () => masterMapDark)
 ]
