@@ -321,3 +321,16 @@ body.js-enabled:not([data-im-error]) {
     flex: none;
   }
 }
+
+// Hide the icon on narrow tablets - only applies between 656px and 715px
+@include mq.mq ($from: 656px, $until: 715px) {
+  #map-menu-button, #map-map-key {
+    svg {
+      display: none;
+    }
+    span {
+      margin-left: 0;
+      font-weight: 700;
+    }
+  }
+}
