@@ -3,6 +3,7 @@ import createFramePlugin from '@defra/interactive-map/plugins/frame'
 import { SiteBoundary, siteBoundary } from '../../interactive-map-helpers/siteBoundary.js'
 import { terms } from '../../terms.js'
 import { DimensionsPanel, DIMENSIONS_PANEL_ID } from './dimensionsPanel.js'
+import { mapState } from '../../interactive-map-helpers/mapState.js'
 
 export const drawPlugin = createDrawPlugin()
 export const framePlugin = createFramePlugin()
@@ -93,11 +94,14 @@ const drawMenuItems = {
 
 drawPlugin.toggleKeyWhenEditing = (isEditing) => {
   const { plugins } = drawPlugin
+  const mapElement = document.getElementById('map')
   if (isEditing) {
+    mapElement.classList.add('draw-editing')
     plugins.search.hideButton()
     plugins.mapKey.hideButton()
     plugins.mapKey.hidePanel('editing')
   } else {
+    mapElement.classList.remove('draw-editing')
     plugins.search.showButton()
     plugins.mapKey.showButton()
     plugins.mapKey.reShowPanel('editing')
@@ -117,7 +121,9 @@ drawPlugin.onEditPolygon = (isEditing) => {
       plugins.datasets.setDatasetVisibility(false)
     }
   } else {
-    interactiveMap.showPanel('menu')
+    if (mapState.breakpoint === 'desktop') {
+      interactiveMap.showPanel('menu')
+    }
     if (plugins.datasets.ready) {
       plugins.datasets.setDatasetVisibility(true)
     }
@@ -136,7 +142,9 @@ drawPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', ({ view }) => {
     siteBoundary.mapView = view
     const dropDownButtonOptions = {
-      label: terms.labels.drawMenuTitle,
+      label: ({ appState: { breakpoint } }) => breakpoint === 'desktop'
+        ? terms.labels.drawAddMenuTitle
+        : terms.labels.drawAddMenuTitleMobile,
       variant: 'primary',
       mobile: { slot: 'bottom-right', order: 1 },
       tablet: { slot: 'top-middle', order: 1 },
@@ -149,7 +157,13 @@ drawPlugin.attach = (interactiveMap) => {
     interactiveMap.addButton(PRIMARY_DROP_DOWN_ID, dropDownButtonOptions)
     // Add a 2nd button with the same menu, but styled as a secondary button,
     // to be shown in place of the primary one when the 'get-summary' button is active
-    interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, { ...dropDownButtonOptions, variant: 'secondary' })
+    interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, {
+      ...dropDownButtonOptions,
+      variant: 'secondary',
+      label: ({ appState: { breakpoint } }) => breakpoint === 'desktop'
+        ? terms.labels.drawEditMenuTitle
+        : terms.labels.drawEditMenuTitleMobile,
+    })
 
     // Add the get summary button (AKA goto results page)
     interactiveMap.addButton(SUMMARY_BUTTON_ID, {

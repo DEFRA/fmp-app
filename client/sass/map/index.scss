@@ -1,9 +1,30 @@
-@use '../../../node_modules/sass-mq/mq';
+@use '../../../node_modules/sass-mq/mq' with (
+  $breakpoints: (
+    mobile: 0px,
+    tablet: 320px,
+    desktop: 835px
+  )
+);
 @use 'banner';
+
+$govuk-breakpoints: (
+  mobile: 0px,
+  tablet: 320px,
+  desktop: 835px
+);
+
+$govuk-assets-path: "/govuk/assets/";
+$govuk-fonts-path: "/assets/fonts/";
+$govuk-images-path: "/assets/images/";
+$govuk-global-styles: true;
+$govuk-new-typography-scale: true;
 
 // NOSONAR - bogus issue relating to @import statements having to be at the top.
 // which is wrong, as @use MUST be above @import
-@import '../../../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css'; // NOSONAR
+// govuk-frontend is imported from its SCSS source (not the precompiled .min.css)
+// so that $govuk-breakpoints above actually takes effect, and must come after
+// the govuk-* variables above (they need to be set before the source compiles)
+@import '../../../node_modules/govuk-frontend/dist/govuk/all'; // NOSONAR
 @import '../../../node_modules/@defra/interactive-map/dist/css/index.css'; // NOSONAR
 @import '../../../node_modules/@defra/interactive-map/plugins/datasets/dist/css/index.css'; // NOSONAR
 @import '../../../node_modules/@defra/interactive-map/plugins/menu/dist/css/index.css'; // NOSONAR
@@ -18,12 +39,6 @@
 
 @import 'planning'; // NOSONAR
 @import 'colours'; // NOSONAR
-
-$govuk-assets-path: "/govuk/assets/";
-$govuk-fonts-path: "/assets/fonts/";
-$govuk-images-path: "/assets/images/";
-$govuk-global-styles: true;
-$govuk-new-typography-scale: true;
 
 strong {
   font-weight: bold;
@@ -141,7 +156,7 @@ body.js-enabled:not([data-im-error]) {
   .govuk-header,
   .govuk-skip-link,
   main>.govuk-heading-l {
-    @include mq.mq ($until: tablet) {
+    @include mq.mq ($until: desktop) {
       display: none;
     }
   }
@@ -210,7 +225,7 @@ body.js-enabled:not([data-im-error]) {
   display: contents;
 }
 
-.im-c-panel--info {
+#map-panel-info {
 /* 
   These settings are set in _typography.css, but when wrapped in a 
   container that has style display: contents, such as .display-contents
@@ -295,5 +310,63 @@ body.js-enabled:not([data-im-error]) {
     .im-c-map-key-list__item-label {
       transform: translateX(-50%);
     }
+  }
+}
+
+// Ensure map key doesn't take up the whole screen on mobile
+.im-o-app__drawer {
+  #map-panel-map-key {
+    max-height: 50vh;
+  }
+}
+
+// Mobile: Center the second column absolutely on top of the first (below desktop)
+.flood-map-target[data-breakpoint="mobile"] {
+  .im-o-app__bottom {
+    position: relative;
+  }
+
+  .im-o-app__bottom-col:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: auto;
+    flex: none;
+  }
+}
+
+// Hide the icon on narrow tablets - only applies between 656px and 715px
+@include mq.mq ($from: 656px, $until: 715px) {
+  #map-menu-button, #map-map-key {
+    svg {
+      display: none;
+    }
+    span {
+      margin-left: 0;
+      font-weight: 700;
+    }
+  }
+}
+
+// Push the scale-bar down so it aligns with 'Add Boundary' on Mobile Tablet
+// Below 430px - it starts to overlap with the button, so we revert to its usual 
+// position
+@include mq.mq ($from: 430px, $until: 655px) {
+  .im-c-scale-bar {
+    margin-bottom: -3em;
+    margin-top: 2em;
+  }
+}
+
+.draw-editing {
+  .im-o-app__top-col:last-child {
+    height: 0;
+    padding-bottom: 0;
+  }
+  // Hide Get Info and Layers Menu Button when editing
+  .im-c-button-wrapper--select-at-target,
+  .im-c-button-wrapper--menu-button {
+    display: none;
   }
 }

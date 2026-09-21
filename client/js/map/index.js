@@ -25,7 +25,7 @@ getDefraMapConfig().then((defraMapConfig) => {
     extent: siteBoundary.buffedExtents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableMapControls: false,
-    enableZoomControls: true,
+    enableZoomControls: true
   })
   mapState.attach(interactiveMap)
 
@@ -36,7 +36,7 @@ getDefraMapConfig().then((defraMapConfig) => {
       label: 'Help',
       href: '/map-help',
       iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
-      mobile: { slot: 'right-top', showLabel: false },
+      mobile: { slot: 'right-top', showLabel: false, order: 1 },
       tablet: { slot: 'right-top', showLabel: false, order: 1 },
       desktop: { slot: 'right-top', showLabel: false, order: 1 }
     })

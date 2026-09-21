@@ -5,15 +5,14 @@ export const menuPlugin = createMenuPlugin({
   manifest: {
     panels: [{
       id: 'menu',
-      desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false, },
-      tablet: { slot: 'side', width: '280px', modal: true }
+      mobile: { slot: 'drawer', modal: true },
+      tablet: { open: false, slot: 'side', width: '280px', modal: true },
+      desktop: { open: true, slot: 'side', width: '280px', dismissible: false, exclusive: false },
     }],
-    buttons: [
-      {
-        id: 'menuButton',
-        excludeWhen: ({ appState }) => (appState?.breakpoint === 'desktop'),
-      }
-    ]
+    buttons: [{
+      id: 'menuButton',
+      mobile: { slot: 'top-left', showLabel: true, order: 1 },
+    }]
   },
   menu: menuConfig
 })

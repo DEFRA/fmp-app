@@ -50,8 +50,8 @@ export const mapStylePlugin = (osAccountNumber) => {
       panels: [{
         id: 'mapStyles',
         desktop: { slot: MAP_STYLES_BUTTON_ID, width: '400px', modal: true },
-        tablet: { slot: MAP_STYLES_BUTTON_ID, modal: true },
-        mobile: { slot: MAP_STYLES_BUTTON_ID, modal: true }
+        tablet: { slot: MAP_STYLES_BUTTON_ID, width: '400px', modal: true },
+        mobile: { slot: 'drawer', modal: true }
       }]
     }
   })

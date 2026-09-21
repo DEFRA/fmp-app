@@ -62,7 +62,7 @@ const bindShowInfoPanel = (interactiveMap) => async (coords) => {
   interactiveMap.addPanel(INFO_PANEL_ID, {
     label,
     html,
-    mobile: { slot: 'drawer', modal: true, open: true },
+    mobile: { slot: 'drawer', modal: false, open: true },
     tablet: { slot: 'left-top', width, open: true },
     desktop: { slot: 'left-top', width, open: true }
   })
