@@ -8,7 +8,7 @@ export const searchPlugin = createSearchPlugin({
     buttons: [{
       id: 'search',
       mobile: { slot: 'top-right', showLabel: false, order: 1 },
-      tablet: { slot: 'top-left', showLabel: true, order: 1 },
+      tablet: { slot: 'top-right', showLabel: false, order: 1 },
       desktop: { slot: 'top-left', showLabel: true, order: 1 },
     }]
   },

@@ -139,7 +139,9 @@ drawPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', ({ view }) => {
     siteBoundary.mapView = view
     const dropDownButtonOptions = {
-      label: terms.labels.drawAddMenuTitle,
+      label: ({ appState: { breakpoint } }) => breakpoint === 'desktop'
+        ? terms.labels.drawAddMenuTitle
+        : terms.labels.drawAddMenuTitleMobile,
       variant: 'primary',
       mobile: { slot: 'bottom-right', order: 1 },
       tablet: { slot: 'top-middle', order: 1 },
@@ -155,7 +157,9 @@ drawPlugin.attach = (interactiveMap) => {
     interactiveMap.addButton(SECONDARY_DROP_DOWN_ID, {
       ...dropDownButtonOptions,
       variant: 'secondary',
-      label: terms.labels.drawEditMenuTitle,
+      label: ({ appState: { breakpoint } }) => breakpoint === 'desktop'
+        ? terms.labels.drawEditMenuTitle
+        : terms.labels.drawEditMenuTitleMobile,
     })
 
     // Add the get summary button (AKA goto results page)

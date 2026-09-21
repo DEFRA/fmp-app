@@ -30,6 +30,8 @@ const terms = {
     mainRivers: 'Main rivers',
     drawAddMenuTitle: 'Add location boundary',
     drawEditMenuTitle: 'Edit location boundary',
+    drawAddMenuTitleMobile: 'Add boundary',
+    drawEditMenuTitleMobile: 'Edit boundary',
     addPolygon: 'Add polygon',
     addSquare: 'Add square',
     uploadShape: 'Upload a boundary',
