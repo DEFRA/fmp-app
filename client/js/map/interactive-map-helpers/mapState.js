@@ -34,7 +34,7 @@ class MapState {
 
   get breakpoint () {
     const mapElement = document.getElementById('map')
-    return mapElement?.getAttribute('data-breakpoint') || 'desktop'
+    return mapElement?.dataset?.breakpoint || 'desktop'
   }
 
   attach (interactiveMap) {
