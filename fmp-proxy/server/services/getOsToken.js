@@ -1,8 +1,8 @@
 const { config } = require('../config')
 const FIVE_SECONDS = 5000
 
-let cachedToken
-let cachedExpiry = 0
+let accessToken
+let accessTokenExpiry = 0
 
 const getExpiry = (expiresInSeconds) => {
   const now = Date.now()
@@ -12,7 +12,7 @@ const getExpiry = (expiresInSeconds) => {
 
 const isExpired = () => {
   const timestampNow = Date.now()
-  const expired = cachedExpiry && timestampNow > cachedExpiry - FIVE_SECONDS
+  const expired = accessTokenExpiry && timestampNow > accessTokenExpiry - FIVE_SECONDS
   return expired
 }
 
@@ -37,20 +37,20 @@ const fetchOsToken = async () => {
 }
 
 const getOsToken = async () => {
-  if (cachedToken && !isExpired()) {
-    return cachedToken
+  if (accessToken && !isExpired()) {
+    return accessToken
   }
 
   const payload = await fetchOsToken()
-  cachedToken = payload
-  cachedExpiry = getExpiry(payload.expires_in)
-  return cachedToken
+  accessToken = payload
+  accessTokenExpiry = getExpiry(payload.expires_in)
+  return accessToken
 }
 
 module.exports = {
   getOsToken,
   _resetCache: () => {
-    cachedToken = null
-    cachedExpiry = 0
+    accessToken = null
+    accessTokenExpiry = 0
   }
 }
