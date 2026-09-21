@@ -334,3 +334,13 @@ body.js-enabled:not([data-im-error]) {
     }
   }
 }
+
+// Push the scale-bar down so it aligns with 'Add Boundary' on Mobile Tablet
+// Below 430px - it starts to overlap with the button, so we revert to its usual 
+// position
+@include mq.mq ($from: 430px, $until: 655px) {
+  .im-c-scale-bar {
+    margin-bottom: -3em;
+    margin-top: 2em;
+  }
+}
