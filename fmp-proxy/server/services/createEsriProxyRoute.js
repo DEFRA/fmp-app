@@ -21,7 +21,7 @@ const createEsriProxyRoute = ({
             const targetUrl = new URL(requestPath, `${baseUrl.toString().replace(/\/$/, '')}/`)
             let requestUrl = 'unknown'
 
-            // fallback to unknown request URL if not available, ignore for tests as cannot be easily mocked in unit tests
+            // fallback to unknown requestUrl if not available, ignore for tests as cannot be easily mocked in unit tests, it is only for debugging purposes
             /* istanbul ignore next */
             if (request?.url?.pathname) {
               requestUrl = `${request.url.pathname}${request.url.search || ''}`
