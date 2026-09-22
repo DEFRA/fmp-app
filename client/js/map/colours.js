@@ -19,6 +19,7 @@ const depthOver600 = { default: '#f16913', dark: '#a1d99b' }
 const depthOver300 = { default: '#fd8d3c', dark: '#c7e9c0' }
 const depthOver150 = { default: '#fdae6b', dark: '#e5f5e0' }
 const depthOverZero = { default: '#fdd0a2', dark: '#f7fcf5' }
+const searchPinRed = '#ca3535'
 
 // light tones > 2300 to < 150
 const nonFloodZoneDepthBandsLight = [depthOver2300.default, depthOver1200.default, depthOver900.default, depthOver600.default, depthOver300.default, depthOver150.default, depthOverZero.default]
@@ -45,10 +46,15 @@ export const colours = { // [default, dark]
     [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
     [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]]
   ],
+  floodZone2: { default: floodZone2Light, dark: floodZone2Dark },
+  floodZone3: { default: floodZone3Light, dark: floodZone3Dark },
+  floodZoneClimateChange: { default: floodZoneCCLight, dark: floodZoneCCDark },
+  black,
+  white,
   waterStorageAreas: { default: darkTeal, dark: white },
   mainRivers: { default: darkTeal, dark: white },
   floodDefences: { default: floodDefences, dark: floodDefences },
-  searchPin: { default: '#ca3535', dark: '#ffffff' }
+  searchPin: { default: searchPinRed, dark: white }
 }
 
 export const getKeyItemFill = ([light, dark]) => (`default: ${light}, dark: ${dark}`)
