@@ -45,14 +45,10 @@ export const colours = { // [default, dark]
     [nonFloodZoneDepthBandsLight[5], nonFloodZoneDepthBandsDark[5]],
     [nonFloodZoneDepthBandsLight[6], nonFloodZoneDepthBandsDark[6]]
   ],
-  floodZone2: [floodZone2Light, floodZone2Dark], // can be deleted once vtLayers.js is gone
-  floodZone3: [floodZone3Light, floodZone3Dark], // can be deleted once vtLayers.js is gone
-  floodZoneClimateChange: [floodZoneCCLight, floodZoneCCDark], // can be deleted once vtLayers.js is gone
-  floodZoneClimateChangeNoData: [black, white], // can be deleted once vtLayers.js is gone
   waterStorageAreas: { default: darkTeal, dark: white },
   mainRivers: { default: darkTeal, dark: white },
   floodDefences: { default: floodDefences, dark: floodDefences },
-  floodExtents: [nonFloodZoneLight, nonFloodZoneDark] // can be deleted once vtLayers.js is gone
+  searchPin: { default: '#ca3535', dark: '#ffffff' }
 }
 
 export const getKeyItemFill = ([light, dark]) => (`default: ${light}, dark: ${dark}`)
