@@ -15,7 +15,7 @@ export const searchPlugin = createSearchPlugin({
   },
   transformRequest, // This will go once the token handling is replaced with a proxy
   placeholder: 'Search for a place in england',
-  osNamesURL: 'https://api.os.uk/search/names/v1/find?query={query}&fq=local_type:postcode%20local_type:hamlet%20local_type:village%20local_type:town%20local_type:city%20local_type:suburban_area%20local_type:other_settlement&maxresults=100',
+  osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/place-lookup/{query}`,
   regions: ['england'],
   width: '300px',
   showMarker: false
