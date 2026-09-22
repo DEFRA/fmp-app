@@ -89,7 +89,7 @@ mapKeyPlugin.attach = () => {
 const siteBoundaryKeyDefinition = {
   id: 'site-boundary',
   label: terms.labels.locationBoundary,
-  // groupLabel: 'Other features',
+  groupLabel: terms.labels.mapFeatures,
   style: {
     strokeWidth: 2,
     fill: 'none',
