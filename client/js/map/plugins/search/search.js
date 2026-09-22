@@ -1,5 +1,5 @@
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
-import { getRequest as transformRequest } from '../../tokens.js'
+import { getDefraMapConfig } from '../../mapConfig.js'
 import { colours } from '../../colours.js'
 
 const SEARCH_BUTTON_ID = 'map-search'
@@ -13,9 +13,8 @@ export const searchPlugin = createSearchPlugin({
       desktop: { slot: 'top-left', showLabel: true, order: 1 },
     }]
   },
-  transformRequest, // This will go once the token handling is replaced with a proxy
   placeholder: 'Search for a place in england',
-  osNamesURL: `${defraMapConfig.fmpProxyUrl}/proxy/place-lookup/{query}`,
+  osNamesURL: `${getDefraMapConfig.fmpProxyUrl}/proxy/place-lookup/{query}`,
   regions: ['england'],
   width: '300px',
   showMarker: false
