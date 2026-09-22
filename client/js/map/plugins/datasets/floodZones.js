@@ -70,7 +70,7 @@ const fz3Sublayer =
 
 const datasetFloodZonesCC = {
   ...floodZonesDefaults,
-  esriGroupId: 'floodzones-cc-group',
+  esriGroupId: 'floodzones-group',
   id: 'floodzonescc',
   label: terms.labels.floodZones,
   groupLabel: terms.labels.floodZones,
