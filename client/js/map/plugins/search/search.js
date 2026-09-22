@@ -1,5 +1,6 @@
 import createSearchPlugin from '@defra/interactive-map/plugins/search'
 import { getRequest as transformRequest } from '../../tokens.js'
+import { colours } from '../../colours.js'
 
 const SEARCH_BUTTON_ID = 'map-search'
 
@@ -50,7 +51,9 @@ searchPlugin.attach = (interactiveMap) => {
   interactiveMap.on('search:match', (event) => {
     interactiveMap.addMarker('search', event.point, {
       label: event.text,
-      showLabel: true
+      showLabel: true,
+      backgroundColor: { outdoor: colours.searchPin.default, dark: colours.searchPin.dark },
+      foregroundColor: { outdoor: colours.searchPin.dark, dark: colours.searchPin.default }
     })
   })
 }

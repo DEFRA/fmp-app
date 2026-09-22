@@ -1,4 +1,5 @@
 import { terms } from '../../terms.js'
+import { colours } from '../../colours.js'
 
 const visibleWhenFloodZones = { menu: { dataset: ['floodzones'] } }
 const visibleWhenClimateChange = { menu: { dataset: ['floodzones'], timeframe: ['climatechange'] } }
@@ -26,8 +27,8 @@ const ccSublayer = {
   infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZCC' },
   visibleWhen: visibleWhenClimateChange,
   style: {
-    fill: { outdoor: '#F4A582', dark: '#BF3D4A' },
-    stroke: { outdoor: '#F4A582', dark: '#BF3D4A' },
+    fill: { outdoor: colours.floodZoneClimateChange.default, dark: colours.floodZoneClimateChange.dark },
+    stroke: { outdoor: colours.floodZoneClimateChange.default, dark: colours.floodZoneClimateChange.dark },
     symbolDescription: { outdoor: 'light salmon fill', dark: 'dark red fill' },
   },
 }
@@ -38,8 +39,8 @@ const noDataSublayer = {
   visibleWhen: visibleWhenClimateChange,
   style: { // This is used just for the key - so that it renders the pattern correctly.
     fillPattern: 'dot',
-    fillPatternForegroundColor: { outdoor: '#000000', dark: '#ffffff' },
-    stroke: { outdoor: '#000000', dark: '#FFFFFF' },
+    fillPatternForegroundColor: { outdoor: colours.black, dark: colours.white },
+    stroke: { outdoor: colours.black, dark: colours.white },
     symbolDescription: { outdoor: 'black dotted fill', dark: 'white dotted fill' },
   }
 }
@@ -50,8 +51,8 @@ const fz2Sublayer = {
   infoPanelData,
   esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 2/1',
   style: {
-    fill: { outdoor: '#1d70b8', dark: '#7fcdbb' },
-    stroke: { outdoor: '#1d70b8', dark: '#7fcdbb' },
+    fill: { outdoor: colours.floodZone2.default, dark: colours.floodZone2.dark },
+    stroke: { outdoor: colours.floodZone2.default, dark: colours.floodZone2.dark },
     symbolDescription: { outdoor: 'blue fill', dark: 'light teal fill' },
   },
 }
@@ -62,15 +63,15 @@ const fz3Sublayer =
   infoPanelData: { ...infoPanelData, fz: 'FZ3' },
   esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea/Flood Zone 3/1',
   style: {
-    fill: { outdoor: '#003078', dark: '#e5f5e0' },
-    stroke: { outdoor: '#003078', dark: '#e5f5e0' },
+    fill: { outdoor: colours.floodZone3.default, dark: colours.floodZone3.dark },
+    stroke: { outdoor: colours.floodZone3.default, dark: colours.floodZone3.dark },
     symbolDescription: { outdoor: 'dark blue fill', dark: 'light green fill' },
   },
 }
 
 const datasetFloodZonesCC = {
   ...floodZonesDefaults,
-  esriGroupId: 'floodzones-cc-group',
+  esriGroupId: 'floodzones-group',
   id: 'floodzonescc',
   label: terms.labels.floodZones,
   groupLabel: terms.labels.floodZones,
@@ -83,7 +84,7 @@ const datasetFloodZonesCC = {
       id: 'data-unavailable-outline',
       visibleWhen: visibleWhenClimateChange,
       style: {
-        stroke: { outdoor: '#000000', dark: '#FFFFFF' },
+        stroke: { outdoor: colours.black, dark: colours.white },
       },
       infoPanelData: { ...infoPanelData, tf: 'cc', fz: 'FZNODATA' },
       esriStyleLayerId: 'Flood Zones 2 and 3 Rivers and Sea CCP1/Unavailable/0'

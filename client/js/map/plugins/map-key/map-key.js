@@ -15,7 +15,7 @@ export const mapKeyPlugin = createMapKeyPlugin({
   manifest: {
     panels: [{
       id: 'mapKey',
-      mobile: { slot: 'drawer', modal: false, exclusive: true },
+      mobile: { slot: 'drawer', modal: false, exclusive: true, open: true },
       tablet: { slot: 'left-top', width: '360px', open: true },
       desktop: { slot: 'left-top', width: '360px', open: true },
     }],
@@ -89,7 +89,7 @@ mapKeyPlugin.attach = () => {
 const siteBoundaryKeyDefinition = {
   id: 'site-boundary',
   label: terms.labels.locationBoundary,
-  // groupLabel: 'Other features',
+  groupLabel: terms.labels.mapFeatures,
   style: {
     strokeWidth: 2,
     fill: 'none',
