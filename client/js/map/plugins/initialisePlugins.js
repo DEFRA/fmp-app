@@ -18,7 +18,7 @@ export const initialisePlugins = (defraMapConfig) => {
   plugins.menu = menuPlugin
   plugins.mapStyle = mapStylePlugin(defraMapConfig.OS_ACCOUNT_NUMBER)
   plugins.scaleBar = scaleBarPlugin()
-  plugins.search = searchPlugin
+  plugins.search = searchPlugin(defraMapConfig)
   plugins.draw = drawPlugin
   plugins.frame = framePlugin
   plugins.interact = interactPlugin
