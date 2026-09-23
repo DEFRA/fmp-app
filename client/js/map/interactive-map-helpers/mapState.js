@@ -1,4 +1,5 @@
 import { getQueryParam, setQueryParam } from './queryParams.js'
+import { colours } from '../colours.js'
 
 class MapState {
   constructor () {
@@ -27,7 +28,9 @@ class MapState {
       const { x, y } = view.center
       this.interactiveMap.addMarker('search', [x, y], {
         label: this.location,
-        showLabel: true
+        showLabel: true,
+        backgroundColor: { outdoor: colours.searchPin.default, dark: colours.searchPin.dark },
+        foregroundColor: { outdoor: colours.searchPin.dark, dark: colours.searchPin.default }
       })
     }
   }
