@@ -31,7 +31,7 @@ export const mapStylePlugin = (osAccountNumber) => {
         logo: whiteLogo
       },
       {
-        id: 'blackAndWhite',
+        id: 'black-and-white',
         label: 'Black and white',
         url: '/map/styles/black-and-white-map',
         attribution,
