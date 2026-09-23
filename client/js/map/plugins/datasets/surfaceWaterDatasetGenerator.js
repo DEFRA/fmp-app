@@ -56,6 +56,7 @@ const subLayerGenerator = (sourceLayer, visibleWhenMenu, aep, timeframe) => {
   return { extentsSublayers, depthSublayers }
 }
 
+let depthsKey = null
 export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffix, id, tileName, sourceLayer, timeframe, aep }) => {
   const visibleWhenMenu = { dataset: ['surfacewater'], timeframe, aep }
   const { extentsSublayers, depthSublayers } = subLayerGenerator(sourceLayer, visibleWhenMenu, aep[0], timeframe[0])
@@ -83,21 +84,23 @@ export const surfaceWaterDatasetGenerator = ({ agolVectorTileUrl, layerNameSuffi
     sublayers: depthSublayers
   }
 
-  // We only really need one of these with visibleWhen: { menu: {dataset: ['surfacewater'], depth: ['depthAll'] } },
-  const depthsKey = {
-    id: `${id}-depths-key`,
-    label: 'Surface water',
-    groupLabel: terms.labels.surfaceWaterDepthInMillimetres,
-    groupStyle: 'ramp',
+  // We only need one depthsKey, so if it already exists, we return without creating a new one.
+  if (depthsKey) {
+    return [extentsDataset, depthDataset]
+  }
+
+  depthsKey = {
+    id: 'depths-key',
+    groupId: 'surface-water-depth-in-millimetres',
     showInKey: true,
-    visibleWhen: { menu: { ...visibleWhenMenu, depth: ['depthAll'] } },
+    visibleWhen: { menu: { dataset: ['surfacewater'], depth: ['depthAll'] } },
     sublayers: depthDataset.sublayers.map((sublayer) => {
       return {
         ...sublayer,
         esriStyleLayerId: null,
-        label: sublayer.label.match(/\d+/)[0],
+        label: terms.depthBandKey[sublayer.id],
       }
     })
   }
-  return [extentsDataset, depthDataset, depthsKey]
+  return [depthsKey, extentsDataset, depthDataset]
 }

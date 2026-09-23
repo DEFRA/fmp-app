@@ -66,7 +66,15 @@ const terms = {
     depthOver900: '900 to 1200mm',
     depthOver1200: '1200 to 2300mm',
     depthOver2300: 'Over 2300mm'
-
+  },
+  depthBandKey: {
+    depthOverZero: '75',
+    depthOver150: '150',
+    depthOver300: '300',
+    depthOver600: '600',
+    depthOver900: '900',
+    depthOver1200: '1200',
+    depthOver2300: '2300'
   },
   likelihoodchance: {
     rsHigh: '<p class="govuk-body-s">3.3% (1 in 30)</br>chance of flooding each year</p>',
