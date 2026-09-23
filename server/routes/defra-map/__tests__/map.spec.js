@@ -1,4 +1,4 @@
-const routes = require('../index')
+const routes = require('../map')
 
 const mockHapiRequest = {
   path: '/map',
