@@ -1,6 +1,21 @@
 module.exports = async () => {
   const config = {
-    collectCoverage: false,
+    workerIdleMemoryLimit: '512MB',
+    collectCoverage: true,
+    coverageThreshold: {
+      global: {
+        branches: 95,
+        functions: 95,
+        lines: 95,
+        statements: -10
+      }
+    },
+    collectCoverageFrom: [
+      'client/**/*.{js,jsx}',
+      'config/**/*.{js,jsx}',
+      'server/**/*.{js,jsx}',
+      '*.{js,jsx}'
+    ],
     coverageReporters: [
       'lcov',
       'text'
@@ -12,6 +27,9 @@ module.exports = async () => {
       '__test-helpers__'
     ],
     coveragePathIgnorePatterns: [
+      '/node_modules/',
+      '/coverage/',
+      '/e2e/',
       '__test-helpers__'
     ],
     testEnvironment: 'jsdom',
