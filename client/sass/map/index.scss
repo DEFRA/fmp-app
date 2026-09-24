@@ -368,7 +368,7 @@ body.js-enabled:not([data-im-error]) {
   }
 }
 
-// Ensure visited links don't turn purple
-a:visited, .govuk-link:visited {
-  color: unset;
+// Ensure links and visited links don't turn purple/blue
+a:link, .govuk-link:link, a:visited, .govuk-link:visited {
+  color: var(--foreground-color);
 }
