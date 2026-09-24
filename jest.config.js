@@ -11,10 +11,13 @@ module.exports = async () => {
       }
     },
     collectCoverageFrom: [
-      'client/**/*.{js,jsx}',
+      // 'client/**/*.{js,jsx}',
       'config/**/*.{js,jsx}',
       'server/**/*.{js,jsx}',
-      '*.{js,jsx}'
+      '*.{js,jsx}',
+      '!server/public/**',
+      '!**/__tests__/**',
+      '!**/*.snap'
     ],
     coverageReporters: [
       'lcov',
@@ -27,10 +30,18 @@ module.exports = async () => {
       '__test-helpers__'
     ],
     coveragePathIgnorePatterns: [
+      'eslint.config.js',
+      'jest.config.js',
+      'fmp-app/config/environment.js',
       '/node_modules/',
       '/coverage/',
       '/e2e/',
-      '__test-helpers__'
+      '/server/public/',
+      '/docs/',
+      '__tests__',
+      '__test-helpers__',
+      '__mocks__',
+      '\\.snap$'
     ],
     testEnvironment: 'jsdom',
     globals: {
