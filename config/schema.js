@@ -30,6 +30,7 @@ const schema = Joi.object({
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
+  fmpProxyUrl: Joi.string().uri().required(),
   ceEmailReplaceMap: Joi.object().required(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()

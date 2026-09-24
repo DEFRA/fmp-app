@@ -7,7 +7,8 @@ module.exports = [
     env: ['jest', 'node'],
     ignores: [
       '**/_results_/',
-      '**/server/public/'
+      '**/server/public/',
+      'e2e/playwright-report/**'
     ]
   }),
   {
