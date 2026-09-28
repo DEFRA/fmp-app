@@ -215,6 +215,20 @@ describe('mapState', () => {
       expect(mapState.cursorStyleLayer).toBeNull()
     })
 
+    it('should ignore results whose graphic has no origin at all', () => {
+      setUrl('http://localhost/')
+      const mapState = loadMapState()
+      const hitTestResponse = {
+        results: [
+          { graphic: { attributes: {} }, layer: { getStyleLayer: jest.fn() } }
+        ]
+      }
+
+      mapState.assignCursorStyleLayer(hitTestResponse)
+
+      expect(mapState.cursorStyleLayer).toBeNull()
+    })
+
     it('should ignore results whose style layer is not visible', () => {
       setUrl('http://localhost/')
       const mapState = loadMapState()
