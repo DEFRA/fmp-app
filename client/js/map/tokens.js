@@ -104,10 +104,8 @@ export const getDefraMapConfig = async () => {
 }
 
 const refreshEsriToken = async () => {
-  if (_esriConfig) {
-    const { token } = await getEsriToken(true) // forceRefresh = true
-    _esriConfig.apiKey = token
-  }
+  const { token } = await getEsriToken(true) // forceRefresh = true
+  _esriConfig.apiKey = token
 }
 
 export const isInvalidTokenError = (error) => (error?.details?.httpStatus === esriStatusCodes.INVALID_TOKEN_CODE)

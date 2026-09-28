@@ -44,9 +44,6 @@ const getInfoPanelMarkup = async (infoPanelValues) => {
 }
 
 const formatFloodSource = (floodSource) => {
-  if (!floodSource) {
-    return ''
-  }
   if (floodSource === 'Coastal') {
     return 'Sea'
   }
