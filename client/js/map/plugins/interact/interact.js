@@ -82,8 +82,10 @@ const bindHideInfoPanel = (interactiveMap) => () => {
     interactiveMap.removePanel(INFO_PANEL_ID)
   }
   // But always remove the marker - as this has no side effects
-  interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+  interactPlugin.hideInfoPanelMarker()
 }
+
+const bindHideInfoPanelMarker = (interactiveMap) => () => interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
 
 interactPlugin.attach = (interactiveMap) => {
   interactiveMap.on('map:ready', () => {
@@ -95,6 +97,7 @@ interactPlugin.attach = (interactiveMap) => {
   interactPlugin.markerId = INFO_PANEL_MARKER_ID
   interactPlugin.showInfoPanel = bindShowInfoPanel(interactiveMap)
   interactPlugin.hideInfoPanel = bindHideInfoPanel(interactiveMap)
+  interactPlugin.hideInfoPanelMarker = bindHideInfoPanelMarker(interactiveMap)
 
   interactiveMap.on('interact:markerchange', async (event) => {
     const { coords } = event
@@ -116,7 +119,7 @@ interactPlugin.attach = (interactiveMap) => {
     depth: true
   }
 
-  // Remove the panel when the user searches, or changes the dataset, timeframe, aep or depth
+  // Remove the panel when the user changes the dataset, timeframe, aep or depth
   document.addEventListener('change', ({ target }) => {
     if (dismissPanelTargets[target.name]) {
       interactPlugin.hideInfoPanel()
@@ -126,7 +129,7 @@ interactPlugin.attach = (interactiveMap) => {
   // Remove the marker when the panel is closed or hidden
   const onRemoveInfoPanel = (panelId) => {
     if (panelId === INFO_PANEL_ID) {
-      interactiveMap.removeMarker(INFO_PANEL_MARKER_ID)
+      interactPlugin.hideInfoPanelMarker()
       reShowDatasetsKey(INFO_PANEL_ID) // Re-show the datasets key if it was previously visible when the info panel was opened
     }
   }

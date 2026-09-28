@@ -35,15 +35,14 @@ searchPlugin.showButton = () => {
   }
 }
 
-searchPlugin.onOpen = () => searchPlugin?.plugins?.interact?.hideInfoPanel()
+searchPlugin.onOpen = () => searchPlugin?.plugins?.interact?.hideInfoPanelMarker()
 searchPlugin.onClosed = () => searchPlugin?.plugins?.interact?.hideInfoPanel()
 
 searchPlugin.attach = (interactiveMap) => {
-  // Hide the info panel when the search is opened. In reality, it is already
-  // hidden before the search:open event is fired, but we call it here to
-  // ensure that the infoPanel marker is also removed.
+  // The info panel is already hidden before the search:open event is fired,
+  // but we need to ensure that the infoPanel marker is also removed.
   interactiveMap.on('search:open', searchPlugin.onOpen)
-  // Ironically, we must hide the info panel when the search is closed too.
+  // Ironically, we must hide the info panel when the search is closed.
   // This is because the IM hides just about everything when search is opened,
   // but shows them again once it is closed, so we force it closed here.
   interactiveMap.on('search:close', searchPlugin.onClosed)
