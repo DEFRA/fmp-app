@@ -11,7 +11,7 @@ module.exports = async () => {
       }
     },
     collectCoverageFrom: [
-      // 'client/**/*.{js,jsx}',
+      'client/**/*.{js,jsx}',
       'config/**/*.{js,jsx}',
       'server/**/*.{js,jsx}',
       '*.{js,jsx}',
