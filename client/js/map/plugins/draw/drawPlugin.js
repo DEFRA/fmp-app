@@ -12,7 +12,8 @@ const PRIMARY_DROP_DOWN_ID = 'geometryActions'
 const SECONDARY_DROP_DOWN_ID = 'geometryActionsSecondary'
 const SUMMARY_BUTTON_ID = 'get-summary'
 
-let updateDrawState = () => {}
+// undefined until attach() runs, so this reflects reality rather than a no-op stand-in
+let updateDrawState
 let dimensionsPanel = null
 
 const attachUpdateDrawStateMethod = (interactiveMap, onEditPolygon) => () => {
@@ -51,7 +52,7 @@ const drawMenuItems = {
       drawPlugin.newPolygon(siteBoundary.id)
       siteBoundary.state = SiteBoundary.EDITING
       siteBoundary.type = SiteBoundary.POLYGON
-      updateDrawState()
+      updateDrawState?.()
     }
   },
   addSquare: {
@@ -60,7 +61,7 @@ const drawMenuItems = {
       framePlugin.addFrame(siteBoundary.id, { aspectRatio: 1 })
       siteBoundary.state = SiteBoundary.EDITING
       siteBoundary.type = SiteBoundary.SQUARE
-      updateDrawState()
+      updateDrawState?.()
     }
   },
   uploadShape: {
@@ -78,7 +79,7 @@ const drawMenuItems = {
         drawPlugin.editFeature(siteBoundary.id)
       }
       siteBoundary.state = SiteBoundary.EDITING
-      updateDrawState()
+      updateDrawState?.()
     }
   },
   deleteShape: {
@@ -87,7 +88,7 @@ const drawMenuItems = {
     onClick: () => {
       drawPlugin.deleteFeature(siteBoundary.id)
       siteBoundary.feature = null
-      updateDrawState()
+      updateDrawState?.()
     }
   }
 }
@@ -136,7 +137,7 @@ drawPlugin.attach = (interactiveMap) => {
   updateDrawState = attachUpdateDrawStateMethod(interactiveMap, drawPlugin.onEditPolygon)
   const onCancelEditing = () => {
     siteBoundary.state = siteBoundary.feature ? SiteBoundary.COMPLETE : SiteBoundary.EMPTY
-    updateDrawState()
+    updateDrawState?.()
   }
 
   interactiveMap.on('map:ready', ({ view }) => {
@@ -179,7 +180,7 @@ drawPlugin.attach = (interactiveMap) => {
   })
 
   interactiveMap.on('draw:ready', () => {
-    updateDrawState()
+    updateDrawState?.()
     if (siteBoundary.feature) {
       drawPlugin.addFeature(siteBoundary.feature)
     }
@@ -188,7 +189,7 @@ drawPlugin.attach = (interactiveMap) => {
   interactiveMap.on('draw:done', ({ newFeature: feature }) => {
     siteBoundary.feature = feature
     siteBoundary.type = SiteBoundary.POLYGON
-    updateDrawState()
+    updateDrawState?.()
   })
 
   const onFeatureUpdated = (feature) => dimensionsPanel.setFeatureValues(feature)
@@ -210,14 +211,14 @@ drawPlugin.attach = (interactiveMap) => {
 
   interactiveMap.on('draw:deleted', () => {
     siteBoundary.feature = null
-    updateDrawState()
+    updateDrawState?.()
   })
 
   interactiveMap.on('frame:done', (feature) => {
     drawPlugin.addFeature(feature)
     siteBoundary.feature = feature
     siteBoundary.type = SiteBoundary.SQUARE
-    updateDrawState()
+    updateDrawState?.()
   })
 
   interactiveMap.on('app:panelopened', ({ panelId }) => {
