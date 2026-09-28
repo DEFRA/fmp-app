@@ -7,5 +7,6 @@ module.exports = {
   esriProvider: { __esModule: true, default: jest.fn() },
   datasetsPlugin: { __esModule: true, default: jest.fn() },
   drawEsPlugin: { __esModule: true, default: jest.fn() },
-  framePlugin: { __esModule: true, default: jest.fn() }
+  framePlugin: { __esModule: true, default: jest.fn() },
+  interactPlugin: { __esModule: true, default: jest.fn() }
 }
