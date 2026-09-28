@@ -1,15 +1,13 @@
-const mockReactiveUtilsWhen = jest.fn()
-jest.mock('@arcgis/core/core/reactiveUtils', () => ({
-  when: (...args) => mockReactiveUtilsWhen(...args)
-}))
-
-const mockCreateDatasetsPluginInstance = {}
-const mockCreateDatasetsPlugin = jest.fn()
+// Shared mocks - see client/js/__test-helpers__ (captured once so the same jest.fn()
+// instances survive the jest.resetModules() calls used to reload datasetsPlugin.js per test)
+const mockArcgisCoreMocks = require('../../../__test-helpers__/arcgisCoreMocks')
+const mockInteractiveMapMocks = require('../../../__test-helpers__/interactiveMapMocks')
+jest.mock('@arcgis/core/core/reactiveUtils', () => mockArcgisCoreMocks.reactiveUtils)
 // virtual mock: this subpath has no CJS "require" export condition in the package
-jest.mock('@defra/interactive-map/plugins/datasets', () => ({
-  __esModule: true,
-  default: (...args) => mockCreateDatasetsPlugin(...args)
-}), { virtual: true })
+jest.mock('@defra/interactive-map/plugins/datasets', () => mockInteractiveMapMocks.datasetsPlugin, { virtual: true })
+
+const mockReactiveUtilsWhen = mockArcgisCoreMocks.reactiveUtils.when
+const mockCreateDatasetsPlugin = mockInteractiveMapMocks.datasetsPlugin.default
 
 const mockSurfaceWaterExtentsKey = { id: 'surfacewater-extents-key' }
 const mockSurfaceWaterDatasets = jest.fn()
@@ -48,7 +46,7 @@ describe('initialiseDatasetsPlugin', () => {
   const config = { agolServiceUrl: 'https://example.com/services', agolVectorTileUrl: 'https://example.com/vt', layerNameSuffix: '_NON_PRODUCTION' }
 
   beforeEach(() => {
-    mockCreateDatasetsPlugin.mockReturnValue({ ...mockCreateDatasetsPluginInstance })
+    mockCreateDatasetsPlugin.mockReturnValue({})
     mockFloodZonesDatasets.mockReturnValue([{ id: 'floodzones' }])
     mockSurfaceWaterDatasets.mockReturnValue([{ id: 'surfacewater' }])
     mockFeatureLayers.mockReturnValue([{ id: 'mainrivers' }])

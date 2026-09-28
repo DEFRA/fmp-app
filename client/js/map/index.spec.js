@@ -22,19 +22,15 @@ jest.mock('./plugins/initialisePlugins.js', () => ({
   attachInteractiveMapToPlugins: (...args) => mockAttachInteractiveMapToPlugins(...args)
 }))
 
-const mockInteractiveMapInstance = { on: jest.fn(), addButton: jest.fn() }
-const mockInteractiveMapConstructor = jest.fn()
-jest.mock('@defra/interactive-map', () => ({
-  __esModule: true,
-  default: mockInteractiveMapConstructor
-}))
-
-const mockEsriProvider = jest.fn()
+// Shared @defra/interactive-map mocks - see client/js/__test-helpers__/interactiveMapMocks.js
+const mockInteractiveMapMocks = require('../__test-helpers__/interactiveMapMocks')
+jest.mock('@defra/interactive-map', () => mockInteractiveMapMocks.interactiveMap)
 // virtual mock: this subpath has no CJS "require" export condition in the package
-jest.mock('@defra/interactive-map/providers/esri', () => ({
-  __esModule: true,
-  default: (...args) => mockEsriProvider(...args)
-}), { virtual: true })
+jest.mock('@defra/interactive-map/providers/esri', () => mockInteractiveMapMocks.esriProvider, { virtual: true })
+
+const mockInteractiveMapInstance = { on: jest.fn(), addButton: jest.fn() }
+const mockInteractiveMapConstructor = mockInteractiveMapMocks.interactiveMap.default
+const mockEsriProvider = mockInteractiveMapMocks.esriProvider.default
 
 const flushPromises = () => new Promise((resolve) => process.nextTick(resolve))
 

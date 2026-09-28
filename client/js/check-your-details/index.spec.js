@@ -1,65 +1,40 @@
-const mockEsriConfig = { apiKey: '', request: { interceptors: [] } }
-jest.mock('@arcgis/core/config.js', () => ({
-  __esModule: true,
-  default: mockEsriConfig
-}))
+// Shared @arcgis/core mocks - see client/js/__test-helpers__/arcgisCoreMocks.js
+// to add a new subpath mock instead of redefining a constructor mock inline.
+// NB: captured once (not required freshly inside each factory) so the same jest.fn()
+// instances survive the jest.resetModules() calls used to reload ./index.js per test.
+const mockArcgisCoreMocks = require('../__test-helpers__/arcgisCoreMocks')
+jest.mock('@arcgis/core/config.js', () => mockArcgisCoreMocks.config)
+jest.mock('@arcgis/core/Map', () => mockArcgisCoreMocks.Map)
+jest.mock('@arcgis/core/views/MapView', () => mockArcgisCoreMocks.MapView)
+jest.mock('@arcgis/core/layers/WMTSLayer', () => mockArcgisCoreMocks.WMTSLayer)
+jest.mock('@arcgis/core/layers/support/TileInfo', () => mockArcgisCoreMocks.TileInfo)
+jest.mock('@arcgis/core/geometry/Point', () => mockArcgisCoreMocks.Point)
+jest.mock('@arcgis/core/geometry/Extent', () => mockArcgisCoreMocks.Extent)
+jest.mock('@arcgis/core/layers/GraphicsLayer', () => mockArcgisCoreMocks.GraphicsLayer)
+jest.mock('@arcgis/core/Graphic', () => mockArcgisCoreMocks.Graphic)
+jest.mock('@arcgis/core/widgets/ScaleBar', () => mockArcgisCoreMocks.ScaleBar)
 
-const mockMapConstructor = jest.fn()
-jest.mock('@arcgis/core/Map', () => ({
-  __esModule: true,
-  default: mockMapConstructor
-}))
+const mockEsriConfig = mockArcgisCoreMocks.config.default
+const mockMapConstructor = mockArcgisCoreMocks.Map.default
 
 // Mutable instance re-created per-test in beforeEach so mocks don't leak between tests
 let mockMapViewInstance
-const mockMapViewConstructor = jest.fn()
-jest.mock('@arcgis/core/views/MapView', () => ({
-  __esModule: true,
-  default: mockMapViewConstructor
-}))
+const mockMapViewConstructor = mockArcgisCoreMocks.MapView.default
 
-const mockWMTSLayerConstructor = jest.fn()
-jest.mock('@arcgis/core/layers/WMTSLayer', () => ({
-  __esModule: true,
-  default: mockWMTSLayerConstructor
-}))
+const mockWMTSLayerConstructor = mockArcgisCoreMocks.WMTSLayer.default
 
-const mockTileInfoCreate = jest.fn()
-jest.mock('@arcgis/core/layers/support/TileInfo', () => ({
-  __esModule: true,
-  default: { create: (...args) => mockTileInfoCreate(...args) }
-}))
+const { create: mockTileInfoCreate } = mockArcgisCoreMocks.TileInfo.default
 
-const mockPointConstructor = jest.fn()
-jest.mock('@arcgis/core/geometry/Point', () => ({
-  __esModule: true,
-  default: mockPointConstructor
-}))
+const mockPointConstructor = mockArcgisCoreMocks.Point.default
 
-const mockExtentConstructor = jest.fn()
-jest.mock('@arcgis/core/geometry/Extent', () => ({
-  __esModule: true,
-  default: mockExtentConstructor
-}))
+const mockExtentConstructor = mockArcgisCoreMocks.Extent.default
 
 const mockGraphicsLayerAdd = jest.fn()
-const mockGraphicsLayerConstructor = jest.fn()
-jest.mock('@arcgis/core/layers/GraphicsLayer', () => ({
-  __esModule: true,
-  default: mockGraphicsLayerConstructor
-}))
+const mockGraphicsLayerConstructor = mockArcgisCoreMocks.GraphicsLayer.default
 
-const mockGraphicConstructor = jest.fn()
-jest.mock('@arcgis/core/Graphic', () => ({
-  __esModule: true,
-  default: mockGraphicConstructor
-}))
+const mockGraphicConstructor = mockArcgisCoreMocks.Graphic.default
 
-const mockScaleBarConstructor = jest.fn()
-jest.mock('@arcgis/core/widgets/ScaleBar', () => ({
-  __esModule: true,
-  default: mockScaleBarConstructor
-}))
+const mockScaleBarConstructor = mockArcgisCoreMocks.ScaleBar.default
 
 const mockGetOsToken = jest.fn()
 const mockGetEsriToken = jest.fn()
