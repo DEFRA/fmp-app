@@ -10,5 +10,6 @@ module.exports = {
   framePlugin: { __esModule: true, default: jest.fn() },
   interactPlugin: { __esModule: true, default: jest.fn() },
   mapKeyPlugin: { __esModule: true, default: jest.fn() },
-  mapStylesPlugin: { __esModule: true, default: jest.fn() }
+  mapStylesPlugin: { __esModule: true, default: jest.fn() },
+  menuPlugin: { __esModule: true, default: jest.fn() }
 }
