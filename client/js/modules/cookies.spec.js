@@ -257,6 +257,16 @@ describe('cookies', () => {
       })
     })
 
+    it('should not resubmit the form when the reject preference request succeeds', () => {
+      rejectButton.click()
+      const xhr = FakeXHR.instances[0]
+      xhr.status = 200
+
+      xhr.onload()
+
+      expect(form.submit).not.toHaveBeenCalled()
+    })
+
     it('should hide the cookie banner when the accepted banner hide button is clicked', () => {
       acceptButton.click()
       acceptedBanner.querySelector('.js-hide').click()
