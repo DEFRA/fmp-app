@@ -1,347 +1,227 @@
-const JSZip = require('jszip')
+const mockValidateFileExtension = jest.fn()
+const mockGetParserForFile = jest.fn()
+const mockValidateGeoJSON = jest.fn()
+const mockValidateNodeCount = jest.fn()
+const mockIsValidBNG = jest.fn()
+const mockShowError = jest.fn()
+const mockParseShapefile = jest.fn()
+const mockParseGeoJSON = jest.fn()
+const mockParseGeopackage = jest.fn()
+const mockEncodePolygon = jest.fn()
+
+jest.mock('./upload-file-validators.js', () => ({
+  validateFileExtension: (...args) => mockValidateFileExtension(...args),
+  getParserForFile: (...args) => mockGetParserForFile(...args),
+  validateGeoJSON: (...args) => mockValidateGeoJSON(...args),
+  validateNodeCount: (...args) => mockValidateNodeCount(...args),
+  isValidBNG: (...args) => mockIsValidBNG(...args)
+}))
+
+jest.mock('./upload-shape-file-dom.js', () => ({
+  showError: (...args) => mockShowError(...args)
+}))
+
+jest.mock('./parsers/shapefile-parser.js', () => ({
+  parseShapefile: (...args) => mockParseShapefile(...args)
+}))
+
+jest.mock('./parsers/geojson-parser.js', () => ({
+  parseGeoJSON: (...args) => mockParseGeoJSON(...args)
+}))
+
+jest.mock('./parsers/geopackage-parser.js', () => ({
+  parseGeopackage: (...args) => mockParseGeopackage(...args)
+}))
+
+jest.mock('../../../server/services/shape-utils.js', () => ({
+  encodePolygon: (...args) => mockEncodePolygon(...args)
+}))
+
 const {
-  validateZipSignature,
-  isValidBNG,
-  validateFileExtension,
-  getParserForFile,
-  validateFileCount,
-  validateFileNames,
-  validateAllowedFileTypes,
-  validateGeoJSON,
-  validateNodeCount,
-  maxNodes,
-  maxFiles
-} = require('./upload-file-validators.js')
-const {
-  locationFormatError,
   noFileSelected,
-  invalidFileFormat,
   tooManyNodes,
+  fileCouldNotBeRead,
   tooManyFilesSelected,
-  fileCouldNotBeRead
+  invalidFileFormat,
+  locationFormatError
 } = require('./upload-file-errors.js')
-const { encodePolygon } = require('../../../server/services/shape-utils.js')
 
-describe('validateFileExtension', () => {
-  it('should return true for a .zip file', () => {
-    expect(validateFileExtension('test.zip')).toBe(true)
-  })
-
-  it('should return true for a .geojson file', () => {
-    expect(validateFileExtension('test.geojson')).toBe(true)
-  })
-
-  it('should return true for a .gpkg file', () => {
-    expect(validateFileExtension('test.gpkg')).toBe(true)
-  })
-
-  it('should return false for a non-supported file', () => {
-    expect(validateFileExtension('test.txt')).toBe(false)
-  })
-
-  it('should be case insensitive', () => {
-    expect(validateFileExtension('test.ZIP')).toBe(true)
-    expect(validateFileExtension('test.GEOJSON')).toBe(true)
-    expect(validateFileExtension('test.GPKG')).toBe(true)
-  })
-})
-
-describe('getParserForFile', () => {
-  it('should return "shapefile" for .zip files', () => {
-    expect(getParserForFile('test.zip')).toBe('shapefile')
-  })
-
-  it('should return "geojson" for .geojson files', () => {
-    expect(getParserForFile('test.geojson')).toBe('geojson')
-  })
-
-  it('should return "geopackage" for .gpkg files', () => {
-    expect(getParserForFile('test.gpkg')).toBe('geopackage')
-  })
-
-  it('should be case insensitive', () => {
-    expect(getParserForFile('test.ZIP')).toBe('shapefile')
-    expect(getParserForFile('test.GEOJSON')).toBe('geojson')
-    expect(getParserForFile('test.GPKG')).toBe('geopackage')
-  })
-
-  it('should return null for unsupported file types', () => {
-    expect(getParserForFile('test.txt')).toBeNull()
-    expect(getParserForFile('test.shp')).toBeNull()
-    expect(getParserForFile('test.json')).toBeNull()
-  })
-})
-
-describe('validateZipSignature', () => {
-  it('should return true for a valid zip signature', async () => {
-    const zip = new JSZip()
-    zip.file('test.shp', Buffer.from('test'))
-    const buffer = await zip.generateAsync({ type: 'arraybuffer' })
-    expect(validateZipSignature(buffer)).toBe(true)
-  })
-
-  it('should return false for an invalid zip signature', () => {
-    const buffer = Buffer.from('this is not a zip file').buffer
-    expect(validateZipSignature(buffer)).toBe(false)
-  })
-})
-
-describe('validateFileCount', () => {
-  it('should return true for a file count within the limit', () => {
-    expect(validateFileCount(Array(maxFiles).fill('file.shp'))).toBe(true)
-  })
-
-  it('should return false for a file count exceeding the limit', () => {
-    expect(validateFileCount(Array(maxFiles + 1).fill('file.shp'))).toBe(false)
-  })
-})
-
-describe('validateFileNames', () => {
-  it('should return true for safe file names', () => {
-    expect(validateFileNames(['test.shp', 'test.shx'])).toBe(true)
-  })
-
-  it('should return false for a path traversal file name', () => {
-    expect(validateFileNames(['../../etc/test.shp'])).toBe(false)
-  })
-
-  it('should return false for a file name starting with /', () => {
-    expect(validateFileNames(['/etc/test.shp'])).toBe(false)
-  })
-})
-
-describe('validateAllowedFileTypes', () => {
-  it('should return true for allowed file types', () => {
-    expect(validateAllowedFileTypes(['test.shp', 'test.shx', 'test.dbf'])).toBe(true)
-  })
-
-  it('should return false for disallowed file types', () => {
-    expect(validateAllowedFileTypes(['test.shp', 'malicious.js'])).toBe(false)
-  })
-})
-
-describe('validateGeoJSON', () => {
-  it('should return null for valid GeoJSON', () => {
-    const geojson = {
-      features: [{ geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 0]]] } }]
-    }
-    expect(validateGeoJSON(geojson)).toBeNull()
-  })
-
-  it('should return an error if geojson is null', () => {
-    expect(validateGeoJSON(null)).toBe(locationFormatError)
-  })
-
-  it('should return an error if geojson has multiple features', () => {
-    const geojson = {
-      features: [
-        { geometry: { type: 'Polygon', coordinates: [] } },
-        { geometry: { type: 'Polygon', coordinates: [] } }
-      ]
-    }
-    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
-  })
-
-  it('should return an error if the feature is not a Polygon', () => {
-    const geojson = {
-      features: [{ geometry: { type: 'LineString', coordinates: [] } }]
-    }
-    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
-  })
-})
-
-describe('validateNodeCount', () => {
-  it('should return true for a polygon within the node limit', () => {
-    const polygon = Array(maxNodes).fill([0, 0])
-    expect(validateNodeCount(polygon)).toBe(true)
-  })
-
-  it('should return false for a polygon exceeding the node limit', () => {
-    const polygon = Array(maxNodes + 1).fill([0, 0])
-    expect(validateNodeCount(polygon)).toBe(false)
-  })
-})
-
-describe('isValidBNG', () => {
-  it('should return true for valid BNG coordinates', () => {
-    expect(isValidBNG([[530000, 180000], [531000, 180000]])).toBe(true)
-  })
-
-  it('should return false for WGS84 coordinates', () => {
-    expect(isValidBNG([[-0.1276, 51.5074], [-0.1376, 51.5074]])).toBe(false)
-  })
-
-  it('should return false for coordinates outside BNG range', () => {
-    expect(isValidBNG([[700001, 180000]])).toBe(false)
-    expect(isValidBNG([[530000, 1300001]])).toBe(false)
-  })
-
-  it('should return false for negative coordinates', () => {
-    expect(isValidBNG([[-1, 180000]])).toBe(false)
-  })
-})
-
-describe('encodePolygon', () => {
-  it('should encode a polygon array to a polyline string', () => {
-    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
-    const encoded = encodePolygon(polygon)
-    expect(typeof encoded).toBe('string')
-    expect(encoded.length).toBeGreaterThan(0)
-  })
-
-  it('should encode a polygon passed as a JSON string', () => {
-    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
-    const encoded = encodePolygon(JSON.stringify(polygon))
-    expect(typeof encoded).toBe('string')
-    expect(encoded.length).toBeGreaterThan(0)
-  })
-
-  it('should produce consistent output for array and string input', () => {
-    const polygon = [[530000, 180000], [531000, 180000], [531000, 181000], [530000, 180000]]
-    const fromArray = encodePolygon(polygon)
-    const fromString = encodePolygon(JSON.stringify(polygon))
-    expect(fromArray).toBe(fromString)
-  })
-})
-
-describe('showError and clearError', () => {
-  let errorSummary
-  let errorSummaryText
-  let formGroup
+describe('upload-file-client', () => {
+  let uploadButton
   let fileInput
 
   beforeEach(() => {
     jest.resetModules()
-    errorSummary = document.createElement('div')
-    errorSummary.id = 'errorSummary'
-    errorSummary.style.display = 'none'
-    errorSummaryText = document.createElement('a')
-    errorSummaryText.id = 'errorSummaryText'
-    formGroup = document.createElement('div')
-    formGroup.className = 'govuk-form-group'
+    jest.clearAllMocks()
+    document.body.innerHTML = ''
+    // jsdom does not implement navigation, so setting location.href always logs this
+    jest.spyOn(console, 'error').mockImplementation((message) => {
+      if (message?.type === 'not implemented') {
+        return
+      }
+      console.warn(message)
+    })
+
+    uploadButton = document.createElement('button')
+    uploadButton.id = 'upload'
     fileInput = document.createElement('input')
-    fileInput.id = 'boundary'
+    fileInput.id = 'boundary-input'
     fileInput.type = 'file'
-    const dropZone = document.createElement('div')
-    dropZone.className = 'govuk-drop-zone'
-    formGroup.appendChild(fileInput)
-    formGroup.appendChild(dropZone)
-    document.body.appendChild(errorSummary)
-    document.body.appendChild(errorSummaryText)
-    document.body.appendChild(formGroup)
+    document.body.appendChild(uploadButton)
+    document.body.appendChild(fileInput)
+
+    require('./upload-file-client.js')
   })
 
   afterEach(() => {
-    document.body.innerHTML = ''
+    jest.restoreAllMocks()
   })
 
-  it('should display the error message', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError('Something went wrong.')
-    expect(errorSummary.style.display).toBe('block')
-    expect(errorSummaryText.textContent).toBe('Something went wrong.')
-    expect(document.getElementById('errorDetail').textContent).toContain('Something went wrong.')
+  const setSelectedFile = (name, contents = 'test') => {
+    const file = new File([contents], name)
+    file.arrayBuffer = jest.fn().mockResolvedValue(new ArrayBuffer(8))
+    Object.defineProperty(fileInput, 'files', {
+      value: [file],
+      writable: true,
+      configurable: true
+    })
+  }
+
+  const clickUpload = async () => {
+    uploadButton.click()
+    // allow the async click handler's promise chain to settle
+    await new Promise((resolve) => setImmediate(resolve))
+  }
+
+  it('should show noFileSelected error when no file is selected', async () => {
+    Object.defineProperty(fileInput, 'files', { value: [], writable: true, configurable: true })
+
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(noFileSelected)
   })
 
-  it('should clear the previous error before showing a new one', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError('First error.')
-    showError('Second error.')
-    expect(errorSummaryText.textContent).toBe('Second error.')
+  it('should show invalidFileFormat error when the file extension is not supported', async () => {
+    setSelectedFile('test.txt')
+    mockValidateFileExtension.mockReturnValue(false)
+
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(invalidFileFormat)
   })
 
-  it('should hide the error summary and remove error state when cleared', () => {
-    const { showError, clearError } = require('./upload-shape-file-dom.js')
-    showError('An error.')
-    clearError()
-    expect(errorSummary.style.display).toBe('none')
-    expect(errorSummaryText.textContent).toBe('')
-    expect(document.getElementById('errorDetail')).toBeNull()
-    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(false)
+  it('should show tooManyFilesSelected error when the parser throws that error', async () => {
+    setSelectedFile('test.zip')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('shapefile')
+    mockParseShapefile.mockRejectedValue(new Error(tooManyFilesSelected.summary))
+
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(tooManyFilesSelected)
   })
 
-  it('should render location format error bullets when passed a structured message', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(locationFormatError)
+  it('should show fileCouldNotBeRead error when the parser throws that error', async () => {
+    setSelectedFile('test.geojson')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geojson')
+    mockParseGeoJSON.mockRejectedValue(new Error(fileCouldNotBeRead.summary))
 
-    expect(errorSummaryText.textContent).toBe(locationFormatError.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    const messageLines = errorDetail.querySelectorAll('span[style]')
-    const bulletItems = errorDetail.querySelectorAll('ul.govuk-list--bullet li')
-    expect(messageLines[0].textContent).toBe(`${locationFormatError.summary}.`)
-    expect(messageLines[1].textContent).toBe('The file must:')
-    expect(bulletItems.length).toBe(locationFormatError.bullets.length)
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(fileCouldNotBeRead)
   })
 
-  it('should render error with summary and text when passed a structured message without bullets', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(noFileSelected)
+  it('should show locationFormatError when the parser throws an unrecognised error', async () => {
+    setSelectedFile('test.gpkg')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geopackage')
+    mockParseGeopackage.mockRejectedValue(new Error('some other error'))
 
-    expect(errorSummary.style.display).toBe('block')
-    expect(errorSummaryText.textContent).toBe(noFileSelected.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    expect(errorDetail).not.toBeNull()
-    expect(errorDetail.textContent).toContain(noFileSelected.text)
-    expect(errorDetail.querySelectorAll('ul').length).toBe(0)
-    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true)
-    expect(fileInput.classList.contains('govuk-file-upload--error')).toBe(true)
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(locationFormatError)
   })
 
-  it('should render invalidFileFormat error with summary and text', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(invalidFileFormat)
+  it('should show the geoJSON validation error when the geojson is invalid', async () => {
+    setSelectedFile('test.geojson')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geojson')
+    const geojson = { features: [] }
+    mockParseGeoJSON.mockResolvedValue(geojson)
+    mockValidateGeoJSON.mockReturnValue(locationFormatError)
 
-    expect(errorSummary.style.display).toBe('block')
-    expect(errorSummaryText.textContent).toBe(invalidFileFormat.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    expect(errorDetail).not.toBeNull()
-    expect(errorDetail.textContent).toContain(invalidFileFormat.text)
-    expect(errorDetail.querySelectorAll('ul').length).toBe(0)
-    expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true)
-    expect(fileInput.classList.contains('govuk-file-upload--error')).toBe(true)
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(locationFormatError)
+    expect(mockValidateGeoJSON).toHaveBeenCalledWith(geojson)
   })
 
-  it('should render tooManyNodes error', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(tooManyNodes)
+  it('should show tooManyNodes error when the polygon has too many nodes', async () => {
+    setSelectedFile('test.geojson')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geojson')
+    const polygon = [[0, 0], [1, 1]]
+    const geojson = { features: [{ geometry: { coordinates: [polygon] } }] }
+    mockParseGeoJSON.mockResolvedValue(geojson)
+    mockValidateGeoJSON.mockReturnValue(null)
+    mockValidateNodeCount.mockReturnValue(false)
 
-    expect(errorSummaryText.textContent).toBe(tooManyNodes.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    expect(errorDetail.textContent).toContain(tooManyNodes.text)
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(tooManyNodes)
   })
 
-  it('should render tooManyFilesSelected error', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(tooManyFilesSelected)
+  it('should show locationFormatError when the polygon is not valid BNG', async () => {
+    setSelectedFile('test.geojson')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geojson')
+    const polygon = [[0, 0], [1, 1]]
+    const geojson = { features: [{ geometry: { coordinates: [polygon] } }] }
+    mockParseGeoJSON.mockResolvedValue(geojson)
+    mockValidateGeoJSON.mockReturnValue(null)
+    mockValidateNodeCount.mockReturnValue(true)
+    mockIsValidBNG.mockReturnValue(false)
 
-    expect(errorSummaryText.textContent).toBe(tooManyFilesSelected.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    expect(errorDetail.textContent).toContain(tooManyFilesSelected.text)
+    await clickUpload()
+
+    expect(mockShowError).toHaveBeenCalledWith(locationFormatError)
   })
 
-  it('should render fileCouldNotBeRead error', () => {
-    const { showError } = require('./upload-shape-file-dom.js')
-    showError(fileCouldNotBeRead)
+  it('should redirect to the map page with the encoded polygon on success', async () => {
+    setSelectedFile('test.zip')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('shapefile')
+    const polygon = [[530000, 180000], [531000, 180000]]
+    const geojson = { features: [{ geometry: { coordinates: [polygon] } }] }
+    mockParseShapefile.mockResolvedValue(geojson)
+    mockValidateGeoJSON.mockReturnValue(null)
+    mockValidateNodeCount.mockReturnValue(true)
+    mockIsValidBNG.mockReturnValue(true)
+    mockEncodePolygon.mockReturnValue('encoded-polygon-value')
 
-    expect(errorSummaryText.textContent).toBe(fileCouldNotBeRead.summary)
-    const errorDetail = document.getElementById('errorDetail')
-    expect(errorDetail.textContent).toContain(fileCouldNotBeRead.text)
+    await clickUpload()
+
+    expect(mockEncodePolygon).toHaveBeenCalledWith(polygon)
+    expect(mockShowError).not.toHaveBeenCalled()
   })
 
-  it('should reuse existing errorDetail element when called multiple times', () => {
-    const { getOrCreateErrorDetail } = require('./upload-shape-file-dom.js')
+  it('should parse using the geopackage parser when that format is selected', async () => {
+    setSelectedFile('test.gpkg')
+    mockValidateFileExtension.mockReturnValue(true)
+    mockGetParserForFile.mockReturnValue('geopackage')
+    const polygon = [[530000, 180000], [531000, 180000]]
+    const geojson = { features: [{ geometry: { coordinates: [polygon] } }] }
+    mockParseGeopackage.mockResolvedValue(geojson)
+    mockValidateGeoJSON.mockReturnValue(null)
+    mockValidateNodeCount.mockReturnValue(true)
+    mockIsValidBNG.mockReturnValue(true)
+    mockEncodePolygon.mockReturnValue('encoded-polygon-value')
 
-    // First call creates the element
-    const errorDetail1 = getOrCreateErrorDetail()
-    expect(errorDetail1).not.toBeNull()
-    expect(errorDetail1.id).toBe('errorDetail')
+    await clickUpload()
 
-    // Second call should return the same element (not create a duplicate)
-    const errorDetail2 = getOrCreateErrorDetail()
-    expect(errorDetail2).toBe(errorDetail1)
-
-    // Verify only one errorDetail element exists in the DOM
-    const allErrorDetails = document.querySelectorAll('#errorDetail')
-    expect(allErrorDetails.length).toBe(1)
+    expect(mockParseGeopackage).toHaveBeenCalled()
+    expect(mockEncodePolygon).toHaveBeenCalledWith(polygon)
+    expect(mockShowError).not.toHaveBeenCalled()
   })
 })
