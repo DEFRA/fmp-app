@@ -5,5 +5,7 @@
 module.exports = {
   interactiveMap: { __esModule: true, default: jest.fn() },
   esriProvider: { __esModule: true, default: jest.fn() },
-  datasetsPlugin: { __esModule: true, default: jest.fn() }
+  datasetsPlugin: { __esModule: true, default: jest.fn() },
+  drawEsPlugin: { __esModule: true, default: jest.fn() },
+  framePlugin: { __esModule: true, default: jest.fn() }
 }
