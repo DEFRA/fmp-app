@@ -7,7 +7,7 @@ const requestToSearchParams = (request) => {
   return url.searchParams
 }
 
-module.exports = {
+module.exports = [{
   method: 'GET',
   path: '/map',
   options: {
@@ -22,4 +22,4 @@ module.exports = {
       return h.view('map')
     }
   }
-}
+}]
