@@ -12,7 +12,7 @@
 {% if googleTagManagerKey %}
 <!-- Google tag (gtag.js) (updated following removal of GTM  snippet "gtag") -->
 
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ googleTagManagerKey }}"></script>
+<script async nonce="{{ nonce }}" src="https://www.googletagmanager.com/gtag/js?id={{ googleTagManagerKey }}"></script>
 
 <script nonce="{{ nonce }}">
   window.dataLayer = window.dataLayer || [];
