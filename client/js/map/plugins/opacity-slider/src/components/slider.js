@@ -55,7 +55,6 @@ export class Slider {
     this.focusY = this.borderWidth
     this.focusWidth = 36
     this.focusHeight = 48
-    this.onChange = () => {}
 
     document.body.addEventListener('pointerup', this.onThumbPointerUp.bind(this))
   }
