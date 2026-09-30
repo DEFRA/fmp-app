@@ -39,7 +39,6 @@ module.exports = {
       gaAccId,
       fbAppId,
       analyticsAccount,
-      googleTagManagerKey: analyticsAccount
     }
   }
 }
