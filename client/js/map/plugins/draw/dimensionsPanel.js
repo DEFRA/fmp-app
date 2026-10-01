@@ -16,7 +16,7 @@ export class DimensionsPanel {
       focus: false,
       html: dimensionsPanelHTML,
       mobile: { slot: 'drawer', modal: false, open: true },
-      tablet: { slot: 'side', width: '280px', open: true, dismissible: false, exclusive: false, },
+      tablet: { slot: 'side', width: '280px', open: true, dismissible: true, exclusive: false, },
       desktop: { slot: 'side', width: '280px', open: true, dismissible: false, exclusive: false, }
     })
   }
