@@ -1,4 +1,4 @@
-import { mapButton, mapLink, mapMenuOption, mapSwitch, menuButtonOption, menuRadioOption } from './.utils/map-controls.js'
+import { mapButton, mapButtonById, mapButtonLink, mapMenuOption, mapSwitch, menuItemOption, menuRadioOption } from './.utils/map-controls.js'
 import { definePage } from './.utils/page.js'
 
 export const page = definePage({
@@ -7,21 +7,20 @@ export const page = definePage({
 })
 
 // Accordion sections
-export const locationSection = 'Get data for your location'
-export const datasetsSection = 'Datasets'
-export const climateChangeSection = 'Climate change'
+export const layersSection = 'Layers'
+export const locationBoundarySection = 'Add location boundary'
 export const annualLikelihoodSection = 'Annual likelihood of flooding'
 export const depthSection = 'Depth in millimetres'
-export const mapFeaturesSection = 'Map features'
 
 // Location boundary controls
-export const addPolygonOption = menuButtonOption('Add polygon')
-export const addSquareOption = menuButtonOption('Add square')
-export const editShapeOption = menuButtonOption('Edit shape')
-export const deleteShapeOption = menuButtonOption('Delete shape')
+export const addPolygonOption = menuItemOption('Add polygon')
+export const addSquareOption = menuItemOption('Add square')
+export const uploadBoundaryOption = menuItemOption('Upload a boundary')
+export const editShapeOption = menuItemOption('Edit shape')
+export const deleteShapeOption = menuItemOption('Delete shape')
 
 // Dataset options
-export const floodZones2And3Option = menuRadioOption('Flood zones 2 and 3')
+export const floodZones2And3Option = menuRadioOption('Flood zones')
 export const surfaceWaterOption = menuRadioOption('Surface water')
 export const noneOption = menuRadioOption('None')
 
@@ -50,14 +49,18 @@ export const extentOver2300mmOption = menuRadioOption('Extent over 2300mm')
 // Map feature switches
 export const waterStorageSwitch = mapSwitch('Water storage')
 export const floodDefenceSwitch = mapSwitch('Flood defence')
-export const mainRiversSwitch = mapSwitch('Main Rivers')
+export const mainRiversSwitch = mapSwitch('Main rivers')
 
 // Map toolbar
 export const getSummaryReportButton = mapButton('Get summary report')
-export const finishButton = mapButton('Finish')
+export const drawDoneButton = mapButtonById('map-draw-done')
+export const drawCancelButton = mapButtonById('map-draw-cancel')
+export const frameDoneButton = mapButtonById('map-frame-done')
+export const frameCancelButton = mapButtonById('map-frame-cancel')
 export const zoomInButton = mapButton('Zoom in')
 export const zoomOutButton = mapButton('Zoom out')
-export const helpLink = mapLink('Help')
+// Anchor has role="button" overriding its native link role
+export const helpLink = mapButtonLink('Help')
 export const searchButton = mapButton('Search')
 export const stylesButton = mapButton('Choose map style')
 
