@@ -68,7 +68,9 @@ export class MapDriver extends FormDriver {
 
   async zoomIn (times = 3) {
     const zoom = async (remaining) => {
-      if (remaining <= 0) return
+      if (remaining <= 0) {
+        return
+      }
       await this.clickButton(mapPage.zoomInButton)
       await this.page.waitForLoadState('networkidle')
       await zoom(remaining - 1)
@@ -140,7 +142,9 @@ export class MapDriver extends FormDriver {
     let prevUrl = this.page.url()
 
     const iterateOptions = async (remainingOptions) => {
-      if (remainingOptions.length === 0) return
+      if (remainingOptions.length === 0) {
+        return
+      }
       const option = remainingOptions[0]
       await this.chooseMenuOption(option)
       await expect(this.page).not.toHaveURL(prevUrl)
