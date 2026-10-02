@@ -52,6 +52,10 @@ export class FormDriver {
   }
 
   async clickButton (element) {
+    if (element.type === 'mapButtonById') {
+      await this.page.locator(`#${element.id}`).click()
+      return
+    }
     await this.page.getByRole('button', { name: element.text, exact: true }).click()
   }
 
@@ -100,13 +104,13 @@ export class FormDriver {
   }
 
   async expectOnlyTexts (expectedTexts, allTexts, scope) {
-    for (const text of allTexts) {
+    await Promise.all(allTexts.map(async (text) => {
       if (expectedTexts.includes(text)) {
         await this.expectText(text, scope)
       } else {
         await this.expectTextNotExists(text, scope)
       }
-    }
+    }))
   }
 
   async expectErrorText (element) {
@@ -160,6 +164,9 @@ export class FormDriver {
     }
     if (link.type === 'mapLink') {
       return this.page.getByRole('link', { name: link.text, exact })
+    }
+    if (link.type === 'mapButtonLink') {
+      return this.page.getByRole('button', { name: link.text, exact })
     }
     if (link.type === 'mainLink' || link.type === 'link') {
       return this.page.getByRole('main').getByRole('link', { name: link.text, exact })
