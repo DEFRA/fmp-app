@@ -24,7 +24,7 @@ export class MapDriver extends FormDriver {
   }
 
   async expandSection (name) {
-    const button = this.page.getByRole('button', { name: new RegExp(name) }).first()
+    const button = this.page.getByRole('button', { name: new RegExp(`^${name}$`) }).first()
     const expanded = await button.getAttribute('aria-expanded')
     if (expanded !== 'true') {
       await button.click()
@@ -34,6 +34,10 @@ export class MapDriver extends FormDriver {
   async chooseMenuOption (element) {
     if (element.type === 'menuButtonOption') {
       await this.page.getByRole('button', { name: element.text, exact: true }).first().click()
+      return
+    }
+    if (element.type === 'menuItemOption') {
+      await this.page.getByRole('menuitem', { name: element.text, exact: true }).first().click()
       return
     }
     if (element.type === 'menuRadioOption') {
@@ -62,24 +66,28 @@ export class MapDriver extends FormDriver {
     await this.page.getByRole('dialog', { name }).getByRole('button', { name: /close/i }).click()
   }
 
-  async dismissBanner (text) {
-    const banner = this.page.getByRole('status').filter({ hasText: text }).first()
-    await banner.locator('..').getByRole('button', { name: /close/i }).click()
+  async dismissKeyPanel () {
+    await this.dismissPanel('Key')
   }
 
   async zoomIn (times = 3) {
-    for (let i = 0; i < times; i++) {
+    const zoom = async (remaining) => {
+      if (remaining <= 0) {
+        return
+      }
       await this.clickButton(mapPage.zoomInButton)
       await this.page.waitForLoadState('networkidle')
+      await zoom(remaining - 1)
     }
+    await zoom(times)
   }
 
   async addSquare () {
-    await this.clickButton(mapPage.addSquareOption)
+    await this.chooseMenuOption(mapPage.addSquareOption)
   }
 
   async confirmBoundaryAndContinue () {
-    await this.clickButton(mapPage.finishButton)
+    await this.clickButton(mapPage.frameDoneButton)
     await this.clickButton(mapPage.getSummaryReportButton)
   }
 
@@ -100,55 +108,87 @@ export class MapDriver extends FormDriver {
   }
 
   async expectEnabled (element) {
-    const button = this.page.getByRole('button', { name: element.text, exact: true }).first()
-    await expect(button).toBeVisible()
-    const disabled = await button.getAttribute('disabled')
-    const ariaDisabled = await button.getAttribute('aria-disabled')
-    expect(disabled === null && ariaDisabled !== 'true').toBe(true)
+    const item = this.page.getByRole('menuitem', { name: element.text, exact: true }).first()
+    await expect(item).toBeVisible()
+    const ariaDisabled = await item.getAttribute('aria-disabled')
+    expect(ariaDisabled !== 'true').toBe(true)
   }
 
   async expectDisabled (element) {
-    const button = this.page.getByRole('button', { name: element.text, exact: true }).first()
-    await expect(button).toBeVisible()
-    const disabled = await button.getAttribute('disabled')
-    const ariaDisabled = await button.getAttribute('aria-disabled')
-    expect(disabled !== null || ariaDisabled === 'true').toBe(true)
+    const item = this.page.getByRole('menuitem', { name: element.text, exact: true }).first()
+    await expect(item).toBeVisible()
+    const ariaDisabled = await item.getAttribute('aria-disabled')
+    expect(ariaDisabled).toBe('true')
   }
 
   async expectSliderAttributes (name, attrs) {
     const slider = this.page.getByRole('slider', { name })
     await expect(slider).toBeVisible()
-    for (const [attr, value] of Object.entries(attrs)) {
+    await Promise.all(Object.entries(attrs).map(async ([attr, value]) => {
       if (value instanceof RegExp) {
         const actual = await slider.getAttribute(attr)
         expect(actual).toMatch(value)
-      } else {
-        await expect(slider).toHaveAttribute(attr, value)
+        return
       }
-    }
+      await expect(slider).toHaveAttribute(attr, value)
+    }))
   }
 
   async expectUrlChanged (prevUrl) {
     await expect(this.page).not.toHaveURL(prevUrl)
   }
 
+  currentUrl () {
+    return this.page.url()
+  }
+
+  async expectKeyPanelVisible () {
+    await expect(this.#keyPanel()).toBeVisible()
+  }
+
+  async expectKeyPanelHidden () {
+    await expect(this.#keyPanel()).toBeHidden()
+  }
+
+  async expectSearchReady () {
+    await expect(this.page.getByRole('combobox')).toBeVisible()
+  }
+
+  async expectMapReady () {
+    await expect(this.page).toHaveURL(/\/map(?:\?|$)/)
+    await expect(this.page.locator('#map-viewport')).toBeVisible()
+  }
+
+  async expectMapPanelReady () {
+    await this.expectMapReady()
+    await this.expectVisible('group', 'Datasets')
+    await this.expectVisible('group', 'Climate change')
+    await this.expectVisible('group', 'Map features')
+  }
+
   // ---- Composite assertions ---- //
 
   async assertRadiosUpdateMap (options) {
-    for (const opt of options) {
-      await expect(this.page.getByRole('radio', { name: opt.text, exact: true })).toBeVisible()
-    }
+    await Promise.all(options.map((opt) => expect(this.page.getByRole('radio', { name: opt.text, exact: true })).toBeVisible()))
     await this.chooseMenuOption(options[0])
     let prevUrl = this.page.url()
-    for (const option of options.slice(1)) {
+
+    const iterateOptions = async (remainingOptions) => {
+      if (remainingOptions.length === 0) {
+        return
+      }
+      const option = remainingOptions[0]
       await this.chooseMenuOption(option)
       await expect(this.page).not.toHaveURL(prevUrl)
       prevUrl = this.page.url()
+      await iterateOptions(remainingOptions.slice(1))
     }
+
+    await iterateOptions(options.slice(1))
   }
 
   async assertSwitchUpdatesKey (element) {
-    const keyDialog = this.page.getByRole('dialog', { name: /^key$/i })
+    const keyDialog = this.#keyPanel()
     await expect(keyDialog).toBeVisible()
 
     const toggle = await this.getFeatureToggle(element)
@@ -160,5 +200,11 @@ export class MapDriver extends FormDriver {
 
     await expect(toggle).toBeChecked()
     await expect(keyDialog).not.toHaveText(before, { timeout: 10000 })
+  }
+
+  // ---- Private ---- //
+
+  #keyPanel () {
+    return this.page.getByRole('dialog', { name: /^key$/i })
   }
 }
