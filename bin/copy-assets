@@ -9,3 +9,5 @@ cp -R client/images/* server/public/assets/images
 rm -rf server/public/files
 mkdir -p server/public/files
 cp -R client/files/* server/public/files
+
+cp node_modules/sql.js/dist/sql-wasm.wasm server/public/assets/
