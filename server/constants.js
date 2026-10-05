@@ -23,6 +23,7 @@ const ORDER_NOT_SUBMITTED = 'order-not-submitted'
 const CANNOT_REQUEST_P4 = 'cannot-request-p4'
 const OS_TERMS = 'os-terms'
 const TERMS_AND_CONDITIONS = 'terms-and-conditions'
+const UPLOAD = 'upload'
 
 const views = {
   HOME,
@@ -44,7 +45,8 @@ const views = {
   ORDER_NOT_SUBMITTED,
   CANNOT_REQUEST_P4,
   OS_TERMS,
-  TERMS_AND_CONDITIONS
+  TERMS_AND_CONDITIONS,
+  UPLOAD
 }
 
 const routes = {

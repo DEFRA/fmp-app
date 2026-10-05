@@ -30,9 +30,7 @@ exports[`map-help Should return map-help page 1`] = `
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
   
     <meta name="robots" content="noindex"/>
-  
   <link href="/assets/application.css" rel="stylesheet"/>
-
     
   </head>
   <body class="govuk-template__body">
@@ -267,7 +265,7 @@ data-module="govuk-service-navigation"
     </h1>
 
     <p class="govuk-body">
--     On this page:
+      On this page:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -292,11 +290,11 @@ data-module="govuk-service-navigation"
     </h2>
 
     <h3 class="govuk-heading-s">
-      Keyboard controls
+      Keyboard shortcuts
     </h3>
 
     <p class="govuk-body">
-      Tab to the map and press Alt+K to for keyboard controls.
+      Tab to the map and press Shift+? for keyboard shortcuts.
     </p>
 
     <h3 class="govuk-heading-s">
@@ -335,23 +333,25 @@ data-module="govuk-service-navigation"
     </h2>
 
     <p class="govuk-body">
-      You can use a polygon to draw a more detailed site boundary or use a square for a simple boundary. Choose what
-      type of boundary you want to draw under ‘Get data for your location’ on the navigation panel on the map page.
+      You can use a polygon to draw a more detailed shape, use a square for a simple boundary or upload your own site
+      boundary. Choose what type of boundary you want to draw under the ‘Add location boundary’ button at the top of
+      the map page.
     </p>
     <h3 class="govuk-heading-s">
       Using a polygon
     </h3>
 
     <ul class="govuk-list govuk-list--bullet">
+      <li>click ‘Add location boundary’</li>
       <li>click ‘Add polygon’</li>
       <li>click or tap the screen to place the first point (or node) of your boundary</li>
       <li>do not try to drag or swipe to draw a line, as that will move the map</li>
       <li>click or tap the screen again to place the second point of your boundary</li>
-      <li>you should see a blue line drawn between the points</li>
+      <li>you should see a dashed line drawn between the points</li>
       <li>keep adding points until you have finished the boundary of your site</li>
       <li>to finish your boundary, double click or double tap the screen </li>
       <li>the boundary is finished when the lines turn red</li>
-      <li>click the ‘Finish’ button to set your boundary</li>
+      <li>click the ‘Done’ button to set your boundary</li>
       <li>click ‘Get summary report’ to get more detailed flood information</li>
     </ul>
 
@@ -359,12 +359,43 @@ data-module="govuk-service-navigation"
       Using a square
     </h3>
     <ul class="govuk-list govuk-list--bullet">
-
+      <li>click ‘Add location boundary’</li>
       <li>click ‘Add square’</li>
       <li>zoom and move the map to position the square</li>
-      <li>click the ‘Finish’ button to set your boundary</li>
+      <li>click the ‘Done’ button to set your boundary</li>
       <li>click ‘Get summary report’ to get more detailed flood information</li>
+    </ul>
 
+    <h3 class="govuk-heading-s">
+      Upload a site boundary
+    </h3>
+    <p class="govuk-body">
+      You can upload your boundary in any of the following formats:
+    </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>GeoJSON (.geojson)</li>
+        <li>Geopackage (.gpkg)</li>
+        <li>shapefile (.zip)</li>
+    </ul>
+    <p class="govuk-body">
+      The file must:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>use British National Grid (BNG) references, which use eastings and northings instead of latitude and longitude</li>
+      <li>contain a polygon, not a point or a line</li>
+      <li>contain only one polygon</li>
+      <li>not have any lines that cross each other (self-intersect)</li>
+    </ul>
+    <p class="govuk-body">
+      To upload a site boundary:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>click ‘Add location boundary’</li>
+      <li>click ‘Upload a boundary’</li>
+      <li>click ‘Choose file’</li>
+      <li>choose a file stored on your device</li>
+      <li>click ‘Get summary report’ to get more detailed flood information</li>
     </ul>
 
     <h3 class="govuk-heading-s">
@@ -373,7 +404,7 @@ data-module="govuk-service-navigation"
 
     <p class="govuk-body">
       You can edit or delete your boundary by clicking ‘Edit shape’ or ‘Delete shape’
-      under ‘Get data for your location’ on the navigation panel.
+      under the ‘Edit location boundary’ button at the top of the page.
     </p>
     <h2 id="how-to-use-the-data" class="govuk-heading-m">How to use the data </h2>
     <p class="govuk-body">

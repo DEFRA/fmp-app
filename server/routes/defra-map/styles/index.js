@@ -1,4 +1,5 @@
 const blackAndWhiteMap = require('./OS_VTS_27700_Black_and_White.json')
+const p4BlackAndWhiteMap = require('../p4Styles/OS_VTS_27700_Black_and_White.json')
 const masterMap = require('./OS_VTS_27700_Outdoor.json')
 const masterMapDark = require('./OS_VTS_27700_Dark.json')
 const openTile = require('./open-tile.json')
@@ -12,6 +13,8 @@ module.exports = [
   generateRoute('/map/styles/open-tile.json', () => openTile),
   generateRoute('/map/styles/vts-tile.json', () => vtsTile),
   generateRoute('/map/styles/black-and-white-map', () => blackAndWhiteMap),
+  generateRoute('/map/productFourStyles/black-and-white-map', () => p4BlackAndWhiteMap),
+  generateRoute('/map/productFourStyles/black-and-white-map.json', () => p4BlackAndWhiteMap),
   generateRoute('/map/styles/master-map', () => masterMap),
   generateRoute('/map/styles/master-map-dark', () => masterMapDark)
 ]
