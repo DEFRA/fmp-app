@@ -12,7 +12,7 @@
     </h1>
 
     <p class="govuk-body">
--     On this page:
+      On this page:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -37,11 +37,11 @@
     </h2>
 
     <h3 class="govuk-heading-s">
-      Keyboard controls
+      Keyboard shortcuts
     </h3>
 
     <p class="govuk-body">
-      Tab to the map and press Shift+? for keyboard controls.
+      Tab to the map and press Shift+? for keyboard shortcuts.
     </p>
 
     <h3 class="govuk-heading-s">
@@ -80,8 +80,9 @@
     </h2>
 
     <p class="govuk-body">
-      You can use a polygon to draw a more detailed site boundary or use a square for a simple boundary. Choose what
-      type of boundary you want to draw under the ‘Add location boundary’ button at the top of the map page.
+      You can use a polygon to draw a more detailed shape, use a square for a simple boundary or upload your own site
+      boundary. Choose what type of boundary you want to draw under the ‘Add location boundary’ button at the top of
+      the map page.
     </p>
     <h3 class="govuk-heading-s">
       Using a polygon
@@ -113,18 +114,34 @@
     </ul>
 
     <h3 class="govuk-heading-s">
-      Uploading a shape file
+      Upload a site boundary
     </h3>
     <p class="govuk-body">
-      Some specialist users may have a shape file, containing the site boundary, stored on their device.
-      The site is able to upload shape files of type GeoJSON (.geojson), Geopackage (.gpkg) or shapefile (.zip).
-      They may only contain a single polygon that does not self intersect - i.e. the lines do not cross other lines.
+      You can upload your boundary in any of the following formats:
     </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>GeoJSON (.geojson)</li>
+        <li>Geopackage (.gpkg)</li>
+        <li>shapefile (.zip)</li>
+    </ul>
+    <p class="govuk-body">
+      The file must:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>use British National Grid (BNG) references, which use eastings and northings instead of latitude and longitude</li>
+      <li>contain a polygon, not a point or a line</li>
+      <li>contain only one polygon</li>
+      <li>not have any lines that cross each other (self-intersect)</li>
+    </ul>
+    <p class="govuk-body">
+      To upload a site boundary:
+    </p>
+
     <ul class="govuk-list govuk-list--bullet">
       <li>click ‘Add location boundary’</li>
       <li>click ‘Upload a boundary’</li>
       <li>click ‘Choose file’</li>
-      <li>Select a shape file, that is stored on your device</li>
+      <li>choose a file stored on your device</li>
       <li>click ‘Get summary report’ to get more detailed flood information</li>
     </ul>
 
