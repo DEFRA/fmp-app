@@ -33,7 +33,7 @@ describe('searchPlugin', () => {
     loadSearchPlugin()
 
     expect(mockCreateSearchPlugin).toHaveBeenCalledWith(expect.objectContaining({
-      placeholder: 'Search for a place in england',
+      placeholder: 'Search for a place in England',
       regions: ['england'],
       width: '300px',
       showMarker: false
