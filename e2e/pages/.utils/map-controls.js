@@ -8,7 +8,7 @@ export const mapSwitch = (text) => ({ type: 'mapSwitch', text })
 
 // Right-hand map interaction controls
 export const mapButton = (text) => ({ type: 'mapButton', text })
-export const mapButtonById = (id) => ({ type: 'mapButtonById', id })
+export const mapButtonById = (id) => ({ type: 'mapButton', id })
 export const mapLink = (text) => ({ type: 'mapLink', text })
 // For anchors with role="button" overriding native link semantics (e.g. Help)
 export const mapButtonLink = (text) => ({ type: 'mapButtonLink', text })

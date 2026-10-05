@@ -52,11 +52,7 @@ export class FormDriver {
   }
 
   async clickButton (element) {
-    if (element.type === 'mapButtonById') {
-      await this.page.locator(`#${element.id}`).click()
-      return
-    }
-    await this.page.getByRole('button', { name: element.text, exact: true }).click()
+    await this.#locate(element, 'button').click()
   }
 
   async clickDetails (element) {
@@ -141,11 +137,11 @@ export class FormDriver {
   }
 
   async expectButtonExists (element) {
-    await expect(this.page.getByRole('button', { name: element.text, exact: true })).toBeVisible()
+    await expect(this.#locate(element, 'button')).toBeVisible()
   }
 
   async expectButtonNotExists (element) {
-    await expect(this.page.getByRole('button', { name: element.text, exact: true })).toBeHidden()
+    await expect(this.#locate(element, 'button')).toBeHidden()
   }
 
   async expectUrlContains (substring) {
@@ -154,6 +150,18 @@ export class FormDriver {
   }
 
   // ---- Private ---- //
+
+  // Elements are located by whichever identifier they carry, so new element
+  // definitions never require a new branch here.
+  #locate (element, defaultRole, exact = true) {
+    if (element.id) {
+      return this.page.locator(`#${element.id}`)
+    }
+    if (element.selector) {
+      return this.page.locator(element.selector)
+    }
+    return this.page.getByRole(element.role ?? defaultRole, { name: element.text, exact })
+  }
 
   #getLinkLocator (link, exact = true) {
     if (link.type === 'footerLink') {
