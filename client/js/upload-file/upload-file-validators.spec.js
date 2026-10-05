@@ -1,0 +1,174 @@
+const JSZip = require('jszip')
+const {
+  validateZipSignature,
+  isValidBNG,
+  validateFileExtension,
+  getParserForFile,
+  validateFileCount,
+  validateFileNames,
+  validateAllowedFileTypes,
+  validateGeoJSON,
+  validateNodeCount,
+  maxNodes,
+  maxFiles
+} = require('./upload-file-validators.js')
+const { locationFormatError } = require('./upload-file-errors.js')
+
+describe('validateFileExtension', () => {
+  it('should return true for a .zip file', () => {
+    expect(validateFileExtension('test.zip')).toBe(true)
+  })
+
+  it('should return true for a .geojson file', () => {
+    expect(validateFileExtension('test.geojson')).toBe(true)
+  })
+
+  it('should return true for a .gpkg file', () => {
+    expect(validateFileExtension('test.gpkg')).toBe(true)
+  })
+
+  it('should return false for a non-supported file', () => {
+    expect(validateFileExtension('test.txt')).toBe(false)
+  })
+
+  it('should be case insensitive', () => {
+    expect(validateFileExtension('test.ZIP')).toBe(true)
+    expect(validateFileExtension('test.GEOJSON')).toBe(true)
+    expect(validateFileExtension('test.GPKG')).toBe(true)
+  })
+})
+
+describe('getParserForFile', () => {
+  it('should return "shapefile" for .zip files', () => {
+    expect(getParserForFile('test.zip')).toBe('shapefile')
+  })
+
+  it('should return "geojson" for .geojson files', () => {
+    expect(getParserForFile('test.geojson')).toBe('geojson')
+  })
+
+  it('should return "geopackage" for .gpkg files', () => {
+    expect(getParserForFile('test.gpkg')).toBe('geopackage')
+  })
+
+  it('should be case insensitive', () => {
+    expect(getParserForFile('test.ZIP')).toBe('shapefile')
+    expect(getParserForFile('test.GEOJSON')).toBe('geojson')
+    expect(getParserForFile('test.GPKG')).toBe('geopackage')
+  })
+
+  it('should return null for unsupported file types', () => {
+    expect(getParserForFile('test.txt')).toBeNull()
+    expect(getParserForFile('test.shp')).toBeNull()
+    expect(getParserForFile('test.json')).toBeNull()
+  })
+})
+
+describe('validateZipSignature', () => {
+  it('should return true for a valid zip signature', async () => {
+    const zip = new JSZip()
+    zip.file('test.shp', Buffer.from('test'))
+    const buffer = await zip.generateAsync({ type: 'arraybuffer' })
+    expect(validateZipSignature(buffer)).toBe(true)
+  })
+
+  it('should return false for an invalid zip signature', () => {
+    const buffer = Buffer.from('this is not a zip file').buffer
+    expect(validateZipSignature(buffer)).toBe(false)
+  })
+})
+
+describe('validateFileCount', () => {
+  it('should return true for a file count within the limit', () => {
+    expect(validateFileCount(Array(maxFiles).fill('file.shp'))).toBe(true)
+  })
+
+  it('should return false for a file count exceeding the limit', () => {
+    expect(validateFileCount(Array(maxFiles + 1).fill('file.shp'))).toBe(false)
+  })
+})
+
+describe('validateFileNames', () => {
+  it('should return true for safe file names', () => {
+    expect(validateFileNames(['test.shp', 'test.shx'])).toBe(true)
+  })
+
+  it('should return false for a path traversal file name', () => {
+    expect(validateFileNames(['../../etc/test.shp'])).toBe(false)
+  })
+
+  it('should return false for a file name starting with /', () => {
+    expect(validateFileNames(['/etc/test.shp'])).toBe(false)
+  })
+})
+
+describe('validateAllowedFileTypes', () => {
+  it('should return true for allowed file types', () => {
+    expect(validateAllowedFileTypes(['test.shp', 'test.shx', 'test.dbf'])).toBe(true)
+  })
+
+  it('should return false for disallowed file types', () => {
+    expect(validateAllowedFileTypes(['test.shp', 'malicious.js'])).toBe(false)
+  })
+})
+
+describe('validateGeoJSON', () => {
+  it('should return null for valid GeoJSON', () => {
+    const geojson = {
+      features: [{ geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 0]]] } }]
+    }
+    expect(validateGeoJSON(geojson)).toBeNull()
+  })
+
+  it('should return an error if geojson is null', () => {
+    expect(validateGeoJSON(null)).toBe(locationFormatError)
+  })
+
+  it('should return an error if geojson has multiple features', () => {
+    const geojson = {
+      features: [
+        { geometry: { type: 'Polygon', coordinates: [] } },
+        { geometry: { type: 'Polygon', coordinates: [] } }
+      ]
+    }
+    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
+  })
+
+  it('should return an error if the feature is not a Polygon', () => {
+    const geojson = {
+      features: [{ geometry: { type: 'LineString', coordinates: [] } }]
+    }
+    expect(validateGeoJSON(geojson)).toBe(locationFormatError)
+  })
+})
+
+describe('validateNodeCount', () => {
+  it('should return true for a polygon within the node limit', () => {
+    const polygon = Array(maxNodes).fill([0, 0])
+    expect(validateNodeCount(polygon)).toBe(true)
+  })
+
+  it('should return false for a polygon exceeding the node limit', () => {
+    const polygon = Array(maxNodes + 1).fill([0, 0])
+    expect(validateNodeCount(polygon)).toBe(false)
+  })
+})
+
+describe('isValidBNG', () => {
+  it('should return true for valid BNG coordinates', () => {
+    expect(isValidBNG([[530000, 180000], [531000, 180000]])).toBe(true)
+  })
+
+  it('should return false for WGS84 coordinates', () => {
+    expect(isValidBNG([[-0.1276, 51.5074], [-0.1376, 51.5074]])).toBe(false)
+  })
+
+  it('should return false for coordinates outside BNG range', () => {
+    expect(isValidBNG([[700001, 180000]])).toBe(false)
+    expect(isValidBNG([[530000, 1300001]])).toBe(false)
+  })
+
+  it('should return false for negative coordinates', () => {
+    expect(isValidBNG([[-1, 180000]])).toBe(false)
+  })
+})

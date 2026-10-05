@@ -20,14 +20,15 @@ const handlers = {
         analyticsPageEvent: analyticsPageEvent(request.payload)
       })
     }
-
+    const { locationDetails, easting, northing, nationalGridReference } = location
+    const locationString = locationDetails || nationalGridReference || `${easting},${northing}`
     // Check final location is in England
     if (!await isEnglandService(location.easting, location.northing)) {
       const queryString = new URLSearchParams(location).toString()
       return h.redirect(`${constants.routes.ENGLAND_ONLY}?${queryString}`)
     }
 
-    return h.redirect(`${constants.routes.MAP}?cz=${location.easting},${location.northing},15`)
+    return h.redirect(`${constants.routes.MAP}?map:center=${easting},${northing}&map:zoom=15&location=${locationString}`)
   }
 }
 
