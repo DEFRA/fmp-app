@@ -32,7 +32,11 @@ const polygonToArray = (polygon) => {
   if (!polygon) {
     return undefined
   }
-  return Array.isArray(polygon) ? polygon : JSON.parse(polygon)
+  const array = Array.isArray(polygon) ? polygon : JSON.parse(polygon)
+  if (array.length === 1 && Array.isArray(array[0])) {
+    return array[0]
+  }
+  return array
 }
 
 // NB polygonStartEnd is only applicable if the polygon is a line or a single point - ie getArea(polygon) returns 0.
@@ -135,6 +139,30 @@ const checkParamsForPolygon = (queryObject) => {
   }
 }
 
+const WEST = 0
+const SOUTH = 1
+const EAST = 2
+const NORTH = 3
+
+const getExtents = (polygon) => {
+  polygon = polygonToArray(polygon)
+  return polygon.reduce((acc, [x, y]) => {
+    acc[WEST] = Math.min(acc[WEST], x)
+    acc[SOUTH] = Math.min(acc[SOUTH], y)
+    acc[EAST] = Math.max(acc[EAST], x)
+    acc[NORTH] = Math.max(acc[NORTH], y)
+    return acc
+  }, [Infinity, Infinity, -Infinity, -Infinity])
+}
+
+const getDimensions = (polygon) => {
+  const extents = getExtents(polygon)
+  return {
+    width: roundTo2Dp(extents[EAST] - extents[WEST]),
+    height: roundTo2Dp(extents[NORTH] - extents[SOUTH])
+  }
+}
+
 module.exports = {
   getArea,
   getAreaInHectares,
@@ -144,5 +172,7 @@ module.exports = {
   getCentreOfPolygon,
   decodePolygon,
   encodePolygon,
-  checkParamsForPolygon
+  checkParamsForPolygon,
+  getExtents,
+  getDimensions
 }

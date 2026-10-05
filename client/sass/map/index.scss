@@ -1,6 +1,17 @@
-@use '../../../node_modules/sass-mq/mq';
-@use 'slider';
+@use '../../../node_modules/sass-mq/mq' with (
+  $breakpoints: (
+    mobile: 0px,
+    tablet: 320px,
+    desktop: 835px
+  )
+);
 @use 'banner';
+
+$govuk-breakpoints: (
+  mobile: 0px,
+  tablet: 320px,
+  desktop: 835px
+);
 
 $govuk-assets-path: "/govuk/assets/";
 $govuk-fonts-path: "/assets/fonts/";
@@ -8,19 +19,26 @@ $govuk-images-path: "/assets/images/";
 $govuk-global-styles: true;
 $govuk-new-typography-scale: true;
 
-@import '../../../node_modules/govuk-frontend/dist/govuk/all';
+// NOSONAR - bogus issue relating to @import statements having to be at the top.
+// which is wrong, as @use MUST be above @import
+// govuk-frontend is imported from its SCSS source (not the precompiled .min.css)
+// so that $govuk-breakpoints above actually takes effect, and must come after
+// the govuk-* variables above (they need to be set before the source compiles)
+@import '../../../node_modules/govuk-frontend/dist/govuk/all'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/datasets/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/menu/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/map-key/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/search/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/map-styles/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/frame/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/plugins/beta/scale-bar/dist/css/index.css'; // NOSONAR
+@import '../../../node_modules/@defra/interactive-map/providers/beta/esri/dist/css/index.css'; // NOSONAR
 
-// // GOVUK Styles
-@import '../../../node_modules/govuk-frontend/dist/govuk/base';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/typography';
-@import '../../../node_modules/govuk-frontend/dist/govuk/core/links';
-@import '../../../node_modules/govuk-frontend/dist/govuk/overrides/spacing';
+@import '../../../client/js/map/plugins/opacity-slider/src/components/OpacitySlider.scss'; // NOSONAR
 
-// Map Component CSS
-@import '/flood-map-scss';
-// /flood-map-scss is a webpack alias that is substituted for either 
-// @import '../../../node_modules/@defra/flood-map/src/flood-map';  // regular builds
-// @import '../../../defra-map/src/flood-map';                      // submodule builds
+@import 'planning'; // NOSONAR
+@import 'colours'; // NOSONAR
 
 strong {
   font-weight: bold;
@@ -99,9 +117,12 @@ strong {
     }
   }
 }
+.im-o-app {
+  border-width: 0;
+}
 
 // Application CSS
-.fm-mobile.fm-inline.fm-o-container {
+.im-mobile.im-inline.im-o-container {
   position: fixed;
   box-sizing: border-box;
   flex-direction: row;
@@ -114,79 +135,80 @@ strong {
   right: 0;
   width: 100%;
   border: 0;
-  background-color: var(--background-colour);
+  background-color: var(--background-color);
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
 
-.fm-error {
+.im-error {
   margin: 4px;
 }
 
 // Disable page elements when map is fullscreen on mobile
 // Only hide elements if:
 // JavaScript is enabled
-// The map is showing (ie no data-fm-error)
+// The map is showing (ie no data-im-error)
 // The device is mobile
-body.js-enabled:not([data-fm-error]) {
+body.js-enabled:not([data-im-error]) {
 
   header,
   .govuk-cookie-banner,
   .govuk-header,
   .govuk-skip-link,
   main>.govuk-heading-l {
-    @include mq.mq ($until: tablet) {
+    @include mq.mq ($until: desktop) {
       display: none;
     }
   }
 }
 
 .govuk-heading-s,
+.govuk-body-s,
 .govuk-body-s a,
 .govuk-heading-m,
 .govuk-list>li,
 .govuk-details__text,
-.fm-c-panel,
-.fm-c-panel--edit {
-  color: var(--foreground-colour);
+.im-c-panel,
+.im-c-panel--edit {
+  color: var(--foreground-color);
 }
 
-#map-panel-legend-label {
-  @extend .govuk-visually-hidden;
-}
+// #map-panel-legend-label {
+//   @extend .govuk-visually-hidden;
+// }
 
 .esri-view-surface--touch-none {
   touch-action: none;
 }
-.fm-c-panel--warning-panel {
+.im-c-panel--warning-panel {
   width: auto !important;
 }
 
-.fm-desktop {
-  .fm-c-panel--warning-panel {
+.im-desktop {
+  .im-c-panel--warning-panel {
     max-width: 1080px;
   }
 }
 
-.fm-tablet {
-  .fm-c-panel--warning-panel {
+.im-tablet {
+  .im-c-panel--warning-panel {
     max-width: 1008px;
   }
 }
 
 // Stop an unnecessary scroll bar when depthAll is shown
-.fm-c-layers__columns {
+.im-c-layers__columns {
   overflow-x: hidden;
 }
 
-.fm-c-layers__group--custom-labels .fm-c-layers__columns {
+.im-c-layers__group--custom-labels .im-c-layers__columns {
   // Offset the depthAll text
-  .fm-c-layers__text {
+  .im-c-layers__text {
     text-align: right;
     padding-right: 2.7em;
   }
   // last depthAll text item
-  .fm-c-layers__item:last-child .fm-c-layers__text {
+  .im-c-layers__item:last-child .im-c-layers__text {
     position: relative;
     bottom: 0;
     right: 0;
@@ -203,7 +225,7 @@ body.js-enabled:not([data-fm-error]) {
   display: contents;
 }
 
-.fm-c-panel--info {
+#map-panel-info {
 /* 
   These settings are set in _typography.css, but when wrapped in a 
   container that has style display: contents, such as .display-contents
@@ -233,14 +255,120 @@ body.js-enabled:not([data-fm-error]) {
 
 
 // Start of fix of  a Map Component bug (must be fixed there)
-  .fm-o-top__column:first-child:not(:has(.fm-c-search))  {
+  .im-o-top__column:first-child:not(:has(.im-c-search))  {
      position: static;
  }
 
-.fm-o-top__column:first-child > .fm-c-panel {
+.im-o-top__column:first-child > .im-c-panel {
     position: absolute;
     left: 15px;
     top: 70px;
     max-height: calc(100% - 125px);
 }
 // End of fix of  a Map Component bug (must be fixed there)
+
+.im-c-map-button--secondary {
+  color: var(--secondary-button-color);
+  background-color: var(--secondary-button-background-color);
+  box-shadow: var(--button-box-shadow);
+  &:hover {
+    background-color: var(--secondary-button-background-hover-color);
+  }
+}
+
+// Stop shading around the frame when editing a square
+// and ensure the frame is red / (white in dark mode)
+.im-c-frame-display {
+  box-shadow: none;
+  border: 2px solid var(--frame-edit-border-color);
+}
+
+// Dimensions Panel
+.im-c-dimensions-panel-list__item {
+  .im-c-dimensions-panel-list__item-key {
+    font-weight: 400;
+  }
+  .im-c-dimensions-panel-list__item-value {
+    font-weight: 700;
+  }
+  padding-bottom: 15px;
+}
+
+// Surface Water 
+.im-c-map-key-list-horizontal-ramp {
+  margin: 0 10px 10px 10px;
+  .im-c-map-key-list__item {
+    .im-c-map-key-list__item-symbol {
+      // Make the fmp-app implementation double height
+      max-height: calc(var(--line-height) * 2);
+    }
+    // Offset the labels, so they appear under the cell edges
+    .im-c-map-key-list__item-label {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+// Ensure map key doesn't take up the whole screen on mobile
+.im-o-app__drawer {
+  #map-panel-map-key {
+    max-height: 50vh;
+  }
+}
+
+// Mobile: Center the second column absolutely on top of the first.
+// So the Add boundary button is centred.
+.flood-map-target[data-breakpoint="mobile"] {
+  .im-o-app__bottom {
+    position: relative;
+  }
+
+  .im-o-app__bottom-col:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: auto;
+    flex: none;
+  }
+}
+
+// Hide the icon on narrow tablets - only applies between 656px and 715px
+@include mq.mq ($from: 656px, $until: 715px) {
+  #map-menu-button, #map-map-key {
+    svg {
+      display: none;
+    }
+    span {
+      margin-left: 0;
+      font-weight: 700;
+    }
+  }
+}
+
+// Push the scale-bar down so it aligns with 'Add Boundary' on Mobile Tablet
+// Below 430px - it starts to overlap with the button, so we revert to its usual 
+// position
+@include mq.mq ($from: 430px, $until: 655px) {
+  .im-c-scale-bar {
+    margin-bottom: -3em;
+    margin-top: 2em;
+  }
+}
+
+.draw-editing {
+  .im-o-app__top-col:last-child {
+    height: 0;
+    padding-bottom: 0;
+  }
+  // Hide Get Info and Layers Menu Button when editing
+  .im-c-button-wrapper--select-at-target,
+  .im-c-button-wrapper--menu-button {
+    display: none;
+  }
+}
+
+// Ensure links and visited links don't turn purple/blue
+a:link, .govuk-link:link, a:visited, .govuk-link:visited {
+  color: var(--foreground-color);
+}

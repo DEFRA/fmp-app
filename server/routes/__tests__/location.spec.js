@@ -377,7 +377,7 @@ describe('location route', () => {
         }
 
         const response = await submitPostRequest(options)
-        expect(response.headers.location).toBe('/map?cz=360799,388244,15')
+        expect(response.headers.location).toBe('/map?map:center=360799,388244&map:zoom=15&location=360799,388244')
       }
     )
   })
@@ -401,7 +401,7 @@ describe('location route', () => {
     }
 
     const response = await submitPostRequest(options)
-    expect(response.headers.location).toBe('/map?cz=360799,388244,15')
+    expect(response.headers.location).toBe('/map?map:center=360799,388244&map:zoom=15&location=Wigtown, Dumfries and Galloway, Scotland')
   })
 
   // Each of the following three payloads should have the same response - with the error "Enter a real place name or postcode"
@@ -475,7 +475,7 @@ describe('location route', () => {
     ngrToBngService.convert = (ngr) => ({ easting: 360799, northing: 388244 })
 
     const response = await submitPostRequest(options)
-    expect(response.headers.location).toBe('/map?cz=360799,388244,15')
+    expect(response.headers.location).toBe('/map?map:center=360799,388244&map:zoom=15&location=TQ2770808448')
   })
 
   it('location page with a valid eastingNorthing should redirect to /confirm-location', async () => {
@@ -489,7 +489,7 @@ describe('location route', () => {
     }
 
     const response = await submitPostRequest(options)
-    expect(response.headers.location).toBe('/map?cz=360799,388244,15')
+    expect(response.headers.location).toBe('/map?map:center=360799,388244&map:zoom=15&location=360799,388244')
   })
 
   it('location page findby eastingNorthing with missing easting and northing should should load /location view with errors', async () => {
