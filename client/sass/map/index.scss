@@ -363,7 +363,7 @@ body.js-enabled:not([data-im-error]) {
   }
   // Hide Get Info and Layers Menu Button when editing
   .im-c-button-wrapper--select-at-target,
-  .im-c-button-wrapper--menu-button {
+  .im-c-button-wrapper--menu-button, #map-panel-map-key {
     display: none;
   }
 }
