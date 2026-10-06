@@ -99,8 +99,12 @@ const siteBoundaryKeyDefinition = {
 
 siteBoundary.onSetFeature = (feature) => {
   if (feature) {
-    mapKeyPlugin.addSymbol(siteBoundaryKeyDefinition)
+    if (!mapKeyPlugin.boundaryAdded) {
+      mapKeyPlugin.addSymbol(siteBoundaryKeyDefinition)
+    }
+    mapKeyPlugin.boundaryAdded = true
   } else {
     mapKeyPlugin.removeSymbol(siteBoundaryKeyDefinition)
+    mapKeyPlugin.boundaryAdded = false
   }
 }
