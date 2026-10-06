@@ -9,6 +9,12 @@ dotenv.config({ path: path.join(__dirname, './.env'), quiet: true })
 
 console.log('Building interactive-map as an npm package', new Date().toLocaleTimeString(), '\n')
 
+// chunk.runtime can be a string or a Set of entrypoint names depending on how the chunk is reached
+const belongsToMapRuntime = (runtime) => {
+  if (!runtime) return false
+  return typeof runtime === 'string' ? runtime === 'map' : [...runtime].includes('map')
+}
+
 export default {
   entry: {
     application: [
@@ -35,7 +41,9 @@ export default {
   devtool: 'source-map',
   mode: 'development',
   output: {
-    filename: '[name].js',
+    filename: (pathData) => pathData.chunk.name === 'map' ? 'map/[name].js' : '[name].js',
+    // async chunks pulled in by the map entry (e.g. dynamic imports) also land in map/
+    chunkFilename: (pathData) => belongsToMapRuntime(pathData.chunk.runtime) ? 'map/[name].js' : '[name].js',
     path: path.resolve(__dirname, 'server/public/build')
   },
   optimization: {
@@ -45,7 +53,8 @@ export default {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: (pathData) => pathData.chunk.name === 'map' ? 'map/[name].css' : '[name].css',
+      chunkFilename: (pathData) => belongsToMapRuntime(pathData.chunk.runtime) ? 'map/[name].css' : '[name].css'
     }),
     new webpack.NormalModuleReplacementPlugin(
       /js\/provider\/os-maplibre\/provider\.js/,
