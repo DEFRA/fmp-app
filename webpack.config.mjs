@@ -1,4 +1,3 @@
-import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import dotenv from 'dotenv'
@@ -55,11 +54,14 @@ export default {
     new MiniCssExtractPlugin({
       filename: (pathData) => pathData.chunk.name === 'map' ? 'map/[name].css' : '[name].css',
       chunkFilename: (pathData) => belongsToMapRuntime(pathData.chunk.runtime) ? 'map/[name].css' : '[name].css'
-    }),
-    new webpack.NormalModuleReplacementPlugin(
-      /js\/provider\/os-maplibre\/provider\.js/,
-      './js/provider/esri-sdk/provider.js'
-    )
+    }), {
+      apply: (compiler) => {
+        compiler.hooks.done.tap('LogBuildComplete', () => {
+          console.log('Finished building interactive-map', new Date().toLocaleTimeString(), '\n')
+        })
+      }
+    }
+
   ],
   module: {
     rules: [
