@@ -64,13 +64,6 @@ export default {
 
   ],
   module: {
-    // treat dynamic import() as a regular (eager) import so lazy-loaded modules are
-    // inlined into their parent chunk instead of being split into separate async chunks
-    parser: {
-      javascript: {
-        dynamicImportMode: 'eager'
-      }
-    },
     rules: [
       {
         test: /\.jsx?$/i,
