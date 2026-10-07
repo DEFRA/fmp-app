@@ -5,7 +5,7 @@
 
 {% block head %}
   {{ super() }}
-  <link href="{{ assetPath }}/map.css" rel="stylesheet"/>
+  <link href="{{ assetPath }}/map/map.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block bodyStart %}
@@ -55,7 +55,7 @@
     <div class="flood-map-target" id="map"></div>
   </main>
 
-  <script src="{{ assetPath }}/map.js"></script>
+  <script src="{{ assetPath }}/map/map.js"></script>
 
 {% endblock %}
 {% endblock %}
