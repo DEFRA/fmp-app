@@ -68,7 +68,7 @@ const config = {
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
-  fmpProxyUrl: process.env.fmpProxyUrl,
+  fmpProxyUrl: process.env.fmpProxyUrl || 'proxy',
   ceEmailReplaceMap: process.env.ceEmailReplaceMap ? JSON.parse(process.env.ceEmailReplaceMap) : {},
   placeApi: {
     url: process.env.placeApiUrl
