@@ -1,7 +1,7 @@
 import path from 'path'
 import dotenv from 'dotenv'
-import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
@@ -30,16 +30,29 @@ export default {
       chunks () {
         return false
       }
-    }
+    },
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        // vendor chunks (e.g. the arcgis sdk) ship pre-minified, so re-minifying them just wastes build time
+        exclude: /^node_modules_/,
+        terserOptions: {
+          compress: { passes: 1 }
+        }
+      })
+    ]
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
-    new webpack.NormalModuleReplacementPlugin(
-      /js\/provider\/os-maplibre\/provider\.js/,
-      './js/provider/esri-sdk/provider.js'
-    )
+    {
+      apply: (compiler) => {
+        compiler.hooks.done.tap('LogBuildComplete', () => {
+          console.log('Finished building interactive-map ONLY', new Date().toLocaleTimeString(), '\n')
+        })
+      }
+    }
   ],
   module: {
     rules: [
