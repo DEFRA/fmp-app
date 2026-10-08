@@ -12,7 +12,7 @@ describe('/map page', () => {
   })
 
   it('should render map view for /map', async () => {
-    const mapRoute = routes.find((route) => route.path === '/map')
+    const mapRoute = routes
     const h = {
       view: jest.fn().mockReturnValue('MAP_VIEW')
     }
@@ -43,7 +43,7 @@ describe('/map page', () => {
     ['other1=x&seg=fz', '/map?dataset=floodzones&other1=x'],
     ['timeframe=presentday&other1=x&seg=fz', '/map?dataset=floodzones&timeframe=presentday&other1=x'],
   ])('should redirect /map?%s to rewritten query', async (rawQuery, expectedLocation) => {
-    const mapRoute = routes.find((route) => route.path === '/map')
+    const mapRoute = routes
     const h = {
       redirect: jest.fn().mockReturnValue('REDIRECT')
     }
@@ -55,7 +55,7 @@ describe('/map page', () => {
   })
 
   it('should not redirect when no legacy parameters are present', async () => {
-    const mapRoute = routes.find((route) => route.path === '/map')
+    const mapRoute = routes
     const h = {
       view: jest.fn().mockReturnValue('MAP_VIEW'),
       redirect: jest.fn()

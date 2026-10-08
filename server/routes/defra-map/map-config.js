@@ -4,8 +4,8 @@ const { revision } = require('../../../version')
 
 const mapConfig = {
   ...config.defraMap,
-  agolServiceUrl: `${config.fmpProxyUrl}/proxy/esri`,
-  agolVectorTileUrl: `${config.fmpProxyUrl}/proxy/esri-tiles`,
+  agolServiceUrl: `${config.fmpProxyUrl}/esri`,
+  agolVectorTileUrl: `${config.fmpProxyUrl}/esri-tiles`,
   fmpProxyUrl: config.fmpProxyUrl
 }
 

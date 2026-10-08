@@ -1,5 +1,5 @@
 import { scaleBarPlugin } from './scale-bar/scale-bar.js'
-import { searchPlugin } from './search/search.js'
+import { initialiseSearchPlugin } from './search/search.js'
 import { mapKeyPlugin } from './map-key/map-key.js'
 import { menuPlugin } from './menu/menu.js'
 import { interactPlugin } from './interact/interact.js'
@@ -18,7 +18,7 @@ export const initialisePlugins = (defraMapConfig) => {
   plugins.menu = menuPlugin
   plugins.mapStyle = mapStylePlugin(defraMapConfig.OS_ACCOUNT_NUMBER)
   plugins.scaleBar = scaleBarPlugin()
-  plugins.search = searchPlugin(defraMapConfig)
+  plugins.search = initialiseSearchPlugin(defraMapConfig.fmpProxyUrl)
   plugins.draw = drawPlugin
   plugins.frame = framePlugin
   plugins.interact = interactPlugin

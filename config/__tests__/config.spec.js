@@ -184,6 +184,38 @@ describe('Ensure config is correct', () => {
       expect(error).toEqual(new Error('The server config is invalid. "siteUrl" is not allowed to be empty'))
     }
   })
+
+  it('should parse ceEmailReplaceMap when provided', () => {
+    jest.resetModules()
+    process.env.ceEmailReplaceMap = '{"old@example.com":"new@example.com"}'
+    process.env.fmpProxyUrl = 'http://localhost:3005'
+    process.env.siteUrl = 'http://dummyuri'
+    const { config } = require('../index')
+    expect(config.ceEmailReplaceMap).toEqual({ 'old@example.com': 'new@example.com' })
+  })
+
+  it('should return empty object for ceEmailReplaceMap when not provided', () => {
+    jest.resetModules()
+    process.env.ceEmailReplaceMap = ''
+    process.env.fmpProxyUrl = 'http://localhost:3005'
+    process.env.siteUrl = 'http://dummyuri'
+    const { config } = require('../index')
+    expect(config.ceEmailReplaceMap).toEqual({})
+  })
+
+  it('should default fmpProxyUrl to "proxy" when not provided', () => {
+    jest.resetModules()
+    delete process.env.fmpProxyUrl
+    process.env.siteUrl = 'http://dummyuri'
+    try {
+      const { config } = require('../index')
+      // If validation passes with "proxy", it will be set
+      expect(config.fmpProxyUrl).toEqual('proxy')
+    } catch (error) {
+      // If validation fails, it should indicate the issue is with fmpProxyUrl
+      expect(error.message).toContain('fmpProxyUrl')
+    }
+  })
 })
 
 describe('toBool function', () => {

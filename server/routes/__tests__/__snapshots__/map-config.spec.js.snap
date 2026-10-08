@@ -3,8 +3,8 @@
 exports[`map-config Should get /defra-map/config successfully when env is dev 1`] = `
 {
   "OS_ACCOUNT_NUMBER": "AC0000807064",
-  "agolServiceUrl": "http://localhost:3005/proxy/esri",
-  "agolVectorTileUrl": "http://localhost:3005/proxy/esri-tiles",
+  "agolServiceUrl": "http://localhost:3005/esri",
+  "agolVectorTileUrl": "http://localhost:3005/esri-tiles",
   "featureLayerNameSuffix": "_NON_PRODUCTION",
   "fmpProxyUrl": "http://localhost:3005",
   "layerNameSuffix": "_NON_PRODUCTION",
@@ -15,8 +15,8 @@ exports[`map-config Should get /defra-map/config successfully when env is dev 1`
 exports[`map-config Should get /defra-map/config successfully when env is local 1`] = `
 {
   "OS_ACCOUNT_NUMBER": "AC0000807064",
-  "agolServiceUrl": "http://localhost:3005/proxy/esri",
-  "agolVectorTileUrl": "http://localhost:3005/proxy/esri-tiles",
+  "agolServiceUrl": "http://localhost:3005/esri",
+  "agolVectorTileUrl": "http://localhost:3005/esri-tiles",
   "featureLayerNameSuffix": "_NON_PRODUCTION",
   "fmpProxyUrl": "http://localhost:3005",
   "layerNameSuffix": "_NON_PRODUCTION",

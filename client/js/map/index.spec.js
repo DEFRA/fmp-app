@@ -1,6 +1,6 @@
 const mockGetDefraMapConfig = jest.fn()
 const mockSetupEsriConfig = jest.fn()
-jest.mock('./tokens.js', () => ({
+jest.mock('./mapConfig.js', () => ({
   setupEsriConfig: (...args) => mockSetupEsriConfig(...args),
   getDefraMapConfig: (...args) => mockGetDefraMapConfig(...args)
 }))
