@@ -1,7 +1,5 @@
 const mockGetDefraMapConfig = jest.fn()
-const mockSetupEsriConfig = jest.fn()
 jest.mock('./mapConfig.js', () => ({
-  setupEsriConfig: (...args) => mockSetupEsriConfig(...args),
   getDefraMapConfig: (...args) => mockGetDefraMapConfig(...args)
 }))
 
@@ -30,7 +28,6 @@ jest.mock('@defra/interactive-map/providers/esri', () => mockInteractiveMapMocks
 
 const mockInteractiveMapInstance = { on: jest.fn(), addButton: jest.fn() }
 const mockInteractiveMapConstructor = mockInteractiveMapMocks.interactiveMap.default
-const mockEsriProvider = mockInteractiveMapMocks.esriProvider.default
 
 const flushPromises = () => new Promise((resolve) => process.nextTick(resolve))
 
@@ -101,15 +98,5 @@ describe('map index', () => {
       label: 'Help',
       href: '/map-help'
     }))
-  })
-
-  it('should configure the esri provider with the setupEsriConfig helper', async () => {
-    await loadModule()
-
-    const providerArgs = mockEsriProvider.mock.calls[0][0]
-    expect(typeof providerArgs.setupConfig).toBe('function')
-
-    providerArgs.setupConfig('some-config')
-    expect(mockSetupEsriConfig).toHaveBeenCalledWith('some-config')
   })
 })
