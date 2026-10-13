@@ -5,7 +5,7 @@
     "type": "indexedVector",
     "defaultStyles": "resources/styles",
     "tiles": [
-        "http://localhost:3005/basemap/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
+        "FMP_PROXY/basemap/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
     ],
     "exportTilesAllowed": false,
     "initialExtent": {
