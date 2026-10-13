@@ -67,7 +67,7 @@ export default {
     rules: [
       {
         test: /\.jsx?$/i,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!@defra\/fmp-map)/,
         loader: 'babel-loader'
       },
       {

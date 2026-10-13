@@ -1,4 +1,4 @@
-const { esriStatusCodes } = require('../../../server/constants')
+const { esriStatusCodes } = require('../../../server/constants.js')
 
 const loadTokens = () => {
   jest.resetModules()
