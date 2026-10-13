@@ -1,4 +1,5 @@
 import InteractiveMap from '@defra/interactive-map'
+import esriProvider from '@defra/interactive-map/providers/esri'
 import { getDefraMapConfig } from './mapConfig.js'
 import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
 import { mapState } from './interactive-map-helpers/mapState.js'
@@ -13,6 +14,7 @@ getDefraMapConfig().then((defraMapConfig) => {
   mapState.defraMapConfig = defraMapConfig
 
   const interactiveMap = new InteractiveMap('map', {
+    mapProvider: esriProvider(),
     plugins: initialisePlugins(defraMapConfig),
     behaviour: 'inline',
     place: 'England',
