@@ -8,7 +8,7 @@ const { fmpProxyUrl } = config
 
 const method = 'GET'
 const options = { tags: ['asset'] }
-const generateRoute = (path, handler) => ({ method, path, handler, options })
+const generateStaticRoute = (path, jsonObject) => ({ method, path, handler: () => jsonObject, options })
 
 const generateStylesRoute = (path, jsonObject) => {
   const sprite = jsonObject._sprite
@@ -36,6 +36,6 @@ module.exports = [
   generateStylesRoute('/map/styles/master-map', masterMap),
   generateStylesRoute('/map/styles/master-map-dark', masterMapDark),
   // These two files are served for the P4 creation
-  generateRoute('/map/productFourStyles/black-and-white-map', p4BlackAndWhiteMap),
-  generateRoute('/map/productFourStyles/black-and-white-map.json', p4BlackAndWhiteMap)
+  generateStaticRoute('/map/productFourStyles/black-and-white-map', p4BlackAndWhiteMap),
+  generateStaticRoute('/map/productFourStyles/black-and-white-map.json', p4BlackAndWhiteMap)
 ]
