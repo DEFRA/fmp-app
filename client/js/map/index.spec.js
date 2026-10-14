@@ -1,102 +1,56 @@
-const mockGetDefraMapConfig = jest.fn()
-jest.mock('./mapConfig.js', () => ({
-  getDefraMapConfig: (...args) => mockGetDefraMapConfig(...args)
-}))
+const flushPromises = () => new Promise(resolve => setImmediate(resolve))
 
-const mockSiteBoundary = { buffedExtents: null }
-jest.mock('./interactive-map-helpers/siteBoundary.js', () => ({
-  siteBoundary: mockSiteBoundary
-}))
-
-const mockMapState = { attach: jest.fn(), defraMapConfig: null }
-jest.mock('./interactive-map-helpers/mapState.js', () => ({
-  mapState: mockMapState
-}))
-
-const mockInitialisePlugins = jest.fn()
-const mockAttachInteractiveMapToPlugins = jest.fn()
-jest.mock('./plugins/initialisePlugins.js', () => ({
-  initialisePlugins: (...args) => mockInitialisePlugins(...args),
-  attachInteractiveMapToPlugins: (...args) => mockAttachInteractiveMapToPlugins(...args)
-}))
-
-// Shared @defra/interactive-map mocks - see client/js/__test-helpers__/interactiveMapMocks.js
-const mockInteractiveMapMocks = require('../__test-helpers__/interactiveMapMocks')
-jest.mock('@defra/interactive-map', () => mockInteractiveMapMocks.interactiveMap)
-// virtual mock: this subpath has no CJS "require" export condition in the package
-jest.mock('@defra/interactive-map/providers/esri', () => mockInteractiveMapMocks.esriProvider, { virtual: true })
-
-const mockInteractiveMapInstance = { on: jest.fn(), addButton: jest.fn() }
-const mockInteractiveMapConstructor = mockInteractiveMapMocks.interactiveMap.default
-
-const flushPromises = () => new Promise((resolve) => process.nextTick(resolve))
-
-const loadModule = () => {
+const loadModule = (FmpMap) => {
   jest.resetModules()
-  require('./index.js')
-  return flushPromises()
+  jest.doMock('@defra/fmp-map', () => ({ FmpMap }), { virtual: true })
+  return require('./index')
 }
 
-describe('map index', () => {
-  beforeEach(() => {
-    mockSiteBoundary.buffedExtents = null
-    mockGetDefraMapConfig.mockResolvedValue({ someConfig: true })
-    mockInitialisePlugins.mockReturnValue(['plugin-a'])
-    mockInteractiveMapConstructor.mockImplementation(function () {
-      return mockInteractiveMapInstance
-    })
+const buildFmpMap = (initialise) => {
+  const FmpMap = jest.fn()
+  FmpMap.initialise = jest.fn(initialise)
+  FmpMap.createPlugins = jest.fn().mockReturnValue(['plugin-a'])
+  return FmpMap
+}
+
+describe('client/js/map/index', () => {
+  it('throws when FmpMap is not available', () => {
+    expect(() => loadModule(undefined)).toThrow('FmpMap is not available on the window object')
   })
 
-  it('should build the interactive map with the default England extent when there is no boundary', async () => {
-    await loadModule()
+  it('does not create the map until initialise resolves', async () => {
+    let resolveInit
+    const FmpMap = buildFmpMap(() => new Promise(resolve => { resolveInit = resolve }))
 
-    expect(mockInteractiveMapConstructor).toHaveBeenCalledWith('map', expect.objectContaining({
-      extent: [50000, 40000, 400000, 650000],
+    loadModule(FmpMap)
+    await flushPromises()
+
+    expect(FmpMap.initialise).toHaveBeenCalledTimes(1)
+    expect(FmpMap).not.toHaveBeenCalled()
+
+    resolveInit()
+    await flushPromises()
+
+    expect(FmpMap).toHaveBeenCalledTimes(1)
+  })
+
+  it('creates the map with the England config once initialised', async () => {
+    const FmpMap = buildFmpMap(() => Promise.resolve())
+
+    loadModule(FmpMap)
+    await flushPromises()
+
+    expect(FmpMap.createPlugins).toHaveBeenCalledTimes(1)
+    expect(FmpMap).toHaveBeenCalledWith({
+      behaviour: 'inline',
       place: 'England',
       minZoom: 6,
-      maxZoom: 20
-    }))
-  })
-
-  it('should use the site boundary buffed extents when available', async () => {
-    mockSiteBoundary.buffedExtents = [1, 2, 3, 4]
-
-    await loadModule()
-
-    expect(mockInteractiveMapConstructor).toHaveBeenCalledWith('map', expect.objectContaining({
-      extent: [1, 2, 3, 4]
-    }))
-  })
-
-  it('should initialise plugins with the resolved defra map config and pass them to the interactive map', async () => {
-    const defraMapConfig = { some: 'config' }
-    mockGetDefraMapConfig.mockResolvedValue(defraMapConfig)
-
-    await loadModule()
-
-    expect(mockInitialisePlugins).toHaveBeenCalledWith(defraMapConfig)
-    expect(mockMapState.defraMapConfig).toBe(defraMapConfig)
-    expect(mockInteractiveMapConstructor).toHaveBeenCalledWith('map', expect.objectContaining({
+      maxZoom: 20,
+      extent: [50000, 40000, 400000, 650000],
+      containerHeight: '100%',
+      enableMapControls: false,
+      enableZoomControls: true,
       plugins: ['plugin-a']
-    }))
-  })
-
-  it('should attach the interactive map to mapState and the plugins', async () => {
-    await loadModule()
-
-    expect(mockMapState.attach).toHaveBeenCalledWith(mockInteractiveMapInstance)
-    expect(mockAttachInteractiveMapToPlugins).toHaveBeenCalledWith(mockInteractiveMapInstance)
-  })
-
-  it('should add a help button once the interactive map reports it is ready', async () => {
-    await loadModule()
-
-    const readyHandler = mockInteractiveMapInstance.on.mock.calls.find(([name]) => name === 'app:ready')[1]
-    readyHandler()
-
-    expect(mockInteractiveMapInstance.addButton).toHaveBeenCalledWith('help', expect.objectContaining({
-      label: 'Help',
-      href: '/map-help'
-    }))
+    })
   })
 })
