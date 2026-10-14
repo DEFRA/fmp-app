@@ -13,6 +13,11 @@ jest.mock('@arcgis/core/geometry/Extent', () => mockArcgisCoreMocks.Extent)
 jest.mock('@arcgis/core/layers/GraphicsLayer', () => mockArcgisCoreMocks.GraphicsLayer)
 jest.mock('@arcgis/core/Graphic', () => mockArcgisCoreMocks.Graphic)
 jest.mock('@arcgis/core/widgets/ScaleBar', () => mockArcgisCoreMocks.ScaleBar)
+jest.mock('@defra/fmp-map', () => ({
+  FmpMap: {
+    getDefraMapConfig: jest.fn().mockResolvedValue({ fmpProxyUrl: 'http://localhost:3005' })
+  }
+}))
 
 const mockEsriConfig = mockArcgisCoreMocks.config.default
 const mockMapConstructor = mockArcgisCoreMocks.Map.default

@@ -2,7 +2,7 @@ const { config } = require('../../../config')
 const { OS_ACCOUNT_NUMBER } = require('../../constants')
 const { revision } = require('../../../version')
 
-const mapConfig = {
+const defraMapConfig = {
   ...config.defraMap,
   agolServiceUrl: `${config.fmpProxyUrl}/esri`,
   agolVectorTileUrl: `${config.fmpProxyUrl}/esri-tiles`,
@@ -19,7 +19,7 @@ module.exports = {
   options: {
     description: 'config values for the defra-map component',
     handler: async (request, h) => {
-      return { ...mapConfig, OS_ACCOUNT_NUMBER, version }
+      return { ...defraMapConfig, OS_ACCOUNT_NUMBER, version }
     },
     tags: ['asset']
   }
