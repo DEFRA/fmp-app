@@ -5,8 +5,9 @@ jest.mock('./scale-bar/scale-bar.js', () => ({
 }))
 
 const mockSearchPluginInstance = { name: 'search' }
+const mockinitialiseSearchPlugin = jest.fn()
 jest.mock('./search/search.js', () => ({
-  searchPlugin: mockSearchPluginInstance
+  initialiseSearchPlugin: (...args) => mockinitialiseSearchPlugin(...args)
 }))
 
 const mockMapKeyPluginInstance = { name: 'mapKey' }
@@ -62,6 +63,7 @@ describe('initialisePlugins', () => {
     mockMapStylePlugin.mockReturnValue(mockMapStyleInstance)
     mockInitialiseDatasetsPlugin.mockReturnValue(mockDatasetsInstance)
     mockOpacitySliderPlugin.mockReturnValue(mockOpacitySliderInstance)
+    mockinitialiseSearchPlugin.mockReturnValue(mockSearchPluginInstance)
   })
 
   it('should build the datasets plugin from the defra map config', () => {

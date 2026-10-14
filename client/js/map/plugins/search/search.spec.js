@@ -4,9 +4,8 @@ const mockInteractiveMapMocks = require('../../../__test-helpers__/interactiveMa
 jest.mock('@defra/interactive-map/plugins/search', () => mockInteractiveMapMocks.searchPlugin)
 const mockCreateSearchPlugin = mockInteractiveMapMocks.searchPlugin.default
 
-const mockGetRequest = jest.fn()
-jest.mock('../../tokens.js', () => ({
-  getRequest: (...args) => mockGetRequest(...args)
+jest.mock('../../mapConfig.js', () => ({
+  getDefraMapConfig: jest.fn(() => Promise.resolve({ fmpProxyUrl: 'http://localhost:3005' }))
 }))
 
 const buildInteractiveMap = () => {
@@ -18,10 +17,13 @@ const buildInteractiveMap = () => {
   }
 }
 
-const loadSearchPlugin = () => {
+const loadSearchPlugin = async () => {
   jest.resetModules()
+  const { getDefraMapConfig } = require('../../mapConfig.js')
+  getDefraMapConfig.mockReturnValue(Promise.resolve({ fmpProxyUrl: 'http://localhost:3005' }))
   mockCreateSearchPlugin.mockReturnValue({})
-  return require('./search.js').searchPlugin
+  const { initialiseSearchPlugin } = require('./search.js')
+  return await initialiseSearchPlugin()
 }
 
 describe('searchPlugin', () => {
@@ -29,8 +31,8 @@ describe('searchPlugin', () => {
     document.body.innerHTML = ''
   })
 
-  it('should build the plugin with the OS names search, transformRequest and england region', () => {
-    loadSearchPlugin()
+  it('should build the plugin with the OS names search, transformRequest and england region', async () => {
+    await loadSearchPlugin()
 
     expect(mockCreateSearchPlugin).toHaveBeenCalledWith(expect.objectContaining({
       placeholder: 'Search for a place in England',
@@ -39,15 +41,11 @@ describe('searchPlugin', () => {
       showMarker: false
     }))
     const config = mockCreateSearchPlugin.mock.calls[0][0]
-    expect(config.osNamesURL).toContain('https://api.os.uk/search/names/v1/find')
-
-    // transformRequest is the getRequest import, forwarded through the mocked tokens module
-    config.transformRequest('some-request')
-    expect(mockGetRequest).toHaveBeenCalledWith('some-request')
+    expect(config.osNamesURL).toContain('place-lookup')
   })
 
-  it('should add a single search button', () => {
-    loadSearchPlugin()
+  it('should add a single search button', async () => {
+    await loadSearchPlugin()
 
     const config = mockCreateSearchPlugin.mock.calls[0][0]
     expect(config.manifest.buttons).toEqual([expect.objectContaining({ id: 'search' })])
@@ -58,25 +56,25 @@ describe('searchPlugin', () => {
       document.body.innerHTML = '<div id="map-search"></div>'
     })
 
-    it('should hide the search button', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should hide the search button', async () => {
+      const searchPlugin = await loadSearchPlugin()
 
       searchPlugin.hideButton()
 
       expect(document.getElementById('map-search').style.display).toBe('none')
     })
 
-    it('should show the search button', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should show the search button', async () => {
+      const searchPlugin = await loadSearchPlugin()
 
       searchPlugin.showButton()
 
       expect(document.getElementById('map-search').style.display).toBe('flex')
     })
 
-    it('should not throw when the button is not present', () => {
+    it('should not throw when the button is not present', async () => {
       document.body.innerHTML = ''
-      const searchPlugin = loadSearchPlugin()
+      const searchPlugin = await loadSearchPlugin()
 
       expect(() => searchPlugin.hideButton()).not.toThrow()
       expect(() => searchPlugin.showButton()).not.toThrow()
@@ -84,8 +82,8 @@ describe('searchPlugin', () => {
   })
 
   describe('onOpen / onClosed', () => {
-    it('should hide the info panel marker when search opens', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should hide the info panel marker when search opens', async () => {
+      const searchPlugin = await loadSearchPlugin()
       searchPlugin.plugins = { interact: { hideInfoPanelMarker: jest.fn(), hideInfoPanel: jest.fn() } }
 
       searchPlugin.onOpen()
@@ -93,8 +91,8 @@ describe('searchPlugin', () => {
       expect(searchPlugin.plugins.interact.hideInfoPanelMarker).toHaveBeenCalled()
     })
 
-    it('should hide the info panel when search closes', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should hide the info panel when search closes', async () => {
+      const searchPlugin = await loadSearchPlugin()
       searchPlugin.plugins = { interact: { hideInfoPanelMarker: jest.fn(), hideInfoPanel: jest.fn() } }
 
       searchPlugin.onClosed()
@@ -102,8 +100,8 @@ describe('searchPlugin', () => {
       expect(searchPlugin.plugins.interact.hideInfoPanel).toHaveBeenCalled()
     })
 
-    it('should not throw when there are no plugins attached yet', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should not throw when there are no plugins attached yet', async () => {
+      const searchPlugin = await loadSearchPlugin()
 
       expect(() => searchPlugin.onOpen()).not.toThrow()
       expect(() => searchPlugin.onClosed()).not.toThrow()
@@ -111,8 +109,8 @@ describe('searchPlugin', () => {
   })
 
   describe('attach', () => {
-    it('should register handlers for search:open, search:close and search:match', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should register handlers for search:open, search:close and search:match', async () => {
+      const searchPlugin = await loadSearchPlugin()
       const interactiveMap = buildInteractiveMap()
 
       searchPlugin.attach(interactiveMap)
@@ -122,8 +120,8 @@ describe('searchPlugin', () => {
       expect(interactiveMap.on).toHaveBeenCalledWith('search:match', expect.any(Function))
     })
 
-    it('should add a labelled marker styled with the literal search pin colours on search:match', () => {
-      const searchPlugin = loadSearchPlugin()
+    it('should add a labelled marker styled with the literal search pin colours on search:match', async () => {
+      const searchPlugin = await loadSearchPlugin()
       const interactiveMap = buildInteractiveMap()
       searchPlugin.attach(interactiveMap)
 
