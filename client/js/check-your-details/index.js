@@ -7,8 +7,8 @@ import Extent from '@arcgis/core/geometry/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Graphic from '@arcgis/core/Graphic'
 import ScaleBar from '@arcgis/core/widgets/ScaleBar'
-import { getOsToken, getEsriToken } from './tokens'
 import { polygon, centroid, bbox } from '@turf/turf'
+import { FmpMap } from '@defra/fmp-map'
 
 const spatialReference = 27700
 
@@ -35,7 +35,7 @@ const getCentreAndExtents = (polygonArray) => {
 }
 
 const showMap = async (polygonArray) => {
-  const { fmpProxyUrl } = await getDefraMapConfig()
+  const { fmpProxyUrl } = await FmpMap.getDefraMapConfig()
 
   const baseMapLayer = new WMTSLayer({
     url: `${fmpProxyUrl}/basemap/wmts`,
