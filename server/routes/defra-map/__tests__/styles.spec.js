@@ -6,7 +6,6 @@ describe('map style.json routes', () => {
   })
 
   const paths = [
-    '/map/styles/open-tile.json',
     '/map/styles/vts-tile.json',
     '/map/styles/black-and-white-map',
     '/map/productFourStyles/black-and-white-map',

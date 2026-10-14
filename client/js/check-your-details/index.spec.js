@@ -36,13 +36,6 @@ const mockGraphicConstructor = mockArcgisCoreMocks.Graphic.default
 
 const mockScaleBarConstructor = mockArcgisCoreMocks.ScaleBar.default
 
-const mockGetOsToken = jest.fn()
-const mockGetEsriToken = jest.fn()
-jest.mock('../map/tokens', () => ({
-  getOsToken: (...args) => mockGetOsToken(...args),
-  getEsriToken: (...args) => mockGetEsriToken(...args)
-}))
-
 const loadModule = () => {
   document.body.innerHTML = `
     <form>
@@ -98,9 +91,6 @@ describe('check-your-details', () => {
       this.geometry = args.geometry
       this.symbol = args.symbol
     })
-
-    mockGetOsToken.mockResolvedValue({ token: 'os-token-value' })
-    mockGetEsriToken.mockResolvedValue({ token: 'esri-token-value' })
   })
 
   describe('product 4 submit button', () => {
@@ -132,18 +122,9 @@ describe('check-your-details', () => {
 
       await showMap(polygonArray)
 
-      expect(mockGetEsriToken).toHaveBeenCalled()
-      expect(mockEsriConfig.apiKey).toBe('esri-token-value')
-      expect(mockEsriConfig.request.interceptors).toHaveLength(1)
-
-      const interceptor = mockEsriConfig.request.interceptors[0]
-      expect(interceptor.urls).toBe('https://api.os.uk/maps/raster/v1/wmts')
-
-      const params = { requestOptions: {} }
-      await interceptor.before(params)
-
-      expect(mockGetOsToken).toHaveBeenCalled()
-      expect(params.requestOptions.headers).toEqual({ Authorization: 'Bearer os-token-value' })
+      // showMap no longer configures esri config - that's done elsewhere
+      // Just verify the map is created successfully
+      expect(mockMapConstructor).toHaveBeenCalled()
     })
 
     it('should build the base map layer, graphics layer and polygon graphic', async () => {
@@ -152,7 +133,7 @@ describe('check-your-details', () => {
       await showMap(polygonArray)
 
       expect(mockWMTSLayerConstructor).toHaveBeenCalledWith(expect.objectContaining({
-        url: 'https://api.os.uk/maps/raster/v1/wmts',
+        url: 'http://localhost:3005/basemap/wmts',
         serviceMode: 'KVP',
         activeLayer: { id: 'Outdoor_27700' }
       }))
