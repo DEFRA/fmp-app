@@ -25,7 +25,6 @@ const routes = [].concat(
   require('../routes/os-terms'),
   require('../routes/privacy-notice'),
   require('../routes/product-1'),
-  require('../routes/proxy'),
   require('../routes/public'),
   require('../routes/results'),
   require('../routes/terms-and-conditions'),

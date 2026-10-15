@@ -23,14 +23,14 @@ const generateStylesRoute = (path, jsonObject) => {
 }
 
 const generateVtsTileRoute = (path, jsonObject) => {
-  const tiles = jsonObject.tiles[0]
+  const tiles = jsonObject.tiles?.[0]
   if (tiles) {
     jsonObject.tiles[0] = tiles.replace('FMP_PROXY', fmpProxyUrl)
   }
   return { method, path, handler: () => jsonObject, options }
 }
 
-module.exports = [
+const routes = [
   generateVtsTileRoute('/map/styles/vts-tile.json', vtsTile),
   generateStylesRoute('/map/styles/black-and-white-map', blackAndWhiteMap),
   generateStylesRoute('/map/styles/master-map', masterMap),
@@ -39,3 +39,9 @@ module.exports = [
   generateStaticRoute('/map/productFourStyles/black-and-white-map', p4BlackAndWhiteMap),
   generateStaticRoute('/map/productFourStyles/black-and-white-map.json', p4BlackAndWhiteMap)
 ]
+
+routes.generateStaticRoute = generateStaticRoute
+routes.generateStylesRoute = generateStylesRoute
+routes.generateVtsTileRoute = generateVtsTileRoute
+
+module.exports = routes

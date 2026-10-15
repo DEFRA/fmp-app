@@ -38,7 +38,7 @@ const showMap = async (polygonArray) => {
   const { fmpProxyUrl } = await FmpMap.getDefraMapConfig()
 
   const baseMapLayer = new WMTSLayer({
-    url: `${fmpProxyUrl}/basemap/wmts`,
+    url: `${fmpProxyUrl}/os-raster-tiles`,
     serviceMode: 'KVP',
     activeLayer: {
       id: 'Outdoor_27700'
