@@ -145,7 +145,7 @@ describe('check-your-details', () => {
       await showMap(polygonArray)
 
       expect(mockWMTSLayerConstructor).toHaveBeenCalledWith(expect.objectContaining({
-        url: 'http://localhost:3005/basemap/wmts',
+        url: 'http://localhost:3005/os-raster-tiles',
         serviceMode: 'KVP',
         activeLayer: { id: 'Outdoor_27700' }
       }))

@@ -5,6 +5,36 @@ describe('map style.json routes', () => {
     jest.clearAllMocks()
   })
 
+  it('should replace FMP proxy placeholders in map glyphs and vector tiles', () => {
+    const vtsRoute = routes.generateVtsTileRoute('/map/styles/vts-tile.json', { tiles: ['FMP_PROXY/os-vector-tiles/tile/{z}/{y}/{x}.pbf'] })
+    const vtsResponse = vtsRoute.handler()
+    expect(vtsResponse.tiles[0]).toContain('http://localhost:3005/os-vector-tiles/tile')
+    expect(vtsResponse.tiles[0]).not.toContain('FMP_PROXY')
+
+    const stylesRoute = routes.generateStylesRoute('/map/styles/black-and-white-map', {
+      _sprite: 'FMP_PROXY/os-vector-tiles/resources/sprites/sprite',
+      glyphs: 'FMP_PROXY/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf'
+    })
+    const stylesResponse = stylesRoute.handler()
+    expect(stylesResponse.sprite).toContain('http://localhost:3005/os-vector-tiles/resources/sprites/sprite')
+    expect(stylesResponse.glyphs).toContain('http://localhost:3005/os-vector-tiles/resources/fonts')
+    expect(stylesResponse.sprite).not.toContain('FMP_PROXY')
+    expect(stylesResponse.glyphs).not.toContain('FMP_PROXY')
+  })
+
+  it('should cope if sprite or glyphs are missing', () => {
+    const stylesRoute = routes.generateStylesRoute('/map/styles/black-and-white-map', {})
+    const stylesResponse = stylesRoute.handler()
+    expect(stylesResponse.sprite).toBeUndefined()
+    expect(stylesResponse.glyphs).toBeUndefined()
+  })
+
+  it('should cope if tiles are missing', () => {
+    const vtsRoute = routes.generateVtsTileRoute('/map/styles/vts-tile.json', {})
+    const vtsResponse = vtsRoute.handler()
+    expect(vtsResponse.tiles).toBeUndefined()
+  })
+
   const paths = [
     '/map/styles/vts-tile.json',
     '/map/styles/black-and-white-map',
@@ -13,6 +43,7 @@ describe('map style.json routes', () => {
     '/map/styles/master-map',
     '/map/styles/master-map-dark',
   ]
+
   paths.forEach((path) => {
     it(`should serve ${path}`, async () => {
       const mapStylesRoute = routes.find((route) => route.path === path)
