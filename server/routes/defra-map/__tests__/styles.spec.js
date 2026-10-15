@@ -22,20 +22,6 @@ describe('map style.json routes', () => {
     expect(stylesResponse.glyphs).not.toContain('FMP_PROXY')
   })
 
-  // it('should leave values unchanged when no FMP_PROXY placeholder is present', () => {
-  //   const vtsRoute = routes.generateVtsTileRoute('/map/styles/vts-tile.json', { tiles: ['https://example.com/os-vector-tiles/tile/{z}/{y}/{x}.pbf'] })
-  //   const vtsResponse = vtsRoute.handler()
-  //   expect(vtsResponse.tiles[0]).toBe('https://example.com/os-vector-tiles/tile/{z}/{y}/{x}.pbf')
-
-  //   const stylesRoute = routes.generateStylesRoute('/map/styles/black-and-white-map', {
-  //     sprite: 'https://example.com/os-vector-tiles/resources/sprites/sprite',
-  //     glyphs: 'https://example.com/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf'
-  //   })
-  //   const stylesResponse = stylesRoute.handler()
-  //   expect(stylesResponse.sprite).toBe('https://example.com/os-vector-tiles/resources/sprites/sprite')
-  //   expect(stylesResponse.glyphs).toBe('https://example.com/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf')
-  // })
-
   it('should cope if sprite or glyphs are missing', () => {
     const stylesRoute = routes.generateStylesRoute('/map/styles/black-and-white-map', {})
     const stylesResponse = stylesRoute.handler()
