@@ -5,6 +5,7 @@ const masterMapDark = require('./OS_VTS_27700_Dark.json')
 const vtsTile = require('./vts-tile.json')
 const { config } = require('../../../../config')
 const { fmpProxyUrl } = config
+const { getHostAndProtocol } = require('../../../services/getHostAndProtocol')
 
 const method = 'GET'
 const options = { tags: ['asset'] }
@@ -19,7 +20,15 @@ const generateStylesRoute = (path, jsonObject) => {
   if (glyphs) {
     jsonObject.glyphs = glyphs.replace('FMP_PROXY', fmpProxyUrl)
   }
-  return { method, path, handler: () => jsonObject, options }
+  return {
+    method,
+    path,
+    handler: (request) => {
+      console.log('protocol://host:', getHostAndProtocol(request))
+      return jsonObject
+    },
+    options
+  }
 }
 
 const generateVtsTileRoute = (path, jsonObject) => {
