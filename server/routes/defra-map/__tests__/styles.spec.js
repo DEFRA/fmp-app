@@ -2,6 +2,7 @@ const { submitGetRequest } = require('../../../__test-helpers__/server')
 
 const allowedHost = 'flood-map-for-planning.service.gov.uk'
 const otherAllowedHost = 'fmp2-prd-blue.aws.defra.cloud'
+const localHost = 'localhost:3000'
 const fontsPath = '/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf'
 
 // fmpProxyUrl is unset so that the origin is derived from the request headers
@@ -14,7 +15,8 @@ jest.mock('../../../../config', () => {
       fmpProxyUrl: undefined,
       allowedOrigins: {
         'flood-map-for-planning.service.gov.uk': 'flood-map-for-planning.service.gov.uk',
-        'fmp2-prd-blue.aws.defra.cloud': 'fmp2-prd-blue.aws.defra.cloud'
+        'fmp2-prd-blue.aws.defra.cloud': 'fmp2-prd-blue.aws.defra.cloud',
+        'localhost:3000': 'localhost:3000'
       }
     }
   }
@@ -41,13 +43,13 @@ describe('map style.json routes', () => {
     '/map/styles/black-and-white-map',
     '/map/styles/master-map',
     '/map/styles/master-map-dark'
-  ])('%s uses the host header with the server protocol when no forwarded headers are present', async (url) => {
-    expect(await getGlyphs({ host: allowedHost }, url)).toEqual(`http://${allowedHost}${fontsPath}`)
+  ])('%s uses the host header over https when no forwarded headers are present', async (url) => {
+    expect(await getGlyphs({ host: allowedHost }, url)).toEqual(`https://${allowedHost}${fontsPath}`)
   })
 
   it('master-map also proxies _sprite', async () => {
     const json = await getJson('/map/styles/master-map', { host: allowedHost })
-    expect(json._sprite).toEqual(`http://${allowedHost}/proxy/os-vector-tiles/resources/sprites/sprite`)
+    expect(json._sprite).toEqual(`https://${allowedHost}/proxy/os-vector-tiles/resources/sprites/sprite`)
   })
 
   it('prefers x-forwarded-host and x-forwarded-proto', async () => {
@@ -67,9 +69,39 @@ describe('map style.json routes', () => {
     expect(glyphs).toEqual(`https://${otherAllowedHost}${fontsPath}`)
   })
 
-  it('allows http when forwarded protocol is http', async () => {
+  it('uses http for a localhost origin when forwarded protocol is http', async () => {
+    const glyphs = await getGlyphs({ 'x-forwarded-host': localHost, 'x-forwarded-proto': 'http' })
+    expect(glyphs).toEqual(`http://${localHost}${fontsPath}`)
+  })
+
+  it('falls back to https for a localhost origin with an invalid forwarded protocol', async () => {
+    const glyphs = await getGlyphs({ 'x-forwarded-host': localHost, 'x-forwarded-proto': 'javascript' })
+    expect(glyphs).toEqual(`https://${localHost}${fontsPath}`)
+  })
+
+  it('uses the server protocol for a localhost origin without forwarded headers', async () => {
+    const glyphs = await getGlyphs({ host: localHost })
+    expect(glyphs).toEqual(`http://${localHost}${fontsPath}`)
+  })
+
+  it('ignores x-forwarded-proto http for a non-localhost origin to avoid mixed content', async () => {
     const glyphs = await getGlyphs({ 'x-forwarded-host': allowedHost, 'x-forwarded-proto': 'http' })
-    expect(glyphs).toEqual(`http://${allowedHost}${fontsPath}`)
+    expect(glyphs).toEqual(`https://${allowedHost}${fontsPath}`)
+  })
+
+  it('falls back to the host header when a third party proxy sends an unrecognised x-forwarded-host', async () => {
+    const glyphs = await getGlyphs({ host: allowedHost, 'x-forwarded-host': 'company-proxy.internal' })
+    expect(glyphs).toEqual(`https://${allowedHost}${fontsPath}`)
+  })
+
+  it('finds the allowed host anywhere in a chain of forwarded hosts', async () => {
+    const glyphs = await getGlyphs({ 'x-forwarded-host': `company-proxy.internal, ${allowedHost}` })
+    expect(glyphs).toEqual(`https://${allowedHost}${fontsPath}`)
+  })
+
+  it('works when a proxy sends an empty x-forwarded-host', async () => {
+    const glyphs = await getGlyphs({ host: allowedHost, 'x-forwarded-host': '' })
+    expect(glyphs).toEqual(`https://${allowedHost}${fontsPath}`)
   })
 
   it('falls back to https for an invalid forwarded protocol', async () => {
@@ -79,6 +111,11 @@ describe('map style.json routes', () => {
 
   it('does not use a host that is not an allowed origin', async () => {
     const glyphs = await getGlyphs({ 'x-forwarded-host': 'evil.example.com', 'x-forwarded-proto': 'https' })
+    expect(glyphs).toEqual(`null${fontsPath}`)
+  })
+
+  it('returns null when neither forwarded nor host header is allowed', async () => {
+    const glyphs = await getGlyphs({ host: 'company-proxy.internal', 'x-forwarded-host': 'other.internal' })
     expect(glyphs).toEqual(`null${fontsPath}`)
   })
 
