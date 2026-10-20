@@ -1,7 +1,8 @@
+require('./environment')
 const { validateSchema } = require('./schema')
 const { toBool } = require('./toBool')
-require('./environment')
 const year = 365 // days in a year
+const { allowedOrigins } = require('./allowedOrigins')
 
 const agolRofrsDepthOrExtents = process.env.agolRofrsDepthOrExtents || 'Depth'
 
@@ -47,6 +48,7 @@ const getProduct1EndPoint = () => {
 const config = {
   env: process.env.ENV,
   appType: process.env.fmpAppType,
+  allowedOrigins,
   server: {
     port: process.env.PORT
   },
