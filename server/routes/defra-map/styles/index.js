@@ -1,8 +1,9 @@
-const blackAndWhiteMap = require('./OS_VTS_27700_Black_and_White.json')
+const blackAndWhiteMap = JSON.stringify(require('./OS_VTS_27700_Black_and_White.json'))
+const masterMap = JSON.stringify(require('./OS_VTS_27700_Outdoor.json'))
+const masterMapDark = JSON.stringify(require('./OS_VTS_27700_Dark.json'))
+const vtsTile = JSON.stringify(require('./vts-tile.json'))
 const p4BlackAndWhiteMap = require('../p4Styles/OS_VTS_27700_Black_and_White.json')
-const masterMap = require('./OS_VTS_27700_Outdoor.json')
-const masterMapDark = require('./OS_VTS_27700_Dark.json')
-const vtsTile = require('./vts-tile.json')
+
 const { config } = require('../../../../config')
 const { fmpProxyUrl } = config
 const { getHostAndProtocol } = require('../../../services/getHostAndProtocol')
@@ -13,7 +14,7 @@ const generateStaticRoute = (path, jsonObject) => ({ method, path, handler: () =
 
 const _jsonCache = {}
 
-const replaceProxyForFileAndOrigin = (file, origin, jsonObject) => {
+const replaceProxyForFileAndOrigin = (file, origin, jsonString) => {
   const cached = _jsonCache[origin]?.[file]
   if (cached) {
     console.log('Cache found for ', origin, file)
@@ -21,40 +22,21 @@ const replaceProxyForFileAndOrigin = (file, origin, jsonObject) => {
   }
   console.log('NO Cache found for ', origin, file)
   const proxyUrl = fmpProxyUrl || `${origin}/proxy`
-  const jsonString = JSON.stringify(jsonObject).replaceAll('FMP_PROXY', proxyUrl)
-  const jsonWithProxy = JSON.parse(jsonString)
-  // const jsonWithProxy = getJsonWithProxy(origin, jsonObject)
+  // const jsonWithProxy = JSON.parse(JSON.stringify(jsonString).replaceAll('FMP_PROXY', proxyUrl))
+  const jsonWithProxy = JSON.parse(jsonString.replaceAll('FMP_PROXY', proxyUrl))
   _jsonCache[origin] = _jsonCache[origin] || {}
   _jsonCache[origin][file] = jsonWithProxy
   return jsonWithProxy
 }
-
-// const getJsonWithProxy = (origin, jsonObject) => {
-//   const proxyUrl = fmpProxyUrl || `${origin}/proxy`
-//   const jsonObjectWithProxy = { ...jsonObject }
-//   const sprite = jsonObject._sprite
-//   const glyphs = jsonObject.glyphs
-//   const tiles = jsonObject.tiles?.[0]
-//   if (sprite) {
-//     jsonObjectWithProxy.sprite = sprite.replace('FMP_PROXY', proxyUrl)
-//   }
-//   if (glyphs) {
-//     jsonObjectWithProxy.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
-//   }
-//   if (tiles) {
-//     jsonObjectWithProxy.tiles = [tiles.replace('FMP_PROXY', proxyUrl), ...jsonObject.tiles.slice(1)]
-//   }
-//   return jsonObjectWithProxy
-// }
 
 const generateStylesRoute = (path, jsonObject) => {
   const file = path.split('/').at(-1)
   return {
     method,
     path,
-    handler: (request) => {
+    handler: (request, h) => {
       const origin = getHostAndProtocol(request)
-      return replaceProxyForFileAndOrigin(file, origin, jsonObject)
+      return h.response(replaceProxyForFileAndOrigin(file, origin, jsonObject)).type('application/json')
     },
     options
   }
