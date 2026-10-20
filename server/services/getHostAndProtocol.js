@@ -8,12 +8,9 @@ const isAllowedHost = (host) => Object.hasOwn(allowedOrigins, host) && Boolean(a
 // Third party proxies may rewrite, append to, or omit the forwarded headers, so every candidate host
 // is checked against allowedOrigins and the first allowed one wins. Anything else yields null.
 const getHostAndProtocol = (request) => {
-  const { headers, info, server } = request
-  const candidates = [...values(headers['x-forwarded-host']), info?.host]
+  const candidates = [...values(request.headers['x-forwarded-host']), request.info.host]
   const host = candidates.find(isAllowedHost)
   if (!host) {
-    console.error('Unable to resolve host and protocol from request.headers:', headers)
-    console.error('Unable to resolve host and protocol from request.info.host:', info.host)
     return null
   }
   // Only a local development origin may be served over http. Proxies commonly drop or alter
@@ -21,7 +18,7 @@ const getHostAndProtocol = (request) => {
   if (!/^localhost:\d+$/.test(host)) {
     return `https://${host}`
   }
-  const proto = values(headers['x-forwarded-proto'])[0] || server?.info?.protocol
+  const proto = values(request.headers['x-forwarded-proto'])[0] || request.server.info.protocol
   return `${Object.hasOwn(validProtocols, proto) ? validProtocols[proto] : 'https'}://${host}`
 }
 

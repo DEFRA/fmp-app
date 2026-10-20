@@ -12,10 +12,13 @@ describe('map style routes', () => {
     ['/map/styles/master-map-dark', masterMapDark]
   ]
 
-  urls.forEach(([path, expectedResponse]) => {
+  urls.forEach(([path, mapStyleObject]) => {
     it(`should return expected result for ${path}`, async () => {
+      const mapStyleObjectString = (JSON.stringify(mapStyleObject)).replaceAll('FMP_PROXY', 'http://localhost:3005')
+      const expectedResponse = JSON.parse(mapStyleObjectString)
       const response = await submitGetRequest({ url: path })
-      expect(response.result).toEqual(expectedResponse)
+      expect(response.headers['content-type']).toMatch(/^application\/json/)
+      expect(JSON.parse(response.payload)).toEqual(expectedResponse)
     })
   })
 })
