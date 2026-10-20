@@ -9,7 +9,7 @@ const getHostAndProtocol = (request) => {
   const proto = first(request.headers['x-forwarded-proto']) || request.server.info.protocol
   const protocol = Object.hasOwn(validProtocols, proto) ? validProtocols[proto] : 'https'
   const origin = `${protocol}://${host}`
-  return Object.hasOwn(allowedOrigins, origin) && allowedOrigins[origin] ? origin : null
+  return Object.hasOwn(allowedOrigins, host) && allowedOrigins[host] ? origin : null
 }
 
 module.exports = { getHostAndProtocol }

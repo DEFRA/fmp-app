@@ -11,36 +11,53 @@ const method = 'GET'
 const options = { tags: ['asset'] }
 const generateStaticRoute = (path, jsonObject) => ({ method, path, handler: () => jsonObject, options })
 
-const generateStylesRoute = (path, jsonObject) => {
+const _jsonCache = {}
+
+const replaceProxyForFileAndOrigin = (file, origin, jsonObject) => {
+  const cached = _jsonCache[origin]?.[file]
+  if (cached) {
+    console.log('Cache found for ', origin, file)
+    return cached
+  }
+  console.log('NO Cache found for ', origin, file)
+  const jsonWithProxy = getJsonWithProxy(origin, jsonObject)
+  _jsonCache[origin] = _jsonCache[origin] || {}
+  _jsonCache[origin][file] = jsonWithProxy
+  return jsonWithProxy
+}
+
+const getJsonWithProxy = (origin, jsonObject) => {
+  const proxyUrl = fmpProxyUrl || `${origin}/proxy`
   const sprite = jsonObject._sprite
   const glyphs = jsonObject.glyphs
+  const tiles = jsonObject.tiles?.[0]
   if (sprite) {
-    jsonObject.sprite = sprite.replace('FMP_PROXY', fmpProxyUrl)
+    jsonObject.sprite = sprite.replace('FMP_PROXY', proxyUrl)
   }
   if (glyphs) {
-    jsonObject.glyphs = glyphs.replace('FMP_PROXY', fmpProxyUrl)
+    jsonObject.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
   }
+  if (tiles) {
+    jsonObject.tiles[0] = tiles.replace('FMP_PROXY', proxyUrl)
+  }
+  return jsonObject
+}
+
+const generateStylesRoute = (path, jsonObject) => {
+  const file = path.split('/').at(-1)
   return {
     method,
     path,
     handler: (request) => {
-      console.log('protocol://host:', getHostAndProtocol(request))
-      return jsonObject
+      const origin = getHostAndProtocol(request)
+      return replaceProxyForFileAndOrigin(file, origin, jsonObject)
     },
     options
   }
 }
 
-const generateVtsTileRoute = (path, jsonObject) => {
-  const tiles = jsonObject.tiles?.[0]
-  if (tiles) {
-    jsonObject.tiles[0] = tiles.replace('FMP_PROXY', fmpProxyUrl)
-  }
-  return { method, path, handler: () => jsonObject, options }
-}
-
 const routes = [
-  generateVtsTileRoute('/map/styles/vts-tile.json', vtsTile),
+  generateStylesRoute('/map/styles/vts-tile.json', vtsTile),
   generateStylesRoute('/map/styles/black-and-white-map', blackAndWhiteMap),
   generateStylesRoute('/map/styles/master-map', masterMap),
   generateStylesRoute('/map/styles/master-map-dark', masterMapDark),
@@ -51,6 +68,5 @@ const routes = [
 
 routes.generateStaticRoute = generateStaticRoute
 routes.generateStylesRoute = generateStylesRoute
-routes.generateVtsTileRoute = generateVtsTileRoute
 
 module.exports = routes
