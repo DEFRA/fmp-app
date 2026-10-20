@@ -124,6 +124,11 @@ describe('map style.json routes', () => {
     expect(glyphs).toEqual(`null${fontsPath}`)
   })
 
+  it('returns null when the host header is missing', async () => {
+    const glyphs = await getGlyphs()
+    expect(glyphs).toEqual(`null${fontsPath}`)
+  })
+
   it('serves tiles for vts-tile.json using the derived origin', async () => {
     const json = await getJson('/map/styles/vts-tile.json', {
       'x-forwarded-host': allowedHost,
