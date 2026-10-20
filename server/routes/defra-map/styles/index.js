@@ -28,19 +28,20 @@ const replaceProxyForFileAndOrigin = (file, origin, jsonObject) => {
 
 const getJsonWithProxy = (origin, jsonObject) => {
   const proxyUrl = fmpProxyUrl || `${origin}/proxy`
+  const jsonObjectWithProxy = { ...jsonObject }
   const sprite = jsonObject._sprite
   const glyphs = jsonObject.glyphs
   const tiles = jsonObject.tiles?.[0]
   if (sprite) {
-    jsonObject.sprite = sprite.replace('FMP_PROXY', proxyUrl)
+    jsonObjectWithProxy.sprite = sprite.replace('FMP_PROXY', proxyUrl)
   }
   if (glyphs) {
-    jsonObject.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
+    jsonObjectWithProxy.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
   }
   if (tiles) {
-    jsonObject.tiles[0] = tiles.replace('FMP_PROXY', proxyUrl)
+    jsonObjectWithProxy.tiles = [tiles.replace('FMP_PROXY', proxyUrl), ...jsonObject.tiles.slice(1)]
   }
-  return jsonObject
+  return jsonObjectWithProxy
 }
 
 const generateStylesRoute = (path, jsonObject) => {
