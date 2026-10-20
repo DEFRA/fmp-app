@@ -52,16 +52,17 @@ describe('map style.json routes', () => {
       const response = await server.inject({ method: 'GET', url, headers: { host: 'evil.example.com' } })
       expect(response.statusCode).toBe(200)
       const json = JSON.parse(response.payload)
-      expect(json.glyphs).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\//)
+      expect(json.glyphs).toEqual('http://proxy.test/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf')
       if (url === '/map/styles/master-map') {
-        expect(json._sprite).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\//)
+        expect(json._sprite).toEqual('http://proxy.test/os-vector-tiles/resources/sprites/sprite')
       }
     })
 
     it('vts-tile.json uses fmpProxyUrl for tiles', async () => {
       const response = await server.inject({ method: 'GET', url: '/map/styles/vts-tile.json' })
       expect(response.statusCode).toBe(200)
-      expect(JSON.parse(response.payload).tiles[0]).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\/tile\//)
+      const result = JSON.parse(response.payload)
+      expect(result.tiles[0]).toEqual('http://proxy.test/os-vector-tiles/tile/{z}/{y}/{x}.pbf')
     })
   })
 
@@ -77,9 +78,7 @@ describe('map style.json routes', () => {
     }
 
     it('uses the host header with the server protocol when no forwarded headers are present', async () => {
-      expect(await getGlyphs({ host: allowedHost })).toMatch(
-        new RegExp(`^http://${allowedHost}/proxy/os-vector-tiles/`)
-      )
+      expect(await getGlyphs({ host: allowedHost })).toEqual(`http://${allowedHost}/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf`)
     })
 
     it('prefers x-forwarded-host and x-forwarded-proto', async () => {
@@ -88,7 +87,7 @@ describe('map style.json routes', () => {
         'x-forwarded-host': allowedHost,
         'x-forwarded-proto': 'https'
       })
-      expect(glyphs).toMatch(new RegExp(`^https://${allowedHost}/proxy/os-vector-tiles/`))
+      expect(glyphs).toEqual(`https://${allowedHost}/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf`)
     })
 
     it('uses the first value of comma separated forwarded headers', async () => {
@@ -96,28 +95,28 @@ describe('map style.json routes', () => {
         'x-forwarded-host': `${otherAllowedHost}, ${allowedHost}`,
         'x-forwarded-proto': 'https, http'
       })
-      expect(glyphs).toMatch(new RegExp(`^https://${otherAllowedHost}/proxy/os-vector-tiles/`))
+      expect(glyphs).toEqual(`https://${otherAllowedHost}/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf`)
     })
 
     it('allows http when forwarded protocol is http', async () => {
       const glyphs = await getGlyphs({ 'x-forwarded-host': allowedHost, 'x-forwarded-proto': 'http' })
-      expect(glyphs).toMatch(new RegExp(`^http://${allowedHost}/proxy/`))
+      expect(glyphs).toEqual(`http://${allowedHost}/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf`)
     })
 
     it('falls back to https for an invalid forwarded protocol', async () => {
       const glyphs = await getGlyphs({ 'x-forwarded-host': allowedHost, 'x-forwarded-proto': 'javascript' })
-      expect(glyphs).toMatch(new RegExp(`^https://${allowedHost}/proxy/`))
+      expect(glyphs).toEqual(`https://${allowedHost}/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf`)
     })
 
     it('does not use a host that is not an allowed origin', async () => {
       const glyphs = await getGlyphs({ 'x-forwarded-host': 'evil.example.com', 'x-forwarded-proto': 'https' })
       expect(glyphs).not.toContain('evil.example.com')
-      expect(glyphs).toMatch(/^null\/proxy\//)
+      expect(glyphs).toEqual('null/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf')
     })
 
     it('does not treat Object prototype properties as allowed hosts', async () => {
       const glyphs = await getGlyphs({ 'x-forwarded-host': 'constructor' })
-      expect(glyphs).toMatch(/^null\/proxy\//)
+      expect(glyphs).toEqual('null/proxy/os-vector-tiles/resources/fonts/{fontstack}/{range}.pbf')
     })
 
     it('serves tiles for vts-tile.json using the derived origin', async () => {
