@@ -20,6 +20,7 @@ describe('Ensure config is correct', () => {
       appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
+      allowedOrigins: {},
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
@@ -102,6 +103,14 @@ describe('Ensure config is correct', () => {
       appType: 'internal',
       server: { port: '8050' },
       views: { isCached: false },
+      allowedOrigins: {
+        'flood-map-for-planning.service.gov.uk': 'flood-map-for-planning.service.gov.uk',
+        'fmp-internal.prd.defra.cloud': 'fmp-internal.prd.defra.cloud',
+        'fmp2-internal-prd-blue.aws-int.defra.cloud': 'fmp2-internal-prd-blue.aws-int.defra.cloud',
+        'fmp2-internal-prd-green.aws-int.defra.cloud': 'fmp2-internal-prd-green.aws-int.defra.cloud',
+        'fmp2-prd-blue.aws.defra.cloud': 'fmp2-prd-blue.aws.defra.cloud',
+        'fmp2-prd-green.aws.defra.cloud': 'fmp2-prd-green.aws.defra.cloud',
+      },
       analyticsAccount: 'replace_this',
       googleVerification: 'replace_this',
       fbAppId: 'replace_this',
@@ -203,18 +212,12 @@ describe('Ensure config is correct', () => {
     expect(config.ceEmailReplaceMap).toEqual({})
   })
 
-  it('should default fmpProxyUrl to "proxy" when not provided', () => {
+  it('should not set fmpProxyUrl when not provided', () => {
     jest.resetModules()
     delete process.env.fmpProxyUrl
     process.env.siteUrl = 'http://dummyuri'
-    try {
-      const { config } = require('../index')
-      // If validation passes with "proxy", it will be set
-      expect(config.fmpProxyUrl).toEqual('proxy')
-    } catch (error) {
-      // If validation fails, it should indicate the issue is with fmpProxyUrl
-      expect(error.message).toContain('fmpProxyUrl')
-    }
+    const { config } = require('../index')
+    expect(config.fmpProxyUrl).toBeUndefined()
   })
 })
 

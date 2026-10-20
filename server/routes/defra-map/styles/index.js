@@ -1,37 +1,48 @@
-const blackAndWhiteMap = require('./OS_VTS_27700_Black_and_White.json')
+const blackAndWhiteMap = JSON.stringify(require('./OS_VTS_27700_Black_and_White.json'))
+const masterMap = JSON.stringify(require('./OS_VTS_27700_Outdoor.json'))
+const masterMapDark = JSON.stringify(require('./OS_VTS_27700_Dark.json'))
+const vtsTile = JSON.stringify(require('./vts-tile.json'))
 const p4BlackAndWhiteMap = require('../p4Styles/OS_VTS_27700_Black_and_White.json')
-const masterMap = require('./OS_VTS_27700_Outdoor.json')
-const masterMapDark = require('./OS_VTS_27700_Dark.json')
-const vtsTile = require('./vts-tile.json')
+
 const { config } = require('../../../../config')
 const { fmpProxyUrl } = config
+const { getHostAndProtocol } = require('../../../services/getHostAndProtocol')
 
 const method = 'GET'
 const options = { tags: ['asset'] }
 const generateStaticRoute = (path, jsonObject) => ({ method, path, handler: () => jsonObject, options })
 
-const generateStylesRoute = (path, jsonObject) => {
-  const sprite = jsonObject._sprite
-  const glyphs = jsonObject.glyphs
-  if (sprite) {
-    jsonObject.sprite = sprite.replace('FMP_PROXY', fmpProxyUrl)
+const _jsonCache = {}
+
+const replaceProxyForFileAndOrigin = (file, origin, jsonString) => {
+  const cached = _jsonCache[origin]?.[file]
+  if (cached) {
+    console.log('Cache found for ', origin, file)
+    return cached
   }
-  if (glyphs) {
-    jsonObject.glyphs = glyphs.replace('FMP_PROXY', fmpProxyUrl)
-  }
-  return { method, path, handler: () => jsonObject, options }
+  console.log('NO Cache found for ', origin, file)
+  const proxyUrl = fmpProxyUrl || `${origin}/proxy`
+  const jsonWithProxy = jsonString.replaceAll('FMP_PROXY', proxyUrl)
+  _jsonCache[origin] = _jsonCache[origin] || {}
+  _jsonCache[origin][file] = jsonWithProxy
+  return jsonWithProxy
 }
 
-const generateVtsTileRoute = (path, jsonObject) => {
-  const tiles = jsonObject.tiles?.[0]
-  if (tiles) {
-    jsonObject.tiles[0] = tiles.replace('FMP_PROXY', fmpProxyUrl)
+const generateStylesRoute = (path, jsonObject) => {
+  const file = path.split('/').at(-1)
+  return {
+    method,
+    path,
+    handler: (request, h) => {
+      const origin = getHostAndProtocol(request)
+      return h.response(replaceProxyForFileAndOrigin(file, origin, jsonObject)).type('application/json')
+    },
+    options
   }
-  return { method, path, handler: () => jsonObject, options }
 }
 
 const routes = [
-  generateVtsTileRoute('/map/styles/vts-tile.json', vtsTile),
+  generateStylesRoute('/map/styles/vts-tile.json', vtsTile),
   generateStylesRoute('/map/styles/black-and-white-map', blackAndWhiteMap),
   generateStylesRoute('/map/styles/master-map', masterMap),
   generateStylesRoute('/map/styles/master-map-dark', masterMapDark),
@@ -42,6 +53,5 @@ const routes = [
 
 routes.generateStaticRoute = generateStaticRoute
 routes.generateStylesRoute = generateStylesRoute
-routes.generateVtsTileRoute = generateVtsTileRoute
 
 module.exports = routes

@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const defaultport = 3000
+
 const serverSchema = Joi.object()
   .required()
   .keys({
@@ -9,6 +10,7 @@ const serverSchema = Joi.object()
 const schema = Joi.object({
   env: Joi.string().required().valid('local', 'development', 'test', 'pre-prod', 'prod'),
   appType: Joi.string().required().valid('internal', 'public'),
+  allowedOrigins: Joi.object().required(),
   server: serverSchema,
   logLevel: Joi.string().valid('error', 'warn', 'info', 'debug').default('error'),
   views: Joi.object().required().keys({
@@ -30,7 +32,7 @@ const schema = Joi.object({
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
-  fmpProxyUrl: Joi.string().required(),
+  fmpProxyUrl: Joi.string(),
   ceEmailReplaceMap: Joi.object().required(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
