@@ -20,29 +20,32 @@ const replaceProxyForFileAndOrigin = (file, origin, jsonObject) => {
     return cached
   }
   console.log('NO Cache found for ', origin, file)
-  const jsonWithProxy = getJsonWithProxy(origin, jsonObject)
+  const proxyUrl = fmpProxyUrl || `${origin}/proxy`
+  const jsonString = JSON.stringify(jsonObject).replaceAll('FMP_PROXY', proxyUrl)
+  const jsonWithProxy = JSON.parse(jsonString)
+  // const jsonWithProxy = getJsonWithProxy(origin, jsonObject)
   _jsonCache[origin] = _jsonCache[origin] || {}
   _jsonCache[origin][file] = jsonWithProxy
   return jsonWithProxy
 }
 
-const getJsonWithProxy = (origin, jsonObject) => {
-  const proxyUrl = fmpProxyUrl || `${origin}/proxy`
-  const jsonObjectWithProxy = { ...jsonObject }
-  const sprite = jsonObject._sprite
-  const glyphs = jsonObject.glyphs
-  const tiles = jsonObject.tiles?.[0]
-  if (sprite) {
-    jsonObjectWithProxy.sprite = sprite.replace('FMP_PROXY', proxyUrl)
-  }
-  if (glyphs) {
-    jsonObjectWithProxy.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
-  }
-  if (tiles) {
-    jsonObjectWithProxy.tiles = [tiles.replace('FMP_PROXY', proxyUrl), ...jsonObject.tiles.slice(1)]
-  }
-  return jsonObjectWithProxy
-}
+// const getJsonWithProxy = (origin, jsonObject) => {
+//   const proxyUrl = fmpProxyUrl || `${origin}/proxy`
+//   const jsonObjectWithProxy = { ...jsonObject }
+//   const sprite = jsonObject._sprite
+//   const glyphs = jsonObject.glyphs
+//   const tiles = jsonObject.tiles?.[0]
+//   if (sprite) {
+//     jsonObjectWithProxy.sprite = sprite.replace('FMP_PROXY', proxyUrl)
+//   }
+//   if (glyphs) {
+//     jsonObjectWithProxy.glyphs = glyphs.replace('FMP_PROXY', proxyUrl)
+//   }
+//   if (tiles) {
+//     jsonObjectWithProxy.tiles = [tiles.replace('FMP_PROXY', proxyUrl), ...jsonObject.tiles.slice(1)]
+//   }
+//   return jsonObjectWithProxy
+// }
 
 const generateStylesRoute = (path, jsonObject) => {
   const file = path.split('/').at(-1)

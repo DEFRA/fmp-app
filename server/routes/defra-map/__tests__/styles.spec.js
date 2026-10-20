@@ -54,7 +54,7 @@ describe('map style.json routes', () => {
       const json = JSON.parse(response.payload)
       expect(json.glyphs).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\//)
       if (url === '/map/styles/master-map') {
-        expect(json.sprite).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\//)
+        expect(json._sprite).toMatch(/^http:\/\/proxy\.test\/os-vector-tiles\//)
       }
     })
 
