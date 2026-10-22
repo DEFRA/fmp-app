@@ -18,6 +18,7 @@ WORKDIR /home/node/app
 # Copy the basic directories/files across
 RUN mkdir -p dist
 COPY --chown=root:root package*.json .
+COPY --chown=root:root .npmrc .
 COPY --chown=root:root ./index.js .
 COPY --chown=root:root ./client ./client
 COPY --chown=root:root ./server ./server
