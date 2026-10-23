@@ -1,4 +1,4 @@
-ARG PARENT_VERSION=2.9.0-node24.10.0
+ARG PARENT_VERSION=3.2.4-node24.22.1
 
 FROM defradigital/node:${PARENT_VERSION} AS base
 ARG PORT=3000
@@ -18,6 +18,7 @@ WORKDIR /home/node/app
 # Copy the basic directories/files across
 RUN mkdir -p dist
 COPY --chown=root:root package*.json .
+COPY --chown=root:root .npmrc .
 COPY --chown=root:root ./index.js .
 COPY --chown=root:root ./client ./client
 COPY --chown=root:root ./server ./server
