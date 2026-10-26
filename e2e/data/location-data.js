@@ -50,7 +50,7 @@ export const floodZonedata = {
   FZ1_With_SW_and_R: '[[450010.01,207277.26],[450053.16,207251.71],[450027.88,207243.48],[450002.23,207235.93],[450010.01,207277.26]]',
 
   // Polygon for Flood zone 1 with climate change data unavailable and surface water flooding
-  FZ1_With_CC_Unavailable_and_SW: '[[386041.08,349631.23],[386041.9,349504.58],[385892.89,349525.15],[386041.08,349631.23]]',
+  FZ1_With_CC_Unavailable_and_SW: '[[479623.5,437572.4],[479710.53,437540.78],[479577.35,437468.92],[479623.5,437572.4]]',
 
   // Polygon for Flood zone 2 with only rivers flooding
   FZ2_With_R: '[[435967.95,114037.32],[436036.62,114037.32],[436036.62,113968.65],[435967.95,113968.65],[435967.95,114037.32]]',
