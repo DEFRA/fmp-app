@@ -13,6 +13,7 @@ import * as termsAndConditions from './common/terms-and-conditions.page.js'
 import * as floodZoneResultsExplained from './flood-zone-results-explained.page.js'
 import * as mapHelp from './map-help.page.js'
 import * as map from './map.page.js'
+import * as upload from './upload.page.js'
 import * as osTerms from './common/os-terms.page.js'
 import * as feedback from './common/feedback.page.js'
 import * as englandOnly from './england-only.page.js'
@@ -36,6 +37,7 @@ export const pages = {
   floodZoneResultsExplained,
   mapHelp,
   map,
+  upload,
   osTerms,
   feedback,
   englandOnly,
