@@ -50,6 +50,7 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 | `type(element, value)` | Fill a text input or spinbutton |
 | `select(element, value)` | Choose from a `<select>` dropdown |
 | `clickButton(element)` | Click a button by name |
+| `chooseFile(filePath)` | Select a file in the file upload input |
 | `clickLink(element)` | Click a link (scoped by type: main, header, or footer) |
 | `switchToNewWindow()` | Switch to a newly opened tab/window |
 | `expectOn(pageDef)` | Assert the page heading matches |
@@ -339,6 +340,8 @@ e2e/
 └── data/
     ├── location-data.js         # Postcodes, polygons, area data
     ├── user-data.js             # User details for form submission
+    ├── upload-data.js           # Valid and invalid boundary files for the upload page
+    ├── Files/                   # Boundary file fixtures used by upload-data.js
     └── validation-data/         # Invalid input data for parameterised tests
 ```
 

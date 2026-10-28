@@ -55,6 +55,11 @@ export class FormDriver {
     await this.#locate(element, 'button').click()
   }
 
+  // The GOV.UK file upload component's accessible name is longer than 'Choose file', so targeting the input directly.
+  async chooseFile (filePath) {
+    await this.page.locator('input[type="file"]').setInputFiles(filePath)
+  }
+
   async clickDetails (element) {
     await this.page.locator('details').filter({ hasText: element.text }).locator('summary').click()
   }

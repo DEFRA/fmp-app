@@ -22,6 +22,7 @@ test.describe('Map page', () => {
     await mapSteps.expandSection(pages.map.locationBoundarySection)
     await mapSteps.expectEnabled(pages.map.addPolygonOption)
     await mapSteps.expectEnabled(pages.map.addSquareOption)
+    await mapSteps.expectEnabled(pages.map.uploadBoundaryOption)
     await mapSteps.expectDisabled(pages.map.editShapeOption)
     await mapSteps.expectDisabled(pages.map.deleteShapeOption)
   })
