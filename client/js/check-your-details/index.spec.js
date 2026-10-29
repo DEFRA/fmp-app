@@ -41,13 +41,6 @@ const mockGraphicConstructor = mockArcgisCoreMocks.Graphic.default
 
 const mockScaleBarConstructor = mockArcgisCoreMocks.ScaleBar.default
 
-const mockGetOsToken = jest.fn()
-const mockGetEsriToken = jest.fn()
-jest.mock('./tokens', () => ({
-  getOsToken: (...args) => mockGetOsToken(...args),
-  getEsriToken: (...args) => mockGetEsriToken(...args)
-}))
-
 const loadModule = () => {
   document.body.innerHTML = `
     <form>
