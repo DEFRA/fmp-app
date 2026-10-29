@@ -81,7 +81,7 @@ const datasetFloodDefences = {
   }
 }
 
-export const featureLayers = (agolServiceUrl, layerNameSuffix) => [
+export const featureLayers = (agolServiceUrl, featureLayerNameSuffix) => [
   {
     ...datasetMainRivers,
     // NOTE: Main Rivers does not have the _NON_PRODUCTION ${layerNameSuffix}
@@ -89,10 +89,10 @@ export const featureLayers = (agolServiceUrl, layerNameSuffix) => [
   },
   {
     ...datasetWaterStorageAreas,
-    tiles: `${agolServiceUrl}/Flood_Storage_Areas${layerNameSuffix}/FeatureServer`,
+    tiles: `${agolServiceUrl}/Flood_Storage_Areas${featureLayerNameSuffix}/FeatureServer`,
   },
   {
     ...datasetFloodDefences,
-    tiles: `${agolServiceUrl}/Defences${layerNameSuffix}/FeatureServer`,
+    tiles: `${agolServiceUrl}/Defences${featureLayerNameSuffix}/FeatureServer`,
   }
 ]

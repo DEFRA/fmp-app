@@ -43,7 +43,7 @@ const loadDatasetsPlugin = () => {
 }
 
 describe('initialiseDatasetsPlugin', () => {
-  const config = { agolServiceUrl: 'https://example.com/services', agolVectorTileUrl: 'https://example.com/vt', layerNameSuffix: '_NON_PRODUCTION' }
+  const config = { agolServiceUrl: 'https://example.com/services', agolVectorTileUrl: 'https://example.com/vt', layerNameSuffix: '_NON_PRODUCTION', featureLayerNameSuffix: '_NON_PRODUCTION' }
 
   beforeEach(() => {
     mockCreateDatasetsPlugin.mockReturnValue({})
@@ -61,7 +61,7 @@ describe('initialiseDatasetsPlugin', () => {
 
     expect(mockFloodZonesDatasets).toHaveBeenCalledWith({ agolVectorTileUrl: config.agolVectorTileUrl, layerNameSuffix: config.layerNameSuffix })
     expect(mockSurfaceWaterDatasets).toHaveBeenCalledWith({ agolVectorTileUrl: config.agolVectorTileUrl, layerNameSuffix: config.layerNameSuffix })
-    expect(mockFeatureLayers).toHaveBeenCalledWith(config.agolServiceUrl, config.layerNameSuffix)
+    expect(mockFeatureLayers).toHaveBeenCalledWith(config.agolServiceUrl, config.featureLayerNameSuffix)
 
     const [{ datasets }] = mockCreateDatasetsPlugin.mock.calls[0]
     expect(datasets).toEqual([

@@ -18,12 +18,12 @@ const esriStyleLayerIdToInfoPanelReducer = (datasets) => {
   }, {})
 }
 
-export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuffix }) => {
+export const initialiseDatasetsPlugin = ({ agolServiceUrl, agolVectorTileUrl, layerNameSuffix, featureLayerNameSuffix }) => {
   const datasets = [
     ...floodZonesDatasets({ agolVectorTileUrl, layerNameSuffix }),
     surfaceWaterExtentsKey,
     ...surfaceWaterDatasets({ agolVectorTileUrl, layerNameSuffix }),
-    ...featureLayers(agolServiceUrl, layerNameSuffix),
+    ...featureLayers(agolServiceUrl, featureLayerNameSuffix),
   ]
   mapState.styleToValuesMap = esriStyleLayerIdToInfoPanelReducer(datasets)
   const datasetsPlugin = createDatasetsPlugin({
