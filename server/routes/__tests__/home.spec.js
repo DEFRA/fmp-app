@@ -1,5 +1,8 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
 const { assertCopy } = require('../../__test-helpers__/copy')
+
+const getHostAndProtocolSpy = jest.spyOn(require('../../services/getHostAndProtocol'), 'getHostAndProtocol')
+
 const url = '/'
 describe('home route', () => {
   let response
@@ -28,5 +31,28 @@ describe('home route', () => {
     assertCopy('a[href="/os-terms"]', 'Ordnance Survey terms and conditions')
     assertCopy('.govuk-list.govuk-list--bullet', 'download a printable flood map for planning')
     assertCopy('footer.govuk-footer', 'AC0000807064')
+  })
+
+  describe('getHostAndProtocol error handling', () => {
+    let consoleErrorSpy
+
+    beforeEach(() => {
+      // setup.js restores console.error after each test, so the spy must be created per test
+      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+      getHostAndProtocolSpy.mockImplementation(() => {
+        throw new Error('Test error')
+      })
+    })
+
+    afterEach(() => {
+      getHostAndProtocolSpy.mockRestore()
+    })
+
+    it('should still work if getHostAndProtocol throws an error', async () => {
+      response = await submitGetRequest({ url }, 'Get flood risk information for planning in England')
+      expect(getHostAndProtocolSpy).toHaveBeenCalled()
+      expect(response.statusCode).toEqual(200)
+      expect(consoleErrorSpy).toHaveBeenCalled()
+    })
   })
 })
