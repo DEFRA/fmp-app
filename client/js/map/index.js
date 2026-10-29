@@ -1,44 +1,39 @@
-import InteractiveMap from '@defra/interactive-map'
-import esriProvider from '@defra/interactive-map/providers/esri'
-import { setupEsriConfig, getDefraMapConfig } from './tokens.js'
-import { siteBoundary } from './interactive-map-helpers/siteBoundary.js'
-import { mapState } from './interactive-map-helpers/mapState.js'
-import { initialisePlugins, attachInteractiveMapToPlugins } from './plugins/initialisePlugins.js'
+import { FmpMap } from '@defra/fmp-map'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 40000
 const ENGLAND_EAST = 400000
 const ENGLAND_NORTH = 650000
 
-getDefraMapConfig().then((defraMapConfig) => {
-  mapState.defraMapConfig = defraMapConfig
+if (!FmpMap) {
+  throw new Error('FmpMap is not available on the window object')
+}
 
-  const interactiveMap = new InteractiveMap('map', {
-    mapProvider: esriProvider({
-      setupConfig: setupEsriConfig
-    }),
-    plugins: initialisePlugins(defraMapConfig),
+const createFmpMap = () => {
+  return new FmpMap({
     behaviour: 'inline',
     place: 'England',
     minZoom: 6,
     maxZoom: 20,
-    extent: siteBoundary.buffedExtents || [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
+    extent: [ENGLAND_WEST, ENGLAND_SOUTH, ENGLAND_EAST, ENGLAND_NORTH],
     containerHeight: '100%',
     enableMapControls: false,
-    enableZoomControls: true
+    enableZoomControls: true,
+    plugins: FmpMap.createPlugins()
   })
-  mapState.attach(interactiveMap)
+}
 
-  attachInteractiveMapToPlugins(interactiveMap)
+FmpMap.initialise().then(() => {
+  /*
+    // To update a plugin: get its current values, modify them, as below,
+    // and then call FmpMap.updatePlugin with the new values to apply the changes
+    const mapStyleValues = FmpMap.getPluginValues('mapStyle')
+    // mapStyleValues.manifest.buttons[0].desktop.slot = 'right-top'
+    mapStyleValues.manifest.panels[0].label = 'My map styles'
+    FmpMap.updatePlugin('mapStyle', mapStyleValues)
 
-  interactiveMap.on('app:ready', function (e) {
-    interactiveMap.addButton('help', {
-      label: 'Help',
-      href: '/map-help',
-      iconSvgContent: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
-      mobile: { slot: 'right-top', showLabel: false, order: 1 },
-      tablet: { slot: 'right-top', showLabel: false, order: 1 },
-      desktop: { slot: 'right-top', showLabel: false, order: 1 }
-    })
-  })
+    console.log('getPluginValues', FmpMap.getPluginValues())
+  */
+  // all calls to updatePlugin must be called before the call to createFmpMap
+  createFmpMap()
 })
