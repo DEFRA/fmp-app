@@ -14,7 +14,6 @@
     "test:prd-green": "TEST_ENV=prd-green npm run test",
     "test:prd-blue": "TEST_ENV=prd-blue npm run test",
     "test:prod": "TEST_ENV=prod npm run test",
-    "test:edge": "npx playwright test --project=public-edge --project=internal-edge",
     "test:firefox": "npx playwright test --project=public-firefox --project=internal-firefox",
     "test:e2e": "TEST_ENV=pre npx playwright test --project=e2e-public-chromium --project=e2e-internal-chromium",
     "test:pdf": "npx playwright test --project=pdf-chromium",

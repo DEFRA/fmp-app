@@ -50,14 +50,19 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 | `type(element, value)` | Fill a text input or spinbutton |
 | `select(element, value)` | Choose from a `<select>` dropdown |
 | `clickButton(element)` | Click a button by name |
-| `chooseFile(filePath)` | Select a file in the file upload input |
-| `clickLink(element)` | Click a link (scoped by type: main, header, or footer) |
+| `chooseFile(filePath)` | Upload a file using the file input |
+| `clickDetails(element)` | Open a `<details>` section by heading text |
+| `clickLink(element)` | Click a link (scoped by type: main, header, footer, map, or custom link) |
+| `clickLinkContainingText(element)` | Click a link using a non-exact text match |
 | `switchToNewWindow()` | Switch to a newly opened tab/window |
 | `expectOn(pageDef)` | Assert the page heading matches |
-| `expectText(text)` | Assert text is visible in `<main>` |
+| `expectText(text, scope?)` | Assert text is visible in the given scope (default: `<main>`) |
+| `expectTextNotExists(text, scope?)` | Assert text is not present in the given scope |
+| `expectOnlyTexts(expectedTexts, allTexts, scope?)` | Assert only the expected text values are present in a scope |
 | `expectErrorText(element)` | Assert an error message is shown in the alert region |
 | `expectLinkExists(element)` | Assert a link is visible (and optionally check its `href`) |
-| `expectLinkNotExists(element)` | Assert a link is not present (auto-retrying) |
+| `expectLinkTargetReachable(element)` | Assert the target URL responds with HTTP 200 |
+| `expectLinkNotExists(element)` | Assert a link is not present |
 | `expectButtonExists(element)` | Assert a button is visible |
 | `expectButtonNotExists(element)` | Assert a button is hidden |
 | `expectUrlContains(substring)` | Assert the current URL contains a substring |
@@ -66,25 +71,45 @@ All Playwright locator logic lives here. Tests never call `page.getByRole(...)` 
 
 | Method | Description |
 |--------|-------------|
+| `getFeatureToggle(element)` | Resolve a switch or checkbox feature toggle by label |
 | `waitForMapToLoad()` | Wait for the map viewport to be visible and network to settle |
-| `clickButton(element)` | Click a map button, polling until it is enabled (`aria-disabled` check) |
-| `expandMenuSection(element)` | Expand a collapsible menu section |
+| `expandSection(name)` | Expand a collapsible map section |
 | `chooseMenuOption(element)` | Select a menu button, radio, or checkbox option |
-| `zoomIn(times)` | Zoom in with retry logic between each click |
+| `openSearch()` | Open the map search panel |
+| `search(query)` | Type into the map search box |
+| `selectSearchResult()` | Select the first map search result |
+| `dismissPanel(name)` | Close a panel by its dialog name |
+| `dismissKeyPanel()` | Close the map key panel |
+| `zoomIn(times = 3)` | Zoom in repeatedly with retries |
 | `addSquare()` | Open the location menu and click "Add square" |
 | `confirmBoundaryAndContinue()` | Click "Finish" then "Get summary report" |
+| `expectSectionVisible(name)` | Assert a named section/button is visible |
+| `expectVisible(role, name)` | Assert a named role element is visible |
+| `expectHidden(role, name)` | Assert a named role element is hidden |
+| `expectEnabled(element)` | Assert a menu item is enabled |
+| `expectDisabled(element)` | Assert a menu item is disabled |
+| `expectSliderAttributes(name, attrs)` | Assert slider attributes match expected values |
+| `expectUrlChanged(prevUrl)` | Assert the map URL changed from the previous page |
+| `currentUrl()` | Return the current page URL |
+| `expectKeyPanelVisible()` | Assert the map key panel is visible |
+| `expectKeyPanelHidden()` | Assert the map key panel is hidden |
+| `expectSearchReady()` | Assert the map search control is visible |
+| `expectMapReady()` | Assert the map viewport is visible and URL is on the map route |
+| `expectMapPanelReady()` | Assert the main map panel sections are visible |
+| `assertRadiosUpdateMap(options)` | Assert selecting map radio options updates the map |
+| `assertSwitchUpdatesKey(element)` | Assert toggling a map feature updates the key panel |
 
 **PdfDriver** — handles PDF download capture, parsing, and PDF-specific assertions:
 
 | Method | Description |
 |--------|-------------|
-| `awaitDownload(timeout)` | Wait for a PDF download event, save to `_results_/downloads`, and return the file path |
+| `awaitDownload(timeout = 60000)` | Wait for a PDF download event, save to `_results_/downloads`, and return the file path |
 | `parsePdf(filePath)` | Parse PDF text and links using `pdf-parse` |
-| `expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks })` | Validate all PDF content: core text, flood zone, location, and links |
 | `expectCoreContent(pdf, { reference, scale })` | Validate core report text, reference handling, and scale formatting |
 | `expectFloodZone(pdf, floodZone)` | Validate zone text in PDF matches expected flood zone |
-| `expectLocation(pdf, polygonString)` | Validate centroid easting/northing rendered in PDF |
+| `expectLocation(pdf, polygonString, tolerance = 1)` | Validate centroid easting/northing rendered in PDF |
 | `expectLinks(pdf, expectedLinks)` | Validate required links are present and all extracted links are valid URLs |
+| `expectPdfContent(pdf, { reference, scale, floodZone, polygon, expectedLinks })` | Validate all PDF content: core text, flood zone, location, and links |
 
 ### Page Objects (`pages/`)
 
@@ -286,7 +311,6 @@ npm run test:pdf
 npm run test:e2e
 
 # Other browsers
-npm run test:edge
 npm run test:firefox
 npm run test:all-browsers
 
