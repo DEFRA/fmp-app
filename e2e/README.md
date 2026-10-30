@@ -195,7 +195,7 @@ Tests can be run in Docker using the Playwright base image. This is a work in pr
 docker compose up --build
 ```
 
-This builds from `Dockerfile`, which uses `mcr.microsoft.com/playwright:v1.58.2` with all browsers pre-installed. By default `docker compose up` runs `npm run test` (public + internal chromium against the `tst` environment). The HTML report is mounted to `./playwright-report` on the host.
+This builds from `Dockerfile` using the Playwright base image for the project, with all browsers pre-installed. By default `docker compose up` runs `npm run test` (public + internal chromium against the `tst` environment). The HTML report is mounted to `./playwright-report` on the host.
 
 To target a different environment, override the `TEST_ENV` variable:
 
@@ -221,25 +221,31 @@ Set the target environment with `TEST_ENV`. Defaults to `tst` locally and `local
 
 ### Projects
 
-Tests are organised into projects using tag-based filtering:
+Tests are organised into Playwright projects using tag-based filtering and browser selection.
 
-| Project | Tags included | Tags excluded | Base URL |
-|---------|--------------|---------------|----------|
-| `public-chromium` | all | `@internal`, `@urlCheck` | Public |
-| `internal-chromium` | `@internal`, `@both` | `@urlCheck` | Internal |
-| `noDeps-local-chrome` | `@noDeps` | `@urlCheck`, `@internal`, `@both` | Public |
-| `urlCheck-chrome` | `@urlCheck` | — | Public |
-
-Firefox and WebKit variants (`public-firefox`, `internal-firefox`, `public-webkit`, `internal-webkit`) follow the same pattern.
+| Project | Included by tag/filter | Base URL |
+|---------|------------------------|----------|
+| `public-chromium` | all tests except `@internal`, `@urlCheck`, `@e2e`, `@pdf` | Public |
+| `public-firefox` | all tests except `@internal`, `@urlCheck`, `@e2e`, `@pdf` | Public |
+| `public-webkit` | all tests except `@internal`, `@urlCheck`, `@e2e`, `@pdf` | Public |
+| `internal-chromium` | `@internal` | Internal |
+| `internal-firefox` | `@internal` | Internal |
+| `internal-webkit` | `@internal` | Internal |
+| `noDeps-local-chromium` | `@noDeps` | Public |
+| `urlCheck-chromium` | `@urlCheck` | Public |
+| `e2e-public-chromium` | `@e2e` | Public |
+| `e2e-internal-chromium` | `@e2e` | Internal |
+| `pdf-chromium` | `@pdf` | Public |
 
 ### Tags
 
 | Tag | Purpose |
 |-----|---------|
-| `@noDeps` | No external dependencies — can run against any environment |
-| `@internal` | Requires the internal URL |
-| `@both` | Runs against both public and internal URLs |
-| `@urlCheck` | Validates external third-party links resolve correctly |
+| `@noDeps` | Tests that do not depend on external services or third-party redirects |
+| `@internal` | Tests that must run against the internal application URL |
+| `@urlCheck` | Tests that validate external third-party links resolve correctly |
+| `@e2e` | Full end-to-end journey tests |
+| `@pdf` | PDF download and content validation tests |
 
 Tags are applied via the `{ tag }` config object:
 
@@ -273,6 +279,17 @@ npm run test:local
 # URL check tests (external link validation)
 npm run test:urlCheck
 
+# PDF tests
+npm run test:pdf
+
+# End-to-end journey test — always runs against the pre environment
+npm run test:e2e
+
+# Other browsers
+npm run test:edge
+npm run test:firefox
+npm run test:all-browsers
+
 # Other environments
 npm run test:tst
 npm run test:dev
@@ -280,13 +297,6 @@ npm run test:pre
 npm run test:prd-green
 npm run test:prd-blue
 npm run test:prod
-
-# End-to-end journey test — always runs against the pre environment
-npm run test:e2e
-
-# Other browsers
-npm run test:firefox
-npm run test:all-browsers
 
 # Interactive UI mode
 npm run test:ui
@@ -426,7 +436,8 @@ test('interacts with the map', async ({ steps, mapSteps }) => {
 - Use `@noDeps` for tests that only interact with the app's own pages (no external API calls or third-party redirects).
 - Use `@urlCheck` for tests that click links to external sites and assert the destination URL.
 - Use `@internal` for tests that require the internal URL (e.g. features only visible internally).
-- Use `@both` for tests that should run against both public and internal URLs.
+- Use `@e2e` for full journey tests that exercise the broader user flow across multiple pages.
+- Use `@pdf` for tests that download and validate PDF output.
 
 ---
 
