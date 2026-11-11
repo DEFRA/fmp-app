@@ -34,7 +34,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@defra/fmp-map": "github:DEFRA/fmp-map#v3.9.0-pre4",
-    "@defra/fmp-utilities": "github:DEFRA/fmp-utilities",
+    "@defra/fmp-utilities": "github:DEFRA/fmp-utilities#3bba5c1",
     "@defra/interactive-map": "0.0.50-alpha",
     "@esri/arcgis-rest-request": "^4.2.3",
     "@hapi/boom": "^10.0.1",

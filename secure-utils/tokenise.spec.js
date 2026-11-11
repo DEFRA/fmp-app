@@ -1,5 +1,5 @@
 const { generateKeys } = require('./generateKeys')
-const { signToken, extractTokenValue } = require('./tokenise')
+const { signToken, extractTokenValue } = require('@defra/fmp-utilities/secureUtils')
 
 describe('Tokenise Utils', () => {
   const { publicKey, privateKey } = generateKeys()
