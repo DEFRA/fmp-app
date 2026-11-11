@@ -1,5 +1,15 @@
 const Joi = require('joi')
+const { createPrivateKey } = require('node:crypto')
 const defaultport = 3000
+
+const validatePrivateKey = (value, helpers) => {
+  try {
+    createPrivateKey(Buffer.from(value, 'base64').toString('utf8'))
+    return value
+  } catch (err) {
+    return helpers.message('{{#label}} must be a base64 encoded PEM private key')
+  }
+}
 
 const serverSchema = Joi.object()
   .required()
@@ -33,6 +43,7 @@ const schema = Joi.object({
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
   fmpProxyUrl: Joi.string(),
+  proxyPrivateKey: Joi.string().custom(validatePrivateKey, 'base64 encoded PEM private key'),
   ceEmailReplaceMap: Joi.object().required(),
   placeApi: Joi.object().required().keys({
     url: Joi.string().uri().required()
