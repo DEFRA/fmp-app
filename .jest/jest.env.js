@@ -3,6 +3,9 @@ const { TextDecoder, TextEncoder } = require('util')
 global.setImmediate = setImmediate
 global.TextDecoder = TextDecoder
 global.TextEncoder = TextEncoder
+const { generateKeys } = require('@defra/fmp-utilities/secureUtils')
+// A valid key is generated at run time so that no real key is committed to git
+process.env.proxyPrivateKey = generateKeys().privateKey
 process.env.fmpProxyUrl = process.env.fmpProxyUrl || 'http://localhost:3005'
 
 // Mock fetch globally for tests

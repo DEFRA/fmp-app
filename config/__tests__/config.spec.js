@@ -37,6 +37,7 @@ describe('Ensure config is correct', () => {
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
+      proxyPrivateKey: process.env.proxyPrivateKey,
       ceEmailReplaceMap: { 'enquiries_thm@environment-agency.gov.uk': 'TH-WE-MAPPING-and-DATA@environment-agency.gov.uk' },
       placeApi: { url: 'http://dummyuri' },
       agol: {
@@ -127,6 +128,7 @@ describe('Ensure config is correct', () => {
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
+      proxyPrivateKey: process.env.proxyPrivateKey,
       ceEmailReplaceMap: {},
       placeApi: { url: 'http://dummyuri' },
       agol: {
@@ -218,6 +220,16 @@ describe('Ensure config is correct', () => {
     process.env.siteUrl = 'http://dummyuri'
     const { config } = require('../index')
     expect(config.fmpProxyUrl).toBeUndefined()
+  })
+
+  it('should throw when proxyPrivateKey is not a valid base64 encoded private key', () => {
+    const validKey = process.env.proxyPrivateKey
+    process.env.proxyPrivateKey = 'TEST_KEY'
+    try {
+      expect(() => require('../index')).toThrow('"proxyPrivateKey" must be a base64 encoded PEM private key')
+    } finally {
+      process.env.proxyPrivateKey = validKey
+    }
   })
 })
 
