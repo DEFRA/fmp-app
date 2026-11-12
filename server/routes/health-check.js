@@ -1,14 +1,10 @@
 const { version, revision } = require('../../version')
-const { getHostAndProtocol } = require('../services/getHostAndProtocol')
 
 const handler = async (request) => {
-  const origin = getHostAndProtocol(request)
-
   return JSON.stringify({
     name: 'fmp-app',
     version: version.substring(0, version.lastIndexOf('-')),
-    revision,
-    origin
+    revision
   })
 }
 
