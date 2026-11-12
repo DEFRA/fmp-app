@@ -1,4 +1,5 @@
 import { FmpMap } from '@defra/fmp-map'
+import { keepMapRefreshed } from './keepMapRefreshed'
 
 const ENGLAND_WEST = 50000
 const ENGLAND_SOUTH = 40000
@@ -36,4 +37,5 @@ FmpMap.initialise().then(() => {
   */
   // all calls to updatePlugin must be called before the call to createFmpMap
   createFmpMap()
+  keepMapRefreshed()
 })

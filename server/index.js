@@ -54,6 +54,7 @@ async function createServer () {
   await server.register(require('blipp'))
   await server.register(require('./plugins/full-url'))
   await server.register(require('./plugins/register-cookie'))
+  await server.register(require('./plugins/fmp-cookie'))
   if (!process.env.NOLOG) {
     await server.register(require('./plugins/logging'))
   }
