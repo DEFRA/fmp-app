@@ -52,7 +52,7 @@ describe('fmp-cookie plugin', () => {
     ['a 200 response', '/fmp-cookie-test', 200, true],
     ['a 404 response', '/fmp-cookie-test/response-404', 404, false],
     ['a 404 error page', '/does-not-exist', 404, false]
-  ])('for %s (status %s) sets the cookie: %s', async (_description, url, expectedStatus, expectCookie) => {
+  ])('for %s (%s) returns %s and sets the cookie: %s', async (_description, url, expectedStatus, expectCookie) => {
     const response = await server.inject({ method: 'GET', url })
     expect(response.statusCode).toBe(expectedStatus)
     if (expectCookie) {
