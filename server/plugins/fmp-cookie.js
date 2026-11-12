@@ -1,5 +1,6 @@
 const { signToken } = require('@defra/fmp-utilities/secureUtils')
 const { config } = require('../../config')
+const { statusCodes } = require('../constants')
 
 const COOKIE_NAME = 'fmp'
 
@@ -19,7 +20,7 @@ exports.plugin = {
 
     server.ext('onPreResponse', (request, h) => {
       const statusCode = request.response.isBoom ? request.response.output.statusCode : request.response.statusCode
-      if (statusCode === 404) {
+      if (statusCode === statusCodes.PAGE_NOT_FOUND) {
         return h.continue
       }
       h.state(COOKIE_NAME, signToken({ created: Date.now() }, config.proxyPrivateKey))

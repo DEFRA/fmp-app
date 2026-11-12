@@ -37,7 +37,7 @@ jobs:
       - name: Run e2e tests
         run: |
           # Generate a throwaway key so no real key is committed; it takes precedence over the .env value
-          export proxyPrivateKey=$(node -e "console.log(require('@defra/fmp-utilities/secureUtils').generateKeys().privateKey)")
+          export proxyPrivateKey=$(node -e "console.log(require('@defra/fmp-utilities/secureUtils').generateKeys().privateKey)") # NOSONAR
           npm start &
           npx --yes wait-on http://localhost:8050 --timeout 30000
           cd e2e && npm run test:local
