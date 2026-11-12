@@ -10,8 +10,8 @@ exports.plugin = {
     server.state(COOKIE_NAME, {
       ttl: null, // ttl is session
       isSecure: config.siteUrl.startsWith('https'),
-      path: '/',
-      isSameSite: 'Lax',
+      path: '/proxy',
+      isSameSite: 'Strict',
       isHttpOnly: true,
       encoding: 'none',
       strictHeader: true
