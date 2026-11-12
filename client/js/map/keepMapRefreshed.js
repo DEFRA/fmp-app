@@ -14,9 +14,9 @@ export const keepMapRefreshed = () => {
   setInterval(refresh, REFRESH_INTERVAL_MS)
   // Timers are paused or throttled while the device sleeps or the tab is hidden,
   // so refresh straight away when the page becomes visible again
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener('visibilitychange', async () => {
     if (document.visibilityState === 'visible') {
-      refresh()
+      await refresh()
     }
   })
 }

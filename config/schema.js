@@ -6,7 +6,7 @@ const validatePrivateKey = (value, helpers) => {
   try {
     createPrivateKey(Buffer.from(value, 'base64').toString('utf8'))
     return value
-  } catch (err) {
+  } catch {
     return helpers.message('{{#label}} must be a base64 encoded PEM private key')
   }
 }
