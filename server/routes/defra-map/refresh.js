@@ -1,4 +1,4 @@
-import { statusCodes } from '../../constants'
+const { statusCodes } = require('../../constants')
 
 module.exports = {
   method: 'GET',
