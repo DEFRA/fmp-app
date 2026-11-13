@@ -15,7 +15,7 @@ const _allowedHostsByEnv = {
   ],
   'pre-prod': [
     'fmp2-internal-pre.aws-int.defra.cloud', // Internal pre-production environment
-    'fmp2-pre.aws-int.defra.cloud', // Public pre-production environment
+    'fmp2-pre.aws.defra.cloud', // Public pre-production environment
   ],
   prod: [
     'flood-map-for-planning.service.gov.uk', // Production live environment

@@ -29,7 +29,7 @@ describe('allowedOrigins', () => {
   it.each([
     ['development', ['fmp2-internal-dev.aws-int.defra.cloud', 'fmp2-dev.aws-int.defra.cloud']],
     ['test', ['fmp2-internal-tst.aws-int.defra.cloud', 'fmp2-tst.aws-int.defra.cloud']],
-    ['pre-prod', ['fmp2-internal-pre.aws-int.defra.cloud', 'fmp2-pre.aws-int.defra.cloud']],
+    ['pre-prod', ['fmp2-internal-pre.aws-int.defra.cloud', 'fmp2-pre.aws.defra.cloud']],
     ['prod', [
       'flood-map-for-planning.service.gov.uk',
       'fmp2-prd-blue.aws.defra.cloud',
