@@ -1,6 +1,6 @@
 {
   "name": "fmfp",
-  "version": "3.5.0",
+  "version": "3.9.0",
   "description": "Flood map for planning",
   "main": "index.js",
   "engines": {
@@ -33,7 +33,7 @@
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
-    "@defra/fmp-map": "github:DEFRA/fmp-map#v3.9.0-pre7",
+    "@defra/fmp-map": "github:DEFRA/fmp-map#v3.9.0-pre8",
     "@defra/fmp-utilities": "github:DEFRA/fmp-utilities",
     "@esri/arcgis-rest-request": "^4.2.3",
     "@hapi/boom": "^10.0.1",
