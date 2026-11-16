@@ -52,7 +52,7 @@
     "dotenv": "^17.2.3",
     "govuk-frontend": "^5.11.0",
     "hapi-pino": "^13.0.0",
-    "joi": "^18.2.9",
+    "joi": "^18.3.2",
     "jszip": "^3.10.1",
     "magic-comments-loader": "^2.1.4",
     "mini-css-extract-plugin": "^2.9.2",
