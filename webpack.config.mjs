@@ -52,7 +52,7 @@ export default {
     }
   },
   plugins: [
-    new webpack.IgnorePlugin({ resourceRegExp: /^(ol|proj4)(\/|$)/ }),
+    new webpack.IgnorePlugin({ resourceRegExp: /^(ol)(\/|$)/ }),
     new MiniCssExtractPlugin({
       filename: (pathData) => pathData.chunk.name === 'map' ? 'map/[name].css' : '[name].css',
       chunkFilename: (pathData) => belongsToMapRuntime(pathData.chunk.runtime) ? 'map/[name].css' : '[name].css'
