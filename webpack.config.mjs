@@ -1,5 +1,6 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
+import webpack from 'webpack'
 import dotenv from 'dotenv'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -51,6 +52,7 @@ export default {
     }
   },
   plugins: [
+    new webpack.IgnorePlugin({ resourceRegExp: /^(ol)(\/|$)/ }),
     new MiniCssExtractPlugin({
       filename: (pathData) => pathData.chunk.name === 'map' ? 'map/[name].css' : '[name].css',
       chunkFilename: (pathData) => belongsToMapRuntime(pathData.chunk.runtime) ? 'map/[name].css' : '[name].css'
