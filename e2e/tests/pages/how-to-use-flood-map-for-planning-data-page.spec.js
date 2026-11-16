@@ -58,9 +58,9 @@ test.describe('How to use flood map for planning data page - external links', { 
     await steps.expectUrlContains('flood-risk-and-coastal-change#para27')
   })
 
-  test('navigates to table 2 of Planning Practice Guidance when clicking the link', async ({ steps }) => {
-    await steps.clickLink(pages.howToUseFloodMapForPlanningData.table2PlanningPracticeGuidanceLink)
-    await steps.expectUrlContains('flood-risk-and-coastal-change#table2')
+  test('navigates to table 3 of annex F of the National Planning Policy Framework when clicking the link', async ({ steps }) => {
+    await steps.clickLink(pages.howToUseFloodMapForPlanningData.table3AnnexFPlanningGuidanceLink)
+    await steps.expectUrlContains('flood-risk-and-coastal-change#table-3')
   })
 
   test('navigates to national flood risk standing advice for local planning authorities when clicking the link', async ({ steps }) => {
