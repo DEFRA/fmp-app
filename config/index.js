@@ -61,21 +61,20 @@ const config = {
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
   ordnanceSurvey: {
-    osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
-    osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
-    osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
-    osSearchKey: process.env.ordnanceSurveyOsSearchKey,
+    osGetCapabilitiesUrl: 'SERVICE=WMTS&request=getcapabilities&VERSION=1.0.0&URL=https://flood-warning-information.service.gov.uk/',
+    osMapsUrl: 'https://api.os.uk/maps/raster/v1/wmts',
+    osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
     osClientId: process.env.ordnanceSurveyOsClientId,
-    osClientSecret: process.env.ordnanceSurveyOsClientSecret
+    osClientSecret: process.env.ordnanceSurveyOsClientSecret,
+    osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest',
+    osPlacesClientId: process.env.ordnanceSurveyOsPlacesClientId,
+    osPlacesClientSecret: process.env.ordnanceSurveyOsPlacesClientSecret
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
   fmpProxyUrl: process.env.fmpProxyUrl,
   proxyPrivateKey: process.env.proxyPrivateKey,
   ceEmailReplaceMap: process.env.ceEmailReplaceMap ? JSON.parse(process.env.ceEmailReplaceMap) : {},
-  placeApi: {
-    url: process.env.placeApiUrl
-  },
   agol: {
     clientId: process.env.agolClientId,
     clientSecret: process.env.agolClientSecret,
