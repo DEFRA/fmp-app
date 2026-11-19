@@ -17,10 +17,8 @@ const _jsonCache = {}
 const replaceProxyForFileAndOrigin = (file, origin, jsonString) => {
   const cached = _jsonCache[origin]?.[file]
   if (cached) {
-    console.log('Cache found for ', origin, file)
     return cached
   }
-  console.log('NO Cache found for ', origin, file)
   const proxyUrl = fmpProxyUrl || `${origin}/proxy`
   const jsonWithProxy = jsonString.replaceAll('FMP_PROXY', proxyUrl)
   _jsonCache[origin] = _jsonCache[origin] || {}
