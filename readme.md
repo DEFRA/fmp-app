@@ -43,9 +43,10 @@ Node v18.x\
 | ordnanceSurveyOsGetCapabilitiesUrl | Flood warning API                |   yes     |             |                             |       |
 | ordnanceSurveyOsNamesUrl    | OS Names API                            |   yes     |             |                             |       |
 | ordnanceSurveyOsMapsUrl     | OS map API                              |   yes     |             |                             |       |
-| ordnanceSurveyOsSearchKey   | OS search key                           |   yes     |             |                             |       |
 | ordnanceSurveyOsClientId    | OS map key                              |   yes     |             |                             |       |
 | ordnanceSurveyOsClientSecret| OS map secret key                       |   yes     |             |                             |       |
+| ordnanceSurveyOsPlacesClientId    | OS map key                        |   yes     |             |                             |       |
+| ordnanceSurveyOsPlacesClientSecret| OS map secret key                 |   yes     |             |                             |       |
 | placeApiUrl                 | OS places API                           |   yes     |             |                             |       |
 | siteUrl                     | The apps URL                            |   yes     |             |                             |       |
 | functionAppUrl              | A URL to the App                        |   yes     |             |                             |       |

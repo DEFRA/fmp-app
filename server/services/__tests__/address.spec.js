@@ -46,7 +46,7 @@ describe('address', () => {
       const places = await findByPlace('/pickering')
       expect(places).toEqual(addressData)
       expect(axios.get).toHaveBeenCalledTimes(1)
-      expect(axios.get).toHaveBeenCalledWith(config.ordnanceSurvey.osNamesUrl.replace('maxresults=1&', 'maxresults=10&') + `/pickering&key=${config.ordnanceSurvey.osSearchKey}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village`)
+      expect(axios.get).toHaveBeenCalledWith(config.ordnanceSurvey.osNamesUrl.replace('maxresults=1&', 'maxresults=10&') + `/pickering&key=${config.ordnanceSurvey.osClientId}&fq=LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village`)
     })
 
     it('should return an empty array if payload does not exist', async () => {

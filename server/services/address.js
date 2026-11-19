@@ -1,6 +1,6 @@
 const axios = require('axios')
 const { config } = require('../../config')
-const { osNamesUrl, osSearchKey } = config.ordnanceSurvey
+const { osNamesUrl, osClientId } = config.ordnanceSurvey
 const fqFilter =
   'LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village'
 
@@ -18,7 +18,7 @@ const replaceCommonSearchTerms = (place) => shortNames[place?.toLowerCase()] || 
 
 const osNamesLookup = async (place) => {
   try {
-    const uri = `${osNamesUrl}${place}&key=${osSearchKey}&fq=${fqFilter}`
+    const uri = `${osNamesUrl}${place}&key=${osClientId}&fq=${fqFilter}`
       .replace('maxresults=1&', 'maxresults=10&')
     const response = await axios.get(uri)
     return response
@@ -79,7 +79,7 @@ module.exports = {
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
     try {
-      const uri = `${config.placeApi?.url}?point=${easting},${northing}&radius=1000&key=${config.ordnanceSurvey.osSearchKey}`
+      const uri = `${config.osPlaceUrl}?point=${easting},${northing}&radius=1000&key=${config.ordnanceSurvey.osPlacesClientId}`
       const response = await axios.get(uri)
       if (!response?.data?.results?.[0]) {
         console.error(`unable to get postcode for easting :${easting} and northing: ${northing}`)

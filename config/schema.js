@@ -36,18 +36,17 @@ const schema = Joi.object({
       osGetCapabilitiesUrl: Joi.string().required().allow(''),
       osMapsUrl: Joi.string().uri().required(),
       osNamesUrl: Joi.string().uri().required(),
-      osSearchKey: Joi.string().required().allow(''),
       osClientId: Joi.string().required().allow(''),
-      osClientSecret: Joi.string().required().allow('')
+      osClientSecret: Joi.string().required().allow(''),
+      osPlacesUrl: Joi.string().uri().required(),
+      osPlacesClientId: Joi.string().required().allow(''),
+      osPlacesClientSecret: Joi.string().required().allow('')
     }),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
   fmpProxyUrl: Joi.string(),
   proxyPrivateKey: Joi.string().custom(validatePrivateKey, 'base64 encoded PEM private key'),
   ceEmailReplaceMap: Joi.object().required(),
-  placeApi: Joi.object().required().keys({
-    url: Joi.string().uri().required()
-  }),
   agol: {
     clientId: Joi.string().required(),
     clientSecret: Joi.string().required(),
