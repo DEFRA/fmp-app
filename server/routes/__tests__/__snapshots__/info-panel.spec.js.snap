@@ -801,3 +801,69 @@ exports[`info-panel Surface Water should show the info panel for SW-pd-medium 1`
   Surface water information tells you the flood risk of the land around a building and cannot tell you if individual buildings are at risk.
 </p>"
 `;
+
+exports[`info-panel Water Storage should show the water storage info panel with a timeframe 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Water storage areas
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-undefined">
+        COORDS
+      </span>
+    </dd>
+  </div>
+</dl>
+
+<p id="info-water-storage-body" class="govuk-body-s">
+  This dataset shows water storage areas that act as a balancing reservoir, storage basin
+  or balancing pond. They help manage flooding by reducing fast, high flows so the downstream
+  channel is not overwhelmed.
+</p>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>
+"
+`;
+
+exports[`info-panel Water Storage should show the water storage info panel without a timeframe 1`] = `
+"<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:Water storage areas
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>Easting and northing</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s" id="info-sw-undefined">
+        COORDS
+      </span>
+    </dd>
+  </div>
+</dl>
+
+<p id="info-water-storage-body" class="govuk-body-s">
+  This dataset shows water storage areas that act as a balancing reservoir, storage basin
+  or balancing pond. They help manage flooding by reducing fast, high flows so the downstream
+  channel is not overwhelmed.
+</p>
+<p id="info-how-to-cc-url" class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>
+"
+`;
