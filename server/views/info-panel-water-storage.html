@@ -1,0 +1,36 @@
+{%- macro listRow(title, value, id) -%} {%- if value %}
+  <div class="govuk-summary-list__row">{% if SONAR %}<dl>{% endif %}
+    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+      <span class="govuk-body-s">
+        <strong>{{title}}</strong>
+      </span>
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <span class="govuk-body-s"{% if id %} id="{{id}}"{% endif %}>
+        {{value | nl2br | safe}}
+      </span>
+    </dd>{% if SONAR %}</dl>{% endif %}
+  </div>
+{% endif %}{% endmacro -%}
+
+{#- ******************************* TITLE      ******************************* -#}
+  {%- set title = "Water storage areas" -%}
+{#- ******************************* TITLE      ******************************* -#}
+
+<div id="info-title" class="govuk-visually-hidden" aria-hidden="true">
+  TITLE:{{title}}
+</div>
+<dl class="govuk-summary-list govuk-!-margin-bottom-3">
+  {{ listRow('Easting and northing', 'COORDS', gaId) -}}
+</dl>
+
+<p id='info-water-storage-body' class="govuk-body-s">
+  This dataset shows water storage areas that act as a balancing reservoir, storage basin
+  or balancing pond. They help manage flooding by reducing fast, high flows so the downstream
+  channel is not overwhelmed.
+</p>
+<p id='info-how-to-cc-url' class="govuk-body-s">
+  <a href="/how-to-use-flood-map-for-planning-data">
+    Find out more about flood map for planning data and how to use it
+  </a>
+</p>
