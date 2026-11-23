@@ -37,15 +37,11 @@ Node v18.x\
 | viewsIsCached               | If true the views of pages are cached   |   yes     |             |                             |       |
 | analyticsAccount            | GA ID                                   |   yes     | false       |                             |       |
 | logLevel                    | Alter which logs are visible            |    no     | error       |                             |       |
-| googleVerification         | GA verification hash key                 |   yes     |             |                             |       |
 | fpAppId                     |                                         |   yes     |             |                             |       |
-| httpTimeoutMs               | Timeout in ms                           |   yes     |             |                             |       |
-| ordnanceSurveyOsNamesUrl    | OS Names API                            |   yes     |             |                             |       |
 | ordnanceSurveyOsClientId    | OS map key                              |   yes     |             |                             |       |
 | ordnanceSurveyOsClientSecret| OS map secret key                       |   yes     |             |                             |       |
 | ordnanceSurveyOsPlacesClientId    | OS map key                        |   yes     |             |                             |       |
 | ordnanceSurveyOsPlacesClientSecret| OS map secret key                 |   yes     |             |                             |       |
-| placeApiUrl                 | OS places API                           |   yes     |             |                             |       |
 | siteUrl                     | The apps URL                            |   yes     |             |                             |       |
 | functionAppUrl              | A URL to the App                        |   yes     |             |                             |       |
 | agolClientId                | ESRI Client ID                          |   yes     |             |                             |       |
@@ -71,7 +67,6 @@ Node v18.x\
 | eamapsProduct1Password      | Internal user password for P1           |   yes     |             |                             |       |
 | product1EndPoint            | P1 URL endpoint                         |   yes     |             |                             |       |
 | tokenEndPoint               | Token generating for P1 endpoin         |   yes     |             |                             |       |
-| layerNameSuffix             | Layer name to use on DEFRA map          |   yes     |             |_NON_PRODUCTION,_Tile_Layer  |       |
 | riskAdminApiUrl             | Risk admin API URL                      |   yes     |             |                             |       |
 | forceRiskAdminApiResponse   | Toggle mock risk admin API response     |   yes     | false       |                             |       |
 

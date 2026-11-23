@@ -30,7 +30,7 @@ module.exports = {
       }
     },
     path: ['server/views', 'node_modules/govuk-frontend/dist/govuk', 'node_modules/govuk-frontend/dist/govuk/components/'],
-    isCached: !config.isDev,
+    isCached: true,
     context: {
       env: config.env,
       appVersion: pkg.version,

@@ -1,6 +1,5 @@
 require('./environment')
 const { validateSchema } = require('./schema')
-const { toBool } = require('./toBool')
 const year = 365 // days in a year
 const { allowedOrigins } = require('./allowedOrigins')
 
@@ -53,13 +52,8 @@ const config = {
     port: process.env.PORT
   },
   logLevel: process.env.logLevel || 'error',
-  views: {
-    isCached: toBool(process.env.viewsIsCached)
-  },
   analyticsAccount: process.env.analyticsAccount,
-  googleVerification: process.env.googleVerification,
   fbAppId: process.env.fbAppId,
-  httpTimeoutMs: process.env.httpTimeoutMs,
   ordnanceSurvey: {
     osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
     osClientId: process.env.ordnanceSurveyOsClientId,
