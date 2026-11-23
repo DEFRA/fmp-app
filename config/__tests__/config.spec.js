@@ -27,19 +27,18 @@ describe('Ensure config is correct', () => {
       httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
-        osGetCapabilitiesUrl: 'http://dummyuri',
-        osMapsUrl: 'http://dummyuri',
-        osNamesUrl: 'http://dummyuri',
-        osSearchKey: 'replace_this',
+        osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
         osClientId: 'replace_this',
-        osClientSecret: 'replace_this'
+        osClientSecret: 'replace_this',
+        osPlacesClientId: 'replace_this',
+        osPlacesClientSecret: 'replace_this',
+        osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest'
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
       proxyPrivateKey: process.env.proxyPrivateKey,
       ceEmailReplaceMap: { 'enquiries_thm@environment-agency.gov.uk': 'TH-WE-MAPPING-and-DATA@environment-agency.gov.uk' },
-      placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
         clientSecret: 'TEST_AGOL_CLIENT_SECRET',
@@ -118,19 +117,18 @@ describe('Ensure config is correct', () => {
       httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
-        osGetCapabilitiesUrl: 'http://dummyuri',
-        osMapsUrl: 'http://dummyuri',
-        osNamesUrl: 'http://dummyuri',
-        osSearchKey: 'replace_this',
+        osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
         osClientId: 'replace_this',
-        osClientSecret: 'replace_this'
+        osClientSecret: 'replace_this',
+        osPlacesClientId: 'replace_this',
+        osPlacesClientSecret: 'replace_this',
+        osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest'
       },
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
       proxyPrivateKey: process.env.proxyPrivateKey,
       ceEmailReplaceMap: {},
-      placeApi: { url: 'http://dummyuri' },
       agol: {
         clientId: 'TEST_AGOL_CLIENT_ID',
         clientSecret: 'TEST_AGOL_CLIENT_SECRET',

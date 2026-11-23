@@ -61,21 +61,18 @@ const config = {
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
   ordnanceSurvey: {
-    osGetCapabilitiesUrl: process.env.ordnanceSurveyOsGetCapabilitiesUrl,
-    osMapsUrl: process.env.ordnanceSurveyOsMapsUrl,
-    osNamesUrl: process.env.ordnanceSurveyOsNamesUrl,
-    osSearchKey: process.env.ordnanceSurveyOsSearchKey,
+    osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
     osClientId: process.env.ordnanceSurveyOsClientId,
-    osClientSecret: process.env.ordnanceSurveyOsClientSecret
+    osClientSecret: process.env.ordnanceSurveyOsClientSecret,
+    osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest',
+    osPlacesClientId: process.env.ordnanceSurveyOsPlacesClientId,
+    osPlacesClientSecret: process.env.ordnanceSurveyOsPlacesClientSecret
   },
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
   fmpProxyUrl: process.env.fmpProxyUrl,
   proxyPrivateKey: process.env.proxyPrivateKey,
   ceEmailReplaceMap: process.env.ceEmailReplaceMap ? JSON.parse(process.env.ceEmailReplaceMap) : {},
-  placeApi: {
-    url: process.env.placeApiUrl
-  },
   agol: {
     clientId: process.env.agolClientId,
     clientSecret: process.env.agolClientSecret,
@@ -106,9 +103,9 @@ const config = {
     product1EndPoint: getProduct1EndPoint(),
     tokenEndPoint: '/tokens/generateToken'
   },
-  defraMap: {
-    layerNameSuffix: isProduction() ? '_Tile_Layer' : process.env.layerNameSuffix,
-    featureLayerNameSuffix: isProduction() ? '' : process.env.layerNameSuffix
+  defraMap: { // defraMap is passed to the client - and is consumed by fmp-map, so never place any secrets in this section of the config.
+    layerNameSuffix: isProduction() ? '_Tile_Layer' : '_NON_PRODUCTION',
+    featureLayerNameSuffix: isProduction() ? '' : '_NON_PRODUCTION'
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl
