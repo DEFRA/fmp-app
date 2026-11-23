@@ -103,7 +103,7 @@ const config = {
     product1EndPoint: getProduct1EndPoint(),
     tokenEndPoint: '/tokens/generateToken'
   },
-  defraMap: {
+  defraMap: { // defraMap is passed to the client - and is consumed by fmp-map, so never place any secrets in this section of the config.
     layerNameSuffix: isProduction() ? '_Tile_Layer' : '_NON_PRODUCTION',
     featureLayerNameSuffix: isProduction() ? '' : '_NON_PRODUCTION'
   },
