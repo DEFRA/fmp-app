@@ -155,4 +155,28 @@ describe('info-panel', () => {
       })
     }))
   })
+
+  describe('Water Storage', () => {
+    const tests = [
+      ['without a timeframe', `${infoPanelUrl}?ds=waterstorage&v=123456`],
+      ['with a timeframe', `${infoPanelUrl}?ds=waterstorage&tf=pd&v=123456`]
+    ]
+
+    tests.forEach(([description, url]) => {
+      it(`should show the water storage info panel ${description}`, async () => {
+        await initDocument(url)
+        testTitle('Water storage areas')
+        expect(document.getElementById('info-water-storage-body').textContent).toContain('water storage areas')
+        testHowToUseUrl(true)
+        testFLoodZoneRow(false)
+        testAepRow(false)
+        testDepthRow(false)
+      })
+    })
+
+    it('should require a timeframe for other datasets', async () => {
+      const response = await submitGetRequest({ url: `${infoPanelUrl}?ds=sw&aep=low&v=123456` }, undefined, 400)
+      expect(response.statusCode).toEqual(400)
+    })
+  })
 })
