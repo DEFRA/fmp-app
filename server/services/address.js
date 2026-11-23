@@ -1,6 +1,6 @@
 const axios = require('axios')
 const { config } = require('../../config')
-const { osNamesUrl, osClientId } = config.ordnanceSurvey
+const { osNamesUrl, osClientId, osPlacesUrl, osPlacesClientId } = config.ordnanceSurvey
 const fqFilter =
   'LOCAL_TYPE:City%20LOCAL_TYPE:Hamlet%20LOCAL_TYPE:Other_Settlement%20LOCAL_TYPE:Suburban_Area%20LOCAL_TYPE:Town%20LOCAL_TYPE:PostCode%20LOCAL_TYPE:Village'
 
@@ -79,11 +79,12 @@ module.exports = {
   },
   getPostcodeFromEastingorNorthing: async (easting, northing) => {
     try {
-      const uri = `${config.osPlaceUrl}?point=${easting},${northing}&radius=1000&key=${config.ordnanceSurvey.osPlacesClientId}`
+      const uri = `${osPlacesUrl}?point=${easting},${northing}&radius=1000&key=${osPlacesClientId}`
       const response = await axios.get(uri)
       if (!response?.data?.results?.[0]) {
         console.error(`unable to get postcode for easting :${easting} and northing: ${northing}`)
       }
+      console.log(`response for easting: ${easting} and northing: ${northing}`, response?.data?.results?.[0]?.DPA?.POSTCODE)
       return response?.data?.results?.[0]?.DPA?.POSTCODE || ''
     } catch (error) {
       console.error(`unable to get postcode for easting: ${easting} and northing: ${northing}`, error)
