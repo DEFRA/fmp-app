@@ -40,9 +40,7 @@ Node v18.x\
 | googleVerification         | GA verification hash key                 |   yes     |             |                             |       |
 | fpAppId                     |                                         |   yes     |             |                             |       |
 | httpTimeoutMs               | Timeout in ms                           |   yes     |             |                             |       |
-| ordnanceSurveyOsGetCapabilitiesUrl | Flood warning API                |   yes     |             |                             |       |
 | ordnanceSurveyOsNamesUrl    | OS Names API                            |   yes     |             |                             |       |
-| ordnanceSurveyOsMapsUrl     | OS map API                              |   yes     |             |                             |       |
 | ordnanceSurveyOsClientId    | OS map key                              |   yes     |             |                             |       |
 | ordnanceSurveyOsClientSecret| OS map secret key                       |   yes     |             |                             |       |
 | ordnanceSurveyOsPlacesClientId    | OS map key                        |   yes     |             |                             |       |

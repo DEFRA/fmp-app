@@ -61,8 +61,6 @@ const config = {
   fbAppId: process.env.fbAppId,
   httpTimeoutMs: process.env.httpTimeoutMs,
   ordnanceSurvey: {
-    osGetCapabilitiesUrl: 'SERVICE=WMTS&request=getcapabilities&VERSION=1.0.0&URL=https://flood-warning-information.service.gov.uk/',
-    osMapsUrl: 'https://api.os.uk/maps/raster/v1/wmts',
     osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
     osClientId: process.env.ordnanceSurveyOsClientId,
     osClientSecret: process.env.ordnanceSurveyOsClientSecret,
@@ -106,8 +104,8 @@ const config = {
     tokenEndPoint: '/tokens/generateToken'
   },
   defraMap: {
-    layerNameSuffix: isProduction() ? '_Tile_Layer' : process.env.layerNameSuffix,
-    featureLayerNameSuffix: isProduction() ? '' : process.env.layerNameSuffix
+    layerNameSuffix: isProduction() ? '_Tile_Layer' : '_NON_PRODUCTION',
+    featureLayerNameSuffix: isProduction() ? '' : '_NON_PRODUCTION'
   },
   riskAdminApi: {
     url: process.env.riskAdminApiUrl

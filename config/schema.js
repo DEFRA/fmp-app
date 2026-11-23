@@ -33,8 +33,6 @@ const schema = Joi.object({
   ordnanceSurvey: Joi.object()
     .required()
     .keys({
-      osGetCapabilitiesUrl: Joi.string().required().allow(''),
-      osMapsUrl: Joi.string().uri().required(),
       osNamesUrl: Joi.string().uri().required(),
       osClientId: Joi.string().required().allow(''),
       osClientSecret: Joi.string().required().allow(''),

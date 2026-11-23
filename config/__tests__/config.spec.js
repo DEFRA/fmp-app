@@ -27,8 +27,6 @@ describe('Ensure config is correct', () => {
       httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
-        osGetCapabilitiesUrl: 'SERVICE=WMTS&request=getcapabilities&VERSION=1.0.0&URL=https://flood-warning-information.service.gov.uk/',
-        osMapsUrl: 'https://api.os.uk/maps/raster/v1/wmts',
         osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
         osClientId: 'replace_this',
         osClientSecret: 'replace_this',
@@ -119,8 +117,6 @@ describe('Ensure config is correct', () => {
       httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
-        osGetCapabilitiesUrl: 'SERVICE=WMTS&request=getcapabilities&VERSION=1.0.0&URL=https://flood-warning-information.service.gov.uk/',
-        osMapsUrl: 'https://api.os.uk/maps/raster/v1/wmts',
         osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
         osClientId: 'replace_this',
         osClientSecret: 'replace_this',
