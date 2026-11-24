@@ -266,7 +266,7 @@ data-module="govuk-service-navigation"
     <p>There are different services to get information in the following locations:</p>
     <ul>
       <li>
-        <a href="http://www.sepa.org.uk/environment/water/flooding" rel="external"
+        <a href="https://map.sepa.org.uk/floodmaps" rel="external"
           data-journey-click="England-Only:External-Link:Scotland">
           flood risk in Scotland</a>
       </li>
