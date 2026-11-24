@@ -3,7 +3,7 @@ import { pages } from '../../pages/index.js'
 
 test.describe('Footer Links', { tag: '@noDeps' }, () => {
   test.beforeEach(async ({ steps }) => {
-    await steps.open(pages.home.page)
+    await steps.open(pages.location.page)
   })
 
   test('navigates to Accessibility statement and shows correct title', async ({ steps }) => {

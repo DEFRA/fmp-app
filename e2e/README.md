@@ -30,7 +30,7 @@ pages/                        ← Page definitions & control factories
 import { test } from '../../fixtures.js'
 
 test('example', async ({ steps, mapSteps, pdfDriver }) => {
-  await steps.open(pages.home.page)
+  await steps.open(pages.location.page)
   // ...
 })
 ```
@@ -146,8 +146,8 @@ import { definePage } from './.utils/page.js'
 import { radioOption, errorText } from './.utils/form-controls.js'
 
 export const page = definePage({
-  slug: '/triage',
-  title: 'What flood information do you need?'
+  slug: '/location',
+  title: 'Find the location'
 })
 
 export const planningOption = radioOption('For planning purposes or scoping a site')
@@ -171,9 +171,11 @@ for (const { search } of invalidLocationData.invalidPostcodeSearchData) {
 The end-to-end journey test uses `test.step()` to break the flow into named phases, which appear as collapsible sections in the HTML report and trace viewer:
 
 ```js
-await test.step('Home → Triage', async () => {
-  await steps.open(pages.home.page)
-  await steps.clickButton(pages.home.startButton)
+await test.step('Location → Map', async () => {
+  await steps.open(pages.location.page)
+  await steps.choose(pages.location.findByPostcode)
+  await steps.type(pages.location.placeOrPostcodeInput, locationData.zone1Postcode)
+  await steps.submit()
 })
 ```
 
