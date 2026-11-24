@@ -4,17 +4,9 @@ import { locationData } from '../data/location-data.js'
 import { userData } from '../data/user-data.js'
 
 test.describe('End-to-end planning journey', () => {
-  test('completes the journey from home to confirmation', { tag: '@e2e' }, async ({ steps, mapSteps }) => {
-    await test.step('Home → Triage', async () => {
-      await steps.open(pages.home.page)
-      await steps.clickButton(pages.home.startButton)
-    })
-
-    await test.step('Triage → Location', async () => {
-      await steps.chooseAndSubmit(pages.triage.planningOption)
-    })
-
+  test('completes the journey from location to confirmation', { tag: '@e2e' }, async ({ steps, mapSteps }) => {
     await test.step('Location → Map', async () => {
+      await steps.open(pages.location.page)
       await steps.choose(pages.location.findByPostcode)
       await steps.type(pages.location.placeOrPostcodeInput, locationData.zone1Postcode)
       await steps.submit()

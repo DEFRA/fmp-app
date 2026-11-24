@@ -3,18 +3,18 @@ import { pages } from '../../pages/index.js'
 
 test.describe('Header Links', { tag: '@noDeps' }, () => {
   test.beforeEach(async ({ steps }) => {
-    await steps.open(pages.home.page)
+    await steps.open(pages.location.page)
   })
 
-  test('navigates to Flood map for planning and shows correct title', async ({ steps }) => {
+  test('navigates to Flood map for planning page', { tag: '@urlCheck' }, async ({ steps }) => {
     await steps.clickLink(pages.header.floodMapForPlanningLink)
-    await steps.expectOn(pages.home.page)
+    await steps.expectUrlContains('/get-flood-risk-information-for-planning-application')
   })
 })
 
 test.describe('Header Links - external links', { tag: '@urlCheck' }, () => {
   test.beforeEach(async ({ steps }) => {
-    await steps.open(pages.home.page)
+    await steps.open(pages.location.page)
   })
 
   test('navigates to Feedback and shows correct title', async ({ steps }) => {
