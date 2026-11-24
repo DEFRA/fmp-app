@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% set pageTitle = 'Get flood risk information for planning in England' %}
+{% set pageTitle = 'Get flood risk information for a planning application in England' %}
 
 {% block content %}
 {{ super() }}
@@ -8,35 +8,36 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
-    <p class="govuk-body">
-      Use this service to get flood risk information for planning applications (also known as
-      planning permission).
-    </p>
-
     <p class="govuk-body">You can use this service to:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>find out if you need a flood risk assessment as part of a planning application </li>
-      <li>download a printable flood map for planning </li>
-      <li>order detailed flood risk data </li>
+      <li>check which flood zone a location is in</li>
+      <li>view, download and print a flood map for planning</li>
+      <li>find out if you need a flood risk assessment as part of a planning application</li>
+      <li>request detailed flood risk information from the Environment Agency</li>
     </ul>
 
-    <p class="govuk-body">
-      <a href="/how-to-use-flood-map-for-planning-data">
-        Find out more about flood map for planning data and how it should be used
-      </a>
-    </p>
-
     <div class="govuk-inset-text">
-      The material displayed in this service, including maps and risk data,
-      is provided without any guarantees, conditions or warranties as to its accuracy. See our
-      <a href="/terms-and-conditions" class="govuk-link" data-journey-click="terms-and-conditions:Internal-Link">
-        terms and conditions
-      </a>
-      for more information.
+      Check the
+      <a href="https://map.sepa.org.uk/floodmaps" class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Scotland">flood risk in Scotland</a>,
+      <a href="https://naturalresources.wales/splash?orig=%2fflooding%2fcheck-your-flood-risk-by-postcode%2f&lang=cy" class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Wales">flood risk in Wales</a> or
+      <a href="https://www.nidirect.gov.uk/articles/check-risk-flooding-your-area" class="govuk-link"
+        rel="external"
+        data-journey-click="England-Only:External-Link:Northern-Ireland">flood risk in Northern
+        Ireland</a>
     </div>
 
-    <a href="location" role="button" draggable="false"
+    <h2 class="govuk-heading-m">Check flood map online</h2>
+
+    <p class="govuk-body">
+      Use this service to view areas with a flooding risk in your area.
+    </p>
+
+    <a href="/location" role="button" draggable="false"
       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
       data-journey-click="Home-Page:Internal-Link:Start-Now" data-module="govuk-button">
       Start now
@@ -46,42 +47,7 @@
       </svg>
     </a>
 
-    <p class="govuk-body">
-      There are different services to get information on the
-      <a href="http://www.sepa.org.uk/environment/water/flooding"class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Scotland">flood risk in Scotland</a>,
-      <a href="https://naturalresources.wales" class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Wales">flood risk in Wales</a> or
-      <a href="https://www.nidirect.gov.uk/articles/check-the-risk-of-flooding-in-your-area" class="govuk-link"
-        rel="external"
-        data-journey-click="England-Only:External-Link:Northern-Ireland">flood risk in Northern
-        Ireland</a>
-    </p>
-
-    <h2 class="govuk-heading-m">
-      Flood risk assessments
-    </h2>
-
-    <p class="govuk-body">You’ll usually need a flood risk consultant to carry out a flood risk assessment. If it’s
-      for a simple, low risk development like a house extension you may be able to do it yourself.
-    </p>
-
-    <p class="govuk-body">
-      <a
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#when-you-need-a-flood-risk-assessment">
-        Find out more about flood risk assessments for planning permission
-      </a>
-    </p>
-
-    <p class="govuk-body">If you’re unsure
-      <a class="govuk-link" data-journey-click="Home-Page:External-Link:FRA-for-Planning-Contact"
-        href="https://www.gov.uk/guidance/flood-risk-assessment-for-planning-applications#contact-the-environment-agency">
-        contact the Environment Agency
-      </a>.
-    </p>
-    <h2 class="govuk-heading-m">Other ways to get this information</h2>
+    <h2 class="govuk-heading-m">Get help to find out about a flood risk in your area</h2>
     <p class="govuk-body">
       For help getting flood risk information, contact the Environment Agency.
     </p>
