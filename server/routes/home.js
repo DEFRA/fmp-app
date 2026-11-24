@@ -17,7 +17,7 @@ module.exports = [
         } catch (error) {
           console.error('Error getting host and protocol:', error)
         }
-        return h.view('home', { allowRobots: true })
+        return h.view('home')
       }
     }
   }

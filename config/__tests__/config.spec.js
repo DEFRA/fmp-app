@@ -19,12 +19,9 @@ describe('Ensure config is correct', () => {
       env: 'local',
       appType: 'internal',
       server: { port: '8050' },
-      views: { isCached: false },
       allowedOrigins: {},
       analyticsAccount: 'replace_this',
-      googleVerification: 'replace_this',
       fbAppId: 'replace_this',
-      httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
         osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',
@@ -102,7 +99,6 @@ describe('Ensure config is correct', () => {
       env: 'prod',
       appType: 'internal',
       server: { port: '8050' },
-      views: { isCached: false },
       allowedOrigins: {
         'flood-map-for-planning.service.gov.uk': 'flood-map-for-planning.service.gov.uk',
         'fmp-internal.prd.defra.cloud': 'fmp-internal.prd.defra.cloud',
@@ -112,9 +108,7 @@ describe('Ensure config is correct', () => {
         'fmp2-prd-green.aws.defra.cloud': 'fmp2-prd-green.aws.defra.cloud',
       },
       analyticsAccount: 'replace_this',
-      googleVerification: 'replace_this',
       fbAppId: 'replace_this',
-      httpTimeoutMs: '3000',
       logLevel: 'error',
       ordnanceSurvey: {
         osNamesUrl: 'https://api.os.uk/search/names/v1/find?maxresults=1&query=',

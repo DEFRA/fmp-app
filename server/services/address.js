@@ -84,7 +84,6 @@ module.exports = {
       if (!response?.data?.results?.[0]) {
         console.error(`unable to get postcode for easting :${easting} and northing: ${northing}`)
       }
-      console.log(`response for easting: ${easting} and northing: ${northing}`, response?.data?.results?.[0]?.DPA?.POSTCODE)
       return response?.data?.results?.[0]?.DPA?.POSTCODE || ''
     } catch (error) {
       console.error(`unable to get postcode for easting: ${easting} and northing: ${northing}`, error)

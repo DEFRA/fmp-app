@@ -28,8 +28,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>
@@ -587,8 +586,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>
@@ -1146,8 +1144,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>
@@ -1705,8 +1702,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>
@@ -2264,8 +2260,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>
@@ -2823,8 +2818,7 @@ exports[`Check your details page GET Should serve contact view with error messag
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
   <meta property="description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta name="google-site-verification" content="hjukuejt64a0rbduxxtbniknb4_cz3x3hlxoxk4_ox8"/>
-  
-    <meta name="robots" content="noindex"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <link href="/assets/application.css" rel="stylesheet"/>
     
   </head>

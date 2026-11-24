@@ -23,13 +23,8 @@ const schema = Joi.object({
   allowedOrigins: Joi.object().required(),
   server: serverSchema,
   logLevel: Joi.string().valid('error', 'warn', 'info', 'debug').default('error'),
-  views: Joi.object().required().keys({
-    isCached: Joi.boolean().strict().required()
-  }),
   analyticsAccount: Joi.string().required().allow(''),
-  googleVerification: Joi.string().required().allow(''),
   fbAppId: Joi.string().required().allow(''),
-  httpTimeoutMs: Joi.number().required().min(0).max(30000),
   ordnanceSurvey: Joi.object()
     .required()
     .keys({
