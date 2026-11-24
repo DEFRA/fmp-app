@@ -38,7 +38,7 @@ const schema = Joi.object({
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
   fmpProxyUrl: Joi.string(),
-  proxyPrivateKey: Joi.string().custom(validatePrivateKey, 'base64 encoded PEM private key'),
+  proxyPrivateKey: Joi.string().required().custom(validatePrivateKey, 'base64 encoded PEM private key'),
   ceEmailReplaceMap: Joi.object().required(),
   agol: {
     clientId: Joi.string().required(),
