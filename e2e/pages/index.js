@@ -1,6 +1,4 @@
 import * as location from './location.page.js'
-import * as home from './home.page.js'
-import * as triage from './triage.page.js'
 import * as contact from './contact.page.js'
 import * as checkYourDetails from './check-your-details.page.js'
 import * as confirmation from './confirmation.page.js'
@@ -23,8 +21,6 @@ import * as header from './common/header.page.js'
 
 export const pages = {
   location,
-  home,
-  triage,
   contact,
   checkYourDetails,
   confirmation,

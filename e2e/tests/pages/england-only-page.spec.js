@@ -18,17 +18,17 @@ test.describe('England only page - external links', { tag: '@urlCheck' }, () => 
   })
 
   test('navigates to Scotland flood risk page when clicking the link', async ({ steps }) => {
-    await steps.clickLink(pages.home.scotlandFloodRiskLink)
+    await steps.clickLink(pages.englandOnly.scotlandFloodRiskLink)
     await steps.expectUrlContains('sepa.scot')
   })
 
   test('navigates to Wales flood risk page when clicking the link', async ({ steps }) => {
-    await steps.clickLink(pages.home.walesFloodRiskLink)
+    await steps.clickLink(pages.englandOnly.walesFloodRiskLink)
     await steps.expectUrlContains('naturalresources.wales')
   })
 
   test('navigates to Northern Ireland flood risk page when clicking the link', async ({ steps }) => {
-    await steps.clickLink(pages.home.northernIrelandFloodRiskLink)
+    await steps.clickLink(pages.englandOnly.northernIrelandFloodRiskLink)
     await steps.expectUrlContains('nidirect.gov.uk')
   })
 })
