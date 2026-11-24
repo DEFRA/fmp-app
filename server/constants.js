@@ -1,6 +1,5 @@
 // Routes and Views
 const HOME = 'home'
-const TRIAGE = 'triage'
 const LOCATION = 'location'
 const ENGLAND_ONLY = 'england-only'
 const MAP = 'map'
@@ -11,9 +10,6 @@ const CHECK_YOUR_DETAILS = 'check-your-details'
 const HOW_TO_USE_FLOOD_MAP_FOR_PLANNING_DATA = 'how-to-use-flood-map-for-planning-data'
 const CONFIRMATION = 'confirmation'
 const OS_ACCOUNT_NUMBER = 'AC0000807064'
-const CYLTFRIURL = 'https://www.gov.uk/check-long-term-flood-risk'
-const FLOOD_HISTORY_URL = 'https://www.gov.uk/request-flooding-history'
-const FLOOD_EXTREME_WEATHER_URL = 'https://www.gov.uk/browse/environment-countryside/flooding-extreme-weather'
 const FLOOD_ZONE_RESULTS_EXPLAINED = 'flood-zone-results-explained'
 const COOKIES = 'cookies'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
@@ -27,7 +23,6 @@ const UPLOAD = 'upload'
 
 const views = {
   HOME,
-  TRIAGE,
   LOCATION,
   ENGLAND_ONLY,
   MAP,
@@ -74,21 +69,12 @@ const esriStatusCodes = {
   INVALID_TOKEN_CODE: 498
 }
 
-const triageRoutes = {
-  location: routes.LOCATION,
-  'buy-sell': CYLTFRIURL,
-  'flood-history': FLOOD_HISTORY_URL,
-  insurance: CYLTFRIURL,
-  other: FLOOD_EXTREME_WEATHER_URL
-}
-
 const maxAreaInHectares = 300
 
 module.exports = Object.freeze({
   routes,
   views,
   statusCodes,
-  triageRoutes,
   esriStatusCodes,
   OS_ACCOUNT_NUMBER,
   maxAreaInHectares
