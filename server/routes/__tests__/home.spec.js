@@ -1,8 +1,6 @@
 const { submitGetRequest } = require('../../__test-helpers__/server')
 const { assertCopy } = require('../../__test-helpers__/copy')
 
-const getHostAndProtocolSpy = jest.spyOn(require('../../services/getHostAndProtocol'), 'getHostAndProtocol')
-
 const url = '/'
 describe('home route', () => {
   let response
@@ -27,26 +25,33 @@ describe('home route', () => {
     assertCopy('footer.govuk-footer', 'AC0000807064')
   })
 
-  describe('getHostAndProtocol error handling', () => {
-    let consoleErrorSpy
+  describe('when homePageRedirectUrl is configured', () => {
+    const redirectUrl = 'https://www.gov.uk/check-flooding'
 
-    beforeEach(() => {
-      // setup.js restores console.error after each test, so the spy must be created per test
-      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-      getHostAndProtocolSpy.mockImplementation(() => {
-        throw new Error('Test error')
+    const getHandler = () => {
+      let handler
+      jest.isolateModules(() => {
+        jest.doMock('../../../config', () => ({ config: { homePageRedirectUrl: redirectUrl } }))
+        handler = require('../home')[0].options.handler
       })
-    })
+      return handler
+    }
 
     afterEach(() => {
-      getHostAndProtocolSpy.mockRestore()
+      jest.dontMock('../../../config')
     })
 
-    it('should still work if getHostAndProtocol throws an error', async () => {
-      response = await submitGetRequest({ url }, 'Get flood risk information for a planning application in England')
-      expect(getHostAndProtocolSpy).toHaveBeenCalled()
-      expect(response.statusCode).toEqual(200)
-      expect(consoleErrorSpy).toHaveBeenCalled()
+    it('should permanently redirect (301) to the configured url', async () => {
+      const permanent = jest.fn().mockReturnValue('redirected')
+      const redirect = jest.fn().mockReturnValue({ permanent })
+      const view = jest.fn()
+
+      const result = await getHandler()({}, { redirect, view })
+
+      expect(redirect).toHaveBeenCalledWith(redirectUrl)
+      expect(permanent).toHaveBeenCalled()
+      expect(view).not.toHaveBeenCalled()
+      expect(result).toBe('redirected')
     })
   })
 })

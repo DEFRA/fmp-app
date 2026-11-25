@@ -4,6 +4,9 @@ const year = 365 // days in a year
 const { allowedOrigins } = require('./allowedOrigins')
 
 const agolRofrsDepthOrExtents = process.env.agolRofrsDepthOrExtents || 'Depth'
+const env = process.env.ENV
+const appType = process.env.fmpAppType
+const { GOV_UK_HOME_PAGE } = require('../server/constants')
 
 const agolEndpoints = {
   customerTeamEndPoint: '/Flood_Map_for_Planning_Query_Service_NON_PRODUCTION/FeatureServer/0',
@@ -25,7 +28,7 @@ const agolEndpoints = {
   surfaceWaterClimateChange1In1000EndPoint: '/Surface_Water_Spatial_Planning_1_in_1000_CCP1_Depths_NON_PRODUCTION/FeatureServer/0'
 }
 
-const isProduction = () => process.env.ENV === 'prod'
+const isProduction = () => env === 'prod'
 
 const productioniseEndpoint = (endpoint) => {
   if (!isProduction()) {
@@ -44,9 +47,16 @@ const getProduct1EndPoint = () => {
   return '/rest/services/FMfP/FMFPGetProduct1-DevTest/GPServer/fmfp_get_product1/execute'
 }
 
+const getHomePageRedirectUrl = () => {
+  if (isProduction() && appType === 'public') {
+    return GOV_UK_HOME_PAGE
+  }
+  return null
+}
+
 const config = {
-  env: process.env.ENV,
-  appType: process.env.fmpAppType,
+  env,
+  appType,
   allowedOrigins,
   server: {
     port: process.env.PORT
@@ -62,6 +72,7 @@ const config = {
     osPlacesClientId: process.env.ordnanceSurveyOsPlacesClientId,
     osPlacesClientSecret: process.env.ordnanceSurveyOsPlacesClientSecret
   },
+  homePageRedirectUrl: getHomePageRedirectUrl(),
   siteUrl: process.env.siteUrl,
   functionAppUrl: process.env.functionAppUrl,
   fmpProxyUrl: process.env.fmpProxyUrl,

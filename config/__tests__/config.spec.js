@@ -1,4 +1,5 @@
 const { toBool } = require('../toBool')
+const { GOV_UK_HOME_PAGE } = require('../../server/constants')
 
 describe('Ensure config is correct', () => {
   beforeEach(() => {
@@ -31,6 +32,7 @@ describe('Ensure config is correct', () => {
         osPlacesClientSecret: 'replace_this',
         osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest'
       },
+      homePageRedirectUrl: null,
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
@@ -89,15 +91,19 @@ describe('Ensure config is correct', () => {
     expect(config).toStrictEqual(expectedConfig)
   })
 
-  it('test config values in production', () => {
+  it.each([
+    ['public', GOV_UK_HOME_PAGE],
+    ['internal', null]
+  ])('test config values in production for %s app', (appType, homePageRedirectUrl) => {
     jest.resetModules()
     process.env.ENV = 'prod'
+    process.env.fmpAppType = appType
     process.env.agolRofrsDepthOrExtents = 'Extents'
     process.env.ceEmailReplaceMap = ''
     const { config } = require('../index')
     const expectedConfig = {
       env: 'prod',
-      appType: 'internal',
+      appType,
       server: { port: '8050' },
       allowedOrigins: {
         'flood-map-for-planning.service.gov.uk': 'flood-map-for-planning.service.gov.uk',
@@ -118,6 +124,7 @@ describe('Ensure config is correct', () => {
         osPlacesClientSecret: 'replace_this',
         osPlacesUrl: 'https://api.os.uk/search/places/v1/nearest'
       },
+      homePageRedirectUrl,
       siteUrl: 'http://dummyuri',
       functionAppUrl: 'http://dummyuri',
       fmpProxyUrl: 'http://localhost:3005',
