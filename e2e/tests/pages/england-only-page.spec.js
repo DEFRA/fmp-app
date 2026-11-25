@@ -19,7 +19,7 @@ test.describe('England only page - external links', { tag: '@urlCheck' }, () => 
 
   test('navigates to Scotland flood risk page when clicking the link', async ({ steps }) => {
     await steps.clickLink(pages.englandOnly.scotlandFloodRiskLink)
-    await steps.expectUrlContains('sepa.scot')
+    await steps.expectUrlContains('floodmaps')
   })
 
   test('navigates to Wales flood risk page when clicking the link', async ({ steps }) => {

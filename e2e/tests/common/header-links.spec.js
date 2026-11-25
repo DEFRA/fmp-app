@@ -7,6 +7,7 @@ test.describe('Header Links', { tag: '@noDeps' }, () => {
   })
 
   test('navigates to Flood map for planning page', { tag: '@urlCheck' }, async ({ steps }) => {
+    test.skip(!['prod', 'prd-green', 'prd-blue'].includes(process.env.TEST_ENV), 'Link only resolves in prod')
     await steps.clickLink(pages.header.floodMapForPlanningLink)
     await steps.expectUrlContains('/get-flood-risk-information-for-planning-application')
   })
