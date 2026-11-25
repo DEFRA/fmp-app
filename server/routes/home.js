@@ -1,4 +1,5 @@
-const { getHostAndProtocol } = require('../services/getHostAndProtocol')
+const { config } = require('../../config')
+const { homePageRedirectUrl } = config
 
 module.exports = [
   {
@@ -7,15 +8,8 @@ module.exports = [
     options: {
       description: 'Home Page',
       handler: async (request, h) => {
-        try {
-          // The call to getHostAndProtocol is here just to check whether we
-          // get any errors  in the logs which may require fixing prior to
-          // v3.9 with the proxy.
-          // If we see any "Unable to resolve host and protocol", we will
-          // need to address it before release the proxy.
-          getHostAndProtocol(request)
-        } catch (error) {
-          console.error('Error getting host and protocol:', error)
+        if (homePageRedirectUrl) {
+          return h.redirect(homePageRedirectUrl).permanent()
         }
         return h.view('home')
       }

@@ -35,6 +35,7 @@ const schema = Joi.object({
       osPlacesClientId: Joi.string().required().allow(''),
       osPlacesClientSecret: Joi.string().required().allow('')
     }),
+  homePageRedirectUrl: Joi.string().uri().allow(null),
   siteUrl: Joi.string().uri().required(),
   functionAppUrl: Joi.string().required(),
   fmpProxyUrl: Joi.string(),

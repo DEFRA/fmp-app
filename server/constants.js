@@ -71,11 +71,14 @@ const esriStatusCodes = {
 
 const maxAreaInHectares = 300
 
+const GOV_UK_HOME_PAGE = 'https://www.gov.uk/get-flood-risk-information-for-planning-application'
+
 module.exports = Object.freeze({
   routes,
   views,
   statusCodes,
   esriStatusCodes,
   OS_ACCOUNT_NUMBER,
-  maxAreaInHectares
+  maxAreaInHectares,
+  GOV_UK_HOME_PAGE
 })
