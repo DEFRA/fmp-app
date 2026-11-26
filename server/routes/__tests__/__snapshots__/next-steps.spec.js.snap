@@ -22,7 +22,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/next-steps?polygon=%5B%5B9323,1323%5D,%5B9323,1324%5D,%5B9324,1324%5D,%5B9324,1323%5D,%5B9323,1323%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/next-steps?polygon=%5B%5B309323,301323%5D,%5B309323,301324%5D,%5B309324,301324%5D,%5B309324,301323%5D,%5B309323,301323%5D%5D"/>
   <meta property="og:title" content="Next steps for your planning application - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -47,7 +47,7 @@ exports[`next-steps on internal should show the "Order flood risk data" for opte
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/next-steps?polygon=[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]">
+  <input type="hidden" name="returnUrl" value="/next-steps?polygon=[[309323,301323],[309323,301324],[309324,301324],[309324,301323],[309323,301323]]">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -291,7 +291,7 @@ data-module="govuk-service-navigation"
 
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=1323.5&map=Reservoirs">
+          <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=309323.5&northing=301323.5&map=Reservoirs">
             reservoir flood risk
           </a>
         </li>
@@ -352,7 +352,7 @@ data-module="govuk-service-navigation"
   <div class="govuk-details__text">
     <form class="form" id="product-1-form" method="POST" action="product-1">
       <input type="hidden" name="crumb" value="">
-      <input name="polygon" type="hidden" value="_mafqv@_m}i{F?_ibE_ibE??~hbE~hbE?" />
+      <input name="polygon" type="hidden" value="_mwturx@_msx_cw@?_ibE_ibE??~hbE~hbE?" />
       <input name="isRiskAdminArea" type="hidden" value="false" />
       <input name="floodZone" type="hidden" value="3" />
 
@@ -411,7 +411,7 @@ data-module="govuk-service-navigation"
   <p class="govuk-body">Order detailed flood risk information to be used for a flood risk assessment as part of a planning application.</p>
   
   <br>
-  <a id="orderP4Button" href="contact?encodedPolygon=_mafqv@_m}i{F?_ibE_ibE??~hbE~hbE?" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
+  <a id="orderP4Button" href="contact?encodedPolygon=_mwturx@_msx_cw@?_ibE_ibE??~hbE~hbE?" class="govuk-button" data-module="govuk-button" data-testid="order-product4">
     Order flood risk data
   </a>
   <p class="govuk-body" >
@@ -588,7 +588,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/next-steps?polygon=%5B%5B9323,1323%5D,%5B9323,1324%5D,%5B9324,1324%5D,%5B9324,1323%5D,%5B9323,1323%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/next-steps?polygon=%5B%5B309323,301323%5D,%5B309323,301324%5D,%5B309324,301324%5D,%5B309324,301323%5D,%5B309323,301323%5D%5D"/>
   <meta property="og:title" content="Next steps for your planning application - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -613,7 +613,7 @@ exports[`next-steps on public should show the "Order flood risk data" for opted 
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/next-steps?polygon=[[9323,1323],[9323,1324],[9324,1324],[9324,1323],[9323,1323]]">
+  <input type="hidden" name="returnUrl" value="/next-steps?polygon=[[309323,301323],[309323,301324],[309324,301324],[309324,301323],[309323,301323]]">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -857,7 +857,7 @@ data-module="govuk-service-navigation"
 
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=9323.5&northing=1323.5&map=Reservoirs">
+          <a class="govuk-link" href="https://check-long-term-flood-risk.service.gov.uk/map?easting=309323.5&northing=301323.5&map=Reservoirs">
             reservoir flood risk
           </a>
         </li>
@@ -918,7 +918,7 @@ data-module="govuk-service-navigation"
   <div class="govuk-details__text">
     <form class="form" id="product-1-form" method="POST" action="product-1">
       <input type="hidden" name="crumb" value="">
-      <input name="polygon" type="hidden" value="_mafqv@_m}i{F?_ibE_ibE??~hbE~hbE?" />
+      <input name="polygon" type="hidden" value="_mwturx@_msx_cw@?_ibE_ibE??~hbE~hbE?" />
       <input name="isRiskAdminArea" type="hidden" value="false" />
       <input name="floodZone" type="hidden" value="3" />
 

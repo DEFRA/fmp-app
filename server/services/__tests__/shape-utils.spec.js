@@ -93,9 +93,9 @@ describe('shape-utils - getArea/getAreaInHectares', () => {
   })
 })
 describe('shape-utils - encode / decode polygon', () => {
-  const polygon = [[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]
+  const polygon = [[300111, 300111], [300111, 300112], [300112, 300112], [300112, 300111], [300111, 300111]]
   const encodedPolygon = encode(polygon)
-  const polygonString = '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
+  const polygonString = '[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]'
 
   describe('shape-utils - encodePolygon', () => {
     it('should process polygons into objects if they come through as arrays', async () => {
@@ -113,6 +113,40 @@ describe('shape-utils - encode / decode polygon', () => {
     it('should decode encoded polygon if a encodedPolygon is parsed', async () => {
       expect(checkParamsForPolygon({ encodedPolygon })).toEqual({ encodedPolygon, polygon: polygonString })
     })
+  })
+})
+
+describe('shape-utils - coordinate validation', () => {
+  const ring = (...points) => JSON.stringify([[300000, 300000], ...points, [300000, 300000]])
+
+  it.each([
+    ['1e308', ring([300000, 1e308], [1e308, 1e308])],
+    ['a coordinate west of England', ring([79999, 300000], [300010, 300010])],
+    ['a coordinate east of England', ring([660001, 300000], [300010, 300010])],
+    ['a coordinate south of England', ring([300000, -1], [300010, 300010])],
+    ['a coordinate north of England', ring([300000, 660001], [300010, 300010])],
+    ['a non-numeric coordinate', ring([300000, 'abc'], [300010, 300010])],
+    ['an empty string coordinate', ring([300000, ''], [300010, 300010])],
+    ['a null coordinate', ring([300000, null], [300010, 300010])],
+    ['a point with a missing coordinate', ring([300000], [300010, 300010])],
+    ['a point that is not an array', ring(5, [300010, 300010])]
+  ])('checkParamsForPolygon rejects %s in the polygon parameter', (_description, polygon) => {
+    expect(() => checkParamsForPolygon({ polygon })).toThrow('Polygon coordinates must be numbers within the map extent')
+  })
+
+  it('checkParamsForPolygon accepts numeric strings and points on the England extent edge', () => {
+    const polygon = '[[80000,0],["660000",0],[660000,660000],[80000,660000],[80000,0]]'
+    expect(checkParamsForPolygon({ polygon, encode: false }).polygon).toBe(polygon)
+  })
+
+  it('decodes a polygon within range from an encoded polygon', () => {
+    const polygon = [[300000, 500000], [300010, 500000], [300010, 500010], [300000, 500000]]
+    expect(JSON.parse(checkParamsForPolygon({ encodedPolygon: encode(polygon) }).polygon)).toEqual(polygon)
+  })
+
+  it('rejects an encoded polygon whose decoded coordinates are out of range', () => {
+    const encodedPolygon = encode([[0, 0], [0, 99999999], [99999999, 99999999], [0, 0]])
+    expect(() => checkParamsForPolygon({ encodedPolygon })).toThrow('Polygon coordinates must be numbers within the map extent')
   })
 })
 

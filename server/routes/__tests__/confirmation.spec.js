@@ -4,9 +4,9 @@ const {
 } = require('../../__test-helpers__/server')
 const { encode } = require('@mapbox/polyline')
 const url = '/confirmation'
-const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
+const encodedPolygon = encode([[300111, 300111], [300111, 300112], [300112, 300112], [300112, 300111], [300111, 300111]])
 const encodedPolygonParam = `encodedPolygon=${encodedPolygon}`
-const polygonParam = 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]'
+const polygonParam = 'polygon=[[300111,300111], [300111,300112], [300112,300112], [300112,300111], [300111,300111]]'
 
 describe('confirmation', () => {
   beforeEach(() => {

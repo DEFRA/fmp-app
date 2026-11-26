@@ -7,10 +7,10 @@ const {
 const constants = require('../../constants')
 const { encode } = require('@mapbox/polyline')
 
-const polygon = '[[111,111],[111,112],[112,112],[112,111],[111,111]]'
-const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
-const overLimitPolygon = '[[0,0],[0,2000],[2000,2000],[2000,0],[0,0]]'
-const overLimitEncodedPolygon = encode([[0, 0], [0, 2000], [2000, 2000], [2000, 0], [0, 0]])
+const polygon = '[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]'
+const encodedPolygon = encode([[300111, 300111], [300111, 300112], [300112, 300112], [300112, 300111], [300111, 300111]])
+const overLimitPolygon = '[[300000,300000],[300000,302000],[302000,302000],[302000,300000],[300000,300000]]'
+const overLimitEncodedPolygon = encode([[300000, 300000], [300000, 302000], [302000, 302000], [302000, 300000], [300000, 300000]])
 const queryParams = [
   ['polygon', `polygon=${polygon}`],
   ['encoded polygon', `encodedPolygon=${encodedPolygon}`]

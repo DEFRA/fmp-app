@@ -4,6 +4,25 @@ const { encode, decode } = require('@mapbox/polyline')
 
 const roundTo2Dp = (x) => Math.round(x * 100) / 100
 
+// The extent of the map, in British National Grid metres. A site boundary can't lie outside it
+const ENGLAND_WEST = 80000
+const ENGLAND_SOUTH = 0
+const ENGLAND_EAST = 660000
+const ENGLAND_NORTH = 660000
+
+const isNumeric = (value) => typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')
+const isBetween = (value, min, max) => isNumeric(value) && Number(value) >= min && Number(value) <= max
+const isPointInExtent = (point) => Array.isArray(point) &&
+  isBetween(point[0], ENGLAND_WEST, ENGLAND_EAST) &&
+  isBetween(point[1], ENGLAND_SOUTH, ENGLAND_NORTH)
+
+// Huge values such as 1e308 hang the area and encoding calculations, so reject them before any maths is done
+const validateCoordinates = (polygonArray) => {
+  if (!polygonArray.every(isPointInExtent)) {
+    throw new Error('Polygon coordinates must be numbers within the map extent')
+  }
+}
+
 const getCentreOfPolygon = (polygon) => {
   polygon = polygonToArray(polygon)
   const turfPolygon = TurfPolygon([polygon])
@@ -102,6 +121,7 @@ const decodePolygon = (polygonString) => {
 }
 
 const validatePolygon = (polygonArray) => {
+  validateCoordinates(polygonArray)
   // must have at least 4 points
   if (polygonArray.length < 4) {
     throw new Error('Polygon must have a length of at least 4')
@@ -131,6 +151,9 @@ const encodeQueryPolygonIfRequired = (queryObject) => {
 
 // call like this: checkParamsForPolygon({...request.query, encode: false}) if you don't require an encodedPolygon
 const checkParamsForPolygon = (queryObject) => {
+  if (queryObject.polygon) {
+    validateCoordinates(polygonToArray(queryObject.polygon))
+  }
   const encodedPolygon = encodeQueryPolygonIfRequired(queryObject)
   const polygon = queryObject.polygon ? queryObject.polygon : decodePolygon(encodedPolygon)
   return {

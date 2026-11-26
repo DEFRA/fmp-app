@@ -14,10 +14,10 @@ const user = {
   fullName: 'John Smith',
   email: 'john.smith@email.com'
 }
-const overLimitPolygon = '[[0,0],[0,2000],[2000,2000],[2000,0],[0,0]]'
+const overLimitPolygon = '[[300000,300000],[300000,302000],[302000,302000],[302000,300000],[300000,300000]]'
 const url = '/check-your-details'
 const { encode } = require('@mapbox/polyline')
-const overLimitEncodedPolygon = encode([[0, 0], [0, 2000], [2000, 2000], [2000, 0], [0, 0]])
+const overLimitEncodedPolygon = encode([[300000, 300000], [300000, 302000], [302000, 302000], [302000, 300000], [300000, 300000]])
 let postSpy
 
 describe('Check your details page', () => {
@@ -38,7 +38,7 @@ describe('Check your details page', () => {
       { polygon: mockPolygons.fz2_only, floodZone: '2' },
       { polygon: mockPolygons.fz3_only, floodZone: '3' }
     ]
-    const encodedPolygon = encode([[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]])
+    const encodedPolygon = encode([[300111, 300111], [300111, 300112], [300112, 300112], [300112, 300111], [300111, 300111]])
     floodZoneGets.forEach(({ polygon, floodZone }) => {
       it(`Happy get request for a flood zone ${floodZone} information`, async () => {
         const response = await submitGetRequest({ url: `${url}?polygon=${polygon}&fullName=${user.fullName}&recipientemail=${user.email}` }, 'Check your details before requesting your data')

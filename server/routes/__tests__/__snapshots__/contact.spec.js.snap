@@ -303,7 +303,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
+  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -328,7 +328,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -533,7 +533,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/next-steps?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/next-steps?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -564,7 +564,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -646,9 +646,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/next-steps?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/next-steps?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -823,7 +823,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
+  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -848,7 +848,7 @@ exports[`contact GET Should get contact page if encoded polygon query is present
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1053,7 +1053,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1084,7 +1084,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -1166,9 +1166,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -1343,7 +1343,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1368,7 +1368,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
+  <input type="hidden" name="returnUrl" value="/contact?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1573,7 +1573,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/next-steps?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/next-steps?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -1604,7 +1604,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -1686,9 +1686,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/next-steps?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/next-steps?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -1863,7 +1863,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1888,7 +1888,7 @@ exports[`contact GET Should get contact page if polygon query is present, with a
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
+  <input type="hidden" name="returnUrl" value="/contact?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -2093,7 +2093,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -2124,7 +2124,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -2206,9 +2206,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -2383,7 +2383,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?"/>
+  <meta property="og:url" content="http://dummyuri/contact?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -2408,7 +2408,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+  <input type="hidden" name="returnUrl" value="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -2613,7 +2613,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -2644,7 +2644,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -2730,9 +2730,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -2907,7 +2907,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D"/>
+  <meta property="og:url" content="http://dummyuri/contact?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -2932,7 +2932,7 @@ exports[`contact GET Should get contact page with user name and email if cookie 
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/contact?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]">
+  <input type="hidden" name="returnUrl" value="/contact?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -3137,7 +3137,7 @@ data-module="govuk-service-navigation"
     
       <div class="govuk-width-container">
         
-    <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
+    <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" class="govuk-back-link">Back</a>
   
         <main class="govuk-main-wrapper" id="main-content">
           
@@ -3168,7 +3168,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -3254,9 +3254,9 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
-        <input type="hidden" value="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
+        <input type="hidden" value="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" name="backLinkUrl"/>
 
         
   
@@ -3714,7 +3714,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -3812,7 +3812,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -4272,7 +4272,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -4370,7 +4370,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -4830,7 +4830,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -4928,7 +4928,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -5388,7 +5388,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -5486,7 +5486,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -5946,7 +5946,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -6044,7 +6044,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -6504,7 +6504,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -6602,7 +6602,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 

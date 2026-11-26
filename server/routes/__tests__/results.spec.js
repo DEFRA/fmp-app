@@ -19,7 +19,7 @@ const url = '/results'
 let increment = 0
 const INCREMENT_VALUE = 100
 
-const polygon = [[11, 11], [11, 12], [12, 12], [12, 11], [11, 11]]
+const polygon = [[300011, 300011], [300011, 300012], [300012, 300012], [300012, 300011], [300011, 300011]]
 
 // getUniquePolygonQuery is used to bust the cache, so that each test uses a unique polygon
 const getUniquePolygonQuery = () => {
@@ -29,8 +29,8 @@ const getUniquePolygonQuery = () => {
 }
 
 const queryParams = [
-  ['encoded polygon', `encodedPolygon=${encode([[111, 111], [111, 113], [113, 112], [112, 111], [111, 111]])}`],
-  ['polygon', 'polygon=[[111, 111], [111, 112], [112, 112], [112, 111], [111, 111]]']
+  ['encoded polygon', `encodedPolygon=${encode([[300111, 300111], [300111, 300113], [300113, 300112], [300112, 300111], [300111, 300111]])}`],
+  ['polygon', 'polygon=[[300111,300111], [300111,300112], [300112,300112], [300112,300111], [300111,300111]]']
 ]
 /*
 This test file is used to check the dynamic content on the results page html.

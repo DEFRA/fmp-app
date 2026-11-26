@@ -22,7 +22,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -47,7 +47,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com">
+  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -305,7 +305,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -403,7 +403,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -580,7 +580,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -605,7 +605,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com">
+  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?&amp;fullName=testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest&amp;recipientemail=john.smith@email.com">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -863,7 +863,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -961,7 +961,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -1138,7 +1138,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1163,7 +1163,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]&amp;recipientemail=john.smith@email.com">
+  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]&amp;recipientemail=john.smith@email.com">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1421,7 +1421,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -1519,7 +1519,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -1696,7 +1696,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1721,7 +1721,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com">
+  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?&amp;recipientemail=john.smith@email.com">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1979,7 +1979,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -2077,7 +2077,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -2254,7 +2254,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B111,111%5D,%5B111,112%5D,%5B112,112%5D,%5B112,111%5D,%5B111,111%5D%5D&amp;fullName=John%20Smith"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?polygon=%5B%5B300111,300111%5D,%5B300111,300112%5D,%5B300112,300112%5D,%5B300112,300111%5D,%5B300111,300111%5D%5D&amp;fullName=John%20Smith"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -2279,7 +2279,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[111,111],[111,112],[112,112],[112,111],[111,111]]&amp;fullName=John%20Smith">
+  <input type="hidden" name="returnUrl" value="/check-your-details?polygon=[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]&amp;fullName=John%20Smith">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -2537,7 +2537,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -2635,7 +2635,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 
@@ -2812,7 +2812,7 @@ exports[`Check your details page GET Should serve contact view with error messag
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith"/>
+  <meta property="og:url" content="http://dummyuri/check-your-details?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith"/>
   <meta property="og:title" content="Order your flood risk data - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -2837,7 +2837,7 @@ exports[`Check your details page GET Should serve contact view with error messag
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith">
+  <input type="hidden" name="returnUrl" value="/check-your-details?encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;fullName=John%20Smith">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -3095,7 +3095,7 @@ data-module="govuk-service-navigation"
 
        <p class="govuk-body"> We will send your flood risk data in an email. </p>
        <p class="govuk-body"> You should receive your data within 20 working days. </p>
-       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?" novalidate>
+       <form autocomplete="off" class="form" method="post" action="/contact?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?" novalidate>
         <input type="hidden" name="crumb" value="">
 
         
@@ -3193,7 +3193,7 @@ data-module="govuk-service-navigation"
 
 
         <div id="location-context">
-          <input type="hidden" value="[[111,111],[111,112],[112,112],[112,111],[111,111]]" name="polygon"/>
+          <input type="hidden" value="[[300111,300111],[300111,300112],[300112,300112],[300112,300111],[300111,300111]]" name="polygon"/>
         </div>
         <input type="hidden" value="" name="backLinkUrl"/>
 

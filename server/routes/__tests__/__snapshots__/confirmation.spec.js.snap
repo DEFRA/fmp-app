@@ -22,7 +22,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=1"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;floodZone=1"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -47,7 +47,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, enc
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=1">
+  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?&amp;floodZone=1">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -321,7 +321,7 @@ data-module="govuk-service-navigation"
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+      <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
@@ -486,7 +486,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,%20111%5D,%20%5B111,%20112%5D,%20%5B112,%20112%5D,%20%5B112,%20111%5D,%20%5B111,%20111%5D%5D&amp;floodZone=1"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B300111,300111%5D,%20%5B300111,300112%5D,%20%5B300112,300112%5D,%20%5B300112,300111%5D,%20%5B300111,300111%5D%5D&amp;floodZone=1"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -511,7 +511,7 @@ exports[`confirmation Should return content correctly based on flood zone 1, pol
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=[[111,%20111],%20[111,%20112],%20[112,%20112],%20[112,%20111],%20[111,%20111]]&amp;floodZone=1">
+  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=[[300111,300111],%20[300111,300112],%20[300112,300112],%20[300112,300111],%20[300111,300111]]&amp;floodZone=1">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -785,7 +785,7 @@ data-module="govuk-service-navigation"
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+      <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
@@ -950,7 +950,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=3"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_udsx%7Bv@_udsx%7Bv@?_ibE_ibE??~hbE~hbE?&amp;floodZone=3"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -975,7 +975,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, enc
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?&amp;floodZone=3">
+  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?&amp;floodZone=3">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1252,7 +1252,7 @@ data-module="govuk-service-navigation"
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+      <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
@@ -1417,7 +1417,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
     
   <meta property="fb:app_id" content="replace_this"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B111,%20111%5D,%20%5B111,%20112%5D,%20%5B112,%20112%5D,%20%5B112,%20111%5D,%20%5B111,%20111%5D%5D&amp;floodZone=3"/>
+  <meta property="og:url" content="http://dummyuri/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=%5B%5B300111,300111%5D,%20%5B300111,300112%5D,%20%5B300112,300112%5D,%20%5B300112,300111%5D,%20%5B300111,300111%5D%5D&amp;floodZone=3"/>
   <meta property="og:title" content="Request submitted - Flood map for planning - GOV.UK"/>
   <meta property="og:description" content="Get flood risk information and maps for planning applications and planning permission in England, including flood zones and flood risk assessment data."/>
   <meta property="keywords" content="flood,mapfor,planning,service,gov,uk"/>
@@ -1442,7 +1442,7 @@ exports[`confirmation Should return content correctly based on flood zone 3, pol
 <form action="/cookies" method="post" novalidate>
   <input type="hidden" name="crumb" value="">
   <input type="hidden" name="async" value="false">
-  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=[[111,%20111],%20[111,%20112],%20[112,%20112],%20[112,%20111],%20[111,%20111]]&amp;floodZone=3">
+  <input type="hidden" name="returnUrl" value="/confirmation?recipientemail=test@test.com&amp;applicationReferenceNumber=12345&amp;polygon=[[300111,300111],%20[300111,300112],%20[300112,300112],%20[300112,300111],%20[300111,300111]]&amp;floodZone=3">
 
   
 <div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="Cookies on Flood map for planning"
@@ -1719,7 +1719,7 @@ data-module="govuk-service-navigation"
     </ul>
 
     <p class="govuk-body">
-      <a href="/results?encodedPolygon=_undT_undT?_ibE_ibE??~hbE~hbE?">
+      <a href="/results?encodedPolygon=_udsx{v@_udsx{v@?_ibE_ibE??~hbE~hbE?">
         Go back to your flood information summary page
       </a>
     </p>
