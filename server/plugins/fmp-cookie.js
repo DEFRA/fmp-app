@@ -3,6 +3,8 @@ const { config } = require('../../config')
 const { statusCodes } = require('../constants')
 
 const COOKIE_NAME = 'fmp'
+// Health checks are unauthenticated and hit by anything, so they must not hand out the proxy cookie
+const NO_COOKIE_PATHS = new Set(['/health-check', '/healthcheck'])
 
 exports.plugin = {
   name: 'fmp-cookie',
@@ -20,7 +22,7 @@ exports.plugin = {
 
     server.ext('onPreResponse', (request, h) => {
       const statusCode = request.response.isBoom ? request.response.output.statusCode : request.response.statusCode
-      if (statusCode === statusCodes.PAGE_NOT_FOUND) {
+      if (statusCode === statusCodes.PAGE_NOT_FOUND || NO_COOKIE_PATHS.has(request.path)) {
         return h.continue
       }
       h.state(COOKIE_NAME, signToken({ created: Date.now() }, config.proxyPrivateKey))

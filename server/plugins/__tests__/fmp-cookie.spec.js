@@ -41,6 +41,12 @@ describe('fmp-cookie plugin', () => {
     expect(value.created).toBeLessThanOrEqual(Date.now())
   })
 
+  it.each(['/healthcheck', '/health-check'])('does not set the cookie on %s', async (url) => {
+    const response = await server.inject({ method: 'GET', url })
+    expect(response.statusCode).toBe(200)
+    expect(getFmpCookie(response)).toBeUndefined()
+  })
+
   it('does not set the cookie on 404 responses', async () => {
     const response = await server.inject({ method: 'GET', url: '/does-not-exist' })
     expect(response.statusCode).toBe(404)
